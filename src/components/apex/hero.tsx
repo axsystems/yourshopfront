@@ -7,18 +7,34 @@ interface HeroProps {
   theme: Theme
   ctaPrimaryHref?: string
   ctaSecondaryHref?: string
+  isDemoPreview?: boolean
 }
 
-const HEADLINE_PARTS = [
+const DEFAULT_HEADLINE_PARTS = [
   "We build websites for ",
   "home-service",
   " businesses that book more jobs.",
 ] as const
 
-const LEDE =
+const DEFAULT_LEDE =
   "Pick a style, we swap your content in, your site goes live in 24 hours. Subscription or one-time. Cancel anytime."
 
-export function Hero({ theme, ctaPrimaryHref = "/checkout?tier=subscription", ctaSecondaryHref = "/pricing" }: HeroProps) {
+export function Hero({
+  theme,
+  ctaPrimaryHref = "/checkout?tier=subscription",
+  ctaSecondaryHref = "/pricing",
+  isDemoPreview = false,
+}: HeroProps) {
+  const headlineParts: readonly [string, string, string] = isDemoPreview
+    ? ([
+        "Apex Sites in the ",
+        theme.name,
+        ` style — built for ${theme.industry.toLowerCase()} brands.`,
+      ] as const)
+    : DEFAULT_HEADLINE_PARTS
+  const lede = isDemoPreview
+    ? `${theme.description} Same Apex Sites service underneath — pick this style and we'll have your site live in 24 hours.`
+    : DEFAULT_LEDE
   const isDark =
     theme.colors.bg.startsWith("#0") ||
     theme.colors.bg.startsWith("#1") ||
@@ -70,7 +86,7 @@ export function Hero({ theme, ctaPrimaryHref = "/checkout?tier=subscription", ct
             className="text-5xl sm:text-6xl lg:text-7xl"
             style={{ fontFamily: "var(--apex-font-display)" }}
           >
-            {HEADLINE_PARTS[0]}
+            {headlineParts[0]}
             <em
               className="not-italic"
               style={{
@@ -87,15 +103,15 @@ export function Hero({ theme, ctaPrimaryHref = "/checkout?tier=subscription", ct
                   : {}),
               }}
             >
-              {HEADLINE_PARTS[1]}
+              {headlineParts[1]}
             </em>
-            {HEADLINE_PARTS[2]}
+            {headlineParts[2]}
           </Display>
           <p
             className="mt-6 max-w-xl text-lg leading-relaxed"
             style={{ color: "var(--apex-muted-fg)" }}
           >
-            {LEDE}
+            {lede}
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <ApexButton theme={theme} variant="primary" size="lg" asChildHref={ctaPrimaryHref}>

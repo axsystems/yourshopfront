@@ -22,6 +22,7 @@ export function ThemedHome({ theme, isDemoPreview }: ThemedHomeProps) {
     <ThemeProvider theme={theme}>
       <Hero
         theme={theme}
+        isDemoPreview={isDemoPreview}
         ctaPrimaryHref={
           isDemoPreview
             ? `/checkout?tier=subscription&demo=${theme.slug}`
