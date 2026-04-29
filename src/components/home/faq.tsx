@@ -13,36 +13,36 @@ interface FAQProps {
 
 const QUESTIONS = [
   {
-    q: "How fast is \"24-hour delivery,\" really?",
-    a: "Once we have your content (logo, copy, photos), we have your site live within 24 hours. Most clients send content the same day they buy and are live by the next morning.",
+    q: "How fast can you really launch in 24 hours?",
+    a: "From receipt of your content. We provide a fillable worksheet that takes about 30 minutes — once you submit it, the 24-hour clock starts. Most clients complete the worksheet the same day they buy and are live by the next morning.",
   },
   {
-    q: "What content do I need to provide?",
-    a: "Your business name, contact info, service areas, list of services, headshots or job photos, and your logo. Don't have a logo? We'll mock one up. Don't have copy? We have templates per industry.",
+    q: "What if I don't see a style I like?",
+    a: "10 of our designs are available as theme options on the standard tiers. The other 14 in our portfolio are showcase pieces — they inspire fully-custom builds at $4,997+. We also do 100% bespoke design from scratch if none of the 24 fit.",
   },
   {
-    q: "What does \"unlimited edits\" mean on the subscription plan?",
-    a: "Email or Loom us a request — copy changes, photo swaps, color tweaks, new sections, blog posts. We turn most edits around within 48 hours. There's no per-request fee and no edit cap.",
+    q: "Can I edit my own content?",
+    a: "Yes. Subscription includes unlimited edits via your customer portal — copy, photos, colors, layout. One-time customers get 30 days of free edits after launch, then read-only access unless you add the $29/mo hosting plan, which keeps edits flowing.",
   },
   {
     q: "Who owns the site?",
-    a: "Subscription: we host and maintain it; if you cancel, you keep your domain and get 30 days to migrate. One-time: you own the source code outright at delivery, hosted wherever you want.",
+    a: "You do. Subscription customers can export their content + design at any time. One-time customers receive the full source code on launch — host it on your own Vercel, Netlify, or anywhere else you want.",
   },
   {
     q: "Can I use my own domain?",
-    a: "Yes. Whether you already own one or need to register one, we handle DNS setup. If you don't have a domain yet, you can use a free apex-sites.com subdomain while you decide.",
+    a: "Yes. We launch on a temporary apex-sites.com subdomain within 24 hours, then migrate to your domain when DNS propagates (usually a few hours). If you don't have a domain yet, we'll register one for you.",
   },
   {
-    q: "How do I cancel the subscription?",
-    a: "One click in the customer portal — no phone call, no retention pitch. Your site stays online for 30 days after cancellation so you have time to migrate or restart.",
+    q: "What if I want to cancel?",
+    a: "Subscription cancels anytime — one click in the portal, no phone call, no retention pitch. Your site stays live for 30 days post-cancellation as a grace period so you can migrate or restart.",
   },
   {
-    q: "Do you do refunds?",
-    a: "Yes — 30-day money-back guarantee on every plan. If we haven't earned your business in the first month, you get a full refund and you keep any work delivered so far.",
+    q: "What's the refund policy?",
+    a: "30-day money-back guarantee, no questions asked, on the $499 setup fee. Monthly fees are non-refundable, but you can cancel anytime so you only pay for the months you actually use.",
   },
   {
-    q: "What makes Apex Sites different from a generic website builder?",
-    a: "Three things: (1) you don't build it — we do; (2) the designs were made for home-service brands, not generic templates; (3) we manage your Google Business Profile too, which is where most service-business leads actually come from.",
+    q: "What's different about Apex vs Wix or Squarespace?",
+    a: "We're done-for-you, conversion-focused, and home-service specialized. They sell tools and a blank canvas; we sell finished sites built on conversion patterns that actually work for trades. You don't pick a template — we build the site.",
   },
 ]
 

@@ -1,19 +1,20 @@
 import type { Metadata } from "next"
+import { Suspense } from "react"
 import "./globals.css"
 
-import { DemoSwitcher } from "@/components/apex/demo-switcher"
-import { allFontVariables } from "@/lib/fonts"
+import { DemoSwitcher } from "@/components/home/demo-switcher"
+import { baseFontClassName } from "@/lib/fonts"
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://apexsites.com"
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Apex Sites — Websites for home-service businesses that book more jobs",
+    default: "Apex Sites — Websites that book more jobs",
     template: "%s — Apex Sites",
   },
   description:
-    "Pick a style, we swap your content in, your site goes live in 24 hours. Subscription or one-time. Built for home-service businesses.",
+    "Production-grade home-service websites, designed to convert. Pick a style, send us your content, we launch in 24 hours.",
   openGraph: {
     type: "website",
     siteName: "Apex Sites",
@@ -27,9 +28,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${allFontVariables} h-full antialiased`}>
+    <html lang="en" className={`${baseFontClassName} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <DemoSwitcher />
+        <Suspense fallback={null}>
+          <DemoSwitcher />
+        </Suspense>
         {children}
       </body>
     </html>

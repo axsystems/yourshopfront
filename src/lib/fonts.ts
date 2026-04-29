@@ -10,6 +10,8 @@ import {
   Caveat,
 } from "next/font/google"
 
+import type { FontFamily, Theme } from "./themes/types"
+
 export const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -65,14 +67,43 @@ export const caveat = Caveat({
   display: "swap",
 })
 
-export const allFontVariables = [
-  inter.variable,
-  archivoBlack.variable,
-  fraunces.variable,
-  bricolageGrotesque.variable,
-  plusJakartaSans.variable,
-  oswald.variable,
-  playfairDisplay.variable,
-  jetbrainsMono.variable,
-  caveat.variable,
-].join(" ")
+const fontMap: Record<FontFamily, { variable: string }> = {
+  inter,
+  "archivo-black": archivoBlack,
+  fraunces,
+  "bricolage-grotesque": bricolageGrotesque,
+  "plus-jakarta-sans": plusJakartaSans,
+  oswald,
+  "playfair-display": playfairDisplay,
+  "jetbrains-mono": jetbrainsMono,
+  caveat,
+}
+
+/**
+ * Returns the className for a single font (which sets its CSS var on the
+ * element it's applied to). Used by ThemeProvider to subset font loading
+ * — only the active theme's display/body/mono fonts get preloaded on
+ * a given page, instead of loading all 9 globally.
+ */
+export function fontClassName(family: FontFamily): string {
+  return fontMap[family].variable
+}
+
+/**
+ * Returns a deduplicated, space-joined className string covering the
+ * theme's display, body, and mono fonts.
+ */
+export function themeFontClassNames(theme: Theme): string {
+  const set = new Set<string>([
+    fontMap[theme.fonts.display].variable,
+    fontMap[theme.fonts.body].variable,
+    fontMap[theme.fonts.mono].variable,
+  ])
+  return Array.from(set).join(" ")
+}
+
+/**
+ * Single fallback font className used by utility pages (/pricing, /contact,
+ * /portfolio index) that don't render inside a ThemeProvider.
+ */
+export const baseFontClassName = inter.variable

@@ -9,22 +9,22 @@ const STEPS = [
   {
     n: "01",
     title: "Pick a style",
-    body: "Click through 10 fully-designed homepages. When one feels right, click \"I want this look.\"",
+    body: "Browse our 10 theme options (or all 24 if you want a fully-custom build). Click the one that fits your business — every detail re-skins to that style instantly.",
   },
   {
     n: "02",
-    title: "We swap your content in",
-    body: "You send us your business info, photos, and headlines. We do the design work — you review.",
+    title: "Send your content",
+    body: "Logo, photos, copy, services, contact info, hours. We provide a fillable worksheet that takes about 30 minutes to complete.",
   },
   {
     n: "03",
-    title: "You review",
-    body: "Get a private staging URL. Request unlimited revisions on copy, photos, layout, color tweaks.",
+    title: "We swap it in",
+    body: "We rebuild your site in your chosen style with your content. 24 hours from receipt — no agency timelines, no design-by-committee delay.",
   },
   {
     n: "04",
-    title: "We launch in 24h",
-    body: "Approve the final, we point your domain (or give you a custom subdomain) and your site goes live.",
+    title: "Review and launch",
+    body: "You approve via a private staging URL. We launch on your domain (or our subdomain while DNS propagates). Done.",
   },
 ]
 
@@ -36,15 +36,17 @@ export function HowItWorks({ theme }: HowItWorksProps) {
         <div className="max-w-3xl">
           <Eyebrow>How it works</Eyebrow>
           <Display as="h2" className="mt-5 text-4xl sm:text-5xl">
-            Four steps, four days,{" "}
-            <span style={{ color: "var(--apex-primary)" }}>your site live by Friday.</span>
+            Four steps,{" "}
+            <span style={{ color: "var(--apex-primary)" }}>
+              your site live by the end of the week.
+            </span>
           </Display>
           <p
             className="mt-5 max-w-xl text-lg leading-relaxed"
             style={{ color: "var(--apex-muted-fg)" }}
           >
-            We don&apos;t disappear into a six-week design process. You see progress every day, and most
-            sites launch in under a week.
+            We don&apos;t disappear into a six-week design process. You see progress every day,
+            and most sites launch in under a week from the day you sign up.
           </p>
         </div>
         <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">

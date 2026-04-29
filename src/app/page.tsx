@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 
-import { ThemedHome } from "@/components/apex/themed-home"
+import { ThemedHome } from "@/components/home/themed-home"
 import { JsonLd } from "@/components/json-ld"
 import { SITE_URL, organizationSchema, serviceSchema } from "@/lib/seo"
 import { defaultTheme } from "@/lib/themes"

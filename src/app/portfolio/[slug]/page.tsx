@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import { ThemedHome } from "@/components/apex/themed-home"
+import { ThemedHome } from "@/components/home/themed-home"
 import { AboutThisDesign } from "@/components/portfolio/about-this-design"
 import { PortfolioBanner } from "@/components/portfolio/portfolio-banner"
 import { JsonLd } from "@/components/json-ld"
