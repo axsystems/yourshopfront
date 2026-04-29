@@ -6,14 +6,16 @@ export type ThemeVibe =
   | "friendly-modern"
   | "naturalist"
   | "sleek-tech"
-  | "luxury-editorial"
 
-export type ThemeHero =
+export type HeroPattern =
   | "phone-first"
   | "calculator"
   | "gallery"
   | "booking-card"
   | "form-card"
+
+/** Backward-compatible alias for the renamed type. */
+export type ThemeHero = HeroPattern
 
 export type FontFamily =
   | "inter"
@@ -69,7 +71,7 @@ export interface Theme {
   description: string
   mode: ThemeMode
   vibe: ThemeVibe
-  hero: ThemeHero
+  hero: HeroPattern
   heroEyebrow: string
   colors: ThemeColors
   fonts: ThemeFonts
@@ -77,4 +79,10 @@ export interface Theme {
   button: ThemeButton
   seoTitle: string
   seoDescription: string
+  /** True = offered as a switchable theme on the homepage (10 themes). False = portfolio-only at /portfolio/[slug] (14 pieces). */
+  isThemeOption: boolean
+  /** Filename of the source demo HTML inside the demos folder, used for portfolio static rendering. */
+  sourceHtmlPath: string
+  /** Design round (1 = abstract concepts, 2 = brand personalities, 3 = home-service brands). */
+  round: 1 | 2 | 3
 }

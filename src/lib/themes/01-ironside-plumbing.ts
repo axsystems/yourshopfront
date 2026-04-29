@@ -31,4 +31,7 @@ export const ironsidePlumbing: Theme = {
   seoTitle: "Apex Sites — Bold Industrial Style for Emergency Service Brands",
   seoDescription:
     "The Ironside Plumbing demo. A heavy, urgency-led design for plumbers, HVAC, and 24/7 trades. Phone-first hero, hazard-stripe accents, hard-edged buttons.",
+  isThemeOption: true,
+  sourceHtmlPath: "01-ironside-plumbing.html",
+  round: 3,
 }

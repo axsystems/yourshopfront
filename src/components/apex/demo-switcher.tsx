@@ -5,7 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ChevronLeft, ChevronRight, X } from "lucide-react"
 
-import { themeList, defaultThemeSlug } from "@/lib/themes"
+import { themeOptions, defaultThemeSlug } from "@/lib/themes"
 import { cn } from "@/lib/utils"
 
 export function DemoSwitcher() {
@@ -26,7 +26,7 @@ export function DemoSwitcher() {
         className="fixed bottom-4 right-4 z-50 inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-4 py-2.5 text-sm font-semibold shadow-lg transition hover:translate-y-[-1px]"
       >
         <span className="flex gap-1">
-          {themeList.slice(0, 4).map((t) => (
+          {themeOptions.slice(0, 4).map((t) => (
             <span
               key={t.slug}
               className="h-2 w-2 rounded-full"
@@ -68,7 +68,7 @@ export function DemoSwitcher() {
           >
             Default
           </Link>
-          {themeList.map((t) => {
+          {themeOptions.map((t) => {
             const active = activeSlug === t.slug
             return (
               <Link
@@ -119,7 +119,7 @@ export function DemoSwitcher() {
               </span>
               <span className="hidden sm:inline">You&apos;re previewing the </span>
               <span className="font-bold">
-                {themeList.find((t) => t.slug === activeSlug)?.name ?? "demo"}
+                {themeOptions.find((t) => t.slug === activeSlug)?.name ?? "demo"}
               </span>
               <span> style.</span>
             </p>

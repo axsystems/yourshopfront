@@ -31,4 +31,7 @@ export const greenwiseLawn: Theme = {
   seoTitle: "Apex Sites — Naturalist Style for Lawn & Garden Brands",
   seoDescription:
     "The Greenwise Lawn demo. Soft serif, moss + cream palette, booking-card hero. For lawn care, landscaping, and organic-leaning recurring services.",
+  isThemeOption: true,
+  sourceHtmlPath: "02-greenwise-lawn.html",
+  round: 3,
 }

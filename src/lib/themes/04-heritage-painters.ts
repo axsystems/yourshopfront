@@ -31,4 +31,7 @@ export const heritagePainters: Theme = {
   seoTitle: "Apex Sites — Warm Premium Editorial Style for Craft Brands",
   seoDescription:
     "The Heritage Painters demo. Editorial serif, ivory + terracotta + gold palette, gallery hero. For painters, restorers, and high-craft trades.",
+  isThemeOption: true,
+  sourceHtmlPath: "04-heritage-painters.html",
+  round: 3,
 }

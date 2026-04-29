@@ -1,7 +1,7 @@
 import Link from "next/link"
 
 import type { Theme } from "@/lib/themes/types"
-import { themeList } from "@/lib/themes"
+import { themeOptions } from "@/lib/themes"
 import { Container, Display, Eyebrow, Section } from "./primitives"
 
 interface ShowcaseProps {
@@ -18,7 +18,7 @@ export function Showcase({ theme, activeSlug }: ShowcaseProps) {
           <div className="max-w-2xl">
             <Eyebrow>Showcase</Eyebrow>
             <Display as="h2" className="mt-5 text-4xl sm:text-5xl">
-              {themeList.length} fully-designed homepages.{" "}
+              {themeOptions.length} fully-designed homepages.{" "}
               <span style={{ color: "var(--apex-primary)" }}>Click any one to preview.</span>
             </Display>
             <p
@@ -31,7 +31,7 @@ export function Showcase({ theme, activeSlug }: ShowcaseProps) {
           </div>
         </div>
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-          {themeList.map((t) => (
+          {themeOptions.map((t) => (
             <Link
               key={t.slug}
               href={`/demos/${t.slug}`}

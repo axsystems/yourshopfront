@@ -9,7 +9,7 @@ import {
   demoSchema,
   organizationSchema,
 } from "@/lib/seo"
-import { getTheme, themeSlugs } from "@/lib/themes"
+import { getTheme, themeOptionSlugs } from "@/lib/themes"
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -18,7 +18,7 @@ interface PageProps {
 export const dynamicParams = false
 
 export function generateStaticParams() {
-  return themeSlugs.map((slug) => ({ slug }))
+  return themeOptionSlugs.map((slug) => ({ slug }))
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function DemoPage({ params }: PageProps) {
   const { slug } = await params
   const theme = getTheme(slug)
-  if (!theme) notFound()
+  if (!theme || !theme.isThemeOption) notFound()
   return (
     <>
       <JsonLd

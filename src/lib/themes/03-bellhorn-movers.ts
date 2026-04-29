@@ -31,4 +31,7 @@ export const bellhornMovers: Theme = {
   seoTitle: "Apex Sites — Friendly Modern Style with Live Quote Calculator",
   seoDescription:
     "The Bellhorn Movers demo. Playful, navy + orange, calculator-led hero. For movers, junk removal, and any project-based service that prices by the hour.",
+  isThemeOption: true,
+  sourceHtmlPath: "03-bellhorn-movers.html",
+  round: 3,
 }
