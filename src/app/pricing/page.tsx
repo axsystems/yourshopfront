@@ -9,14 +9,14 @@ import { SITE_URL, organizationSchema, serviceSchema } from "@/lib/seo"
 const PRICING_URL = `${SITE_URL}/pricing`
 
 export const metadata: Metadata = {
-  title: "Pricing — Subscription, One-Time, and Fully-Custom Builds",
+  title: "Pricing — Subscription or One-Time",
   description:
-    "Three ways to buy Apex Sites: $499 setup + $199/mo subscription with unlimited edits, $2,997 one-time build with full source code, or fully-custom from $4,997. 30-day money-back guarantee.",
+    "Two ways to buy Apex Sites: $499 setup + $199/mo subscription with unlimited edits, or $2,997 one-time build with full source code. 30-day money-back guarantee.",
   alternates: { canonical: PRICING_URL },
   openGraph: {
     title: "Pricing — Apex Sites",
     description:
-      "Subscription ($499 + $199/mo), one-time ($2,997), or fully-custom ($4,997+). Pick what fits.",
+      "Subscription ($499 + $199/mo) or one-time ($2,997). Pick what fits.",
     url: PRICING_URL,
     type: "website",
     siteName: "Apex Sites",
@@ -35,7 +35,7 @@ export default function PricingPage() {
               Pricing
             </p>
             <h1 className="mt-4 text-5xl font-bold leading-[0.95] tracking-tight text-neutral-900 md:text-6xl">
-              Three ways to buy.{" "}
+              Two ways to buy.{" "}
               <span className="text-emerald-600">Pick the one that fits.</span>
             </h1>
             <p className="mt-6 text-lg leading-relaxed text-neutral-600">
@@ -46,8 +46,8 @@ export default function PricingPage() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-[1400px] px-6 py-20 md:px-10">
-          <div className="grid gap-6 lg:grid-cols-3">
+        <section className="mx-auto max-w-[1100px] px-6 py-20 md:px-10">
+          <div className="grid gap-6 lg:grid-cols-2">
             <PriceCard
               tagline="MOST POPULAR · CANCEL ANYTIME"
               taglineColor="bg-emerald-500 text-emerald-950"
@@ -57,7 +57,7 @@ export default function PricingPage() {
               recurring="+ $199/mo"
               sub="We host it. Unlimited edits."
               features={[
-                "Pick from any of our 10 theme options",
+                "Pick from any of our 24 theme designs",
                 "We swap in your content within 24 hours",
                 "Unlimited edits, forever",
                 "We host it (fast Vercel + Cloudflare)",
@@ -77,7 +77,7 @@ export default function PricingPage() {
               priceDetail="once"
               sub="Full source code. Self-host or +$29/mo."
               features={[
-                "Pick from any of our 10 theme options",
+                "Pick from any of our 24 theme designs",
                 "We swap in your content within 24 hours",
                 "30 days of free edits after launch",
                 "Full source code handed over",
@@ -88,32 +88,12 @@ export default function PricingPage() {
               ctaHref="/checkout?tier=onetime"
               variant="default"
             />
-            <PriceCard
-              tagline="FOR BUSINESSES OUTSIDE OUR CATEGORIES"
-              taglineColor="bg-amber-500 text-amber-950"
-              title="Fully Custom"
-              price="$4,997+"
-              priceDetail="starting"
-              sub="Designed from scratch. Built for you."
-              features={[
-                "Unique design — not a theme variant",
-                "Copywriting consultation (we write headlines & body)",
-                "Multiple revision rounds (3 design, unlimited copy)",
-                "Custom integrations (booking, CRM, payment, custom dashboards)",
-                "Full source code handed over",
-                "Optional hosting & maintenance: +$199/mo",
-                "Inspired by any piece in our 24-design portfolio",
-              ]}
-              ctaLabel="Talk to us →"
-              ctaHref="/contact?ref=pricing"
-              variant="custom"
-            />
           </div>
 
           <div className="mt-12 grid gap-8 rounded-2xl border border-neutral-200 bg-neutral-50 p-8 sm:grid-cols-3">
             <Stat label="30-day guarantee" value="Money back" />
             <Stat label="Average launch turnaround" value="24 hours" />
-            <Stat label="Sites built" value="100+" />
+            <Stat label="Designs to pick from" value="24" />
           </div>
         </section>
 
@@ -123,10 +103,11 @@ export default function PricingPage() {
               Common questions
             </h2>
             <dl className="mt-10 space-y-6">
-              <Question q="Why is custom 2.5× the one-time price?">
-                Custom is from-scratch design plus copywriting plus 3 revision rounds plus integrations.
-                The 10 theme options are pre-designed, so the work is mostly content swap and configuration.
-                If your business fits one of the 10 theme options, take the subscription or one-time tier.
+              <Question q="Subscription or one-time — how do I decide?">
+                Subscription if you want unlimited edits and don&apos;t want to manage hosting.
+                One-time if you want to own the source code outright. Most home-service businesses
+                go subscription because their site changes every season (offers, photos, holiday
+                hours).
               </Question>
               <Question q="Can I switch from subscription to one-time later?">
                 Yes — your $499 setup credits toward a one-time license at any point in the first year.
@@ -141,8 +122,16 @@ export default function PricingPage() {
                 <Link href="/portfolio" className="font-semibold underline">
                   portfolio
                 </Link>{" "}
-                shows all 24 designs across 3 design rounds. The 10 marked &quot;theme option&quot; are
-                what subscription and one-time customers pick from. The other 14 are inspiration for custom builds.
+                shows all 24 designs across 3 design rounds. Every one is buyable under either
+                tier — the 10 featured on the homepage are our highest-converting starting
+                lineup; the other 14 are equally available, just one click deeper.
+              </Question>
+              <Question q="What if none of the 24 designs fits my business?">
+                Send us a note via{" "}
+                <Link href="/contact?ref=portfolio-suggestion" className="font-semibold underline">
+                  contact
+                </Link>
+                . We add new designs regularly and may have something in the pipeline that suits you.
               </Question>
             </dl>
           </div>
@@ -176,18 +165,15 @@ function PriceCard({
   features: string[]
   ctaLabel: string
   ctaHref: string
-  variant: "featured" | "default" | "custom"
+  variant: "featured" | "default"
 }) {
   const isFeatured = variant === "featured"
-  const isCustom = variant === "custom"
   return (
     <div
       className={`relative flex flex-col rounded-2xl border p-8 transition ${
         isFeatured
           ? "border-emerald-300 bg-neutral-900 text-white shadow-2xl shadow-emerald-900/20 lg:scale-[1.03]"
-          : isCustom
-            ? "border-amber-200 bg-amber-50 text-neutral-900"
-            : "border-neutral-200 bg-white text-neutral-900"
+          : "border-neutral-200 bg-white text-neutral-900"
       }`}
     >
       <span
@@ -215,7 +201,7 @@ function PriceCard({
           <li key={f} className="flex items-start gap-3 text-[15px] leading-snug">
             <span
               className={`mt-0.5 grid h-5 w-5 flex-none place-items-center rounded-full text-[11px] font-bold ${
-                isFeatured ? "bg-emerald-500 text-emerald-950" : isCustom ? "bg-amber-500 text-amber-950" : "bg-neutral-900 text-white"
+                isFeatured ? "bg-emerald-500 text-emerald-950" : "bg-neutral-900 text-white"
               }`}
             >
               <Check className="h-3 w-3" />
@@ -230,9 +216,7 @@ function PriceCard({
           className={`inline-flex w-full items-center justify-center gap-1.5 rounded-full px-5 py-3 text-sm font-bold transition hover:-translate-y-0.5 ${
             isFeatured
               ? "bg-emerald-500 text-emerald-950 hover:bg-emerald-400"
-              : isCustom
-                ? "bg-amber-500 text-amber-950 hover:bg-amber-400"
-                : "bg-neutral-900 text-white hover:bg-neutral-800"
+              : "bg-neutral-900 text-white hover:bg-neutral-800"
           }`}
         >
           {ctaLabel} <ArrowRight className="h-4 w-4" />

@@ -4,14 +4,15 @@ import Link from "next/link"
 import { PortfolioGrid } from "@/components/portfolio/portfolio-grid"
 import { JsonLd } from "@/components/json-ld"
 import { SITE_URL, organizationSchema } from "@/lib/seo"
-import { allThemes } from "@/lib/themes"
+import { allThemes, isFeatured } from "@/lib/themes"
 
 const PORTFOLIO_URL = `${SITE_URL}/portfolio`
 
 const themesArray = Object.values(allThemes).sort((a, b) => {
-  // Sort: theme options first, then by round (3 first, then 1, then 2),
-  // then alphabetically by name within each group.
-  if (a.isThemeOption !== b.isThemeOption) return a.isThemeOption ? -1 : 1
+  // Featured 10 first, then by round (R3 → R1 → R2), then alpha by name.
+  const aFeatured = isFeatured(a.slug)
+  const bFeatured = isFeatured(b.slug)
+  if (aFeatured !== bFeatured) return aFeatured ? -1 : 1
   if (a.round !== b.round) {
     const order = { 3: 0, 1: 1, 2: 2 } as const
     return order[a.round] - order[b.round]
@@ -22,12 +23,12 @@ const themesArray = Object.values(allThemes).sort((a, b) => {
 export const metadata: Metadata = {
   title: "Web Design Portfolio — Apex Sites",
   description:
-    "24 production-grade websites for home-service businesses. Plumbers, painters, cleaners, roofers, electricians, and more. 10 are available as theme options on Apex Sites; 14 are custom-build inspiration.",
+    "24 production-grade websites for home-service businesses. Plumbers, painters, cleaners, roofers, electricians, and more — every design is available as a theme option on Apex Sites.",
   alternates: { canonical: PORTFOLIO_URL },
   openGraph: {
     title: "Web Design Portfolio — Apex Sites",
     description:
-      "24 production-grade home-service websites across 3 design rounds.",
+      "24 production-grade home-service websites — every one is available as a theme option.",
     url: PORTFOLIO_URL,
     type: "website",
     siteName: "Apex Sites",
@@ -44,13 +45,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Web Design Portfolio — Apex Sites",
     description:
-      "24 production-grade home-service websites across 3 design rounds.",
+      "24 production-grade home-service websites — every one is available.",
   },
 }
 
 export default function PortfolioPage() {
-  const optionsCount = themesArray.filter((t) => t.isThemeOption).length
-  const customCount = themesArray.length - optionsCount
   return (
     <>
       <JsonLd
@@ -86,27 +85,25 @@ export default function PortfolioPage() {
               Every site we&apos;ve designed.
             </h1>
             <h2 className="mt-6 max-w-3xl text-2xl leading-snug text-neutral-700 md:text-3xl">
-              {themesArray.length} production-grade home-service site designs across 3 design rounds.
+              {themesArray.length} production-grade home-service site designs across 3 design rounds — every one is available as a theme option.
             </h2>
             <p className="mt-6 max-w-3xl text-lg leading-relaxed text-neutral-600">
-              The top {optionsCount} are available as switchable theme options on Apex Sites — pick
-              one, we swap your content in, you go live in 24 hours. The other{" "}
-              {customCount} are showcase pieces — the original design files informed how we
-              build, and they&apos;re available as fully-custom builds for businesses outside our
-              standard categories.
+              Pick any of the {themesArray.length}, send us your content, we launch in 24 hours.
+              The 10 featured on the homepage are our highest-converting starting lineup; the
+              other 14 are equally buyable — they just live one click deeper.
             </p>
             <div className="mt-8 flex flex-wrap gap-3 text-sm">
               <Link
-                href="/#demos"
+                href="/#showcase"
                 className="inline-flex items-center gap-1.5 rounded-full bg-neutral-900 px-4 py-2 font-semibold text-white transition hover:-translate-y-0.5"
               >
-                See the {optionsCount} switchable themes →
+                See the featured 10 →
               </Link>
               <Link
-                href="/contact?ref=portfolio"
+                href="/pricing"
                 className="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 px-4 py-2 font-semibold text-neutral-700 hover:border-neutral-900 hover:text-neutral-900"
               >
-                Talk about a custom build
+                Pricing
               </Link>
             </div>
           </div>
@@ -120,30 +117,30 @@ export default function PortfolioPage() {
           <div className="mx-auto grid max-w-[1400px] gap-8 px-6 py-20 md:grid-cols-[1.5fr_1fr] md:items-center md:px-10">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-neutral-400">
-                Don&apos;t see what you want?
+                Don&apos;t see what you need?
               </p>
               <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
-                We do fully custom builds starting at{" "}
-                <span className="text-emerald-400">$4,997</span>.
+                Tell us — we{" "}
+                <span className="text-emerald-400">add new designs regularly</span>.
               </h2>
               <p className="mt-5 max-w-xl text-lg leading-relaxed text-neutral-300">
-                Unique design from scratch, copywriting consultation, multiple revision rounds,
-                full source code delivered, optional ongoing hosting. For businesses that need
-                more than a theme swap.
+                If your industry, vibe, or hero pattern isn&apos;t represented in our 24, send
+                a quick note. We may have something in the pipeline that suits you, or we&apos;ll
+                add yours to the queue.
               </p>
             </div>
             <div className="flex flex-col gap-3 md:items-end">
               <Link
-                href="/contact?ref=portfolio"
+                href="/contact?ref=portfolio-suggestion"
                 className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500 px-6 py-3 font-bold text-emerald-950 transition hover:-translate-y-0.5 hover:bg-emerald-400"
               >
-                Talk to us →
+                Suggest a design →
               </Link>
               <Link
                 href="/pricing"
                 className="inline-flex items-center gap-1.5 rounded-full border border-neutral-700 px-6 py-3 font-semibold text-neutral-100 hover:border-white"
               >
-                Compare all tiers
+                Compare both tiers
               </Link>
             </div>
           </div>

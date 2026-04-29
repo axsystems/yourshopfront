@@ -32,7 +32,7 @@ export const caskVine: Theme = {
   seoTitle: "Cask & Vine — Natural Wine Bar · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a natural wine bar. Wine + gold + cream, Italiana display, sommelier elegance. Built for wine bars, fine dining, and reservation-led restaurants.",
-  isThemeOption: false,
+  isThemeOption: true,
   sourceHtmlPath: "06-cask-vine.html",
   round: 2,
 }

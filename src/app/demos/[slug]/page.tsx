@@ -9,7 +9,7 @@ import {
   demoSchema,
   organizationSchema,
 } from "@/lib/seo"
-import { getTheme, themeOptionSlugs } from "@/lib/themes"
+import { allThemes, getTheme, isFeatured } from "@/lib/themes"
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -18,22 +18,29 @@ interface PageProps {
 export const dynamicParams = false
 
 export function generateStaticParams() {
-  return themeOptionSlugs.map((slug) => ({ slug }))
+  // After Phase 2.5 every theme is buyable, so /demos/[slug] resolves
+  // for all 24 — useful for marketing, sharing, and ad targeting.
+  return Object.keys(allThemes).map((slug) => ({ slug }))
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
   const theme = getTheme(slug)
   if (!theme) return {}
-  const url = `${SITE_URL}/demos/${theme.slug}`
+  const demoUrl = `${SITE_URL}/demos/${theme.slug}`
+  const portfolioUrl = `${SITE_URL}/portfolio/${theme.slug}`
+  // Featured 10 self-canonical here; non-featured 14 canonical back to
+  // /portfolio/[slug] (which is their canonical home).
+  const canonical = isFeatured(theme.slug) ? demoUrl : portfolioUrl
+
   return {
     title: theme.seoTitle,
     description: theme.seoDescription,
-    alternates: { canonical: url },
+    alternates: { canonical },
     openGraph: {
       title: theme.seoTitle,
       description: theme.seoDescription,
-      url,
+      url: demoUrl,
       type: "website",
       siteName: "Apex Sites",
       images: [
@@ -57,7 +64,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function DemoPage({ params }: PageProps) {
   const { slug } = await params
   const theme = getTheme(slug)
-  if (!theme || !theme.isThemeOption) notFound()
+  if (!theme) notFound()
   return (
     <>
       <JsonLd
@@ -66,7 +73,7 @@ export default async function DemoPage({ params }: PageProps) {
           demoSchema(theme),
           breadcrumbSchema([
             { name: "Home", url: SITE_URL },
-            { name: "Showcase", url: `${SITE_URL}/#demos` },
+            { name: "Showcase", url: `${SITE_URL}/#showcase` },
             { name: theme.name, url: `${SITE_URL}/demos/${theme.slug}` },
           ]),
         ]}

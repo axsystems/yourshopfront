@@ -32,7 +32,7 @@ export const wildflowerStone: Theme = {
   seoTitle: "Wildflower & Stone — Florist & Apothecary · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a slow-goods florist and apothecary. Cream + sage + rose + gold, Cormorant Garamond, hand-drawn dividers. Built for florists, apothecaries, and craft retail.",
-  isThemeOption: false,
+  isThemeOption: true,
   sourceHtmlPath: "02-wildflower-stone.html",
   round: 2,
 }

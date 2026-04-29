@@ -18,7 +18,7 @@ const QUESTIONS = [
   },
   {
     q: "What if I don't see a style I like?",
-    a: "10 of our designs are available as theme options on the standard tiers. The other 14 in our portfolio are showcase pieces — they inspire fully-custom builds at $4,997+. We also do 100% bespoke design from scratch if none of the 24 fit.",
+    a: "We have 24 designs available as theme options — every one is buyable under either tier. The 10 featured on the homepage are our highest-converting starting lineup; the other 14 live in the portfolio. If none fits, get in touch — we add new themes regularly and may have something in the pipeline that suits you.",
   },
   {
     q: "Can I edit my own content?",

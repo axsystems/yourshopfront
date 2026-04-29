@@ -32,7 +32,7 @@ export const brutalist: Theme = {
   seoTitle: "Neo-Brutalist — LOUD Agency Style · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a neo-brutalist agency brand. Yellow + black + pink + blue, Bricolage Grotesque, hard-shadow buttons, mega type. Built for agencies and brands that want to be loud.",
-  isThemeOption: false,
+  isThemeOption: true,
   sourceHtmlPath: "08-brutalist.html",
   round: 1,
 }

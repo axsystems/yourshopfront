@@ -7,7 +7,7 @@ interface PricingProps {
 }
 
 const SUB_FEATURES = [
-  "Pick from any of our 10 theme options",
+  "Pick from any of our 24 theme designs",
   "We swap in your content within 24 hours",
   "Unlimited edits, forever",
   "We host it (fast Vercel + Cloudflare)",
@@ -17,22 +17,12 @@ const SUB_FEATURES = [
 ]
 
 const ONETIME_FEATURES = [
-  "Pick from any of our 10 theme options",
+  "Pick from any of our 24 theme designs",
   "We swap in your content within 24 hours",
   "30 days of free edits after launch",
   "Full source code handed over",
   "Self-host on your own Vercel / Netlify",
   "Optional hosting & maintenance: +$29/mo",
-]
-
-const CUSTOM_FEATURES = [
-  "Unique design — not a theme variant",
-  "Copywriting consultation included",
-  "3 design rounds, unlimited copy revisions",
-  "Custom integrations (booking, CRM, payment)",
-  "Full source code handed over",
-  "Optional hosting & maintenance: +$199/mo",
-  "Inspired by any piece in our 24-design portfolio",
 ]
 
 export function Pricing({ theme, demoSlug }: PricingProps) {
@@ -49,7 +39,7 @@ export function Pricing({ theme, demoSlug }: PricingProps) {
         <div className="mx-auto max-w-3xl text-center">
           <Eyebrow>Pricing</Eyebrow>
           <Display as="h2" className="mt-5 text-4xl sm:text-5xl">
-            Three ways to buy.{" "}
+            Two ways to buy.{" "}
             <span style={{ color: "var(--apex-primary)" }}>Pick the one that fits.</span>
           </Display>
           <p
@@ -60,7 +50,7 @@ export function Pricing({ theme, demoSlug }: PricingProps) {
             first time it books you a job you wouldn&apos;t have gotten otherwise.
           </p>
         </div>
-        <div className="mt-14 grid gap-6 lg:grid-cols-3">
+        <div className="mx-auto mt-14 grid max-w-5xl gap-6 lg:grid-cols-2">
           <PriceCard
             theme={theme}
             variant="featured"
@@ -86,18 +76,6 @@ export function Pricing({ theme, demoSlug }: PricingProps) {
             ctaLabel="Buy one-time →"
             ctaHref={oneHref}
           />
-          <PriceCard
-            theme={theme}
-            variant="custom"
-            tagline="FOR BUSINESSES OUTSIDE OUR CATEGORIES"
-            title="Fully Custom"
-            price="$4,997+"
-            priceDetail="starting"
-            sub="Designed from scratch. Built for you."
-            features={CUSTOM_FEATURES}
-            ctaLabel="Talk to us →"
-            ctaHref="/contact?ref=custom-tier"
-          />
         </div>
         <p
           className="mx-auto mt-8 max-w-2xl text-center text-sm"
@@ -113,7 +91,7 @@ export function Pricing({ theme, demoSlug }: PricingProps) {
 
 interface PriceCardProps {
   theme: Theme
-  variant: "featured" | "default" | "custom"
+  variant: "featured" | "default"
   tagline: string
   title: string
   price: string
@@ -128,16 +106,11 @@ interface PriceCardProps {
 function PriceCard(props: PriceCardProps) {
   const { theme, variant, tagline, title, price, priceDetail, recurring, sub, features, ctaLabel, ctaHref } = props
   const featured = variant === "featured"
-  const custom = variant === "custom"
   return (
     <div
       className="relative flex flex-col p-8 sm:p-10"
       style={{
-        background: featured
-          ? "var(--apex-fg)"
-          : custom
-            ? "color-mix(in oklab, var(--apex-accent) 18%, var(--apex-surface))"
-            : "var(--apex-surface)",
+        background: featured ? "var(--apex-fg)" : "var(--apex-surface)",
         color: featured ? "var(--apex-bg)" : "var(--apex-surface-fg)",
         border: featured ? "none" : "1px solid var(--apex-border)",
         borderRadius: "var(--apex-radius-lg)",
@@ -149,16 +122,8 @@ function PriceCard(props: PriceCardProps) {
       <span
         className="self-start px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em]"
         style={{
-          background: featured
-            ? "var(--apex-primary)"
-            : custom
-              ? "var(--apex-accent)"
-              : "var(--apex-muted)",
-          color: featured
-            ? "var(--apex-primary-fg)"
-            : custom
-              ? "var(--apex-accent-fg)"
-              : "var(--apex-fg)",
+          background: featured ? "var(--apex-primary)" : "var(--apex-muted)",
+          color: featured ? "var(--apex-primary-fg)" : "var(--apex-fg)",
           borderRadius: "var(--apex-radius-pill)",
         }}
       >
@@ -210,16 +175,8 @@ function PriceCard(props: PriceCardProps) {
             <span
               className="mt-0.5 flex h-5 w-5 flex-none items-center justify-center text-[11px] font-bold"
               style={{
-                background: featured
-                  ? "var(--apex-primary)"
-                  : custom
-                    ? "var(--apex-accent)"
-                    : "var(--apex-accent)",
-                color: featured
-                  ? "var(--apex-primary-fg)"
-                  : custom
-                    ? "var(--apex-accent-fg)"
-                    : "var(--apex-accent-fg)",
+                background: featured ? "var(--apex-primary)" : "var(--apex-accent)",
+                color: featured ? "var(--apex-primary-fg)" : "var(--apex-accent-fg)",
                 borderRadius: "var(--apex-radius-pill)",
               }}
             >
@@ -232,7 +189,7 @@ function PriceCard(props: PriceCardProps) {
       <div className="mt-8">
         <ApexButton
           theme={theme}
-          variant={featured ? "primary" : custom ? "accent" : "outline"}
+          variant={featured ? "primary" : "outline"}
           size="lg"
           asChildHref={ctaHref}
           className="w-full"

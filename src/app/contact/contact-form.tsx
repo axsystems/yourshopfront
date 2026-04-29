@@ -15,14 +15,23 @@ export function ContactForm() {
   const referencedTheme = piece ? allThemes[piece] : undefined
 
   const initialMessage = React.useMemo(() => {
+    // Specific design referenced — buyer-intent message matching the
+    // standard "I want this look" purchase flow.
     if (referencedTheme) {
-      return `I'm interested in a custom build inspired by the ${referencedTheme.name} design. My business is in [industry]. Please send me a custom quote.`
+      return `I want to launch a site in the ${referencedTheme.name} style. My business is in [industry]. Anything I should know before I start checkout?`
+    }
+    // "Suggest a design" path from the portfolio footer CTA.
+    if (ref === "portfolio-suggestion") {
+      return "I'm interested in a design that's not in your current 24 themes. My business is in [industry] and I'm looking for [describe style]."
     }
     if (ref === "portfolio") {
-      return "I'm interested in a custom build for my business. Tell me about your $4,997+ tier."
+      return "I'd like to talk about which of your 24 designs would fit my business best."
     }
     if (ref === "pricing") {
       return "I have a question about your pricing. "
+    }
+    if (ref === "final-cta") {
+      return "I'd like to book a 15-minute call to walk through Apex Sites and figure out which design fits my business. "
     }
     return ""
   }, [ref, referencedTheme])

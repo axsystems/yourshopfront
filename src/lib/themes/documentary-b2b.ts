@@ -32,7 +32,7 @@ export const documentaryB2b: Theme = {
   seoTitle: "Documentary B2B — Healthcare & Commercial Linen · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a B2B commercial laundry brand. Navy + yellow + red, credentialed strip, JetBrains Mono utility type. Built for healthcare contracts and commercial services.",
-  isThemeOption: false,
+  isThemeOption: true,
   sourceHtmlPath: "03-documentary-b2b.html",
   round: 1,
 }

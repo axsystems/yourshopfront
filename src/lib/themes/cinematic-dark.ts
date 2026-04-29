@@ -32,7 +32,7 @@ export const cinematicDark: Theme = {
   seoTitle: "Cinematic Dark — Film Studio Style · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a cinematic film-studio brand. Deep black + copper + teal, Fraunces italic, custom cursor. Built for production companies and luxury creative.",
-  isThemeOption: false,
+  isThemeOption: true,
   sourceHtmlPath: "06-cinematic-dark.html",
   round: 1,
 }

@@ -32,7 +32,7 @@ export const angelos: Theme = {
   seoTitle: "Angelo's — Brooklyn Pizza Since 1956 · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a heritage Brooklyn pizza joint. Parchment + tomato + mustard, Bodoni Moda, double-rule newspaper masthead. Built for restaurants and food brands with history.",
-  isThemeOption: false,
+  isThemeOption: true,
   sourceHtmlPath: "03-angelos.html",
   round: 2,
 }

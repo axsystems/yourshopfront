@@ -32,7 +32,7 @@ export const webglExperimental: Theme = {
   seoTitle: "Acid Tech — Experimental Devtools Style · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a hyper-tech devtools brand. Charcoal + acid green + electric blue, Inter Tight, custom cursor. Built for AI tools, devtools, and frontier-tech products.",
-  isThemeOption: false,
+  isThemeOption: true,
   sourceHtmlPath: "07-webgl-experimental.html",
   round: 1,
 }

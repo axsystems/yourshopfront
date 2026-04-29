@@ -5,15 +5,20 @@ import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
 import { ChevronRight } from "lucide-react"
 
-import { allThemes, themeOptions } from "@/lib/themes"
+import { allThemes, featuredThemes } from "@/lib/themes"
 import { cn } from "@/lib/utils"
 
 /**
  * Sticky top bar — 60px desktop / 50px mobile. Renders on:
  *   /                       (homepage)
- *   /demos/[slug]           (theme-option demo)
+ *   /demos/[slug]           (any of the 24 themes — all are demoable)
  *   /portfolio/[slug]       (any of the 24 portfolio pages)
  * Hidden everywhere else, including inside iframes (?embed=1).
+ *
+ * The strip shows the curated 10 (featuredThemes), not all 24.
+ * Clicking any square navigates to /demos/[slug] regardless of
+ * which page you're on. A trailing "+N more →" pill links to /portfolio
+ * so anyone interested in the non-curated 14 finds them.
  */
 export function DemoSwitcher() {
   const pathname = usePathname()
@@ -28,6 +33,7 @@ export function DemoSwitcher() {
 
   const onHome = pathname === "/"
   const onDemoOrPortfolioDetail = !!activeTheme
+  const moreCount = Object.keys(allThemes).length - featuredThemes.length
 
   if (isEmbedded) return null
   if (!onHome && !onDemoOrPortfolioDetail) return null
@@ -55,13 +61,12 @@ export function DemoSwitcher() {
           aria-label="Theme switcher"
           role="tablist"
         >
-          {themeOptions.map((t) => {
+          {featuredThemes.map((t) => {
             const active = activeSlug === t.slug
-            const href = onHome || demosMatch ? `/demos/${t.slug}` : `/portfolio/${t.slug}`
             return (
               <Link
                 key={t.slug}
-                href={href}
+                href={`/demos/${t.slug}`}
                 prefetch
                 role="tab"
                 aria-current={active ? "true" : undefined}
@@ -98,33 +103,27 @@ export function DemoSwitcher() {
               </Link>
             )
           })}
+          {moreCount > 0 && (
+            <Link
+              href="/portfolio"
+              className="ml-1 flex h-9 flex-shrink-0 items-center gap-1 rounded-full border border-dashed border-neutral-400 px-3 text-[11px] font-bold uppercase tracking-[0.06em] text-neutral-700 transition hover:-translate-y-0.5 hover:border-neutral-900 hover:text-neutral-900 sm:h-10"
+              aria-label={`See ${moreCount} more designs in the portfolio`}
+            >
+              +{moreCount} more
+              <ChevronRight className="h-3 w-3" />
+            </Link>
+          )}
         </div>
-        {activeTheme && <ContextualCta theme={activeTheme} />}
+        {activeTheme && (
+          <Link
+            href={`/checkout?tier=subscription&demo=${activeTheme.slug}`}
+            className="hidden flex-shrink-0 items-center gap-1 rounded-full bg-neutral-900 px-3.5 py-1.5 text-xs font-bold text-white transition hover:-translate-y-0.5 hover:bg-neutral-800 sm:inline-flex"
+          >
+            I want this look
+            <ChevronRight className="h-3.5 w-3.5" />
+          </Link>
+        )}
       </div>
     </div>
   )
 }
-
-function ContextualCta({ theme }: { theme: (typeof allThemes)[string] }) {
-  if (theme.isThemeOption) {
-    return (
-      <Link
-        href={`/checkout?tier=subscription&demo=${theme.slug}`}
-        className="hidden flex-shrink-0 items-center gap-1 rounded-full bg-neutral-900 px-3.5 py-1.5 text-xs font-bold text-white transition hover:-translate-y-0.5 hover:bg-neutral-800 sm:inline-flex"
-      >
-        I want this look
-        <ChevronRight className="h-3.5 w-3.5" />
-      </Link>
-    )
-  }
-  return (
-    <Link
-      href={`/contact?ref=portfolio&piece=${theme.slug}`}
-      className="hidden flex-shrink-0 items-center gap-1 rounded-full bg-amber-500 px-3.5 py-1.5 text-xs font-bold text-amber-950 transition hover:-translate-y-0.5 hover:bg-amber-400 sm:inline-flex"
-    >
-      Get a custom quote
-      <ChevronRight className="h-3.5 w-3.5" />
-    </Link>
-  )
-}
-

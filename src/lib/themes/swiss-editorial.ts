@@ -32,7 +32,7 @@ export const swissEditorial: Theme = {
   seoTitle: "Swiss Editorial — Independent Design Practice · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a Swiss-style design studio. Cream + ink + oxblood, italic display, tabular project index. Built for studios and agencies.",
-  isThemeOption: false,
+  isThemeOption: true,
   sourceHtmlPath: "05-swiss-editorial.html",
   round: 1,
 }

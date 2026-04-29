@@ -1,6 +1,6 @@
 import type { Theme } from "./types"
 
-// Round 3 — home-service brands (8 themes, all theme options).
+// Round 3 — home-service brands (8).
 import { ironsidePlumbing } from "./01-ironside-plumbing"
 import { greenwiseLawn } from "./02-greenwise-lawn"
 import { bellhornMovers } from "./03-bellhorn-movers"
@@ -10,7 +10,7 @@ import { summitRoofing } from "./06-summit-roofing"
 import { westwoodTree } from "./07-westwood-tree"
 import { voltcraftElectric } from "./08-voltcraft-electric"
 
-// Round 1 — abstract concepts (8 pieces, 2 promoted to options).
+// Round 1 — abstract concepts (8).
 import { daylightLounge } from "./daylight-lounge"
 import { doorstepEditorial } from "./doorstep-editorial"
 import { documentaryB2b } from "./documentary-b2b"
@@ -20,7 +20,7 @@ import { cinematicDark } from "./cinematic-dark"
 import { webglExperimental } from "./webgl-experimental"
 import { brutalist } from "./brutalist"
 
-// Round 2 — brand personalities (8 portfolio pieces).
+// Round 2 — brand personalities (8).
 import { printBlockBooks } from "./print-block-books"
 import { wildflowerStone } from "./wildflower-stone"
 import { angelos } from "./angelos"
@@ -31,7 +31,6 @@ import { maraLin } from "./mara-lin"
 import { switchback } from "./switchback"
 
 const all: Theme[] = [
-  // Round 3 — all 8 are theme options.
   ironsidePlumbing,
   greenwiseLawn,
   bellhornMovers,
@@ -40,7 +39,6 @@ const all: Theme[] = [
   summitRoofing,
   westwoodTree,
   voltcraftElectric,
-  // Round 1 — 2 promoted theme options (premiumTrade, doorstepEditorial), 6 portfolio.
   daylightLounge,
   doorstepEditorial,
   documentaryB2b,
@@ -49,7 +47,6 @@ const all: Theme[] = [
   cinematicDark,
   webglExperimental,
   brutalist,
-  // Round 2 — 0 promoted, 8 portfolio.
   printBlockBooks,
   wildflowerStone,
   angelos,
@@ -60,35 +57,43 @@ const all: Theme[] = [
   switchback,
 ]
 
-/** All 24 themes keyed by slug. */
+/** All 24 themes keyed by slug. After Phase 2.5 every theme is purchasable. */
 export const allThemes: Record<string, Theme> = Object.fromEntries(
   all.map((t) => [t.slug, t])
 )
 
-/** The 10 themes offered as switchable options on the homepage / demo switcher. */
-export const themeOptions: Theme[] = all.filter((t) => t.isThemeOption)
+export const allThemesList: Theme[] = all
+export const allThemeSlugs: string[] = all.map((t) => t.slug)
 
-/** The 14 themes that live as standalone branded portfolio pages (not switchable). */
-export const portfolioOnly: Theme[] = all.filter((t) => !t.isThemeOption)
+/**
+ * The 10 themes featured in the curated homepage Showcase grid and in
+ * the DemoSwitcher's sticky strip. All 24 are buyable, but these 10 are
+ * the front-of-store picks: 8 home-service brand demos (R3) plus the 2
+ * R1 promotions (premiumTrade, doorstepEditorial). Order is the order
+ * they render in the grid.
+ */
+export const featuredThemeSlugs: readonly string[] = [
+  "ironside-plumbing",
+  "bellhorn-movers",
+  "heritage-painters",
+  "brightside-cleaning",
+  "summit-roofing",
+  "westwood-tree",
+  "voltcraft-electric",
+  "greenwise-lawn",
+  "premium-trade",
+  "doorstep-editorial",
+] as const
 
-/** Slugs for the 10 switchable themes. Used by /demos/[slug] and the demo switcher. */
-export const themeOptionSlugs: string[] = themeOptions.map((t) => t.slug)
+export const featuredThemes: Theme[] = featuredThemeSlugs.map((slug) => {
+  const theme = allThemes[slug]
+  if (!theme) throw new Error(`featuredThemeSlugs references unknown slug: ${slug}`)
+  return theme
+})
 
-/** Slugs for the 14 portfolio-only pieces. Used by /portfolio/[slug] (future). */
-export const portfolioSlugs: string[] = portfolioOnly.map((t) => t.slug)
-
-// ---------------------------------------------------------------------------
-// Backward-compatible aliases (existing components use these names).
-// ---------------------------------------------------------------------------
-
-/** @deprecated Use `allThemes`. */
-export const themes: Record<string, Theme> = allThemes
-
-/** @deprecated Use `themeOptionSlugs`. */
-export const themeSlugs: string[] = themeOptionSlugs
-
-/** @deprecated Use `themeOptions`. */
-export const themeList: Theme[] = themeOptions
+export function isFeatured(slug: string): boolean {
+  return featuredThemeSlugs.includes(slug)
+}
 
 export const defaultThemeSlug = "heritage-painters"
 export const defaultTheme = allThemes[defaultThemeSlug]
@@ -96,5 +101,32 @@ export const defaultTheme = allThemes[defaultThemeSlug]
 export function getTheme(slug: string): Theme | undefined {
   return allThemes[slug]
 }
+
+// ---------------------------------------------------------------------------
+// Back-compat aliases. After Phase 2.5 the option/portfolio split no longer
+// exists — these now point at featured/all so existing call sites keep working
+// while we update them in this same change.
+// ---------------------------------------------------------------------------
+
+/** @deprecated Use `allThemes`. */
+export const themes: Record<string, Theme> = allThemes
+
+/** @deprecated Use `featuredThemeSlugs` (curated 10) or `allThemeSlugs` (all 24). */
+export const themeOptionSlugs: readonly string[] = featuredThemeSlugs
+
+/** @deprecated Use `featuredThemes` (curated 10) or `allThemesList` (all 24). */
+export const themeOptions: Theme[] = featuredThemes
+
+/** @deprecated Use `featuredThemes`. */
+export const themeList: Theme[] = featuredThemes
+
+/** @deprecated The portfolio/option split is gone. Always returns []. */
+export const portfolioOnly: Theme[] = []
+
+/** @deprecated Use `allThemeSlugs`. */
+export const portfolioSlugs: string[] = allThemeSlugs
+
+/** @deprecated Use `allThemeSlugs`. */
+export const themeSlugs: readonly string[] = allThemeSlugs
 
 export type { Theme } from "./types"

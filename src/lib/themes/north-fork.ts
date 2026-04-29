@@ -32,7 +32,7 @@ export const northFork: Theme = {
   seoTitle: "North Fork — Independent Brewery · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: an independent brewery and taproom. Forest + cream + mustard + oxblood, Archivo Black masthead, heritage badge. Built for breweries, distilleries, and taprooms.",
-  isThemeOption: false,
+  isThemeOption: true,
   sourceHtmlPath: "05-north-fork.html",
   round: 2,
 }

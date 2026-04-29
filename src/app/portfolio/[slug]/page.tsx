@@ -11,7 +11,7 @@ import {
   demoSchema,
   organizationSchema,
 } from "@/lib/seo"
-import { allThemes, getTheme } from "@/lib/themes"
+import { allThemes, getTheme, isFeatured } from "@/lib/themes"
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -30,14 +30,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const portfolioUrl = `${SITE_URL}/portfolio/${theme.slug}`
   const demoUrl = `${SITE_URL}/demos/${theme.slug}`
-  // Theme options live canonically at /demos/[slug]; portfolio pages for those
-  // 10 point their canonical at the demo URL to avoid duplicate-content issues.
-  // The 14 portfolio-only pieces are self-canonical at /portfolio/[slug].
-  const canonical = theme.isThemeOption ? demoUrl : portfolioUrl
+  // Featured 10 canonical at /demos/[slug]; non-featured 14 self-canonical
+  // here at /portfolio/[slug]. The /demos/[slug] route also exists for the
+  // 14 (so URLs work everywhere) but it canonicals back to /portfolio/[slug].
+  const canonical = isFeatured(theme.slug) ? demoUrl : portfolioUrl
 
-  const title = theme.isThemeOption
-    ? `${theme.name} — Available as a theme option · Apex Sites`
-    : `${theme.name} — Custom build inspiration · Apex Sites`
+  const title = `${theme.name} — Available as a theme option · Apex Sites`
 
   return {
     title,

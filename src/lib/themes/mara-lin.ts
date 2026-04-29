@@ -32,7 +32,7 @@ export const maraLin: Theme = {
   seoTitle: "Mara Lin — Photographer & Director · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a fashion photographer and director. Near-black + warm-white + tan, Tenor Sans, full-bleed editorial. Built for photographers, directors, and fashion talent.",
-  isThemeOption: false,
+  isThemeOption: true,
   sourceHtmlPath: "07-mara-lin.html",
   round: 2,
 }

@@ -5,7 +5,6 @@ import type { Theme } from "@/lib/themes/types"
 import { getPortfolioCopy } from "@/lib/portfolio-copy"
 
 export function AboutThisDesign({ theme }: { theme: Theme }) {
-  const isOption = theme.isThemeOption
   const copy = getPortfolioCopy(theme.slug)
   return (
     <section className="border-t border-neutral-200 bg-white py-20">
@@ -58,37 +57,24 @@ export function AboutThisDesign({ theme }: { theme: Theme }) {
         </dl>
 
         <div className="mt-10 flex flex-wrap items-center gap-3">
-          {isOption ? (
-            <>
-              <Link
-                href={`/checkout?tier=subscription&demo=${theme.slug}`}
-                className="inline-flex items-center gap-1.5 rounded-full bg-neutral-900 px-5 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5"
-              >
-                I want this look — start subscription <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href={`/checkout?tier=onetime&demo=${theme.slug}`}
-                className="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 px-5 py-3 text-sm font-semibold text-neutral-900 hover:border-neutral-900"
-              >
-                Buy as one-time build
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link
-                href={`/contact?ref=portfolio&piece=${theme.slug}`}
-                className="inline-flex items-center gap-1.5 rounded-full bg-amber-500 px-5 py-3 text-sm font-bold text-amber-950 transition hover:-translate-y-0.5 hover:bg-amber-400"
-              >
-                Get a custom quote — from $4,997 <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/portfolio"
-                className="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 px-5 py-3 text-sm font-semibold text-neutral-900 hover:border-neutral-900"
-              >
-                Browse the other 23 designs
-              </Link>
-            </>
-          )}
+          <Link
+            href={`/checkout?tier=subscription&demo=${theme.slug}`}
+            className="inline-flex items-center gap-1.5 rounded-full bg-neutral-900 px-5 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5"
+          >
+            I want this look — start subscription <ArrowRight className="h-4 w-4" />
+          </Link>
+          <Link
+            href={`/checkout?tier=onetime&demo=${theme.slug}`}
+            className="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 px-5 py-3 text-sm font-semibold text-neutral-900 hover:border-neutral-900"
+          >
+            Buy as one-time build
+          </Link>
+          <Link
+            href="/portfolio"
+            className="inline-flex items-center gap-1.5 rounded-full px-5 py-3 text-sm font-semibold text-neutral-700 hover:text-neutral-900"
+          >
+            Browse the other 23 designs →
+          </Link>
         </div>
       </div>
     </section>

@@ -7,7 +7,6 @@ import { ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type { Theme, ThemeMode } from "@/lib/themes/types"
 
-type TypeFilter = "all" | "options" | "custom"
 type RoundFilter = "all" | 1 | 2 | 3
 type ModeFilter = "all" | ThemeMode
 
@@ -16,7 +15,6 @@ interface PortfolioGridProps {
 }
 
 export function PortfolioGrid({ themes }: PortfolioGridProps) {
-  const [type, setType] = React.useState<TypeFilter>("all")
   const [round, setRound] = React.useState<RoundFilter>("all")
   const [mode, setMode] = React.useState<ModeFilter>("all")
   const [industry, setIndustry] = React.useState<string>("all")
@@ -28,34 +26,20 @@ export function PortfolioGrid({ themes }: PortfolioGridProps) {
 
   const filtered = React.useMemo(() => {
     return themes.filter((t) => {
-      if (type === "options" && !t.isThemeOption) return false
-      if (type === "custom" && t.isThemeOption) return false
       if (round !== "all" && t.round !== round) return false
       if (mode !== "all" && t.mode !== mode) return false
       if (industry !== "all" && t.industry !== industry) return false
       return true
     })
-  }, [themes, type, round, mode, industry])
-
-  const optionsCount = themes.filter((t) => t.isThemeOption).length
-  const customCount = themes.length - optionsCount
+  }, [themes, round, mode, industry])
 
   return (
     <div>
       <div className="mb-10 space-y-4 rounded-2xl border border-neutral-200 bg-neutral-50 p-5">
-        <FilterRow label="Type">
-          <Chip active={type === "all"} onClick={() => setType("all")}>
-            All <span className="opacity-60">· {themes.length}</span>
-          </Chip>
-          <Chip active={type === "options"} onClick={() => setType("options")}>
-            Theme Options <span className="opacity-60">· {optionsCount}</span>
-          </Chip>
-          <Chip active={type === "custom"} onClick={() => setType("custom")}>
-            Custom Showcase <span className="opacity-60">· {customCount}</span>
-          </Chip>
-        </FilterRow>
         <FilterRow label="Round">
-          <Chip active={round === "all"} onClick={() => setRound("all")}>All rounds</Chip>
+          <Chip active={round === "all"} onClick={() => setRound("all")}>
+            All rounds <span className="opacity-60">· {themes.length}</span>
+          </Chip>
           <Chip active={round === 3} onClick={() => setRound(3)}>R3 — Home-service brands</Chip>
           <Chip active={round === 1} onClick={() => setRound(1)}>R1 — Abstract concepts</Chip>
           <Chip active={round === 2} onClick={() => setRound(2)}>R2 — Brand personalities</Chip>
@@ -82,7 +66,18 @@ export function PortfolioGrid({ themes }: PortfolioGridProps) {
 
       {filtered.length === 0 ? (
         <p className="rounded-2xl border border-dashed border-neutral-300 p-10 text-center text-neutral-500">
-          No designs match those filters. <button type="button" onClick={() => { setType("all"); setRound("all"); setMode("all"); setIndustry("all") }} className="font-semibold underline underline-offset-2">Clear all</button>
+          No designs match those filters.{" "}
+          <button
+            type="button"
+            onClick={() => {
+              setRound("all")
+              setMode("all")
+              setIndustry("all")
+            }}
+            className="font-semibold underline underline-offset-2"
+          >
+            Clear all
+          </button>
         </p>
       ) : (
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -132,7 +127,6 @@ function Chip({
 }
 
 function PortfolioCard({ theme }: { theme: Theme }) {
-  const isOption = theme.isThemeOption
   return (
     <Link
       href={`/portfolio/${theme.slug}`}
@@ -152,15 +146,8 @@ function PortfolioCard({ theme }: { theme: Theme }) {
             transform: "scale(0.42)",
           }}
         />
-        <span
-          className={cn(
-            "absolute right-3 top-3 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em]",
-            isOption
-              ? "bg-emerald-600 text-white"
-              : "bg-amber-500 text-amber-950"
-          )}
-        >
-          {isOption ? "Theme Option" : "Custom Build"}
+        <span className="absolute right-3 top-3 rounded-full bg-emerald-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white">
+          Available →
         </span>
       </div>
       <div className="space-y-3 p-5">

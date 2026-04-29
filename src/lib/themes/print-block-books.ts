@@ -32,7 +32,7 @@ export const printBlockBooks: Theme = {
   seoTitle: "Print Block — Indie Bookstore & Zine Press · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: an indie bookstore + zine press. Paper + navy + pink + green, halftone overlays, DM Serif Display. Built for bookstores, presses, and creative retail.",
-  isThemeOption: false,
+  isThemeOption: true,
   sourceHtmlPath: "01-print-block-books.html",
   round: 2,
 }

@@ -32,7 +32,7 @@ export const stillPoint: Theme = {
   seoTitle: "Still Point — Yoga & Meditation · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a wabi-sabi yoga studio. Bone + terracotta + sage, Cormorant italic, morphing organic shape. Built for yoga, meditation, and wellness brands.",
-  isThemeOption: false,
+  isThemeOption: true,
   sourceHtmlPath: "04-still-point.html",
   round: 2,
 }

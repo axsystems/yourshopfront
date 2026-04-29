@@ -32,7 +32,7 @@ export const daylightLounge: Theme = {
   seoTitle: "Daylight Lounge — Laundry-as-Lounge Concept · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: an indie laundromat lounge concept. Cream + terracotta + sage palette, Fraunces serif, photo-collage hero.",
-  isThemeOption: false,
+  isThemeOption: true,
   sourceHtmlPath: "01-daylight-lounge.html",
   round: 1,
 }
