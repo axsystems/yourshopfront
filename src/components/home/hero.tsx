@@ -1,5 +1,6 @@
 import * as React from "react"
 
+import { previewHeadline } from "@/lib/seo-headlines"
 import type { Theme } from "@/lib/themes/types"
 import { ApexButton, Container, Display } from "./primitives"
 
@@ -20,9 +21,7 @@ export function Hero({
   ctaSecondaryHref = "/pricing",
   isDemoPreview = false,
 }: HeroProps) {
-  const headline = isDemoPreview
-    ? `Apex Sites in the ${theme.name} style — built for ${theme.industry.toLowerCase()} brands.`
-    : DEFAULT_HEADLINE
+  const headline = isDemoPreview ? previewHeadline(theme) : DEFAULT_HEADLINE
   const subhead = isDemoPreview
     ? `${theme.description} Same Apex Sites service underneath — pick this style and we'll have your site live in 24 hours.`
     : DEFAULT_SUBHEAD
