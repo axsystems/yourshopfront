@@ -1,0 +1,34 @@
+import type { Theme } from "./types"
+
+export const bellhornMovers: Theme = {
+  slug: "bellhorn-movers",
+  name: "Bellhorn Movers",
+  industry: "Moving",
+  city: "Boston",
+  tagline: "Friendliest movers. Book in 60 seconds. Flat-rate hourly.",
+  description:
+    "Friendly modern. Bricolage Grotesque, navy + orange, hard-shadow buttons. Quote-card hero with a live price.",
+  mode: "project",
+  vibe: "friendly-modern",
+  hero: "calculator",
+  heroEyebrow: "BOSTON'S #1 RATED MOVERS",
+  colors: {
+    bg: "#FFF8F0",
+    fg: "#0A1628",
+    primary: "#FF7A2D",
+    primaryFg: "#081B36",
+    accent: "#0F2A4F",
+    accentFg: "#FFF8F0",
+    muted: "#FFE5D2",
+    mutedFg: "#6B7280",
+    border: "#0F2A4F1A",
+    surface: "#FFFFFF",
+    surfaceFg: "#0A1628",
+  },
+  fonts: { display: "bricolage-grotesque", body: "inter", mono: "jetbrains-mono" },
+  radius: { sm: "8px", md: "14px", lg: "24px", pill: "100px" },
+  button: { shape: "rounded", shadow: "hard-offset", weight: "heavy", uppercase: false },
+  seoTitle: "Apex Sites — Friendly Modern Style with Live Quote Calculator",
+  seoDescription:
+    "The Bellhorn Movers demo. Playful, navy + orange, calculator-led hero. For movers, junk removal, and any project-based service that prices by the hour.",
+}
