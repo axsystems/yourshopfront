@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import "./globals.css"
 
+import { DemoSwitcher } from "@/components/apex/demo-switcher"
 import { allFontVariables } from "@/lib/fonts"
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://apexsites.com"
@@ -27,7 +28,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${allFontVariables} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <DemoSwitcher />
+        {children}
+      </body>
     </html>
   )
 }
