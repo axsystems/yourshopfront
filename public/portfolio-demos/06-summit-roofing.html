@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Summit Roofing &amp; Exterior — GAF Master Elite® roofers serving Dallas-Fort Worth.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --black: #0F0F0F; --char: #1A1A1A; --gunmetal: #2A2D33; --slate: #3F454D;
+    --gray: #6E7280; --steel: #9CA3AE; --bone: #F4F4F5; --paper: #FAFAFA; --white: #FFFFFF;
+    --orange: #F97316; --orange-deep: #C2410C; --orange-glow: rgba(249,115,22,0.35);
+    --red: #DC2626; --gold: #D4A017;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black); color: var(--bone);
+    font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.55;
+    overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    padding-bottom: 70px;
+  }
+  @media (min-width: 800px) { body { padding-bottom: 0; } }
+  .display { font-family: 'Oswald', sans-serif; font-weight: 600; line-height: 1; letter-spacing: 0.005em; text-transform: uppercase; }
+
+  .topbar {
+    background: var(--orange); color: var(--black); padding: 9px 28px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.02em;
+  }
+  .topbar a { color: var(--black); text-decoration: none; font-weight: 800; }
+  .topbar .alert::before {
+    content: '⚠'; margin-right: 8px;
+  }
+
+  nav {
+    background: var(--char); padding: 16px 28px;
+    display: flex; justify-content: space-between; align-items: center; gap: 18px;
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 2px solid var(--orange);
+  }
+  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--bone); }
+  .logo-mark {
+    width: 46px; height: 46px;
+    background: linear-gradient(135deg, var(--orange) 0%, var(--orange-deep) 100%);
+    clip-path: polygon(0 100%, 50% 0, 100% 100%);
+    display: flex; align-items: flex-end; justify-content: center;
+    color: var(--black); font-family: 'Oswald'; font-weight: 700; font-size: 18px;
+    padding-bottom: 6px;
+  }
+  .logo-text strong { font-family: 'Oswald'; font-weight: 700; font-size: 22px; letter-spacing: 0.02em; text-transform: uppercase; display: block; line-height: 1; }
+  .logo-text small { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--steel); margin-top: 4px; display: block; font-weight: 500; }
+  .nav-mid { display: flex; gap: 4px; }
+  .nav-mid a { color: var(--bone); text-decoration: none; padding: 8px 14px; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 0.02em; }
+  .nav-mid a:hover { color: var(--orange); }
+  .nav-end { display: flex; gap: 12px; align-items: center; }
+  .nav-phone { color: var(--bone); font-family: 'Oswald'; font-weight: 700; font-size: 22px; text-decoration: none; line-height: 1; letter-spacing: 0.02em; }
+  .nav-phone small { display: block; font-family: 'Inter'; font-size: 9px; letter-spacing: 0.18em; color: var(--orange); margin-top: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; }
+  .nav-cta {
+    background: var(--orange); color: var(--black); padding: 13px 22px; text-decoration: none;
+    font-family: 'Oswald'; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.04em;
+    transition: all 0.15s;
+  }
+  .nav-cta:hover { background: var(--bone); }
+
+  /* HERO */
+  .hero {
+    padding: 70px 28px 90px; position: relative; overflow: hidden;
+    background:
+      radial-gradient(ellipse at 70% 30%, rgba(249,115,22,0.18) 0%, transparent 50%),
+      radial-gradient(ellipse at 20% 90%, rgba(42,45,51,0.8) 0%, transparent 60%),
+      linear-gradient(180deg, var(--black) 0%, var(--char) 100%);
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse at 50% 50%, black 0%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 0%, transparent 70%);
+  }
+  .hero-grid { max-width: 1500px; margin: 0 auto; position: relative; z-index: 1; display: grid; grid-template-columns: 1.2fr 1fr; gap: 50px; align-items: center; }
+
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px; margin-bottom: 22px;
+    padding: 6px 14px; background: rgba(249,115,22,0.15); color: var(--orange);
+    border: 1px solid rgba(249,115,22,0.4);
+    font-family: 'Oswald'; font-weight: 600; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .hero-eyebrow::before { content: '⚡'; }
+
+  h1.hero-h {
+    font-family: 'Oswald', sans-serif; font-weight: 600;
+    font-size: clamp(2.8rem, 7.5vw, 6rem); line-height: 0.95; letter-spacing: 0.005em;
+    text-transform: uppercase; margin-bottom: 24px;
+  }
+  h1.hero-h em { font-style: normal; color: var(--orange); }
+  .hero-lede {
+    font-size: clamp(1.05rem, 1.4vw, 1.2rem); line-height: 1.5; max-width: 540px;
+    margin-bottom: 28px; color: var(--steel);
+  }
+  .hero-lede strong { color: var(--bone); font-weight: 600; }
+
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 32px; }
+  .btn-primary {
+    background: var(--orange); color: var(--black); padding: 18px 28px; text-decoration: none;
+    font-family: 'Oswald'; font-weight: 700; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 10px;
+    box-shadow: 0 0 32px var(--orange-glow);
+    transition: all 0.15s;
+  }
+  .btn-primary:hover { background: var(--bone); transform: translateY(-2px); }
+  .btn-ghost {
+    color: var(--bone); padding: 14px 24px; text-decoration: none;
+    font-family: 'Oswald'; font-weight: 600; font-size: 14px; letter-spacing: 0.04em; text-transform: uppercase;
+    border: 2px solid var(--steel);
+  }
+  .btn-ghost:hover { border-color: var(--orange); color: var(--orange); }
+
+  .hero-trust {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+    padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .trust-cell strong {
+    font-family: 'Oswald'; font-weight: 600; font-size: clamp(1.2rem, 1.7vw, 1.6rem); letter-spacing: 0.02em; text-transform: uppercase; display: block; color: var(--bone);
+  }
+  .trust-cell small { font-size: 11px; color: var(--steel); margin-top: 6px; display: block; line-height: 1.4; letter-spacing: 0.04em; text-transform: uppercase; font-weight: 600; }
+  .trust-cell .stars { color: var(--gold); letter-spacing: 1px; font-size: 14px; }
+
+  /* HERO QUOTE FORM */
+  .hero-form {
+    background: var(--char); border: 1px solid var(--slate); padding: 32px;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6);
+    position: relative;
+  }
+  .hero-form::before {
+    content: 'FREE ROOF INSPECTION'; position: absolute; top: -12px; left: 28px;
+    background: var(--orange); color: var(--black); padding: 6px 14px;
+    font-family: 'Oswald'; font-weight: 700; font-size: 11px; letter-spacing: 0.1em;
+  }
+  .hero-form h3 { font-family: 'Oswald'; font-weight: 600; font-size: 26px; line-height: 1; text-transform: uppercase; margin-bottom: 8px; margin-top: 12px; letter-spacing: 0.005em; color: var(--bone); }
+  .hero-form .sub { font-size: 13px; color: var(--steel); margin-bottom: 22px; }
+  .hero-form .field { margin-bottom: 14px; }
+  .hero-form label { display: block; font-family: 'Oswald'; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px; font-weight: 600; color: var(--orange); }
+  .hero-form input, .hero-form select {
+    width: 100%; padding: 13px 14px; border: 1px solid var(--slate); background: var(--gunmetal);
+    font-family: 'Inter'; font-size: 14px; font-weight: 500; color: var(--bone);
+    transition: all 0.15s;
+  }
+  .hero-form input::placeholder { color: var(--gray); }
+  .hero-form input:focus, .hero-form select:focus { outline: none; border-color: var(--orange); }
+  .hero-form button {
+    width: 100%; padding: 16px; background: var(--orange); color: var(--black);
+    font-family: 'Oswald'; font-size: 15px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+    border: none; cursor: pointer; margin-top: 10px;
+    transition: all 0.15s;
+  }
+  .hero-form button:hover { background: var(--bone); }
+  .hero-form .stamp { font-size: 11px; color: var(--steel); margin-top: 14px; text-align: center; letter-spacing: 0.05em; line-height: 1.6; font-weight: 500; }
+  .hero-form .stamp strong { color: var(--orange); font-weight: 700; }
+
+  /* CRED STRIP */
+  .cred-strip {
+    background: var(--gunmetal); padding: 30px 28px;
+    border-top: 1px solid var(--slate); border-bottom: 1px solid var(--slate);
+  }
+  .cred-strip-inner { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); gap: 30px; align-items: center; }
+  .cred {
+    text-align: center;
+    border-right: 1px solid var(--slate);
+    padding: 8px 0;
+  }
+  .cred:last-child { border-right: none; }
+  .cred-name { font-family: 'Oswald'; font-weight: 700; font-size: 16px; color: var(--bone); letter-spacing: 0.02em; text-transform: uppercase; line-height: 1.05; }
+  .cred-sub { font-size: 10px; color: var(--orange); margin-top: 4px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
+
+  /* FINANCING BANNER */
+  .financing {
+    background: var(--orange); color: var(--black); padding: 24px 28px;
+    display: flex; justify-content: center; align-items: center; gap: 30px; flex-wrap: wrap;
+  }
+  .financing strong { font-family: 'Oswald'; font-weight: 700; font-size: clamp(1.5rem, 3vw, 2.2rem); letter-spacing: 0.02em; text-transform: uppercase; }
+  .financing em { font-style: normal; font-weight: 500; }
+  .financing .badge {
+    background: var(--black); color: var(--orange); padding: 8px 16px;
+    font-family: 'Oswald'; font-weight: 700; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+  }
+
+  /* SECTIONS */
+  .section { padding: 100px 28px; max-width: 1500px; margin: 0 auto; }
+  .section-eye {
+    display: inline-flex; align-items: center; gap: 8px; padding: 5px 14px;
+    background: rgba(249,115,22,0.15); color: var(--orange); border: 1px solid rgba(249,115,22,0.3);
+    font-family: 'Oswald'; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600;
+    margin-bottom: 18px;
+  }
+  h2 {
+    font-family: 'Oswald', sans-serif; font-weight: 600;
+    font-size: clamp(2.4rem, 5vw, 4rem); line-height: 1; letter-spacing: 0.005em; text-transform: uppercase;
+    color: var(--bone);
+  }
+  h2 em { font-style: normal; color: var(--orange); }
+  .section-lede { font-size: 17px; color: var(--steel); line-height: 1.55; max-width: 600px; margin-top: 18px; }
+
+  /* SERVICES */
+  .svcs-head { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px; }
+  .svcs-head .right { font-size: 15px; color: var(--steel); line-height: 1.55; max-width: 380px; justify-self: end; padding-bottom: 6px; }
+  .svcs-head .right strong { color: var(--orange); font-weight: 600; }
+  .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .svc {
+    background: var(--char); border: 1px solid var(--slate); padding: 32px;
+    transition: all 0.25s; position: relative; overflow: hidden;
+  }
+  .svc::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--orange); transform: scaleY(0); transform-origin: top; transition: transform 0.25s;
+  }
+  .svc:hover { background: var(--gunmetal); border-color: var(--orange); }
+  .svc:hover::before { transform: scaleY(1); }
+  .svc .num { font-family: 'Oswald'; font-weight: 700; font-size: 13px; color: var(--orange); margin-bottom: 14px; letter-spacing: 0.18em; text-transform: uppercase; }
+  .svc h3 { font-family: 'Oswald'; font-weight: 600; font-size: 22px; line-height: 1.05; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.005em; color: var(--bone); }
+  .svc p { color: var(--steel); font-size: 14px; line-height: 1.55; margin-bottom: 16px; }
+  .svc .from { font-family: 'Oswald'; font-weight: 600; font-size: 12px; color: var(--orange); padding-top: 14px; border-top: 1px solid var(--slate); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* GALLERY */
+  .gallery-section { background: var(--char); padding: 100px 28px; }
+  .gallery-inner { max-width: 1500px; margin: 0 auto; }
+  .gallery-head { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px; }
+  .gallery-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+  .project { position: relative; overflow: hidden; cursor: pointer; }
+  .project.lg { grid-column: span 8; aspect-ratio: 16/9; }
+  .project.md { grid-column: span 4; aspect-ratio: 4/5; }
+  .project.sq { grid-column: span 4; aspect-ratio: 1; }
+  .project.wide { grid-column: span 8; aspect-ratio: 21/9; }
+
+  .project-photo { position: absolute; inset: 0; transition: transform 0.6s; }
+  .project-photo.r1 { background: linear-gradient(180deg, #6E7080 0%, #2A2D33 60%, #0F0F0F 100%); }
+  .project-photo.r1::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 70%, rgba(249,115,22,0.2) 0%, transparent 50%); }
+  .project-photo.r2 { background: linear-gradient(165deg, #5A4A38 0%, #2A2018 60%, #0F0A07 100%); }
+  .project-photo.r3 { background: linear-gradient(180deg, #8E92A0 0%, #3F454D 50%, #1A1A1A 100%); }
+  .project-photo.r3::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 50%, rgba(212,160,23,0.2) 0%, transparent 50%); }
+  .project-photo.r4 { background: linear-gradient(135deg, #2A2D33 0%, #0F0F0F 70%); }
+  .project-photo.r4::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 40% 30%, rgba(249,115,22,0.25) 0%, transparent 45%); }
+  .project-photo.r5 { background: linear-gradient(180deg, #4A4035 0%, #1F1815 60%, #0F0A07 100%); }
+  .project-photo.r5::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 60%, rgba(212,160,23,0.25) 0%, transparent 50%); }
+
+  .project:hover .project-photo { transform: scale(1.04); }
+  .project::before {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60%;
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,0.85)); z-index: 1;
+  }
+  .project-info {
+    position: absolute; bottom: 18px; left: 18px; right: 18px; z-index: 2;
+    color: var(--bone);
+  }
+  .project-info .meta { font-family: 'Oswald'; font-weight: 600; font-size: 11px; letter-spacing: 0.18em; color: var(--orange); margin-bottom: 6px; text-transform: uppercase; }
+  .project-info .title { font-family: 'Oswald'; font-weight: 600; font-size: 22px; line-height: 1.1; text-transform: uppercase; letter-spacing: 0.005em; }
+  .project-info .stats { font-size: 12px; color: var(--steel); margin-top: 6px; }
+
+  /* PROCESS */
+  .process { padding: 100px 28px; max-width: 1500px; margin: 0 auto; }
+  .process-head { text-align: center; margin-bottom: 60px; }
+  .process-head h2 { margin: 0 auto; max-width: 720px; }
+  .process-head .section-lede { margin: 18px auto 0; }
+  .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+  .step {
+    padding: 30px 28px; position: relative;
+    border-right: 1px solid var(--slate);
+  }
+  .step:last-child { border-right: none; }
+  .step .num {
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 56px; line-height: 1;
+    color: var(--orange); margin-bottom: 18px;
+    -webkit-text-stroke: 1px var(--orange-deep);
+  }
+  .step .lbl { font-family: 'Oswald'; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--steel); font-weight: 600; margin-bottom: 8px; }
+  .step h3 { font-family: 'Oswald'; font-weight: 600; font-size: 22px; line-height: 1.05; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.005em; }
+  .step p { color: var(--steel); font-size: 14px; line-height: 1.55; }
+
+  /* WARRANTY */
+  .warranty {
+    background: linear-gradient(180deg, var(--char) 0%, var(--gunmetal) 100%);
+    padding: 100px 28px; position: relative; overflow: hidden;
+  }
+  .warranty::before, .warranty::after {
+    content: ''; position: absolute; left: 0; right: 0; height: 4px;
+    background: var(--orange); opacity: 0.6;
+  }
+  .warranty::before { top: 0; }
+  .warranty::after { bottom: 0; }
+  .warranty-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: center; }
+  .warranty-stamp {
+    aspect-ratio: 1/1; max-width: 380px; margin: 0 auto; position: relative;
+    border: 3px solid var(--orange); background: var(--char);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 30px;
+    box-shadow: 0 0 60px -10px var(--orange-glow);
+  }
+  .warranty-stamp::before {
+    content: ''; position: absolute; inset: 14px;
+    border: 1px solid var(--orange); opacity: 0.4;
+  }
+  .warranty-stamp .label { font-family: 'Oswald'; font-size: 11px; letter-spacing: 0.22em; color: var(--orange); margin-bottom: 14px; font-weight: 600; }
+  .warranty-stamp h3 { font-family: 'Oswald'; font-weight: 600; font-size: clamp(1.8rem, 3vw, 2.4rem); line-height: 1; text-transform: uppercase; color: var(--bone); }
+  .warranty-stamp .em { font-family: 'Oswald'; font-weight: 700; font-size: clamp(3.5rem, 6vw, 5rem); color: var(--orange); line-height: 1; margin: 16px 0; display: block; }
+  .warranty-stamp .since { font-family: 'Oswald'; font-size: 10px; letter-spacing: 0.22em; color: var(--steel); margin-top: 16px; text-transform: uppercase; font-weight: 600; }
+  .warranty-text ul { list-style: none; margin-top: 24px; }
+  .warranty-text li {
+    padding: 14px 0; font-size: 16px; line-height: 1.5;
+    border-bottom: 1px solid var(--slate);
+    display: grid; grid-template-columns: 24px 1fr; gap: 14px; align-items: baseline;
+    color: var(--bone);
+  }
+  .warranty-text li::before { content: '◆'; color: var(--orange); font-size: 14px; }
+  .warranty-text li strong { color: var(--orange); font-weight: 700; }
+
+  /* REVIEWS */
+  .reviews { padding: 100px 28px; max-width: 1500px; margin: 0 auto; }
+  .reviews-head { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px; }
+  .reviews-stat {
+    background: var(--orange); color: var(--black); padding: 22px;
+  }
+  .reviews-stat .top { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; }
+  .reviews-stat .stars { color: var(--black); font-size: 22px; letter-spacing: 2px; }
+  .reviews-stat .num { font-family: 'Oswald'; font-weight: 700; font-size: 32px; }
+  .reviews-stat small { font-family: 'Oswald'; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .review {
+    background: var(--char); border: 1px solid var(--slate); padding: 28px;
+    display: flex; flex-direction: column; gap: 14px;
+    border-left: 3px solid var(--orange);
+  }
+  .review .stars { color: var(--gold); font-size: 16px; letter-spacing: 1px; }
+  .review p { font-size: 15px; line-height: 1.6; color: var(--bone); flex: 1; }
+  .review .who { padding-top: 14px; border-top: 1px solid var(--slate); display: flex; gap: 12px; align-items: center; }
+  .review-avatar { width: 38px; height: 38px; background: var(--orange); color: var(--black); display: flex; align-items: center; justify-content: center; font-family: 'Oswald'; font-weight: 700; font-size: 14px; }
+  .review .who div { line-height: 1.3; }
+  .review .who strong { font-size: 14px; font-weight: 700; display: block; color: var(--bone); }
+  .review .who span { font-size: 11px; color: var(--steel); letter-spacing: 0.04em; text-transform: uppercase; }
+
+  /* AREAS */
+  .areas { background: var(--char); padding: 100px 28px; }
+  .areas-inner { max-width: 1500px; margin: 0 auto; }
+  .areas-head { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: end; margin-bottom: 40px; }
+  .areas-head p { color: var(--steel); font-size: 16px; line-height: 1.55; max-width: 400px; justify-self: end; }
+  .areas-head p strong { color: var(--orange); font-weight: 600; }
+  .areas-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .area-tile {
+    background: var(--gunmetal); padding: 16px 14px; border: 1px solid var(--slate);
+    font-family: 'Oswald'; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 0.02em;
+    transition: all 0.15s; cursor: pointer; line-height: 1.05; color: var(--bone);
+  }
+  .area-tile:hover { background: var(--orange); color: var(--black); border-color: var(--orange); }
+  .area-tile small { display: block; font-family: 'Inter'; font-size: 9px; color: var(--steel); letter-spacing: 0.18em; margin-top: 4px; font-weight: 500; }
+  .area-tile:hover small { color: var(--black); }
+
+  /* FINAL CTA */
+  .final-cta {
+    background: var(--orange); color: var(--black); padding: 100px 28px; text-align: center;
+    position: relative;
+  }
+  .final-cta-inner { max-width: 800px; margin: 0 auto; }
+  .final-cta .section-eye { background: var(--black); color: var(--orange); border-color: var(--black); }
+  .final-cta h2 { color: var(--black); margin-bottom: 18px; }
+  .final-cta h2 em { color: var(--bone); }
+  .final-cta p { font-size: 18px; max-width: 540px; margin: 0 auto 32px; line-height: 1.55; font-weight: 500; }
+  .final-cta .actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .final-cta .btn-primary { background: var(--black); color: var(--orange); box-shadow: none; }
+  .final-cta .btn-primary:hover { background: var(--bone); color: var(--black); }
+  .final-cta .btn-ghost { color: var(--black); border-color: var(--black); }
+  .final-cta .btn-ghost:hover { background: var(--black); color: var(--orange); }
+
+  footer { background: var(--black); color: var(--bone); padding: 60px 28px 24px; }
+  .foot-grid { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; padding-bottom: 36px; border-bottom: 1px solid var(--slate); }
+  .foot-brand p { color: var(--steel); font-size: 13px; line-height: 1.6; max-width: 320px; margin-top: 14px; }
+  .foot-brand .lic { font-family: 'Oswald'; font-size: 11px; color: var(--orange); margin-top: 14px; letter-spacing: 0.06em; line-height: 1.6; font-weight: 600; }
+  footer h4 { font-family: 'Oswald'; font-size: 14px; font-weight: 600; margin-bottom: 14px; color: var(--orange); letter-spacing: 0.06em; text-transform: uppercase; }
+  footer ul { list-style: none; }
+  footer ul li { padding: 4px 0; }
+  footer ul a { color: var(--steel); text-decoration: none; font-size: 13px; }
+  footer ul a:hover { color: var(--bone); }
+  .foot-bot { max-width: 1500px; margin: 0 auto; padding-top: 22px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; font-family: 'Oswald'; font-size: 11px; color: var(--gray); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; }
+
+  .sticky-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+    background: var(--black); border-top: 2px solid var(--orange);
+    padding: 10px; display: flex; gap: 8px;
+  }
+  .sticky-bar a {
+    flex: 1; padding: 14px; text-align: center; font-family: 'Oswald'; font-weight: 700; font-size: 14px;
+    letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none;
+  }
+  .sticky-bar a.call { background: var(--orange); color: var(--black); }
+  .sticky-bar a.quote { background: transparent; color: var(--bone); border: 2px solid var(--bone); }
+  @media (min-width: 800px) { .sticky-bar { display: none; } }
+
+  @media (max-width: 1000px) {
+    .hero-grid, .svcs-head, .gallery-head, .reviews-head, .areas-head, .warranty-inner { grid-template-columns: 1fr; gap: 32px; }
+    .svcs-head .right, .areas-head p { justify-self: start; }
+    .hero-trust { grid-template-columns: 1fr 1fr; gap: 14px; }
+    .nav-mid { display: none; }
+    .nav-phone small { display: none; }
+    .svc-grid, .reviews-grid { grid-template-columns: 1fr; }
+    .process-grid { grid-template-columns: 1fr 1fr; }
+    .step { border-right: none; border-bottom: 1px solid var(--slate); }
+    .gallery-grid { grid-template-columns: 1fr; }
+    .project.lg, .project.md, .project.sq, .project.wide { grid-column: 1; aspect-ratio: 4/3; }
+    .areas-grid { grid-template-columns: 1fr 1fr; }
+    .cred-strip-inner { grid-template-columns: 1fr 1fr; }
+    .cred:nth-child(2n) { border-right: none; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: span 2; }
+    .topbar, nav, .hero, .section, .gallery-section, .process, .warranty, .reviews, .areas, .final-cta, footer, .cred-strip, .financing { padding-left: 18px; padding-right: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="alert">STORM DAMAGE? FREE INSPECTIONS — WE HANDLE THE INSURANCE CLAIM</span>
+  <span><a href="tel:18175550244">☎ (817) 555-0244 — 24/7 STORM LINE</a></span>
+</div>
+
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-mark">S</div>
+    <div class="logo-text">
+      <strong>Summit Roofing</strong>
+      <small>&amp; EXTERIOR · DALLAS-FORT WORTH</small>
+    </div>
+  </a>
+  <div class="nav-mid">
+    <a href="#services">Services</a>
+    <a href="#gallery">Recent work</a>
+    <a href="#process">Process</a>
+    <a href="#warranty">Warranty</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#areas">Service area</a>
+  </div>
+  <div class="nav-end">
+    <a href="tel:18175550244" class="nav-phone">(817) 555-0244<small>24/7 STORM LINE</small></a>
+    <a href="#quote" class="nav-cta">Free inspection →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <span class="hero-eyebrow">GAF MASTER ELITE® · TOP 2% NATIONALLY · DFW SINCE 2009</span>
+      <h1 class="hero-h">A roof built<br>to <em>outlast</em><br>the storm.</h1>
+      <p class="hero-lede">Summit installs <strong>GAF lifetime architectural shingles</strong> across Dallas-Fort Worth — backed by GAF's 50-year transferable Golden Pledge® warranty. <strong>Storm damage? We handle the insurance claim.</strong> Family-owned, locally crewed, no subcontractors.</p>
+      <div class="hero-actions">
+        <a href="#quote" class="btn-primary">Free roof inspection →</a>
+        <a href="tel:18175550244" class="btn-ghost">☎ Call (817) 555-0244</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-cell"><div class="stars">★★★★★</div><strong>4.9 / 1,420</strong><small>GOOGLE REVIEWS</small></div>
+        <div class="trust-cell"><strong>16 yrs</strong><small>FAMILY-OWNED · SINCE 2009</small></div>
+        <div class="trust-cell"><strong>3,800+</strong><small>DFW ROOFS COMPLETED</small></div>
+        <div class="trust-cell"><strong>50-yr</strong><small>GAF GOLDEN PLEDGE® WARRANTY</small></div>
+      </div>
+    </div>
+
+    <div class="hero-form" id="quote">
+      <h3>Free roof inspection</h3>
+      <div class="sub">No-pressure inspection. Drone + boots-on. Full report within 24 hours.</div>
+      <div class="field">
+        <label>Your name</label>
+        <input type="text" placeholder="First &amp; last">
+      </div>
+      <div class="field">
+        <label>Phone</label>
+        <input type="tel" placeholder="(817) 555-0123">
+      </div>
+      <div class="field">
+        <label>What's going on?</label>
+        <select>
+          <option>Pick one…</option>
+          <option>Storm damage / hail</option>
+          <option>Active leak</option>
+          <option>Old roof / replacement</option>
+          <option>New construction / addition</option>
+          <option>Insurance claim help</option>
+          <option>Maintenance &amp; inspection</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Property zip</label>
+        <input type="text" placeholder="76102">
+      </div>
+      <button onclick="event.preventDefault(); alert('Real site books inspection.');">Schedule my inspection →</button>
+      <div class="stamp">✓ <strong>NO HIDDEN FEES</strong> · ✓ NO HIGH-PRESSURE SALES · ✓ DRONE INSPECTION INCLUDED</div>
+    </div>
+  </div>
+</section>
+
+<div class="cred-strip">
+  <div class="cred-strip-inner">
+    <div class="cred"><div class="cred-name">GAF MASTER ELITE®</div><div class="cred-sub">TOP 2% NATIONALLY</div></div>
+    <div class="cred"><div class="cred-name">OWENS CORNING</div><div class="cred-sub">PLATINUM PREFERRED</div></div>
+    <div class="cred"><div class="cred-name">CertainTeed SELECT</div><div class="cred-sub">SHINGLEMASTER</div></div>
+    <div class="cred"><div class="cred-name">BBB A+</div><div class="cred-sub">TORCH AWARD WINNER</div></div>
+    <div class="cred"><div class="cred-name">ROOFING TOP 100</div><div class="cred-sub">2022, 2023, 2024</div></div>
+  </div>
+</div>
+
+<div class="financing">
+  <strong>$0 down. <em>0% APR for 18 months.</em></strong>
+  <span class="badge">FROM $179/MO</span>
+  <span style="font-weight: 600;">Financing through Synchrony &amp; GreenSky · Apply in 60 seconds</span>
+</div>
+
+<section class="section" id="services">
+  <div class="svcs-head">
+    <div>
+      <span class="section-eye">SERVICES</span>
+      <h2 class="display">What we <em>do.</em></h2>
+      <p class="section-lede">From a single-shingle repair to a full re-roof on a 6,000-square-foot custom home. Every job staffed with our own employees, never subcontractors.</p>
+    </div>
+    <div class="right">
+      <strong>STORM DAMAGE?</strong><br>
+      Hail or wind hit your home? We handle the insurance claim end-to-end — most claims approved in 14 days.
+    </div>
+  </div>
+  <div class="svc-grid">
+    <div class="svc">
+      <div class="num">SVC. 01</div>
+      <h3>Roof replacement</h3>
+      <p>Full tear-off, deck inspection, ice-and-water shield, synthetic underlayment, GAF Timberline HDZ. 3-day average completion.</p>
+      <div class="from">FREE INSPECTION · 50-YR WARRANTY</div>
+    </div>
+    <div class="svc">
+      <div class="num">SVC. 02</div>
+      <h3>Storm &amp; hail damage</h3>
+      <p>Hail or wind damage? We document with drone photography, file the claim, meet your adjuster, and re-roof at no out-of-pocket beyond your deductible.</p>
+      <div class="from">INSURANCE CLAIM HANDLED</div>
+    </div>
+    <div class="svc">
+      <div class="num">SVC. 03</div>
+      <h3>Roof repair</h3>
+      <p>Leaks, missing shingles, flashing failures, popped nails. Diagnosed and repaired same-week with photo documentation before-and-after.</p>
+      <div class="from">FROM $385 · 5-YR WORKMANSHIP</div>
+    </div>
+    <div class="svc">
+      <div class="num">SVC. 04</div>
+      <h3>Metal roofing</h3>
+      <p>Standing-seam metal in 24 colors. 50-year paint warranty, 40-year material warranty. Class 4 impact rated, 140 mph wind tested.</p>
+      <div class="from">FREE QUOTE · 40—50 YR WARRANTY</div>
+    </div>
+    <div class="svc">
+      <div class="num">SVC. 05</div>
+      <h3>Gutters &amp; siding</h3>
+      <p>Seamless 6" gutters, leaf guards, fascia &amp; soffit, James Hardie siding. Often paired with a roof replacement for one project, one warranty.</p>
+      <div class="from">QUOTED PER PROJECT</div>
+    </div>
+    <div class="svc">
+      <div class="num">SVC. 06</div>
+      <h3>Commercial &amp; flat roofs</h3>
+      <p>TPO, modified bitumen, EPDM. Restaurant, retail, multifamily, office. Off-hour and weekend installs to keep you operating.</p>
+      <div class="from">CUSTOM QUOTE · NET-30 BILLING</div>
+    </div>
+  </div>
+</section>
+
+<div class="gallery-section" id="gallery">
+  <div class="gallery-inner">
+    <div class="gallery-head">
+      <div>
+        <span class="section-eye">RECENT INSTALLS</span>
+        <h2 class="display">Roofs we <em>built</em><br>this year.</h2>
+        <p class="section-lede">A small selection of recent DFW installs. Every project documented with drone photography, before-during-after, with shingle line and color named.</p>
+      </div>
+    </div>
+    <div class="gallery-grid">
+      <div class="project lg">
+        <div class="project-photo r1"></div>
+        <div class="project-info">
+          <div class="meta">FORT WORTH · WESTOVER HILLS</div>
+          <div class="title">5,400 sq ft custom · Charcoal Timberline HDZ</div>
+          <div class="stats">3 days · GAF Golden Pledge® · $42,800</div>
+        </div>
+      </div>
+      <div class="project sq">
+        <div class="project-photo r2"></div>
+        <div class="project-info">
+          <div class="meta">PLANO · STORM CLAIM</div>
+          <div class="title">Hail re-roof, full insurance claim</div>
+          <div class="stats">2 days · $0 out-of-pocket beyond deductible</div>
+        </div>
+      </div>
+      <div class="project md">
+        <div class="project-photo r3"></div>
+        <div class="project-info">
+          <div class="meta">SOUTHLAKE</div>
+          <div class="title">Standing-seam metal, charcoal</div>
+          <div class="stats">5 days · 50-yr paint warranty · $68,200</div>
+        </div>
+      </div>
+      <div class="project md">
+        <div class="project-photo r4"></div>
+        <div class="project-info">
+          <div class="meta">FRISCO</div>
+          <div class="title">Slate-style luxury asphalt</div>
+          <div class="stats">3 days · GAF Camelot II · $54,400</div>
+        </div>
+      </div>
+      <div class="project sq">
+        <div class="project-photo r5"></div>
+        <div class="project-info">
+          <div class="meta">ARLINGTON</div>
+          <div class="title">Brown architectural · Mission Brown</div>
+          <div class="stats">2 days · 50-yr warranty · $26,800</div>
+        </div>
+      </div>
+      <div class="project lg">
+        <div class="project-photo r1"></div>
+        <div class="project-info">
+          <div class="meta">DALLAS · LAKEWOOD</div>
+          <div class="title">Tudor-style multi-pitch · Pewter</div>
+          <div class="stats">4 days · GAF Golden Pledge® · $38,900</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="process" id="process">
+  <div class="process-head">
+    <span class="section-eye">HOW WE WORK</span>
+    <h2 class="display">Four steps. <em>Two weeks.</em><br>One new roof.</h2>
+    <p class="section-lede">From the first phone call to a finished install, here's exactly what happens — and the timeline you can hold us to.</p>
+  </div>
+  <div class="process-grid">
+    <div class="step">
+      <div class="num">01</div>
+      <div class="lbl">DAY 1</div>
+      <h3>Drone inspection</h3>
+      <p>We fly the roof, walk it where safe, photograph every issue, and email a written report within 24 hours. No high-pressure sales.</p>
+    </div>
+    <div class="step">
+      <div class="num">02</div>
+      <div class="lbl">DAYS 2—5</div>
+      <h3>Quote &amp; insurance</h3>
+      <p>If it's a storm claim, we meet your adjuster on-site. If it's a replacement, you get a fixed-price quote with three shingle/color options.</p>
+    </div>
+    <div class="step">
+      <div class="num">03</div>
+      <div class="lbl">DAYS 7—10</div>
+      <h3>Tear-off &amp; install</h3>
+      <p>Full tear-off down to deck, rotted-board replacement, ice-and-water shield, synthetic felt, ridge ventilation, new shingles. 2—3 days average.</p>
+    </div>
+    <div class="step">
+      <div class="num">04</div>
+      <div class="lbl">DAY 11</div>
+      <h3>Cleanup &amp; warranty</h3>
+      <p>Magnetic sweep of the property for nails, full debris haul-off, final walk-through with you, GAF Golden Pledge® warranty registered.</p>
+    </div>
+  </div>
+</section>
+
+<div class="warranty" id="warranty">
+  <div class="warranty-inner">
+    <div class="warranty-stamp">
+      <div class="label">★ GAF GOLDEN PLEDGE® ★</div>
+      <h3 class="display">Lifetime materials.</h3>
+      <span class="em">25-year</span>
+      <h3 class="display">workmanship.</h3>
+      <div class="since">TRANSFERABLE · GAF MASTER ELITE®</div>
+    </div>
+    <div class="warranty-text">
+      <span class="section-eye">THE WARRANTY</span>
+      <h2 class="display">Backed by the <em>strongest</em><br>warranty in roofing.</h2>
+      <ul>
+        <li><strong>50-year transferable materials</strong> warranty from GAF — the longest in the industry, transfers to a new owner if you sell.</li>
+        <li><strong>25-year workmanship</strong> warranty backed by GAF, not just us — if we go out of business, GAF still honors it.</li>
+        <li><strong>Top 2% nationally.</strong> Only GAF Master Elite® contractors can offer Golden Pledge®. We've held this status for 11 years.</li>
+        <li><strong>$2M+ liability insurance</strong> per project. Workers' comp on every employee. Certificates available before we start.</li>
+        <li><strong>Roofing Contractor Top 100</strong> three years running. Texas Best Roofers 2023. BBB Torch Award winner.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<section class="reviews" id="reviews">
+  <div class="reviews-head">
+    <div>
+      <span class="section-eye">★ 1,400+ DFW HOMES</span>
+      <h2 class="display">"They did <em>what they said.</em><br>When they said."</h2>
+      <p class="section-lede">Real Google reviews from real DFW homeowners. Sorted newest first. Every review verified with a project completion date.</p>
+    </div>
+    <div class="reviews-stat">
+      <div class="top">
+        <span class="stars">★★★★★</span>
+        <span class="num">4.9</span>
+      </div>
+      <small>FROM 1,420 GOOGLE REVIEWS</small>
+    </div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>April hailstorm did a number on our roof. Called Summit, they had a drone up the next morning, met our State Farm adjuster four days later, and we had a brand-new GAF roof in two weeks. $0 out of pocket beyond our deductible. Wouldn't use anyone else.</p>
+      <div class="who">
+        <div class="review-avatar">MK</div>
+        <div><strong>Mark K.</strong><span>PLANO · 3 WEEKS AGO</span></div>
+      </div>
+    </div>
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>Got three quotes. Summit was middle of the pack on price but the only one who showed up with a drone, walked the attic for ventilation, and explained the warranty without me asking. Two-day install, immaculate cleanup, no nails in the driveway. Five-star earned.</p>
+      <div class="who">
+        <div class="review-avatar">LR</div>
+        <div><strong>Linda R.</strong><span>FORT WORTH · LAST MONTH</span></div>
+      </div>
+    </div>
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>Crew was on-site at 6:45am sharp every morning. Foreman walked the property with me each evening. They moved the trampoline AND moved it back. Even the magnetic-sweep guy was thorough. Worth every penny.</p>
+      <div class="who">
+        <div class="review-avatar">JV</div>
+        <div><strong>James V.</strong><span>SOUTHLAKE · 2 MONTHS AGO</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="areas">
+  <div class="areas-inner">
+    <div class="areas-head">
+      <div>
+        <span class="section-eye">SERVICE AREA</span>
+        <h2 class="display">Dallas-Fort Worth<br><em>and the metroplex.</em></h2>
+      </div>
+      <p>Five crews based in Fort Worth and Plano. We service the entire DFW metroplex within an hour of either depot. <strong>Don't see your city?</strong> Call us — we likely cover it.</p>
+    </div>
+    <div class="areas-grid">
+      <div class="area-tile">Dallas<small>75201—75252</small></div>
+      <div class="area-tile">Fort Worth<small>76102—76137</small></div>
+      <div class="area-tile">Plano<small>75023—75094</small></div>
+      <div class="area-tile">Frisco<small>75033—75035</small></div>
+      <div class="area-tile">Arlington<small>76001—76018</small></div>
+      <div class="area-tile">Irving<small>75038—75063</small></div>
+      <div class="area-tile">Southlake<small>76092</small></div>
+      <div class="area-tile">McKinney<small>75069—75072</small></div>
+      <div class="area-tile">Allen<small>75002, 75013</small></div>
+      <div class="area-tile">Grapevine<small>76051</small></div>
+      <div class="area-tile">Denton<small>76201—76210</small></div>
+      <div class="area-tile">Mansfield<small>76063</small></div>
+    </div>
+  </div>
+</div>
+
+<div class="final-cta">
+  <div class="final-cta-inner">
+    <span class="section-eye">SCHEDULE A FREE INSPECTION</span>
+    <h2 class="display">When the storm passes,<br><em>we're already there.</em></h2>
+    <p>Free drone inspection within 24 hours. Written report. Insurance claim help if you need it. No high-pressure sales — just a clear answer.</p>
+    <div class="actions">
+      <a href="#quote" class="btn-primary">Free roof inspection →</a>
+      <a href="tel:18175550244" class="btn-ghost">☎ (817) 555-0244</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a href="#" class="logo">
+        <div class="logo-mark">S</div>
+        <div class="logo-text">
+          <strong style="color: var(--bone);">Summit Roofing</strong>
+          <small style="color: var(--orange);">&amp; EXTERIOR · DFW</small>
+        </div>
+      </a>
+      <p>Family-owned, GAF Master Elite® roofers serving the entire Dallas-Fort Worth metroplex since 2009. 3,800+ DFW roofs and counting. Storm specialists. Insurance-claim experts.</p>
+      <div class="lic">TX RCAT LIC. RCC-12048 · GAF MASTER ELITE® #114829 · BBB A+ TORCH AWARD · $2M GENERAL LIABILITY</div>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <ul><li><a href="#">Roof replacement</a></li><li><a href="#">Storm &amp; hail damage</a></li><li><a href="#">Roof repair</a></li><li><a href="#">Metal roofing</a></li><li><a href="#">Gutters &amp; siding</a></li></ul>
+    </div>
+    <div>
+      <h4>Resources</h4>
+      <ul><li><a href="#">Insurance claims help</a></li><li><a href="#">Financing options</a></li><li><a href="#">Recent projects</a></li><li><a href="#">Reviews</a></li><li><a href="#">FAQ</a></li></ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul><li><a href="tel:18175550244">☎ (817) 555-0244</a></li><li><a href="#">help@summitroofing.tx</a></li><li><a href="#">3201 W 7th St, Fort Worth</a></li><li><a href="#">24/7 storm line</a></li></ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© 2009—2026 SUMMIT ROOFING &amp; EXTERIOR LLC · DFW, TEXAS</span>
+    <span>BUILT TO OUTLAST THE STORM</span>
+  </div>
+</footer>
+
+<div class="sticky-bar">
+  <a href="tel:18175550244" class="call">☎ Call now</a>
+  <a href="#quote" class="quote">Free inspection</a>
+</div>
+
+</body>
+</html>

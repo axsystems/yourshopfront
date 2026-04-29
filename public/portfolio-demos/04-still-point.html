@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Still Point — Yoga &amp; meditation. Brooklyn.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@300;400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bone: #F1ECE3;
+    --bone-deep: #E5DECF;
+    --paper: #FAF6EC;
+    --ink: #232323;
+    --terracotta: #C8744A;
+    --terracotta-deep: #A65A37;
+    --sage: #8B9678;
+    --sage-deep: #6B7659;
+    --warm-gray: #6E6864;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bone); color: var(--ink);
+    font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.65;
+    font-weight: 300; overflow-x: hidden; -webkit-font-smoothing: antialiased;
+  }
+
+  .display { font-family: 'Cormorant Garamond', serif; font-weight: 400; line-height: 0.95; letter-spacing: -0.02em; }
+  .jp { font-family: 'Noto Serif JP', serif; font-weight: 300; }
+  .mono { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; }
+
+  nav {
+    padding: 28px 40px; display: flex; justify-content: space-between; align-items: center;
+    position: sticky; top: 0; z-index: 100; background: var(--bone);
+  }
+  .logo {
+    font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 26px; letter-spacing: -0.005em;
+    line-height: 1; display: flex; align-items: center; gap: 12px;
+  }
+  .logo .symbol {
+    width: 32px; height: 32px; border: 1px solid var(--ink); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Noto Serif JP'; font-size: 14px; font-weight: 300;
+  }
+  .logo small { display: block; font-family: 'JetBrains Mono'; font-size: 9px; letter-spacing: 0.25em; color: var(--warm-gray); margin-top: 3px; text-transform: uppercase; }
+
+  .nav-mid { display: flex; gap: 30px; }
+  .nav-mid a { color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 300; }
+  .nav-mid a:hover { color: var(--terracotta); }
+  .nav-cta {
+    border: 1px solid var(--ink); padding: 11px 22px; border-radius: 100px;
+    text-decoration: none; color: var(--ink); font-size: 14px; font-weight: 400;
+    transition: all 0.2s;
+  }
+  .nav-cta:hover { background: var(--ink); color: var(--bone); }
+
+  .hero { padding: 90px 40px 100px; max-width: 1500px; margin: 0 auto; min-height: 90vh; display: flex; align-items: center; }
+  .hero-inner { width: 100%; }
+  .hero-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 80px; align-items: end; }
+
+  .hero-eyebrow {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 50px;
+    font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--warm-gray);
+  }
+  .hero-eyebrow .line { width: 50px; height: 1px; background: currentColor; opacity: 0.5; }
+  .hero-eyebrow .jp-char { font-family: 'Noto Serif JP'; font-size: 16px; letter-spacing: 0.05em; text-transform: none; color: var(--terracotta); }
+
+  h1.hero-h {
+    font-family: 'Cormorant Garamond', serif; font-weight: 400;
+    font-size: clamp(3.5rem, 11vw, 11rem); line-height: 0.92; letter-spacing: -0.025em;
+    margin-bottom: 50px;
+  }
+  h1.hero-h em { font-style: italic; font-weight: 300; color: var(--terracotta); }
+  h1.hero-h .jp-mark {
+    font-family: 'Noto Serif JP'; font-size: 0.4em; vertical-align: super;
+    color: var(--sage); font-weight: 300;
+  }
+
+  .hero-side { display: flex; flex-direction: column; gap: 36px; }
+
+  .hero-shape {
+    aspect-ratio: 1; width: 100%; max-width: 360px; align-self: end;
+    background: radial-gradient(ellipse at 30% 30%, var(--terracotta) 0%, var(--terracotta-deep) 60%, #6E2E15 100%);
+    border-radius: 72% 28% 65% 35% / 30% 60% 40% 70%;
+    position: relative;
+    box-shadow: inset -20px -20px 60px rgba(0,0,0,0.2);
+    animation: morph 14s ease-in-out infinite;
+  }
+  @keyframes morph {
+    0%, 100% { border-radius: 72% 28% 65% 35% / 30% 60% 40% 70%; }
+    33% { border-radius: 30% 70% 30% 70% / 60% 30% 70% 40%; }
+    66% { border-radius: 60% 40% 50% 50% / 40% 50% 50% 60%; }
+  }
+  .hero-shape::before {
+    content: '一'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-family: 'Noto Serif JP'; font-size: 52px; font-weight: 300; color: rgba(241,236,227,0.85);
+  }
+
+  .hero-quote {
+    padding: 24px 0; border-top: 1px solid var(--ink);
+    font-family: 'Cormorant Garamond'; font-style: italic; font-weight: 300;
+    font-size: 19px; line-height: 1.45; color: var(--warm-gray); max-width: 320px;
+  }
+  .hero-quote em { color: var(--terracotta); font-style: normal; }
+  .hero-quote-attr { font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.2em; margin-top: 14px; text-transform: uppercase; opacity: 0.6; }
+
+  .hero-foot {
+    grid-column: 1 / -1; padding-top: 50px; margin-top: 50px;
+    border-top: 1px solid rgba(35,35,35,0.15);
+    display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; align-items: end;
+  }
+  .hero-lede { font-size: 20px; line-height: 1.6; max-width: 520px; color: var(--warm-gray); }
+  .hero-lede em { color: var(--terracotta); font-style: italic; }
+  .hero-foot .meta { font-size: 14px; }
+  .hero-foot .meta .lbl { font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-gray); margin-bottom: 6px; }
+  .hero-foot .meta strong { font-family: 'Cormorant Garamond'; font-style: italic; font-weight: 400; font-size: 22px; line-height: 1.1; display: block; }
+
+  section { padding: 130px 40px; max-width: 1500px; margin: 0 auto; }
+  .section-head { display: grid; grid-template-columns: 1.4fr 1fr; gap: 80px; margin-bottom: 80px; align-items: end; }
+  .section-eye {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 26px;
+    font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--warm-gray);
+  }
+  .section-eye .jp-char { font-family: 'Noto Serif JP'; color: var(--terracotta); font-size: 14px; letter-spacing: 0.05em; text-transform: none; }
+  h2 {
+    font-family: 'Cormorant Garamond', serif; font-weight: 400;
+    font-size: clamp(2.8rem, 7vw, 6rem); line-height: 0.96; letter-spacing: -0.02em;
+  }
+  h2 em { font-style: italic; font-weight: 300; color: var(--terracotta); }
+  .section-head p { font-size: 17px; line-height: 1.6; color: var(--warm-gray); max-width: 380px; }
+  .section-head p em { font-style: italic; color: var(--terracotta); }
+
+  .class-list { border-top: 1px solid var(--ink); }
+  .class-row {
+    display: grid; grid-template-columns: 80px 80px 2fr 1.2fr 1fr 50px;
+    gap: 40px; padding: 40px 14px; align-items: center;
+    border-bottom: 1px solid rgba(35,35,35,0.15);
+    text-decoration: none; color: var(--ink); transition: padding-left 0.4s;
+    cursor: pointer;
+  }
+  .class-row:hover { padding-left: 28px; }
+  .class-row:hover h3 { color: var(--terracotta); font-style: italic; }
+  .class-row:hover .arrow { transform: translateX(0); opacity: 1; color: var(--terracotta); }
+  .class-time { font-family: 'Cormorant Garamond'; font-style: italic; font-weight: 400; font-size: 22px; line-height: 1; }
+  .class-jp { font-family: 'Noto Serif JP'; font-weight: 300; font-size: 24px; color: var(--sage-deep); line-height: 1; }
+  .class-row h3 {
+    font-family: 'Cormorant Garamond'; font-weight: 400; font-size: 32px; line-height: 1.05;
+    letter-spacing: -0.015em; transition: all 0.3s;
+  }
+  .class-row h3 em { font-style: italic; color: var(--terracotta); }
+  .class-meta { font-size: 14px; color: var(--warm-gray); line-height: 1.45; }
+  .class-meta strong { display: block; font-family: 'Cormorant Garamond'; font-style: italic; font-weight: 400; font-size: 17px; color: var(--ink); margin-bottom: 2px; }
+  .class-day {
+    text-align: center; padding: 10px;
+    border: 1px solid var(--ink); border-radius: 100px;
+    font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.2em;
+  }
+  .arrow { font-style: italic; font-size: 20px; opacity: 0.4; transform: translateX(-10px); transition: all 0.3s; font-family: 'Cormorant Garamond'; }
+
+  .phil-section { background: var(--paper); padding: 130px 40px; max-width: none; margin: 0; position: relative; overflow: hidden; }
+  .phil-section::before {
+    content: '静'; position: absolute; top: 50%; left: -10%; transform: translateY(-50%);
+    font-family: 'Noto Serif JP'; font-size: clamp(20rem, 50vw, 50rem); font-weight: 300;
+    color: var(--bone-deep); line-height: 0.8; pointer-events: none; user-select: none; opacity: 0.5;
+  }
+  .phil-inner { max-width: 1500px; margin: 0 auto; position: relative; z-index: 1; }
+  .phil-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 100px; align-items: start; }
+  .phil-text > p {
+    font-size: 19px; line-height: 1.65; max-width: 540px; margin-bottom: 22px; color: var(--ink);
+  }
+  .phil-text > p:first-of-type::first-letter {
+    font-family: 'Cormorant Garamond'; font-style: italic; font-size: 5em; line-height: 0.85;
+    float: left; padding: 6px 14px 0 0; color: var(--terracotta); font-weight: 300;
+  }
+  .phil-text > p em { font-style: italic; color: var(--terracotta); }
+  .phil-text blockquote {
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300;
+    font-size: 28px; line-height: 1.3; padding: 30px 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); margin: 30px 0;
+    color: var(--ink);
+  }
+  .phil-text blockquote em { color: var(--terracotta); }
+
+  .teach-section .section-head p { font-style: italic; }
+  .teach-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  .teach-card {
+    background: var(--paper); padding: 36px 32px; border-radius: 0;
+    transition: transform 0.4s; cursor: pointer; text-decoration: none; color: var(--ink);
+    display: flex; flex-direction: column; gap: 24px;
+    border: 1px solid rgba(35,35,35,0.1);
+  }
+  .teach-card:hover { transform: translateY(-6px); border-color: var(--ink); }
+  .teach-portrait {
+    aspect-ratio: 4/5; position: relative; overflow: hidden; background: var(--bone-deep);
+  }
+  .teach-portrait::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, var(--bone-deep) 0%, var(--warm-gray) 100%);
+  }
+  .teach-portrait .silhouette {
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 50%; aspect-ratio: 1; border-radius: 50% 50% 30% 30%;
+    background: linear-gradient(180deg, #6E5C50 0%, #4A3D33 100%);
+  }
+  .teach-portrait .silhouette::before {
+    content: ''; position: absolute; bottom: -100%; left: 50%; transform: translateX(-50%);
+    width: 200%; aspect-ratio: 1.5; border-radius: 60% 60% 0 0;
+    background: linear-gradient(180deg, #4A3D33 0%, #2E261F 100%);
+  }
+  .teach-portrait.t1 .silhouette { background: linear-gradient(180deg, var(--terracotta) 0%, var(--terracotta-deep) 100%); }
+  .teach-portrait.t1 .silhouette::before { background: linear-gradient(180deg, var(--terracotta-deep) 0%, #6E2E15 100%); }
+  .teach-portrait.t2 .silhouette { background: linear-gradient(180deg, var(--sage) 0%, var(--sage-deep) 100%); }
+  .teach-portrait.t2 .silhouette::before { background: linear-gradient(180deg, var(--sage-deep) 0%, #4A5238 100%); }
+  .teach-portrait.t3 .silhouette { background: linear-gradient(180deg, #8E7556 0%, #5C4838 100%); }
+  .teach-portrait.t3 .silhouette::before { background: linear-gradient(180deg, #5C4838 0%, #3D2D20 100%); }
+  .teach-info h3 {
+    font-family: 'Cormorant Garamond'; font-weight: 400; font-size: 30px; line-height: 1.1; margin-bottom: 6px;
+  }
+  .teach-info h3 em { font-style: italic; }
+  .teach-role { font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-gray); margin-bottom: 14px; display: block; }
+  .teach-bio { font-size: 14px; line-height: 1.55; color: var(--warm-gray); }
+  .teach-bio em { font-style: italic; color: var(--ink); }
+  .teach-link { font-family: 'Cormorant Garamond'; font-style: italic; font-size: 15px; color: var(--terracotta); margin-top: 8px; }
+
+  .mem-section .mem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .mem-card {
+    background: var(--paper); padding: 50px 40px; border-radius: 0; position: relative;
+    transition: transform 0.3s;
+    display: flex; flex-direction: column; gap: 28px;
+    border: 1px solid rgba(35,35,35,0.1);
+  }
+  .mem-card.feat { background: var(--ink); color: var(--bone); }
+  .mem-card.feat .mem-eye, .mem-card.feat .mem-foot li::before { color: var(--terracotta); }
+  .mem-card.feat .mem-foot li { border-color: rgba(241,236,227,0.15); }
+  .mem-card:hover { transform: translateY(-6px); }
+  .mem-eye { font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--warm-gray); }
+  .mem-card h3 {
+    font-family: 'Cormorant Garamond'; font-weight: 400; font-size: 42px; line-height: 1; letter-spacing: -0.02em;
+  }
+  .mem-card h3 em { font-style: italic; color: var(--terracotta); }
+  .mem-price {
+    font-family: 'Cormorant Garamond'; font-weight: 400; font-size: 64px; line-height: 1; letter-spacing: -0.03em;
+  }
+  .mem-price em { font-style: italic; }
+  .mem-price small { font-family: 'Inter'; font-style: normal; font-size: 16px; opacity: 0.7; font-weight: 300; }
+  .mem-foot { list-style: none; }
+  .mem-foot li {
+    padding: 14px 0; border-bottom: 1px solid rgba(35,35,35,0.1);
+    font-size: 15px; line-height: 1.4; display: flex; gap: 14px; align-items: baseline;
+  }
+  .mem-foot li::before { content: '一'; font-family: 'Noto Serif JP'; color: var(--terracotta); flex-shrink: 0; }
+  .mem-cta {
+    background: var(--ink); color: var(--bone); padding: 16px 28px; border: none; border-radius: 100px;
+    text-align: center; text-decoration: none; font-family: 'Inter'; font-size: 14px; font-weight: 400;
+    transition: background 0.2s; align-self: flex-start;
+  }
+  .mem-cta:hover { background: var(--terracotta); }
+  .mem-card.feat .mem-cta { background: var(--terracotta); }
+  .mem-card.feat .mem-cta:hover { background: var(--bone); color: var(--ink); }
+
+  .intro-section {
+    background: var(--ink); color: var(--bone); padding: 130px 40px;
+    max-width: none; margin: 0; position: relative; overflow: hidden;
+  }
+  .intro-section::before {
+    content: '止'; position: absolute; top: 50%; right: -5%; transform: translateY(-50%);
+    font-family: 'Noto Serif JP'; font-size: clamp(20rem, 40vw, 35rem); font-weight: 300;
+    color: rgba(200,116,74,0.1); line-height: 0.8; pointer-events: none; user-select: none;
+  }
+  .intro-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+  .intro-section .section-eye { color: var(--terracotta); }
+  .intro-section h2 { color: var(--bone); }
+  .intro-section h2 em { color: var(--terracotta); }
+  .intro-section p { font-size: 19px; line-height: 1.55; color: rgba(241,236,227,0.85); max-width: 580px; margin: 22px 0 36px; }
+  .intro-section p em { color: var(--terracotta); font-style: italic; }
+  .intro-cta {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: var(--terracotta); color: var(--bone); padding: 18px 32px; border-radius: 100px;
+    text-decoration: none; font-size: 16px; font-weight: 400; transition: background 0.2s;
+  }
+  .intro-cta:hover { background: var(--bone); color: var(--ink); }
+
+  footer { padding: 80px 40px 30px; max-width: 1500px; margin: 0 auto; }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 50px; border-bottom: 1px solid rgba(35,35,35,0.15); }
+  .foot-brand .logo { margin-bottom: 18px; }
+  .foot-brand p { font-family: 'Cormorant Garamond'; font-style: italic; font-weight: 300; font-size: 19px; line-height: 1.4; max-width: 320px; color: var(--warm-gray); }
+  .foot-addr { margin-top: 18px; font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.12em; line-height: 1.7; color: var(--warm-gray); text-transform: uppercase; }
+  footer h4 { font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 18px; color: var(--terracotta); font-weight: 400; }
+  footer ul { list-style: none; }
+  footer ul li { padding: 4px 0; }
+  footer ul a { color: var(--ink); text-decoration: none; font-size: 15px; font-weight: 300; }
+  footer ul a:hover { color: var(--terracotta); }
+  .foot-bot { padding-top: 30px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-gray); }
+
+  @media (max-width: 1000px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 50px; }
+    .hero-foot { grid-template-columns: 1fr; gap: 28px; padding-top: 30px; margin-top: 30px; }
+    .hero-shape { max-width: 280px; }
+    .section-head, .phil-grid, .mem-section .mem-grid { grid-template-columns: 1fr; gap: 30px; }
+    .teach-grid { grid-template-columns: 1fr; }
+    .nav-mid { display: none; }
+    .class-row { grid-template-columns: 60px 1fr 30px; gap: 16px; padding: 20px 8px; }
+    .class-row .class-jp, .class-row .class-meta, .class-row .class-day { display: none; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: span 2; }
+    nav, section, .phil-section, .intro-section, footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <span class="symbol">止</span>
+    <div>Still Point<small>YOGA · MEDITATION</small></div>
+  </div>
+  <div class="nav-mid">
+    <a href="#classes">Classes</a>
+    <a href="#phil">Practice</a>
+    <a href="#teach">Teachers</a>
+    <a href="#mem">Membership</a>
+    <a href="#">Visit</a>
+  </div>
+  <a href="#" class="nav-cta">Book a class →</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="line"></span>
+          <span class="jp-char">止</span>
+          <span>Yoga · Meditation · Brooklyn since 2018</span>
+        </div>
+        <h1 class="hero-h">Slow<br><em>practice,</em><br>for slow<br><em>days.</em><span class="jp-mark">止</span></h1>
+      </div>
+      <div class="hero-side">
+        <div class="hero-shape"></div>
+        <div class="hero-quote">
+          "The still point is not the absence of motion. It is <em>the place inside the motion</em> where you can hear yourself again."
+          <div class="hero-quote-attr">— Studio philosophy, since 2018</div>
+        </div>
+      </div>
+      <div class="hero-foot">
+        <p class="hero-lede">A small studio on Smith Street with eight teachers, fourteen weekly classes, and one quiet rule: <em>arrive early, leave slowly.</em> Our classes are limited to twelve students. We've never raised our prices.</p>
+        <div class="meta">
+          <div class="lbl">Classes / week</div>
+          <strong><em>14</em> sessions</strong>
+        </div>
+        <div class="meta">
+          <div class="lbl">Studio capacity</div>
+          <strong>12 mats max</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="classes">
+  <div class="section-head">
+    <div>
+      <span class="section-eye"><span class="jp-char">類</span> The week's offerings</span>
+      <h2 class="display">Fourteen <em>classes,</em><br>most weeks.</h2>
+    </div>
+    <p>A mix of <em>vinyasa, yin, restorative, and seated meditation.</em> Most are 60 minutes. A few are 75. Sound baths run 90.</p>
+  </div>
+
+  <div class="class-list">
+    <a href="#" class="class-row">
+      <span class="class-time">7:00<small style="display:block;font-family:'JetBrains Mono';font-size:10px;letter-spacing:0.15em;opacity:0.6;">AM</small></span>
+      <span class="class-jp">朝</span>
+      <h3>Morning <em>vinyasa</em></h3>
+      <div class="class-meta"><strong>w/ Yumi</strong>60 min · all levels</div>
+      <span class="class-day">MON · WED · FRI</span>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#" class="class-row">
+      <span class="class-time">9:30<small style="display:block;font-family:'JetBrains Mono';font-size:10px;letter-spacing:0.15em;opacity:0.6;">AM</small></span>
+      <span class="class-jp">緩</span>
+      <h3>Slow <em>flow</em></h3>
+      <div class="class-meta"><strong>w/ Anya</strong>75 min · gentle</div>
+      <span class="class-day">TUE · THU</span>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#" class="class-row">
+      <span class="class-time">12:00<small style="display:block;font-family:'JetBrains Mono';font-size:10px;letter-spacing:0.15em;opacity:0.6;">PM</small></span>
+      <span class="class-jp">昼</span>
+      <h3>Midday <em>meditation</em></h3>
+      <div class="class-meta"><strong>w/ Marco</strong>30 min · seated</div>
+      <span class="class-day">DAILY</span>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#" class="class-row">
+      <span class="class-time">5:30<small style="display:block;font-family:'JetBrains Mono';font-size:10px;letter-spacing:0.15em;opacity:0.6;">PM</small></span>
+      <span class="class-jp">陰</span>
+      <h3><em>Yin</em> &amp; reset</h3>
+      <div class="class-meta"><strong>w/ Sara</strong>60 min · floor</div>
+      <span class="class-day">MON · THU</span>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#" class="class-row">
+      <span class="class-time">7:00<small style="display:block;font-family:'JetBrains Mono';font-size:10px;letter-spacing:0.15em;opacity:0.6;">PM</small></span>
+      <span class="class-jp">夜</span>
+      <h3>Evening <em>vinyasa</em></h3>
+      <div class="class-meta"><strong>w/ David</strong>60 min · level 2</div>
+      <span class="class-day">TUE · FRI</span>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#" class="class-row">
+      <span class="class-time">8:30<small style="display:block;font-family:'JetBrains Mono';font-size:10px;letter-spacing:0.15em;opacity:0.6;">PM</small></span>
+      <span class="class-jp">音</span>
+      <h3><em>Sound</em> bath &amp; restore</h3>
+      <div class="class-meta"><strong>w/ Yumi &amp; Theo</strong>90 min · supine</div>
+      <span class="class-day">SAT</span>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<div class="phil-section" id="phil">
+  <div class="phil-inner">
+    <div class="phil-grid">
+      <div>
+        <span class="section-eye"><span class="jp-char">心</span> Our practice</span>
+        <h2 class="display">Quiet rooms.<br><em>Long</em> exhales.<br>No mirrors.</h2>
+      </div>
+      <div class="phil-text">
+        <p>Still Point opened in 2018 with one teacher and one room. We do not have music, we do not have mirrors, we do not have an Instagram presence to speak of. We have twelve mats, eight teachers, a tea kettle, and a small library by the door.</p>
+        <p>We believe the best yoga is the kind <em>you forget you're doing</em> — where the room dissolves and you find yourself, after sixty minutes, breathing more slowly than when you arrived. That is the only metric we care about.</p>
+        <blockquote>"We don't want to be the most popular studio in Brooklyn. We want to be <em>the right studio</em> for the hundred and twenty people who practice with us."</blockquote>
+        <p>Our classes are capped at twelve. We don't accept walk-ins after class begins. <em>Arrive five minutes early</em>, even if you've come a thousand times. The quiet starts in the lobby, not on the mat.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="teach-section" id="teach">
+  <div class="section-head">
+    <div>
+      <span class="section-eye"><span class="jp-char">師</span> Eight teachers</span>
+      <h2 class="display">The people<br>who lead the<br><em>practice.</em></h2>
+    </div>
+    <p><em>Three to introduce.</em> The other five teach mostly evenings &amp; weekends. Bios for everyone on the schedule page.</p>
+  </div>
+
+  <div class="teach-grid">
+    <a href="#" class="teach-card">
+      <div class="teach-portrait t1"><div class="silhouette"></div></div>
+      <div class="teach-info">
+        <h3 class="display">Yumi <em>Tanaka</em></h3>
+        <span class="teach-role">CO-FOUNDER · 19 YRS PRACTICE</span>
+        <p class="teach-bio">Yumi opened Still Point in 2018 after fifteen years of teaching in Tokyo and Kyoto. Her morning vinyasa is the studio's longest-running class. Trained in <em>Iyengar &amp; Ashtanga.</em></p>
+        <span class="teach-link">Read more →</span>
+      </div>
+    </a>
+    <a href="#" class="teach-card">
+      <div class="teach-portrait t2"><div class="silhouette"></div></div>
+      <div class="teach-info">
+        <h3 class="display">Marco <em>Reyes</em></h3>
+        <span class="teach-role">MEDITATION LEAD · 12 YRS</span>
+        <p class="teach-bio">Marco came to us from a Vipassana center in Massachusetts. He leads the daily midday seated practice and our Sunday morning silent sit. Speaks <em>quietly &amp; rarely.</em></p>
+        <span class="teach-link">Read more →</span>
+      </div>
+    </a>
+    <a href="#" class="teach-card">
+      <div class="teach-portrait t3"><div class="silhouette"></div></div>
+      <div class="teach-info">
+        <h3 class="display">Sara <em>Khalil</em></h3>
+        <span class="teach-role">YIN &amp; RESTORATIVE · 8 YRS</span>
+        <p class="teach-bio">Sara teaches the slow, ground-based classes — yin, restorative, the long sound baths. She's also a licensed massage therapist; <em>her cues are anatomical, never abstract.</em></p>
+        <span class="teach-link">Read more →</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="mem-section" id="mem">
+  <div class="section-head">
+    <div>
+      <span class="section-eye"><span class="jp-char">員</span> Membership</span>
+      <h2 class="display">Two ways<br>to <em>practice</em><br>with us.</h2>
+    </div>
+    <p>We don't believe in introductory rates that triple later. <em>The price you see is the price.</em></p>
+  </div>
+
+  <div class="mem-grid">
+    <div class="mem-card">
+      <span class="mem-eye">Drop-in</span>
+      <h3 class="display">Single <em>class</em></h3>
+      <div class="mem-price"><em>$28</em><small> / class</small></div>
+      <ul class="mem-foot">
+        <li>Any single class on the schedule</li>
+        <li>Mat &amp; props provided</li>
+        <li>Tea before &amp; after, included</li>
+        <li>Book up to one week in advance</li>
+        <li>Class packs available — 5 / 10 / 20</li>
+      </ul>
+      <a href="#" class="mem-cta">Book a class →</a>
+    </div>
+    <div class="mem-card feat">
+      <span class="mem-eye">Member</span>
+      <h3 class="display">Unlimited <em>monthly</em></h3>
+      <div class="mem-price"><em>$180</em><small> / month</small></div>
+      <ul class="mem-foot">
+        <li>Unlimited classes &amp; meditations</li>
+        <li>Priority booking, 2 weeks ahead</li>
+        <li>Two guest passes per month</li>
+        <li>Library access &amp; member events</li>
+        <li>Pause anytime, cancel anytime</li>
+      </ul>
+      <a href="#" class="mem-cta">Become a member →</a>
+    </div>
+  </div>
+</section>
+
+<div class="intro-section">
+  <div class="intro-inner">
+    <span class="section-eye"><span class="jp-char">初</span> First-time intro</span>
+    <h2 class="display">Two weeks of<br>unlimited practice,<br>for <em>$30.</em></h2>
+    <p>If you've never practiced with us before, we offer two weeks of unlimited classes for thirty dollars — <em>once.</em> No autorenew, no upsell. After two weeks, you decide what's next, on your own time.</p>
+    <a href="#" class="intro-cta">Begin the two weeks →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div class="logo">
+        <span class="symbol">止</span>
+        <div>Still Point<small>YOGA · MEDITATION</small></div>
+      </div>
+      <p>"Slow practice, for slow days. Since 2018."</p>
+      <div class="foot-addr">
+        178 SMITH ST · BROOKLYN, NY 11201<br>
+        OPEN 7 DAYS · STUDIO@STILLPT.NYC
+      </div>
+    </div>
+    <div>
+      <h4>Practice</h4>
+      <ul>
+        <li><a href="#">Schedule</a></li>
+        <li><a href="#">Drop-in classes</a></li>
+        <li><a href="#">Membership</a></li>
+        <li><a href="#">Class packs</a></li>
+        <li><a href="#">Sound baths</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Studio</h4>
+      <ul>
+        <li><a href="#">Our practice</a></li>
+        <li><a href="#">Teachers</a></li>
+        <li><a href="#">Visit</a></li>
+        <li><a href="#">Workshops</a></li>
+        <li><a href="#">Teacher training</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Hello</h4>
+      <ul>
+        <li><a href="#">Letter (monthly)</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Gift cards</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© 2018 — 2026 STILL POINT STUDIO LLC, BROOKLYN NY</span>
+    <span>SET IN CORMORANT GARAMOND &amp; NOTO SERIF JP</span>
+  </div>
+</footer>
+
+</body>
+</html>

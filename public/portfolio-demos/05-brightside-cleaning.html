@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brightside Cleaning Co. — Book a Seattle home cleaning in 60 seconds. Flat-rate, no contracts.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --sky: #4FA8E0;
+    --sky-deep: #2E84BA;
+    --sky-soft: #C9E6F7;
+    --mint: #6FCFB6;
+    --mint-soft: #C4EBDF;
+    --sun: #FFD56B;
+    --coral: #FF8B7B;
+    --bone: #FAFCFE;
+    --paper: #F0F7FB;
+    --white: #FFFFFF;
+    --ink: #15293D;
+    --char: #2A3F55;
+    --gray: #6B7B8C;
+    --gray-soft: #DDE5EE;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bone); color: var(--ink);
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; line-height: 1.55;
+    overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    padding-bottom: 70px;
+  }
+  @media (min-width: 800px) { body { padding-bottom: 0; } }
+  .script { font-family: 'Caveat', cursive; font-weight: 500; line-height: 1; }
+
+  .topbar {
+    background: var(--ink); color: var(--bone); padding: 9px 28px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+    font-size: 12px; font-weight: 500;
+  }
+  .topbar a { color: var(--sun); text-decoration: none; font-weight: 600; }
+  .topbar .live::before { content: '✿'; margin-right: 8px; color: var(--sun); }
+
+  nav {
+    background: var(--bone); padding: 16px 28px;
+    display: flex; justify-content: space-between; align-items: center; gap: 18px;
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 1px solid rgba(21,41,61,0.08);
+  }
+  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
+  .logo-mark {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--sky) 0%, var(--mint) 100%);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--white); font-weight: 800; font-size: 22px;
+    box-shadow: 0 6px 18px -6px rgba(79,168,224,0.5);
+  }
+  .logo-text strong { font-weight: 700; font-size: 22px; letter-spacing: -0.015em; display: block; line-height: 1; }
+  .logo-text small { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray); margin-top: 4px; display: block; font-weight: 600; }
+  .nav-mid { display: flex; gap: 4px; }
+  .nav-mid a { color: var(--char); text-decoration: none; padding: 8px 14px; font-size: 14px; font-weight: 600; border-radius: 100px; }
+  .nav-mid a:hover { background: var(--sky-soft); color: var(--sky-deep); }
+  .nav-end { display: flex; gap: 10px; align-items: center; }
+  .nav-phone { color: var(--ink); font-weight: 700; font-size: 17px; text-decoration: none; line-height: 1; }
+  .nav-phone small { display: block; font-size: 9px; letter-spacing: 0.18em; color: var(--gray); margin-top: 4px; font-weight: 600; text-transform: uppercase; }
+  .nav-cta {
+    background: var(--ink); color: var(--bone); padding: 12px 22px; border-radius: 100px; text-decoration: none;
+    font-weight: 700; font-size: 14px; transition: all 0.15s;
+  }
+  .nav-cta:hover { background: var(--sky); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    padding: 50px 28px 90px; max-width: 1500px; margin: 0 auto; position: relative;
+  }
+  .hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 50px; align-items: center; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px; margin-bottom: 24px;
+    padding: 6px 14px 6px 6px; background: var(--mint-soft); color: var(--ink);
+    border-radius: 100px; font-size: 13px; font-weight: 600;
+  }
+  .hero-eyebrow .pill { background: var(--mint); color: var(--ink); padding: 3px 9px; border-radius: 100px; font-weight: 800; font-size: 11px; }
+
+  h1.hero-h {
+    font-size: clamp(2.8rem, 7vw, 5.6rem); line-height: 0.98; letter-spacing: -0.03em;
+    font-weight: 800; margin-bottom: 24px;
+  }
+  h1.hero-h em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--sky) 0%, var(--mint) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    position: relative;
+  }
+  h1.hero-h .squiggle {
+    position: absolute; bottom: -6px; left: 0; right: 0; height: 8px;
+    background:
+      radial-gradient(circle at 8% 50%, var(--sun) 4px, transparent 4px),
+      radial-gradient(circle at 24% 50%, var(--coral) 4px, transparent 4px),
+      radial-gradient(circle at 40% 50%, var(--mint) 4px, transparent 4px),
+      radial-gradient(circle at 56% 50%, var(--sky) 4px, transparent 4px),
+      radial-gradient(circle at 72% 50%, var(--sun) 4px, transparent 4px),
+      radial-gradient(circle at 88% 50%, var(--coral) 4px, transparent 4px);
+  }
+
+  .hero-lede {
+    font-size: clamp(1.05rem, 1.4vw, 1.25rem); line-height: 1.55; max-width: 540px;
+    margin-bottom: 30px; color: var(--char);
+  }
+  .hero-lede strong { color: var(--sky-deep); font-weight: 700; }
+
+  .hero-trust {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+    padding-top: 28px; border-top: 1px solid rgba(21,41,61,0.1);
+  }
+  .trust-cell strong {
+    font-size: clamp(1.1rem, 1.6vw, 1.5rem); font-weight: 800; display: block; color: var(--ink);
+  }
+  .trust-cell small { font-size: 11px; color: var(--gray); margin-top: 6px; display: block; line-height: 1.4; font-weight: 500; }
+  .trust-cell .stars { color: var(--sun); letter-spacing: 1px; font-size: 14px; }
+
+  /* QUOTE/BOOK CARD */
+  .book-card {
+    background: var(--white);
+    border-radius: 28px; padding: 32px;
+    box-shadow:
+      0 30px 60px -20px rgba(21,41,61,0.2),
+      0 0 0 6px var(--mint-soft);
+    position: relative;
+  }
+  .book-card::before {
+    content: '⚡ INSTANT PRICING'; position: absolute; top: -14px; left: 28px;
+    background: var(--sun); color: var(--ink); padding: 6px 14px;
+    border-radius: 100px; font-size: 11px; font-weight: 800; letter-spacing: 0.05em;
+  }
+  .book-card h3 { font-weight: 800; font-size: 24px; line-height: 1; margin-bottom: 6px; margin-top: 12px; letter-spacing: -0.02em; }
+  .book-card .sub { font-size: 13px; color: var(--gray); margin-bottom: 22px; }
+  .book-row { margin-bottom: 16px; }
+  .book-row label {
+    display: block; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 8px; font-weight: 700; color: var(--ink);
+  }
+  .book-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+  .book-pill {
+    padding: 10px 16px; border-radius: 100px; cursor: pointer;
+    border: 2px solid var(--gray-soft); background: var(--bone);
+    font-weight: 600; font-size: 14px; transition: all 0.15s;
+    color: var(--ink);
+  }
+  .book-pill:hover { border-color: var(--sky); }
+  .book-pill.active { background: var(--ink); color: var(--bone); border-color: var(--ink); }
+
+  .book-summary {
+    background: linear-gradient(135deg, var(--sky-soft) 0%, var(--mint-soft) 100%);
+    color: var(--ink); padding: 18px 20px; border-radius: 18px;
+    display: flex; justify-content: space-between; align-items: center; margin: 18px 0;
+  }
+  .book-summary .label { font-size: 12px; letter-spacing: 0.06em; color: var(--char); text-transform: uppercase; font-weight: 700; }
+  .book-summary .price { font-weight: 800; font-size: 32px; color: var(--ink); line-height: 1; letter-spacing: -0.02em; }
+  .book-summary .price small { font-size: 13px; font-weight: 600; color: var(--gray); margin-left: 4px; }
+
+  .book-card button {
+    width: 100%; padding: 16px;
+    background: var(--ink); color: var(--bone);
+    font-size: 16px; font-weight: 800; letter-spacing: -0.005em;
+    border: none; border-radius: 14px; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .book-card button:hover { background: var(--sky); }
+  .book-card .stamp { font-size: 11px; color: var(--gray); margin-top: 14px; text-align: center; font-weight: 500; }
+  .book-card .stamp strong { color: var(--mint); font-weight: 700; }
+
+  /* MARQUEE */
+  .marquee {
+    background: var(--ink); color: var(--bone); padding: 14px 0;
+    overflow: hidden; white-space: nowrap;
+    font-size: 16px; font-weight: 700; letter-spacing: -0.005em;
+  }
+  .marquee em { font-style: italic; color: var(--sun); }
+  .marquee-inner { display: inline-block; animation: scroll 45s linear infinite; }
+  .marquee-inner span { padding: 0 26px; }
+  .marquee-inner span::before { content: '✿'; margin-right: 12px; color: var(--mint); }
+  @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* SECTIONS */
+  .section { padding: 100px 28px; max-width: 1500px; margin: 0 auto; }
+  .section-eye {
+    display: inline-flex; align-items: center; gap: 8px; padding: 5px 14px;
+    background: var(--mint-soft); color: var(--ink);
+    border-radius: 100px; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 700;
+    margin-bottom: 18px;
+  }
+  h2 {
+    font-size: clamp(2.2rem, 4.5vw, 3.6rem); line-height: 1.05; letter-spacing: -0.025em;
+    font-weight: 800;
+  }
+  h2 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--sky) 0%, var(--mint) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .section-lede { font-size: 17px; color: var(--char); line-height: 1.55; max-width: 600px; margin-top: 16px; }
+
+  /* CHECKLIST */
+  .check-section { background: var(--paper); padding: 100px 28px; border-radius: 36px 36px 0 0; }
+  .check-inner { max-width: 1500px; margin: 0 auto; }
+  .check-head { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px; }
+  .check-head .right {
+    background: var(--white); padding: 24px; border-radius: 22px;
+    border: 2px solid var(--ink);
+    transform: rotate(-1.5deg);
+  }
+  .check-head .right strong { display: block; font-size: 13px; color: var(--gray); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+  .check-head .right .script { font-size: 28px; color: var(--sky-deep); }
+
+  .check-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 22px; }
+  .check-card {
+    background: var(--white); border-radius: 22px; padding: 32px;
+    border: 2px solid transparent;
+    transition: all 0.25s;
+  }
+  .check-card:hover { border-color: var(--ink); transform: translateY(-4px); }
+  .check-card .room {
+    display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px;
+    background: var(--sky-soft); color: var(--sky-deep); border-radius: 100px;
+    font-size: 11px; letter-spacing: 0.05em; font-weight: 700; text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .check-card:nth-child(2) .room { background: var(--mint-soft); color: var(--ink); }
+  .check-card:nth-child(3) .room { background: #FFF0CC; color: #8C6500; }
+  .check-card:nth-child(4) .room { background: #FFE0DD; color: #B23A2A; }
+  .check-card h3 { font-weight: 800; font-size: 22px; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+  .check-card ul { list-style: none; }
+  .check-card li {
+    padding: 10px 0; font-size: 14px; display: flex; gap: 10px; align-items: baseline;
+    border-bottom: 1px solid rgba(21,41,61,0.08);
+  }
+  .check-card li::before { content: '✓'; color: var(--mint); font-weight: 800; flex-shrink: 0; font-size: 14px; }
+  .check-card li:last-child { border-bottom: none; }
+
+  /* PRICING TIERS */
+  .pricing { padding: 100px 28px; max-width: 1500px; margin: 0 auto; }
+  .pricing-head { text-align: center; margin-bottom: 60px; }
+  .pricing-head h2 { margin: 0 auto; max-width: 720px; }
+  .pricing-head .section-lede { margin: 16px auto 0; }
+  .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .price-card {
+    background: var(--white); border-radius: 24px; padding: 36px;
+    border: 2px solid var(--gray-soft);
+    display: flex; flex-direction: column; gap: 22px;
+    position: relative;
+  }
+  .price-card.feat {
+    background: var(--ink); color: var(--bone);
+    border-color: var(--ink); transform: scale(1.02);
+    box-shadow: 0 24px 48px -16px rgba(21,41,61,0.4);
+  }
+  .price-card.feat::before {
+    content: '★ MOST BOOKED'; position: absolute; top: -12px; left: 30px;
+    background: var(--sun); color: var(--ink); padding: 5px 14px; border-radius: 100px;
+    font-size: 11px; font-weight: 800; letter-spacing: 0.05em;
+  }
+  .price-card h3 { font-weight: 800; font-size: 24px; line-height: 1; letter-spacing: -0.02em; }
+  .price-card .desc { font-size: 14px; color: var(--gray); line-height: 1.55; min-height: 44px; }
+  .price-card.feat .desc { color: rgba(250,252,254,0.7); }
+  .price-card .price { font-weight: 800; font-size: 44px; line-height: 1; letter-spacing: -0.03em; }
+  .price-card .price small { font-size: 14px; font-weight: 600; color: var(--gray); margin-left: 8px; }
+  .price-card.feat .price small { color: rgba(250,252,254,0.7); }
+  .price-card .save { font-size: 12px; color: var(--coral); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-top: 6px; }
+  .price-card.feat .save { color: var(--sun); }
+  .price-card ul { list-style: none; flex: 1; }
+  .price-card li {
+    padding: 9px 0; font-size: 14px; display: flex; gap: 9px; align-items: baseline;
+    border-bottom: 1px solid rgba(21,41,61,0.08);
+  }
+  .price-card.feat li { border-color: rgba(250,252,254,0.12); }
+  .price-card li::before { content: '✓'; color: var(--mint); font-weight: 800; flex-shrink: 0; }
+  .price-card .btn-plan {
+    padding: 14px; text-align: center; border-radius: 100px; text-decoration: none;
+    font-weight: 700; font-size: 14px; transition: all 0.2s;
+  }
+  .price-card .btn-plan.solid { background: var(--ink); color: var(--bone); }
+  .price-card .btn-plan.solid:hover { background: var(--sky); }
+  .price-card.feat .btn-plan.solid { background: var(--sun); color: var(--ink); }
+  .price-card.feat .btn-plan.solid:hover { background: var(--bone); }
+  .price-card .btn-plan.outline { color: var(--ink); border: 2px solid var(--ink); }
+  .price-card .btn-plan.outline:hover { background: var(--ink); color: var(--bone); }
+
+  /* GUARANTEE */
+  .guarantee {
+    background: linear-gradient(135deg, var(--sky) 0%, var(--mint) 100%);
+    color: var(--ink); padding: 100px 28px; position: relative; overflow: hidden;
+  }
+  .guarantee::before {
+    content: '✿'; position: absolute; top: 10%; right: 8%; font-size: 200px;
+    color: var(--white); opacity: 0.15;
+  }
+  .guarantee-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+  .guarantee-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: center; }
+  .guarantee .section-eye { background: var(--ink); color: var(--sun); }
+  .guarantee h2 { color: var(--ink); }
+  .guarantee h2 em {
+    background: var(--ink); -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .guarantee p { font-size: 17px; line-height: 1.65; color: var(--ink); margin-top: 18px; max-width: 540px; }
+  .guarantee p strong { font-weight: 800; }
+  .guarantee-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .gstat {
+    background: var(--white); border-radius: 22px; padding: 28px;
+    border: 2px solid var(--ink);
+  }
+  .gstat strong { font-weight: 800; font-size: clamp(2rem, 3vw, 2.6rem); color: var(--ink); display: block; line-height: 1; letter-spacing: -0.025em; }
+  .gstat small { display: block; font-size: 13px; color: var(--char); margin-top: 12px; line-height: 1.4; font-weight: 500; }
+
+  /* REVIEWS */
+  .reviews { padding: 100px 28px; max-width: 1500px; margin: 0 auto; }
+  .reviews-head { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px; }
+  .reviews-stat {
+    background: var(--ink); color: var(--bone); padding: 24px; border-radius: 22px;
+  }
+  .reviews-stat .top { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; }
+  .reviews-stat .stars { color: var(--sun); font-size: 22px; letter-spacing: 2px; }
+  .reviews-stat .num { font-weight: 800; font-size: 32px; }
+  .reviews-stat small { font-size: 11px; color: rgba(250,252,254,0.7); letter-spacing: 0.06em; text-transform: uppercase; }
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .review {
+    background: var(--white); border-radius: 22px; padding: 28px;
+    display: flex; flex-direction: column; gap: 14px; border: 2px solid var(--gray-soft);
+  }
+  .review .stars { color: var(--sun); font-size: 16px; letter-spacing: 1px; }
+  .review p { font-size: 15px; line-height: 1.6; color: var(--char); flex: 1; }
+  .review .who { padding-top: 14px; border-top: 1px solid var(--gray-soft); display: flex; gap: 12px; align-items: center; }
+  .review-avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--sky), var(--mint)); color: var(--bone); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; }
+  .review .who div { line-height: 1.3; }
+  .review .who strong { font-size: 14px; font-weight: 700; display: block; }
+  .review .who span { font-size: 11px; color: var(--gray); }
+
+  /* AREAS */
+  .areas { background: var(--paper); padding: 100px 28px; border-radius: 36px 36px 0 0; }
+  .areas-inner { max-width: 1500px; margin: 0 auto; }
+  .areas-head { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; margin-bottom: 40px; }
+  .areas-head p { font-size: 16px; color: var(--char); line-height: 1.55; max-width: 420px; justify-self: end; font-weight: 500; }
+  .areas-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .area-pill {
+    background: var(--white); border: 2px solid transparent; padding: 18px 22px; border-radius: 18px;
+    font-weight: 700; font-size: 17px; cursor: pointer; transition: all 0.15s; line-height: 1.05;
+  }
+  .area-pill:hover { background: var(--ink); color: var(--bone); }
+  .area-pill small { display: block; font-size: 11px; font-weight: 500; color: var(--gray); margin-top: 4px; }
+  .area-pill:hover small { color: var(--sun); }
+
+  /* FINAL CTA */
+  .final-cta {
+    background: var(--ink); color: var(--bone); padding: 100px 28px; text-align: center;
+  }
+  .final-cta-inner { max-width: 800px; margin: 0 auto; }
+  .final-cta .section-eye { background: rgba(255,213,107,0.2); color: var(--sun); }
+  .final-cta h2 { color: var(--bone); margin-bottom: 18px; }
+  .final-cta h2 em {
+    background: linear-gradient(135deg, var(--sky) 0%, var(--mint) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .final-cta p { font-size: 18px; color: rgba(250,252,254,0.75); max-width: 540px; margin: 0 auto 32px; line-height: 1.55; }
+  .final-cta .actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--sun); color: var(--ink); padding: 16px 28px; border-radius: 100px; text-decoration: none;
+    font-weight: 800; font-size: 16px; transition: all 0.15s;
+  }
+  .btn-primary:hover { background: var(--bone); transform: translateY(-1px); }
+  .btn-ghost {
+    color: var(--bone); padding: 14px 24px; text-decoration: none; font-weight: 700; font-size: 16px;
+    border: 2px solid var(--bone); border-radius: 100px;
+  }
+  .btn-ghost:hover { background: var(--bone); color: var(--ink); }
+
+  footer { background: #0E1F30; color: var(--bone); padding: 60px 28px 24px; }
+  .foot-grid { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; padding-bottom: 36px; border-bottom: 1px solid rgba(250,252,254,0.1); }
+  .foot-brand p { color: rgba(250,252,254,0.7); font-size: 13px; line-height: 1.6; max-width: 320px; margin-top: 14px; }
+  .foot-brand .lic { font-size: 11px; color: var(--sun); margin-top: 14px; letter-spacing: 0.06em; line-height: 1.6; }
+  footer h4 { font-size: 13px; font-weight: 700; margin-bottom: 14px; color: var(--sun); letter-spacing: 0.04em; text-transform: uppercase; }
+  footer ul { list-style: none; }
+  footer ul li { padding: 4px 0; }
+  footer ul a { color: rgba(250,252,254,0.7); text-decoration: none; font-size: 13px; }
+  footer ul a:hover { color: var(--bone); }
+  .foot-bot { max-width: 1500px; margin: 0 auto; padding-top: 22px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; font-size: 12px; color: rgba(250,252,254,0.5); }
+
+  .sticky-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+    background: var(--bone); border-top: 1px solid var(--gray-soft);
+    padding: 10px; display: flex; gap: 8px;
+  }
+  .sticky-bar a { flex: 1; padding: 14px; text-align: center; font-weight: 700; font-size: 14px; text-decoration: none; border-radius: 100px; }
+  .sticky-bar a.call { background: var(--ink); color: var(--bone); }
+  .sticky-bar a.book { background: var(--sun); color: var(--ink); }
+  @media (min-width: 800px) { .sticky-bar { display: none; } }
+
+  @media (max-width: 1000px) {
+    .hero-grid, .check-head, .reviews-head, .areas-head, .guarantee-grid { grid-template-columns: 1fr; gap: 32px; }
+    .check-head .right, .areas-head p { justify-self: start; }
+    .hero-trust, .guarantee-stats { grid-template-columns: 1fr 1fr; gap: 14px; }
+    .nav-mid { display: none; }
+    .nav-phone small { display: none; }
+    .check-grid, .price-grid, .reviews-grid { grid-template-columns: 1fr; }
+    .price-card.feat { transform: none; }
+    .areas-grid { grid-template-columns: 1fr 1fr; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: span 2; }
+    .topbar, nav, .hero, .section, .check-section, .pricing, .guarantee, .reviews, .areas, .final-cta, footer { padding-left: 18px; padding-right: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="live">Booking same-week cleans · Seattle, Bellevue, Kirkland · No contracts, ever</span>
+  <span><a href="tel:12065550193">☎ (206) 555-0193</a> &nbsp;·&nbsp; <a href="#book">Book in 60 seconds →</a></span>
+</div>
+
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-mark">B</div>
+    <div class="logo-text">
+      <strong>Brightside</strong>
+      <small>CLEANING CO. · SEATTLE</small>
+    </div>
+  </a>
+  <div class="nav-mid">
+    <a href="#book">Book online</a>
+    <a href="#checklist">What's included</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#guarantee">Guarantee</a>
+    <a href="#reviews">Reviews</a>
+  </div>
+  <div class="nav-end">
+    <a href="tel:12065550193" class="nav-phone">(206) 555-0193<small>MON—SAT · 7—7</small></a>
+    <a href="#book" class="nav-cta">Book now →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <span class="hero-eyebrow"><span class="pill">200%</span> Happiness guarantee — every clean, no exceptions</span>
+      <h1 class="hero-h">A Seattle home<br>that <em>just feels good<span class="squiggle"></span></em>.</h1>
+      <p class="hero-lede">Background-checked, W-2 cleaners. <strong>Flat-rate by bedroom, no contracts, no surprises.</strong> Pick your date, lock your price, meet your cleaner before the visit. Most homes done in 2—3 hours.</p>
+      <div class="hero-trust">
+        <div class="trust-cell"><div class="stars">★★★★★</div><strong>4.9 / 1,920</strong><small>GOOGLE REVIEWS</small></div>
+        <div class="trust-cell"><strong>9 yrs</strong><small>FAMILY-OWNED · SINCE 2017</small></div>
+        <div class="trust-cell"><strong>W-2</strong><small>EMPLOYEES, NEVER 1099</small></div>
+        <div class="trust-cell"><strong>$2M</strong><small>BONDED &amp; INSURED · WA L&amp;I</small></div>
+      </div>
+    </div>
+
+    <div class="book-card" id="book">
+      <h3>Book a clean.</h3>
+      <div class="sub">Live pricing. No deposit. Cancel anytime.</div>
+      <div class="book-row">
+        <label>How many bedrooms?</label>
+        <div class="book-pills">
+          <div class="book-pill" onclick="setBed(1, this)">Studio / 1</div>
+          <div class="book-pill active" onclick="setBed(2, this)">2 bed</div>
+          <div class="book-pill" onclick="setBed(3, this)">3 bed</div>
+          <div class="book-pill" onclick="setBed(4, this)">4+</div>
+        </div>
+      </div>
+      <div class="book-row">
+        <label>Bathrooms?</label>
+        <div class="book-pills">
+          <div class="book-pill" onclick="setBath(1, this)">1</div>
+          <div class="book-pill active" onclick="setBath(2, this)">2</div>
+          <div class="book-pill" onclick="setBath(3, this)">3</div>
+          <div class="book-pill" onclick="setBath(4, this)">4+</div>
+        </div>
+      </div>
+      <div class="book-row">
+        <label>How often?</label>
+        <div class="book-pills">
+          <div class="book-pill" onclick="setFreq(1.0, this, 'one-time')">One-time</div>
+          <div class="book-pill" onclick="setFreq(0.85, this, '4-week')">Every 4 weeks (15% off)</div>
+          <div class="book-pill active" onclick="setFreq(0.80, this, '2-week')">Every 2 weeks (20% off)</div>
+          <div class="book-pill" onclick="setFreq(0.75, this, 'weekly')">Weekly (25% off)</div>
+        </div>
+      </div>
+      <div class="book-summary">
+        <div>
+          <div class="label">YOUR FLAT RATE</div>
+          <div class="price" id="bprice">$192<small>· every 2 weeks</small></div>
+        </div>
+      </div>
+      <button onclick="event.preventDefault(); alert('In a real site, this confirms your booking.');">Pick a date →</button>
+      <div class="stamp">✓ <strong>No deposit, no contracts</strong> · ✓ Re-clean free if you're not 100% happy</div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-inner">
+    <span><em>200% happiness guarantee</em></span><span>W-2 employees, background-checked</span><span><em>49-point checklist, every clean</em></span><span>Eco-friendly products available</span><span><em>Same cleaner each visit</em></span><span>No contracts. Cancel anytime.</span>
+    <span><em>200% happiness guarantee</em></span><span>W-2 employees, background-checked</span><span><em>49-point checklist, every clean</em></span><span>Eco-friendly products available</span><span><em>Same cleaner each visit</em></span><span>No contracts. Cancel anytime.</span>
+  </div>
+</div>
+
+<section class="check-section" id="checklist">
+  <div class="check-inner">
+    <div class="check-head">
+      <div>
+        <span class="section-eye">✿ THE 49-POINT CHECKLIST</span>
+        <h2>Every clean. <em>Every room.</em><br>No skipped corners.</h2>
+        <p class="section-lede">Brightside cleaners follow the same forty-nine-point checklist on every visit, every home. The list lives on a clipboard. They check it as they go. You get a copy when they leave.</p>
+      </div>
+      <div class="right">
+        <strong>Want a deeper clean?</strong>
+        <span class="script">Add deep-clean,<br>oven, fridge, laundry —<br>any time.</span>
+      </div>
+    </div>
+    <div class="check-grid">
+      <div class="check-card">
+        <span class="room">🛏 BEDROOMS</span>
+        <h3>Beds, dust, and floors.</h3>
+        <ul>
+          <li>Beds made, linens straightened</li>
+          <li>All surfaces dusted top-down</li>
+          <li>Lamps, frames, knickknacks wiped</li>
+          <li>Mirrors &amp; glass streak-free</li>
+          <li>Floors vacuumed (carpet, edges)</li>
+          <li>Hard floors mopped</li>
+          <li>Trash emptied, liners replaced</li>
+          <li>Light switches &amp; door handles</li>
+        </ul>
+      </div>
+      <div class="check-card">
+        <span class="room">🛁 BATHROOMS</span>
+        <h3>Sanitized, scrubbed, shining.</h3>
+        <ul>
+          <li>Toilet — bowl, seat, base, behind</li>
+          <li>Tub &amp; shower — soap scum, grout</li>
+          <li>Sink &amp; counter sanitized</li>
+          <li>Mirrors streak-free</li>
+          <li>Faucets &amp; fixtures polished</li>
+          <li>Floors mopped, baseboards wiped</li>
+          <li>Trash emptied, liner replaced</li>
+          <li>Towels folded or replaced</li>
+        </ul>
+      </div>
+      <div class="check-card">
+        <span class="room">🍳 KITCHEN</span>
+        <h3>Countertops to floor.</h3>
+        <ul>
+          <li>Counters cleared &amp; sanitized</li>
+          <li>Sink scrubbed, polished, drained</li>
+          <li>Stovetop, hood, backsplash</li>
+          <li>Microwave inside &amp; out</li>
+          <li>Cabinet fronts, handles wiped</li>
+          <li>Appliances exterior-wiped</li>
+          <li>Floor swept &amp; mopped</li>
+          <li>Trash &amp; recycling emptied</li>
+        </ul>
+      </div>
+      <div class="check-card">
+        <span class="room">🛋 LIVING SPACES</span>
+        <h3>The places people land.</h3>
+        <ul>
+          <li>All surfaces dusted</li>
+          <li>Couches vacuumed, pillows fluffed</li>
+          <li>TV, electronics dusted (gentle)</li>
+          <li>Mirrors &amp; glass streak-free</li>
+          <li>Lamps &amp; lampshades wiped</li>
+          <li>Throws folded, tidied</li>
+          <li>Carpets vacuumed wall-to-wall</li>
+          <li>Hard floors mopped</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="pricing-head">
+    <span class="section-eye">💰 SIMPLE FLAT RATES</span>
+    <h2>Three plans. <em>No contracts.</em></h2>
+    <p class="section-lede">Pick the cadence that fits your life. Recurring plans save you 15—25% on every clean and lock your same-cleaner schedule.</p>
+  </div>
+  <div class="price-grid">
+    <div class="price-card">
+      <h3>One-time</h3>
+      <div class="desc">A move-in, a holiday refresh, a "we just need help this once."</div>
+      <div class="price">$240<small>/clean</small></div>
+      <ul>
+        <li>49-point checklist, all rooms</li>
+        <li>2—3 hour visit</li>
+        <li>2 cleaners, our supplies</li>
+        <li>Same-week booking</li>
+        <li>200% happiness guarantee</li>
+      </ul>
+      <a href="#book" class="btn-plan outline">Book one-time →</a>
+    </div>
+    <div class="price-card feat">
+      <h3>Every 2 weeks</h3>
+      <div class="desc">The plan most Seattle clients pick — and stay on. Save 20% per visit.</div>
+      <div class="price">$192<small>/clean</small><div class="save">SAVE $48 PER VISIT</div></div>
+      <ul>
+        <li>Everything in one-time</li>
+        <li>Same cleaner every visit</li>
+        <li>Priority scheduling</li>
+        <li>Free re-clean if needed</li>
+        <li>Easy reschedule via text</li>
+        <li>Lock current pricing for 12 months</li>
+      </ul>
+      <a href="#book" class="btn-plan solid">Start the plan →</a>
+    </div>
+    <div class="price-card">
+      <h3>Weekly</h3>
+      <div class="desc">For busy households, families, or anyone who'd rather come home to a fresh house every Friday.</div>
+      <div class="price">$180<small>/clean</small><div class="save">SAVE $60 PER VISIT</div></div>
+      <ul>
+        <li>Everything in 2-week plan</li>
+        <li>Save 25% on every visit</li>
+        <li>Locked weekly time slot</li>
+        <li>Priority customer service</li>
+        <li>Free deep-clean every quarter</li>
+      </ul>
+      <a href="#book" class="btn-plan outline">Start weekly →</a>
+    </div>
+  </div>
+</section>
+
+<div class="guarantee" id="guarantee">
+  <div class="guarantee-inner">
+    <div class="guarantee-grid">
+      <div>
+        <span class="section-eye">★ THE GUARANTEE</span>
+        <h2>200% happy.<br>Or we make it <em>right.</em></h2>
+        <p>We call it the 200% guarantee because we think 100% is the floor. <strong>If you're anything less than thrilled with a clean, we come back free within 24 hours and re-do whatever you point out.</strong> No negotiation, no awkward conversations, no fine print.</p>
+        <p>Still not happy after the re-clean? <strong>We refund the visit, full price.</strong> In nine years and 38,000 cleans, we've issued 47 refunds. Every one was processed within a day.</p>
+      </div>
+      <div class="guarantee-stats">
+        <div class="gstat"><strong>38,000+</strong><small>Cleans completed since 2017</small></div>
+        <div class="gstat"><strong>0.12%</strong><small>Refund rate (industry avg: 6%)</small></div>
+        <div class="gstat"><strong>97%</strong><small>Annual client retention rate</small></div>
+        <div class="gstat"><strong>24 hr</strong><small>Re-clean window for any issue</small></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="reviews" id="reviews">
+  <div class="reviews-head">
+    <div>
+      <span class="section-eye">★ 1,900+ SEATTLE HOMES</span>
+      <h2>"Honestly the best decision <em>we made</em> this year."</h2>
+      <p class="section-lede">Real Google reviews. Sorted newest first. Every review has a verified clean date and neighborhood attached.</p>
+    </div>
+    <div class="reviews-stat">
+      <div class="top">
+        <span class="stars">★★★★★</span>
+        <span class="num">4.9</span>
+      </div>
+      <small>FROM 1,920 GOOGLE REVIEWS</small>
+    </div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>Same cleaner for the last 18 months. She knows where things go, what we care about, and the dog. House is genuinely cleaner than we'd ever do ourselves. The bi-weekly cadence is the best money we spend monthly.</p>
+      <div class="who">
+        <div class="review-avatar">JK</div>
+        <div><strong>Jenna K.</strong><span>BALLARD · 2 WEEKS AGO</span></div>
+      </div>
+    </div>
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>Booked through the website at 11pm Sunday, Maria was at our door Tuesday morning. Quote was the quote — no add-ons, no "actually it'll take longer." Place looks like new construction after 2.5 hours.</p>
+      <div class="who">
+        <div class="review-avatar">DT</div>
+        <div><strong>David T.</strong><span>QUEEN ANNE · 3 WEEKS AGO</span></div>
+      </div>
+    </div>
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>Used the 200% guarantee once — kitchen wasn't quite right. They came back the next morning, redid it, knocked $50 off the next clean unprompted. That's the difference. We've referred four neighbors.</p>
+      <div class="who">
+        <div class="review-avatar">PA</div>
+        <div><strong>Priya A.</strong><span>FREMONT · LAST MONTH</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="areas">
+  <div class="areas-inner">
+    <div class="areas-head">
+      <div>
+        <span class="section-eye">📍 SERVICE AREA</span>
+        <h2>Seattle <em>and the eastside.</em></h2>
+      </div>
+      <p>Two cleaning depots — one in SoDo, one in Bellevue — so we can reach any of these neighborhoods in a 30-minute drive. <strong>Don't see your zip?</strong> Email us, we add new neighborhoods every quarter.</p>
+    </div>
+    <div class="areas-grid">
+      <div class="area-pill">Ballard<small>98107</small></div>
+      <div class="area-pill">Capitol Hill<small>98102, 98112</small></div>
+      <div class="area-pill">Queen Anne<small>98109, 98119</small></div>
+      <div class="area-pill">Fremont<small>98103</small></div>
+      <div class="area-pill">Wallingford<small>98103</small></div>
+      <div class="area-pill">Magnolia<small>98199</small></div>
+      <div class="area-pill">Greenwood<small>98103, 98133</small></div>
+      <div class="area-pill">U-District<small>98105</small></div>
+      <div class="area-pill">Bellevue<small>98004—98008</small></div>
+      <div class="area-pill">Kirkland<small>98033, 98034</small></div>
+      <div class="area-pill">Redmond<small>98052</small></div>
+      <div class="area-pill">Mercer Island<small>98040</small></div>
+    </div>
+  </div>
+</div>
+
+<div class="final-cta">
+  <div class="final-cta-inner">
+    <span class="section-eye">✿ LET'S MAKE TODAY EASIER</span>
+    <h2>Pick a date.<br>Come home to a <em>clean house.</em></h2>
+    <p>Book online in 60 seconds. No deposit, no contracts, no salesperson call. Same-week availability throughout the Seattle metro.</p>
+    <div class="actions">
+      <a href="#book" class="btn-primary">Book a clean →</a>
+      <a href="tel:12065550193" class="btn-ghost">Or call (206) 555-0193</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a href="#" class="logo">
+        <div class="logo-mark">B</div>
+        <div class="logo-text">
+          <strong style="color: var(--bone);">Brightside</strong>
+          <small style="color: var(--sun);">CLEANING CO. · SEATTLE</small>
+        </div>
+      </a>
+      <p>Seattle's friendliest cleaners since 2017. Background-checked W-2 employees. 49-point checklist, every clean. 200% happiness guarantee, every visit. No contracts, ever.</p>
+      <div class="lic">WA L&amp;I LIC. 602 893 421 · UBI 604-927-188 · BBB A+ · $2M LIABILITY INSURED</div>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <ul><li><a href="#">Standard cleans</a></li><li><a href="#">Deep cleans</a></li><li><a href="#">Move-in / move-out</a></li><li><a href="#">Airbnb turnovers</a></li><li><a href="#">Office cleans</a></li></ul>
+    </div>
+    <div>
+      <h4>Resources</h4>
+      <ul><li><a href="#">Pricing calculator</a></li><li><a href="#">FAQ</a></li><li><a href="#">Tipping guide</a></li><li><a href="#">Reviews</a></li><li><a href="#">Gift cards</a></li></ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul><li><a href="tel:12065550193">☎ (206) 555-0193</a></li><li><a href="#">hello@brightside.clean</a></li><li><a href="#">2400 4th Ave S, Seattle</a></li><li><a href="#">Mon—Sat · 7am—7pm</a></li></ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© 2017—2026 BRIGHTSIDE CLEANING CO. · SEATTLE, WA</span>
+    <span>BUILT FOR EASIER MONDAYS</span>
+  </div>
+</footer>
+
+<div class="sticky-bar">
+  <a href="tel:12065550193" class="call">☎ Call us</a>
+  <a href="#book" class="book">Book a clean</a>
+</div>
+
+<script>
+  let bedrooms = 2, bathrooms = 2, freq = 0.80, freqLabel = 'every 2 weeks';
+  const basePerBed = { 1: 150, 2: 240, 3: 320, 4: 420 };
+  function update() {
+    const base = basePerBed[bedrooms] + (bathrooms - 2) * 30;
+    const final = Math.round(base * freq / 4) * 4;
+    document.getElementById('bprice').innerHTML = '$' + final + '<small>· ' + freqLabel + '</small>';
+  }
+  function setBed(n, el) {
+    document.querySelectorAll('.book-row:nth-of-type(1) .book-pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active'); bedrooms = n; update();
+  }
+  function setBath(n, el) {
+    document.querySelectorAll('.book-row:nth-of-type(2) .book-pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active'); bathrooms = n; update();
+  }
+  function setFreq(f, el, label) {
+    document.querySelectorAll('.book-row:nth-of-type(3) .book-pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active'); freq = f; freqLabel = label === 'one-time' ? 'one-time clean' : label === '4-week' ? 'every 4 weeks' : label === '2-week' ? 'every 2 weeks' : 'weekly'; update();
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NORTH &amp; COPPER — Plumbing &amp; HVAC, properly engineered.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bone: #FAF8F4;
+    --bone-soft: #F4F1EB;
+    --ink: #0E0E0E;
+    --ink-soft: #1F1F1F;
+    --copper: #B87333;
+    --copper-deep: #8C5722;
+    --slate: #3C3F45;
+    --pipe-blue: #2D5BFF;
+    --paper: #EDEAE2;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bone); color: var(--ink);
+    font-family: 'Hanken Grotesk', sans-serif; font-size: 16px; line-height: 1.55;
+    overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    font-feature-settings: "tnum";
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image: 
+      radial-gradient(rgba(14,14,14,0.025) 1px, transparent 1px);
+    background-size: 4px 4px;
+  }
+  
+  .serif { font-family: 'Fraunces', serif; font-weight: 400; line-height: 0.95; letter-spacing: -0.025em; font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 0; }
+  .mono { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; }
+  
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 22px 36px; display: flex; justify-content: space-between; align-items: center;
+    backdrop-filter: blur(20px); background: rgba(250,248,244,0.85);
+    border-bottom: 1px solid rgba(14,14,14,0.06);
+  }
+  .logo {
+    font-family: 'Fraunces', serif; font-weight: 500; font-size: 20px; letter-spacing: -0.01em;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .logo .amp { font-style: italic; color: var(--copper); padding: 0 2px; }
+  .nav-mid { display: flex; gap: 36px; }
+  .nav-mid a { color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 500; opacity: 0.75; transition: opacity 0.2s; }
+  .nav-mid a:hover { opacity: 1; }
+  .nav-right { display: flex; gap: 14px; align-items: center; }
+  .nav-phone { font-size: 14px; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 8px; opacity: 0.85; }
+  .nav-phone strong { font-variant-numeric: tabular-nums; }
+  .nav-phone .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #5A8F5A; }
+  .nav-cta {
+    background: var(--copper); color: var(--bone); padding: 11px 22px; border-radius: 999px;
+    font-size: 14px; font-weight: 600; text-decoration: none; transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--copper-deep); }
+  
+  /* HERO */
+  .hero { padding: 140px 36px 80px; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 1; }
+  .hero-inner { max-width: 1400px; margin: 0 auto; width: 100%; }
+  
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 12px; margin-bottom: 32px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--slate);
+  }
+  .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: currentColor; }
+  
+  h1.h-display { font-size: clamp(3.5rem, 11vw, 11rem); margin-bottom: 0; max-width: 1200px; }
+  h1.h-display .ital { font-style: italic; color: var(--copper); }
+  
+  .hero-bottom {
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 80px; padding-top: 60px; align-items: end;
+  }
+  .hero-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; }
+  .hero-lede { font-family: 'Fraunces', serif; font-size: 22px; line-height: 1.35; max-width: 480px; color: var(--slate); font-weight: 300; }
+  .hero-lede em { font-style: italic; }
+  
+  .hero-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .btn-copper {
+    background: var(--copper); color: var(--bone); padding: 16px 28px; border-radius: 999px;
+    font-weight: 600; font-size: 15px; text-decoration: none; display: inline-flex; gap: 10px; align-items: center;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .btn-copper:hover { transform: translateY(-2px); background: var(--copper-deep); }
+  .btn-ink {
+    background: var(--ink); color: var(--bone); padding: 16px 28px; border-radius: 999px;
+    font-weight: 600; font-size: 15px; text-decoration: none; display: inline-flex; gap: 10px; align-items: center;
+  }
+  
+  /* hero stat tiles */
+  .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding-top: 50px; border-top: 1px solid rgba(14,14,14,0.1); }
+  .hero-stat-num { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(2rem, 4.5vw, 3.4rem); line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .hero-stat-num em { font-style: italic; color: var(--copper); }
+  .hero-stat-label { font-size: 13px; color: var(--slate); margin-top: 10px; max-width: 220px; }
+  
+  /* hero side card */
+  .hero-aside { background: var(--ink); color: var(--bone); border-radius: 18px; padding: 32px; position: relative; overflow: hidden; }
+  .hero-aside::before { content: ''; position: absolute; top: -100px; right: -100px; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(184,115,51,0.25) 0%, transparent 60%); }
+  .hero-aside h4 { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 500; margin-bottom: 8px; letter-spacing: -0.015em; }
+  .hero-aside h4 em { font-style: italic; color: var(--copper); }
+  .hero-aside p { font-size: 14px; color: rgba(250,248,244,0.7); margin-bottom: 22px; }
+  .pulse-blue { display: inline-flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.15em; color: var(--pipe-blue); margin-bottom: 14px; }
+  .pulse-blue::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--pipe-blue); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{ opacity:1; } 50% { opacity: 0.4; } }
+  .urgent-cta {
+    background: var(--pipe-blue); color: var(--bone); padding: 14px 22px; border-radius: 12px;
+    font-weight: 600; font-size: 14px; text-decoration: none; display: flex; gap: 10px; align-items: center; justify-content: center;
+  }
+  
+  /* MARQUEE bar */
+  .marquee {
+    background: var(--ink); color: var(--bone); padding: 18px 0;
+    overflow: hidden; position: relative; z-index: 1;
+  }
+  .marquee-track { display: flex; gap: 60px; white-space: nowrap; animation: scroll 40s linear infinite; }
+  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .marquee span {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 22px; letter-spacing: -0.01em;
+    display: inline-flex; align-items: center; gap: 60px;
+  }
+  .marquee span::after { content: '✻'; color: var(--copper); margin-left: 60px; }
+  
+  /* SERVICES — bento grid */
+  .services-section { padding: 140px 36px; max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; }
+  .section-eye { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--copper); margin-bottom: 16px; font-weight: 500; }
+  h2 { font-family: 'Fraunces', serif; font-size: clamp(2.5rem, 7vw, 6rem); font-weight: 400; line-height: 0.98; letter-spacing: -0.025em; margin-bottom: 24px; font-variation-settings: "opsz" 144, "SOFT" 50; }
+  h2 em { font-style: italic; color: var(--copper); }
+  .section-head-row { display: grid; grid-template-columns: 2fr 1fr; gap: 60px; margin-bottom: 70px; align-items: end; }
+  .section-head-row p { font-size: 18px; color: var(--slate); max-width: 380px; line-height: 1.5; }
+  
+  .bento {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    grid-auto-rows: 200px;
+  }
+  .bento-card {
+    background: var(--bone-soft); border-radius: 18px; padding: 32px;
+    border: 1px solid rgba(14,14,14,0.06); transition: transform 0.4s ease, background 0.4s;
+    cursor: pointer; position: relative; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .bento-card:hover { transform: translateY(-4px) rotate(-0.5deg); }
+  .bento-card.feat { background: var(--ink); color: var(--bone); border-color: var(--ink); grid-column: span 2; grid-row: span 2; }
+  .bento-card.feat:hover { background: var(--ink-soft); }
+  .bento-card.tall { grid-row: span 2; }
+  .bento-card.wide { grid-column: span 2; }
+  .bento-card.copper { background: var(--copper); color: var(--bone); border-color: var(--copper); }
+  .bento-card.copper:hover { background: var(--copper-deep); }
+  
+  .bento-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.15em; opacity: 0.5; }
+  .bento-card h3 { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; }
+  .bento-card.feat h3 { font-size: 44px; max-width: 380px; }
+  .bento-card p { font-size: 14px; color: var(--slate); line-height: 1.5; }
+  .bento-card.feat p { color: rgba(250,248,244,0.7); font-size: 16px; }
+  .bento-card.copper p { color: rgba(250,248,244,0.85); }
+  .bento-arrow { font-size: 24px; opacity: 0.6; }
+  .bento-card .visual {
+    position: absolute; bottom: -20px; right: -20px; width: 200px; height: 200px;
+    border-radius: 50%; background: radial-gradient(circle, rgba(184,115,51,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .bento-card.feat .visual {
+    width: 280px; height: 280px;
+    background: radial-gradient(circle, rgba(184,115,51,0.4) 0%, transparent 65%);
+  }
+  
+  /* CASE STORY — editorial scroll strip */
+  .case-section {
+    padding: 100px 36px; background: var(--paper); position: relative; z-index: 1;
+  }
+  .case-inner { max-width: 1400px; margin: 0 auto; }
+  .case-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 80px; align-items: center; }
+  .case-photo {
+    aspect-ratio: 4/5; border-radius: 16px; position: relative; overflow: hidden;
+    background: linear-gradient(160deg, #B0925F 0%, #8C7449 50%, #614B2C 100%);
+    box-shadow: 0 30px 80px rgba(14,14,14,0.18);
+  }
+  /* abstract: copper pipe joint still life */
+  .case-photo::before {
+    content: ''; position: absolute; top: 30%; left: 50%; width: 70%; height: 30%;
+    transform: translateX(-50%) rotate(-12deg);
+    background: linear-gradient(180deg, var(--copper) 0%, var(--copper-deep) 50%, #5A3818 100%);
+    border-radius: 999px;
+    box-shadow: inset 0 -8px 20px rgba(0,0,0,0.3), 0 8px 30px rgba(0,0,0,0.4);
+  }
+  .case-photo::after {
+    content: ''; position: absolute; top: 50%; left: 30%; width: 18%; height: 36%;
+    transform: rotate(-12deg);
+    background: linear-gradient(180deg, var(--copper-deep) 0%, #4A2E12 100%);
+    border-radius: 6px;
+    box-shadow: inset 0 -4px 10px rgba(0,0,0,0.4);
+  }
+  .case-overlay-tag {
+    position: absolute; top: 24px; left: 24px;
+    background: var(--bone); padding: 10px 14px; border-radius: 999px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em;
+    color: var(--ink);
+  }
+  
+  .case-text .section-eye { color: var(--copper); }
+  .case-text h2 { font-size: clamp(2rem, 4.5vw, 3.4rem); margin-bottom: 28px; }
+  .case-text > p { font-family: 'Fraunces', serif; font-size: 22px; line-height: 1.4; font-weight: 300; max-width: 520px; margin-bottom: 32px; color: var(--ink-soft); }
+  .case-text > p::first-line { font-style: italic; }
+  .case-meta-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; padding: 30px 0; border-top: 1px solid rgba(14,14,14,0.15); border-bottom: 1px solid rgba(14,14,14,0.15); margin-bottom: 32px; }
+  .case-meta strong { font-family: 'Fraunces', serif; font-size: 26px; display: block; line-height: 1; font-weight: 500; }
+  .case-meta strong em { color: var(--copper); font-style: italic; }
+  .case-meta span { font-size: 12px; color: var(--slate); margin-top: 6px; display: block; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; }
+  .case-text a.read-more { color: var(--copper); text-decoration: none; font-weight: 600; border-bottom: 1.5px solid var(--copper); padding-bottom: 2px; }
+  
+  /* PROCESS — 4 step booking wizard */
+  .process-section { padding: 140px 36px; max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; }
+  .process-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: start; }
+  .process-text { position: sticky; top: 120px; }
+  .process-text h2 em { color: var(--copper); }
+  .process-steps { display: grid; gap: 0; }
+  .process-step {
+    display: grid; grid-template-columns: 80px 1fr;
+    padding: 36px 0; border-top: 1.5px solid var(--ink);
+    transition: padding 0.3s;
+  }
+  .process-step:last-child { border-bottom: 1.5px solid var(--ink); }
+  .process-step:hover { padding-left: 16px; }
+  .process-step-num {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 56px; line-height: 1;
+    font-weight: 400; color: var(--copper);
+  }
+  .process-step h3 { font-family: 'Fraunces', serif; font-size: 32px; font-weight: 500; letter-spacing: -0.02em; margin-bottom: 12px; line-height: 1.05; }
+  .process-step h3 em { font-style: italic; color: var(--copper); }
+  .process-step p { font-size: 16px; color: var(--slate); margin-bottom: 14px; max-width: 560px; }
+  .process-step .step-tag {
+    display: inline-flex; gap: 12px; align-items: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em;
+    color: var(--slate); padding-top: 4px;
+  }
+  .process-step .step-tag::before { content: '↳'; color: var(--copper); }
+  
+  /* PRICING — SaaS-style monthly */
+  .pricing-section { background: var(--ink); color: var(--bone); padding: 140px 36px; position: relative; z-index: 1; }
+  .pricing-inner { max-width: 1400px; margin: 0 auto; }
+  .pricing-section h2 { color: var(--bone); }
+  .pricing-section h2 em { color: var(--copper); }
+  .pricing-section .section-eye { color: var(--copper); }
+  .pricing-head-row { display: grid; grid-template-columns: 1.5fr 1fr; gap: 80px; align-items: end; margin-bottom: 70px; }
+  .pricing-head-row p { font-size: 18px; color: rgba(250,248,244,0.7); max-width: 420px; }
+  
+  .price-grid-c { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .price-card-c {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px; padding: 36px; display: flex; flex-direction: column;
+    transition: background 0.3s;
+  }
+  .price-card-c:hover { background: rgba(255,255,255,0.06); }
+  .price-card-c.feat { background: var(--copper); border-color: var(--copper); }
+  .price-card-c.feat:hover { background: var(--copper-deep); }
+  .price-card-c .tier-name { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; }
+  .price-card-c .feat-pill { background: rgba(0,0,0,0.2); padding: 4px 10px; border-radius: 999px; font-size: 10px; }
+  .price-card-c h3 { font-family: 'Fraunces', serif; font-size: 36px; font-weight: 400; letter-spacing: -0.02em; line-height: 1; }
+  .price-card-c .price-line { display: flex; align-items: baseline; gap: 8px; margin: 18px 0 24px; }
+  .price-card-c .price-line .num { font-family: 'Fraunces', serif; font-size: 64px; font-weight: 400; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .price-card-c .price-line .unit { font-family: 'Hanken Grotesk'; font-size: 16px; opacity: 0.6; }
+  .price-card-c ul { list-style: none; flex: 1; margin-bottom: 28px; }
+  .price-card-c ul li { padding: 10px 0; font-size: 14px; display: flex; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .price-card-c.feat ul li { border-color: rgba(0,0,0,0.15); }
+  .price-card-c ul li::before { content: '+'; color: var(--copper); font-weight: 600; }
+  .price-card-c.feat ul li::before { color: var(--ink); }
+  .price-card-c .pcta {
+    text-align: center; padding: 14px; border-radius: 999px; text-decoration: none;
+    background: var(--bone); color: var(--ink); font-weight: 600; font-size: 14px;
+  }
+  .price-card-c.feat .pcta { background: var(--ink); color: var(--bone); }
+  
+  /* TEAM */
+  .team-section { padding: 140px 36px; max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; }
+  .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 60px; }
+  .team-card { display: flex; flex-direction: column; gap: 18px; }
+  .team-portrait { aspect-ratio: 4/5; border-radius: 14px; overflow: hidden; position: relative; }
+  .team-portrait.t1 { background: linear-gradient(180deg, #C9A678 0%, #8B6535 100%); }
+  .team-portrait.t2 { background: linear-gradient(180deg, #A89279 0%, #5C4A36 100%); }
+  .team-portrait.t3 { background: linear-gradient(180deg, #B5957A 0%, #785C3F 100%); }
+  /* abstract portrait */
+  .team-portrait::before {
+    content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 70%; height: 75%; border-radius: 50% 50% 0 0;
+    background: rgba(0,0,0,0.25);
+  }
+  .team-portrait::after {
+    content: ''; position: absolute; bottom: 50%; left: 50%; transform: translateX(-50%);
+    width: 32%; aspect-ratio: 1; border-radius: 50%;
+    background: rgba(255,235,200,0.55);
+  }
+  .team-info h4 { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 500; letter-spacing: -0.015em; line-height: 1; margin-bottom: 6px; }
+  .team-info h4 em { font-style: italic; color: var(--copper); }
+  .team-info .role { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--slate); margin-bottom: 14px; }
+  .team-info p { font-size: 14px; color: var(--slate); line-height: 1.5; }
+  
+  /* TRUST FOOTER STRIP */
+  .trust-section {
+    background: var(--paper); padding: 80px 36px; position: relative; z-index: 1;
+  }
+  .trust-inner { max-width: 1400px; margin: 0 auto; }
+  .trust-row { display: flex; align-items: center; gap: 48px; flex-wrap: wrap; justify-content: center; }
+  .trust-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--slate); }
+  .trust-logo { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500; letter-spacing: -0.01em; opacity: 0.65; }
+  .trust-logo:hover { opacity: 1; }
+  .trust-logo.bold { font-family: 'Hanken Grotesk'; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; font-size: 14px; }
+  
+  /* FINAL CTA */
+  .final-cta-section { padding: 140px 36px; position: relative; z-index: 1; text-align: center; }
+  .final-cta-inner { max-width: 1100px; margin: 0 auto; }
+  .final-cta-section h2 { font-size: clamp(3rem, 9vw, 8rem); margin-bottom: 32px; }
+  .final-cta-section p { font-size: 22px; font-family: 'Fraunces', serif; font-weight: 300; color: var(--slate); margin-bottom: 40px; max-width: 700px; margin-left: auto; margin-right: auto; }
+  .final-cta-section p em { font-style: italic; color: var(--copper); }
+  
+  /* FOOTER */
+  footer { background: var(--ink); color: rgba(250,248,244,0.85); padding: 80px 36px 40px; position: relative; z-index: 1; }
+  .foot-grid-c { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 50px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .foot-brand-c .logo { font-size: 36px; color: var(--bone); }
+  .foot-brand-c p { font-size: 14px; color: rgba(250,248,244,0.55); max-width: 320px; margin-top: 14px; }
+  footer h4 { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 16px; color: var(--copper); font-weight: 500; }
+  footer ul { list-style: none; }
+  footer ul li { padding: 5px 0; }
+  footer ul a { color: rgba(250,248,244,0.7); text-decoration: none; font-size: 14px; }
+  footer ul a:hover { color: var(--copper); }
+  .colophon-c { max-width: 1400px; margin: 0 auto; padding-top: 30px; display: flex; justify-content: space-between; font-size: 12px; color: rgba(250,248,244,0.4); flex-wrap: wrap; gap: 14px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em; }
+  
+  @media (max-width: 1000px) {
+    .hero-bottom, .hero-meta, .case-grid, .process-grid, .pricing-head-row, .section-head-row { grid-template-columns: 1fr; gap: 40px; }
+    .bento { grid-template-columns: 1fr 1fr; grid-auto-rows: 220px; }
+    .bento-card.feat { grid-column: span 2; }
+    .bento-card.wide { grid-column: span 2; }
+    .price-grid-c, .team-grid { grid-template-columns: 1fr; }
+    .hero-stats { grid-template-columns: 1fr 1fr; }
+    .case-meta-grid { grid-template-columns: 1fr 1fr; }
+    .nav-mid { display: none; }
+    .process-text { position: static; }
+    .foot-grid-c { grid-template-columns: 1fr 1fr; }
+    .foot-brand-c { grid-column: span 2; }
+    nav { padding: 16px 20px; }
+    .hero { padding: 110px 20px 60px; }
+    .services-section, .case-section, .process-section, .pricing-section, .team-section, .final-cta-section, .trust-section, footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">North <span class="amp">&amp;</span> Copper</div>
+  <div class="nav-mid">
+    <a href="#services">Services</a>
+    <a href="#process">Process</a>
+    <a href="#case">Work</a>
+    <a href="#pricing">Membership</a>
+    <a href="#team">Team</a>
+  </div>
+  <div class="nav-right">
+    <a href="tel:6175550199" class="nav-phone"><span class="live-dot"></span><strong>(617) 555 · 0199</strong></a>
+    <a href="#" class="nav-cta">Book a visit →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Plumbing · Heating · Cooling · Indoor air · Boston since 2014</div>
+    <h1 class="serif h-display">Comfort,<br>properly<br><span class="ital">engineered.</span></h1>
+    <div class="hero-bottom">
+      <div class="hero-meta">
+        <p class="hero-lede">A small Boston firm doing plumbing and HVAC the way you'd hope it would be done — quietly, slowly, and right the first time. <em>No coupons. No upsells. Just careful work in old houses.</em></p>
+        <div class="hero-actions">
+          <a href="#" class="btn-copper">Book a visit →</a>
+          <a href="#" class="btn-ink">See our work</a>
+        </div>
+      </div>
+      <div class="hero-aside">
+        <div class="pulse-blue">EMERGENCY · 24/7 LIVE ANSWER</div>
+        <h4 class="serif">Pipe burst?<br>Heat out? <em>Call us.</em></h4>
+        <p>Average response time, 38 minutes citywide. A licensed master plumber will answer the phone — not a dispatcher.</p>
+        <a href="tel:6175550199" class="urgent-cta">📞 Call (617) 555-0199 →</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num"><em>12</em>yrs</div>
+        <div class="hero-stat-label">Operating across the Greater Boston metro since 2014</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">4.<em>97</em>★</div>
+        <div class="hero-stat-label">Average rating across 1,840 verified reviews on Google &amp; BBB</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">38min</div>
+        <div class="hero-stat-label">Median emergency response time across all neighborhoods</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Heat pumps · Tankless water heaters · Mini-splits · Boiler replacements · Whole-home IAQ · Service plans · Heat pumps · Tankless water heaters · Mini-splits · Boiler replacements · Whole-home IAQ · Service plans</span>
+    <span>Heat pumps · Tankless water heaters · Mini-splits · Boiler replacements · Whole-home IAQ · Service plans · Heat pumps · Tankless water heaters · Mini-splits · Boiler replacements · Whole-home IAQ · Service plans</span>
+  </div>
+</div>
+
+<section class="services-section" id="services">
+  <div class="section-head-row">
+    <div>
+      <div class="section-eye">What we install &amp; service</div>
+      <h2 class="serif">A small set<br>of things,<br>done <em>excellently.</em></h2>
+    </div>
+    <p>We've kept our scope deliberately narrow. The result is technicians who know what they're looking at the moment they walk in.</p>
+  </div>
+  
+  <div class="bento">
+    <div class="bento-card feat">
+      <div>
+        <span class="bento-num">/ 01 — FLAGSHIP</span>
+      </div>
+      <div>
+        <h3 class="serif">Cold-climate <em style="color: var(--copper); font-style: italic;">heat pumps</em>, sized to the room.</h3>
+        <p>Mitsubishi Hyper-Heat &amp; Trane XV20i installations sized off Manual J load calcs — not square-footage shortcuts. Including ductless mini-splits for the rooms central never reached.</p>
+      </div>
+      <span class="bento-arrow">→</span>
+      <div class="visual"></div>
+    </div>
+    <div class="bento-card tall">
+      <span class="bento-num">/ 02</span>
+      <div>
+        <h3 class="serif">Tankless water<br>heaters</h3>
+        <p>Rinnai &amp; Navien gas-condensing installs.</p>
+      </div>
+      <span class="bento-arrow">→</span>
+    </div>
+    <div class="bento-card copper">
+      <span class="bento-num">/ 03</span>
+      <div>
+        <h3 class="serif">Old-house plumbing</h3>
+        <p>Lead-line replacements, cast-iron stack repair, repipes in homes built before 1940.</p>
+      </div>
+      <span class="bento-arrow">→</span>
+    </div>
+    <div class="bento-card">
+      <span class="bento-num">/ 04</span>
+      <div>
+        <h3 class="serif">Boilers &amp; radiant</h3>
+        <p>High-efficiency mod-cons, radiant zoning.</p>
+      </div>
+      <span class="bento-arrow">→</span>
+    </div>
+    <div class="bento-card wide">
+      <span class="bento-num">/ 05</span>
+      <div>
+        <h3 class="serif">Indoor air quality, <em>seriously.</em></h3>
+        <p>ERV/HRV ventilation, MERV-16 filtration, humidification. Designed alongside your heating system, not bolted on.</p>
+      </div>
+      <span class="bento-arrow">→</span>
+      <div class="visual"></div>
+    </div>
+    <div class="bento-card">
+      <span class="bento-num">/ 06</span>
+      <div>
+        <h3 class="serif">Drain &amp; sewer</h3>
+        <p>Camera inspection, hydro jetting, trenchless replacement.</p>
+      </div>
+      <span class="bento-arrow">→</span>
+    </div>
+    <div class="bento-card">
+      <span class="bento-num">/ 07</span>
+      <div>
+        <h3 class="serif">Service plans</h3>
+        <p>Annual tune-up &amp; priority dispatch, $24/mo.</p>
+      </div>
+      <span class="bento-arrow">→</span>
+    </div>
+  </div>
+</section>
+
+<section class="case-section" id="case">
+  <div class="case-inner">
+    <div class="case-grid">
+      <div class="case-photo">
+        <span class="case-overlay-tag">📷 Before · Beacon Hill</span>
+      </div>
+      <div class="case-text">
+        <div class="section-eye">This week's project</div>
+        <h2 class="serif">A 1923 craftsman in<br>Beacon Hill, finally<br><em>warm</em> in winter.</h2>
+        <p>The owners had lived with cold rooms upstairs and a furnace that ran nineteen hours a day for the better part of a decade. We replaced the gas furnace with a Mitsubishi cold-climate heat pump, added a single-zone mini-split to the converted attic, and rebalanced the existing duct returns. The whole project took six working days. The annual gas bill dropped by 71%.</p>
+        <div class="case-meta-grid">
+          <div class="case-meta">
+            <strong>—<em>71%</em></strong>
+            <span>Heating cost reduction</span>
+          </div>
+          <div class="case-meta">
+            <strong>6 days</strong>
+            <span>Total project time</span>
+          </div>
+          <div class="case-meta">
+            <strong>$<em>14k</em></strong>
+            <span>Net cost after rebates</span>
+          </div>
+        </div>
+        <a href="#" class="read-more">Read the full case study →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="process-section" id="process">
+  <div class="process-grid">
+    <div class="process-text">
+      <div class="section-eye">How we work</div>
+      <h2 class="serif">Booking us<br>shouldn't feel<br>like calling a<br><em>contractor.</em></h2>
+    </div>
+    <div class="process-steps">
+      <div class="process-step">
+        <span class="process-step-num">i.</span>
+        <div>
+          <h3 class="serif">You tell us <em>what's going on.</em></h3>
+          <p>A 60-second form on your phone. A photo if it's helpful. A licensed master plumber reviews it within one hour during business hours, sooner if it's urgent.</p>
+          <span class="step-tag">Avg first response: 14 minutes</span>
+        </div>
+      </div>
+      <div class="process-step">
+        <span class="process-step-num">ii.</span>
+        <div>
+          <h3 class="serif">We give you a <em>real estimate.</em></h3>
+          <p>Not "service call $89 + diagnostic." A flat-rate, written estimate before anything is touched, with line items you can read. No surprises mid-project.</p>
+          <span class="step-tag">Written estimates, every job</span>
+        </div>
+      </div>
+      <div class="process-step">
+        <span class="process-step-num">iii.</span>
+        <div>
+          <h3 class="serif">A licensed tech, <em>by name.</em></h3>
+          <p>You'll know the name of the technician arriving, their photo, their certifications, and a 30-min arrival window — texted the day before and again 30 minutes out.</p>
+          <span class="step-tag">No call centers, no third-party dispatching</span>
+        </div>
+      </div>
+      <div class="process-step">
+        <span class="process-step-num">iv.</span>
+        <div>
+          <h3 class="serif">We <em>finish</em>, then we follow up.</h3>
+          <p>Photos before &amp; after, a digital record of every part installed, and a 48-hour check-in. Two-year labor warranty on every install, as a default.</p>
+          <span class="step-tag">2-yr labor + manufacturer parts warranty</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing-section" id="pricing">
+  <div class="pricing-inner">
+    <div class="pricing-head-row">
+      <div>
+        <div class="section-eye">Service membership</div>
+        <h2 class="serif">A boring,<br>predictable<br><em>way</em> to never<br>worry about it.</h2>
+      </div>
+      <p>One annual visit, priority dispatch, and a small standing discount on anything that needs to be replaced. About the price of two takeout dinners a month.</p>
+    </div>
+    <div class="price-grid-c">
+      <div class="price-card-c">
+        <div class="tier-name">Good</div>
+        <h3 class="serif">Annual visit</h3>
+        <div class="price-line"><span class="num">$24</span><span class="unit">/ month</span></div>
+        <ul>
+          <li>One full system tune-up per year</li>
+          <li>15% discount on service calls</li>
+          <li>Priority emergency dispatch</li>
+          <li>No after-hours fees</li>
+          <li>Two-year labor warranty on all repairs</li>
+        </ul>
+        <a href="#" class="pcta">Start membership →</a>
+      </div>
+      <div class="price-card-c feat">
+        <div class="tier-name">Better<span class="feat-pill">Most chosen</span></div>
+        <h3 class="serif">Twice-yearly</h3>
+        <div class="price-line"><span class="num">$38</span><span class="unit">/ month</span></div>
+        <ul>
+          <li>Two full system tune-ups per year (heating + cooling)</li>
+          <li>20% discount on all service</li>
+          <li>Priority emergency dispatch (median 22 min)</li>
+          <li>Free annual sewer-line camera inspection</li>
+          <li>Free water-heater flush</li>
+          <li>Free thermostat replacement at year 5</li>
+        </ul>
+        <a href="#" class="pcta">Start Better →</a>
+      </div>
+      <div class="price-card-c">
+        <div class="tier-name">Best</div>
+        <h3 class="serif">Total comfort</h3>
+        <div class="price-line"><span class="num">$72</span><span class="unit">/ month</span></div>
+        <ul>
+          <li>Everything in Better</li>
+          <li>4 visits/year incl. IAQ &amp; humidity</li>
+          <li>30% discount on parts &amp; labor</li>
+          <li>Free filter replacements (4×/yr)</li>
+          <li>One free drain cleaning per year</li>
+          <li>5-year labor warranty (vs. 2)</li>
+        </ul>
+        <a href="#" class="pcta">Start Best →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="team-section" id="team">
+  <div class="section-head-row">
+    <div>
+      <div class="section-eye">Who'll show up</div>
+      <h2 class="serif">Real people,<br>by <em>name.</em></h2>
+    </div>
+    <p>Twelve technicians, all employees, all licensed, all with last names. The same people you'll see on Yelp.</p>
+  </div>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-portrait t1"></div>
+      <div class="team-info">
+        <h4 class="serif">Marcus <em>Avilés</em></h4>
+        <div class="role">Master Plumber · Co-founder</div>
+        <p>Twenty-six years in the trade. Specializes in old Boston houses and the things that go wrong inside their walls. Lives in Roslindale. Two kids. Surfs badly.</p>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-portrait t2"></div>
+      <div class="team-info">
+        <h4 class="serif">Priya <em>Khan</em></h4>
+        <div class="role">Lead HVAC Tech · NATE-certified</div>
+        <p>Mitsubishi Diamond-Elite installer, heat-pump-rebate paperwork wizard, and the person you want sizing your equipment. MIT mechanical, then trade school.</p>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-portrait t3"></div>
+      <div class="team-info">
+        <h4 class="serif">Daniel <em>O'Hare</em></h4>
+        <div class="role">Senior Plumber · Service lead</div>
+        <p>Probably the calmest person you'll ever meet at 3 AM with water pouring through a ceiling. Does the talking when something's complicated.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust-section">
+  <div class="trust-inner">
+    <div class="trust-row">
+      <span class="trust-label">Authorized + certified by</span>
+      <span class="trust-logo">Mitsubishi Diamond Elite</span>
+      <span class="trust-logo bold">NATE Certified</span>
+      <span class="trust-logo">Carrier Factory Authorized</span>
+      <span class="trust-logo bold">EPA 608</span>
+      <span class="trust-logo">MA Master Plumbing #15842</span>
+      <span class="trust-logo bold">A+ BBB</span>
+    </div>
+  </div>
+</div>
+
+<div class="final-cta-section">
+  <div class="final-cta-inner">
+    <div class="section-eye">Hello.</div>
+    <h2 class="serif">Let's <em>do this<br>once</em>, properly.</h2>
+    <p>The kind of plumbing &amp; HVAC company you'd recommend to your mother. <em>Booking takes about 90 seconds.</em></p>
+    <a href="#" class="btn-copper">Book a visit →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-grid-c">
+    <div class="foot-brand-c">
+      <div class="logo">North <span class="amp">&amp;</span> Copper</div>
+      <p>A small Boston plumbing &amp; HVAC firm operating since 2014. Twelve employees, no franchises, no coupons, no after-hours fees. Just careful work in old houses.</p>
+      <p style="margin-top: 24px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em;">14 Columbus Ave, Boston, MA 02116</p>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em;">Mon—Sun · 24h emergency line</p>
+    </div>
+    <div>
+      <h4>Plumbing</h4>
+      <ul>
+        <li><a href="#">Repairs &amp; service</a></li>
+        <li><a href="#">Repipes</a></li>
+        <li><a href="#">Water heaters</a></li>
+        <li><a href="#">Tankless</a></li>
+        <li><a href="#">Drain &amp; sewer</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>HVAC</h4>
+      <ul>
+        <li><a href="#">Heat pumps</a></li>
+        <li><a href="#">Mini-splits</a></li>
+        <li><a href="#">Boilers</a></li>
+        <li><a href="#">Furnaces</a></li>
+        <li><a href="#">Indoor air quality</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Team</a></li>
+        <li><a href="#">Memberships</a></li>
+        <li><a href="#">Reviews</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Help</h4>
+      <ul>
+        <li><a href="#">Emergency line</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Rebates &amp; financing</a></li>
+        <li><a href="#">Service area</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="colophon-c">
+    <span>© 2014—2026 NORTH &amp; COPPER PLUMBING &amp; HVAC, LLC.</span>
+    <span>SET IN FRAUNCES &amp; HANKEN GROTESK · MA #15842 · MASTER PLUMBER LIC.</span>
+  </div>
+</footer>
+
+</body>
+</html>

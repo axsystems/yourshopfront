@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Greenwise Lawn &amp; Landscape — Organic lawn care for Austin homes. Free quote in 60 seconds.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --moss: #2D4A2F;
+    --moss-deep: #1F3320;
+    --leaf: #4A6B3F;
+    --sage: #8FA77E;
+    --sage-soft: #C9D4B8;
+    --cream: #F4F0E4;
+    --cream-soft: #FAF7ED;
+    --bone: #FFFFFF;
+    --terra: #C97D5C;
+    --gold: #D9A441;
+    --ink: #1A1F18;
+    --char: #2A2F26;
+    --gray: #6B6F65;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--cream); color: var(--ink);
+    font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6;
+    overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    padding-bottom: 70px;
+  }
+  @media (min-width: 800px) { body { padding-bottom: 0; } }
+  .serif { font-family: 'Fraunces', serif; font-weight: 500; line-height: 1; letter-spacing: -0.015em; }
+
+  .topbar {
+    background: var(--moss-deep); color: var(--cream); padding: 9px 24px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+    font-size: 13px; font-weight: 400;
+  }
+  .topbar .live::before { content: '🌱'; margin-right: 6px; }
+  .topbar a { color: var(--sage-soft); text-decoration: none; font-weight: 500; }
+  .topbar a:hover { color: var(--cream); }
+
+  nav {
+    background: var(--cream); padding: 18px 28px;
+    display: flex; justify-content: space-between; align-items: center; gap: 18px;
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 1px solid rgba(45,74,47,0.12);
+  }
+  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
+  .logo-mark {
+    width: 44px; height: 44px; background: var(--moss); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream); font-family: 'Fraunces'; font-size: 22px; font-weight: 600;
+    position: relative;
+  }
+  .logo-mark::before {
+    content: ''; position: absolute; inset: -4px; border: 1px solid var(--moss); border-radius: 50%; opacity: 0.3;
+  }
+  .logo-text { line-height: 1.05; }
+  .logo-text strong { font-family: 'Fraunces', serif; font-weight: 600; font-size: 22px; letter-spacing: -0.005em; display: block; color: var(--ink); }
+  .logo-text small { font-family: 'Inter'; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray); margin-top: 4px; display: block; font-weight: 500; }
+  .nav-mid { display: flex; gap: 4px; }
+  .nav-mid a { color: var(--char); text-decoration: none; padding: 8px 12px; font-size: 14px; font-weight: 500; border-radius: 100px; }
+  .nav-mid a:hover { background: var(--sage-soft); color: var(--moss-deep); }
+  .nav-end { display: flex; gap: 10px; align-items: center; }
+  .nav-phone { color: var(--moss); font-family: 'Fraunces'; font-weight: 600; font-size: 18px; text-decoration: none; line-height: 1; }
+  .nav-phone small { display: block; font-family: 'Inter'; font-size: 9px; letter-spacing: 0.18em; color: var(--gray); margin-top: 4px; font-weight: 500; text-transform: uppercase; }
+  .nav-cta {
+    background: var(--moss); color: var(--cream); padding: 12px 22px; border-radius: 100px; text-decoration: none;
+    font-weight: 600; font-size: 14px; transition: all 0.2s;
+  }
+  .nav-cta:hover { background: var(--moss-deep); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    padding: 70px 28px 90px; max-width: 1500px; margin: 0 auto;
+    position: relative;
+  }
+  .hero-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 50px; align-items: center; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px; margin-bottom: 22px;
+    padding: 6px 14px 6px 8px; background: var(--bone); border: 1px solid rgba(45,74,47,0.15);
+    border-radius: 100px; font-size: 13px; color: var(--moss-deep); font-weight: 500;
+  }
+  .hero-eyebrow .dot {
+    width: 22px; height: 22px; background: var(--moss); border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--cream); font-size: 10px;
+  }
+  h1.hero-h {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: clamp(2.8rem, 6.5vw, 5.4rem); line-height: 1.02; letter-spacing: -0.025em;
+    margin-bottom: 24px; color: var(--ink);
+  }
+  h1.hero-h em { font-style: italic; font-weight: 400; color: var(--moss); }
+  .hero-lede {
+    font-size: clamp(1.05rem, 1.4vw, 1.25rem); line-height: 1.55; max-width: 540px;
+    margin-bottom: 30px; color: var(--char);
+  }
+  .hero-lede strong { color: var(--moss); font-weight: 600; }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 36px; }
+  .btn-primary {
+    background: var(--moss); color: var(--cream); padding: 16px 28px;
+    border-radius: 100px; text-decoration: none; font-weight: 600; font-size: 15px;
+    display: inline-flex; align-items: center; gap: 10px; transition: all 0.2s;
+  }
+  .btn-primary:hover { background: var(--moss-deep); transform: translateY(-1px); box-shadow: 0 12px 24px -8px rgba(45,74,47,0.3); }
+  .btn-ghost {
+    color: var(--moss); padding: 14px 24px; text-decoration: none; font-weight: 600; font-size: 15px;
+    border: 1.5px solid var(--moss); border-radius: 100px;
+  }
+  .btn-ghost:hover { background: var(--moss); color: var(--cream); }
+
+  /* TRUST STRIP */
+  .hero-trust {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    padding-top: 28px; border-top: 1px solid rgba(45,74,47,0.15);
+  }
+  .trust-cell { line-height: 1.2; }
+  .trust-cell strong {
+    font-family: 'Fraunces', serif; font-size: clamp(1.2rem, 1.7vw, 1.6rem); font-weight: 600; display: block; color: var(--moss);
+  }
+  .trust-cell small { font-size: 11px; color: var(--gray); margin-top: 6px; display: block; line-height: 1.4; }
+  .trust-cell .stars { color: var(--gold); letter-spacing: 1px; font-size: 14px; }
+
+  /* HERO IMAGE */
+  .hero-photo {
+    aspect-ratio: 4/5; border-radius: 18px; overflow: hidden; position: relative;
+    background:
+      radial-gradient(ellipse at 30% 30%, #6B8E5A 0%, transparent 55%),
+      radial-gradient(ellipse at 70% 60%, #8FA77E 0%, transparent 50%),
+      linear-gradient(165deg, #4A6B3F 0%, #2D4A2F 60%, #1F3320 100%);
+    box-shadow: 0 30px 60px -20px rgba(45,74,47,0.4);
+  }
+  .hero-photo::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 80%, rgba(217,164,65,0.25) 0%, transparent 35%),
+      radial-gradient(circle at 80% 20%, rgba(255,255,255,0.15) 0%, transparent 30%);
+  }
+  .hero-photo::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50%;
+    background: linear-gradient(180deg, transparent, rgba(31,51,32,0.6));
+  }
+  .hero-photo-tag {
+    position: absolute; bottom: 22px; left: 22px; right: 22px; z-index: 2;
+    background: rgba(244,240,228,0.94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    padding: 16px 18px; border-radius: 14px;
+    display: flex; gap: 14px; align-items: center;
+  }
+  .photo-avatar {
+    width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--terra), var(--gold));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces'; font-weight: 600; font-size: 16px; color: var(--cream);
+  }
+  .photo-tag-text { line-height: 1.3; }
+  .photo-tag-text strong { font-size: 14px; font-weight: 600; display: block; color: var(--ink); }
+  .photo-tag-text small { font-size: 11px; color: var(--gray); }
+
+  /* MARQUEE */
+  .marquee {
+    background: var(--moss); color: var(--cream-soft); padding: 16px 0;
+    overflow: hidden; white-space: nowrap; font-family: 'Fraunces'; font-size: 17px; font-weight: 500;
+    border-top: 1px solid var(--moss-deep); border-bottom: 1px solid var(--moss-deep);
+  }
+  .marquee em { font-style: italic; color: var(--gold); }
+  .marquee-inner { display: inline-block; animation: scroll 50s linear infinite; }
+  .marquee-inner span { padding: 0 26px; }
+  .marquee-inner span::before { content: '✿'; margin-right: 14px; color: var(--sage); font-size: 14px; }
+  @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* PLANS */
+  .section { padding: 100px 28px; max-width: 1500px; margin: 0 auto; }
+  .section-eye {
+    display: inline-flex; align-items: center; gap: 8px; padding: 5px 14px;
+    background: var(--sage-soft); color: var(--moss-deep);
+    border-radius: 100px; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600;
+    margin-bottom: 18px;
+  }
+  h2 {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: clamp(2.2rem, 4.5vw, 3.6rem); line-height: 1.05; letter-spacing: -0.02em;
+  }
+  h2 em { font-style: italic; font-weight: 400; color: var(--moss); }
+  .section-lede { font-size: 17px; color: var(--char); line-height: 1.55; max-width: 600px; margin-top: 16px; }
+
+  .plans-head { text-align: center; margin-bottom: 60px; }
+  .plans-head h2 { margin: 0 auto; max-width: 700px; }
+  .plans-head .section-lede { margin: 16px auto 0; }
+
+  .plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .plan {
+    background: var(--bone); border: 1px solid rgba(45,74,47,0.12); border-radius: 22px;
+    padding: 36px 32px; display: flex; flex-direction: column; gap: 22px;
+    position: relative; transition: all 0.25s;
+  }
+  .plan:hover { transform: translateY(-4px); border-color: var(--moss); box-shadow: 0 20px 40px -16px rgba(45,74,47,0.15); }
+  .plan.feat {
+    background: var(--moss); color: var(--cream-soft);
+    border-color: var(--moss); transform: scale(1.02);
+    box-shadow: 0 24px 48px -16px rgba(45,74,47,0.35);
+  }
+  .plan.feat::before {
+    content: 'MOST POPULAR'; position: absolute; top: -10px; left: 32px;
+    background: var(--gold); color: var(--ink); padding: 4px 12px; border-radius: 100px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  }
+  .plan h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 26px; line-height: 1; }
+  .plan .desc { font-size: 14px; color: var(--gray); line-height: 1.55; min-height: 42px; }
+  .plan.feat .desc { color: var(--sage-soft); }
+  .plan-price { font-family: 'Fraunces', serif; font-size: 48px; font-weight: 600; line-height: 1; letter-spacing: -0.025em; }
+  .plan-price small { font-size: 14px; font-weight: 500; color: var(--gray); margin-left: 8px; font-family: 'Inter'; }
+  .plan.feat .plan-price small { color: var(--sage-soft); }
+  .plan-price .save { display: block; font-family: 'Inter'; font-size: 12px; color: var(--terra); font-weight: 600; margin-top: 8px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .plan.feat .plan-price .save { color: var(--gold); }
+  .plan-list { list-style: none; flex: 1; }
+  .plan-list li { padding: 9px 0; font-size: 14px; display: flex; gap: 10px; align-items: baseline; border-bottom: 1px solid rgba(45,74,47,0.08); }
+  .plan.feat .plan-list li { border-color: rgba(244,240,228,0.12); }
+  .plan-list li::before { content: '✓'; color: var(--moss); font-weight: 600; flex-shrink: 0; }
+  .plan.feat .plan-list li::before { color: var(--gold); }
+  .plan .btn-plan {
+    padding: 14px; text-align: center; border-radius: 100px; text-decoration: none;
+    font-weight: 600; font-size: 14px; transition: all 0.2s;
+  }
+  .plan .btn-plan.solid { background: var(--moss); color: var(--cream); }
+  .plan .btn-plan.solid:hover { background: var(--moss-deep); }
+  .plan.feat .btn-plan.solid { background: var(--gold); color: var(--ink); }
+  .plan.feat .btn-plan.solid:hover { background: var(--cream); }
+  .plan .btn-plan.outline { color: var(--moss); border: 1.5px solid var(--moss); }
+  .plan .btn-plan.outline:hover { background: var(--moss); color: var(--cream); }
+
+  /* PHILOSOPHY */
+  .philo {
+    background: var(--moss-deep); color: var(--cream-soft);
+    padding: 100px 28px; position: relative; overflow: hidden;
+  }
+  .philo::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 80% 30%, rgba(217,164,65,0.1) 0%, transparent 50%);
+  }
+  .philo-inner { max-width: 1500px; margin: 0 auto; position: relative; z-index: 1; }
+  .philo-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; }
+  .philo .section-eye { background: rgba(217,164,65,0.2); color: var(--gold); }
+  .philo h2 { color: var(--cream); }
+  .philo h2 em { color: var(--gold); }
+  .philo p { font-size: 17px; line-height: 1.65; color: var(--sage-soft); margin-top: 20px; }
+  .philo p strong { color: var(--cream); font-weight: 600; }
+
+  .philo-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .philo-stat {
+    background: rgba(244,240,228,0.06); border-radius: 16px; padding: 26px;
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(244,240,228,0.1);
+  }
+  .philo-stat strong {
+    font-family: 'Fraunces'; font-weight: 500; font-size: clamp(2rem, 3vw, 2.6rem); line-height: 1; color: var(--gold); display: block;
+  }
+  .philo-stat small { display: block; font-size: 13px; color: var(--sage-soft); margin-top: 12px; line-height: 1.4; }
+
+  /* PROCESS */
+  .process { padding: 100px 28px; max-width: 1500px; margin: 0 auto; }
+  .process-head { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px; }
+  .process-head .right { font-size: 15px; color: var(--char); line-height: 1.55; max-width: 380px; justify-self: end; padding-bottom: 6px; }
+  .process-head .right strong { color: var(--moss); }
+  .process-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px;
+  }
+  .step {
+    padding: 28px; background: var(--bone); border-radius: 18px; border: 1px solid rgba(45,74,47,0.1);
+    position: relative;
+  }
+  .step .num {
+    width: 38px; height: 38px; background: var(--moss); color: var(--cream); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces'; font-size: 17px; font-weight: 600; margin-bottom: 18px;
+  }
+  .step h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; line-height: 1.1; margin-bottom: 8px; }
+  .step p { color: var(--char); font-size: 14px; line-height: 1.55; }
+
+  /* REVIEWS */
+  .reviews { background: var(--cream-soft); padding: 100px 28px; }
+  .reviews-inner { max-width: 1500px; margin: 0 auto; }
+  .reviews-head { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px; }
+  .reviews-stat {
+    background: var(--moss); color: var(--cream); padding: 22px; border-radius: 18px;
+  }
+  .reviews-stat .top { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .reviews-stat .stars { color: var(--gold); font-size: 22px; letter-spacing: 2px; }
+  .reviews-stat .num { font-family: 'Fraunces'; font-size: 32px; font-weight: 600; }
+  .reviews-stat small { font-size: 12px; color: var(--sage-soft); margin-top: 4px; display: block; }
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .review {
+    background: var(--bone); border-radius: 18px; padding: 28px;
+    display: flex; flex-direction: column; gap: 14px;
+    border: 1px solid rgba(45,74,47,0.08);
+  }
+  .review .stars { color: var(--gold); font-size: 16px; letter-spacing: 1px; }
+  .review p { font-size: 15px; line-height: 1.6; color: var(--char); flex: 1; font-family: 'Fraunces'; font-weight: 400; }
+  .review .who { padding-top: 14px; border-top: 1px solid rgba(45,74,47,0.1); display: flex; gap: 12px; align-items: center; }
+  .review-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--sage), var(--moss)); color: var(--cream); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; }
+  .review .who div { line-height: 1.3; }
+  .review .who strong { font-size: 14px; font-weight: 600; display: block; }
+  .review .who span { font-size: 11px; color: var(--gray); }
+
+  /* AREAS */
+  .areas-section { padding: 100px 28px; max-width: 1500px; margin: 0 auto; }
+  .areas-head { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; margin-bottom: 40px; }
+  .areas-head p { font-size: 15px; color: var(--char); line-height: 1.55; max-width: 420px; justify-self: end; }
+  .neighborhoods {
+    columns: 4; column-gap: 22px;
+    font-family: 'Fraunces'; font-weight: 400; font-size: 17px; line-height: 1.7;
+    color: var(--char);
+  }
+  .neighborhoods span { display: block; padding: 7px 0; border-bottom: 1px solid rgba(45,74,47,0.1); break-inside: avoid; }
+  .neighborhoods span::before { content: '🌿  '; color: var(--moss); margin-right: 6px; font-size: 13px; }
+
+  /* FINAL CTA */
+  .final-cta {
+    background: var(--moss); color: var(--cream); padding: 100px 28px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .final-cta::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 100%, rgba(217,164,65,0.2) 0%, transparent 60%);
+  }
+  .final-cta-inner { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+  .final-cta .section-eye { background: rgba(217,164,65,0.2); color: var(--gold); }
+  .final-cta h2 { color: var(--cream); margin-bottom: 18px; }
+  .final-cta h2 em { color: var(--gold); }
+  .final-cta p { font-size: 18px; color: var(--sage-soft); max-width: 540px; margin: 0 auto 32px; line-height: 1.55; }
+  .final-cta .actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .final-cta .btn-primary { background: var(--gold); color: var(--ink); }
+  .final-cta .btn-primary:hover { background: var(--cream); }
+  .final-cta .btn-ghost { color: var(--cream); border-color: var(--cream); }
+  .final-cta .btn-ghost:hover { background: var(--cream); color: var(--moss); }
+
+  footer { background: var(--moss-deep); color: var(--cream); padding: 60px 28px 24px; }
+  .foot-grid { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; padding-bottom: 36px; border-bottom: 1px solid rgba(244,240,228,0.1); }
+  .foot-brand p { color: var(--sage-soft); font-size: 13px; line-height: 1.6; max-width: 320px; margin-top: 14px; }
+  .foot-brand .lic { font-family: 'Inter'; font-size: 11px; color: var(--gold); margin-top: 14px; letter-spacing: 0.06em; line-height: 1.6; }
+  footer h4 { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 500; margin-bottom: 14px; color: var(--gold); }
+  footer ul { list-style: none; }
+  footer ul li { padding: 4px 0; }
+  footer ul a { color: var(--sage-soft); text-decoration: none; font-size: 13px; }
+  footer ul a:hover { color: var(--cream); }
+  .foot-bot { max-width: 1500px; margin: 0 auto; padding-top: 22px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--sage); letter-spacing: 0.04em; }
+
+  .sticky-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+    background: var(--bone); border-top: 1px solid rgba(45,74,47,0.15);
+    padding: 10px; display: flex; gap: 8px;
+    box-shadow: 0 -10px 24px rgba(45,74,47,0.08);
+  }
+  .sticky-bar a {
+    flex: 1; padding: 14px; text-align: center; font-weight: 600; font-size: 14px;
+    text-decoration: none; border-radius: 100px;
+  }
+  .sticky-bar a.call { background: var(--moss); color: var(--cream); }
+  .sticky-bar a.quote { background: transparent; color: var(--moss); border: 1.5px solid var(--moss); }
+  @media (min-width: 800px) { .sticky-bar { display: none; } }
+
+  @media (max-width: 1000px) {
+    .hero-grid, .philo-grid, .process-head, .reviews-head, .areas-head { grid-template-columns: 1fr; gap: 32px; }
+    .process-head .right, .areas-head p { justify-self: start; }
+    .hero-trust, .philo-stats { grid-template-columns: 1fr 1fr; gap: 14px; }
+    .nav-mid { display: none; }
+    .nav-phone small { display: none; }
+    .plans-grid, .reviews-grid, .process-grid { grid-template-columns: 1fr; }
+    .plan.feat { transform: none; }
+    .neighborhoods { columns: 2; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: span 2; }
+    .topbar, nav, .hero, .section, .philo, .reviews, .areas-section, .final-cta, footer, .process { padding-left: 18px; padding-right: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="live">Booking new lawns for spring 2026 — Austin metro · 100% organic, EPA-certified</span>
+  <span><a href="tel:15125550148">☎ (512) 555-0148</a> &nbsp;·&nbsp; <a href="#quote">Free 60-second quote →</a></span>
+</div>
+
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-mark">G</div>
+    <div class="logo-text">
+      <strong>Greenwise</strong>
+      <small>LAWN &amp; LANDSCAPE · AUSTIN</small>
+    </div>
+  </a>
+  <div class="nav-mid">
+    <a href="#plans">Care plans</a>
+    <a href="#philosophy">Why organic</a>
+    <a href="#process">How it works</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#areas">Service area</a>
+  </div>
+  <div class="nav-end">
+    <a href="tel:15125550148" class="nav-phone">(512) 555-0148<small>MON—SAT · 7—7</small></a>
+    <a href="#quote" class="nav-cta">Free quote →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <span class="hero-eyebrow"><span class="dot">✓</span> 100% organic. EPA Lead-Safe. Family-owned since 2011.</span>
+      <h1 class="hero-h">A healthier <em>lawn,</em><br>without the chemicals.</h1>
+      <p class="hero-lede">Greenwise treats Austin yards with <strong>100% organic fertilizer, compost tea, and battery-powered equipment</strong> — so your kids and your dog can be on the grass an hour after we leave. Predictable monthly pricing, the same crew every visit, no contracts.</p>
+      <div class="hero-actions">
+        <a href="#quote" class="btn-primary">Get my free quote →</a>
+        <a href="#plans" class="btn-ghost">See care plans</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-cell"><div class="stars">★★★★★</div><strong>4.9 / 612</strong><small>GOOGLE REVIEWS</small></div>
+        <div class="trust-cell"><strong>14 yrs</strong><small>Family-owned · Since 2011</small></div>
+        <div class="trust-cell"><strong>2,400+</strong><small>Austin yards on plan</small></div>
+        <div class="trust-cell"><strong>OMRI</strong><small>Listed organic inputs · TX Lic. 0823</small></div>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <div class="hero-photo-tag">
+        <div class="photo-avatar">DG</div>
+        <div class="photo-tag-text">
+          <strong>Daniel &amp; the crew</strong>
+          <small>South Austin · 11 yrs on the truck</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-inner">
+    <span><em>Organic-only inputs</em></span><span>Battery-powered mowers &amp; trimmers</span><span><em>Same crew, every visit</em></span><span>No contracts — cancel anytime</span><span><em>Pet- &amp; kid-safe within an hour</em></span><span>Pollinator-friendly practices</span>
+    <span><em>Organic-only inputs</em></span><span>Battery-powered mowers &amp; trimmers</span><span><em>Same crew, every visit</em></span><span>No contracts — cancel anytime</span><span><em>Pet- &amp; kid-safe within an hour</em></span><span>Pollinator-friendly practices</span>
+  </div>
+</div>
+
+<section class="section" id="plans">
+  <div class="plans-head">
+    <span class="section-eye">🌿 SIMPLE PRICING · NO CONTRACTS</span>
+    <h2 class="serif">A care plan for <em>your yard</em>,<br>not someone else's.</h2>
+    <p class="section-lede">Three monthly plans, scaled to your lawn size. All include the same organic care system — the difference is how often we visit. Quote in 60 seconds, cancel anytime, no hidden fees.</p>
+  </div>
+
+  <div class="plans-grid">
+    <div class="plan">
+      <h3>Essential</h3>
+      <div class="desc">Mowing, edging, blowing — clean and consistent. For yards that already look good.</div>
+      <div class="plan-price">$129<small>/visit</small><span class="save">Bi-weekly · April—October</span></div>
+      <ul class="plan-list">
+        <li>Mow, edge, line-trim, blow</li>
+        <li>Battery equipment, never gas</li>
+        <li>Same 2-person crew every visit</li>
+        <li>Clippings mulched (free fertilizer)</li>
+        <li>Service window: Tues, Thurs, or Sat</li>
+        <li>Cancel anytime, no fees</li>
+      </ul>
+      <a href="#quote" class="btn-plan outline">Get this plan →</a>
+    </div>
+    <div class="plan feat">
+      <h3>Healthy Lawn</h3>
+      <div class="desc">Mowing + organic feed program. The plan 80% of our clients pick — and stay on.</div>
+      <div class="plan-price">$229<small>/month</small><span class="save">SAVE $40/mo vs. à la carte</span></div>
+      <ul class="plan-list">
+        <li>Everything in Essential</li>
+        <li>6× organic fertilizer applications</li>
+        <li>3× compost-tea soil drenches</li>
+        <li>Spot weed control (organic)</li>
+        <li>Soil test &amp; report (annual)</li>
+        <li>Free reservice if you're not happy</li>
+      </ul>
+      <a href="#quote" class="btn-plan solid">Start the plan →</a>
+    </div>
+    <div class="plan">
+      <h3>Full Estate</h3>
+      <div class="desc">Lawn + beds + seasonal cleanups. For yards over a quarter-acre or with mature beds.</div>
+      <div class="plan-price">$389<small>/month</small><span class="save">For lawns 10,000+ sq ft</span></div>
+      <ul class="plan-list">
+        <li>Everything in Healthy Lawn</li>
+        <li>Bed weeding &amp; mulching</li>
+        <li>Spring &amp; fall cleanups included</li>
+        <li>Aeration + over-seeding (annual)</li>
+        <li>Tree-skirt &amp; shrub maintenance</li>
+        <li>Dedicated crew lead, on call</li>
+      </ul>
+      <a href="#quote" class="btn-plan outline">Get this plan →</a>
+    </div>
+  </div>
+</section>
+
+<div class="philo" id="philosophy">
+  <div class="philo-inner">
+    <div class="philo-grid">
+      <div>
+        <span class="section-eye">🌱 OUR PHILOSOPHY</span>
+        <h2 class="serif">Healthy soil. <em>Healthy lawn.</em><br>Healthy planet.</h2>
+        <p>We started in 2011 because we couldn't find a lawn-care company that didn't spray our daughter's playground with chemicals every Tuesday. Fourteen years later, <strong>we've cleaned up 2,400+ Austin yards</strong> the same way we'd clean up our own — slowly, organically, and with the same crew showing up every two weeks.</p>
+        <p>Every yard on a Greenwise plan is treated with OMRI-listed organic inputs. Every mower, trimmer, and blower is battery-powered. Every crew is W-2, background-checked, and English/Spanish bilingual. <strong>That's the company.</strong></p>
+      </div>
+      <div class="philo-stats">
+        <div class="philo-stat"><strong>0 lbs</strong><small>Synthetic chemicals applied to a Greenwise lawn since 2011</small></div>
+        <div class="philo-stat"><strong>2,400+</strong><small>Active monthly clients across the Austin metro area</small></div>
+        <div class="philo-stat"><strong>97%</strong><small>Annual client retention rate (industry avg: 68%)</small></div>
+        <div class="philo-stat"><strong>14 tons</strong><small>Of organic compost applied to Austin lawns last year alone</small></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="process" id="process">
+  <div class="process-head">
+    <div>
+      <span class="section-eye">🌿 HOW IT WORKS</span>
+      <h2 class="serif">From quote to <em>green grass</em><br>in about a week.</h2>
+    </div>
+    <div class="right">
+      We do most of our scheduling by text. <strong>No phone-tag</strong>, no awkward "we'll be there sometime Tuesday." You get a real time window the night before.
+    </div>
+  </div>
+  <div class="process-grid">
+    <div class="step">
+      <div class="num">1</div>
+      <h3>Free quote</h3>
+      <p>Drop your address into the form. We pull satellite imagery to size your lawn and send a flat monthly quote within 24 hours — no on-site visit needed for most yards.</p>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <h3>Soil test &amp; plan</h3>
+      <p>Before the first visit, we pull soil samples and build a feed program for your specific grass type — Bermuda, St. Augustine, Zoysia, mixed. You get the test results.</p>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <h3>Same crew, every visit</h3>
+      <p>You meet your two-person crew on day one and see the same faces every two weeks. They know your gate, your dog, and which side of the driveway to leave the trimmer line.</p>
+    </div>
+    <div class="step">
+      <div class="num">4</div>
+      <h3>Off-season check-ins</h3>
+      <p>Through the dormant months we still drop in monthly — a walk-through, an email update with photos, and any pre-spring prep your soil needs. Always included.</p>
+    </div>
+  </div>
+</section>
+
+<div class="reviews" id="reviews">
+  <div class="reviews-inner">
+    <div class="reviews-head">
+      <div>
+        <span class="section-eye">★ 600+ AUSTIN HOMES</span>
+        <h2 class="serif">"Best decision we've made <em>for the yard."</em></h2>
+        <p class="section-lede">Real Google reviews from real Austin homeowners. We're proud of our 4.9 — every star earned the slow way, one yard at a time.</p>
+      </div>
+      <div class="reviews-stat">
+        <div class="top">
+          <span class="stars">★★★★★</span>
+          <span class="num">4.9</span>
+        </div>
+        <small>FROM 612 GOOGLE REVIEWS · UPDATED LAST WEEK</small>
+      </div>
+    </div>
+    <div class="reviews-grid">
+      <div class="review">
+        <div class="stars">★★★★★</div>
+        <p>Switched from a big-name chemical company two years ago. Our St. Augustine has never looked better — and our golden retriever doesn't have to wait 24 hours after every visit. Same crew every time. Couldn't recommend more.</p>
+        <div class="who">
+          <div class="review-avatar">SK</div>
+          <div><strong>Sarah Kim</strong><span>BARTON HILLS · 3 WEEKS AGO</span></div>
+        </div>
+      </div>
+      <div class="review">
+        <div class="stars">★★★★★</div>
+        <p>The annual soil test is a game-changer. They actually showed me <em>why</em> the back corner was bare — too much shade, wrong grass — and re-seeded with a shade blend instead of just dumping fertilizer. Real expertise.</p>
+        <div class="who">
+          <div class="review-avatar">MR</div>
+          <div><strong>Marcus R.</strong><span>HYDE PARK · LAST MONTH</span></div>
+        </div>
+      </div>
+      <div class="review">
+        <div class="stars">★★★★★</div>
+        <p>I priced out three companies. Greenwise was the middle one. They're worth every penny because nothing breaks, nothing surprises you on the bill, and the lawn just keeps getting better season over season. Best money we spend monthly.</p>
+        <div class="who">
+          <div class="review-avatar">PA</div>
+          <div><strong>Priya A.</strong><span>MUELLER · 2 MONTHS AGO</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="areas-section" id="areas">
+  <div class="areas-head">
+    <div>
+      <span class="section-eye">📍 SERVICE AREA</span>
+      <h2 class="serif">Proudly serving <em>Austin</em><br>and the close-in neighborhoods.</h2>
+    </div>
+    <p>We stay close to home on purpose. Our crews are out of two depots — South Lamar and East 7th — so we keep drive times short and trucks where they belong. <strong>If your zip's not below, give us a call</strong> — we add neighborhoods quarterly.</p>
+  </div>
+  <div class="neighborhoods">
+    <span>Barton Hills</span>
+    <span>Bouldin Creek</span>
+    <span>Brentwood</span>
+    <span>Cherrywood</span>
+    <span>Clarksville</span>
+    <span>Crestview</span>
+    <span>East Cesar Chavez</span>
+    <span>Hancock</span>
+    <span>Hyde Park</span>
+    <span>Mueller</span>
+    <span>North Loop</span>
+    <span>Old West Austin</span>
+    <span>Rosedale</span>
+    <span>South Congress</span>
+    <span>South Lamar</span>
+    <span>Tarrytown</span>
+    <span>Travis Heights</span>
+    <span>Westlake Hills</span>
+    <span>Windsor Park</span>
+    <span>Zilker</span>
+  </div>
+</section>
+
+<div class="final-cta">
+  <div class="final-cta-inner">
+    <span class="section-eye">🌱 LET'S START THIS SEASON</span>
+    <h2 class="serif">Free quote in 60 seconds.<br>First visit <em>next week.</em></h2>
+    <p>Drop your address. We'll size your yard, build a flat monthly quote, and have a crew in your driveway within seven days — usually sooner.</p>
+    <div class="actions">
+      <a href="#quote" class="btn-primary">Get my free quote →</a>
+      <a href="tel:15125550148" class="btn-ghost">Or call (512) 555-0148</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a href="#" class="logo">
+        <div class="logo-mark">G</div>
+        <div class="logo-text">
+          <strong style="color: var(--cream);">Greenwise</strong>
+          <small style="color: var(--sage);">LAWN &amp; LANDSCAPE · AUSTIN</small>
+        </div>
+      </a>
+      <p>Family-owned organic lawn care for the Austin metro since 2011. Same crew, every visit. Battery-powered equipment. No chemicals, no contracts, no surprises.</p>
+      <div class="lic">TX LIC. 0823 · OMRI ORGANIC INPUTS · EPA LEAD-SAFE CERTIFIED · BBB A+</div>
+    </div>
+    <div>
+      <h4>Care plans</h4>
+      <ul><li><a href="#">Essential mowing</a></li><li><a href="#">Healthy Lawn</a></li><li><a href="#">Full Estate</a></li><li><a href="#">À la carte services</a></li><li><a href="#">Commercial accounts</a></li></ul>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul><li><a href="#">About us</a></li><li><a href="#">Why organic</a></li><li><a href="#">Meet the crew</a></li><li><a href="#">Careers (we're hiring)</a></li><li><a href="#">Reviews</a></li></ul>
+    </div>
+    <div>
+      <h4>Get in touch</h4>
+      <ul><li><a href="tel:15125550148">☎ (512) 555-0148</a></li><li><a href="#">hello@greenwise.lawn</a></li><li><a href="#">2814 S Lamar, Austin</a></li><li><a href="#">Mon—Sat · 7am—7pm</a></li></ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© 2011—2026 GREENWISE LAWN &amp; LANDSCAPE LLC · AUSTIN, TX</span>
+    <span>BUILT FOR HEALTHIER YARDS</span>
+  </div>
+</footer>
+
+<div class="sticky-bar">
+  <a href="tel:15125550148" class="call">☎ Call us</a>
+  <a href="#quote" class="quote">Free quote</a>
+</div>
+
+</body>
+</html>

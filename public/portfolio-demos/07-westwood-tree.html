@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Westwood Tree Care — ISA Certified Arborists serving Portland. Free estimate.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --forest: #1F3528; --forest-deep: #122019; --moss: #3A5544;
+    --bark: #4A382A; --bark-deep: #2A2018; --tan: #B89968;
+    --safety: #FF6A1A; --safety-deep: #D54E0A; --caution: #F4C430;
+    --bone: #F5F1E6; --paper: #ECE5D2; --cream: #FAF6EC;
+    --ink: #1A1612; --char: #2A2520; --gray: #6B6259;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bone); color: var(--ink);
+    font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.55;
+    overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    padding-bottom: 70px;
+  }
+  @media (min-width: 800px) { body { padding-bottom: 0; } }
+  .display { font-family: 'Oswald', sans-serif; font-weight: 600; line-height: 1; letter-spacing: 0.005em; text-transform: uppercase; }
+  .serif { font-family: 'Fraunces', serif; line-height: 1.05; letter-spacing: -0.015em; }
+
+  .topbar {
+    background: var(--safety); color: var(--forest-deep); padding: 9px 28px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+    font-family: 'Oswald'; font-size: 12px; letter-spacing: 0.08em; font-weight: 600; text-transform: uppercase;
+  }
+  .topbar a { color: var(--forest-deep); text-decoration: none; font-weight: 700; }
+  .topbar .alert::before { content: '⚠'; margin-right: 8px; font-size: 14px; }
+
+  nav {
+    background: var(--cream); padding: 16px 28px;
+    display: flex; justify-content: space-between; align-items: center; gap: 18px;
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 2px solid var(--forest);
+  }
+  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--forest-deep); }
+  .logo-mark {
+    width: 46px; height: 46px; background: var(--forest); position: relative;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--bone); font-family: 'Fraunces'; font-weight: 700; font-size: 22px;
+  }
+  .logo-mark::after {
+    content: ''; position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%);
+    width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 6px solid var(--forest);
+  }
+  .logo-text strong { font-family: 'Fraunces', serif; font-weight: 600; font-size: 22px; letter-spacing: -0.005em; display: block; line-height: 1; }
+  .logo-text small { font-family: 'Oswald'; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gray); margin-top: 4px; display: block; font-weight: 600; }
+  .nav-mid { display: flex; gap: 4px; }
+  .nav-mid a { color: var(--char); text-decoration: none; padding: 8px 14px; font-family: 'Oswald'; font-weight: 600; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .nav-mid a:hover { color: var(--safety); }
+  .nav-end { display: flex; gap: 12px; align-items: center; }
+  .nav-phone { color: var(--ink); font-family: 'Oswald'; font-weight: 700; font-size: 22px; text-decoration: none; line-height: 1; letter-spacing: 0.02em; }
+  .nav-phone small { display: block; font-family: 'Inter'; font-size: 9px; letter-spacing: 0.18em; color: var(--safety); margin-top: 4px; font-weight: 700; text-transform: uppercase; }
+  .nav-cta {
+    background: var(--safety); color: var(--forest-deep); padding: 13px 22px; text-decoration: none;
+    font-family: 'Oswald'; font-weight: 700; font-size: 14px; letter-spacing: 0.04em; text-transform: uppercase;
+    transition: all 0.15s;
+  }
+  .nav-cta:hover { background: var(--forest); color: var(--cream); }
+
+  /* HERO */
+  .hero {
+    padding: 60px 28px 90px; position: relative; overflow: hidden;
+    background:
+      linear-gradient(180deg, rgba(31,53,40,0.85) 0%, rgba(18,32,25,0.95) 100%),
+      radial-gradient(ellipse at 30% 50%, #4A6B4F 0%, #1F3528 50%, #0F1810 100%);
+    color: var(--bone);
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(95deg, rgba(0,0,0,0.04) 0 1px, transparent 1px 14px),
+      repeating-linear-gradient(85deg, rgba(0,0,0,0.04) 0 1px, transparent 1px 18px);
+    opacity: 0.6;
+  }
+  .hero-grid { max-width: 1500px; margin: 0 auto; position: relative; z-index: 1; display: grid; grid-template-columns: 1.2fr 1fr; gap: 50px; align-items: center; }
+
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 12px; margin-bottom: 22px;
+    padding: 6px 14px; background: var(--safety); color: var(--forest-deep);
+    font-family: 'Oswald'; font-weight: 700; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .hero-eyebrow::before { content: '◆'; font-size: 9px; }
+
+  h1.hero-h {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: clamp(2.8rem, 7vw, 5.4rem); line-height: 1; letter-spacing: -0.025em;
+    margin-bottom: 24px;
+  }
+  h1.hero-h em { font-style: italic; font-weight: 400; color: var(--caution); }
+  .hero-lede {
+    font-size: clamp(1.05rem, 1.4vw, 1.2rem); line-height: 1.5; max-width: 540px;
+    margin-bottom: 28px; color: rgba(245,241,230,0.82);
+  }
+  .hero-lede strong { color: var(--caution); font-weight: 600; }
+
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 32px; }
+  .btn-primary {
+    background: var(--safety); color: var(--forest-deep); padding: 18px 28px; text-decoration: none;
+    font-family: 'Oswald'; font-weight: 700; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 10px;
+    border-bottom: 4px solid var(--safety-deep);
+    transition: all 0.15s;
+  }
+  .btn-primary:hover { background: var(--caution); transform: translateY(-2px); }
+  .btn-ghost {
+    color: var(--bone); padding: 14px 24px; text-decoration: none;
+    font-family: 'Oswald'; font-weight: 600; font-size: 14px; letter-spacing: 0.04em; text-transform: uppercase;
+    border: 2px solid rgba(245,241,230,0.3);
+  }
+  .btn-ghost:hover { border-color: var(--safety); color: var(--safety); }
+
+  .hero-trust {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+    padding-top: 28px; border-top: 1px solid rgba(245,241,230,0.18);
+  }
+  .trust-cell strong {
+    font-family: 'Oswald'; font-weight: 600; font-size: clamp(1.15rem, 1.6vw, 1.5rem); letter-spacing: 0.02em; text-transform: uppercase; display: block; color: var(--bone);
+  }
+  .trust-cell small { font-family: 'Oswald'; font-size: 10px; color: var(--caution); margin-top: 6px; display: block; line-height: 1.4; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+  .trust-cell .stars { color: var(--caution); letter-spacing: 1px; font-size: 14px; }
+
+  /* HERO FORM */
+  .hero-form {
+    background: var(--cream); color: var(--ink); padding: 32px;
+    border: 3px solid var(--forest);
+    box-shadow: 8px 8px 0 var(--safety);
+    position: relative;
+  }
+  .hero-form::before {
+    content: 'FREE ESTIMATE'; position: absolute; top: -14px; left: 24px;
+    background: var(--forest); color: var(--cream); padding: 6px 14px;
+    font-family: 'Oswald'; font-weight: 700; font-size: 11px; letter-spacing: 0.14em;
+  }
+  .hero-form h3 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 26px; line-height: 1; margin-bottom: 6px; margin-top: 12px; letter-spacing: -0.02em; }
+  .hero-form .sub { font-size: 13px; color: var(--gray); margin-bottom: 22px; }
+  .hero-form .field { margin-bottom: 12px; }
+  .hero-form label { display: block; font-family: 'Oswald'; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px; font-weight: 700; color: var(--forest); }
+  .hero-form input, .hero-form select {
+    width: 100%; padding: 13px 14px; border: 2px solid var(--forest); background: var(--bone);
+    font-family: 'Inter'; font-size: 14px; font-weight: 500; color: var(--ink);
+    transition: all 0.15s;
+  }
+  .hero-form input:focus, .hero-form select:focus { outline: none; border-color: var(--safety); }
+  .hero-form button {
+    width: 100%; padding: 16px; background: var(--forest); color: var(--cream);
+    font-family: 'Oswald'; font-size: 15px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+    border: none; cursor: pointer; margin-top: 10px;
+    border-bottom: 4px solid var(--safety);
+    transition: all 0.15s;
+  }
+  .hero-form button:hover { background: var(--safety); color: var(--forest-deep); border-bottom-color: var(--forest); }
+  .hero-form .stamp { font-size: 11px; color: var(--gray); margin-top: 14px; text-align: center; line-height: 1.6; font-weight: 500; }
+  .hero-form .stamp strong { color: var(--safety); font-weight: 700; }
+
+  /* CRED STRIP */
+  .cred-strip {
+    background: var(--forest); color: var(--cream); padding: 28px 28px;
+  }
+  .cred-strip-inner { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; align-items: center; }
+  .cred {
+    border-left: 3px solid var(--safety); padding-left: 18px;
+  }
+  .cred-name { font-family: 'Oswald'; font-weight: 700; font-size: 16px; letter-spacing: 0.02em; text-transform: uppercase; line-height: 1.05; }
+  .cred-sub { font-size: 11px; color: var(--caution); margin-top: 6px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+
+  /* SECTIONS */
+  .section { padding: 100px 28px; max-width: 1500px; margin: 0 auto; }
+  .section-eye {
+    display: inline-flex; align-items: center; gap: 8px; padding: 5px 14px;
+    background: var(--safety); color: var(--forest-deep);
+    font-family: 'Oswald'; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700;
+    margin-bottom: 18px;
+  }
+  h2 {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: clamp(2.4rem, 4.8vw, 4rem); line-height: 1; letter-spacing: -0.025em;
+  }
+  h2 em { font-style: italic; font-weight: 400; color: var(--safety); }
+  .section-lede { font-size: 17px; color: var(--char); line-height: 1.6; max-width: 580px; margin-top: 18px; }
+
+  .svcs-head { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px; }
+  .svcs-head .right { font-family: 'Fraunces'; font-style: italic; font-size: 17px; line-height: 1.5; color: var(--char); max-width: 380px; justify-self: end; padding-bottom: 6px; }
+  .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .svc {
+    background: var(--cream); padding: 32px;
+    border-top: 5px solid var(--forest);
+    transition: all 0.25s; position: relative;
+  }
+  .svc:nth-child(2) { border-top-color: var(--safety); }
+  .svc:nth-child(3) { border-top-color: var(--bark); }
+  .svc:nth-child(4) { border-top-color: var(--moss); }
+  .svc:nth-child(5) { border-top-color: var(--caution); }
+  .svc:nth-child(6) { border-top-color: var(--tan); }
+  .svc:hover { transform: translateY(-4px); box-shadow: 0 24px 40px -16px rgba(31,53,40,0.2); }
+  .svc .num { font-family: 'Oswald'; font-weight: 700; font-size: 12px; color: var(--gray); margin-bottom: 14px; letter-spacing: 0.18em; text-transform: uppercase; }
+  .svc h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 24px; line-height: 1.05; margin-bottom: 12px; letter-spacing: -0.02em; }
+  .svc p { color: var(--char); font-size: 14px; line-height: 1.6; margin-bottom: 16px; }
+  .svc .from { font-family: 'Oswald'; font-weight: 700; font-size: 11px; color: var(--forest); padding-top: 14px; border-top: 1px dashed var(--gray); letter-spacing: 0.1em; text-transform: uppercase; }
+  .svc.urgent { background: var(--forest); color: var(--bone); border-top-color: var(--safety); }
+  .svc.urgent h3 { color: var(--bone); }
+  .svc.urgent p { color: rgba(245,241,230,0.8); }
+  .svc.urgent .num { color: var(--caution); }
+  .svc.urgent .from { color: var(--safety); border-top-color: rgba(245,241,230,0.2); }
+
+  /* GALLERY */
+  .gallery-section { background: var(--forest); color: var(--cream); padding: 100px 28px; }
+  .gallery-inner { max-width: 1500px; margin: 0 auto; }
+  .gallery-section h2 { color: var(--bone); }
+  .gallery-section h2 em { color: var(--caution); }
+  .gallery-section .section-lede { color: rgba(245,241,230,0.75); }
+  .gallery-head { margin-bottom: 50px; }
+  .gallery-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 14px; }
+  .project { position: relative; overflow: hidden; cursor: pointer; }
+  .project.lg { grid-column: span 7; aspect-ratio: 16/9; }
+  .project.md { grid-column: span 5; aspect-ratio: 4/3; }
+  .project.sq { grid-column: span 4; aspect-ratio: 1; }
+  .project.wide { grid-column: span 8; aspect-ratio: 21/9; }
+  .project-photo { position: absolute; inset: 0; transition: transform 0.6s; }
+  .project-photo.t1 { background: linear-gradient(180deg, #4A6B4F 0%, #1F3528 60%, #0F1810 100%); }
+  .project-photo.t1::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 40%, rgba(255,106,26,0.3) 0%, transparent 45%); }
+  .project-photo.t2 { background: linear-gradient(165deg, #6B5544 0%, #2A2018 60%, #0F0A07 100%); }
+  .project-photo.t2::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 60%, rgba(244,196,48,0.25) 0%, transparent 50%); }
+  .project-photo.t3 { background: linear-gradient(180deg, #5A6B4F 0%, #2A3B26 60%, #0F1810 100%); }
+  .project-photo.t4 { background: linear-gradient(135deg, #4A382A 0%, #1F1812 60%, #0A0805 100%); }
+  .project-photo.t4::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 30%, rgba(255,106,26,0.4) 0%, transparent 40%); }
+  .project-photo.t5 { background: linear-gradient(180deg, #6B7C5F 0%, #2D4A2F 70%, #0F1810 100%); }
+  .project:hover .project-photo { transform: scale(1.04); }
+  .project::before {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60%;
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,0.85)); z-index: 1;
+  }
+  .project-info {
+    position: absolute; bottom: 18px; left: 18px; right: 18px; z-index: 2; color: var(--bone);
+  }
+  .project-info .meta { font-family: 'Oswald'; font-weight: 700; font-size: 11px; letter-spacing: 0.18em; color: var(--caution); margin-bottom: 6px; text-transform: uppercase; }
+  .project-info .title { font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; line-height: 1.1; letter-spacing: -0.015em; }
+  .project-info .stats { font-size: 12px; color: rgba(245,241,230,0.75); margin-top: 6px; }
+
+  /* GUARANTEE / SAFETY */
+  .safety-section { background: var(--paper); padding: 100px 28px; }
+  .safety-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: center; }
+  .safety-stamp {
+    aspect-ratio: 1/1; max-width: 380px; margin: 0 auto; position: relative;
+    background: var(--cream);
+    border: 3px solid var(--forest);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 30px;
+    box-shadow: 8px 8px 0 var(--safety);
+  }
+  .safety-stamp::before { content: ''; position: absolute; inset: 14px; border: 1px solid var(--forest); }
+  .safety-stamp .label { font-family: 'Oswald'; font-size: 11px; letter-spacing: 0.22em; color: var(--safety); margin-bottom: 12px; font-weight: 700; }
+  .safety-stamp h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(1.8rem, 3vw, 2.4rem); line-height: 1; }
+  .safety-stamp h3 em { font-style: italic; color: var(--safety); }
+  .safety-stamp .em { font-family: 'Oswald'; font-weight: 700; font-size: clamp(2.8rem, 5vw, 4rem); color: var(--forest); line-height: 1; margin: 14px 0; display: block; letter-spacing: 0.02em; }
+  .safety-stamp .since { font-family: 'Oswald'; font-size: 10px; letter-spacing: 0.22em; color: var(--gray); margin-top: 14px; text-transform: uppercase; font-weight: 600; }
+  .safety-text ul { list-style: none; margin-top: 24px; }
+  .safety-text li {
+    padding: 14px 0; font-size: 16px; line-height: 1.5;
+    border-bottom: 1px solid rgba(31,53,40,0.15);
+    display: grid; grid-template-columns: 24px 1fr; gap: 14px; align-items: baseline;
+  }
+  .safety-text li::before { content: '◆'; color: var(--safety); font-size: 12px; }
+  .safety-text li strong { font-family: 'Fraunces'; font-weight: 600; color: var(--forest-deep); }
+
+  /* PROCESS */
+  .process-section { background: var(--cream); padding: 100px 28px; }
+  .process-inner { max-width: 1500px; margin: 0 auto; }
+  .process-head { text-align: center; margin-bottom: 60px; }
+  .process-head h2 { margin: 0 auto; max-width: 700px; }
+  .process-head .section-lede { margin: 18px auto 0; }
+  .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+  .step {
+    background: var(--bone); padding: 32px;
+    border-left: 4px solid var(--safety);
+    position: relative;
+  }
+  .step:nth-child(2) { border-left-color: var(--forest); }
+  .step:nth-child(3) { border-left-color: var(--bark); }
+  .step:nth-child(4) { border-left-color: var(--moss); }
+  .step .num {
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 56px; line-height: 1;
+    color: var(--safety); margin-bottom: 18px;
+  }
+  .step:nth-child(2) .num { color: var(--forest); }
+  .step:nth-child(3) .num { color: var(--bark); }
+  .step:nth-child(4) .num { color: var(--moss); }
+  .step .lbl { font-family: 'Oswald'; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gray); font-weight: 700; margin-bottom: 8px; }
+  .step h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; line-height: 1.05; margin-bottom: 8px; letter-spacing: -0.02em; }
+  .step p { color: var(--char); font-size: 14px; line-height: 1.55; }
+
+  /* REVIEWS */
+  .reviews { padding: 100px 28px; max-width: 1500px; margin: 0 auto; }
+  .reviews-head { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px; }
+  .reviews-stat { background: var(--forest); color: var(--cream); padding: 22px; }
+  .reviews-stat .top { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; }
+  .reviews-stat .stars { color: var(--caution); font-size: 22px; letter-spacing: 2px; }
+  .reviews-stat .num { font-family: 'Fraunces'; font-weight: 600; font-size: 32px; }
+  .reviews-stat small { font-family: 'Oswald'; font-size: 11px; color: var(--caution); display: block; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 4px; font-weight: 600; }
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .review {
+    background: var(--cream); padding: 28px;
+    display: flex; flex-direction: column; gap: 14px; border-left: 4px solid var(--safety);
+  }
+  .review:nth-child(2) { border-left-color: var(--forest); }
+  .review:nth-child(3) { border-left-color: var(--bark); }
+  .review .stars { color: var(--caution); font-size: 16px; letter-spacing: 1px; }
+  .review p { font-family: 'Fraunces', serif; font-weight: 400; font-size: 16px; line-height: 1.55; color: var(--char); flex: 1; }
+  .review .who { padding-top: 14px; border-top: 1px solid rgba(31,53,40,0.1); display: flex; gap: 12px; align-items: center; }
+  .review-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--forest); color: var(--cream); display: flex; align-items: center; justify-content: center; font-family: 'Fraunces'; font-weight: 600; font-size: 14px; }
+  .review:nth-child(2) .review-avatar { background: var(--safety); color: var(--forest-deep); }
+  .review:nth-child(3) .review-avatar { background: var(--bark); color: var(--cream); }
+  .review .who div { line-height: 1.3; }
+  .review .who strong { font-size: 14px; font-weight: 700; display: block; font-family: 'Inter'; }
+  .review .who span { font-family: 'Oswald'; font-size: 10px; color: var(--gray); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; }
+
+  /* AREAS */
+  .areas { background: var(--paper); padding: 100px 28px; }
+  .areas-inner { max-width: 1500px; margin: 0 auto; }
+  .areas-head { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: end; margin-bottom: 40px; }
+  .areas-head p { color: var(--char); font-size: 16px; line-height: 1.55; max-width: 400px; justify-self: end; }
+  .areas-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .area-tile {
+    background: var(--cream); padding: 16px 14px; border: 1px solid rgba(31,53,40,0.15);
+    font-family: 'Oswald'; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 0.02em;
+    transition: all 0.15s; cursor: pointer; line-height: 1.05;
+  }
+  .area-tile:hover { background: var(--forest); color: var(--cream); border-color: var(--forest); }
+  .area-tile small { display: block; font-family: 'Inter'; font-size: 9px; color: var(--gray); letter-spacing: 0.18em; margin-top: 4px; font-weight: 500; }
+  .area-tile:hover small { color: var(--caution); }
+
+  /* FINAL CTA */
+  .final-cta {
+    background: var(--forest); color: var(--bone); padding: 100px 28px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .final-cta::before, .final-cta::after {
+    content: ''; position: absolute; left: 0; right: 0; height: 6px;
+    background-image: repeating-linear-gradient(45deg, var(--safety) 0, var(--safety) 16px, var(--forest) 16px, var(--forest) 32px);
+  }
+  .final-cta::before { top: 0; }
+  .final-cta::after { bottom: 0; }
+  .final-cta-inner { max-width: 800px; margin: 0 auto; }
+  .final-cta h2 { color: var(--bone); margin-bottom: 18px; }
+  .final-cta h2 em { color: var(--caution); }
+  .final-cta p { font-size: 18px; color: rgba(245,241,230,0.8); max-width: 540px; margin: 0 auto 32px; line-height: 1.55; }
+  .final-cta .actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  footer { background: var(--forest-deep); color: var(--cream); padding: 60px 28px 24px; }
+  .foot-grid { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; padding-bottom: 36px; border-bottom: 1px solid rgba(245,241,230,0.1); }
+  .foot-brand p { color: rgba(245,241,230,0.7); font-size: 13px; line-height: 1.6; max-width: 320px; margin-top: 14px; }
+  .foot-brand .lic { font-family: 'Oswald'; font-size: 11px; color: var(--caution); margin-top: 14px; letter-spacing: 0.06em; line-height: 1.6; font-weight: 600; }
+  footer h4 { font-family: 'Oswald'; font-size: 13px; font-weight: 700; margin-bottom: 14px; color: var(--caution); letter-spacing: 0.06em; text-transform: uppercase; }
+  footer ul { list-style: none; }
+  footer ul li { padding: 4px 0; }
+  footer ul a { color: rgba(245,241,230,0.7); text-decoration: none; font-size: 13px; }
+  footer ul a:hover { color: var(--bone); }
+  .foot-bot { max-width: 1500px; margin: 0 auto; padding-top: 22px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; font-family: 'Oswald'; font-size: 11px; color: rgba(245,241,230,0.5); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; }
+
+  .sticky-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+    background: var(--forest); border-top: 3px solid var(--safety);
+    padding: 10px; display: flex; gap: 8px;
+  }
+  .sticky-bar a {
+    flex: 1; padding: 14px; text-align: center; font-family: 'Oswald'; font-weight: 700; font-size: 14px;
+    letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none;
+  }
+  .sticky-bar a.call { background: var(--safety); color: var(--forest-deep); }
+  .sticky-bar a.quote { background: transparent; color: var(--cream); border: 2px solid var(--cream); }
+  @media (min-width: 800px) { .sticky-bar { display: none; } }
+
+  @media (max-width: 1000px) {
+    .hero-grid, .svcs-head, .reviews-head, .areas-head, .safety-inner { grid-template-columns: 1fr; gap: 32px; }
+    .svcs-head .right, .areas-head p { justify-self: start; }
+    .hero-trust, .cred-strip-inner { grid-template-columns: 1fr 1fr; gap: 14px; }
+    .nav-mid { display: none; }
+    .nav-phone small { display: none; }
+    .svc-grid, .reviews-grid, .process-grid { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: 1fr; }
+    .project.lg, .project.md, .project.sq, .project.wide { grid-column: 1; aspect-ratio: 4/3; }
+    .areas-grid { grid-template-columns: 1fr 1fr; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: span 2; }
+    .topbar, nav, .hero, .section, .gallery-section, .process-section, .safety-section, .reviews, .areas, .final-cta, footer, .cred-strip { padding-left: 18px; padding-right: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="alert">24/7 STORM RESPONSE — TREE DOWN, BLOCKED DRIVE, EMERGENCY REMOVAL</span>
+  <span><a href="tel:15035550213">☎ (503) 555-0213</a></span>
+</div>
+
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-mark">W</div>
+    <div class="logo-text">
+      <strong>Westwood</strong>
+      <small>TREE CARE · PORTLAND · EST. 2003</small>
+    </div>
+  </a>
+  <div class="nav-mid">
+    <a href="#services">Services</a>
+    <a href="#gallery">Recent work</a>
+    <a href="#process">Process</a>
+    <a href="#safety">Credentials</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#areas">Service area</a>
+  </div>
+  <div class="nav-end">
+    <a href="tel:15035550213" class="nav-phone">(503) 555-0213<small>24/7 STORM LINE</small></a>
+    <a href="#quote" class="nav-cta">Free estimate →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <span class="hero-eyebrow">ISA CERTIFIED ARBORISTS · TCIA ACCREDITED · SINCE 2003</span>
+      <h1 class="hero-h serif">Scientific tree care<br>for the <em>Pacific Northwest.</em></h1>
+      <p class="hero-lede">Westwood is staffed by <strong>ISA Certified Arborists</strong> — credentialed scientists, not landscapers with a chainsaw. Removals, prunes, storm response, plant-health programs. <strong>TCIA-accredited.</strong> ANSI Z133 compliant. $5M insured. We take the call before the next storm.</p>
+      <div class="hero-actions">
+        <a href="#quote" class="btn-primary">Free estimate →</a>
+        <a href="tel:15035550213" class="btn-ghost">☎ (503) 555-0213</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-cell"><div class="stars">★★★★★</div><strong>4.9 / 894</strong><small>GOOGLE REVIEWS</small></div>
+        <div class="trust-cell"><strong>23 yrs</strong><small>FAMILY-OWNED · SINCE 2003</small></div>
+        <div class="trust-cell"><strong>ISA CA</strong><small>CERTIFIED ARBORISTS ON STAFF</small></div>
+        <div class="trust-cell"><strong>$5M</strong><small>FULLY INSURED + WORKERS' COMP</small></div>
+      </div>
+    </div>
+
+    <div class="hero-form" id="quote">
+      <h3 class="serif">Free estimate</h3>
+      <div class="sub">No high-pressure sales. Written quote within 48 hours.</div>
+      <div class="field">
+        <label>Your name</label>
+        <input type="text" placeholder="First &amp; last">
+      </div>
+      <div class="field">
+        <label>Phone</label>
+        <input type="tel" placeholder="(503) 555-0123">
+      </div>
+      <div class="field">
+        <label>What do you need?</label>
+        <select>
+          <option>Pick one…</option>
+          <option>⚠ EMERGENCY — tree down or blocking</option>
+          <option>Tree removal</option>
+          <option>Pruning / trimming</option>
+          <option>Stump grinding</option>
+          <option>Plant health care / pest treatment</option>
+          <option>Storm cleanup</option>
+          <option>Risk assessment</option>
+          <option>Commercial / HOA</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Property zip</label>
+        <input type="text" placeholder="97214">
+      </div>
+      <button onclick="event.preventDefault(); alert('Real site books estimate.');">Schedule estimate →</button>
+      <div class="stamp">✓ ISA CERTIFIED ARBORIST ON EVERY VISIT · ✓ <strong>FREE ON-SITE ESTIMATE</strong></div>
+    </div>
+  </div>
+</section>
+
+<div class="cred-strip">
+  <div class="cred-strip-inner">
+    <div class="cred"><div class="cred-name">ISA CERTIFIED</div><div class="cred-sub">3 ARBORISTS ON STAFF</div></div>
+    <div class="cred"><div class="cred-name">TCIA ACCREDITED</div><div class="cred-sub">SAFETY &amp; STANDARDS</div></div>
+    <div class="cred"><div class="cred-name">ANSI Z133</div><div class="cred-sub">SAFETY-COMPLIANT</div></div>
+    <div class="cred"><div class="cred-name">$5M INSURED</div><div class="cred-sub">+ WORKERS' COMP</div></div>
+  </div>
+</div>
+
+<section class="section" id="services">
+  <div class="svcs-head">
+    <div>
+      <span class="section-eye">SERVICES · ALL CREDENTIALED</span>
+      <h2 class="serif">What we <em>handle.</em></h2>
+      <p class="section-lede">Every job — emergency or scheduled — is led by an ISA Certified Arborist and crewed by full-time, ground-trained climbers. Never day-laborers, never subcontractors.</p>
+    </div>
+    <div class="right">
+      Plant health care?<br>
+      Spotted pest, dieback, fungal issue, or just a tree that "doesn't look right" — we run a free diagnostic visit.
+    </div>
+  </div>
+  <div class="svc-grid">
+    <div class="svc urgent">
+      <div class="num">⚠ 24/7 EMERGENCY</div>
+      <h3>Storm response &amp; emergency removal</h3>
+      <p>Tree down on the house, in the driveway, across the road. We dispatch within 60 minutes, 24/7, year-round. Crane removals available within 4 hours.</p>
+      <div class="from">CALL DIRECT · (503) 555-0213</div>
+    </div>
+    <div class="svc">
+      <div class="num">SVC. 02</div>
+      <h3 class="serif">Tree removal</h3>
+      <p>Hazardous, dead, dying, or just in the wrong place. Sectional climb, crane, or full felling depending on access. Stump-grind included or à la carte.</p>
+      <div class="from">FROM $485 · FREE ESTIMATE</div>
+    </div>
+    <div class="svc">
+      <div class="num">SVC. 03</div>
+      <h3 class="serif">Pruning &amp; trimming</h3>
+      <p>Crown thinning, deadwooding, structural pruning, clearance from house and lines. ANSI A300 standards, every cut.</p>
+      <div class="from">FROM $385 · ARBORIST-LED</div>
+    </div>
+    <div class="svc">
+      <div class="num">SVC. 04</div>
+      <h3 class="serif">Stump grinding</h3>
+      <p>Below-grade grinding to 8—10 inches. Chip haul-off included. Same-day on most properties. Hard-to-reach stumps no problem.</p>
+      <div class="from">FROM $185 · STUMP &amp; HAUL</div>
+    </div>
+    <div class="svc">
+      <div class="num">SVC. 05</div>
+      <h3 class="serif">Plant health care</h3>
+      <p>Soil testing, deep-root fertilization, pest &amp; disease diagnosis, treatment. Recurring care plans for high-value or specimen trees.</p>
+      <div class="from">FROM $129/VISIT · CARE PLANS</div>
+    </div>
+    <div class="svc">
+      <div class="num">SVC. 06</div>
+      <h3 class="serif">Commercial &amp; HOA</h3>
+      <p>Property-wide tree inventories, risk assessments, scheduled maintenance contracts. Net-30 billing. Meeting attendance for boards.</p>
+      <div class="from">CUSTOM CONTRACTS · NET-30</div>
+    </div>
+  </div>
+</section>
+
+<div class="gallery-section" id="gallery">
+  <div class="gallery-inner">
+    <div class="gallery-head">
+      <span class="section-eye">RECENT FIELD WORK</span>
+      <h2 class="serif">Removals &amp; rescues<br><em>from this month.</em></h2>
+      <p class="section-lede">A small selection of recent jobs, each documented by our crew. From a leaning Doug-fir over a kid's playground to a windthrow rescue at 3 a.m.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="project lg">
+        <div class="project-photo t1"></div>
+        <div class="project-info">
+          <div class="meta">PORTLAND · IRVINGTON · EMERGENCY</div>
+          <div class="title">120-ft Doug-fir on the garage roof</div>
+          <div class="stats">3 a.m. dispatch · crane removal · 6 hrs</div>
+        </div>
+      </div>
+      <div class="project sq">
+        <div class="project-photo t2"></div>
+        <div class="project-info">
+          <div class="meta">LAKE OSWEGO</div>
+          <div class="title">Heritage oak structural prune</div>
+          <div class="stats">ISA-led · ANSI A300 · 1 day</div>
+        </div>
+      </div>
+      <div class="project md">
+        <div class="project-photo t3"></div>
+        <div class="project-info">
+          <div class="meta">BEAVERTON · STORM CLEANUP</div>
+          <div class="title">Three windthrows, clear &amp; haul</div>
+          <div class="stats">Same-day · 8 hrs · debris hauled</div>
+        </div>
+      </div>
+      <div class="project md">
+        <div class="project-photo t4"></div>
+        <div class="project-info">
+          <div class="meta">SE PORTLAND · NIGHT WORK</div>
+          <div class="title">Hazard maple over child's bedroom</div>
+          <div class="stats">Sectional climb · 2 days · stump ground</div>
+        </div>
+      </div>
+      <div class="project sq">
+        <div class="project-photo t5"></div>
+        <div class="project-info">
+          <div class="meta">HILLSBORO · HOA CONTRACT</div>
+          <div class="title">Annual community tree audit</div>
+          <div class="stats">217 trees · risk-rated · 2 weeks</div>
+        </div>
+      </div>
+      <div class="project lg">
+        <div class="project-photo t1"></div>
+        <div class="project-info">
+          <div class="meta">WEST LINN · PLANT HEALTH</div>
+          <div class="title">Specimen Japanese maple — fungal recovery</div>
+          <div class="stats">8-month treatment plan · saved</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="process-section" id="process">
+  <div class="process-inner">
+    <div class="process-head">
+      <span class="section-eye">HOW WE WORK</span>
+      <h2 class="serif">Four steps. <em>One arborist.</em><br>Start to finish.</h2>
+      <p class="section-lede">Same arborist who scopes the job runs the crew that does it. No bait-and-switch, no surprise add-ons mid-day.</p>
+    </div>
+    <div class="process-grid">
+      <div class="step">
+        <div class="num">01</div>
+        <div class="lbl">DAY 1</div>
+        <h3 class="serif">On-site assessment</h3>
+        <p>Certified arborist walks the property, photographs every tree in the scope, identifies risks, and emails a written quote within 48 hours.</p>
+      </div>
+      <div class="step">
+        <div class="num">02</div>
+        <div class="lbl">SCHEDULING</div>
+        <h3 class="serif">Permit &amp; plan</h3>
+        <p>If your city requires a tree-cutting permit, we pull it. Crews are scheduled, neighbors notified, and a clear arrival window is texted to you.</p>
+      </div>
+      <div class="step">
+        <div class="num">03</div>
+        <div class="lbl">CREW DAY</div>
+        <h3 class="serif">Climb, cut, clean</h3>
+        <p>Same arborist on-site. ANSI Z133 setup, fall zones marked, traffic control if needed. Property protected, work tested, area cleaned end-of-day.</p>
+      </div>
+      <div class="step">
+        <div class="num">04</div>
+        <div class="lbl">FINISH</div>
+        <h3 class="serif">Walk-through &amp; haul</h3>
+        <p>Final walk-through with you, all chips and debris hauled or chipped on-site as you prefer. Stump grinds finished within 5 days if scoped.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="safety-section" id="safety">
+  <div class="safety-inner">
+    <div class="safety-stamp">
+      <div class="label">★ THE WESTWOOD PROMISE ★</div>
+      <h3 class="serif">Every job. <em>Every time.</em></h3>
+      <span class="em">ISA-LED</span>
+      <h3 class="serif">Arborist on every crew.</h3>
+      <div class="since">EST. 2003 · PORTLAND OREGON</div>
+    </div>
+    <div class="safety-text">
+      <span class="section-eye">CREDENTIALS THAT MATTER</span>
+      <h2 class="serif">Why <em>credentials</em> matter<br>(and most "tree guys" don't have them).</h2>
+      <ul>
+        <li><strong>ISA Certified Arborists.</strong> Three on staff. The certification is the standard for scientific tree care — and is required to legally diagnose tree health issues.</li>
+        <li><strong>TCIA-Accredited company.</strong> Fewer than 4% of U.S. tree care companies hold this. It means independently audited safety, training, and consumer practices.</li>
+        <li><strong>ANSI Z133-compliant operations.</strong> The national safety standard. Every climb, every rigging setup, every chainsaw cut follows it.</li>
+        <li><strong>$5M general liability + full workers' comp.</strong> Certificates of insurance available before we set foot on your property.</li>
+        <li><strong>23 years, family-owned, no subcontractors.</strong> Every climber, ground-person, and arborist is a W-2 employee — drug-tested, background-checked, and trained in-house.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<section class="reviews" id="reviews">
+  <div class="reviews-head">
+    <div>
+      <span class="section-eye">★ 800+ PORTLAND TREES</span>
+      <h2 class="serif">"They saved a tree<br>three other companies <em>wanted to remove.</em>"</h2>
+      <p class="section-lede">Real Google reviews from real Portland-metro homeowners. Sorted newest first. Every project verified.</p>
+    </div>
+    <div class="reviews-stat">
+      <div class="top">
+        <span class="stars">★★★★★</span>
+        <span class="num">4.9</span>
+      </div>
+      <small>FROM 894 GOOGLE REVIEWS</small>
+    </div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>3am during the windstorm, Doug-fir on our garage. Westwood had a crane on-site by 6am, tree off by noon, debris gone by 3pm. The arborist explained every cut. Insurance company even called them after to ask for a copy of their report — that's how thorough it was.</p>
+      <div class="who"><div class="review-avatar">DT</div><div><strong>Daniel T.</strong><span>IRVINGTON · 2 WEEKS AGO</span></div></div>
+    </div>
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>Three other companies told me my heritage oak had to come down. Westwood's arborist actually climbed it, did a soil test, found a fungal issue, and put it on a treatment plan. Two years later it's the healthiest tree on the block. Real expertise, not just chainsaws.</p>
+      <div class="who"><div class="review-avatar">SK</div><div><strong>Sarah K.</strong><span>LAKE OSWEGO · 3 WEEKS AGO</span></div></div>
+    </div>
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>Got three quotes. Westwood was middle on price but the only one with a written ANSI-compliant work plan and proof of insurance before they'd even quote. Crew was on-site at 7:30 sharp, gone by 4, lawn pristine. Worth every dollar.</p>
+      <div class="who"><div class="review-avatar">PA</div><div><strong>Priya A.</strong><span>BEAVERTON · LAST MONTH</span></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="areas">
+  <div class="areas-inner">
+    <div class="areas-head">
+      <div>
+        <span class="section-eye">SERVICE AREA</span>
+        <h2 class="serif">Portland metro<br><em>and the valley.</em></h2>
+      </div>
+      <p>Three crews based out of NE Portland, Beaverton, and West Linn. We respond across the metro within an hour for emergencies. <strong>Don't see your city?</strong> We likely cover it — call.</p>
+    </div>
+    <div class="areas-grid">
+      <div class="area-tile">Portland<small>97201—97239</small></div>
+      <div class="area-tile">Beaverton<small>97005—97008</small></div>
+      <div class="area-tile">Lake Oswego<small>97034—97035</small></div>
+      <div class="area-tile">West Linn<small>97068</small></div>
+      <div class="area-tile">Tigard<small>97223—97224</small></div>
+      <div class="area-tile">Hillsboro<small>97123—97124</small></div>
+      <div class="area-tile">Tualatin<small>97062</small></div>
+      <div class="area-tile">Milwaukie<small>97222, 97267</small></div>
+      <div class="area-tile">Gresham<small>97030—97080</small></div>
+      <div class="area-tile">Oregon City<small>97045</small></div>
+      <div class="area-tile">Vancouver<small>98660—98686</small></div>
+      <div class="area-tile">Camas<small>98607</small></div>
+    </div>
+  </div>
+</div>
+
+<div class="final-cta">
+  <div class="final-cta-inner">
+    <span class="section-eye">SCHEDULE A FREE ESTIMATE</span>
+    <h2 class="serif">When the storm hits,<br><em>call the arborist.</em></h2>
+    <p>Free on-site assessment. Written quote within 48 hours. ISA-led every job. 24/7 storm response across the Portland metro.</p>
+    <div class="actions">
+      <a href="#quote" class="btn-primary">Free estimate →</a>
+      <a href="tel:15035550213" class="btn-ghost">☎ (503) 555-0213</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a href="#" class="logo">
+        <div class="logo-mark">W</div>
+        <div class="logo-text">
+          <strong style="color: var(--cream);">Westwood</strong>
+          <small style="color: var(--caution);">TREE CARE · PORTLAND</small>
+        </div>
+      </a>
+      <p>Family-owned, ISA-Certified Arborist-led tree care for the Portland metro since 2003. TCIA accredited, ANSI Z133 compliant, $5M insured. Real arborists, not landscapers with chainsaws.</p>
+      <div class="lic">OR LCB #8423 · ISA PN-7128A · TCIA ACCREDITED · ANSI Z133 · $5M GENERAL LIABILITY</div>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <ul><li><a href="#">24/7 emergency</a></li><li><a href="#">Tree removal</a></li><li><a href="#">Pruning &amp; trimming</a></li><li><a href="#">Stump grinding</a></li><li><a href="#">Plant health care</a></li></ul>
+    </div>
+    <div>
+      <h4>Resources</h4>
+      <ul><li><a href="#">Tree risk assessment</a></li><li><a href="#">PNW tree guide</a></li><li><a href="#">Permit help</a></li><li><a href="#">Reviews</a></li><li><a href="#">FAQ</a></li></ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul><li><a href="tel:15035550213">☎ (503) 555-0213</a></li><li><a href="#">arborist@westwoodtree.co</a></li><li><a href="#">2814 NE Sandy Blvd, PDX</a></li><li><a href="#">24/7 storm line</a></li></ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© 2003—2026 WESTWOOD TREE CARE INC. · PORTLAND, OREGON</span>
+    <span>SCIENTIFIC TREE CARE · PNW</span>
+  </div>
+</footer>
+
+<div class="sticky-bar">
+  <a href="tel:15035550213" class="call">☎ Call now</a>
+  <a href="#quote" class="quote">Free estimate</a>
+</div>
+
+</body>
+</html>

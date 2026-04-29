@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUDS & CO — Laundry, but make it a lounge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400;1,9..144,600&family=DM+Sans:wght@400;500;600;700&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --cream: #F4ECDC;
+    --cream-light: #FBF9F4;
+    --ink: #1E1B16;
+    --terracotta: #D26A3F;
+    --sage: #8AA47A;
+    --sky: #7FB7C9;
+    --paper: #EFE5D2;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1;
+    background-image: radial-gradient(rgba(30,27,22,0.04) 1px, transparent 1px);
+    background-size: 3px 3px; opacity: 0.6;
+  }
+  .display { font-family: 'Fraunces', serif; font-weight: 600; line-height: 0.95; letter-spacing: -0.03em; font-variation-settings: "opsz" 144, "SOFT" 50; }
+  .script { font-family: 'Caveat', cursive; }
+  
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 20px 40px; display: flex; justify-content: space-between; align-items: center;
+    backdrop-filter: blur(12px); background: rgba(244,236,220,0.8);
+    border-bottom: 1px solid rgba(30,27,22,0.06);
+  }
+  .logo { font-family: 'Fraunces', serif; font-weight: 800; font-size: 22px; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
+  .logo .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--terracotta); }
+  .nav-links { display: flex; gap: 32px; align-items: center; font-size: 15px; font-weight: 500; }
+  .nav-links a { color: var(--ink); text-decoration: none; position: relative; }
+  .nav-links a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px; background: var(--ink); transform: scaleX(0); transform-origin: right; transition: transform 0.3s; }
+  .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+  .nav-cta {
+    background: var(--ink); color: var(--cream); padding: 11px 22px; border-radius: 999px;
+    font-weight: 600; font-size: 14px; transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--terracotta); }
+  .nav-cta::after { display: none; }
+  
+  /* HERO */
+  .hero {
+    min-height: 100vh; padding: 130px 40px 60px;
+    display: grid; grid-template-columns: 1.3fr 1fr; gap: 60px; align-items: center;
+    position: relative;
+  }
+  .hero-content { position: relative; z-index: 2; }
+  .availability {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--cream-light); border: 1px solid rgba(30,27,22,0.1);
+    padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 500; margin-bottom: 28px;
+  }
+  .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--sage); position: relative; }
+  .pulse::before { content: ''; position: absolute; inset: -4px; border-radius: 50%; background: var(--sage); opacity: 0.4; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.4; } 50% { transform: scale(1.5); opacity: 0; } }
+  
+  h1 { font-size: clamp(3.5rem, 9vw, 7.8rem); margin-bottom: 32px; }
+  h1 .ital { font-style: italic; color: var(--terracotta); }
+  h1 .underline { position: relative; display: inline-block; }
+  h1 .underline::after {
+    content: ''; position: absolute; bottom: 0.05em; left: -2%; right: -2%; height: 0.12em;
+    background: var(--sky); z-index: -1; opacity: 0.6;
+  }
+  
+  .lede { font-size: 19px; max-width: 460px; color: rgba(30,27,22,0.75); margin-bottom: 36px; }
+  .cta-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--terracotta); color: var(--cream-light); padding: 16px 28px; border-radius: 999px;
+    font-weight: 600; font-size: 15px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px;
+    transition: transform 0.2s, background 0.2s; border: none; cursor: pointer;
+  }
+  .btn-primary:hover { transform: translateY(-2px); background: #b85a32; }
+  .btn-secondary {
+    color: var(--ink); padding: 16px 24px; font-weight: 600; font-size: 15px;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    border-bottom: 1.5px solid var(--ink);
+  }
+  
+  /* hero visual — interior collage */
+  .hero-visual { position: relative; aspect-ratio: 4/5; max-height: 620px; }
+  .photo-frame {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #E8C9A0 0%, #D9AC7E 50%, #C28B5E 100%);
+    border-radius: 12px; overflow: hidden;
+    box-shadow: 0 30px 80px rgba(30,27,22,0.18);
+  }
+  .photo-frame::before {
+    content: ''; position: absolute; inset: 0;
+    background: 
+      radial-gradient(ellipse at 30% 20%, rgba(255,250,230,0.6), transparent 50%),
+      radial-gradient(ellipse at 70% 80%, rgba(210,106,63,0.3), transparent 50%);
+  }
+  /* abstract laundromat scene */
+  .window-row { position: absolute; top: 18%; left: 8%; right: 8%; height: 28%; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .window-row > div {
+    background: linear-gradient(180deg, #FFF8E5 0%, #FFE9B8 50%, #F4D89A 100%);
+    border-radius: 4px 4px 0 0;
+    border: 1.5px solid rgba(30,27,22,0.4);
+    border-bottom: none;
+    position: relative;
+  }
+  .window-row > div::after { content: ''; position: absolute; bottom: 30%; left: 20%; right: 20%; height: 2px; background: rgba(30,27,22,0.3); }
+  .machines { position: absolute; bottom: 12%; left: 8%; right: 8%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .machine {
+    aspect-ratio: 1; background: rgba(255,255,255,0.85); border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: inset 0 0 0 2px rgba(30,27,22,0.1);
+    position: relative;
+  }
+  .machine::before {
+    content: ''; width: 65%; aspect-ratio: 1; border-radius: 50%;
+    background: radial-gradient(circle, rgba(30,27,22,0.05) 30%, rgba(127,183,201,0.4) 60%, rgba(30,27,22,0.15) 100%);
+    border: 2px solid rgba(30,27,22,0.2);
+  }
+  .machine.spin::before { animation: spin 4s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  
+  .plant {
+    position: absolute; top: 45%; right: 5%; width: 90px; height: 130px;
+    background: radial-gradient(ellipse at 50% 100%, var(--sage) 30%, transparent 70%);
+    filter: blur(1px); opacity: 0.85;
+  }
+  .plant::before, .plant::after {
+    content: ''; position: absolute; bottom: 0; width: 4px; background: var(--sage);
+  }
+  .plant::before { left: 40%; height: 80%; transform: rotate(-15deg); transform-origin: bottom; }
+  .plant::after { left: 55%; height: 95%; transform: rotate(8deg); transform-origin: bottom; }
+  
+  .floating-tag {
+    position: absolute; background: var(--cream-light); padding: 14px 18px; border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(30,27,22,0.12); font-size: 13px; font-weight: 500;
+    display: flex; align-items: center; gap: 10px; z-index: 5;
+  }
+  .floating-tag.tag-1 { top: 12%; left: -8%; animation: float 6s ease-in-out infinite; }
+  .floating-tag.tag-2 { bottom: 15%; right: -12%; animation: float 6s ease-in-out infinite 1.5s; }
+  .floating-tag.tag-3 { top: 50%; left: -14%; animation: float 6s ease-in-out infinite 3s; }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .star { color: var(--terracotta); }
+  
+  .scribble {
+    position: absolute; top: 18%; right: 15%; font-family: 'Caveat', cursive;
+    font-size: 22px; color: var(--terracotta); transform: rotate(-8deg); z-index: 4;
+  }
+  .scribble svg { display: block; margin-top: 4px; }
+  
+  /* TRUST STRIP */
+  .trust-strip {
+    background: var(--ink); color: var(--cream-light); padding: 22px 40px;
+    display: flex; gap: 60px; align-items: center; justify-content: center;
+    font-size: 14px; flex-wrap: wrap;
+  }
+  .trust-strip span { display: flex; align-items: center; gap: 10px; opacity: 0.95; }
+  .trust-strip .divider { width: 4px; height: 4px; border-radius: 50%; background: var(--cream-light); opacity: 0.4; }
+  
+  /* HOW IT WORKS */
+  section { padding: 120px 40px; position: relative; z-index: 2; }
+  .container { max-width: 1280px; margin: 0 auto; }
+  .section-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 16px; font-weight: 500; font-family: 'DM Sans', sans-serif; }
+  h2 { font-family: 'Fraunces', serif; font-size: clamp(2.5rem, 5.5vw, 4.5rem); font-weight: 600; line-height: 1.02; letter-spacing: -0.025em; margin-bottom: 24px; font-variation-settings: "opsz" 144, "SOFT" 50; }
+  
+  .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 80px; }
+  .step {
+    background: var(--cream-light); border-radius: 24px; padding: 40px 32px;
+    position: relative; border: 1px solid rgba(30,27,22,0.06);
+    transition: transform 0.3s;
+  }
+  .step:hover { transform: translateY(-4px); }
+  .step-num {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 80px; font-weight: 400;
+    line-height: 1; color: var(--terracotta); opacity: 0.85;
+  }
+  .step-num sup { font-size: 30px; vertical-align: super; }
+  .step h3 { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 600; margin: 16px 0 12px; letter-spacing: -0.02em; }
+  .step p { font-size: 15px; color: rgba(30,27,22,0.7); }
+  .step-emoji { position: absolute; top: 32px; right: 32px; font-size: 32px; }
+  
+  /* SERVICE TIERS */
+  .tiers { background: var(--paper); border-radius: 32px; padding: 80px 60px; margin: 0 40px; }
+  .tiers-head { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; margin-bottom: 60px; }
+  .tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .tier {
+    background: var(--cream-light); border-radius: 20px; padding: 36px 32px;
+    border: 1px solid rgba(30,27,22,0.08);
+    display: flex; flex-direction: column;
+  }
+  .tier.featured { background: var(--ink); color: var(--cream-light); }
+  .tier.featured .price { color: var(--cream-light); }
+  .tier.featured h3 { color: var(--cream-light); }
+  .tier-tag { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; opacity: 0.6; margin-bottom: 12px; }
+  .tier h3 { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 16px; }
+  .price { font-family: 'Fraunces', serif; font-size: 56px; font-weight: 600; line-height: 1; margin-bottom: 8px; }
+  .price-unit { font-size: 16px; font-weight: 400; color: rgba(30,27,22,0.5); margin-bottom: 28px; font-family: 'DM Sans'; }
+  .tier.featured .price-unit { color: rgba(255,255,255,0.5); }
+  .tier ul { list-style: none; flex: 1; margin-bottom: 32px; }
+  .tier li { padding: 8px 0; font-size: 15px; display: flex; gap: 10px; align-items: flex-start; border-bottom: 1px solid rgba(30,27,22,0.06); }
+  .tier.featured li { border-color: rgba(255,255,255,0.08); }
+  .tier li::before { content: '→'; color: var(--terracotta); font-weight: 700; flex-shrink: 0; }
+  .tier-cta {
+    text-align: center; padding: 14px; border-radius: 999px;
+    background: transparent; border: 1.5px solid var(--ink); color: var(--ink);
+    font-weight: 600; text-decoration: none; transition: all 0.2s;
+  }
+  .tier-cta:hover { background: var(--ink); color: var(--cream-light); }
+  .tier.featured .tier-cta { background: var(--terracotta); border-color: var(--terracotta); color: var(--cream-light); }
+  .tier.featured .tier-cta:hover { background: #b85a32; }
+  
+  /* MACHINE BOARD */
+  .board-section { background: var(--ink); color: var(--cream-light); margin-top: 60px; }
+  .board-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; }
+  .board-section h2 { color: var(--cream-light); }
+  .board-section .section-label { color: var(--sky); }
+  .board-section p { color: rgba(255,255,255,0.7); max-width: 460px; margin-bottom: 32px; }
+  
+  .board {
+    background: #0E0B07; border-radius: 16px; padding: 28px;
+    font-family: 'JetBrains Mono', monospace; font-family: 'DM Sans';
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .board-header { display: flex; justify-content: space-between; padding-bottom: 16px; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.6; letter-spacing: 0.15em; text-transform: uppercase; }
+  .machine-row { display: grid; grid-template-columns: 60px 1fr 100px 80px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center; gap: 16px; }
+  .machine-row:last-child { border: none; }
+  .machine-id { font-weight: 600; }
+  .machine-status { font-size: 13px; }
+  .machine-time { font-family: 'Fraunces', serif; font-size: 18px; }
+  .badge {
+    padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+    text-align: center; letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .badge.available { background: rgba(138,164,122,0.2); color: var(--sage); }
+  .badge.running { background: rgba(127,183,201,0.2); color: var(--sky); }
+  .badge.full { background: rgba(210,106,63,0.2); color: var(--terracotta); }
+  
+  /* TESTIMONIAL */
+  .testimonial-section { padding: 140px 40px; }
+  .testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .review {
+    background: var(--cream-light); padding: 32px; border-radius: 20px;
+    border: 1px solid rgba(30,27,22,0.06);
+  }
+  .stars { color: var(--terracotta); margin-bottom: 16px; font-size: 18px; }
+  .review-text { font-family: 'Fraunces', serif; font-size: 21px; line-height: 1.45; font-weight: 400; margin-bottom: 24px; letter-spacing: -0.01em; }
+  .review-text::before { content: '"'; font-style: italic; }
+  .review-text::after { content: '"'; font-style: italic; }
+  .reviewer { display: flex; align-items: center; gap: 12px; }
+  .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--sage); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; }
+  .avatar.t { background: var(--terracotta); }
+  .avatar.s { background: var(--sky); }
+  .reviewer-info strong { display: block; font-size: 14px; }
+  .reviewer-info span { font-size: 13px; color: rgba(30,27,22,0.5); }
+  
+  /* CTA SECTION */
+  .final-cta {
+    background: var(--terracotta); color: var(--cream-light);
+    margin: 60px 40px; border-radius: 32px; padding: 100px 60px;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .final-cta::before {
+    content: ''; position: absolute; top: -50%; right: -20%; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
+    border-radius: 50%;
+  }
+  .final-cta h2 { color: var(--cream-light); font-style: italic; max-width: 800px; margin: 0 auto 32px; position: relative; z-index: 1; }
+  .final-cta .btn-primary { background: var(--ink); color: var(--cream-light); position: relative; z-index: 1; }
+  .final-cta .btn-primary:hover { background: var(--cream-light); color: var(--ink); }
+  
+  /* FOOTER */
+  footer { padding: 80px 40px 40px; background: var(--paper); }
+  .footer-grid { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 60px; border-bottom: 1px solid rgba(30,27,22,0.1); }
+  .footer-brand h3 { font-family: 'Fraunces', serif; font-size: 64px; font-weight: 800; line-height: 0.9; letter-spacing: -0.03em; margin-bottom: 20px; }
+  .footer-brand p { font-style: italic; font-family: 'Fraunces', serif; font-size: 22px; color: rgba(30,27,22,0.7); max-width: 360px; }
+  footer h4 { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 18px; opacity: 0.6; }
+  footer ul { list-style: none; }
+  footer ul li { padding: 6px 0; }
+  footer ul a { color: var(--ink); text-decoration: none; font-size: 15px; }
+  footer ul a:hover { color: var(--terracotta); }
+  .colophon { max-width: 1280px; margin: 30px auto 0; display: flex; justify-content: space-between; font-size: 13px; opacity: 0.5; }
+  
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding: 110px 24px 40px; }
+    .hero-visual { max-width: 400px; margin: 0 auto; }
+    .steps-grid, .tier-grid, .testimonial-grid { grid-template-columns: 1fr; }
+    .tiers, .final-cta { margin: 0 20px; padding: 60px 30px; }
+    .tiers-head, .board-grid { grid-template-columns: 1fr; gap: 30px; }
+    section { padding: 80px 24px; }
+    nav { padding: 16px 20px; }
+    .nav-links a:not(.nav-cta) { display: none; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .footer-brand { grid-column: span 2; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><span class="dot"></span>SUDS &amp; CO</div>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#tiers">Services</a>
+    <a href="#locations">Locations</a>
+    <a href="#" class="nav-cta">Order ahead</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="availability">
+      <div class="pulse"></div>
+      Open now · 12 of 18 machines available
+    </div>
+    <h1 class="display">Laundry,<br>but make it a<br><span class="ital">lounge.</span></h1>
+    <p class="lede">Fast machines, slow coffee, sun through tall windows. Bring your basket — we'll bring the playlist, the pastries, and free wifi while you wait.</p>
+    <div class="cta-row">
+      <a href="#" class="btn-primary">Order ahead →</a>
+      <a href="#" class="btn-secondary">See locations</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="scribble">free coffee while you wait
+      <svg width="60" height="20" viewBox="0 0 60 20"><path d="M2 14 Q 20 2, 40 12 T 58 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+    </div>
+    <div class="floating-tag tag-1">☕ Stumptown drip — on us</div>
+    <div class="floating-tag tag-2"><span class="star">★ 4.9</span> · 2,847 reviews</div>
+    <div class="floating-tag tag-3">⏱ Avg 32 min wash</div>
+    <div class="photo-frame">
+      <div class="window-row">
+        <div></div><div></div><div></div>
+      </div>
+      <div class="plant"></div>
+      <div class="machines">
+        <div class="machine spin"></div>
+        <div class="machine"></div>
+        <div class="machine spin"></div>
+        <div class="machine"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust-strip">
+  <span>★★★★★ 4.9 on Google</span>
+  <span class="divider"></span>
+  <span>📍 6 locations across Portland</span>
+  <span class="divider"></span>
+  <span>♻ Energy Star certified</span>
+  <span class="divider"></span>
+  <span>🪙 No quarters needed</span>
+</div>
+
+<section id="how">
+  <div class="container">
+    <div class="section-label">How it works</div>
+    <h2>Three steps. <em style="font-style:italic; color: var(--terracotta);">One coffee.</em></h2>
+    <div class="steps-grid">
+      <div class="step">
+        <span class="step-emoji">🧺</span>
+        <div class="step-num">01</div>
+        <h3>Drop &amp; load</h3>
+        <p>Tap your card on any machine. Pick a cycle from the app — Quick, Eco, or our Heavy Duty for blankets and gym bags.</p>
+      </div>
+      <div class="step">
+        <span class="step-emoji">☕</span>
+        <div class="step-num">02</div>
+        <h3>Sip &amp; chill</h3>
+        <p>Plant yourself in a window seat. Drip coffee, fresh pastry, fast wifi. Or skip ahead with our drop-off service.</p>
+      </div>
+      <div class="step">
+        <span class="step-emoji">✨</span>
+        <div class="step-num">03</div>
+        <h3>Fold &amp; go</h3>
+        <p>Get a ping when your laundry's done. Use our fold tables, grab a hanger, head out feeling lighter.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tiers" style="padding: 0 0 60px;">
+  <div class="tiers">
+    <div class="tiers-head">
+      <div>
+        <div class="section-label">Three ways in</div>
+        <h2>Pick your speed.</h2>
+      </div>
+      <p style="font-size: 17px; color: rgba(30,27,22,0.7);">Whether you've got an hour to kill or you'd rather not see your laundry at all, there's a flavor of Suds for that.</p>
+    </div>
+    <div class="tier-grid">
+      <div class="tier">
+        <div class="tier-tag">Self-serve</div>
+        <h3>Wash &amp; lounge</h3>
+        <div class="price">$4.50</div>
+        <div class="price-unit">per standard load</div>
+        <ul>
+          <li>Speed Queen front-loaders</li>
+          <li>Free wifi &amp; outlets at every seat</li>
+          <li>Coffee, tea, sparkling water</li>
+          <li>Open 6am — midnight, 7 days</li>
+        </ul>
+        <a href="#" class="tier-cta">Find a machine</a>
+      </div>
+      <div class="tier featured">
+        <div class="tier-tag" style="opacity:0.7;">Most popular</div>
+        <h3>Drop &amp; dash</h3>
+        <div class="price">$1.85</div>
+        <div class="price-unit">per pound</div>
+        <ul>
+          <li>Wash, dry, fold by the team</li>
+          <li>24-hour turnaround, free</li>
+          <li>Same-day for $5 extra</li>
+          <li>Hypoallergenic detergent option</li>
+        </ul>
+        <a href="#" class="tier-cta">Drop off today</a>
+      </div>
+      <div class="tier">
+        <div class="tier-tag">No-hands</div>
+        <h3>Pickup &amp; deliver</h3>
+        <div class="price">$2.20</div>
+        <div class="price-unit">per pound</div>
+        <ul>
+          <li>Schedule in our app</li>
+          <li>Doorstep pickup, doorstep return</li>
+          <li>Same-day available</li>
+          <li>$15 minimum, free over $40</li>
+        </ul>
+        <a href="#" class="tier-cta">Book a pickup</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="board-section">
+  <div class="container">
+    <div class="board-grid">
+      <div>
+        <div class="section-label" style="color: var(--sky);">Live availability</div>
+        <h2>Check the board before you come.</h2>
+        <p>Every machine in every Suds is connected. See which ones are free, what's left on a cycle, and reserve a washer with a single tap.</p>
+        <a href="#" class="btn-primary" style="background: var(--sky); color: var(--ink);">Open live map →</a>
+      </div>
+      <div class="board">
+        <div class="board-header">
+          <span>Hawthorne — Live</span>
+          <span>11:42 PM</span>
+        </div>
+        <div class="machine-row">
+          <span class="machine-id">W-01</span>
+          <span class="machine-status">Front-load · 18lb</span>
+          <span class="badge available">Available</span>
+          <span class="machine-time">—</span>
+        </div>
+        <div class="machine-row">
+          <span class="machine-id">W-02</span>
+          <span class="machine-status">Front-load · 18lb</span>
+          <span class="badge running">Running</span>
+          <span class="machine-time">12 min</span>
+        </div>
+        <div class="machine-row">
+          <span class="machine-id">W-03</span>
+          <span class="machine-status">XL load · 40lb</span>
+          <span class="badge available">Available</span>
+          <span class="machine-time">—</span>
+        </div>
+        <div class="machine-row">
+          <span class="machine-id">D-01</span>
+          <span class="machine-status">Dryer · gas</span>
+          <span class="badge running">Running</span>
+          <span class="machine-time">04 min</span>
+        </div>
+        <div class="machine-row">
+          <span class="machine-id">D-02</span>
+          <span class="machine-status">Dryer · gas</span>
+          <span class="badge full">Cooling</span>
+          <span class="machine-time">02 min</span>
+        </div>
+        <div class="machine-row">
+          <span class="machine-id">D-03</span>
+          <span class="machine-status">Dryer · gas</span>
+          <span class="badge available">Available</span>
+          <span class="machine-time">—</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonial-section">
+  <div class="container">
+    <div class="section-label">Locals say</div>
+    <h2>Quietly, the best hour<br>of someone's <em style="font-style:italic; color: var(--terracotta);">Sunday.</em></h2>
+    <div class="testimonial-grid" style="margin-top: 60px;">
+      <div class="review">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">Came in for laundry, stayed three hours because the playlist hit. The free coffee is genuinely good. The plants are healthy. Who are these people?</p>
+        <div class="reviewer">
+          <div class="avatar t">M</div>
+          <div class="reviewer-info"><strong>Maya R.</strong><span>Hawthorne · 2 weeks ago</span></div>
+        </div>
+      </div>
+      <div class="review">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">I do drop-off here weekly. They fold like my mom would. The bag smells like lavender. I cannot recommend this strongly enough.</p>
+        <div class="reviewer">
+          <div class="avatar">D</div>
+          <div class="reviewer-info"><strong>David K.</strong><span>Sellwood · 1 month ago</span></div>
+        </div>
+      </div>
+      <div class="review">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">Brought my comforter in expecting nothing. Came home with what felt like a new comforter. Also they let my dog in. Heroes.</p>
+        <div class="reviewer">
+          <div class="avatar s">P</div>
+          <div class="reviewer-info"><strong>Priya S.</strong><span>Alberta · 3 weeks ago</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="final-cta">
+  <div class="section-label" style="color: rgba(255,255,255,0.7);">Get started</div>
+  <h2 class="display">Your laundry's been waiting.<br>Treat it to a <em>nice afternoon.</em></h2>
+  <a href="#" class="btn-primary">Order ahead → </a>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>Suds &amp; Co.</h3>
+      <p>"Probably the best place to do your laundry in Portland." — Probably your friend</p>
+    </div>
+    <div>
+      <h4>Locations</h4>
+      <ul>
+        <li><a href="#">Hawthorne</a></li>
+        <li><a href="#">Sellwood</a></li>
+        <li><a href="#">Alberta</a></li>
+        <li><a href="#">Mississippi</a></li>
+        <li><a href="#">Division</a></li>
+        <li><a href="#">Beaverton</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">Self-serve wash</a></li>
+        <li><a href="#">Drop-off fold</a></li>
+        <li><a href="#">Pickup &amp; delivery</a></li>
+        <li><a href="#">Commercial accounts</a></li>
+        <li><a href="#">Dry cleaning</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Hello</h4>
+      <ul>
+        <li><a href="#">hi@sudsand.co</a></li>
+        <li><a href="#">(503) 555-0142</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press kit</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="colophon">
+    <span>© 2026 Suds &amp; Co. — Made warmly in Portland, OR.</span>
+    <span>Set in Fraunces &amp; DM Sans</span>
+  </div>
+</footer>
+
+</body>
+</html>

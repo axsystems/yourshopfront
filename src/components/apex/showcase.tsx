@@ -42,6 +42,15 @@ export function Showcase({ theme, activeSlug }: ShowcaseProps) {
             </Link>
           ))}
         </div>
+        <div className="mt-10 text-center">
+          <Link
+            href="/portfolio"
+            className="inline-flex items-center gap-1.5 text-base font-bold underline-offset-4 hover:underline"
+            style={{ color: "var(--apex-fg)" }}
+          >
+            See all 24 designs (10 options + 14 custom-build inspiration) →
+          </Link>
+        </div>
       </Container>
     </Section>
   )

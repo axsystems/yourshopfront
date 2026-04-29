@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wildflower &amp; Stone — Florist, apothecary, slow goods.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Upright:wght@500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --cream: #F5EFE0;
+    --cream-deep: #ECE3CD;
+    --paper: #FAF6EA;
+    --ink: #2A2520;
+    --sage: #6B7C5F;
+    --sage-deep: #4D5A45;
+    --rose: #C4A097;
+    --rose-deep: #9E796F;
+    --gold: #B8985F;
+    --gold-deep: #8E7142;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--cream); color: var(--ink);
+    font-family: 'EB Garamond', serif; font-size: 17px; line-height: 1.55;
+    overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: 0.4;
+    background-image: radial-gradient(circle at 1px 1px, rgba(42,37,32,0.05) 0.8px, transparent 0);
+    background-size: 4px 4px;
+  }
+
+  .display { font-family: 'Cormorant Garamond', serif; font-weight: 500; line-height: 0.96; letter-spacing: -0.015em; }
+  .upright { font-family: 'Cormorant Upright', serif; }
+  .mono { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; }
+
+  /* Hand-drawn divider element */
+  .divider-leaf {
+    display: flex; align-items: center; gap: 12px; justify-content: center;
+    color: var(--sage); padding: 8px 0;
+  }
+  .divider-leaf::before, .divider-leaf::after {
+    content: ''; flex: 1; height: 1px; background: var(--sage); opacity: 0.5; max-width: 80px;
+  }
+  .divider-leaf svg { width: 24px; height: 24px; }
+
+  /* TOP BAR */
+  .topbar {
+    background: var(--paper); border-bottom: 1px solid rgba(42,37,32,0.1);
+    padding: 10px 32px; display: flex; justify-content: space-between; align-items: center;
+    font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--sage-deep);
+  }
+  .topbar a { color: inherit; text-decoration: none; }
+  .topbar .pulse::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--sage); margin-right: 8px; }
+
+  /* NAV */
+  nav {
+    background: var(--cream);
+    padding: 26px 32px; display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid rgba(42,37,32,0.1); position: relative; z-index: 5;
+  }
+  .logo {
+    font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 26px; line-height: 1;
+    letter-spacing: -0.005em; display: flex; flex-direction: column; gap: 2px;
+  }
+  .logo small {
+    font-family: 'JetBrains Mono'; font-size: 9px; letter-spacing: 0.25em; color: var(--rose-deep);
+    text-transform: uppercase; font-weight: 400;
+  }
+  .logo .amp { font-style: italic; color: var(--rose-deep); }
+
+  .nav-mid { display: flex; gap: 32px; }
+  .nav-mid a {
+    color: var(--ink); text-decoration: none; font-family: 'EB Garamond', serif;
+    font-size: 16px; font-style: italic;
+  }
+  .nav-mid a:hover { color: var(--rose-deep); }
+  .nav-right { display: flex; gap: 14px; align-items: center; }
+  .nav-icon {
+    color: var(--ink); text-decoration: none; font-size: 13px; padding: 6px 10px;
+    font-family: 'JetBrains Mono'; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .nav-cta {
+    background: var(--ink); color: var(--cream); padding: 12px 22px; border-radius: 0;
+    text-decoration: none; font-family: 'EB Garamond', serif; font-style: italic;
+    font-size: 16px; transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--rose-deep); }
+
+  /* HERO */
+  .hero { padding: 100px 32px 90px; max-width: 1500px; margin: 0 auto; position: relative; z-index: 2; }
+  .hero-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 80px; align-items: center; }
+
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 16px; margin-bottom: 32px;
+    color: var(--sage-deep);
+  }
+  .hero-eyebrow .line { width: 40px; height: 1px; background: currentColor; }
+
+  h1.hero-h {
+    font-family: 'Cormorant Garamond', serif; font-weight: 500;
+    font-size: clamp(3rem, 8.5vw, 8rem); line-height: 0.96; letter-spacing: -0.02em;
+    margin-bottom: 30px;
+  }
+  h1.hero-h em { font-style: italic; color: var(--rose-deep); }
+
+  .hero-lede {
+    font-family: 'EB Garamond', serif; font-size: 19px; line-height: 1.6;
+    max-width: 480px; color: var(--ink); margin-bottom: 36px;
+  }
+  .hero-lede em { font-style: italic; }
+
+  .hero-actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .btn-ink {
+    background: var(--ink); color: var(--cream); padding: 14px 26px;
+    text-decoration: none; font-family: 'EB Garamond', serif; font-size: 16px;
+    transition: background 0.2s; display: inline-flex; gap: 10px; align-items: center;
+  }
+  .btn-ink:hover { background: var(--sage-deep); }
+  .btn-ghost {
+    color: var(--ink); padding: 14px 18px; font-family: 'EB Garamond', serif; font-size: 16px;
+    text-decoration: none; font-style: italic; border-bottom: 1px solid var(--ink);
+  }
+
+  /* hero arrangement */
+  .hero-frame {
+    aspect-ratio: 4/5; border: 1px solid var(--ink); padding: 12px;
+    background: var(--paper); position: relative;
+    box-shadow: 0 25px 60px rgba(42,37,32,0.1);
+  }
+  .hero-frame::before {
+    content: ''; position: absolute; inset: 4px; border: 1px solid var(--ink); pointer-events: none;
+  }
+  .hero-bouquet {
+    width: 100%; height: 100%; position: relative; overflow: hidden;
+    background: linear-gradient(180deg, #E8DDC2 0%, #D9C9A6 60%, #B8A580 100%);
+  }
+  /* abstract bouquet — soft brushed shapes */
+  .hero-bouquet::before {
+    content: ''; position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%);
+    width: 50%; height: 80%;
+    background: 
+      radial-gradient(ellipse at 20% 30%, var(--rose) 0%, transparent 35%),
+      radial-gradient(ellipse at 80% 25%, var(--gold) 0%, transparent 35%),
+      radial-gradient(ellipse at 50% 60%, var(--sage) 0%, transparent 50%),
+      radial-gradient(ellipse at 30% 70%, var(--rose-deep) 0%, transparent 30%),
+      radial-gradient(ellipse at 70% 80%, var(--sage-deep) 0%, transparent 35%);
+    filter: blur(6px); opacity: 0.85;
+  }
+  .hero-bouquet::after {
+    content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 8%; height: 25%;
+    background: linear-gradient(180deg, var(--sage-deep) 0%, var(--sage) 100%);
+    border-radius: 4px 4px 0 0;
+  }
+
+  .frame-tag {
+    position: absolute; top: 24px; right: 24px;
+    background: var(--cream); border: 1px solid var(--ink); padding: 8px 14px;
+    font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    transform: rotate(2deg);
+  }
+  .frame-foot {
+    position: absolute; bottom: 24px; left: 24px; right: 24px; padding: 12px;
+    background: rgba(245,239,224,0.95); border: 1px solid var(--ink);
+    font-family: 'EB Garamond', serif; font-style: italic; font-size: 14px; text-align: center;
+  }
+  .frame-foot strong { font-family: 'Cormorant Upright'; font-size: 18px; font-weight: 500; font-style: normal; display: block; margin-bottom: 4px; }
+
+  /* PRESS BAR */
+  .press-row {
+    background: var(--paper); padding: 30px 32px;
+    border-top: 1px solid rgba(42,37,32,0.12); border-bottom: 1px solid rgba(42,37,32,0.12);
+    position: relative; z-index: 2;
+  }
+  .press-inner { max-width: 1500px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 50px; flex-wrap: wrap; }
+  .press-label { font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.18em; color: var(--sage-deep); text-transform: uppercase; }
+  .press-name { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 22px; color: var(--ink); opacity: 0.7; }
+  .press-name.up { font-family: 'Cormorant Upright'; font-style: normal; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; font-size: 18px; }
+
+  /* SECTIONS */
+  section { padding: 110px 32px; max-width: 1500px; margin: 0 auto; position: relative; z-index: 2; }
+  .section-head { display: grid; grid-template-columns: 1.5fr 1fr; gap: 60px; margin-bottom: 60px; align-items: end; }
+  .section-eye { font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rose-deep); margin-bottom: 18px; }
+  h2 {
+    font-family: 'Cormorant Garamond', serif; font-weight: 500;
+    font-size: clamp(2.5rem, 5.5vw, 4.5rem); line-height: 0.98; letter-spacing: -0.02em;
+  }
+  h2 em { font-style: italic; color: var(--rose-deep); }
+  .section-head p { font-size: 17px; line-height: 1.6; max-width: 380px; justify-self: end; color: rgba(42,37,32,0.8); }
+  .section-head p em { font-style: italic; }
+
+  /* OFFERINGS GRID */
+  .offerings-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+  }
+  .offering {
+    background: var(--paper); border: 1px solid rgba(42,37,32,0.15); padding: 28px;
+    transition: transform 0.4s, border-color 0.3s; cursor: pointer;
+    text-decoration: none; color: var(--ink); display: flex; flex-direction: column; gap: 18px;
+  }
+  .offering:hover { transform: translateY(-4px); border-color: var(--ink); }
+  .offering-image {
+    aspect-ratio: 5/4; position: relative; overflow: hidden; border: 1px solid rgba(42,37,32,0.2);
+  }
+  .offering-image::before {
+    content: ''; position: absolute; inset: 0;
+  }
+  .offering-image.o1::before { 
+    background: 
+      radial-gradient(ellipse at 30% 50%, var(--rose) 0%, transparent 45%),
+      radial-gradient(ellipse at 70% 40%, var(--gold) 0%, transparent 40%),
+      radial-gradient(ellipse at 50% 70%, var(--sage) 0%, transparent 50%),
+      linear-gradient(180deg, #E8DDC2 0%, #BFAA80 100%);
+    filter: blur(2px);
+  }
+  .offering-image.o2::before { 
+    background: 
+      radial-gradient(ellipse at 50% 40%, #8E7142 0%, transparent 50%),
+      radial-gradient(ellipse at 30% 60%, var(--rose-deep) 0%, transparent 40%),
+      linear-gradient(180deg, #D9C9A6 0%, #9E8559 100%);
+    filter: blur(2px);
+  }
+  .offering-image.o3::before { 
+    background: 
+      radial-gradient(ellipse at 50% 50%, #F5EFE0 0%, transparent 60%),
+      radial-gradient(ellipse at 30% 70%, var(--sage) 0%, transparent 40%),
+      linear-gradient(180deg, #E8DDC2 0%, #B8A580 100%);
+    filter: blur(2px);
+  }
+  .offering-image.o4::before { 
+    background: 
+      radial-gradient(ellipse at 50% 50%, var(--gold) 0%, transparent 50%),
+      linear-gradient(180deg, #D9C9A6 0%, #9E8559 100%);
+    filter: blur(2px);
+  }
+  .offering-image.o5::before { 
+    background: 
+      radial-gradient(ellipse at 40% 40%, var(--rose) 0%, transparent 45%),
+      radial-gradient(ellipse at 60% 60%, var(--sage) 0%, transparent 45%),
+      linear-gradient(180deg, #ECE3CD 0%, #B8A580 100%);
+    filter: blur(2px);
+  }
+  .offering-image.o6::before { 
+    background: 
+      radial-gradient(circle at 50% 50%, var(--ink) 0%, transparent 30%),
+      radial-gradient(ellipse at 30% 30%, var(--rose-deep) 0%, transparent 40%),
+      linear-gradient(180deg, #D9C9A6 0%, #806749 100%);
+    filter: blur(2px);
+  }
+  .offering-num {
+    position: absolute; top: 12px; left: 12px;
+    font-family: 'Cormorant Upright'; font-size: 18px; color: var(--cream);
+    background: rgba(42,37,32,0.6); width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center; border-radius: 50%;
+    backdrop-filter: blur(4px);
+  }
+  .offering-meta { display: flex; flex-direction: column; gap: 10px; }
+  .offering-cat { font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--sage-deep); }
+  .offering h3 { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 28px; line-height: 1.05; letter-spacing: -0.015em; }
+  .offering h3 em { font-style: italic; }
+  .offering p { font-size: 15px; line-height: 1.55; color: rgba(42,37,32,0.75); }
+  .offering-bot { display: flex; justify-content: space-between; align-items: baseline; padding-top: 14px; border-top: 1px dashed rgba(42,37,32,0.2); }
+  .offering-price { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 500; }
+  .offering-price em { font-style: italic; color: var(--rose-deep); }
+  .offering-arrow { font-family: 'EB Garamond'; font-style: italic; font-size: 14px; color: var(--rose-deep); }
+
+  /* SUBSCRIPTION */
+  .sub-section { background: var(--cream-deep); padding: 110px 32px; max-width: none; margin: 0; position: relative; }
+  .sub-section::before, .sub-section::after {
+    content: ''; position: absolute; width: 200px; height: 200px; border-radius: 50%;
+    background: radial-gradient(circle, var(--rose) 0%, transparent 60%);
+    opacity: 0.3; filter: blur(40px);
+  }
+  .sub-section::before { top: 10%; left: -5%; }
+  .sub-section::after { bottom: 10%; right: -5%; background: radial-gradient(circle, var(--sage) 0%, transparent 60%); }
+  .sub-inner { max-width: 1500px; margin: 0 auto; position: relative; z-index: 1; }
+  .sub-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; }
+  .sub-text > p { font-size: 18px; line-height: 1.6; max-width: 460px; margin-bottom: 18px; }
+  .sub-text > p em { font-style: italic; color: var(--rose-deep); }
+  .sub-text > p:first-of-type::first-letter {
+    font-family: 'Cormorant Garamond'; font-style: italic; font-size: 5em; line-height: 0.85;
+    float: left; padding: 6px 12px 0 0; color: var(--rose-deep);
+  }
+
+  .sub-tiers { display: flex; flex-direction: column; gap: 16px; }
+  .sub-tier {
+    background: var(--paper); border: 1px solid var(--ink); padding: 24px 28px;
+    display: grid; grid-template-columns: 50px 1fr auto; gap: 20px; align-items: center;
+    transition: background 0.2s, transform 0.2s;
+    text-decoration: none; color: var(--ink); cursor: pointer;
+  }
+  .sub-tier:hover { background: var(--cream); transform: translateX(8px); }
+  .sub-tier.feat { background: var(--ink); color: var(--cream); }
+  .sub-tier.feat:hover { background: var(--sage-deep); }
+  .sub-tier .num { font-family: 'Cormorant Garamond'; font-style: italic; font-size: 36px; color: var(--rose-deep); line-height: 1; }
+  .sub-tier.feat .num { color: var(--gold); }
+  .sub-tier h4 { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 24px; line-height: 1.1; margin-bottom: 4px; }
+  .sub-tier h4 em { font-style: italic; }
+  .sub-tier p { font-size: 14px; opacity: 0.8; line-height: 1.4; }
+  .sub-tier .price { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 500; line-height: 1; text-align: right; }
+  .sub-tier .price small { display: block; font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.15em; opacity: 0.6; margin-top: 4px; text-transform: uppercase; font-weight: 400; }
+
+  /* WORKSHOPS — calendar */
+  .work-section { padding: 110px 32px; max-width: 1500px; margin: 0 auto; }
+  .work-list {
+    border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); margin-top: 50px;
+  }
+  .work-row {
+    display: grid; grid-template-columns: 80px 2fr 1.5fr 1fr 60px;
+    gap: 30px; align-items: center;
+    padding: 28px 14px; border-top: 1px solid rgba(42,37,32,0.15);
+    text-decoration: none; color: var(--ink); transition: padding-left 0.3s, background 0.2s;
+    cursor: pointer;
+  }
+  .work-row:first-child { border-top: none; }
+  .work-row:hover { padding-left: 30px; background: var(--paper); }
+  .work-row:hover h3 { color: var(--rose-deep); font-style: italic; }
+  .work-date {
+    border: 1px solid var(--ink); padding: 8px 4px; text-align: center;
+  }
+  .work-date strong { font-family: 'Cormorant Garamond'; font-size: 28px; font-weight: 500; line-height: 1; display: block; }
+  .work-date span { font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sage-deep); }
+  .work-row h3 { font-family: 'Cormorant Garamond'; font-weight: 500; font-size: 26px; letter-spacing: -0.015em; transition: color 0.2s, font-style 0.2s; }
+  .work-row h3 em { font-style: italic; }
+  .work-meta { font-size: 14px; color: rgba(42,37,32,0.75); }
+  .work-meta strong { display: block; font-family: 'Cormorant Upright'; font-size: 16px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+  .work-price { font-family: 'Cormorant Garamond'; font-size: 22px; font-weight: 500; text-align: right; }
+  .work-price em { font-style: italic; color: var(--rose-deep); }
+  .work-arrow { font-style: italic; font-size: 18px; opacity: 0.4; }
+  .work-row:hover .work-arrow { opacity: 1; color: var(--rose-deep); }
+
+  /* WEDDINGS LARGE FRAMED */
+  .weddings-section { padding: 110px 32px; max-width: 1500px; margin: 0 auto; }
+  .weddings-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: center; }
+  .weddings-text h2 { margin-bottom: 28px; }
+  .weddings-text > p { font-family: 'Cormorant Garamond', serif; font-size: 22px; line-height: 1.4; font-weight: 400; max-width: 540px; margin-bottom: 22px; }
+  .weddings-text > p em { font-style: italic; color: var(--rose-deep); }
+  .weddings-text ul { list-style: none; margin: 30px 0; }
+  .weddings-text li {
+    padding: 14px 0; border-bottom: 1px solid rgba(42,37,32,0.15);
+    display: flex; gap: 16px; align-items: baseline;
+  }
+  .weddings-text li::before { content: ''; width: 6px; height: 6px; background: var(--rose-deep); border-radius: 50%; transform: translateY(-2px); flex-shrink: 0; }
+  .weddings-text li strong { font-family: 'Cormorant Upright'; font-size: 16px; font-weight: 500; }
+  .weddings-text li em { font-style: italic; color: rgba(42,37,32,0.7); margin-left: 4px; }
+
+  .weddings-image {
+    aspect-ratio: 4/5; border: 1px solid var(--ink); padding: 12px; background: var(--paper);
+    box-shadow: 0 25px 60px rgba(42,37,32,0.12); position: relative;
+  }
+  .weddings-image::before {
+    content: ''; position: absolute; inset: 4px; border: 1px solid var(--ink); pointer-events: none;
+  }
+  .weddings-photo {
+    width: 100%; height: 100%; position: relative; overflow: hidden;
+    background: linear-gradient(180deg, #E8DDC2 0%, #C9B895 50%, #9E8559 100%);
+  }
+  .weddings-photo::before {
+    content: ''; position: absolute; inset: 0;
+    background: 
+      radial-gradient(ellipse at 25% 35%, var(--rose) 0%, transparent 30%),
+      radial-gradient(ellipse at 75% 30%, #FFFFFF 0%, transparent 25%),
+      radial-gradient(ellipse at 50% 60%, var(--sage) 0%, transparent 40%),
+      radial-gradient(ellipse at 30% 75%, var(--rose-deep) 0%, transparent 30%),
+      radial-gradient(ellipse at 70% 70%, var(--gold) 0%, transparent 25%);
+    filter: blur(8px); opacity: 0.95;
+  }
+
+  /* TESTIMONIAL */
+  .test-section { padding: 140px 32px; max-width: 1100px; margin: 0 auto; text-align: center; }
+  .test-quote {
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400;
+    font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.25; letter-spacing: -0.01em;
+    margin-bottom: 36px;
+  }
+  .test-quote em { color: var(--rose-deep); }
+  .test-attr {
+    display: inline-flex; gap: 12px; align-items: center;
+  }
+  .test-attr-name { font-family: 'Cormorant Upright'; font-weight: 500; font-size: 16px; }
+  .test-attr-name em { font-style: italic; color: var(--rose-deep); display: block; font-family: 'EB Garamond'; font-weight: 400; font-size: 13px; }
+
+  /* CTA BLOCK */
+  .cta-section {
+    background: var(--ink); color: var(--cream); padding: 130px 32px;
+    max-width: none; margin: 0; position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: ''; position: absolute; top: 30%; left: -10%; width: 500px; height: 500px;
+    background: radial-gradient(circle, var(--rose-deep) 0%, transparent 50%);
+    opacity: 0.3; filter: blur(60px);
+  }
+  .cta-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+  .cta-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 60px; align-items: center; }
+  .cta-section h2 { color: var(--cream); font-size: clamp(2.5rem, 6vw, 5rem); }
+  .cta-section h2 em { color: var(--gold); }
+  .cta-section .section-eye { color: var(--gold); }
+  .cta-section p { font-size: 18px; line-height: 1.55; color: rgba(245,239,224,0.85); max-width: 460px; margin-top: 16px; margin-bottom: 32px; }
+  .cta-section .btn-ink { background: var(--gold); color: var(--ink); }
+  .cta-section .btn-ink:hover { background: var(--cream); }
+  .cta-card {
+    background: rgba(245,239,224,0.06); border: 1px solid rgba(245,239,224,0.2);
+    padding: 30px; backdrop-filter: blur(8px);
+  }
+  .cta-card .lbl { font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.18em; color: var(--gold); margin-bottom: 14px; text-transform: uppercase; }
+  .cta-card-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(245,239,224,0.15); font-size: 14px; }
+  .cta-card-row:last-child { border-bottom: none; }
+  .cta-card-row span:first-child { opacity: 0.7; }
+  .cta-card-row span:last-child { font-family: 'Cormorant Upright'; font-size: 16px; }
+
+  /* FOOTER */
+  footer { padding: 80px 32px 30px; max-width: 1500px; margin: 0 auto; }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 50px; border-bottom: 1px solid rgba(42,37,32,0.15); }
+  .foot-brand .logo { margin-bottom: 14px; }
+  .foot-brand p { font-family: 'Cormorant Garamond'; font-size: 18px; line-height: 1.4; max-width: 320px; font-style: italic; color: rgba(42,37,32,0.85); }
+  .foot-addr { margin-top: 18px; font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.1em; line-height: 1.7; color: var(--sage-deep); }
+  footer h4 { font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 16px; color: var(--rose-deep); font-weight: 400; }
+  footer ul { list-style: none; }
+  footer ul li { padding: 4px 0; }
+  footer ul a { color: var(--ink); text-decoration: none; font-style: italic; font-size: 16px; }
+  footer ul a:hover { color: var(--rose-deep); }
+  .foot-bot { padding-top: 30px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.1em; color: var(--sage-deep); }
+
+  @media (max-width: 1000px) {
+    .hero-grid, .sub-grid, .weddings-grid, .cta-grid, .section-head { grid-template-columns: 1fr; gap: 40px; }
+    .section-head p { justify-self: start; }
+    .offerings-grid { grid-template-columns: 1fr; }
+    .nav-mid { display: none; }
+    .work-row { grid-template-columns: 60px 1fr 80px; gap: 16px; padding: 20px 8px; }
+    .work-meta, .work-arrow { display: none; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: span 2; }
+    .topbar { padding: 8px 18px; }
+    nav, section, .press-row, .cta-section, .sub-section, footer { padding-left: 18px; padding-right: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="pulse">SHOP OPEN TODAY 9—7</span>
+  <span><a href="#">Free local delivery over $80 →</a></span>
+</div>
+
+<nav>
+  <div class="logo">
+    Wildflower <span class="amp">&amp;</span> Stone
+    <small>FLORIST · APOTHECARY · EST. 2017</small>
+  </div>
+  <div class="nav-mid">
+    <a href="#offerings">Offerings</a>
+    <a href="#sub">Subscriptions</a>
+    <a href="#workshops">Workshops</a>
+    <a href="#weddings">Weddings</a>
+    <a href="#">Visit</a>
+  </div>
+  <div class="nav-right">
+    <a href="#" class="nav-icon">↗ Account</a>
+    <a href="#" class="nav-cta">Order flowers →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-eyebrow"><span class="line"></span><span class="mono">Florist · Apothecary · Slow goods · Brooklyn since 2017</span></div>
+      <h1 class="hero-h">Flowers that<br>look like they<br>were <em>found,</em> not<br><em>arranged.</em></h1>
+      <p class="hero-lede">A small neighborhood florist and apothecary on Court Street. Seasonal blooms cut from regional growers, dried bouquets, hand-poured candles, herbal tinctures, and a slow program of <em>botanical workshops</em> we run on quiet weekday evenings.</p>
+      <div class="hero-actions">
+        <a href="#" class="btn-ink">Order an arrangement →</a>
+        <a href="#" class="btn-ghost">Visit the shop</a>
+      </div>
+    </div>
+    <div class="hero-frame">
+      <span class="frame-tag">No. 47 — May</span>
+      <div class="hero-bouquet"></div>
+      <div class="frame-foot">
+        <strong>The May Bouquet</strong>
+        Garden roses, mock orange,<br>foxglove, ranunculus &amp; honeysuckle vine.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="press-row">
+  <div class="press-inner">
+    <span class="press-label">As featured in</span>
+    <span class="press-name up">Kinfolk</span>
+    <span class="press-name">The New York Times</span>
+    <span class="press-name up">Cup of Jo</span>
+    <span class="press-name">Apartamento</span>
+    <span class="press-name up">T Magazine</span>
+    <span class="press-name">Garden &amp; Gun</span>
+  </div>
+</div>
+
+<section id="offerings">
+  <div class="section-head">
+    <div>
+      <span class="section-eye">— Six things we make</span>
+      <h2 class="display">A small set of <em>offerings</em>,<br>chosen with care.</h2>
+    </div>
+    <p>The shop is small and so is the menu. <em>Six categories,</em> each sourced or made by us, each refreshed weekly with whatever's in the field.</p>
+  </div>
+
+  <div class="offerings-grid">
+    <a href="#" class="offering">
+      <div class="offering-image o1">
+        <span class="offering-num upright">1</span>
+      </div>
+      <div class="offering-meta">
+        <span class="offering-cat">Fresh · Seasonal</span>
+        <h3 class="display">Hand-tied <em>bouquets</em></h3>
+        <p>Loose, garden-style bouquets cut weekly from regional growers in the Hudson Valley. Wrapped in raw kraft, finished with seam-binding ribbon.</p>
+      </div>
+      <div class="offering-bot">
+        <span class="offering-price">From <em>$48</em></span>
+        <span class="offering-arrow">order →</span>
+      </div>
+    </a>
+
+    <a href="#" class="offering">
+      <div class="offering-image o2">
+        <span class="offering-num upright">2</span>
+      </div>
+      <div class="offering-meta">
+        <span class="offering-cat">Dried · Forever</span>
+        <h3 class="display">Dried <em>arrangements</em></h3>
+        <p>Slow-dried wildflowers, grasses, and herbs from our own field. Designed to last a year on a windowsill before they begin to fade.</p>
+      </div>
+      <div class="offering-bot">
+        <span class="offering-price">From <em>$72</em></span>
+        <span class="offering-arrow">order →</span>
+      </div>
+    </a>
+
+    <a href="#" class="offering">
+      <div class="offering-image o3">
+        <span class="offering-num upright">3</span>
+      </div>
+      <div class="offering-meta">
+        <span class="offering-cat">Plants · Houseplants</span>
+        <h3 class="display"><em>Houseplants</em>, potted</h3>
+        <p>Twenty-odd varieties we grow on, from tradescantia to philodendron. Repotted into terracotta the day they leave the shop.</p>
+      </div>
+      <div class="offering-bot">
+        <span class="offering-price">From <em>$22</em></span>
+        <span class="offering-arrow">browse →</span>
+      </div>
+    </a>
+
+    <a href="#" class="offering">
+      <div class="offering-image o4">
+        <span class="offering-num upright">4</span>
+      </div>
+      <div class="offering-meta">
+        <span class="offering-cat">Apothecary · Hand-poured</span>
+        <h3 class="display">Beeswax <em>candles</em></h3>
+        <p>Poured by hand at the shop, scented with single-essence oils — bergamot, vetiver, cypress, rose. Burn time: 60 hours.</p>
+      </div>
+      <div class="offering-bot">
+        <span class="offering-price">From <em>$38</em></span>
+        <span class="offering-arrow">shop →</span>
+      </div>
+    </a>
+
+    <a href="#" class="offering">
+      <div class="offering-image o5">
+        <span class="offering-num upright">5</span>
+      </div>
+      <div class="offering-meta">
+        <span class="offering-cat">Apothecary · Wellness</span>
+        <h3 class="display">Herbal <em>tinctures</em></h3>
+        <p>Small-batch tinctures &amp; tonics: chamomile-skullcap for sleep, nettle-elderberry for spring, motherwort for steadier days.</p>
+      </div>
+      <div class="offering-bot">
+        <span class="offering-price">From <em>$24</em></span>
+        <span class="offering-arrow">shop →</span>
+      </div>
+    </a>
+
+    <a href="#" class="offering">
+      <div class="offering-image o6">
+        <span class="offering-num upright">6</span>
+      </div>
+      <div class="offering-meta">
+        <span class="offering-cat">Goods · Slow living</span>
+        <h3 class="display">Linen &amp; <em>ceramics</em></h3>
+        <p>A small selection of linen aprons, hand-thrown vases, brass scissors, and the small tools we use ourselves at the shop.</p>
+      </div>
+      <div class="offering-bot">
+        <span class="offering-price">From <em>$18</em></span>
+        <span class="offering-arrow">browse →</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="sub-section" id="sub">
+  <div class="sub-inner">
+    <div class="sub-grid">
+      <div class="sub-text">
+        <span class="section-eye">— Flower subscriptions</span>
+        <h2 class="display">Flowers <em>delivered</em><br>to your home,<br>quietly, weekly.</h2>
+        <p>Three quiet flower programs. Choose how often, how generous, and whether to leave them at the door or have us hand them off in person.</p>
+        <p>Cancel any time, with one tap. <em>Pause for travel.</em> Skip a week if your kitchen counter is full. We treat subscriptions like a long, easy friendship.</p>
+      </div>
+      <div class="sub-tiers">
+        <a href="#" class="sub-tier">
+          <span class="num">i.</span>
+          <div>
+            <h4>The <em>weekly</em> bouquet</h4>
+            <p>One hand-tied bouquet, every Friday morning. Reliable, modest, surprisingly transformative.</p>
+          </div>
+          <div class="price">$48<small>/week</small></div>
+        </a>
+        <a href="#" class="sub-tier feat">
+          <span class="num">ii.</span>
+          <div>
+            <h4>The <em>fortnightly</em> arrangement</h4>
+            <p>A larger, vase-finished arrangement every other Friday. Includes vase exchange &amp; care.</p>
+          </div>
+          <div class="price">$78<small>/biweekly</small></div>
+        </a>
+        <a href="#" class="sub-tier">
+          <span class="num">iii.</span>
+          <div>
+            <h4>The <em>seasonal</em> wreath</h4>
+            <p>Four wreaths a year, hand-wrapped on grapevine, marking each turn of the season.</p>
+          </div>
+          <div class="price">$120<small>/season</small></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="work-section" id="workshops">
+  <div class="section-head">
+    <div>
+      <span class="section-eye">— Workshops at the shop</span>
+      <h2 class="display">Slow <em>evenings</em> in<br>the back room.</h2>
+    </div>
+    <p>We run small workshops most weeks — six seats, two hours, a glass of something, and you go home with whatever you make.</p>
+  </div>
+
+  <div class="work-list">
+    <a href="#" class="work-row">
+      <div class="work-date"><strong>02</strong><span>MAY</span></div>
+      <h3 class="display">Beginner's <em>floral arranging</em> — w/ Anna</h3>
+      <div class="work-meta"><strong>Thursday</strong>6:30—8:30 PM · 6 seats</div>
+      <span class="work-price">$88</span>
+      <span class="work-arrow">→</span>
+    </a>
+    <a href="#" class="work-row">
+      <div class="work-date"><strong>11</strong><span>MAY</span></div>
+      <h3 class="display"><em>Wreath-making</em> for spring</h3>
+      <div class="work-meta"><strong>Saturday</strong>2:00—4:00 PM · 8 seats</div>
+      <span class="work-price">$72</span>
+      <span class="work-arrow">→</span>
+    </a>
+    <a href="#" class="work-row">
+      <div class="work-date"><strong>16</strong><span>MAY</span></div>
+      <h3 class="display"><em>Beeswax candle</em> pouring (intro)</h3>
+      <div class="work-meta"><strong>Thursday</strong>6:30—8:00 PM · 6 seats</div>
+      <span class="work-price">$56</span>
+      <span class="work-arrow">→</span>
+    </a>
+    <a href="#" class="work-row">
+      <div class="work-date"><strong>25</strong><span>MAY</span></div>
+      <h3 class="display">Foraged <em>centerpieces</em> — w/ Mira</h3>
+      <div class="work-meta"><strong>Saturday</strong>1:00—3:30 PM · 6 seats</div>
+      <span class="work-price">$110</span>
+      <span class="work-arrow">→</span>
+    </a>
+    <a href="#" class="work-row">
+      <div class="work-date"><strong>06</strong><span>JUN</span></div>
+      <h3 class="display"><em>Herbal tincture</em> basics</h3>
+      <div class="work-meta"><strong>Thursday</strong>7:00—8:30 PM · 8 seats</div>
+      <span class="work-price">$64</span>
+      <span class="work-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<section class="weddings-section" id="weddings">
+  <div class="weddings-grid">
+    <div class="weddings-text">
+      <span class="section-eye">— Weddings &amp; events</span>
+      <h2 class="display">Wedding flowers,<br>done <em>quietly.</em></h2>
+      <p>We take on twelve weddings a year. <em>Garden-style, never wired,</em> always sourced from regional growers. We work with you for nine to twelve months — long enough to learn what your day actually needs.</p>
+      <ul>
+        <li><strong>Initial conversation</strong><em>1 hr · in shop or by phone</em></li>
+        <li><strong>Mood &amp; palette proposal</strong><em>within 2 weeks · refined together</em></li>
+        <li><strong>Site walk-through</strong><em>included for venues within NYC</em></li>
+        <li><strong>Day-of installation &amp; breakdown</strong><em>by our team, never subcontracted</em></li>
+        <li><strong>Bouquet preservation</strong><em>optional · pressed or dried</em></li>
+      </ul>
+      <a href="#" class="btn-ink">Book a consultation →</a>
+    </div>
+    <div class="weddings-image"><div class="weddings-photo"></div></div>
+  </div>
+</section>
+
+<div class="test-section">
+  <div class="divider-leaf">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-3 4-3 8 0 12-3 4-3 8 0 8s3-4 0-8c3-4 3-8 0-12z"/></svg>
+  </div>
+  <p class="test-quote">"I have ordered flowers from Wildflower &amp; Stone every Friday for two and a half years. The arrangements are different every week. They are quietly the best part of <em>my Saturday morning.</em>"</p>
+  <div class="test-attr">
+    <div class="test-attr-name">Camille R. <em>Carroll Gardens, customer since '23</em></div>
+  </div>
+</div>
+
+<div class="cta-section">
+  <div class="cta-inner">
+    <div class="cta-grid">
+      <div>
+        <span class="section-eye">— Visit the shop</span>
+        <h2 class="display">Court Street,<br>between <em>Sackett</em><br>&amp; <em>Union.</em></h2>
+        <p>The door is open seven days a week. There's usually coffee on. There's almost always a dog or two. <em>Come in.</em></p>
+        <a href="#" class="btn-ink">Get directions →</a>
+      </div>
+      <div class="cta-card">
+        <div class="lbl">Shop hours</div>
+        <div class="cta-card-row"><span>Monday — Friday</span><span>9:00 — 7:00</span></div>
+        <div class="cta-card-row"><span>Saturday</span><span>9:00 — 8:00</span></div>
+        <div class="cta-card-row"><span>Sunday</span><span>10:00 — 5:00</span></div>
+        <div class="cta-card-row"><span>Phone</span><span>(718) 555 — 0167</span></div>
+        <div class="cta-card-row"><span>Email</span><span>hello@wildflowerstone</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div class="logo">Wildflower <span class="amp">&amp;</span> Stone<small>FLORIST · APOTHECARY · EST. 2017</small></div>
+      <p>"Flowers that look like they were found, not arranged."</p>
+      <div class="foot-addr">
+        217 COURT ST · BROOKLYN NY 11231<br>
+        OPEN 7 DAYS · (718) 555 — 0167
+      </div>
+    </div>
+    <div>
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#">Bouquets</a></li>
+        <li><a href="#">Dried arrangements</a></li>
+        <li><a href="#">Houseplants</a></li>
+        <li><a href="#">Candles</a></li>
+        <li><a href="#">Tinctures &amp; tonics</a></li>
+        <li><a href="#">Linen &amp; ceramics</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">Subscriptions</a></li>
+        <li><a href="#">Workshops</a></li>
+        <li><a href="#">Weddings</a></li>
+        <li><a href="#">Funeral arrangements</a></li>
+        <li><a href="#">Corporate</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Hello</h4>
+      <ul>
+        <li><a href="#">Visit</a></li>
+        <li><a href="#">Newsletter</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© 2017—2026 WILDFLOWER &amp; STONE LLC · BROOKLYN, NY</span>
+    <span>SET IN CORMORANT GARAMOND, EB GARAMOND &amp; JETBRAINS MONO</span>
+  </div>
+</footer>
+
+</body>
+</html>

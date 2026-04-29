@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ironside Plumbing &amp; Drain — Same-Day Service in Denver, 24/7. Or It's Free.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --black: #0A0A0A; --char: #1A1A1A; --concrete: #2B2B2B;
+    --gray: #6E6E70; --gray-light: #D4D4D8; --bone: #F4F4F5; --white: #FFFFFF;
+    --yellow: #FACC15; --yellow-deep: #EAB308; --yellow-bright: #FDE047;
+    --red: #DC2626;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bone); color: var(--black);
+    font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.55;
+    overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    padding-bottom: 70px; /* sticky bar space on mobile */
+  }
+  @media (min-width: 800px) { body { padding-bottom: 0; } }
+
+  .display { font-family: 'Archivo Black', sans-serif; line-height: 0.9; letter-spacing: -0.015em; text-transform: uppercase; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* TOPBAR — emergency band */
+  .topbar {
+    background: var(--black); color: var(--bone); padding: 9px 24px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'JetBrains Mono'; font-size: 12px; letter-spacing: 0.04em; font-weight: 500;
+    border-bottom: 3px solid var(--yellow);
+    flex-wrap: wrap; gap: 8px;
+  }
+  .topbar a { color: var(--yellow); text-decoration: none; font-weight: 600; }
+  .topbar .live::before {
+    content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--yellow); margin-right: 8px; box-shadow: 0 0 8px var(--yellow);
+    animation: pulse 1.4s infinite;
+  }
+  @keyframes pulse { 50% { opacity: 0.4; } }
+
+  /* NAV */
+  nav {
+    background: var(--white); padding: 14px 24px;
+    display: flex; justify-content: space-between; align-items: center; gap: 18px;
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 1px solid var(--black);
+  }
+  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--black); }
+  .logo-mark {
+    width: 46px; height: 46px; background: var(--black); position: relative;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--yellow); font-family: 'Archivo Black'; font-size: 24px;
+    border-bottom: 3px solid var(--yellow);
+  }
+  .logo-text { line-height: 1; }
+  .logo-text strong { font-family: 'Archivo Black'; font-size: 19px; letter-spacing: -0.005em; text-transform: uppercase; display: block; }
+  .logo-text small { font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.18em; color: var(--gray); margin-top: 4px; display: block; }
+  .nav-mid { display: flex; gap: 2px; }
+  .nav-mid a { color: var(--black); text-decoration: none; padding: 8px 12px; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 0.02em; }
+  .nav-mid a:hover { background: var(--yellow); }
+  .nav-call {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .nav-call .phone {
+    color: var(--black); text-decoration: none; font-family: 'Archivo Black'; font-size: 22px; line-height: 1;
+  }
+  .nav-call .phone small { display: block; font-family: 'JetBrains Mono'; font-size: 9px; color: var(--gray); letter-spacing: 0.2em; margin-top: 3px; font-weight: 400; }
+  .nav-cta {
+    background: var(--yellow); color: var(--black);
+    padding: 13px 20px; text-decoration: none;
+    font-family: 'Archivo Black'; font-size: 14px; letter-spacing: 0.02em;
+    text-transform: uppercase; border-bottom: 4px solid var(--black);
+    transition: all 0.15s;
+  }
+  .nav-cta:hover { background: var(--yellow-bright); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    background: var(--black); color: var(--white);
+    padding: 60px 24px 90px; position: relative; overflow: hidden;
+  }
+  .hero::before, .hero::after {
+    content: ''; position: absolute; left: 0; right: 0; height: 8px;
+    background-image: repeating-linear-gradient(45deg, var(--yellow) 0, var(--yellow) 16px, var(--black) 16px, var(--black) 32px);
+  }
+  .hero::before { top: 0; }
+  .hero::after { bottom: 0; }
+  .hero-grid {
+    max-width: 1500px; margin: 0 auto;
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: center;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px; margin-bottom: 22px;
+    background: var(--yellow); color: var(--black); padding: 6px 14px;
+    font-family: 'JetBrains Mono'; font-size: 12px; letter-spacing: 0.16em; font-weight: 700;
+    text-transform: uppercase;
+  }
+  .hero-eyebrow::before { content: '⚠'; font-size: 14px; }
+
+  h1.hero-h {
+    font-family: 'Archivo Black'; font-size: clamp(2.5rem, 7vw, 6rem);
+    line-height: 0.9; letter-spacing: -0.02em; text-transform: uppercase; margin-bottom: 24px;
+  }
+  h1.hero-h em {
+    font-style: normal;
+    background: var(--yellow); color: var(--black);
+    padding: 0 12px; display: inline-block;
+    transform: skew(-4deg); margin: 0 4px;
+  }
+  .hero-lede {
+    font-size: clamp(1.05rem, 1.4vw, 1.2rem); line-height: 1.5; max-width: 540px;
+    margin-bottom: 28px; color: var(--gray-light);
+  }
+  .hero-lede strong { color: var(--yellow); font-weight: 600; }
+
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 32px; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--yellow); color: var(--black);
+    padding: 18px 26px; text-decoration: none;
+    font-family: 'Archivo Black'; font-size: 16px; letter-spacing: 0.02em;
+    text-transform: uppercase; border-bottom: 5px solid var(--white);
+    transition: all 0.15s;
+  }
+  .btn-primary:hover { background: var(--yellow-bright); transform: translateY(-2px); border-bottom-color: var(--yellow-deep); }
+  .btn-ghost {
+    color: var(--white); padding: 14px 18px; text-decoration: none;
+    font-family: 'JetBrains Mono'; font-size: 13px; letter-spacing: 0.08em; font-weight: 600;
+    text-transform: uppercase; border: 2px solid var(--gray);
+  }
+  .btn-ghost:hover { border-color: var(--yellow); color: var(--yellow); }
+
+  /* TRUST STRIP */
+  .hero-trust {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+    padding-top: 28px; border-top: 1px solid rgba(250,204,21,0.2);
+  }
+  .trust-cell { line-height: 1.2; }
+  .trust-cell strong {
+    font-family: 'Archivo Black'; font-size: clamp(1.1rem, 1.6vw, 1.5rem); display: block; color: var(--yellow);
+  }
+  .trust-cell small { font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.12em; color: var(--gray-light); margin-top: 6px; display: block; text-transform: uppercase; }
+  .trust-cell .stars { color: var(--yellow); letter-spacing: 1px; font-size: 14px; }
+
+  /* HERO QUOTE FORM */
+  .hero-form {
+    background: var(--white); color: var(--black);
+    border: 2px solid var(--white); padding: 28px;
+    box-shadow: 8px 8px 0 var(--yellow);
+  }
+  .hero-form h3 {
+    font-family: 'Archivo Black'; font-size: 22px; line-height: 1; text-transform: uppercase; margin-bottom: 6px;
+  }
+  .hero-form .sub { font-family: 'JetBrains Mono'; font-size: 11px; color: var(--gray); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 18px; }
+  .hero-form .field { margin-bottom: 12px; }
+  .hero-form label { display: block; font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 5px; font-weight: 600; }
+  .hero-form input, .hero-form select {
+    width: 100%; padding: 11px 14px; border: 2px solid var(--black); background: var(--bone); font-family: 'Inter'; font-size: 14px; font-weight: 500;
+    transition: background 0.15s;
+  }
+  .hero-form input:focus, .hero-form select:focus { outline: none; background: var(--yellow-bright); }
+  .hero-form button {
+    width: 100%; padding: 16px; background: var(--black); color: var(--yellow);
+    font-family: 'Archivo Black'; font-size: 15px; letter-spacing: 0.02em; text-transform: uppercase;
+    border: none; cursor: pointer; margin-top: 8px;
+    border-bottom: 4px solid var(--yellow);
+    transition: all 0.15s;
+  }
+  .hero-form button:hover { background: var(--yellow); color: var(--black); border-bottom-color: var(--black); }
+  .hero-form .stamp { font-family: 'JetBrains Mono'; font-size: 10px; color: var(--gray); margin-top: 12px; text-align: center; letter-spacing: 0.06em; }
+
+  /* MARQUEE */
+  .marquee {
+    background: var(--yellow); color: var(--black); padding: 14px 0;
+    overflow: hidden; white-space: nowrap; border-top: 3px solid var(--black); border-bottom: 3px solid var(--black);
+    font-family: 'Archivo Black'; font-size: 17px; letter-spacing: 0.02em; text-transform: uppercase;
+  }
+  .marquee-inner { display: inline-block; animation: scroll 40s linear infinite; }
+  .marquee-inner span { padding: 0 32px; }
+  @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* SERVICES */
+  .section { padding: 90px 24px; max-width: 1500px; margin: 0 auto; }
+  .section-eye {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--black); color: var(--yellow); padding: 5px 12px;
+    font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600;
+    margin-bottom: 18px;
+  }
+  h2 {
+    font-family: 'Archivo Black'; font-size: clamp(2rem, 4.5vw, 3.5rem); line-height: 1; text-transform: uppercase; letter-spacing: -0.015em;
+  }
+  h2 em { font-style: normal; background: var(--yellow); padding: 0 10px; display: inline-block; transform: skew(-4deg); }
+  .section-lede { font-size: 17px; color: var(--concrete); line-height: 1.55; max-width: 600px; margin-top: 16px; }
+
+  .services-head { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px; }
+  .services-head .right { font-family: 'JetBrains Mono'; font-size: 13px; letter-spacing: 0.06em; color: var(--gray); text-align: right; line-height: 1.7; padding-bottom: 6px; }
+  .services-head .right strong { color: var(--black); font-weight: 600; }
+
+  .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .svc-card {
+    background: var(--white); border: 2px solid var(--black);
+    padding: 28px; position: relative; transition: all 0.2s;
+    cursor: pointer; display: flex; flex-direction: column;
+  }
+  .svc-card:hover { background: var(--yellow); transform: translate(-3px, -3px); box-shadow: 6px 6px 0 var(--black); }
+  .svc-card .num { font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.18em; color: var(--gray); margin-bottom: 12px; font-weight: 600; }
+  .svc-card h3 { font-family: 'Archivo Black'; font-size: 22px; line-height: 1.05; text-transform: uppercase; margin-bottom: 10px; }
+  .svc-card p { color: var(--concrete); font-size: 14px; line-height: 1.55; flex: 1; }
+  .svc-card .price { font-family: 'JetBrains Mono'; font-size: 13px; font-weight: 600; margin-top: 18px; padding-top: 14px; border-top: 1px dashed var(--black); }
+  .svc-card .price strong { font-family: 'Archivo Black'; font-size: 17px; }
+
+  /* GUARANTEE BLOCK */
+  .guarantee {
+    background: var(--yellow); padding: 90px 24px; position: relative; overflow: hidden;
+  }
+  .guarantee-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+  }
+  .guarantee-stamp {
+    aspect-ratio: 1/1; max-width: 380px; margin: 0 auto;
+    border: 3px solid var(--black); border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 30px;
+    background: var(--bone);
+    position: relative;
+    transform: rotate(-6deg);
+    box-shadow: 8px 8px 0 var(--black);
+  }
+  .guarantee-stamp::before {
+    content: ''; position: absolute; inset: 12px;
+    border: 1px solid var(--black); border-radius: 50%;
+  }
+  .guarantee-stamp .label { font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.22em; color: var(--black); margin-bottom: 14px; font-weight: 600; }
+  .guarantee-stamp h3 { font-family: 'Archivo Black'; font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 0.95; text-transform: uppercase; }
+  .guarantee-stamp .em { color: var(--red); font-family: 'Archivo Black'; font-size: clamp(2.6rem, 5vw, 4rem); line-height: 1; margin: 14px 0; display: block; }
+  .guarantee-stamp .since { font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.18em; color: var(--gray); margin-top: 16px; text-transform: uppercase; }
+  .guarantee-text h2 { color: var(--black); }
+  .guarantee-text h2 em { background: var(--white); }
+  .guarantee-text p { font-size: 17px; line-height: 1.6; color: var(--black); margin-top: 18px; max-width: 520px; }
+  .guarantee-text ul { list-style: none; margin-top: 24px; }
+  .guarantee-text li {
+    padding: 10px 0; font-size: 15px; font-weight: 600; display: flex; gap: 12px; align-items: baseline;
+    border-bottom: 1px solid rgba(0,0,0,0.15);
+  }
+  .guarantee-text li::before { content: '✓'; font-family: 'Archivo Black'; color: var(--black); font-size: 18px; }
+
+  /* PROCESS */
+  .process-section { background: var(--bone); padding: 90px 24px; }
+  .process-inner { max-width: 1500px; margin: 0 auto; }
+  .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 50px; }
+  .step {
+    background: var(--white); border: 2px solid var(--black); padding: 28px;
+    position: relative;
+  }
+  .step .num {
+    font-family: 'Archivo Black'; font-size: 64px; line-height: 1; color: var(--yellow);
+    position: absolute; top: 18px; right: 18px;
+    -webkit-text-stroke: 1.5px var(--black);
+  }
+  .step .lbl { font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.16em; color: var(--gray); font-weight: 600; text-transform: uppercase; margin-bottom: 30px; }
+  .step h3 { font-family: 'Archivo Black'; font-size: 20px; line-height: 1.05; text-transform: uppercase; margin-bottom: 8px; }
+  .step p { color: var(--concrete); font-size: 14px; line-height: 1.55; }
+
+  /* REVIEWS */
+  .reviews-section { padding: 90px 24px; max-width: 1500px; margin: 0 auto; }
+  .reviews-head {
+    display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px;
+  }
+  .reviews-stat {
+    background: var(--black); color: var(--bone); padding: 22px;
+    border-bottom: 4px solid var(--yellow);
+  }
+  .reviews-stat .top { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+  .reviews-stat .stars { color: var(--yellow); font-size: 24px; letter-spacing: 2px; }
+  .reviews-stat .num { font-family: 'Archivo Black'; font-size: 32px; line-height: 1; }
+  .reviews-stat small { font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.12em; color: var(--gray-light); text-transform: uppercase; }
+
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .review {
+    background: var(--white); border: 2px solid var(--black); padding: 24px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .review .stars { color: var(--yellow-deep); font-size: 18px; letter-spacing: 1px; }
+  .review p { font-size: 15px; line-height: 1.6; color: var(--char); flex: 1; }
+  .review p::before { content: '"'; font-family: 'Archivo Black'; font-size: 50px; line-height: 0.5; color: var(--yellow); margin-right: 4px; vertical-align: -10px; }
+  .review .who { padding-top: 14px; border-top: 1px dashed var(--black); display: flex; justify-content: space-between; align-items: baseline; font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.06em; }
+  .review .who strong { font-family: 'Inter'; font-size: 14px; font-weight: 700; letter-spacing: 0; }
+  .review .who span { color: var(--gray); }
+
+  /* AREAS */
+  .areas { background: var(--char); color: var(--bone); padding: 90px 24px; }
+  .areas-inner { max-width: 1500px; margin: 0 auto; }
+  .areas-head { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px; }
+  .areas .section-eye { background: var(--yellow); color: var(--black); }
+  .areas h2 { color: var(--white); }
+  .areas h2 em { background: var(--yellow); }
+  .areas-head p { color: var(--gray-light); font-size: 16px; line-height: 1.55; max-width: 380px; justify-self: end; }
+  .areas-grid {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px;
+  }
+  .area-tile {
+    background: var(--concrete); padding: 16px 14px; border: 1px solid var(--gray);
+    font-family: 'Archivo Black'; font-size: 14px; text-transform: uppercase; letter-spacing: 0.01em;
+    transition: all 0.15s; cursor: pointer; line-height: 1.05;
+  }
+  .area-tile:hover { background: var(--yellow); color: var(--black); border-color: var(--yellow); }
+  .area-tile small { display: block; font-family: 'JetBrains Mono'; font-size: 9px; color: var(--gray-light); letter-spacing: 0.18em; margin-top: 4px; font-weight: 400; }
+  .area-tile:hover small { color: var(--black); }
+
+  /* FINAL CTA */
+  .final-cta { background: var(--black); color: var(--white); padding: 100px 24px; text-align: center; position: relative; overflow: hidden; }
+  .final-cta::before, .final-cta::after {
+    content: ''; position: absolute; left: 0; right: 0; height: 8px;
+    background-image: repeating-linear-gradient(45deg, var(--yellow) 0, var(--yellow) 16px, var(--black) 16px, var(--black) 32px);
+  }
+  .final-cta::before { top: 0; }
+  .final-cta::after { bottom: 0; }
+  .final-cta h2 { color: var(--white); margin-bottom: 18px; }
+  .final-cta h2 em { color: var(--black); }
+  .final-cta p { font-size: 18px; color: var(--gray-light); max-width: 600px; margin: 0 auto 32px; line-height: 1.55; }
+  .final-cta .actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  footer { background: var(--char); color: var(--bone); padding: 60px 24px 24px; }
+  .foot-grid { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 30px; padding-bottom: 36px; border-bottom: 1px solid var(--gray); }
+  .foot-brand p { color: var(--gray-light); font-size: 13px; line-height: 1.55; max-width: 320px; margin-top: 16px; }
+  .foot-brand .lic { font-family: 'JetBrains Mono'; font-size: 11px; color: var(--yellow); margin-top: 14px; letter-spacing: 0.06em; }
+  footer h4 { font-family: 'Archivo Black'; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 14px; color: var(--yellow); }
+  footer ul { list-style: none; }
+  footer ul li { padding: 4px 0; }
+  footer ul a { color: var(--gray-light); text-decoration: none; font-size: 13px; }
+  footer ul a:hover { color: var(--yellow); }
+  .foot-bot { max-width: 1500px; margin: 0 auto; padding-top: 22px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; font-family: 'JetBrains Mono'; font-size: 11px; color: var(--gray); letter-spacing: 0.06em; }
+
+  /* STICKY MOBILE BAR */
+  .sticky-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+    background: var(--black); border-top: 3px solid var(--yellow);
+    padding: 10px; display: flex; gap: 8px;
+  }
+  .sticky-bar a {
+    flex: 1; padding: 14px; text-align: center; font-family: 'Archivo Black'; font-size: 14px;
+    letter-spacing: 0.02em; text-transform: uppercase; text-decoration: none;
+  }
+  .sticky-bar a.call { background: var(--yellow); color: var(--black); }
+  .sticky-bar a.quote { background: transparent; color: var(--white); border: 2px solid var(--white); }
+  @media (min-width: 800px) { .sticky-bar { display: none; } }
+
+  @media (max-width: 1000px) {
+    .hero-grid, .services-head, .reviews-head, .areas-head, .guarantee-inner { grid-template-columns: 1fr; gap: 32px; }
+    .services-head .right, .areas-head p { justify-self: start; text-align: left; }
+    .hero-trust { grid-template-columns: 1fr 1fr; gap: 14px; }
+    .nav-mid { display: none; }
+    .nav-call .phone { font-size: 16px; }
+    .nav-call .phone small { display: none; }
+    .svc-grid, .reviews-grid, .process-grid { grid-template-columns: 1fr; }
+    .areas-grid { grid-template-columns: repeat(2, 1fr); }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: span 2; }
+    .topbar, nav, .hero, .section, .process-section, .reviews-section, .guarantee, .areas, .final-cta, footer { padding-left: 16px; padding-right: 16px; }
+    .topbar { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="live">EMERGENCY LINES OPEN — 24/7 · DENVER &amp; FRONT RANGE</span>
+  <span><a href="tel:13035550199">☎ 303.555.0199 · CALL NOW →</a></span>
+</div>
+
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-mark">⚙</div>
+    <div class="logo-text">
+      <strong>Ironside</strong>
+      <small>PLUMBING &amp; DRAIN · DENVER</small>
+    </div>
+  </a>
+  <div class="nav-mid">
+    <a href="#services">Services</a>
+    <a href="#guarantee">Guarantee</a>
+    <a href="#process">Process</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#areas">Service Area</a>
+  </div>
+  <div class="nav-call">
+    <a href="tel:13035550199" class="phone">303.555.0199<small>OPEN 24/7 · NO EXTRA FEE</small></a>
+    <a href="#quote" class="nav-cta">Free Quote →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <span class="hero-eyebrow">EMERGENCY DISPATCH · 24/7 · ALL OF METRO DENVER</span>
+      <h1 class="hero-h">Same-day plumbing in <em>Denver.</em><br>Or it's <em>free.</em></h1>
+      <p class="hero-lede">Burst pipe, slow drain, no hot water — <strong>we're at your door in 90 minutes</strong> or the dispatch fee is on us. Licensed master plumbers. No after-hours surcharge. No surprise pricing. Family-owned since 1996.</p>
+      <div class="hero-actions">
+        <a href="tel:13035550199" class="btn-primary">☎ Call 303.555.0199 →</a>
+        <a href="#quote" class="btn-ghost">Or get a quote</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-cell"><div class="stars">★★★★★</div><strong>4.9 / 1,847</strong><small>GOOGLE REVIEWS</small></div>
+        <div class="trust-cell"><strong>29 yrs</strong><small>FAMILY-OWNED · SINCE '96</small></div>
+        <div class="trust-cell"><strong>BBB A+</strong><small>ACCREDITED · 2008</small></div>
+        <div class="trust-cell"><strong>MP-014729</strong><small>CO MASTER PLUMBER · INSURED</small></div>
+      </div>
+    </div>
+    <div class="hero-form" id="quote">
+      <h3>Tell us what's wrong.</h3>
+      <div class="sub">Free quote in 60 seconds · No bots</div>
+      <form onsubmit="event.preventDefault(); alert('In a real site, this would dispatch to our line.');">
+        <div class="field">
+          <label>Your name</label>
+          <input type="text" placeholder="First &amp; last" required>
+        </div>
+        <div class="field">
+          <label>Phone</label>
+          <input type="tel" placeholder="(303) 555-0123" required>
+        </div>
+        <div class="field">
+          <label>What's the problem?</label>
+          <select required>
+            <option value="">Pick one…</option>
+            <option>Burst or leaking pipe</option>
+            <option>Clogged drain or sewer line</option>
+            <option>Water heater issue</option>
+            <option>No hot water</option>
+            <option>Toilet / faucet repair</option>
+            <option>Re-pipe / remodel project</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Zip code</label>
+          <input type="text" placeholder="80202" required>
+        </div>
+        <button type="submit">Get my free quote →</button>
+        <div class="stamp">✓ NO HIDDEN FEES · ✓ UPFRONT PRICING · ✓ 30-DAY WORKMANSHIP WARRANTY</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-inner">
+    <span>★ NO AFTER-HOURS FEES</span><span>★ 90-MINUTE RESPONSE OR FREE</span><span>★ FLAT-RATE UPFRONT PRICING</span><span>★ 30-DAY WORKMANSHIP WARRANTY</span><span>★ MASTER-LICENSED ON EVERY JOB</span><span>★ BACKGROUND-CHECKED TECHS</span>
+    <span>★ NO AFTER-HOURS FEES</span><span>★ 90-MINUTE RESPONSE OR FREE</span><span>★ FLAT-RATE UPFRONT PRICING</span><span>★ 30-DAY WORKMANSHIP WARRANTY</span><span>★ MASTER-LICENSED ON EVERY JOB</span><span>★ BACKGROUND-CHECKED TECHS</span>
+  </div>
+</div>
+
+<section class="section" id="services">
+  <div class="services-head">
+    <div>
+      <span class="section-eye">⚙ THE SHORT MENU</span>
+      <h2>What we <em>fix.</em></h2>
+      <p class="section-lede">Twelve services we do every day, all priced flat-rate before we lift a wrench. If it involves water and pipes, we handle it.</p>
+    </div>
+    <div class="right">
+      <strong>NEED SOMETHING ELSE?</strong><br>
+      Call 303.555.0199 and ask.<br>
+      We've probably done it.
+    </div>
+  </div>
+
+  <div class="svc-grid">
+    <div class="svc-card">
+      <div class="num">01 / EMERGENCY</div>
+      <h3>Burst pipes &amp; leak repair</h3>
+      <p>Frozen and split, slab leak, pinhole, pressure spike. Diagnostic, shut-off, and fix — same visit, same day.</p>
+      <div class="price">FROM <strong>$189</strong> · 90-min dispatch</div>
+    </div>
+    <div class="svc-card">
+      <div class="num">02 / DRAIN</div>
+      <h3>Drain &amp; sewer cleaning</h3>
+      <p>Hydrojetting, snaking, camera inspection, root removal. Main-line clears with a 90-day rebackup warranty.</p>
+      <div class="price">FROM <strong>$93</strong> · same-day</div>
+    </div>
+    <div class="svc-card">
+      <div class="num">03 / WATER</div>
+      <h3>Water heater service</h3>
+      <p>Tank, tankless, hybrid. Repair, replace, flush, anode rod, expansion tank. We carry common units on the truck.</p>
+      <div class="price">REPAIR FROM <strong>$149</strong></div>
+    </div>
+    <div class="svc-card">
+      <div class="num">04 / FIXTURE</div>
+      <h3>Faucet, toilet &amp; fixture</h3>
+      <p>Replacement and repair for kitchen, bath, laundry. Shutoff valves, supply lines, garbage disposals. Brought spares.</p>
+      <div class="price">FROM <strong>$129</strong></div>
+    </div>
+    <div class="svc-card">
+      <div class="num">05 / GAS</div>
+      <h3>Gas line installation</h3>
+      <p>New runs for ranges, dryers, fire pits, and BBQs. Permitted, pressure-tested, code-inspected. Licensed gas-fitter.</p>
+      <div class="price">QUOTED PER JOB</div>
+    </div>
+    <div class="svc-card">
+      <div class="num">06 / SUMP</div>
+      <h3>Sump pump &amp; sewage ejector</h3>
+      <p>Battery-backup install, primary swap, float switch, check valve. Tested in-place before we leave.</p>
+      <div class="price">INSTALL FROM <strong>$789</strong></div>
+    </div>
+    <div class="svc-card">
+      <div class="num">07 / REPIPE</div>
+      <h3>Whole-home re-piping</h3>
+      <p>PEX, copper, or hybrid. Drywall-coordinated, low-disruption, 25-year manufacturer warranty on materials.</p>
+      <div class="price">FREE IN-HOME ESTIMATE</div>
+    </div>
+    <div class="svc-card">
+      <div class="num">08 / SOFT</div>
+      <h3>Water softener &amp; filtration</h3>
+      <p>Whole-home softeners, RO under-sink, sediment &amp; carbon banks. Calibrated for Front Range water hardness.</p>
+      <div class="price">INSTALL FROM <strong>$1,295</strong></div>
+    </div>
+    <div class="svc-card">
+      <div class="num">09 / COMM</div>
+      <h3>Commercial plumbing</h3>
+      <p>Restaurants, multifamily, retail. Backflow testing &amp; certification, grease traps, ADA fixtures. Net-30 billing available.</p>
+      <div class="price">SERVICE PLANS AVAILABLE</div>
+    </div>
+  </div>
+</section>
+
+<div class="guarantee" id="guarantee">
+  <div class="guarantee-inner">
+    <div class="guarantee-stamp">
+      <div class="label">★ THE IRONSIDE PROMISE ★</div>
+      <h3>90 minutes</h3>
+      <span class="em">OR FREE</span>
+      <h3>The dispatch is on us.</h3>
+      <div class="since">EST. 1996 · DENVER</div>
+    </div>
+    <div class="guarantee-text">
+      <span class="section-eye">★ THE GUARANTEE</span>
+      <h2>If we're <em>late</em>,<br>the trip is <em>free.</em></h2>
+      <p>We mean it. Schedule between 6am and 10pm Mon—Sun, in any of our service zones, and if our truck isn't on your block within 90 minutes of confirmation — your $89 dispatch fee is waived. No haggling. No "the traffic was bad." Just a free trip.</p>
+      <ul>
+        <li>$89 dispatch is waived if we're late, period</li>
+        <li>Flat-rate quoted before we start, in writing</li>
+        <li>30-day workmanship warranty on every repair</li>
+        <li>Every tech background-checked &amp; drug-tested</li>
+        <li>We protect your floors. Booties on, mat down, every visit.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<section class="process-section" id="process">
+  <div class="process-inner">
+    <div class="services-head">
+      <div>
+        <span class="section-eye">⚙ HOW IT WORKS</span>
+        <h2>Four steps. <em>That's it.</em></h2>
+        <p class="section-lede">No phone-tree maze, no "we'll call you back." From your first call to a clean kitchen, here's exactly what happens.</p>
+      </div>
+    </div>
+    <div class="process-grid">
+      <div class="step">
+        <div class="num">01</div>
+        <div class="lbl">CALL OR FORM</div>
+        <h3>You call.<br>Real human picks up.</h3>
+        <p>A dispatcher in Denver — not a call-center — answers within three rings. Describes the problem, gets your zip, dispatches the closest truck.</p>
+      </div>
+      <div class="step">
+        <div class="num">02</div>
+        <div class="lbl">90-MIN DISPATCH</div>
+        <h3>Truck on your block.<br>Tech at your door.</h3>
+        <p>You get a name, a face, a tracking link. Master plumber arrives in a marked truck, in uniform, with the parts most likely to fix it on board.</p>
+      </div>
+      <div class="step">
+        <div class="num">03</div>
+        <div class="lbl">FLAT-RATE QUOTE</div>
+        <h3>We diagnose.<br>You approve.</h3>
+        <p>Tech walks the issue, quotes the fix in writing, and waits for your "go." Nothing happens until you sign off. No surprise add-ons.</p>
+      </div>
+      <div class="step">
+        <div class="num">04</div>
+        <div class="lbl">FIXED &amp; WARRANTIED</div>
+        <h3>Job done. <br>30-day warranty.</h3>
+        <p>Work is tested in front of you, the area is left cleaner than we found it, and your invoice is emailed within an hour. Backed for 30 days.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reviews-section" id="reviews">
+  <div class="reviews-head">
+    <div>
+      <span class="section-eye">★ WHAT NEIGHBORS SAY</span>
+      <h2>Twelve hundred plus,<br>real <em>five-star</em> reviews.</h2>
+      <p class="section-lede">Pulled live from Google. Sorted newest-first. Every Denver homeowner here is a real person who let one of our trucks into their driveway.</p>
+    </div>
+    <div class="reviews-stat">
+      <div class="top">
+        <span class="stars">★★★★★</span>
+        <span class="num">4.9</span>
+      </div>
+      <small>FROM 1,847 GOOGLE REVIEWS · UPDATED THIS WEEK</small>
+    </div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>Burst pipe at 11pm Saturday. Carlos was at our door in 47 minutes. Quoted us flat-rate, no after-hours BS, fixed it in two hours, didn't track a single boot-print on the carpet. This is the company you call.</p>
+      <div class="who"><strong>Megan R.</strong><span>WASH PARK · 2 WEEKS AGO</span></div>
+    </div>
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>Used three plumbers in fifteen years. Switched to Ironside for a sewer line and never went back. They quoted half what the big national chain wanted and finished a day early. Honest work, no upsell.</p>
+      <div class="who"><strong>David K.</strong><span>HIGHLANDS · 3 WEEKS AGO</span></div>
+    </div>
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>Late for the 90-min window by 8 minutes — they waived the dispatch fee on the spot, no argument. Then knocked another $40 off the repair "for the inconvenience." That's how you build a customer base.</p>
+      <div class="who"><strong>Priya S.</strong><span>STAPLETON · LAST MONTH</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="areas" id="areas">
+  <div class="areas-inner">
+    <div class="areas-head">
+      <div>
+        <span class="section-eye">🛻 SERVICE MAP</span>
+        <h2>Where we <em>roll.</em></h2>
+      </div>
+      <p>Trucks staged in five Denver-metro depots so we can hit any of these neighborhoods in 90 minutes flat. If your zip's not listed, call — we probably get there too.</p>
+    </div>
+    <div class="areas-grid">
+      <div class="area-tile">Denver<small>80202–80239</small></div>
+      <div class="area-tile">Aurora<small>80010–80019</small></div>
+      <div class="area-tile">Lakewood<small>80214–80235</small></div>
+      <div class="area-tile">Englewood<small>80110–80113</small></div>
+      <div class="area-tile">Centennial<small>80111–80122</small></div>
+      <div class="area-tile">Highlands Ranch<small>80126–80130</small></div>
+      <div class="area-tile">Littleton<small>80120–80128</small></div>
+      <div class="area-tile">Wheat Ridge<small>80033, 80212</small></div>
+      <div class="area-tile">Westminster<small>80021–80031</small></div>
+      <div class="area-tile">Arvada<small>80002–80007</small></div>
+      <div class="area-tile">Thornton<small>80229–80602</small></div>
+      <div class="area-tile">Commerce City<small>80022, 80037</small></div>
+    </div>
+  </div>
+</div>
+
+<div class="final-cta">
+  <span class="section-eye" style="background: var(--yellow); color: var(--black);">⚠ NEED A PLUMBER NOW?</span>
+  <h2>Pick up the phone.<br>We'll be there <em>in 90.</em></h2>
+  <p>Open 24/7, every day of the year, including holidays. No after-hours fee, no after-hours menu. A dispatcher in Denver answers the call.</p>
+  <div class="actions">
+    <a href="tel:13035550199" class="btn-primary">☎ Call 303.555.0199 →</a>
+    <a href="#quote" class="btn-ghost">Or quote online</a>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a href="#" class="logo">
+        <div class="logo-mark">⚙</div>
+        <div class="logo-text">
+          <strong>Ironside</strong>
+          <small>PLUMBING &amp; DRAIN · DENVER</small>
+        </div>
+      </a>
+      <p>Family-owned, master-licensed plumbing for the Denver metro since 1996. We treat your home like our own — booties on, mat down, every visit.</p>
+      <div class="lic">CO MASTER PLUMBER LIC. MP-014729 · BONDED &amp; INSURED · BBB A+</div>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <ul><li><a href="#">Emergency repair</a></li><li><a href="#">Drain &amp; sewer</a></li><li><a href="#">Water heaters</a></li><li><a href="#">Re-piping</a></li><li><a href="#">Commercial</a></li></ul>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul><li><a href="#">About us</a></li><li><a href="#">Meet the team</a></li><li><a href="#">Careers (we're hiring)</a></li><li><a href="#">Reviews</a></li><li><a href="#">Service area</a></li></ul>
+    </div>
+    <div>
+      <h4>Get in touch</h4>
+      <ul><li><a href="tel:13035550199">☎ 303.555.0199</a></li><li><a href="#">help@ironside.plumbing</a></li><li><a href="#">2400 S Broadway, Denver</a></li><li><a href="#">Mon—Sun · 24/7</a></li></ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© 1996—2026 IRONSIDE PLUMBING LLC · DENVER, COLORADO</span>
+    <span>BUILT FOR THE FRONT RANGE</span>
+  </div>
+</footer>
+
+<div class="sticky-bar">
+  <a href="tel:13035550199" class="call">☎ Call now</a>
+  <a href="#quote" class="quote">Free quote</a>
+</div>
+
+</body>
+</html>

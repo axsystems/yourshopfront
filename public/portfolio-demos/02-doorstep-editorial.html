@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOLD — We'll take the laundry. You take the time.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --cream: #F5F1EA;
+    --cream-light: #FAF6EE;
+    --ink: #0E1410;
+    --forest: #1F3A2E;
+    --oxblood: #8C2A2A;
+    --taupe: #C8B9A3;
+    --butter: #F2C94C;
+    --paper: #EDE7DA;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    overflow-x: hidden;
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+  .serif { font-family: 'Instrument Serif', serif; font-weight: 400; line-height: 0.95; letter-spacing: -0.02em; }
+  .mono { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.05em; }
+  
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 18px 32px; display: flex; justify-content: space-between; align-items: center;
+    backdrop-filter: blur(20px); background: rgba(245,241,234,0.85);
+    border-bottom: 1px solid rgba(14,20,16,0.06);
+  }
+  .logo {
+    font-family: 'Instrument Serif', serif; font-style: italic; font-size: 28px;
+    letter-spacing: -0.02em; line-height: 1;
+  }
+  .nav-mid { display: flex; gap: 36px; }
+  .nav-mid a { color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 500; opacity: 0.75; transition: opacity 0.2s; }
+  .nav-mid a:hover { opacity: 1; }
+  .nav-right { display: flex; gap: 12px; align-items: center; }
+  .nav-cta {
+    background: var(--ink); color: var(--cream); padding: 10px 20px; border-radius: 999px;
+    font-size: 14px; font-weight: 500; text-decoration: none; transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--forest); }
+  .nav-link { font-size: 14px; color: var(--ink); text-decoration: none; padding: 10px 16px; }
+  
+  /* HERO */
+  .hero { min-height: 100vh; padding: 120px 32px 60px; position: relative; }
+  .hero-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; min-height: calc(100vh - 180px); }
+  
+  .meta-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink); opacity: 0.5; margin-bottom: 28px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .meta-label::before { content: ''; width: 28px; height: 1px; background: currentColor; }
+  
+  h1.hero-h { font-size: clamp(3.5rem, 9.5vw, 9rem); margin-bottom: 36px; }
+  h1.hero-h .ital { font-style: italic; color: var(--forest); }
+  h1.hero-h .small-cap { font-style: italic; }
+  
+  .lede { font-size: 19px; max-width: 480px; color: rgba(14,20,16,0.7); margin-bottom: 40px; line-height: 1.5; }
+  
+  /* address widget */
+  .address-widget {
+    background: var(--cream-light); border: 1px solid rgba(14,20,16,0.1);
+    border-radius: 14px; padding: 8px 8px 8px 22px;
+    display: flex; align-items: center; gap: 16px; max-width: 480px;
+    box-shadow: 0 8px 24px rgba(14,20,16,0.05);
+  }
+  .address-widget input {
+    border: none; background: transparent; flex: 1; font-family: 'Inter', sans-serif;
+    font-size: 16px; padding: 14px 0; outline: none; color: var(--ink);
+  }
+  .address-widget input::placeholder { color: rgba(14,20,16,0.4); }
+  .address-cta {
+    background: var(--ink); color: var(--cream); padding: 14px 24px; border-radius: 10px;
+    border: none; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .address-cta:hover { background: var(--forest); }
+  
+  .hero-aside { font-size: 13px; color: rgba(14,20,16,0.55); margin-top: 16px; }
+  
+  /* hero visual */
+  .hero-visual { position: relative; aspect-ratio: 4/5; max-height: 700px; }
+  .door-photo {
+    position: absolute; inset: 0; border-radius: 8px; overflow: hidden;
+    background: linear-gradient(160deg, #2A3D34 0%, #4A5D52 40%, #6B7F73 80%);
+    box-shadow: 0 40px 100px rgba(14,20,16,0.2);
+  }
+  /* abstract: door step scene */
+  .door-photo::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 60%;
+    background: linear-gradient(180deg, #5C7268 0%, #3D4F46 100%);
+  }
+  .door-photo::after {
+    content: ''; position: absolute; top: 15%; left: 20%; width: 60%; height: 50%;
+    background: linear-gradient(180deg, #1F3A2E 0%, #0F1F18 100%);
+    border-radius: 4px 4px 0 0;
+    box-shadow: inset 0 0 0 6px #2D4A3D;
+  }
+  .doormat {
+    position: absolute; bottom: 25%; left: 18%; width: 64%; height: 4%;
+    background: linear-gradient(90deg, #8C7456, #A68B6B, #8C7456);
+    border-radius: 2px;
+  }
+  .laundry-bag {
+    position: absolute; bottom: 12%; left: 30%; width: 40%; height: 30%;
+    background: var(--cream-light); border-radius: 50% 50% 12px 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3), inset 0 -6px 20px rgba(0,0,0,0.1);
+    transform: rotate(-3deg);
+  }
+  .laundry-bag::before {
+    content: 'F'; position: absolute; top: 30%; left: 50%; transform: translateX(-50%);
+    font-family: 'Instrument Serif', serif; font-style: italic; font-size: 70px;
+    color: var(--forest);
+  }
+  .laundry-bag::after {
+    content: ''; position: absolute; top: -8px; left: 30%; right: 30%; height: 4px;
+    background: var(--ink); border-radius: 2px;
+  }
+  
+  .photo-tag {
+    position: absolute; background: var(--cream-light); padding: 12px 16px; border-radius: 12px;
+    font-size: 13px; font-weight: 500; box-shadow: 0 16px 40px rgba(14,20,16,0.15);
+    z-index: 5; display: flex; align-items: center; gap: 10px;
+  }
+  .photo-tag.t1 { top: 10%; left: -10%; animation: float 7s ease-in-out infinite; }
+  .photo-tag.t2 { bottom: 25%; right: -15%; animation: float 7s ease-in-out infinite 2s; }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  .photo-tag .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--butter); }
+  .photo-tag .dot.green { background: var(--forest); }
+  
+  /* PRESS BAR */
+  .press-bar {
+    padding: 40px 32px; background: var(--cream);
+    border-top: 1px solid rgba(14,20,16,0.08); border-bottom: 1px solid rgba(14,20,16,0.08);
+  }
+  .press-row { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; gap: 60px; flex-wrap: wrap; justify-content: center; }
+  .press-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; opacity: 0.5;
+  }
+  .press-logo { font-family: 'Instrument Serif', serif; font-size: 24px; opacity: 0.75; letter-spacing: -0.01em; }
+  .press-logo.bold { font-family: 'Inter', sans-serif; font-weight: 700; }
+  .press-logo.serif-i { font-style: italic; }
+  
+  /* SECTIONS */
+  section { padding: 120px 32px; max-width: 1400px; margin: 0 auto; position: relative; }
+  
+  /* HOW IT WORKS — split layout */
+  .how-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 100px; align-items: start; }
+  .how-head { position: sticky; top: 120px; }
+  .how-head h2 { font-size: clamp(2.8rem, 5.5vw, 5rem); margin-bottom: 24px; font-family: 'Instrument Serif', serif; line-height: 0.95; letter-spacing: -0.025em; }
+  .how-head h2 .ital { font-style: italic; color: var(--oxblood); }
+  .how-head p { font-size: 17px; color: rgba(14,20,16,0.65); max-width: 380px; margin-bottom: 28px; }
+  
+  .how-steps { display: flex; flex-direction: column; gap: 0; }
+  .how-step {
+    display: grid; grid-template-columns: 80px 1fr; gap: 24px; padding: 36px 0;
+    border-top: 1px solid rgba(14,20,16,0.12);
+  }
+  .how-step:last-child { border-bottom: 1px solid rgba(14,20,16,0.12); }
+  .how-step-num { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 56px; line-height: 1; color: var(--forest); font-weight: 400; }
+  .how-step h3 { font-family: 'Instrument Serif', serif; font-size: 32px; margin-bottom: 12px; font-weight: 400; letter-spacing: -0.02em; }
+  .how-step p { font-size: 16px; color: rgba(14,20,16,0.7); margin-bottom: 16px; }
+  .how-step .tag {
+    display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px;
+    border: 1px solid rgba(14,20,16,0.2); border-radius: 999px;
+  }
+  
+  /* PRICING */
+  .pricing { background: var(--paper); padding: 100px 32px; margin-top: 60px; border-radius: 0; }
+  .pricing-inner { max-width: 1400px; margin: 0 auto; }
+  .pricing-head { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 60px; align-items: end; }
+  .pricing-head h2 { font-family: 'Instrument Serif', serif; font-size: clamp(2.8rem, 5.5vw, 5rem); line-height: 0.95; letter-spacing: -0.025em; font-weight: 400; }
+  .pricing-head h2 em { font-style: italic; color: var(--oxblood); }
+  .pricing-head p { font-size: 17px; color: rgba(14,20,16,0.65); max-width: 420px; margin-left: auto; }
+  
+  .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .price-card {
+    background: var(--cream-light); border-radius: 16px; padding: 32px;
+    border: 1px solid rgba(14,20,16,0.06);
+    display: flex; flex-direction: column;
+    transition: transform 0.3s;
+  }
+  .price-card:hover { transform: translateY(-4px); }
+  .price-card.featured { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+  .price-card.featured .lede-sm { color: rgba(245,241,234,0.7); }
+  .price-card.featured .price-num { color: var(--cream); }
+  .badge-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .price-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.55; }
+  .featured-badge { background: var(--butter); color: var(--ink); padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; }
+  .price-card h3 { font-family: 'Instrument Serif', serif; font-size: 36px; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .price-num { font-family: 'Instrument Serif', serif; font-size: 70px; line-height: 1; font-weight: 400; margin: 16px 0 4px; }
+  .price-num sup { font-size: 28px; vertical-align: super; opacity: 0.5; }
+  .price-num small { font-family: 'Inter', sans-serif; font-size: 15px; opacity: 0.5; font-weight: 400; }
+  .lede-sm { font-size: 15px; color: rgba(14,20,16,0.65); margin-bottom: 24px; }
+  .price-features { list-style: none; flex: 1; margin-bottom: 28px; }
+  .price-features li { padding: 10px 0; font-size: 14px; display: flex; gap: 10px; align-items: flex-start; border-bottom: 1px solid rgba(14,20,16,0.06); }
+  .price-card.featured .price-features li { border-bottom-color: rgba(255,255,255,0.08); }
+  .price-features li::before { content: '✓'; color: var(--oxblood); font-weight: 700; }
+  .price-card.featured .price-features li::before { color: var(--butter); }
+  .price-cta {
+    text-align: center; padding: 14px; border-radius: 999px;
+    background: var(--ink); color: var(--cream); border: none;
+    font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer;
+    text-decoration: none;
+  }
+  .price-card.featured .price-cta { background: var(--butter); color: var(--ink); }
+  
+  /* CITY GRID */
+  .cities-section { padding: 140px 32px; }
+  .cities-head { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 60px; }
+  .cities-head h2 { font-family: 'Instrument Serif', serif; font-size: clamp(2.8rem, 5.5vw, 5rem); line-height: 0.95; letter-spacing: -0.025em; font-weight: 400; }
+  .cities-head h2 em { font-style: italic; color: var(--forest); }
+  
+  .city-list {
+    border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);
+  }
+  .city-row {
+    display: grid; grid-template-columns: 60px 1fr 1fr 100px; gap: 24px;
+    padding: 24px 16px; align-items: center;
+    border-top: 1px solid rgba(14,20,16,0.1);
+    text-decoration: none; color: var(--ink); position: relative;
+    transition: padding 0.3s;
+  }
+  .city-row:first-child { border-top: none; }
+  .city-row:hover { padding-left: 32px; }
+  .city-row:hover .city-name em { color: var(--oxblood); }
+  .city-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; opacity: 0.4; }
+  .city-name { font-family: 'Instrument Serif', serif; font-size: 36px; font-weight: 400; line-height: 1; letter-spacing: -0.02em; }
+  .city-name em { font-style: italic; transition: color 0.2s; }
+  .city-status { font-size: 14px; color: rgba(14,20,16,0.6); }
+  .city-arrow { font-size: 20px; opacity: 0; transition: all 0.3s; transform: translateX(-10px); }
+  .city-row:hover .city-arrow { opacity: 1; transform: translateX(0); }
+  
+  /* VALUES */
+  .values-section { background: var(--ink); color: var(--cream); padding: 140px 32px; margin: 60px 0; }
+  .values-inner { max-width: 1400px; margin: 0 auto; }
+  .values-head { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 80px; align-items: end; }
+  .values-head h2 { font-family: 'Instrument Serif', serif; font-size: clamp(3rem, 6vw, 6rem); line-height: 0.95; letter-spacing: -0.025em; color: var(--cream); font-weight: 400; }
+  .values-head h2 em { font-style: italic; color: var(--butter); }
+  .values-head p { font-size: 17px; color: rgba(245,241,234,0.7); max-width: 420px; }
+  
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; padding-top: 60px; border-top: 1px solid rgba(245,241,234,0.15); }
+  .stat-num { font-family: 'Instrument Serif', serif; font-size: clamp(3.5rem, 7vw, 6rem); line-height: 0.95; font-weight: 400; letter-spacing: -0.03em; margin-bottom: 12px; }
+  .stat-num em { font-style: italic; color: var(--butter); }
+  .stat-label { font-size: 14px; color: rgba(245,241,234,0.7); max-width: 200px; line-height: 1.4; }
+  
+  /* TESTIMONIAL — single big quote */
+  .quote-section { padding: 140px 32px; }
+  .quote-inner { max-width: 1100px; margin: 0 auto; text-align: center; }
+  .quote-stars { color: var(--oxblood); font-size: 24px; letter-spacing: 0.2em; margin-bottom: 32px; }
+  .quote-text {
+    font-family: 'Instrument Serif', serif; font-style: italic; font-size: clamp(1.8rem, 4vw, 3.2rem);
+    line-height: 1.2; letter-spacing: -0.015em; margin-bottom: 40px; font-weight: 400;
+  }
+  .quote-attribution { display: flex; align-items: center; gap: 14px; justify-content: center; }
+  .quote-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--forest); color: var(--cream); display: flex; align-items: center; justify-content: center; font-family: 'Instrument Serif', serif; font-size: 22px; font-style: italic; }
+  .quote-name { text-align: left; }
+  .quote-name strong { display: block; font-weight: 600; font-size: 15px; }
+  .quote-name span { font-size: 13px; color: rgba(14,20,16,0.55); }
+  
+  /* FINAL CTA */
+  .final {
+    background: var(--cream-light); margin: 0 32px 60px; border-radius: 24px;
+    padding: 100px 60px; text-align: center; border: 1px solid rgba(14,20,16,0.06);
+    position: relative; overflow: hidden;
+  }
+  .final::before {
+    content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 200px;
+    background: radial-gradient(ellipse, rgba(140,42,42,0.08) 0%, transparent 70%);
+  }
+  .final h2 { font-family: 'Instrument Serif', serif; font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1; letter-spacing: -0.025em; margin-bottom: 16px; font-weight: 400; }
+  .final h2 em { font-style: italic; color: var(--oxblood); }
+  .final p { font-size: 17px; color: rgba(14,20,16,0.65); margin-bottom: 36px; max-width: 520px; margin-left: auto; margin-right: auto; }
+  .final .address-widget { margin: 0 auto; }
+  
+  /* FOOTER */
+  footer { padding: 80px 32px 30px; }
+  .foot-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 60px; }
+  .foot-brand .logo { font-size: 56px; margin-bottom: 16px; }
+  .foot-brand p { font-size: 14px; color: rgba(14,20,16,0.55); max-width: 280px; }
+  footer h4 { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 16px; opacity: 0.55; font-weight: 500; }
+  footer ul { list-style: none; }
+  footer ul li { padding: 4px 0; }
+  footer ul a { color: var(--ink); text-decoration: none; font-size: 14px; }
+  footer ul a:hover { color: var(--oxblood); }
+  .foot-bottom { max-width: 1400px; margin: 0 auto; padding-top: 30px; border-top: 1px solid rgba(14,20,16,0.1); display: flex; justify-content: space-between; font-size: 12px; color: rgba(14,20,16,0.5); font-family: 'JetBrains Mono', monospace; }
+  
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 60px; }
+    .hero-visual { max-width: 400px; margin: 0 auto; }
+    .nav-mid { display: none; }
+    .how-grid { grid-template-columns: 1fr; gap: 40px; }
+    .how-head { position: static; }
+    .price-grid, .pricing-head, .values-head, .cities-head { grid-template-columns: 1fr; gap: 30px; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .city-row { grid-template-columns: 40px 1fr 60px; }
+    .city-status { display: none; }
+    .city-name { font-size: 26px; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: span 2; }
+    nav, section { padding-left: 20px; padding-right: 20px; }
+    .final { padding: 60px 30px; margin: 0 20px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Fold.</div>
+  <div class="nav-mid">
+    <a href="#how">How it works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#cities">Cities</a>
+    <a href="#">Business</a>
+    <a href="#">App</a>
+  </div>
+  <div class="nav-right">
+    <a href="#" class="nav-link">Sign in</a>
+    <a href="#" class="nav-cta">Schedule a pickup →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="meta-label">Est. 2019 · Operating in 14 cities</div>
+      <h1 class="serif hero-h">We'll take<br>the laundry.<br><span class="ital">You take the time.</span></h1>
+      <p class="lede">Doorstep pickup. Fresh-folded delivery. Same valet, every week, with W-2 wages and biodegradable detergent. Built for the seven hours we'd rather give you back.</p>
+      <div class="address-widget">
+        <input type="text" placeholder="Enter your zip — we'll check coverage">
+        <button class="address-cta">Schedule →</button>
+      </div>
+      <p class="hero-aside">★ 4.9 from 6,041 reviews · No subscriptions, no fine print, no contact-free awkwardness.</p>
+    </div>
+    <div class="hero-visual">
+      <div class="photo-tag t1"><div class="dot"></div>Pickup tomorrow, 7—9pm</div>
+      <div class="photo-tag t2"><div class="dot green"></div>Delivered fresh in 24h</div>
+      <div class="door-photo">
+        <div class="doormat"></div>
+        <div class="laundry-bag"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="press-bar">
+  <div class="press-row">
+    <span class="press-label">As seen in</span>
+    <span class="press-logo bold">Forbes</span>
+    <span class="press-logo serif-i">The New Yorker</span>
+    <span class="press-logo bold">WSJ.</span>
+    <span class="press-logo">NPR</span>
+    <span class="press-logo serif-i">Wired</span>
+    <span class="press-logo bold">FAST<br>COMPANY</span>
+  </div>
+</div>
+
+<section id="how">
+  <div class="how-grid">
+    <div class="how-head">
+      <div class="meta-label">How it works</div>
+      <h2 class="serif">A process built<br><em class="ital">around</em> your week.</h2>
+      <p>Four touchpoints, all of which take less than a minute. The rest of the time, your laundry is moving and you're not.</p>
+      <a href="#" class="nav-cta" style="display:inline-block;">Start your first pickup →</a>
+    </div>
+    <div class="how-steps">
+      <div class="how-step">
+        <span class="how-step-num">i.</span>
+        <div>
+          <h3>Schedule a pickup window</h3>
+          <p>Tell us when. Two-hour windows, seven days a week, including evenings. We text you 30 minutes before your valet arrives.</p>
+          <span class="tag">~ 45 sec</span>
+        </div>
+      </div>
+      <div class="how-step">
+        <span class="how-step-num">ii.</span>
+        <div>
+          <h3>Hand off the bag</h3>
+          <p>Use any bag for your first pickup. After that, we leave you our reusable Fold bag — branded, oversized, lightly scented like nothing offensive.</p>
+          <span class="tag">~ 30 sec</span>
+        </div>
+      </div>
+      <div class="how-step">
+        <span class="how-step-num">iii.</span>
+        <div>
+          <h3>We wash, dry, and fold</h3>
+          <p>Sorted by color. Treated with PERC-free, fragrance-free detergent. Folded the way a hotel folds, not the way a college student folds.</p>
+          <span class="tag">~ 18 hours</span>
+        </div>
+      </div>
+      <div class="how-step">
+        <span class="how-step-num">iv.</span>
+        <div>
+          <h3>We bring it back, fresh</h3>
+          <p>Returned in the next 24—48 hours, in a Fold bag, in the time window you choose. You will smell it before you see it.</p>
+          <span class="tag">~ 30 sec</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="pricing-inner">
+    <div class="pricing-head">
+      <h2 class="serif">Three ways to <em>fold</em><br>this into your life.</h2>
+      <p>No tiers, no membership tricks. Pay-as-you-go, subscribe for a discount, or commit to repeat — whichever fits the rhythm of your week.</p>
+    </div>
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="badge-row"><span class="price-tag">As you go</span></div>
+        <h3>One-time pickup</h3>
+        <p class="lede-sm">Try us once. No card on file beyond the order.</p>
+        <div class="price-num">$2<sup>.30</sup><small> /lb</small></div>
+        <ul class="price-features">
+          <li>Wash, dry, fold</li>
+          <li>20 lb minimum</li>
+          <li>48-hour turnaround</li>
+          <li>One free bag included</li>
+          <li>Cancel any time, free</li>
+        </ul>
+        <a href="#" class="price-cta">Book one pickup →</a>
+      </div>
+      <div class="price-card featured">
+        <div class="badge-row"><span class="price-tag" style="opacity:0.7;">Most chosen</span><span class="featured-badge">★ Save 18%</span></div>
+        <h3>Repeat weekly</h3>
+        <p class="lede-sm">Same valet, same window, every week. Pause anytime in the app.</p>
+        <div class="price-num">$1<sup>.85</sup><small> /lb</small></div>
+        <ul class="price-features">
+          <li>Everything in one-time</li>
+          <li>Same valet, same window</li>
+          <li>24-hour turnaround</li>
+          <li>Unlimited reusable bags</li>
+          <li>Free hangers + sorting</li>
+          <li>Priority customer support</li>
+        </ul>
+        <a href="#" class="price-cta">Set up weekly →</a>
+      </div>
+      <div class="price-card">
+        <div class="badge-row"><span class="price-tag">Same-day</span></div>
+        <h3>Rush pickup</h3>
+        <p class="lede-sm">Picked up by 11 AM, returned by 9 PM the same day.</p>
+        <div class="price-num">$3<sup>.20</sup><small> /lb</small></div>
+        <ul class="price-features">
+          <li>Wash, dry, fold</li>
+          <li>15 lb minimum</li>
+          <li>Returned same day</li>
+          <li>Premium hypoallergenic detergent</li>
+          <li>SMS at every step</li>
+        </ul>
+        <a href="#" class="price-cta">Book a rush →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cities" class="cities-section">
+  <div class="cities-head">
+    <h2 class="serif">Where you'll find <em>us.</em></h2>
+    <p style="font-size:17px; color:rgba(14,20,16,0.65); align-self:end;">Operating in fourteen cities, plus a handful of college towns and one small village in Maine. Hover for a coverage map.</p>
+  </div>
+  <div class="city-list">
+    <a href="#" class="city-row">
+      <span class="city-num">01</span>
+      <span class="city-name">San <em>Francisco</em></span>
+      <span class="city-status">Operating since 2019 · Same-day available</span>
+      <span class="city-arrow">→</span>
+    </a>
+    <a href="#" class="city-row">
+      <span class="city-num">02</span>
+      <span class="city-name">New <em>York</em></span>
+      <span class="city-status">All five boroughs · Same-day available</span>
+      <span class="city-arrow">→</span>
+    </a>
+    <a href="#" class="city-row">
+      <span class="city-num">03</span>
+      <span class="city-name">Los <em>Angeles</em></span>
+      <span class="city-status">Westside &amp; East · 24-hour standard</span>
+      <span class="city-arrow">→</span>
+    </a>
+    <a href="#" class="city-row">
+      <span class="city-num">04</span>
+      <span class="city-name">Chicago</span>
+      <span class="city-status">Inside the loop &amp; nearby · Since 2021</span>
+      <span class="city-arrow">→</span>
+    </a>
+    <a href="#" class="city-row">
+      <span class="city-num">05</span>
+      <span class="city-name">Boston</span>
+      <span class="city-status">Cambridge, Somerville, Brookline · 24-hour</span>
+      <span class="city-arrow">→</span>
+    </a>
+    <a href="#" class="city-row">
+      <span class="city-num">06</span>
+      <span class="city-name">Washington <em>D.C.</em></span>
+      <span class="city-status">DC + Arlington + Bethesda</span>
+      <span class="city-arrow">→</span>
+    </a>
+    <a href="#" class="city-row">
+      <span class="city-num">07</span>
+      <span class="city-name">Austin</span>
+      <span class="city-status">Inside 360 · Same-day available</span>
+      <span class="city-arrow">→</span>
+    </a>
+    <a href="#" class="city-row">
+      <span class="city-num">08</span>
+      <span class="city-name">Seattle</span>
+      <span class="city-status">+ Bellevue + Capitol Hill · Coming soon to Tacoma</span>
+      <span class="city-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<section class="values-section">
+  <div class="values-inner">
+    <div class="values-head">
+      <div>
+        <div class="meta-label" style="opacity:0.6; color:var(--cream);">Our principles</div>
+        <h2 class="serif">Better for the <em>clothes,</em><br>better for the planet,<br>better for the <em>people</em><br>doing the work.</h2>
+      </div>
+      <p>The valets you meet are W-2 employees with health benefits, paid time off, and a transparent path to a route-management role. The detergent has no perchloroethylene. The bag is recycled, and so are we.</p>
+    </div>
+    <div class="stats-grid">
+      <div>
+        <div class="stat-num"><em>20M+</em></div>
+        <div class="stat-label">Gallons of water saved versus standard home laundry, since 2019</div>
+      </div>
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">PERC-free detergent across every facility, every wash</div>
+      </div>
+      <div>
+        <div class="stat-num"><em>W-2</em></div>
+        <div class="stat-label">Every valet, full benefits, no gig economy work classifications</div>
+      </div>
+      <div>
+        <div class="stat-num">4.9★</div>
+        <div class="stat-label">Average customer rating across 6,041 verified reviews</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="quote-section">
+  <div class="quote-inner">
+    <div class="quote-stars">★★★★★</div>
+    <p class="quote-text">"I've used Fold every Tuesday for two years. The same person picks up my laundry. He knows my dog's name. He brings my towels back warm. I'm not sure how this is a service that exists, but I am not asking questions."</p>
+    <div class="quote-attribution">
+      <div class="quote-avatar">M</div>
+      <div class="quote-name"><strong>Maya Robinson</strong><span>Brooklyn · Customer since 2023</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="final">
+  <h2 class="serif">Give it a <em>try.</em></h2>
+  <p>Drop your zip below. If we operate there, you'll see today's available pickup windows in the next screen.</p>
+  <div class="address-widget">
+    <input type="text" placeholder="Your zip code">
+    <button class="address-cta">Check coverage →</button>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div class="logo">Fold.</div>
+      <p>The doorstep laundry service. Operating in 14 cities since 2019. Headquartered in San Francisco.</p>
+    </div>
+    <div>
+      <h4>Service</h4>
+      <ul>
+        <li><a href="#">Pickup &amp; delivery</a></li>
+        <li><a href="#">Dry cleaning</a></li>
+        <li><a href="#">Wash &amp; fold</a></li>
+        <li><a href="#">Hang-dry &amp; bedding</a></li>
+        <li><a href="#">Tailoring</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Fold</a></li>
+        <li><a href="#">Our valets</a></li>
+        <li><a href="#">Sustainability</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>For business</h4>
+      <ul>
+        <li><a href="#">Hotels &amp; airbnbs</a></li>
+        <li><a href="#">Gyms &amp; spas</a></li>
+        <li><a href="#">Office linens</a></li>
+        <li><a href="#">Bulk pricing</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Help</h4>
+      <ul>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Lost item?</a></li>
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 FOLD LAUNDRY INC. ALL RIGHTS RESERVED.</span>
+    <span>VERSION 4.2.1 — UPDATED OCT '26</span>
+  </div>
+</footer>
+
+</body>
+</html>

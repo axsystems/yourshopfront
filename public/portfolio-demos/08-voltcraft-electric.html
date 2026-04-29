@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voltcraft Electric — Master electricians serving Phoenix. EV chargers, panels, 24/7 service.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --black: #0A0A0A; --char: #1A1A1A; --carbon: #242424;
+    --gray: #6E6E70; --steel: #9CA3AF; --bone: #F4F4F5; --paper: #FAFAFA; --white: #FFFFFF;
+    --volt: #FFD500; --volt-deep: #E0B900; --volt-glow: rgba(255,213,0,0.4);
+    --red: #DC2626; --green: #10B981;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bone); color: var(--black);
+    font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.55;
+    overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    padding-bottom: 70px;
+  }
+  @media (min-width: 800px) { body { padding-bottom: 0; } }
+  .display { font-weight: 800; line-height: 0.95; letter-spacing: -0.025em; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  .topbar {
+    background: var(--black); color: var(--bone); padding: 9px 28px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+    font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 500; letter-spacing: 0.02em;
+    border-bottom: 3px solid var(--volt);
+  }
+  .topbar a { color: var(--volt); text-decoration: none; font-weight: 700; }
+  .topbar .live::before {
+    content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--volt); margin-right: 8px; box-shadow: 0 0 8px var(--volt);
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse { 50% { opacity: 0.4; } }
+
+  nav {
+    background: var(--white); padding: 14px 28px;
+    display: flex; justify-content: space-between; align-items: center; gap: 18px;
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 1px solid var(--black);
+  }
+  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--black); }
+  .logo-mark {
+    width: 46px; height: 46px; background: var(--black); position: relative;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--volt); font-weight: 900; font-size: 26px;
+    border-bottom: 3px solid var(--volt);
+    transform: skew(-6deg);
+  }
+  .logo-text { line-height: 1; }
+  .logo-text strong { font-weight: 800; font-size: 21px; letter-spacing: -0.015em; display: block; }
+  .logo-text small { font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.16em; color: var(--gray); margin-top: 4px; display: block; }
+  .nav-mid { display: flex; gap: 2px; }
+  .nav-mid a { color: var(--black); text-decoration: none; padding: 8px 12px; font-weight: 600; font-size: 14px; }
+  .nav-mid a:hover { background: var(--volt); }
+  .nav-end { display: flex; gap: 14px; align-items: center; }
+  .nav-license { font-family: 'JetBrains Mono'; font-size: 11px; color: var(--gray); text-align: right; line-height: 1.3; font-weight: 500; }
+  .nav-license strong { color: var(--black); display: block; font-weight: 700; }
+  .nav-cta {
+    background: var(--volt); color: var(--black); padding: 13px 22px; text-decoration: none;
+    font-weight: 800; font-size: 14px; letter-spacing: 0.02em;
+    border-bottom: 4px solid var(--black); transition: all 0.15s;
+  }
+  .nav-cta:hover { transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    background: var(--black); color: var(--white); padding: 70px 28px 90px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 75% 25%, rgba(255,213,0,0.18) 0%, transparent 45%),
+      radial-gradient(circle at 25% 80%, rgba(36,36,36,0.8) 0%, transparent 60%);
+  }
+  .hero::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 6px;
+    background-image: repeating-linear-gradient(45deg, var(--volt) 0, var(--volt) 16px, var(--black) 16px, var(--black) 32px);
+  }
+  .hero-grid { max-width: 1500px; margin: 0 auto; position: relative; z-index: 1; display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center; }
+
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px; margin-bottom: 22px;
+    padding: 6px 14px; background: var(--volt); color: var(--black);
+    font-family: 'JetBrains Mono'; font-weight: 700; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .hero-eyebrow::before { content: '⚡'; font-size: 14px; }
+
+  h1.hero-h {
+    font-size: clamp(2.6rem, 7vw, 5.6rem); line-height: 0.95; letter-spacing: -0.03em;
+    font-weight: 800; margin-bottom: 24px;
+  }
+  h1.hero-h em {
+    font-style: normal; color: var(--volt);
+    position: relative; display: inline-block;
+  }
+  .hero-lede {
+    font-size: clamp(1.05rem, 1.4vw, 1.2rem); line-height: 1.5; max-width: 540px;
+    margin-bottom: 28px; color: var(--steel);
+  }
+  .hero-lede strong { color: var(--volt); font-weight: 700; }
+
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 32px; }
+  .btn-primary {
+    background: var(--volt); color: var(--black); padding: 18px 28px; text-decoration: none;
+    font-weight: 800; font-size: 16px;
+    display: inline-flex; align-items: center; gap: 10px;
+    border-bottom: 5px solid var(--white);
+    transition: all 0.15s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); border-bottom-color: var(--volt-deep); box-shadow: 0 0 32px var(--volt-glow); }
+  .btn-ghost {
+    color: var(--white); padding: 14px 24px; text-decoration: none;
+    font-weight: 700; font-size: 14px; letter-spacing: 0.04em; text-transform: uppercase;
+    border: 2px solid var(--gray);
+  }
+  .btn-ghost:hover { border-color: var(--volt); color: var(--volt); }
+
+  .hero-trust {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+    padding-top: 28px; border-top: 1px solid rgba(255,213,0,0.2);
+  }
+  .trust-cell strong {
+    font-weight: 800; font-size: clamp(1.15rem, 1.6vw, 1.5rem); display: block; color: var(--volt);
+  }
+  .trust-cell small { font-family: 'JetBrains Mono'; font-size: 10px; color: var(--steel); margin-top: 6px; display: block; line-height: 1.4; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; }
+  .trust-cell .stars { color: var(--volt); letter-spacing: 1px; font-size: 14px; }
+
+  /* HERO FORM */
+  .hero-form {
+    background: var(--white); color: var(--black);
+    padding: 32px; position: relative;
+    box-shadow: 8px 8px 0 var(--volt);
+  }
+  .hero-form::before {
+    content: '⚡ SCHEDULE ONLINE'; position: absolute; top: -14px; left: 24px;
+    background: var(--black); color: var(--volt); padding: 6px 14px;
+    font-family: 'JetBrains Mono'; font-weight: 700; font-size: 11px; letter-spacing: 0.12em;
+  }
+  .hero-form h3 { font-weight: 800; font-size: 26px; line-height: 1; margin-bottom: 6px; margin-top: 12px; letter-spacing: -0.02em; }
+  .hero-form .sub { font-family: 'JetBrains Mono'; font-size: 11px; color: var(--gray); margin-bottom: 22px; letter-spacing: 0.04em; text-transform: uppercase; font-weight: 500; }
+  .hero-form .field { margin-bottom: 12px; }
+  .hero-form label { display: block; font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 6px; font-weight: 700; }
+  .hero-form input, .hero-form select {
+    width: 100%; padding: 13px 14px; border: 2px solid var(--black); background: var(--bone);
+    font-family: 'Inter'; font-size: 14px; font-weight: 500;
+    transition: background 0.15s;
+  }
+  .hero-form input:focus, .hero-form select:focus { outline: none; background: var(--volt); }
+  .hero-form button {
+    width: 100%; padding: 16px; background: var(--black); color: var(--volt);
+    font-weight: 800; font-size: 15px; letter-spacing: 0.02em; text-transform: uppercase;
+    border: none; cursor: pointer; margin-top: 10px;
+    border-bottom: 5px solid var(--volt); transition: all 0.15s;
+  }
+  .hero-form button:hover { background: var(--volt); color: var(--black); border-bottom-color: var(--black); }
+  .hero-form .stamp { font-family: 'JetBrains Mono'; font-size: 10px; color: var(--gray); margin-top: 14px; text-align: center; letter-spacing: 0.04em; line-height: 1.6; font-weight: 500; }
+  .hero-form .stamp strong { color: var(--green); font-weight: 700; }
+
+  /* FOUR GUARANTEES */
+  .guarantees {
+    background: var(--volt); color: var(--black); padding: 50px 28px;
+    border-bottom: 4px solid var(--black);
+  }
+  .guarantees-inner {
+    max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+  }
+  .gtee {
+    background: var(--black); color: var(--volt); padding: 22px 24px;
+    border-bottom: 4px solid var(--volt-deep); position: relative;
+  }
+  .gtee::before {
+    content: '⚡'; position: absolute; top: 16px; right: 18px; font-size: 22px; color: var(--volt);
+  }
+  .gtee .num { font-family: 'JetBrains Mono'; font-weight: 700; font-size: 11px; color: var(--volt-deep); letter-spacing: 0.18em; text-transform: uppercase; }
+  .gtee h4 { font-weight: 800; font-size: 18px; margin-top: 6px; line-height: 1.1; color: var(--white); letter-spacing: -0.01em; }
+  .gtee p { font-family: 'JetBrains Mono'; font-size: 11px; color: var(--steel); margin-top: 8px; line-height: 1.5; font-weight: 500; }
+
+  /* MARQUEE */
+  .marquee {
+    background: var(--black); color: var(--volt); padding: 14px 0;
+    overflow: hidden; white-space: nowrap;
+    font-weight: 800; font-size: 16px; letter-spacing: -0.005em;
+  }
+  .marquee em { font-style: normal; color: var(--white); }
+  .marquee-inner { display: inline-block; animation: scroll 40s linear infinite; }
+  .marquee-inner span { padding: 0 28px; }
+  .marquee-inner span::before { content: '⚡'; margin-right: 12px; }
+  @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* SERVICES */
+  .section { padding: 100px 28px; max-width: 1500px; margin: 0 auto; }
+  .section-eye {
+    display: inline-flex; align-items: center; gap: 8px; padding: 5px 14px;
+    background: var(--black); color: var(--volt);
+    font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700;
+    margin-bottom: 18px;
+  }
+  h2 {
+    font-size: clamp(2.3rem, 4.8vw, 4rem); line-height: 1; letter-spacing: -0.025em;
+    font-weight: 800;
+  }
+  h2 em { font-style: normal; background: var(--volt); padding: 0 12px; display: inline-block; transform: skew(-4deg); }
+  .section-lede { font-size: 17px; color: var(--char); line-height: 1.6; max-width: 580px; margin-top: 18px; }
+
+  .svcs-head { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px; }
+  .svcs-head .right { font-family: 'JetBrains Mono'; font-size: 13px; line-height: 1.7; color: var(--gray); max-width: 380px; justify-self: end; padding-bottom: 6px; font-weight: 500; }
+  .svcs-head .right strong { color: var(--black); font-weight: 700; }
+  .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .svc {
+    background: var(--white); border: 2px solid var(--black); padding: 30px;
+    transition: all 0.2s; cursor: pointer; display: flex; flex-direction: column;
+    position: relative;
+  }
+  .svc:hover { background: var(--volt); transform: translate(-3px, -3px); box-shadow: 6px 6px 0 var(--black); }
+  .svc.feat { background: var(--black); color: var(--white); }
+  .svc.feat::before {
+    content: 'NEW'; position: absolute; top: 14px; right: 14px;
+    background: var(--volt); color: var(--black); padding: 3px 10px; font-family: 'JetBrains Mono'; font-weight: 700; font-size: 10px; letter-spacing: 0.12em;
+  }
+  .svc.feat:hover { background: var(--carbon); transform: translate(-3px, -3px); box-shadow: 6px 6px 0 var(--volt); }
+  .svc .num { font-family: 'JetBrains Mono'; font-weight: 700; font-size: 11px; color: var(--gray); margin-bottom: 12px; letter-spacing: 0.18em; }
+  .svc.feat .num { color: var(--volt); }
+  .svc h3 { font-weight: 800; font-size: 22px; line-height: 1.05; margin-bottom: 10px; letter-spacing: -0.02em; }
+  .svc p { color: var(--char); font-size: 14px; line-height: 1.55; flex: 1; }
+  .svc.feat p { color: var(--steel); }
+  .svc .from { font-family: 'JetBrains Mono'; font-weight: 600; font-size: 12px; margin-top: 18px; padding-top: 14px; border-top: 1px dashed var(--black); letter-spacing: 0.06em; text-transform: uppercase; }
+  .svc.feat .from { border-top-color: var(--gray); color: var(--volt); }
+  .svc .from strong { font-weight: 800; font-size: 16px; }
+
+  /* MEMBERSHIP CALLOUT */
+  .membership {
+    background: var(--black); color: var(--white); padding: 90px 28px;
+    position: relative; overflow: hidden;
+  }
+  .membership::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 80% 50%, rgba(255,213,0,0.15) 0%, transparent 50%);
+  }
+  .membership-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 1fr; gap: 50px; align-items: center; position: relative; z-index: 1; }
+  .membership .section-eye { background: var(--volt); color: var(--black); }
+  .membership h2 { color: var(--white); }
+  .membership h2 em { background: var(--volt); color: var(--black); }
+  .membership p { font-size: 17px; color: var(--steel); line-height: 1.65; margin-top: 20px; max-width: 520px; }
+  .membership p strong { color: var(--volt); font-weight: 700; }
+  .member-card {
+    background: var(--carbon); border: 2px solid var(--volt); padding: 32px;
+    box-shadow: 0 0 60px var(--volt-glow);
+  }
+  .member-card h3 { font-weight: 800; font-size: 28px; line-height: 1; letter-spacing: -0.02em; margin-bottom: 6px; }
+  .member-card .price { font-weight: 900; font-size: 56px; line-height: 1; letter-spacing: -0.03em; color: var(--volt); margin: 14px 0 6px; }
+  .member-card .price small { font-size: 14px; font-weight: 600; color: var(--steel); margin-left: 6px; }
+  .member-card ul { list-style: none; margin: 22px 0; }
+  .member-card li {
+    padding: 10px 0; font-size: 14px; display: flex; gap: 10px; align-items: baseline;
+    border-bottom: 1px solid var(--carbon);
+    color: var(--steel);
+  }
+  .member-card li::before { content: '⚡'; color: var(--volt); flex-shrink: 0; font-size: 13px; }
+  .member-card li strong { color: var(--white); font-weight: 700; margin-right: 4px; }
+  .member-card .btn-primary { width: 100%; justify-content: center; }
+
+  /* PROCESS */
+  .process-section { background: var(--paper); padding: 100px 28px; }
+  .process-inner { max-width: 1500px; margin: 0 auto; }
+  .process-head { text-align: center; margin-bottom: 60px; }
+  .process-head h2 { margin: 0 auto; max-width: 720px; }
+  .process-head .section-lede { margin: 18px auto 0; }
+  .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .step {
+    background: var(--white); border: 2px solid var(--black); padding: 30px;
+    position: relative;
+  }
+  .step .num {
+    font-weight: 900; font-size: 64px; line-height: 1; color: var(--volt);
+    -webkit-text-stroke: 1.5px var(--black);
+    position: absolute; top: 20px; right: 20px;
+  }
+  .step .lbl { font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.16em; color: var(--gray); font-weight: 700; text-transform: uppercase; margin-bottom: 32px; }
+  .step h3 { font-weight: 800; font-size: 21px; line-height: 1.05; margin-bottom: 8px; letter-spacing: -0.015em; }
+  .step p { color: var(--char); font-size: 14px; line-height: 1.55; }
+
+  /* REVIEWS */
+  .reviews { padding: 100px 28px; max-width: 1500px; margin: 0 auto; }
+  .reviews-head { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px; }
+  .reviews-stat { background: var(--black); color: var(--white); padding: 22px; border-bottom: 4px solid var(--volt); }
+  .reviews-stat .top { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; }
+  .reviews-stat .stars { color: var(--volt); font-size: 22px; letter-spacing: 2px; }
+  .reviews-stat .num { font-weight: 900; font-size: 32px; }
+  .reviews-stat small { font-family: 'JetBrains Mono'; font-size: 11px; color: var(--steel); display: block; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 4px; font-weight: 500; }
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .review {
+    background: var(--white); border: 2px solid var(--black); padding: 28px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .review .stars { color: var(--volt-deep); font-size: 16px; letter-spacing: 1px; }
+  .review p { font-size: 15px; line-height: 1.6; color: var(--char); flex: 1; }
+  .review p::before { content: '"'; font-weight: 900; font-size: 50px; line-height: 0.5; color: var(--volt); margin-right: 4px; vertical-align: -10px; }
+  .review .who { padding-top: 14px; border-top: 1px dashed var(--black); display: flex; gap: 12px; align-items: center; }
+  .review-avatar { width: 38px; height: 38px; background: var(--volt); color: var(--black); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; }
+  .review .who div { line-height: 1.3; }
+  .review .who strong { font-size: 14px; font-weight: 700; display: block; }
+  .review .who span { font-family: 'JetBrains Mono'; font-size: 10px; color: var(--gray); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; }
+
+  /* AREAS */
+  .areas { background: var(--char); color: var(--bone); padding: 100px 28px; }
+  .areas-inner { max-width: 1500px; margin: 0 auto; }
+  .areas-head { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: end; margin-bottom: 40px; }
+  .areas .section-eye { background: var(--volt); color: var(--black); }
+  .areas h2 { color: var(--white); }
+  .areas h2 em { background: var(--volt); color: var(--black); }
+  .areas-head p { color: var(--steel); font-size: 16px; line-height: 1.55; max-width: 380px; justify-self: end; }
+  .areas-head p strong { color: var(--volt); }
+  .areas-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .area-tile {
+    background: var(--carbon); padding: 16px 14px; border: 1px solid var(--gray);
+    font-weight: 800; font-size: 14px; text-transform: uppercase;
+    transition: all 0.15s; cursor: pointer; line-height: 1.05;
+  }
+  .area-tile:hover { background: var(--volt); color: var(--black); border-color: var(--volt); }
+  .area-tile small { display: block; font-family: 'JetBrains Mono'; font-size: 9px; color: var(--steel); letter-spacing: 0.18em; margin-top: 4px; font-weight: 500; }
+  .area-tile:hover small { color: var(--black); }
+
+  /* FINAL CTA */
+  .final-cta { background: var(--black); color: var(--white); padding: 100px 28px; text-align: center; position: relative; overflow: hidden; }
+  .final-cta::before, .final-cta::after {
+    content: ''; position: absolute; left: 0; right: 0; height: 6px;
+    background-image: repeating-linear-gradient(45deg, var(--volt) 0, var(--volt) 16px, var(--black) 16px, var(--black) 32px);
+  }
+  .final-cta::before { top: 0; }
+  .final-cta::after { bottom: 0; }
+  .final-cta-inner { max-width: 800px; margin: 0 auto; }
+  .final-cta h2 { color: var(--white); margin-bottom: 18px; }
+  .final-cta p { font-size: 18px; color: var(--steel); max-width: 540px; margin: 0 auto 32px; line-height: 1.55; }
+  .final-cta .actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  footer { background: var(--char); color: var(--bone); padding: 60px 28px 24px; }
+  .foot-grid { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; padding-bottom: 36px; border-bottom: 1px solid var(--gray); }
+  .foot-brand p { color: var(--steel); font-size: 13px; line-height: 1.6; max-width: 320px; margin-top: 14px; }
+  .foot-brand .lic { font-family: 'JetBrains Mono'; font-size: 11px; color: var(--volt); margin-top: 14px; letter-spacing: 0.06em; line-height: 1.6; font-weight: 600; }
+  footer h4 { font-weight: 800; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 14px; color: var(--volt); }
+  footer ul { list-style: none; }
+  footer ul li { padding: 4px 0; }
+  footer ul a { color: var(--steel); text-decoration: none; font-size: 13px; }
+  footer ul a:hover { color: var(--volt); }
+  .foot-bot { max-width: 1500px; margin: 0 auto; padding-top: 22px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; font-family: 'JetBrains Mono'; font-size: 11px; color: var(--gray); letter-spacing: 0.06em; font-weight: 500; }
+
+  .sticky-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+    background: var(--black); border-top: 3px solid var(--volt);
+    padding: 10px; display: flex; gap: 8px;
+  }
+  .sticky-bar a {
+    flex: 1; padding: 14px; text-align: center; font-weight: 800; font-size: 14px;
+    text-decoration: none;
+  }
+  .sticky-bar a.call { background: var(--volt); color: var(--black); }
+  .sticky-bar a.book { background: transparent; color: var(--white); border: 2px solid var(--white); }
+  @media (min-width: 800px) { .sticky-bar { display: none; } }
+
+  @media (max-width: 1000px) {
+    .hero-grid, .svcs-head, .reviews-head, .areas-head, .membership-inner { grid-template-columns: 1fr; gap: 32px; }
+    .svcs-head .right, .areas-head p { justify-self: start; }
+    .hero-trust, .guarantees-inner { grid-template-columns: 1fr 1fr; gap: 14px; }
+    .nav-mid { display: none; }
+    .nav-license { display: none; }
+    .svc-grid, .reviews-grid, .process-grid { grid-template-columns: 1fr; }
+    .areas-grid { grid-template-columns: 1fr 1fr; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: span 2; }
+    .topbar, nav, .hero, .section, .process-section, .membership, .reviews, .areas, .final-cta, footer, .guarantees { padding-left: 18px; padding-right: 18px; }
+    .topbar { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="live">24/7 EMERGENCY SERVICE · SAME-DAY APPOINTMENTS · PHOENIX METRO</span>
+  <span><a href="tel:16025550287">☎ (602) 555-0287 — CALL OR <a href="#book">SCHEDULE ONLINE →</a></a></span>
+</div>
+
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-mark">V</div>
+    <div class="logo-text">
+      <strong>Voltcraft</strong>
+      <small>ELECTRIC · PHOENIX</small>
+    </div>
+  </a>
+  <div class="nav-mid">
+    <a href="#services">Services</a>
+    <a href="#ev">EV Chargers</a>
+    <a href="#membership">Plan</a>
+    <a href="#process">Process</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#areas">Service Area</a>
+  </div>
+  <div class="nav-end">
+    <div class="nav-license">
+      <strong>(602) 555-0287</strong>
+      AZ ROC #335 412 · 24/7
+    </div>
+    <a href="#book" class="nav-cta">Schedule online →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <span class="hero-eyebrow">MASTER ELECTRICIANS · 24/7 EMERGENCY · SINCE 2011</span>
+      <h1 class="hero-h display">Master electricians<br>for Phoenix homes —<br><em>day, night, or storm.</em></h1>
+      <p class="hero-lede">From EV chargers to whole-home generators to 3am breaker emergencies. <strong>Fully licensed master electricians, never apprentices flying solo</strong>, on every job. Same-day service, flat-rate quoted before we start, four written guarantees backing every visit.</p>
+      <div class="hero-actions">
+        <a href="#book" class="btn-primary">⚡ Schedule online →</a>
+        <a href="tel:16025550287" class="btn-ghost">☎ Or call (602) 555-0287</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-cell"><div class="stars">★★★★★</div><strong>4.9 / 1,683</strong><small>GOOGLE REVIEWS</small></div>
+        <div class="trust-cell"><strong>15 yrs</strong><small>FAMILY-OWNED · SINCE 2011</small></div>
+        <div class="trust-cell"><strong>AZ ROC</strong><small>#335412 · MASTER LICENSED</small></div>
+        <div class="trust-cell"><strong>$2M</strong><small>BONDED &amp; INSURED · WORKERS' COMP</small></div>
+      </div>
+    </div>
+
+    <div class="hero-form" id="book">
+      <h3>Book a master electrician.</h3>
+      <div class="sub">Pick your problem · Same-day available</div>
+      <div class="field">
+        <label>Your name</label>
+        <input type="text" placeholder="First &amp; last">
+      </div>
+      <div class="field">
+        <label>Phone</label>
+        <input type="tel" placeholder="(602) 555-0123">
+      </div>
+      <div class="field">
+        <label>What do you need?</label>
+        <select>
+          <option>Pick one…</option>
+          <option>⚠ EMERGENCY — no power / breaker / outlet sparking</option>
+          <option>EV charger installation</option>
+          <option>Panel upgrade / replacement</option>
+          <option>Whole-home generator (Generac)</option>
+          <option>Outlets, switches, lighting</option>
+          <option>Smart-home wiring</option>
+          <option>Ceiling fans / chandeliers</option>
+          <option>Commercial work</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Property zip</label>
+        <input type="text" placeholder="85001">
+      </div>
+      <button onclick="event.preventDefault(); alert('Real site books appointment.');">Book my visit →</button>
+      <div class="stamp">✓ <strong>FLAT-RATE PRICING</strong> · ✓ NO TRIP CHARGE · ✓ MASTER ELECTRICIAN ON EVERY JOB</div>
+    </div>
+  </div>
+</section>
+
+<div class="guarantees">
+  <div class="guarantees-inner">
+    <div class="gtee">
+      <div class="num">No. 01</div>
+      <h4>The On-Time Guarantee</h4>
+      <p>If we miss the appointment window, we waive the dispatch fee. No haggling, no excuses.</p>
+    </div>
+    <div class="gtee">
+      <div class="num">No. 02</div>
+      <h4>The Straightforward Guarantee</h4>
+      <p>Flat-rate, in writing, before we start. No "actually it'll cost more" surprises.</p>
+    </div>
+    <div class="gtee">
+      <div class="num">No. 03</div>
+      <h4>The Property Guarantee</h4>
+      <p>We protect your floors, finishes, and furniture. Damage anything? We pay to fix it.</p>
+    </div>
+    <div class="gtee">
+      <div class="num">No. 04</div>
+      <h4>The Workmanship Guarantee</h4>
+      <p>2-year written warranty on every repair. Fails in 24 months? We're back, free.</p>
+    </div>
+  </div>
+</div>
+
+<div class="marquee">
+  <div class="marquee-inner">
+    <span><em>Same-day service</em></span><span>Master electricians only</span><span><em>Flat-rate, in writing</em></span><span>4 written guarantees</span><span><em>EV charger specialists</em></span><span>Generac authorized dealer</span>
+    <span><em>Same-day service</em></span><span>Master electricians only</span><span><em>Flat-rate, in writing</em></span><span>4 written guarantees</span><span><em>EV charger specialists</em></span><span>Generac authorized dealer</span>
+  </div>
+</div>
+
+<section class="section" id="services">
+  <div class="svcs-head">
+    <div>
+      <span class="section-eye">⚡ NINE SERVICES · ONE LICENSE</span>
+      <h2>What we <em>wire.</em></h2>
+      <p class="section-lede">Residential, light commercial, emergency. Every visit is staffed by a master electrician, never an apprentice working alone. Flat-rate pricing, in writing, before we start.</p>
+    </div>
+    <div class="right">
+      <strong>NEED SOMETHING ELSE?</strong><br>
+      Call (602) 555-0287 and ask.<br>
+      If it involves a wire, we've probably done it.
+    </div>
+  </div>
+  <div class="svc-grid">
+    <div class="svc feat" id="ev">
+      <div class="num">SVC. 01 · NEW</div>
+      <h3>EV charger installation</h3>
+      <p>Tesla Wall Connector, ChargePoint, JuiceBox, Wallbox. Level 2 install with permit, panel assessment, and inspection. Tax credit paperwork included.</p>
+      <div class="from">FROM <strong>$1,495</strong> · INSTALLED &amp; PERMITTED</div>
+    </div>
+    <div class="svc">
+      <div class="num">SVC. 02</div>
+      <h3>Panel upgrades</h3>
+      <p>100A → 200A or 200A → 400A service upgrades. Required for EV chargers, solar, generators, additions. Coordinate with APS &amp; SRP.</p>
+      <div class="from">FROM <strong>$2,495</strong> · PERMIT INCLUDED</div>
+    </div>
+    <div class="svc">
+      <div class="num">SVC. 03</div>
+      <h3>Whole-home generators</h3>
+      <p>Generac authorized dealer. Sizing, install, gas line, ATS. Auto-start in 10 seconds when grid drops. 5-year warranty.</p>
+      <div class="from">FROM <strong>$8,495</strong> · 5-YR WARRANTY</div>
+    </div>
+    <div class="svc">
+      <div class="num">SVC. 04</div>
+      <h3>Emergency repair · 24/7</h3>
+      <p>Sparking outlet, breaker won't reset, half the house dark, burning smell. Master electrician dispatched same-day, every day.</p>
+      <div class="from">FROM <strong>$149</strong> · NO AFTER-HOURS FEE</div>
+    </div>
+    <div class="svc">
+      <div class="num">SVC. 05</div>
+      <h3>Lighting &amp; fixtures</h3>
+      <p>Ceiling fans, chandeliers, recessed cans, under-cabinet, landscape, outdoor security. Dimmer-compatible LED retrofits.</p>
+      <div class="from">FROM <strong>$129</strong> · FIXTURE INSTALL</div>
+    </div>
+    <div class="svc">
+      <div class="num">SVC. 06</div>
+      <h3>Smart-home wiring</h3>
+      <p>Lutron Caseta, Ring, Nest, smart panels. Hardwire vs wireless guidance. Whole-home audio, Cat-6 data, doorbell cameras.</p>
+      <div class="from">QUOTED PER PROJECT</div>
+    </div>
+    <div class="svc">
+      <div class="num">SVC. 07</div>
+      <h3>Outlets &amp; switches</h3>
+      <p>GFCI, AFCI, USB, dedicated 20A circuits, switch replacement. Code-compliant, permit-pulled where required.</p>
+      <div class="from">FROM <strong>$169</strong> · PER LOCATION</div>
+    </div>
+    <div class="svc">
+      <div class="num">SVC. 08</div>
+      <h3>Surge protection</h3>
+      <p>Whole-home surge protection at the panel. Critical for Phoenix monsoon season — protects $20K+ of appliances and electronics.</p>
+      <div class="from">FROM <strong>$549</strong> · INSTALLED</div>
+    </div>
+    <div class="svc">
+      <div class="num">SVC. 09</div>
+      <h3>Commercial &amp; tenant build</h3>
+      <p>Restaurants, retail, offices. Permit-pulled, code-compliant, weekend &amp; off-hours scheduling. Net-30 billing for businesses.</p>
+      <div class="from">CUSTOM QUOTE · NET-30</div>
+    </div>
+  </div>
+</section>
+
+<div class="membership" id="membership">
+  <div class="membership-inner">
+    <div>
+      <span class="section-eye">⚡ HOME PROTECTION PLAN</span>
+      <h2>Become a member.<br>Save on <em>every visit.</em></h2>
+      <p>The Voltcraft Home Protection Plan is for homeowners who'd rather skip surprises. <strong>Annual electrical safety inspection, 15% off every repair, priority same-day service, no after-hours fees, ever.</strong></p>
+      <p>Most members save the membership cost back on a single visit. Cancel anytime. <strong>2,400+ Phoenix households on the plan.</strong></p>
+    </div>
+    <div class="member-card">
+      <div class="num mono" style="font-size: 11px; letter-spacing: 0.18em; color: var(--volt-deep); font-weight: 700; text-transform: uppercase;">VOLTCRAFT MEMBER</div>
+      <h3>Home Protection Plan</h3>
+      <div class="price">$14<small>/mo · $168/yr</small></div>
+      <ul>
+        <li><strong>Annual inspection</strong> — 50-point electrical safety audit</li>
+        <li><strong>15% off</strong> every repair, every visit</li>
+        <li><strong>Priority dispatch</strong> — same-day, jumped to top of queue</li>
+        <li><strong>No after-hours fees</strong> ever, day or night</li>
+        <li><strong>Free panel inspection</strong> annually with monsoon prep report</li>
+        <li><strong>2-year extended warranty</strong> on all repairs (vs standard 2-yr)</li>
+      </ul>
+      <a href="#book" class="btn-primary">Become a member →</a>
+    </div>
+  </div>
+</div>
+
+<section class="process-section" id="process">
+  <div class="process-inner">
+    <div class="process-head">
+      <span class="section-eye">⚡ HOW IT WORKS</span>
+      <h2>Four steps. <em>Real humans.</em></h2>
+      <p class="section-lede">From the moment you call or book online to the moment we wave goodbye — here's exactly what happens.</p>
+    </div>
+    <div class="process-grid">
+      <div class="step">
+        <div class="num">01</div>
+        <div class="lbl">BOOK</div>
+        <h3>Schedule in 60 seconds</h3>
+        <p>Call or use the form. A real Phoenix dispatcher answers — same-day appointments before noon, otherwise next-day. You pick a 2-hour window.</p>
+      </div>
+      <div class="step">
+        <div class="num">02</div>
+        <div class="lbl">DISPATCH</div>
+        <h3>Track your master electrician</h3>
+        <p>You get a name, photo, and live tracking link. Master electrician arrives in a marked van, in uniform, with parts likely to fix it on board.</p>
+      </div>
+      <div class="step">
+        <div class="num">03</div>
+        <div class="lbl">QUOTE</div>
+        <h3>Flat-rate, in writing</h3>
+        <p>Diagnose the issue, write you a flat-rate quote, wait for your "go." Nothing happens until you sign off. Multiple-option quotes when relevant.</p>
+      </div>
+      <div class="step">
+        <div class="num">04</div>
+        <div class="lbl">DONE</div>
+        <h3>Tested, warrantied, gone</h3>
+        <p>Work is tested in front of you, panel labels updated, area cleaner than we found it. 2-year written warranty emailed within an hour.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reviews" id="reviews">
+  <div class="reviews-head">
+    <div>
+      <span class="section-eye">★ 1,600+ PHOENIX HOMES</span>
+      <h2>"Showed up <em>when they said.</em><br>Quoted what they charged."</h2>
+      <p class="section-lede">Real Google reviews from real Phoenix-area homeowners. Sorted newest first. Every project verified.</p>
+    </div>
+    <div class="reviews-stat">
+      <div class="top">
+        <span class="stars">★★★★★</span>
+        <span class="num">4.9</span>
+      </div>
+      <small>FROM 1,683 GOOGLE REVIEWS</small>
+    </div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>Tesla Wall Connector install. Quoted $1,495 flat. Final bill: $1,495. Permit pulled, panel inspected, done in 4 hours, charging that night. Even handed me the federal tax credit paperwork. This is how every contractor should work.</p>
+      <div class="who">
+        <div class="review-avatar">MK</div>
+        <div><strong>Michael K.</strong><span>SCOTTSDALE · 2 WEEKS AGO</span></div>
+      </div>
+    </div>
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>Half the house went dark at 11pm Saturday during monsoon storm. Voltcraft master electrician at the door by midnight. Diagnosed a fried panel breaker, swapped it, tested every circuit, gone by 1:30am. NO after-hours surcharge. Members for life.</p>
+      <div class="who">
+        <div class="review-avatar">LR</div>
+        <div><strong>Linda R.</strong><span>AHWATUKEE · 3 WEEKS AGO</span></div>
+      </div>
+    </div>
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>Generac whole-home install. Three quotes, Voltcraft was middle. Picked them because they were the only ones with Generac's authorized-dealer status. Six months in, two outages, generator ran flawlessly. Best money we've spent on this house.</p>
+      <div class="who">
+        <div class="review-avatar">JV</div>
+        <div><strong>James V.</strong><span>TEMPE · LAST MONTH</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="areas">
+  <div class="areas-inner">
+    <div class="areas-head">
+      <div>
+        <span class="section-eye">⚡ SERVICE MAP</span>
+        <h2>Where we <em>wire.</em></h2>
+      </div>
+      <p>Five vans staged across the Phoenix metro so we can hit any of these neighborhoods within an hour. <strong>Don't see your zip?</strong> Call us — we likely cover it.</p>
+    </div>
+    <div class="areas-grid">
+      <div class="area-tile">Phoenix<small>85001—85048</small></div>
+      <div class="area-tile">Scottsdale<small>85250—85268</small></div>
+      <div class="area-tile">Tempe<small>85281—85284</small></div>
+      <div class="area-tile">Mesa<small>85201—85215</small></div>
+      <div class="area-tile">Chandler<small>85224—85249</small></div>
+      <div class="area-tile">Gilbert<small>85233—85299</small></div>
+      <div class="area-tile">Glendale<small>85301—85318</small></div>
+      <div class="area-tile">Peoria<small>85345—85383</small></div>
+      <div class="area-tile">Surprise<small>85374—85388</small></div>
+      <div class="area-tile">Avondale<small>85323, 85392</small></div>
+      <div class="area-tile">Goodyear<small>85338, 85395</small></div>
+      <div class="area-tile">Queen Creek<small>85140, 85142</small></div>
+    </div>
+  </div>
+</div>
+
+<div class="final-cta">
+  <div class="final-cta-inner">
+    <span class="section-eye">⚡ READY TO BOOK?</span>
+    <h2 class="display">Schedule online.<br>Real human <em style="background: var(--volt); color: var(--black); padding: 0 10px; transform: skew(-4deg); display: inline-block;">in 60 seconds.</em></h2>
+    <p>Same-day appointments before noon. 24/7 emergency line. No after-hours fees for members. Master electrician on every visit, every time.</p>
+    <div class="actions">
+      <a href="#book" class="btn-primary">⚡ Schedule online →</a>
+      <a href="tel:16025550287" class="btn-ghost">☎ Call (602) 555-0287</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a href="#" class="logo">
+        <div class="logo-mark">V</div>
+        <div class="logo-text">
+          <strong style="color: var(--bone);">Voltcraft</strong>
+          <small style="color: var(--volt);">ELECTRIC · PHOENIX</small>
+        </div>
+      </a>
+      <p>Master-licensed electricians serving the Phoenix metro since 2011. EV chargers, panel upgrades, whole-home generators, 24/7 emergency. Generac authorized dealer. Family-owned, never franchised.</p>
+      <div class="lic">AZ ROC #335 412 · GENERAC AUTHORIZED DEALER · BBB A+ · $2M LIABILITY · NEC CERTIFIED</div>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <ul><li><a href="#">EV charger install</a></li><li><a href="#">Panel upgrades</a></li><li><a href="#">Generators</a></li><li><a href="#">Emergency repair</a></li><li><a href="#">Smart-home wiring</a></li></ul>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul><li><a href="#">Home Protection Plan</a></li><li><a href="#">Financing options</a></li><li><a href="#">Reviews</a></li><li><a href="#">FAQ</a></li><li><a href="#">Careers</a></li></ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul><li><a href="tel:16025550287">☎ (602) 555-0287</a></li><li><a href="#">help@voltcraft.electric</a></li><li><a href="#">2412 W Camelback Rd</a></li><li><a href="#">24/7 emergency line</a></li></ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© 2011—2026 VOLTCRAFT ELECTRIC LLC · PHOENIX, ARIZONA</span>
+    <span>WIRED FOR THE DESERT</span>
+  </div>
+</footer>
+
+<div class="sticky-bar">
+  <a href="tel:16025550287" class="call">☎ Call now</a>
+  <a href="#book" class="book">Schedule online</a>
+</div>
+
+</body>
+</html>

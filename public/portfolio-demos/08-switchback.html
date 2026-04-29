@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Switchback — Observability that ships with you.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0A0E12; --bg-2: #0E1318; --bg-3: #141A21; --bg-4: #1A2129;
+    --line: rgba(255,255,255,0.08); --line-soft: rgba(255,255,255,0.04);
+    --fg: #E6EDF3; --fg-dim: #8B949E; --fg-faint: #4A5260;
+    --emerald: #10B981; --emerald-deep: #059669; --emerald-glow: rgba(16,185,129,0.25);
+    --orange: #F97316; --rose: #FB7185; --blue: #60A5FA; --violet: #A78BFA;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--fg);
+    font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.55;
+    font-weight: 400; overflow-x: hidden; -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      linear-gradient(to right, var(--line-soft) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--line-soft) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at 50% 0%, black 0%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 0%, black 0%, transparent 70%);
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 100; padding: 14px 24px;
+    display: flex; align-items: center; gap: 30px;
+    background: rgba(10,14,18,0.7); backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line);
+  }
+  .logo {
+    display: flex; align-items: center; gap: 9px;
+    text-decoration: none; color: var(--fg);
+    font-size: 16px; font-weight: 600; letter-spacing: -0.01em;
+  }
+  .logo .mark {
+    width: 24px; height: 24px; border-radius: 6px;
+    background: linear-gradient(135deg, var(--emerald) 0%, var(--emerald-deep) 100%);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 16px var(--emerald-glow);
+    font-family: 'JetBrains Mono'; font-weight: 700; font-size: 13px; color: #052E1A;
+  }
+  .nav-mid { display: flex; gap: 4px; flex: 1; }
+  .nav-mid a {
+    color: var(--fg-dim); text-decoration: none; font-size: 14px; font-weight: 500;
+    padding: 7px 12px; border-radius: 6px; transition: all 0.15s;
+  }
+  .nav-mid a:hover { color: var(--fg); background: var(--bg-3); }
+  .nav-end { display: flex; gap: 8px; align-items: center; }
+  .nav-end a { color: var(--fg-dim); text-decoration: none; font-size: 14px; font-weight: 500; padding: 7px 12px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 14px; border-radius: 7px; font-size: 14px; font-weight: 500;
+    text-decoration: none; cursor: pointer; border: none; transition: all 0.15s;
+  }
+  .btn-primary { background: var(--emerald); color: #052E1A; box-shadow: 0 0 24px var(--emerald-glow); }
+  .btn-primary:hover { background: #34D399; box-shadow: 0 0 32px var(--emerald-glow); }
+  .btn-ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+  .btn-ghost:hover { background: var(--bg-3); border-color: rgba(255,255,255,0.15); }
+
+  .hero { padding: 80px 24px 100px; max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; }
+  .hero-content { text-align: center; max-width: 880px; margin: 0 auto 60px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 5px 13px 5px 5px; border-radius: 100px;
+    background: var(--bg-3); border: 1px solid var(--line);
+    font-size: 12px; color: var(--fg-dim); margin-bottom: 28px;
+    font-family: 'JetBrains Mono'; font-weight: 500;
+  }
+  .hero-badge .pill { padding: 2px 8px; background: var(--emerald-glow); color: var(--emerald); border-radius: 100px; font-size: 10px; letter-spacing: 0.04em; }
+  h1.hero-h {
+    font-size: clamp(2.75rem, 6.5vw, 5.5rem); line-height: 1; letter-spacing: -0.035em;
+    font-weight: 600; margin-bottom: 22px;
+    background: linear-gradient(180deg, #FFFFFF 0%, #B6BFCB 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  h1.hero-h em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--emerald) 0%, var(--blue) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero-lede { font-size: clamp(1.05rem, 1.4vw, 1.2rem); line-height: 1.55; color: var(--fg-dim); max-width: 580px; margin: 0 auto 32px; }
+  .hero-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .hero-actions .btn { padding: 11px 20px; font-size: 14px; }
+
+  .code-card {
+    background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px;
+    overflow: hidden; max-width: 1080px; margin: 0 auto;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 0 30px 80px -20px rgba(0,0,0,0.6), 0 0 80px -20px var(--emerald-glow);
+    position: relative;
+  }
+  .code-card::before { content: ''; position: absolute; top: -1px; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, transparent, var(--emerald), transparent); }
+  .code-bar { display: flex; align-items: center; gap: 12px; padding: 11px 15px; border-bottom: 1px solid var(--line); background: var(--bg-3); }
+  .code-bar .dots { display: flex; gap: 6px; }
+  .code-bar .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--bg-4); }
+  .code-bar .title { font-family: 'JetBrains Mono'; font-size: 12px; color: var(--fg-dim); }
+  .code-bar .right { margin-left: auto; display: flex; gap: 12px; align-items: center; font-size: 11px; color: var(--fg-dim); font-family: 'JetBrains Mono'; }
+  .code-bar .right .live::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--emerald); margin-right: 6px; box-shadow: 0 0 8px var(--emerald); animation: pulse 1.6s infinite; }
+  @keyframes pulse { 50% { opacity: 0.5; } }
+
+  .code-body { display: grid; grid-template-columns: 200px 1fr; height: 360px; font-family: 'JetBrains Mono'; font-size: 12px; }
+  .code-side { border-right: 1px solid var(--line); padding: 12px 6px; overflow: hidden; background: var(--bg-2); }
+  .code-side-head { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-faint); padding: 4px 10px 8px; }
+  .code-side-item { padding: 5px 10px; border-radius: 5px; color: var(--fg-dim); display: flex; gap: 8px; align-items: center; margin-bottom: 1px; font-size: 12px; }
+  .code-side-item.active { background: var(--bg-4); color: var(--fg); }
+  .code-side-item .badge { margin-left: auto; padding: 1px 6px; border-radius: 100px; font-size: 9px; font-weight: 600; }
+  .code-side-item .badge.err { background: rgba(251,113,133,0.15); color: var(--rose); }
+  .code-side-item .badge.warn { background: rgba(249,115,22,0.15); color: var(--orange); }
+  .code-side-item .badge.ok { background: var(--emerald-glow); color: var(--emerald); }
+
+  .code-stream { padding: 12px; overflow: hidden; position: relative; background: var(--bg-2); }
+  .code-stream::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60px; background: linear-gradient(180deg, transparent, var(--bg-2)); pointer-events: none; }
+  .log-line { display: grid; grid-template-columns: 75px 60px 60px 1fr; gap: 10px; padding: 4px 0; align-items: baseline; font-size: 11.5px; line-height: 1.4; animation: slideIn 0.4s ease-out; }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .log-time { color: var(--fg-faint); }
+  .log-level { font-weight: 600; font-size: 10px; }
+  .log-level.info { color: var(--blue); }
+  .log-level.ok { color: var(--emerald); }
+  .log-level.warn { color: var(--orange); }
+  .log-level.err { color: var(--rose); }
+  .log-svc { color: var(--violet); }
+  .log-msg { color: var(--fg); }
+  .log-msg .key { color: var(--fg-dim); }
+  .log-msg .val { color: var(--emerald); }
+  .log-msg .num { color: var(--orange); }
+
+  .logos { padding: 60px 24px; max-width: 1280px; margin: 0 auto; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: center; position: relative; z-index: 1; }
+  .logos-eye { font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.2em; color: var(--fg-faint); text-transform: uppercase; margin-bottom: 26px; }
+  .logos-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 30px; align-items: center; opacity: 0.6; }
+  .logo-cell { font-size: 19px; font-weight: 700; letter-spacing: -0.01em; color: var(--fg-dim); text-align: center; }
+  .logo-cell.serif { font-family: 'JetBrains Mono'; font-weight: 500; font-size: 17px; }
+
+  .features { padding: 130px 24px; max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; }
+  .section-eye {
+    display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px;
+    border: 1px solid var(--line); border-radius: 100px;
+    font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.12em; color: var(--emerald);
+    text-transform: uppercase; margin-bottom: 18px; background: rgba(16,185,129,0.05);
+  }
+  h2 { font-size: clamp(2.2rem, 4.5vw, 3.6rem); line-height: 1.05; letter-spacing: -0.025em; font-weight: 600; max-width: 720px; }
+  h2 em { font-style: normal; color: var(--emerald); }
+  .section-lede { font-size: 18px; color: var(--fg-dim); line-height: 1.55; max-width: 620px; margin-top: 18px; }
+
+  .feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 60px; }
+  .feat-card { background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; padding: 28px; transition: all 0.3s; position: relative; overflow: hidden; }
+  .feat-card:hover { border-color: rgba(255,255,255,0.16); transform: translateY(-4px); }
+  .feat-card::before { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity 0.3s; background: radial-gradient(ellipse at 50% 0%, var(--emerald-glow) 0%, transparent 50%); pointer-events: none; }
+  .feat-card:hover::before { opacity: 1; }
+  .feat-icon {
+    width: 38px; height: 38px; border-radius: 9px; background: var(--bg-4); border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center; margin-bottom: 22px;
+    font-family: 'JetBrains Mono'; font-weight: 600; font-size: 16px; color: var(--emerald); position: relative; z-index: 1;
+  }
+  .feat-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.015em; position: relative; z-index: 1; }
+  .feat-card p { font-size: 14px; color: var(--fg-dim); line-height: 1.55; position: relative; z-index: 1; }
+  .feat-card .feat-link { margin-top: 16px; font-size: 13px; font-weight: 500; color: var(--emerald); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; position: relative; z-index: 1; }
+  .feat-card .feat-link:hover { gap: 8px; }
+
+  .integ { padding: 120px 24px; max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; }
+  .integ-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+  .integ-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .integ-tile { background: var(--bg-2); border: 1px solid var(--line); border-radius: 10px; padding: 18px 14px; text-align: center; display: flex; flex-direction: column; gap: 8px; align-items: center; transition: all 0.2s; cursor: pointer; }
+  .integ-tile:hover { border-color: rgba(255,255,255,0.16); background: var(--bg-3); }
+  .integ-tile .ic { width: 32px; height: 32px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono'; font-weight: 600; font-size: 14px; }
+  .integ-tile .ic.aws { background: linear-gradient(135deg, #FF9900 0%, #FFB347 100%); color: #1A1A1A; }
+  .integ-tile .ic.gh { background: #1A1A1A; color: var(--fg); border: 1px solid rgba(255,255,255,0.2); }
+  .integ-tile .ic.k8s { background: #326CE5; color: white; }
+  .integ-tile .ic.slk { background: linear-gradient(135deg, #4A154B 0%, #ECB22E 100%); color: white; }
+  .integ-tile .ic.dd { background: #632CA6; color: white; }
+  .integ-tile .ic.pg { background: #336791; color: white; }
+  .integ-tile .ic.gcp { background: linear-gradient(135deg, #4285F4 0%, #34A853 100%); color: white; }
+  .integ-tile .ic.dkr { background: #2496ED; color: white; }
+  .integ-tile .ic.snr { background: var(--emerald); color: #052E1A; }
+  .integ-tile span { font-size: 12px; font-weight: 500; color: var(--fg); }
+  .integ-tile small { font-size: 10px; color: var(--fg-faint); font-family: 'JetBrains Mono'; }
+
+  .pricing { padding: 120px 24px; max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; }
+  .pricing .head { text-align: center; margin-bottom: 60px; }
+  .pricing h2 { margin: 0 auto; }
+  .pricing .section-lede { margin: 18px auto 0; }
+  .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .price-card { background: var(--bg-2); border: 1px solid var(--line); border-radius: 14px; padding: 30px; display: flex; flex-direction: column; gap: 22px; position: relative; }
+  .price-card.feat { border-color: rgba(16,185,129,0.4); box-shadow: 0 0 60px -20px var(--emerald-glow); background: linear-gradient(180deg, rgba(16,185,129,0.04) 0%, var(--bg-2) 50%); }
+  .price-card.feat::before { content: 'POPULAR'; position: absolute; top: -10px; left: 24px; padding: 3px 9px; background: var(--emerald); color: #052E1A; border-radius: 100px; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; }
+  .price-card h3 { font-size: 17px; font-weight: 600; }
+  .price-amt { font-size: 44px; font-weight: 600; line-height: 1; letter-spacing: -0.03em; }
+  .price-amt small { font-size: 14px; font-weight: 400; color: var(--fg-dim); margin-left: 6px; }
+  .price-amt.contact { font-size: 30px; }
+  .price-desc { color: var(--fg-dim); font-size: 14px; line-height: 1.5; }
+  .price-list { list-style: none; flex: 1; }
+  .price-list li { padding: 9px 0; font-size: 14px; color: var(--fg); display: flex; gap: 9px; align-items: baseline; border-bottom: 1px solid var(--line-soft); }
+  .price-list li::before { content: '✓'; color: var(--emerald); font-weight: 600; flex-shrink: 0; }
+
+  .testi { padding: 130px 24px; max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; }
+  .testi-card { background: var(--bg-2); border: 1px solid var(--line); border-radius: 14px; padding: 60px; max-width: 920px; margin: 0 auto; text-align: center; position: relative; }
+  .testi-card::before { content: '"'; position: absolute; top: 20px; left: 30px; font-family: 'Inter'; font-size: 100px; line-height: 1; color: var(--emerald); opacity: 0.4; }
+  .testi-q { font-size: clamp(1.2rem, 2vw, 1.8rem); line-height: 1.45; letter-spacing: -0.015em; font-weight: 500; margin-bottom: 28px; color: var(--fg); }
+  .testi-q em { color: var(--emerald); font-style: normal; }
+  .testi-attr { display: flex; gap: 12px; justify-content: center; align-items: center; }
+  .testi-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--emerald) 0%, var(--blue) 100%); display: flex; align-items: center; justify-content: center; font-weight: 600; color: #052E1A; font-size: 14px; }
+  .testi-name { text-align: left; font-size: 14px; }
+  .testi-name strong { display: block; font-weight: 600; }
+  .testi-name small { color: var(--fg-dim); font-size: 12px; }
+
+  .cta { padding: 100px 24px; text-align: center; position: relative; z-index: 1; border-top: 1px solid var(--line); background: radial-gradient(ellipse at 50% 100%, var(--emerald-glow) 0%, transparent 60%); }
+  .cta h2 { margin: 0 auto 20px; }
+  .cta p { color: var(--fg-dim); font-size: 17px; margin-bottom: 30px; max-width: 540px; margin-left: auto; margin-right: auto; }
+  .cta .actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .cta .actions .btn { padding: 12px 22px; font-size: 14px; }
+
+  footer { padding: 60px 24px 30px; border-top: 1px solid var(--line); position: relative; z-index: 1; }
+  .foot-grid { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 2fr repeat(4, 1fr); gap: 40px; padding-bottom: 40px; border-bottom: 1px solid var(--line-soft); }
+  .foot-brand .logo { margin-bottom: 12px; font-size: 18px; }
+  .foot-brand p { color: var(--fg-dim); font-size: 13px; line-height: 1.5; max-width: 280px; }
+  footer h4 { font-size: 12px; font-weight: 600; margin-bottom: 12px; color: var(--fg); letter-spacing: 0.01em; }
+  footer ul { list-style: none; }
+  footer ul li { padding: 4px 0; }
+  footer ul a { color: var(--fg-dim); text-decoration: none; font-size: 13px; }
+  footer ul a:hover { color: var(--fg); }
+  .foot-bot { max-width: 1280px; margin: 0 auto; padding-top: 24px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--fg-faint); font-family: 'JetBrains Mono'; }
+  .foot-bot .status::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--emerald); margin-right: 7px; animation: pulse 1.6s infinite; }
+
+  @media (max-width: 1000px) {
+    .nav-mid { display: none; }
+    .feat-grid, .price-grid, .integ-grid { grid-template-columns: 1fr; }
+    .integ-tiles { grid-template-columns: repeat(3, 1fr); }
+    .logos-grid { grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .code-body { grid-template-columns: 1fr; height: auto; }
+    .code-side { display: none; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: span 2; }
+    nav, .hero, .logos, .features, .integ, .pricing, .testi, .cta, footer { padding-left: 16px; padding-right: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo"><span class="mark">↯</span>switchback</a>
+  <div class="nav-mid">
+    <a href="#features">Product</a>
+    <a href="#integ">Integrations</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#">Docs</a>
+    <a href="#">Changelog</a>
+  </div>
+  <div class="nav-end">
+    <a href="#">Sign in</a>
+    <a href="#" class="btn btn-primary">Start free →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="pill">v3.0</span>
+      Distributed tracing is here →
+    </div>
+    <h1 class="hero-h">Observability<br>that <em>ships with you.</em></h1>
+    <p class="hero-lede">Logs, metrics, traces &amp; alerts in one tool — built for small teams that move fast and don't want to wire up six dashboards. Five-minute setup, no-config quickstart, $0 to start.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn btn-primary">Start free →</a>
+      <a href="#" class="btn btn-ghost">Read the docs</a>
+    </div>
+  </div>
+
+  <div class="code-card">
+    <div class="code-bar">
+      <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <span class="title">switchback / live · production</span>
+      <div class="right"><span><span class="live"></span>STREAMING · 240 events/s</span></div>
+    </div>
+    <div class="code-body">
+      <div class="code-side">
+        <div class="code-side-head">Services</div>
+        <div class="code-side-item active">▸ api-gateway <span class="badge ok">OK</span></div>
+        <div class="code-side-item">▸ auth-svc <span class="badge ok">OK</span></div>
+        <div class="code-side-item">▸ payments <span class="badge warn">2</span></div>
+        <div class="code-side-item">▸ search-idx <span class="badge ok">OK</span></div>
+        <div class="code-side-item">▸ webhooks <span class="badge err">1</span></div>
+        <div class="code-side-item">▸ workers/email <span class="badge ok">OK</span></div>
+        <div class="code-side-item">▸ workers/billing <span class="badge ok">OK</span></div>
+        <div class="code-side-item">▸ cron <span class="badge ok">OK</span></div>
+        <div class="code-side-head" style="margin-top:14px;">Hosts</div>
+        <div class="code-side-item">▸ aws-prod-east <span class="badge ok">14</span></div>
+        <div class="code-side-item">▸ aws-prod-west <span class="badge ok">8</span></div>
+      </div>
+      <div class="code-stream" id="stream">
+        <div class="log-line"><span class="log-time">10:42:18.301</span><span class="log-level info">INFO</span><span class="log-svc">api-gateway</span><span class="log-msg"><span class="key">req</span> GET /v1/orders <span class="key">user</span>=<span class="val">u_3KqM1</span> <span class="key">latency</span>=<span class="num">42ms</span></span></div>
+        <div class="log-line"><span class="log-time">10:42:18.412</span><span class="log-level ok">200</span><span class="log-svc">payments</span><span class="log-msg"><span class="key">charge</span> succeeded <span class="key">amt</span>=<span class="num">$24.00</span> <span class="key">ch_id</span>=<span class="val">ch_3K2x</span></span></div>
+        <div class="log-line"><span class="log-time">10:42:18.580</span><span class="log-level info">INFO</span><span class="log-svc">webhooks</span><span class="log-msg"><span class="key">retry</span> stripe.charge.succeeded <span class="key">attempt</span>=<span class="num">2</span></span></div>
+        <div class="log-line"><span class="log-time">10:42:18.711</span><span class="log-level warn">WARN</span><span class="log-svc">payments</span><span class="log-msg">slow query <span class="key">dur</span>=<span class="num">812ms</span> <span class="key">tbl</span>=<span class="val">orders</span></span></div>
+        <div class="log-line"><span class="log-time">10:42:19.024</span><span class="log-level ok">OK</span><span class="log-svc">api-gateway</span><span class="log-msg"><span class="key">req</span> POST /v1/sessions <span class="key">latency</span>=<span class="num">18ms</span></span></div>
+        <div class="log-line"><span class="log-time">10:42:19.215</span><span class="log-level info">INFO</span><span class="log-svc">auth-svc</span><span class="log-msg">login_success <span class="key">user</span>=<span class="val">u_2Nz8L</span> <span class="key">ip</span>=<span class="val">10.0.4.51</span></span></div>
+        <div class="log-line"><span class="log-time">10:42:19.488</span><span class="log-level err">ERROR</span><span class="log-svc">webhooks</span><span class="log-msg">handler timeout <span class="key">url</span>=<span class="val">slack.com/hooks</span> <span class="key">elapsed</span>=<span class="num">5004ms</span></span></div>
+        <div class="log-line"><span class="log-time">10:42:19.612</span><span class="log-level info">INFO</span><span class="log-svc">workers/email</span><span class="log-msg">queued <span class="key">tpl</span>=<span class="val">order_receipt</span> <span class="key">to</span>=<span class="val">noah@…</span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="logos">
+  <div class="logos-eye">[ Trusted by 4,200+ teams who don't have time for vendor lock-in ]</div>
+  <div class="logos-grid">
+    <div class="logo-cell">linear</div>
+    <div class="logo-cell serif">Vercel</div>
+    <div class="logo-cell">FRAMER</div>
+    <div class="logo-cell serif">notion</div>
+    <div class="logo-cell">RAYCAST</div>
+    <div class="logo-cell serif">cal.com</div>
+  </div>
+</div>
+
+<section class="features" id="features">
+  <span class="section-eye">⚡ Why Switchback</span>
+  <h2>Everything in one place.<br><em>Nothing in the way.</em></h2>
+  <p class="section-lede">Logs, metrics, traces, and alerts — under a single, fast UI. No dashboards to wire up, no agent to compile, no quote to request.</p>
+
+  <div class="feat-grid">
+    <div class="feat-card"><div class="feat-icon">{}</div><h3>Structured logs, fast.</h3><p>Streamed in milliseconds, indexed in seconds, queryable like SQL. Five-minute setup with our SDK or any OpenTelemetry exporter.</p><a href="#" class="feat-link">Read more →</a></div>
+    <div class="feat-card"><div class="feat-icon">∿</div><h3>Metrics &amp; dashboards.</h3><p>Out-of-box dashboards for every common stack — Node, Go, Python, Rails, Next.js, Postgres. One click to install. Edit-as-code with SQL.</p><a href="#" class="feat-link">Read more →</a></div>
+    <div class="feat-card"><div class="feat-icon">↯</div><h3>Distributed tracing.</h3><p>Trace every request across services and infrastructure. Native OTel. Find the slow query in three clicks, not three hours.</p><a href="#" class="feat-link">Read more →</a></div>
+    <div class="feat-card"><div class="feat-icon">!</div><h3>Alerts that don't lie.</h3><p>Anomaly detection trained per-service, not on global percentiles. Slack, PagerDuty, email, webhook. Mute schedules. Actually smart grouping.</p><a href="#" class="feat-link">Read more →</a></div>
+    <div class="feat-card"><div class="feat-icon">⌘</div><h3>Cmd-K everywhere.</h3><p>Search across logs, traces, metrics, services, hosts, and dashboards in one input. Keyboard-first. Built for engineers, not analysts.</p><a href="#" class="feat-link">Read more →</a></div>
+    <div class="feat-card"><div class="feat-icon">$</div><h3>Honest pricing.</h3><p>Per-GB ingest with a generous free tier. No per-host charges. No "contact sales" wall. Cancel anytime. Pay for what you ingest, nothing else.</p><a href="#" class="feat-link">Read more →</a></div>
+  </div>
+</section>
+
+<section class="integ" id="integ">
+  <div class="integ-grid">
+    <div>
+      <span class="section-eye">⚙ 80+ integrations</span>
+      <h2>Plugs into <em>everything</em><br>you already use.</h2>
+      <p class="section-lede">Native integrations with the cloud providers, queues, databases, and tools your stack actually runs on. OpenTelemetry support means no lock-in.</p>
+      <a href="#" class="btn btn-ghost" style="margin-top:24px;">Browse all 80+ →</a>
+    </div>
+    <div class="integ-tiles">
+      <div class="integ-tile"><span class="ic aws">aws</span><span>AWS</span><small>cloudwatch</small></div>
+      <div class="integ-tile"><span class="ic gh">⌥</span><span>GitHub</span><small>actions</small></div>
+      <div class="integ-tile"><span class="ic k8s">⎈</span><span>Kubernetes</span><small>auto-discover</small></div>
+      <div class="integ-tile"><span class="ic slk">#</span><span>Slack</span><small>alerts</small></div>
+      <div class="integ-tile"><span class="ic dd">D</span><span>Datadog</span><small>migrate</small></div>
+      <div class="integ-tile"><span class="ic pg">pg</span><span>Postgres</span><small>slow query</small></div>
+      <div class="integ-tile"><span class="ic gcp">G</span><span>GCP</span><small>cloud run</small></div>
+      <div class="integ-tile"><span class="ic dkr">d</span><span>Docker</span><small>logs</small></div>
+      <div class="integ-tile"><span class="ic snr">↯</span><span>OpenTel</span><small>standard</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="head">
+    <span class="section-eye">$ Pricing</span>
+    <h2>No <em>"contact sales"</em><br>for the sane plans.</h2>
+    <p class="section-lede">Pay only for what you ingest. Free for hobby projects and small teams. Upgrade only when you outgrow it.</p>
+  </div>
+  <div class="price-grid">
+    <div class="price-card">
+      <h3>Free</h3>
+      <div class="price-amt">$0<small>/forever</small></div>
+      <p class="price-desc">Generous limits. For hobby projects, side gigs, and learning.</p>
+      <ul class="price-list">
+        <li>5GB log ingest / mo</li>
+        <li>30-day retention</li>
+        <li>Up to 3 team members</li>
+        <li>Community Slack support</li>
+        <li>Unlimited dashboards</li>
+      </ul>
+      <a href="#" class="btn btn-ghost" style="justify-content:center;">Start free</a>
+    </div>
+    <div class="price-card feat">
+      <h3>Pro</h3>
+      <div class="price-amt">$0.40<small>/GB ingest</small></div>
+      <p class="price-desc">For teams shipping production. No host fees, no user fees.</p>
+      <ul class="price-list">
+        <li>Pay-as-you-go ingest</li>
+        <li>90-day retention default</li>
+        <li>Unlimited team members</li>
+        <li>Distributed tracing &amp; APM</li>
+        <li>SSO (Google, GitHub, Okta)</li>
+        <li>Email support, &lt; 4hr response</li>
+      </ul>
+      <a href="#" class="btn btn-primary" style="justify-content:center;">Start 30-day trial</a>
+    </div>
+    <div class="price-card">
+      <h3>Enterprise</h3>
+      <div class="price-amt contact">Talk to us</div>
+      <p class="price-desc">For larger orgs with compliance, audit, and security needs.</p>
+      <ul class="price-list">
+        <li>Volume-discounted ingest</li>
+        <li>Custom retention up to 7 yrs</li>
+        <li>SOC 2 Type II, HIPAA, ISO</li>
+        <li>Dedicated support engineer</li>
+        <li>Self-hosted option</li>
+        <li>SAML, SCIM, audit logs</li>
+      </ul>
+      <a href="#" class="btn btn-ghost" style="justify-content:center;">Contact sales</a>
+    </div>
+  </div>
+</section>
+
+<section class="testi">
+  <div class="testi-card">
+    <p class="testi-q">"We switched off Datadog in a single afternoon and our bill dropped <em>83% the first month</em>. The query speed is what won us over — pulling six months of logs takes three seconds instead of three minutes."</p>
+    <div class="testi-attr">
+      <div class="testi-avatar">RD</div>
+      <div class="testi-name"><strong>Rohan Desai</strong><small>CTO, Northwind · 47 engineers</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <span class="section-eye">→ Get started</span>
+  <h2>Five minutes to <em>your first log.</em></h2>
+  <p>Free forever for small teams. Pay-as-you-go after. Cancel anytime, no annual contract.</p>
+  <div class="actions">
+    <a href="#" class="btn btn-primary">Start free →</a>
+    <a href="#" class="btn btn-ghost">Read the quickstart</a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a href="#" class="logo"><span class="mark">↯</span>switchback</a>
+      <p>Observability that ships with you. Built in San Francisco &amp; Berlin since 2022.</p>
+    </div>
+    <div><h4>Product</h4><ul><li><a href="#">Logs</a></li><li><a href="#">Metrics</a></li><li><a href="#">Tracing</a></li><li><a href="#">Alerts</a></li><li><a href="#">Dashboards</a></li></ul></div>
+    <div><h4>Resources</h4><ul><li><a href="#">Documentation</a></li><li><a href="#">Changelog</a></li><li><a href="#">Blog</a></li><li><a href="#">Status</a></li><li><a href="#">API reference</a></li></ul></div>
+    <div><h4>Company</h4><ul><li><a href="#">About</a></li><li><a href="#">Customers</a></li><li><a href="#">Careers</a></li><li><a href="#">Press kit</a></li><li><a href="#">Brand</a></li></ul></div>
+    <div><h4>Legal</h4><ul><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li><li><a href="#">DPA</a></li><li><a href="#">Security</a></li><li><a href="#">SOC 2</a></li></ul></div>
+  </div>
+  <div class="foot-bot">
+    <span>© 2022—2026 SWITCHBACK INC.</span>
+    <span class="status">ALL SYSTEMS NORMAL · 99.99% uptime · 90 days</span>
+    <span>SAN FRANCISCO · BERLIN</span>
+  </div>
+</footer>
+
+<script>
+  const stream = document.getElementById('stream');
+  const services = ['api-gateway', 'auth-svc', 'payments', 'search-idx', 'webhooks', 'workers/email', 'workers/billing'];
+  const levels = [
+    {cls: 'info', text: 'INFO'}, {cls: 'ok', text: '200'}, {cls: 'ok', text: 'OK'},
+    {cls: 'info', text: 'INFO'}, {cls: 'warn', text: 'WARN'}, {cls: 'err', text: 'ERROR'}
+  ];
+  const messages = [
+    'req GET /v1/users <span class="key">latency</span>=<span class="num">{ms}ms</span>',
+    'req POST /v1/orders <span class="key">user</span>=<span class="val">u_{id}</span>',
+    'charge succeeded <span class="key">amt</span>=<span class="num">${amt}</span>',
+    'job completed <span class="key">name</span>=<span class="val">send_email</span> <span class="key">dur</span>=<span class="num">{ms}ms</span>',
+    'cache miss <span class="key">key</span>=<span class="val">user:{id}</span>',
+    'login_success <span class="key">user</span>=<span class="val">u_{id}</span>',
+    'webhook delivered <span class="key">url</span>=<span class="val">api.stripe.com</span>',
+    'query <span class="key">tbl</span>=<span class="val">orders</span> <span class="key">rows</span>=<span class="num">{ms}</span>',
+    'health_check ok <span class="key">node</span>=<span class="val">aws-east-{id}</span>',
+    'session created <span class="key">id</span>=<span class="val">sess_{id}</span>'
+  ];
+  function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function pad(n) { return n.toString().padStart(2,'0'); }
+  function timeStr() {
+    const d = new Date();
+    return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()) + '.' + d.getMilliseconds().toString().padStart(3,'0');
+  }
+  function makeId() { return Math.random().toString(36).slice(2,7).toUpperCase(); }
+  function addLine() {
+    const lvl = rand(levels);
+    const svc = rand(services);
+    let msg = rand(messages);
+    msg = msg.replace(/\{ms\}/g, Math.floor(Math.random() * 800 + 10))
+             .replace(/\{id\}/g, makeId())
+             .replace(/\{amt\}/g, (Math.random() * 100 + 5).toFixed(2));
+    const line = document.createElement('div');
+    line.className = 'log-line';
+    line.innerHTML = `<span class="log-time">${timeStr()}</span><span class="log-level ${lvl.cls}">${lvl.text}</span><span class="log-svc">${svc}</span><span class="log-msg">${msg}</span>`;
+    stream.appendChild(line);
+    while (stream.children.length > 20) stream.removeChild(stream.firstChild);
+    stream.scrollTop = stream.scrollHeight;
+  }
+  setInterval(addLine, 1100);
+</script>
+
+</body>
+</html>

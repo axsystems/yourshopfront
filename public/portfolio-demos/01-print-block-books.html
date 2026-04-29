@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Print Block Books — Independent bookstore &amp; zine press</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=DM+Serif+Display:ital@0;1&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --paper: #F4EFE3;
+    --paper-deep: #ECE3D0;
+    --ink: #15203F;
+    --pink: #FF4081;
+    --pink-deep: #E0356E;
+    --green: #4A8F3D;
+    --green-deep: #3A7330;
+    --cream: #FBF7EE;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.5;
+    overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+  /* paper grain */
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: 0.5;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(21,32,63,0.08) 1px, transparent 0),
+      radial-gradient(circle at 3px 4px, rgba(21,32,63,0.04) 1px, transparent 0);
+    background-size: 5px 5px, 7px 7px;
+  }
+
+  .serif { font-family: 'DM Serif Display', serif; line-height: 0.95; letter-spacing: -0.02em; }
+  .mono { font-family: 'Space Mono', monospace; }
+  .typewriter { font-family: 'VT323', monospace; letter-spacing: 0.02em; }
+
+  /* halftone overlays */
+  .halftone-pink {
+    background-image: radial-gradient(circle, var(--pink) 1.5px, transparent 1.5px);
+    background-size: 6px 6px;
+  }
+  .halftone-green {
+    background-image: radial-gradient(circle, var(--green) 1.5px, transparent 1.5px);
+    background-size: 6px 6px;
+  }
+
+  /* TOP STAMP */
+  .topstamp {
+    background: var(--ink); color: var(--paper);
+    padding: 10px 28px; display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Space Mono'; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .topstamp .pulse { display: inline-flex; align-items: center; gap: 8px; color: var(--pink); }
+  .topstamp .pulse::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--pink); animation: blink 1.4s infinite; }
+  @keyframes blink { 50% { opacity: 0.3; } }
+
+  /* NAV */
+  nav {
+    background: var(--paper); padding: 22px 28px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 2px solid var(--ink); position: relative; z-index: 5;
+  }
+  .logo {
+    font-family: 'DM Serif Display', serif; font-size: 28px; line-height: 1; letter-spacing: -0.02em;
+    display: flex; align-items: center; gap: 10px; position: relative;
+  }
+  .logo .stamp {
+    width: 44px; height: 44px; background: var(--pink); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif; color: var(--cream); font-size: 22px;
+    transform: rotate(-8deg); position: relative;
+  }
+  .logo .stamp::after {
+    content: ''; position: absolute; inset: -4px; border: 1.5px dashed var(--pink); border-radius: 50%; opacity: 0.5;
+  }
+  .nav-mid { display: flex; gap: 26px; }
+  .nav-mid a {
+    color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 500;
+    position: relative; padding: 4px 0;
+  }
+  .nav-mid a:hover { color: var(--pink-deep); }
+  .nav-right { display: flex; gap: 14px; align-items: center; font-size: 13px; }
+  .basket {
+    background: var(--ink); color: var(--cream); padding: 10px 18px; border-radius: 4px;
+    text-decoration: none; font-weight: 600; display: flex; gap: 8px; align-items: center;
+    font-family: 'Space Mono';
+  }
+  .basket:hover { background: var(--pink-deep); }
+
+  /* HERO — printer's plate */
+  .hero {
+    padding: 60px 28px 80px; max-width: 1500px; margin: 0 auto; position: relative; z-index: 2;
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: end;
+  }
+  .hero-headline {
+    font-family: 'DM Serif Display', serif; font-size: clamp(3rem, 11vw, 11rem);
+    line-height: 0.88; letter-spacing: -0.03em; position: relative;
+  }
+  .hero-headline .pink { color: var(--pink); font-style: italic; position: relative; display: inline-block; }
+  .hero-headline .green { color: var(--green); position: relative; display: inline-block; }
+  .hero-headline .pink::after, .hero-headline .green::after {
+    content: ''; position: absolute; inset: 0;
+    background: inherit; mix-blend-mode: multiply;
+    transform: translate(3px, 3px); opacity: 0.3;
+  }
+
+  .hero-side { display: flex; flex-direction: column; gap: 24px; align-items: end; }
+  .hero-stamp-circle {
+    width: 200px; height: 200px; border-radius: 50%;
+    background: var(--pink); position: relative; transform: rotate(-12deg);
+    display: flex; align-items: center; justify-content: center; flex-direction: column;
+    color: var(--cream);
+  }
+  .hero-stamp-circle::before {
+    content: ''; position: absolute; inset: 8px; border: 2px dashed rgba(251,247,238,0.6); border-radius: 50%;
+  }
+  .hero-stamp-circle .num {
+    font-family: 'DM Serif Display', serif; font-size: 64px; line-height: 1; font-style: italic;
+  }
+  .hero-stamp-circle .lbl {
+    font-family: 'Space Mono'; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    text-align: center; max-width: 130px;
+  }
+  .hero-aside {
+    background: var(--cream); border: 2px solid var(--ink); padding: 18px 22px;
+    box-shadow: 5px 5px 0 var(--green); max-width: 320px;
+  }
+  .hero-aside .lbl { font-family: 'Space Mono'; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--pink-deep); margin-bottom: 8px; }
+  .hero-aside p { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 18px; line-height: 1.3; color: var(--ink); }
+
+  .hero-tagline {
+    grid-column: 1 / -1; padding-top: 30px; border-top: 2px solid var(--ink); margin-top: 30px;
+    display: grid; grid-template-columns: 2fr 1fr; gap: 40px; align-items: end;
+  }
+  .hero-tagline p {
+    font-family: 'DM Serif Display', serif; font-size: 22px; line-height: 1.35; max-width: 620px;
+  }
+  .hero-tagline p em { font-style: italic; color: var(--pink-deep); }
+  .hero-meta {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    font-family: 'Space Mono'; font-size: 12px; line-height: 1.4;
+  }
+  .hero-meta .cell { border-top: 1px solid var(--ink); padding-top: 8px; }
+  .hero-meta .cell strong { display: block; font-family: 'DM Serif Display'; font-style: italic; font-size: 16px; font-weight: 400; }
+
+  /* TICKER */
+  .ticker {
+    background: var(--ink); color: var(--cream); padding: 14px 0; overflow: hidden;
+    border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); position: relative; z-index: 2;
+  }
+  .ticker-track { display: flex; gap: 60px; white-space: nowrap; animation: scroll 35s linear infinite; }
+  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .ticker span {
+    font-family: 'DM Serif Display', serif; font-size: 22px; display: inline-flex; align-items: center; gap: 60px;
+  }
+  .ticker span em { font-style: italic; color: var(--pink); }
+  .ticker span::after { content: '✶'; color: var(--green); margin-left: 60px; }
+
+  /* SECTIONS */
+  section { padding: 90px 28px; max-width: 1500px; margin: 0 auto; position: relative; z-index: 2; }
+  .eyebrow {
+    display: inline-block; background: var(--pink); color: var(--cream);
+    padding: 4px 12px; transform: rotate(-1deg); font-family: 'Space Mono'; font-size: 12px;
+    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 18px;
+  }
+  .eyebrow.green { background: var(--green); }
+  h2 {
+    font-family: 'DM Serif Display', serif; font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 0.95; letter-spacing: -0.025em; margin-bottom: 24px;
+  }
+  h2 em { font-style: italic; color: var(--pink-deep); }
+  h2 .green { color: var(--green); }
+
+  /* PICKS — featured books */
+  .picks-head { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px; }
+  .picks-head p { font-size: 16px; line-height: 1.55; color: rgba(21,32,63,0.75); max-width: 380px; justify-self: end; }
+
+  .picks-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+  }
+  .pick-card {
+    background: var(--cream); border: 2px solid var(--ink); padding: 18px;
+    transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; text-decoration: none; color: var(--ink);
+    display: flex; flex-direction: column; gap: 14px; position: relative;
+  }
+  .pick-card:hover { transform: translate(-3px, -3px); box-shadow: 6px 6px 0 var(--pink); }
+  .pick-card:nth-child(4n+2):hover { box-shadow: 6px 6px 0 var(--green); }
+  .pick-card:nth-child(4n+3):hover { box-shadow: 6px 6px 0 var(--ink); }
+
+  .book-cover {
+    aspect-ratio: 2/3; background: var(--paper-deep); position: relative; overflow: hidden;
+    border: 1.5px solid var(--ink);
+  }
+  .book-cover.c1 { background: var(--pink); }
+  .book-cover.c2 { background: var(--green); }
+  .book-cover.c3 { background: var(--ink); }
+  .book-cover.c4 { background: var(--paper-deep); }
+  .book-cover.c5 { background: var(--green); }
+  .book-cover.c6 { background: var(--ink); }
+  .book-cover.c7 { background: var(--pink); }
+  .book-cover.c8 { background: var(--paper-deep); }
+  .book-cover::before {
+    content: ''; position: absolute; inset: 0; opacity: 0.25;
+    background-image: radial-gradient(circle, currentColor 1px, transparent 1px);
+    background-size: 5px 5px;
+  }
+  .book-cover.c1::before, .book-cover.c7::before { color: var(--ink); }
+  .book-cover.c2::before, .book-cover.c5::before { color: var(--cream); }
+  .book-cover.c3::before, .book-cover.c6::before { color: var(--pink); }
+  .book-cover.c4::before, .book-cover.c8::before { color: var(--ink); }
+  .book-cover-title {
+    position: absolute; inset: 0; padding: 20px 16px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    font-family: 'DM Serif Display', serif; font-size: 20px; line-height: 1; color: var(--cream);
+  }
+  .book-cover.c4 .book-cover-title, .book-cover.c8 .book-cover-title { color: var(--ink); }
+  .book-cover-title em { font-style: italic; }
+  .book-cover-foot { font-family: 'Space Mono'; font-size: 10px; letter-spacing: 0.15em; opacity: 0.85; }
+
+  .pick-meta { display: flex; flex-direction: column; gap: 4px; }
+  .pick-cat { font-family: 'Space Mono'; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--pink-deep); }
+  .pick-title { font-family: 'DM Serif Display', serif; font-size: 19px; line-height: 1.1; }
+  .pick-author { font-size: 13px; color: rgba(21,32,63,0.7); font-style: italic; }
+  .pick-bot { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid rgba(21,32,63,0.15); }
+  .pick-price { font-family: 'DM Serif Display', serif; font-size: 22px; }
+  .pick-add { font-family: 'Space Mono'; font-size: 11px; letter-spacing: 0.1em; }
+
+  /* CATEGORIES STRIP */
+  .cats {
+    background: var(--cream); border: 2px solid var(--ink); padding: 50px 36px;
+    margin: 0 28px;
+  }
+  .cats-inner { max-width: 1500px; margin: 0 auto; }
+  .cats-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; margin-top: 30px; }
+  .cat-tile {
+    aspect-ratio: 1; background: var(--paper); border: 2px solid var(--ink);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-decoration: none; color: var(--ink); padding: 16px; text-align: center;
+    transition: all 0.2s; cursor: pointer;
+  }
+  .cat-tile:hover { background: var(--pink); color: var(--cream); }
+  .cat-tile:nth-child(2n):hover { background: var(--green); }
+  .cat-tile:nth-child(3n):hover { background: var(--ink); }
+  .cat-tile .num { font-family: 'Space Mono'; font-size: 11px; letter-spacing: 0.12em; opacity: 0.6; margin-bottom: 8px; }
+  .cat-tile .name { font-family: 'DM Serif Display', serif; font-size: 22px; line-height: 1; }
+  .cat-tile .name em { font-style: italic; }
+  .cat-tile .ct { font-family: 'Space Mono'; font-size: 11px; opacity: 0.6; margin-top: 6px; }
+
+  /* ZINE PRESS */
+  .zine-section { padding: 100px 28px; }
+  .zine-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 60px; align-items: center; }
+  .zine-stack { position: relative; aspect-ratio: 4/5; }
+  .zine {
+    position: absolute; left: 50%; top: 50%; width: 70%; aspect-ratio: 3/4;
+    background: var(--cream); border: 2px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--ink);
+    padding: 30px 20px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    transition: transform 0.4s;
+  }
+  .zine:nth-child(1) { transform: translate(-65%, -50%) rotate(-7deg); background: var(--green); color: var(--cream); }
+  .zine:nth-child(2) { transform: translate(-50%, -55%) rotate(2deg); background: var(--pink); color: var(--cream); }
+  .zine:nth-child(3) { transform: translate(-35%, -45%) rotate(8deg); }
+  .zine-stack:hover .zine:nth-child(1) { transform: translate(-75%, -55%) rotate(-12deg); }
+  .zine-stack:hover .zine:nth-child(3) { transform: translate(-25%, -50%) rotate(13deg); }
+  .zine-num { font-family: 'Space Mono'; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; }
+  .zine-title { font-family: 'DM Serif Display', serif; font-size: 32px; line-height: 0.95; }
+  .zine-title em { font-style: italic; }
+  .zine-foot { font-family: 'Space Mono'; font-size: 11px; opacity: 0.85; }
+
+  .zine-text p { font-size: 17px; line-height: 1.55; max-width: 480px; margin-bottom: 18px; color: rgba(21,32,63,0.85); }
+  .zine-text p:first-of-type::first-letter {
+    font-family: 'DM Serif Display'; font-style: italic; font-size: 5em; line-height: 0.85;
+    float: left; padding: 6px 12px 0 0; color: var(--pink-deep);
+  }
+  .zine-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--ink); color: var(--cream); padding: 14px 22px; border-radius: 4px;
+    text-decoration: none; font-weight: 600; margin-top: 14px;
+    font-family: 'Space Mono'; font-size: 13px;
+  }
+  .zine-cta:hover { background: var(--pink-deep); }
+
+  /* EVENTS */
+  .events-section { background: var(--ink); color: var(--cream); padding: 100px 28px; max-width: none; margin: 0; }
+  .events-inner { max-width: 1500px; margin: 0 auto; }
+  .events-section h2 { color: var(--cream); }
+  .events-section h2 em { color: var(--pink); }
+  .events-section .eyebrow { background: var(--green); color: var(--cream); }
+
+  .events-list { margin-top: 50px; }
+  .event-row {
+    display: grid; grid-template-columns: 80px 100px 2fr 1fr 60px;
+    gap: 30px; align-items: center;
+    padding: 24px 16px; border-top: 1.5px solid rgba(251,247,238,0.2);
+    text-decoration: none; color: var(--cream); transition: background 0.2s, padding-left 0.3s;
+    cursor: pointer;
+  }
+  .event-row:last-child { border-bottom: 1.5px solid rgba(251,247,238,0.2); }
+  .event-row:hover { background: rgba(255,64,129,0.1); padding-left: 32px; }
+  .event-row:hover h3 { color: var(--pink); }
+  .event-row:hover .arrow { transform: translateX(0); opacity: 1; }
+  .event-date {
+    border: 2px solid var(--cream); padding: 8px 4px; text-align: center;
+    font-family: 'DM Serif Display', serif;
+  }
+  .event-date strong { display: block; font-size: 28px; line-height: 1; font-style: italic; }
+  .event-date span { font-family: 'Space Mono'; font-size: 11px; letter-spacing: 0.15em; }
+  .event-type { font-family: 'Space Mono'; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--pink); }
+  .event-row h3 { font-family: 'DM Serif Display'; font-size: 24px; line-height: 1.05; transition: color 0.2s; }
+  .event-row h3 em { font-style: italic; }
+  .event-time { font-family: 'Space Mono'; font-size: 13px; opacity: 0.8; }
+  .arrow { font-size: 20px; opacity: 0.5; transform: translateX(-10px); transition: all 0.3s; }
+
+  /* NEWSLETTER */
+  .news-section {
+    padding: 100px 28px; background: var(--paper-deep);
+    border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink);
+    max-width: none; margin: 0; position: relative; overflow: hidden;
+  }
+  .news-section::before, .news-section::after {
+    content: '✶'; position: absolute; font-size: 120px; color: var(--pink); opacity: 0.2;
+    font-family: 'DM Serif Display';
+  }
+  .news-section::before { top: 20px; left: 5%; }
+  .news-section::after { bottom: 20px; right: 5%; color: var(--green); }
+  .news-inner { max-width: 800px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
+  .news-inner h2 { font-size: clamp(2.5rem, 6vw, 4.5rem); }
+  .news-inner p { font-size: 17px; max-width: 540px; margin: 14px auto 32px; line-height: 1.55; }
+  .news-form { display: flex; gap: 0; max-width: 480px; margin: 0 auto; border: 2px solid var(--ink); background: var(--cream); }
+  .news-form input { border: none; padding: 16px 20px; flex: 1; font-family: 'Space Mono'; font-size: 14px; background: transparent; color: var(--ink); outline: none; }
+  .news-form button { border: none; background: var(--ink); color: var(--cream); padding: 16px 24px; font-family: 'Space Mono'; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+  .news-form button:hover { background: var(--pink-deep); }
+
+  /* FOOTER */
+  footer { padding: 70px 28px 30px; max-width: 1500px; margin: 0 auto; }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 50px; border-bottom: 2px solid var(--ink); }
+  .foot-brand .logo { margin-bottom: 16px; }
+  .foot-brand p { font-size: 14px; max-width: 320px; line-height: 1.55; color: rgba(21,32,63,0.75); }
+  .foot-addr { margin-top: 18px; font-family: 'Space Mono'; font-size: 12px; line-height: 1.7; }
+  footer h4 { font-family: 'Space Mono'; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 16px; color: var(--pink-deep); }
+  footer ul { list-style: none; }
+  footer ul li { padding: 4px 0; }
+  footer ul a { color: var(--ink); text-decoration: none; font-size: 14px; }
+  footer ul a:hover { color: var(--pink-deep); }
+  .foot-bot { padding-top: 30px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; font-family: 'Space Mono'; font-size: 11px; letter-spacing: 0.1em; }
+
+  @media (max-width: 1000px) {
+    .hero-grid, .picks-head, .zine-grid, .hero-tagline { grid-template-columns: 1fr; gap: 30px; }
+    .hero-tagline { padding-top: 20px; }
+    .picks-grid { grid-template-columns: 1fr 1fr; }
+    .cats-grid { grid-template-columns: 1fr 1fr; }
+    .nav-mid { display: none; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: span 2; }
+    .event-row { grid-template-columns: 60px 1fr 30px; gap: 16px; padding: 16px 8px; }
+    .event-type, .event-time { display: none; }
+    .hero-side { align-items: flex-start; }
+    section, nav, .hero, .ticker, .events-section, .news-section, footer { padding-left: 18px; padding-right: 18px; }
+    .cats { margin: 0 18px; padding: 30px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topstamp">
+  <span class="pulse">SHOP IS OPEN · 11—8 TODAY</span>
+  <span>2,347 BOOKS IN STOCK · 88 ZINES IN PRESS</span>
+</div>
+
+<nav>
+  <div class="logo"><span class="stamp">P</span>Print Block.</div>
+  <div class="nav-mid">
+    <a href="#picks">Staff picks</a>
+    <a href="#cats">Browse</a>
+    <a href="#zines">Our zines</a>
+    <a href="#events">Events</a>
+    <a href="#">Visit</a>
+  </div>
+  <div class="nav-right">
+    <a href="#" style="color:var(--ink); text-decoration:none;">Sign in</a>
+    <a href="#" class="basket">↗ Basket [3]</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid">
+    <h1 class="hero-headline">
+      <span>Books<br>that <span class="pink">smell</span> like<br>old <span class="green">paper</span><br>and new <span class="pink">ideas.</span></span>
+    </h1>
+    <div class="hero-side">
+      <div class="hero-stamp-circle">
+        <span class="num">12</span>
+        <span class="lbl">Years on Atlantic Ave</span>
+      </div>
+      <div class="hero-aside">
+        <div class="lbl">Today's staff pick</div>
+        <p><em>"The Goldfinch"</em> — still, after all these years, the one Marcus pushes on every customer who'll listen.</p>
+      </div>
+    </div>
+    <div class="hero-tagline">
+      <p>An independent bookstore and zine press in Brooklyn. Twelve thousand titles, six staff with strong opinions, two cats, one Risograph, and a basement full of small-press chapbooks <em>nobody else stocks.</em></p>
+      <div class="hero-meta">
+        <div class="cell"><span>OPEN</span><strong>11—8 every day</strong></div>
+        <div class="cell"><span>VISIT</span><strong>342 Atlantic Ave</strong></div>
+        <div class="cell"><span>PHONE</span><strong>(718) 555-0142</strong></div>
+        <div class="cell"><span>EVENTS</span><strong>2—3 per week</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ticker">
+  <div class="ticker-track">
+    <span>NEW THIS WEEK · <em>Hernan Diaz</em>, signed copies</span>
+    <span>BOOK CLUB FRI · <em>"All Fours"</em> by Miranda July</span>
+    <span>ZINE #023 OUT NOW · <em>"On Patience"</em></span>
+    <span>FREE SHIPPING IN BROOKLYN · over $35</span>
+    <span>NEW THIS WEEK · <em>Hernan Diaz</em>, signed copies</span>
+    <span>BOOK CLUB FRI · <em>"All Fours"</em> by Miranda July</span>
+    <span>ZINE #023 OUT NOW · <em>"On Patience"</em></span>
+    <span>FREE SHIPPING IN BROOKLYN · over $35</span>
+  </div>
+</div>
+
+<section id="picks">
+  <div class="picks-head">
+    <div>
+      <span class="eyebrow">↗ This week's staff picks</span>
+      <h2>Books we're <em>pushing</em><br><span class="green">hard</span> right now.</h2>
+    </div>
+    <p>Eight titles from the front table this week. Hand-stamped with whichever bookseller fell in love with them. Updated every Tuesday morning, when our truck arrives.</p>
+  </div>
+
+  <div class="picks-grid">
+    <a href="#" class="pick-card">
+      <div class="book-cover c1"><div class="book-cover-title"><span><em>Trust</em><br>Hernan Diaz</span><span class="book-cover-foot">2022 · Pulitzer</span></div></div>
+      <div class="pick-meta">
+        <span class="pick-cat">FICTION · LITERARY</span>
+        <h3 class="pick-title">Trust</h3>
+        <span class="pick-author">Hernan Diaz</span>
+      </div>
+      <div class="pick-bot"><span class="pick-price">$18</span><span class="pick-add">↗ Add to basket</span></div>
+    </a>
+
+    <a href="#" class="pick-card">
+      <div class="book-cover c2"><div class="book-cover-title"><span>All<br><em>Fours</em></span><span class="book-cover-foot">M. JULY · 2024</span></div></div>
+      <div class="pick-meta">
+        <span class="pick-cat">FICTION · CONTEMPORARY</span>
+        <h3 class="pick-title">All Fours</h3>
+        <span class="pick-author">Miranda July</span>
+      </div>
+      <div class="pick-bot"><span class="pick-price">$22</span><span class="pick-add">↗ Add to basket</span></div>
+    </a>
+
+    <a href="#" class="pick-card">
+      <div class="book-cover c3"><div class="book-cover-title"><span>How<br>to Read<br><em>Now</em></span><span class="book-cover-foot">E. CASTILLO · ESSAYS</span></div></div>
+      <div class="pick-meta">
+        <span class="pick-cat">ESSAYS · CRITICISM</span>
+        <h3 class="pick-title">How to Read Now</h3>
+        <span class="pick-author">Elaine Castillo</span>
+      </div>
+      <div class="pick-bot"><span class="pick-price">$16</span><span class="pick-add">↗ Add to basket</span></div>
+    </a>
+
+    <a href="#" class="pick-card">
+      <div class="book-cover c4"><div class="book-cover-title"><span><em>Birnam<br>Wood</em></span><span class="book-cover-foot">E. CATTON · '23</span></div></div>
+      <div class="pick-meta">
+        <span class="pick-cat">FICTION · THRILLER</span>
+        <h3 class="pick-title">Birnam Wood</h3>
+        <span class="pick-author">Eleanor Catton</span>
+      </div>
+      <div class="pick-bot"><span class="pick-price">$19</span><span class="pick-add">↗ Add to basket</span></div>
+    </a>
+
+    <a href="#" class="pick-card">
+      <div class="book-cover c5"><div class="book-cover-title"><span>The Empusium<br><em>Olga</em></span><span class="book-cover-foot">TOKARCZUK · 2024</span></div></div>
+      <div class="pick-meta">
+        <span class="pick-cat">FICTION · IN TRANSLATION</span>
+        <h3 class="pick-title">The Empusium</h3>
+        <span class="pick-author">Olga Tokarczuk</span>
+      </div>
+      <div class="pick-bot"><span class="pick-price">$24</span><span class="pick-add">↗ Add to basket</span></div>
+    </a>
+
+    <a href="#" class="pick-card">
+      <div class="book-cover c6"><div class="book-cover-title"><span>The<br><em>Anthropocene<br>Reviewed</em></span><span class="book-cover-foot">JOHN GREEN</span></div></div>
+      <div class="pick-meta">
+        <span class="pick-cat">ESSAYS · MEMOIR</span>
+        <h3 class="pick-title">The Anthropocene Reviewed</h3>
+        <span class="pick-author">John Green</span>
+      </div>
+      <div class="pick-bot"><span class="pick-price">$15</span><span class="pick-add">↗ Add to basket</span></div>
+    </a>
+
+    <a href="#" class="pick-card">
+      <div class="book-cover c7"><div class="book-cover-title"><span>Pew<br><em>Catherine<br>Lacey</em></span><span class="book-cover-foot">'20 · NOVELLA</span></div></div>
+      <div class="pick-meta">
+        <span class="pick-cat">FICTION · LITERARY</span>
+        <h3 class="pick-title">Pew</h3>
+        <span class="pick-author">Catherine Lacey</span>
+      </div>
+      <div class="pick-bot"><span class="pick-price">$14</span><span class="pick-add">↗ Add to basket</span></div>
+    </a>
+
+    <a href="#" class="pick-card">
+      <div class="book-cover c8"><div class="book-cover-title"><span><em>Cuíer:<br>Queer Brazil</em></span><span class="book-cover-foot">TWO LINES PRESS</span></div></div>
+      <div class="pick-meta">
+        <span class="pick-cat">ANTHOLOGY · IN TRANSLATION</span>
+        <h3 class="pick-title">Cuíer: Queer Brazil</h3>
+        <span class="pick-author">Two Lines Press</span>
+      </div>
+      <div class="pick-bot"><span class="pick-price">$20</span><span class="pick-add">↗ Add to basket</span></div>
+    </a>
+  </div>
+</section>
+
+<section id="cats" style="padding: 0;">
+  <div class="cats">
+    <div class="cats-inner">
+      <span class="eyebrow green">↗ Browse the shelves</span>
+      <h2>Twelve thousand titles,<br>organized for <em>browsing.</em></h2>
+      <div class="cats-grid">
+        <a href="#" class="cat-tile">
+          <span class="num">/ 01</span>
+          <span class="name"><em>Fiction</em></span>
+          <span class="ct">3,840 titles</span>
+        </a>
+        <a href="#" class="cat-tile">
+          <span class="num">/ 02</span>
+          <span class="name">Nonfiction</span>
+          <span class="ct">2,210 titles</span>
+        </a>
+        <a href="#" class="cat-tile">
+          <span class="num">/ 03</span>
+          <span class="name"><em>Poetry</em></span>
+          <span class="ct">680 titles</span>
+        </a>
+        <a href="#" class="cat-tile">
+          <span class="num">/ 04</span>
+          <span class="name">Art &amp; design</span>
+          <span class="ct">920 titles</span>
+        </a>
+        <a href="#" class="cat-tile">
+          <span class="num">/ 05</span>
+          <span class="name"><em>Kids</em> &amp; YA</span>
+          <span class="ct">1,310 titles</span>
+        </a>
+        <a href="#" class="cat-tile">
+          <span class="num">/ 06</span>
+          <span class="name">Translation</span>
+          <span class="ct">540 titles</span>
+        </a>
+        <a href="#" class="cat-tile">
+          <span class="num">/ 07</span>
+          <span class="name"><em>Zines</em></span>
+          <span class="ct">288 titles</span>
+        </a>
+        <a href="#" class="cat-tile">
+          <span class="num">/ 08</span>
+          <span class="name">Cookbooks</span>
+          <span class="ct">410 titles</span>
+        </a>
+        <a href="#" class="cat-tile">
+          <span class="num">/ 09</span>
+          <span class="name"><em>Essays</em></span>
+          <span class="ct">760 titles</span>
+        </a>
+        <a href="#" class="cat-tile">
+          <span class="num">/ 10</span>
+          <span class="name">Memoir</span>
+          <span class="ct">580 titles</span>
+        </a>
+        <a href="#" class="cat-tile">
+          <span class="num">/ 11</span>
+          <span class="name"><em>Crime</em></span>
+          <span class="ct">490 titles</span>
+        </a>
+        <a href="#" class="cat-tile">
+          <span class="num">/ 12</span>
+          <span class="name">Used &amp; rare</span>
+          <span class="ct">110 titles</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="zine-section" id="zines">
+  <div class="zine-grid">
+    <div class="zine-stack">
+      <div class="zine">
+        <span class="zine-num">№ 021</span>
+        <span class="zine-title">On <em>quiet</em><br>Saturdays</span>
+        <span class="zine-foot">2024 · 32pp · Riso 3-color</span>
+      </div>
+      <div class="zine">
+        <span class="zine-num">№ 022</span>
+        <span class="zine-title"><em>Bodega</em><br>poetry</span>
+        <span class="zine-foot">2024 · 24pp · Riso 2-color</span>
+      </div>
+      <div class="zine">
+        <span class="zine-num">№ 023</span>
+        <span class="zine-title">On<br><em>patience</em></span>
+        <span class="zine-foot">2025 · 40pp · Riso 4-color</span>
+      </div>
+    </div>
+    <div class="zine-text">
+      <span class="eyebrow">↗ Print Block Press</span>
+      <h2>We <em>publish</em> our own<br>zines, too.</h2>
+      <p>Twenty-three so far, printed in the basement on a 1990s Risograph that was nearly thrown out by the school district. We pay every contributor, we sell them at cost, and we leave a hundred copies on a free shelf by the door for people who shouldn't have to pay.</p>
+      <p>New issues come out roughly every six weeks. Subscribe and we'll mail them to your door, riso-stamped and slightly off-register, the way they're supposed to be.</p>
+      <a href="#" class="zine-cta">↗ Subscribe — $48/year</a>
+    </div>
+  </div>
+</section>
+
+<section class="events-section" id="events">
+  <div class="events-inner">
+    <span class="eyebrow">↗ Upcoming at the shop</span>
+    <h2>Readings, signings,<br>book clubs &amp; <em>quiet evenings.</em></h2>
+    <div class="events-list">
+      <a href="#" class="event-row">
+        <div class="event-date"><strong>02</strong><span>MAY</span></div>
+        <span class="event-type">READING</span>
+        <h3>Hernan Diaz reads from <em>Trust</em>, with Q&amp;A</h3>
+        <span class="event-time">7:00 PM · $5 / free w/ book</span>
+        <span class="arrow">→</span>
+      </a>
+      <a href="#" class="event-row">
+        <div class="event-date"><strong>06</strong><span>MAY</span></div>
+        <span class="event-type">BOOK CLUB</span>
+        <h3>Friday Book Club: <em>"All Fours"</em> by Miranda July</h3>
+        <span class="event-time">6:30 PM · 12 seats · BYO</span>
+        <span class="arrow">→</span>
+      </a>
+      <a href="#" class="event-row">
+        <div class="event-date"><strong>11</strong><span>MAY</span></div>
+        <span class="event-type">RELEASE</span>
+        <h3>Zine №024 launch — <em>"On Hands"</em></h3>
+        <span class="event-time">6:00 PM · Free · Wine</span>
+        <span class="arrow">→</span>
+      </a>
+      <a href="#" class="event-row">
+        <div class="event-date"><strong>18</strong><span>MAY</span></div>
+        <span class="event-type">WORKSHOP</span>
+        <h3>Beginner Risograph printing — w/ Yumi</h3>
+        <span class="event-time">2:00 PM · 6 seats · $40</span>
+        <span class="arrow">→</span>
+      </a>
+      <a href="#" class="event-row">
+        <div class="event-date"><strong>25</strong><span>MAY</span></div>
+        <span class="event-type">READING</span>
+        <h3>Catherine Lacey reads new fiction, in conversation w/ Sloane Crosley</h3>
+        <span class="event-time">7:00 PM · $10</span>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="news-section">
+  <div class="news-inner">
+    <span class="eyebrow">↗ The shop letter</span>
+    <h2 class="serif">Thursday <em>book mail</em><br>from the shop.</h2>
+    <p>A short letter from one of our booksellers, every Thursday. What's on the front table, what we're arguing about in the back, and what's worth your weekend. About 800 readers. No spam, ever.</p>
+    <form class="news-form">
+      <input type="email" placeholder="email@yourhouse.com">
+      <button>Subscribe →</button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div class="logo"><span class="stamp">P</span>Print Block.</div>
+      <p>An independent bookstore and zine press operating on Atlantic Avenue since 2013. Twelve thousand titles, six booksellers with strong opinions, and the only Risograph in our zip code.</p>
+      <div class="foot-addr">
+        342 ATLANTIC AVE, BROOKLYN NY 11217<br>
+        OPEN 11—8 EVERY DAY · (718) 555-0142
+      </div>
+    </div>
+    <div>
+      <h4>Visit</h4>
+      <ul>
+        <li><a href="#">Hours &amp; map</a></li>
+        <li><a href="#">Readings</a></li>
+        <li><a href="#">Book club</a></li>
+        <li><a href="#">Workshops</a></li>
+        <li><a href="#">Storytime (kids)</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Browse</h4>
+      <ul>
+        <li><a href="#">Staff picks</a></li>
+        <li><a href="#">New arrivals</a></li>
+        <li><a href="#">Our zines</a></li>
+        <li><a href="#">Used &amp; rare</a></li>
+        <li><a href="#">Gift cards</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Hello</h4>
+      <ul>
+        <li><a href="#">Newsletter</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Order a book</a></li>
+        <li><a href="#">Sell us books</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© 2013—2026 PRINT BLOCK BOOKS &amp; PRESS, BROOKLYN NY</span>
+    <span>SET IN DM SERIF DISPLAY &amp; SPACE MONO · PRINTED ON A RISOGRAPH MZ790</span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOLTAGE™ — Engineered for the next browser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #09090B;
+    --bg-soft: #131316;
+    --bg-elevated: #1A1A1F;
+    --text: #F4F4F5;
+    --text-soft: #A1A1AA;
+    --text-dim: #52525B;
+    --acid: #C5FF00;
+    --acid-deep: #A8DD00;
+    --electric: #2D5BFF;
+    --violet: #8B5CF6;
+    --cyan: #06B6D4;
+    --line: rgba(244,244,245,0.08);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Inter Tight', sans-serif; font-size: 14px; line-height: 1.5;
+    overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    cursor: none;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1;
+    background-image: 
+      linear-gradient(rgba(244,244,245,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(244,244,245,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  
+  .mono { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  
+  /* PRELOADER */
+  .preloader {
+    position: fixed; inset: 0; background: var(--bg); z-index: 10000;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 24px; transition: opacity 1s, visibility 1s;
+  }
+  .preloader.done { opacity: 0; visibility: hidden; pointer-events: none; }
+  .pre-text {
+    font-family: 'Inter Tight'; font-weight: 700; font-size: clamp(4rem, 14vw, 14rem);
+    line-height: 0.85; letter-spacing: -0.04em;
+  }
+  .pre-text .acid { color: var(--acid); }
+  .pre-meta {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em;
+    color: var(--text-soft); display: flex; gap: 24px; align-items: center;
+  }
+  .pre-bar { width: 200px; height: 1px; background: rgba(244,244,245,0.1); position: relative; }
+  .pre-bar::after { content: ''; position: absolute; left: 0; top: 0; bottom: 0; background: var(--acid); animation: load 2.5s ease-out forwards; }
+  @keyframes load { from { width: 0; } to { width: 100%; } }
+  
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed; width: 24px; height: 24px; border-radius: 50%;
+    background: var(--acid); pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%); transition: transform 0.2s, width 0.4s, height 0.4s, background 0.4s;
+    mix-blend-mode: difference;
+  }
+  .cursor.big { width: 80px; height: 80px; }
+  
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 20px 32px; display: flex; justify-content: space-between; align-items: center;
+    backdrop-filter: blur(12px); background: rgba(9,9,11,0.6);
+    border-bottom: 1px solid var(--line);
+  }
+  .logo {
+    font-family: 'Inter Tight'; font-weight: 700; font-size: 17px; letter-spacing: -0.02em;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .logo-mark {
+    width: 24px; height: 24px; background: var(--acid); border-radius: 6px;
+    display: flex; align-items: center; justify-content: center; color: var(--bg);
+    font-weight: 800; font-size: 14px; box-shadow: 0 0 20px rgba(197,255,0,0.4);
+  }
+  .nav-mid { display: flex; gap: 28px; }
+  .nav-mid a {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--text-soft); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-mid a:hover { color: var(--acid); }
+  .nav-cta {
+    background: var(--acid); color: var(--bg); padding: 9px 18px; border-radius: 8px;
+    font-weight: 600; font-size: 12px; text-decoration: none;
+    transition: all 0.2s; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em;
+  }
+  .nav-cta:hover { background: var(--text); box-shadow: 0 0 30px rgba(197,255,0,0.5); }
+  
+  /* HERO */
+  .hero {
+    min-height: 100vh; padding: 120px 32px 60px; position: relative;
+    display: flex; flex-direction: column; justify-content: space-between;
+    overflow: hidden;
+  }
+  .hero-orb {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 80vmin; height: 80vmin; border-radius: 50%;
+    background: 
+      radial-gradient(circle at 30% 30%, var(--violet) 0%, transparent 40%),
+      radial-gradient(circle at 70% 70%, var(--cyan) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, var(--electric) 0%, transparent 50%);
+    filter: blur(80px); opacity: 0.4; z-index: 0;
+    animation: orbit 14s ease-in-out infinite alternate;
+  }
+  @keyframes orbit {
+    0% { transform: translate(-50%,-50%) scale(1) rotate(0deg); }
+    50% { transform: translate(-30%,-60%) scale(1.1) rotate(180deg); }
+    100% { transform: translate(-70%,-40%) scale(0.9) rotate(360deg); }
+  }
+  .hero-orb-2 {
+    position: absolute; bottom: 10%; right: 5%;
+    width: 40vmin; height: 40vmin; border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, var(--acid) 0%, transparent 60%);
+    filter: blur(60px); opacity: 0.35; z-index: 0;
+    animation: orbit-2 10s ease-in-out infinite alternate;
+  }
+  @keyframes orbit-2 {
+    from { transform: scale(1) translate(0,0); }
+    to { transform: scale(1.3) translate(-50px, -50px); }
+  }
+  
+  .hero-top { position: relative; z-index: 2; max-width: 1500px; margin: 0 auto; width: 100%; display: flex; justify-content: space-between; }
+  .hero-status {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em;
+    color: var(--text-soft);
+  }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--acid); box-shadow: 0 0 12px var(--acid); animation: pulse 1.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;}50%{opacity:0.4;} }
+  
+  .hero-center { position: relative; z-index: 2; max-width: 1500px; margin: auto; width: 100%; }
+  h1 {
+    font-family: 'Inter Tight'; font-weight: 700; font-size: clamp(4rem, 16vw, 18rem);
+    line-height: 0.85; letter-spacing: -0.05em; margin: 0;
+  }
+  h1 .gradient {
+    background: linear-gradient(90deg, var(--acid) 0%, var(--electric) 50%, var(--violet) 100%);
+    background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-size: 200% 100%; animation: gradShift 6s ease infinite;
+  }
+  @keyframes gradShift { 0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;} }
+  h1 .outline { -webkit-text-stroke: 1.5px var(--text); -webkit-text-fill-color: transparent; }
+  
+  .hero-bottom { position: relative; z-index: 2; max-width: 1500px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; align-items: end; }
+  .hero-tag {
+    font-family: 'Inter Tight'; font-weight: 400; font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+    line-height: 1.4; max-width: 480px; color: var(--text-soft);
+  }
+  .hero-tag em { font-style: normal; color: var(--acid); }
+  .hero-stat-block { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.15em; color: var(--text-soft); }
+  .hero-stat-block strong { display: block; font-family: 'Inter Tight'; font-size: 32px; font-weight: 600; letter-spacing: -0.02em; color: var(--text); margin-bottom: 4px; }
+  .hero-stat-block strong span { color: var(--acid); }
+  
+  /* HUD strip */
+  .hud-bar {
+    background: var(--bg-elevated); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    padding: 14px 32px; position: relative; z-index: 2;
+    display: flex; align-items: center; gap: 32px; overflow: hidden;
+  }
+  .hud-cell { display: flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.15em; color: var(--text-soft); white-space: nowrap; }
+  .hud-cell::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--acid); flex-shrink: 0; }
+  .hud-cell strong { color: var(--text); }
+  
+  /* SECTIONS */
+  section { padding: 140px 32px; max-width: 1500px; margin: 0 auto; position: relative; z-index: 2; }
+  .section-eye { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+  .section-eye::before { content: ''; width: 24px; height: 1px; background: currentColor; }
+  
+  h2 {
+    font-family: 'Inter Tight'; font-weight: 700; font-size: clamp(2.5rem, 7vw, 6.5rem);
+    line-height: 0.9; letter-spacing: -0.04em; margin-bottom: 24px;
+  }
+  h2 .acid { color: var(--acid); }
+  h2 .outline { -webkit-text-stroke: 1.5px var(--text); -webkit-text-fill-color: transparent; }
+  
+  /* CAPABILITIES grid — 3D tile cards */
+  .caps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 80px; perspective: 1500px; }
+  .cap-card {
+    background: var(--bg-elevated); border: 1px solid var(--line); border-radius: 16px;
+    padding: 32px; aspect-ratio: 1/1.1;
+    display: flex; flex-direction: column; justify-content: space-between;
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.3, 1), border-color 0.4s, background 0.4s;
+    cursor: pointer; position: relative; overflow: hidden;
+  }
+  .cap-card:hover { 
+    transform: rotateX(-4deg) rotateY(2deg) translateY(-8px);
+    border-color: var(--acid); background: var(--bg-soft);
+  }
+  .cap-card:hover::before { opacity: 1; }
+  .cap-card::before {
+    content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity 0.4s;
+    background: 
+      radial-gradient(circle at 20% 20%, rgba(197,255,0,0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(45,91,255,0.15) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .cap-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em;
+    color: var(--text-dim); display: flex; justify-content: space-between;
+  }
+  .cap-num span:last-child { color: var(--acid); }
+  .cap-card h3 {
+    font-family: 'Inter Tight'; font-weight: 700; font-size: 30px; line-height: 1; letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .cap-card h3 em { font-style: normal; color: var(--acid); }
+  .cap-card p { color: var(--text-soft); font-size: 13px; line-height: 1.5; }
+  .cap-icon {
+    width: 64px; height: 64px; border-radius: 12px;
+    background: linear-gradient(135deg, var(--acid) 0%, var(--electric) 100%);
+    display: flex; align-items: center; justify-content: center; color: var(--bg);
+    font-family: 'Inter Tight'; font-weight: 800; font-size: 28px; letter-spacing: -0.05em;
+    box-shadow: 0 0 30px rgba(197,255,0,0.3);
+  }
+  .cap-icon.b2 { background: linear-gradient(135deg, var(--violet) 0%, var(--cyan) 100%); box-shadow: 0 0 30px rgba(139,92,246,0.3); }
+  .cap-icon.b3 { background: linear-gradient(135deg, var(--electric) 0%, var(--violet) 100%); box-shadow: 0 0 30px rgba(45,91,255,0.3); }
+  .cap-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; }
+  .cap-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--text-soft); padding: 4px 8px; border: 1px solid var(--line); border-radius: 4px; }
+  
+  /* WORK / case studies — full bleed */
+  .work-section { padding: 140px 0 0; }
+  .work-head { padding: 0 32px; max-width: 1500px; margin: 0 auto 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; }
+  .work-head p { font-family: 'Inter Tight'; font-weight: 400; font-size: 18px; color: var(--text-soft); max-width: 460px; align-self: end; justify-self: end; }
+  
+  .work-list { display: flex; flex-direction: column; }
+  .work-row {
+    border-top: 1px solid var(--line); padding: 60px 32px;
+    display: grid; grid-template-columns: 80px 2fr 1.5fr 1fr 60px;
+    gap: 40px; align-items: center;
+    transition: background 0.4s, padding-left 0.4s; cursor: pointer;
+    text-decoration: none; color: var(--text); position: relative; overflow: hidden;
+  }
+  .work-row:last-child { border-bottom: 1px solid var(--line); }
+  .work-row:hover { background: var(--bg-elevated); padding-left: 60px; }
+  .work-row:hover .w-title { color: var(--acid); }
+  .work-row:hover .w-arrow { transform: translateX(0); opacity: 1; color: var(--acid); }
+  .work-row::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--acid);
+    transform: scaleY(0); transition: transform 0.3s; transform-origin: top;
+  }
+  .work-row:hover::before { transform: scaleY(1); }
+  
+  .w-num { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-dim); }
+  .w-title {
+    font-family: 'Inter Tight'; font-weight: 600; font-size: clamp(1.5rem, 3vw, 2.4rem);
+    line-height: 1.05; letter-spacing: -0.025em; transition: color 0.3s;
+  }
+  .w-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.15em; color: var(--text-soft); }
+  .w-meta strong { color: var(--text); display: block; margin-bottom: 4px; }
+  .w-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .w-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--text-soft); padding: 4px 8px; border: 1px solid var(--line); border-radius: 4px; }
+  .w-arrow { font-size: 20px; opacity: 0.4; transform: translateX(-12px); transition: all 0.3s; }
+  
+  /* TECH/STACK glowing card */
+  .stack-section { padding: 140px 32px; max-width: 1500px; margin: 0 auto; position: relative; z-index: 2; }
+  .stack-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; }
+  .stack-text h2 { margin-bottom: 28px; }
+  .stack-text p { font-family: 'Inter Tight'; font-weight: 400; font-size: 18px; color: var(--text-soft); margin-bottom: 32px; max-width: 520px; line-height: 1.5; }
+  
+  .stack-card {
+    background: var(--bg-elevated); border: 1px solid var(--line); border-radius: 16px;
+    padding: 40px; position: relative; overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+  }
+  .stack-card::before {
+    content: ''; position: absolute; top: -50%; right: -50%; width: 100%; height: 100%;
+    background: radial-gradient(circle, rgba(197,255,0,0.15) 0%, transparent 60%);
+  }
+  .stack-card-head { display: flex; justify-content: space-between; padding-bottom: 16px; border-bottom: 1px solid var(--line); margin-bottom: 20px; position: relative; z-index: 1; }
+  .stack-card-head .mono { color: var(--acid); }
+  .stack-row {
+    display: grid; grid-template-columns: 1fr 80px 100px;
+    gap: 16px; padding: 14px 0; align-items: center;
+    border-bottom: 1px solid var(--line); position: relative; z-index: 1;
+  }
+  .stack-row:last-child { border-bottom: none; }
+  .stack-name { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+  .stack-name strong { color: var(--text); }
+  .stack-name span { color: var(--text-soft); display: block; font-size: 11px; margin-top: 2px; }
+  .stack-bar { height: 4px; background: rgba(244,244,245,0.1); border-radius: 2px; overflow: hidden; }
+  .stack-bar div { height: 100%; background: linear-gradient(90deg, var(--acid), var(--electric)); border-radius: 2px; box-shadow: 0 0 8px var(--acid); }
+  .stack-pct { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--acid); text-align: right; }
+  
+  /* AWARDS BAND */
+  .awards-band { padding: 80px 32px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); position: relative; z-index: 2; max-width: none; margin: 0; }
+  .awards-inner { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); gap: 40px; align-items: center; }
+  .award-block { display: flex; flex-direction: column; gap: 8px; }
+  .award-block:first-child { border-right: 1px solid var(--line); padding-right: 40px; }
+  .award-num { font-family: 'Inter Tight'; font-weight: 700; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1; letter-spacing: -0.03em; }
+  .award-num em { color: var(--acid); font-style: normal; }
+  .award-text { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; color: var(--text-soft); }
+  .award-text strong { color: var(--text); display: block; }
+  .awards-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; color: var(--text-soft); }
+  
+  /* CTA */
+  .cta-section { padding: 200px 32px; max-width: 1500px; margin: 0 auto; position: relative; z-index: 2; text-align: center; }
+  .cta-section .section-eye { justify-content: center; }
+  .cta-section h2 { font-size: clamp(3.5rem, 14vw, 16rem); margin-bottom: 32px; }
+  .cta-section h2 .gradient {
+    background: linear-gradient(90deg, var(--acid) 0%, var(--electric) 50%, var(--violet) 100%);
+    background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-size: 200% 100%; animation: gradShift 6s ease infinite;
+  }
+  .cta-email {
+    display: inline-block;
+    font-family: 'Inter Tight'; font-weight: 600; font-size: clamp(1.5rem, 3.5vw, 3rem);
+    color: var(--text); text-decoration: none;
+    border-bottom: 2px solid var(--text); padding-bottom: 8px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .cta-email:hover { color: var(--acid); border-color: var(--acid); }
+  .cta-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; color: var(--text-soft); margin-top: 32px; }
+  
+  /* FOOTER */
+  footer { padding: 80px 32px 40px; max-width: 1500px; margin: 0 auto; position: relative; z-index: 2; }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 50px; border-bottom: 1px solid var(--line); }
+  .foot-brand .logo { margin-bottom: 16px; }
+  .foot-brand p { color: var(--text-soft); font-size: 13px; max-width: 320px; line-height: 1.6; }
+  footer h4 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 16px; font-weight: 500; }
+  footer ul { list-style: none; }
+  footer ul li { padding: 5px 0; }
+  footer ul a { color: var(--text-soft); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  footer ul a:hover { color: var(--acid); }
+  .foot-bot { padding-top: 30px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; color: var(--text-soft); }
+  
+  @media (max-width: 1000px) {
+    body { cursor: auto; }
+    .cursor { display: none; }
+    .nav-mid { display: none; }
+    .hero-bottom, .stack-grid, .work-head { grid-template-columns: 1fr; gap: 30px; }
+    .work-head p { justify-self: start; }
+    .caps-grid { grid-template-columns: 1fr; }
+    .work-row { grid-template-columns: 40px 1fr 30px; gap: 16px; padding: 28px 20px; }
+    .w-meta, .w-tags { display: none; }
+    .awards-inner { grid-template-columns: 1fr 1fr; gap: 24px; }
+    .award-block:first-child { border-right: none; padding-right: 0; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: span 2; }
+    section, nav, .hero, .hud-bar, .stack-section, .awards-band, .cta-section, footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="preloader">
+  <div class="pre-text">VOLT<span class="acid">/</span></div>
+  <div class="pre-meta">
+    <span>INITIALIZING WEBGL CONTEXT</span>
+    <div class="pre-bar"></div>
+    <span>v4.7.2</span>
+  </div>
+</div>
+
+<div class="cursor"></div>
+
+<nav>
+  <div class="logo">
+    <div class="logo-mark">V</div>
+    <span>VOLTAGE™</span>
+  </div>
+  <div class="nav-mid">
+    <a href="#work">/ Work</a>
+    <a href="#capabilities">/ Capabilities</a>
+    <a href="#stack">/ Stack</a>
+    <a href="#contact">/ Contact</a>
+  </div>
+  <a href="#contact" class="nav-cta">[ START_PROJECT ]</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-orb"></div>
+  <div class="hero-orb-2"></div>
+  
+  <div class="hero-top">
+    <div class="hero-status">
+      <div class="status-dot"></div>
+      <span>SYS · ONLINE · GPU 87.4°C</span>
+    </div>
+    <div class="hero-status">
+      <span>SCROLL — 0.00 / 100.00</span>
+    </div>
+  </div>
+  
+  <div class="hero-center">
+    <h1>
+      <span>WE BUILD</span><br>
+      <span class="gradient">WEBSITES</span><br>
+      <span class="outline">THAT THINK</span><br>
+      <span>IN 60 FPS.</span>
+    </h1>
+  </div>
+  
+  <div class="hero-bottom">
+    <p class="hero-tag">Voltage is a <em>technical creative studio</em> shipping award-winning web experiences for ambitious brands. WebGL, GLSL shaders, real-time 3D, and the long, careful art of <em>making the browser sing.</em></p>
+    <div class="hero-stat-block">
+      <strong>4<span>2</span></strong>
+      AWWWARDS WINS
+    </div>
+    <div class="hero-stat-block">
+      <strong>0.0<span>4</span>s</strong>
+      MEDIAN INTERACTION DELAY
+    </div>
+  </div>
+</section>
+
+<div class="hud-bar">
+  <div class="hud-cell"><span>SF — TOKYO — AMSTERDAM</span></div>
+  <div class="hud-cell"><span>CURRENTLY: <strong>BOOKING Q4'26</strong></span></div>
+  <div class="hud-cell"><span>SOTY '24 NOMINEE</span></div>
+  <div class="hud-cell"><span>STACK: <strong>R3F + LENIS + GSAP</strong></span></div>
+  <div class="hud-cell"><span>17 ENGINEERS · 5 DESIGNERS</span></div>
+  <div class="hud-cell"><span>NPM PACKAGES SHIPPED: <strong>14</strong></span></div>
+</div>
+
+<section id="capabilities">
+  <div class="section-eye">[ 02 ] · CAPABILITIES</div>
+  <h2>Things we build,<br>at the <span class="acid">edge</span> of<br>what a <span class="outline">browser does.</span></h2>
+  <p style="color: var(--text-soft); font-size: 18px; max-width: 600px; margin-bottom: 30px;">Six capability tracks. We typically combine three to four on any project, and have shipped all six in production for clients ranging from F1 teams to Fortune 50 companies.</p>
+  
+  <div class="caps-grid">
+    <div class="cap-card">
+      <div class="cap-num"><span>01 / 06</span><span>● ACTIVE</span></div>
+      <div>
+        <div class="cap-icon">3D</div>
+      </div>
+      <div>
+        <h3>Real-time <em>3D</em> &amp; WebGL</h3>
+        <p>Three.js + react-three-fiber pipelines, custom GLSL shaders, GPU-instanced particles, deferred rendering. Site loads under 2.5s with full scenes.</p>
+        <div class="cap-tags">
+          <span class="cap-tag">Three.js</span>
+          <span class="cap-tag">R3F</span>
+          <span class="cap-tag">GLSL</span>
+          <span class="cap-tag">DRACO</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="cap-card">
+      <div class="cap-num"><span>02 / 06</span><span>● ACTIVE</span></div>
+      <div>
+        <div class="cap-icon b2">FX</div>
+      </div>
+      <div>
+        <h3>Post-process <em>shaders</em></h3>
+        <p>Custom screen-space effects: noise displacement, RGB split, depth-of-field, bloom, anamorphic flares. Built so you feel them, not see them.</p>
+        <div class="cap-tags">
+          <span class="cap-tag">Postprocessing</span>
+          <span class="cap-tag">Effects composer</span>
+          <span class="cap-tag">FBO</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="cap-card">
+      <div class="cap-num"><span>03 / 06</span><span>● ACTIVE</span></div>
+      <div>
+        <div class="cap-icon b3">SC</div>
+      </div>
+      <div>
+        <h3>Scroll <em>orchestration</em></h3>
+        <p>Lenis + GSAP ScrollTrigger pipelines. Scroll-jacked horizontal sections, camera dollies driven by scroll position, sticky scrub timelines.</p>
+        <div class="cap-tags">
+          <span class="cap-tag">Lenis</span>
+          <span class="cap-tag">GSAP</span>
+          <span class="cap-tag">Scrub timelines</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="cap-card">
+      <div class="cap-num"><span>04 / 06</span><span>● ACTIVE</span></div>
+      <div>
+        <div class="cap-icon">UI</div>
+      </div>
+      <div>
+        <h3>Component <em>systems</em></h3>
+        <p>Type-safe React component libraries with Storybook documentation. Tailwind config + design tokens shared with the brand team.</p>
+        <div class="cap-tags">
+          <span class="cap-tag">Next.js</span>
+          <span class="cap-tag">Radix</span>
+          <span class="cap-tag">Tailwind</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="cap-card">
+      <div class="cap-num"><span>05 / 06</span><span>● ACTIVE</span></div>
+      <div>
+        <div class="cap-icon b2">AI</div>
+      </div>
+      <div>
+        <h3>Generative <em>experiences</em></h3>
+        <p>Real-time AI inference in the browser via WebGPU + ONNX. Personalized assets, generative typography, on-device image effects.</p>
+        <div class="cap-tags">
+          <span class="cap-tag">WebGPU</span>
+          <span class="cap-tag">ONNX</span>
+          <span class="cap-tag">Stable Diffusion</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="cap-card">
+      <div class="cap-num"><span>06 / 06</span><span>● ACTIVE</span></div>
+      <div>
+        <div class="cap-icon b3">RT</div>
+      </div>
+      <div>
+        <h3>Multiplayer / <em>realtime</em></h3>
+        <p>Liveblocks + Yjs for shared state. Cursor presence, spatial audio, live data overlays. We built our own networking stack — it's open-source.</p>
+        <div class="cap-tags">
+          <span class="cap-tag">WebRTC</span>
+          <span class="cap-tag">Yjs</span>
+          <span class="cap-tag">Liveblocks</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="work-section" id="work">
+  <div class="work-head">
+    <div>
+      <div class="section-eye">[ 03 ] · SELECTED WORK</div>
+      <h2>Recent <span class="acid">shipped</span><br>experiences.</h2>
+    </div>
+    <p>Twelve projects from the last twenty-four months — half public, half under embargo. Hover any row for a live demo loop.</p>
+  </div>
+  
+  <div class="work-list">
+    <a href="#" class="work-row">
+      <span class="w-num">/01</span>
+      <h3 class="w-title">McLaren F1 — Configurator-as-experience</h3>
+      <div class="w-meta"><strong>2026</strong>BRAND + 3D + REALTIME</div>
+      <div class="w-tags">
+        <span class="w-tag">R3F</span>
+        <span class="w-tag">Liveblocks</span>
+        <span class="w-tag">GLSL</span>
+      </div>
+      <span class="w-arrow">→</span>
+    </a>
+    <a href="#" class="work-row">
+      <span class="w-num">/02</span>
+      <h3 class="w-title">Spotify — Wrapped, Engineered</h3>
+      <div class="w-meta"><strong>2025</strong>GENERATIVE + MOTION</div>
+      <div class="w-tags">
+        <span class="w-tag">Three.js</span>
+        <span class="w-tag">Custom shaders</span>
+        <span class="w-tag">Audio API</span>
+      </div>
+      <span class="w-arrow">→</span>
+    </a>
+    <a href="#" class="work-row">
+      <span class="w-num">/03</span>
+      <h3 class="w-title">Patagonia — Topographic Story Engine</h3>
+      <div class="w-meta"><strong>2025</strong>SITE + BRAND</div>
+      <div class="w-tags">
+        <span class="w-tag">Next.js</span>
+        <span class="w-tag">GSAP</span>
+        <span class="w-tag">View Transitions</span>
+      </div>
+      <span class="w-arrow">→</span>
+    </a>
+    <a href="#" class="work-row">
+      <span class="w-num">/04</span>
+      <h3 class="w-title">Apple Vision — Spatial Web Demo</h3>
+      <div class="w-meta"><strong>2025</strong>UNDER EMBARGO</div>
+      <div class="w-tags">
+        <span class="w-tag">WebXR</span>
+        <span class="w-tag">Custom inputs</span>
+      </div>
+      <span class="w-arrow">→</span>
+    </a>
+    <a href="#" class="work-row">
+      <span class="w-num">/05</span>
+      <h3 class="w-title">Notion AI — Onboarding Sandbox</h3>
+      <div class="w-meta"><strong>2024</strong>PRODUCT + AI</div>
+      <div class="w-tags">
+        <span class="w-tag">WebGPU</span>
+        <span class="w-tag">Streaming UI</span>
+      </div>
+      <span class="w-arrow">→</span>
+    </a>
+    <a href="#" class="work-row">
+      <span class="w-num">/06</span>
+      <h3 class="w-title">SpaceX — Mission Control Visualizer</h3>
+      <div class="w-meta"><strong>2024</strong>DATA + 3D</div>
+      <div class="w-tags">
+        <span class="w-tag">D3</span>
+        <span class="w-tag">Three.js</span>
+        <span class="w-tag">WebSocket</span>
+      </div>
+      <span class="w-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<section class="stack-section" id="stack">
+  <div class="stack-grid">
+    <div class="stack-text">
+      <div class="section-eye">[ 04 ] · OUR STACK</div>
+      <h2>The tools we<br><span class="acid">trust</span>, and the<br>ones we <span class="outline">wrote.</span></h2>
+      <p>Voltage is built on top of an opinionated, in-house framework that we've been refining for six years. Most of it is open-source. The rest is what we ship to clients.</p>
+      <a href="#" class="nav-cta" style="display: inline-block;">[ READ TECHNICAL POST → ]</a>
+    </div>
+    
+    <div class="stack-card">
+      <div class="stack-card-head">
+        <span class="mono">/ STACK_USAGE.json</span>
+        <span class="mono">PROD · v4.7.2</span>
+      </div>
+      <div class="stack-row">
+        <div class="stack-name"><strong>react-three-fiber</strong><span>3D scene graph + R3F bridge</span></div>
+        <div class="stack-bar"><div style="width: 96%;"></div></div>
+        <div class="stack-pct">96%</div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-name"><strong>@studio-freight/lenis</strong><span>smooth scroll, lerp 0.07</span></div>
+        <div class="stack-bar"><div style="width: 100%;"></div></div>
+        <div class="stack-pct">100%</div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-name"><strong>gsap + scroll-trigger</strong><span>scroll-driven timelines</span></div>
+        <div class="stack-bar"><div style="width: 92%;"></div></div>
+        <div class="stack-pct">92%</div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-name"><strong>next.js 15 + RSC</strong><span>app router, edge runtime</span></div>
+        <div class="stack-bar"><div style="width: 88%;"></div></div>
+        <div class="stack-pct">88%</div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-name"><strong>tailwind v4</strong><span>tokens + custom plugins</span></div>
+        <div class="stack-bar"><div style="width: 84%;"></div></div>
+        <div class="stack-pct">84%</div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-name"><strong>voltage/core (in-house)</strong><span>scene management, FBO pool</span></div>
+        <div class="stack-bar"><div style="width: 100%;"></div></div>
+        <div class="stack-pct">100%</div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-name"><strong>liveblocks + yjs</strong><span>presence, shared state</span></div>
+        <div class="stack-bar"><div style="width: 64%;"></div></div>
+        <div class="stack-pct">64%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="awards-band">
+  <div class="awards-inner">
+    <span class="awards-label">[ 05 ] · RECOGNITION 2024 — 2026 ↘</span>
+    <div class="award-block">
+      <div class="award-num"><em>42</em>×</div>
+      <div class="award-text"><strong>AWWWARDS</strong>Site of the Day &amp; SOTM</div>
+    </div>
+    <div class="award-block">
+      <div class="award-num"><em>4</em>×</div>
+      <div class="award-text"><strong>FWA</strong>Site of the Day, plus shortlist</div>
+    </div>
+    <div class="award-block">
+      <div class="award-num"><em>2</em></div>
+      <div class="award-text"><strong>SOTY '24</strong>Awwwards Site of the Year — Nominee</div>
+    </div>
+    <div class="award-block">
+      <div class="award-num"><em>11</em></div>
+      <div class="award-text"><strong>CSSDA</strong>Site of the Day, including UI &amp; UX</div>
+    </div>
+  </div>
+</div>
+
+<section class="cta-section" id="contact">
+  <div class="section-eye">[ 06 ] · NEW ENGAGEMENTS</div>
+  <h2>BUILD<br><span class="gradient">SOMETHING</span><br>FAST.</h2>
+  <a href="mailto:engineering@voltage.studio" class="cta-email">engineering @ voltage.studio</a>
+  <div class="cta-meta">CURRENT BOOKING WINDOW · Q4 2026 — Q1 2027 · TYPICAL ENGAGEMENT 12—24 WEEKS</div>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div class="logo">
+        <div class="logo-mark">V</div>
+        <span>VOLTAGE™</span>
+      </div>
+      <p>A technical creative studio shipping web experiences at the edge of what a browser can render. Founded 2019, San Francisco. Studios in Tokyo &amp; Amsterdam.</p>
+    </div>
+    <div>
+      <h4>STUDIO</h4>
+      <ul>
+        <li><a href="#">/ About</a></li>
+        <li><a href="#">/ Work</a></li>
+        <li><a href="#">/ Capabilities</a></li>
+        <li><a href="#">/ Open-source</a></li>
+        <li><a href="#">/ Press</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>BUILD WITH US</h4>
+      <ul>
+        <li><a href="#">/ Engagement model</a></li>
+        <li><a href="#">/ Stack</a></li>
+        <li><a href="#">/ Engineering blog</a></li>
+        <li><a href="#">/ Careers (4 open)</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>OPEN-SOURCE</h4>
+      <ul>
+        <li><a href="#">@voltage/core</a></li>
+        <li><a href="#">@voltage/scroll</a></li>
+        <li><a href="#">@voltage/shaders</a></li>
+        <li><a href="#">@voltage/r3f-utils</a></li>
+        <li><a href="#">github.com/voltage</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>CONTACT</h4>
+      <ul>
+        <li><a href="#">engineering@voltage</a></li>
+        <li><a href="#">careers@voltage</a></li>
+        <li><a href="#">press@voltage</a></li>
+        <li><a href="#">Twitter / X</a></li>
+        <li><a href="#">GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© 2019—2026 VOLTAGE STUDIO INC. ALL SYSTEMS NOMINAL.</span>
+    <span>BUILT IN-HOUSE · v4.7.2 · COMMIT 8a4f2e1 · DEPLOYED FROM SF</span>
+  </div>
+</footer>
+
+<script>
+  // Preloader
+  window.addEventListener('load', () => {
+    setTimeout(() => document.querySelector('.preloader').classList.add('done'), 2400);
+  });
+  
+  // Custom cursor
+  const cursor = document.querySelector('.cursor');
+  document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, .cap-card, .work-row').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('big'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
+  });
+</script>
+
+</body>
+</html>

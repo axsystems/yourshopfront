@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bellweather Linen — Healthcare &amp; Hospitality Laundry Partners</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #0C1E35;
+    --navy-deep: #07142A;
+    --navy-soft: #1A2F4A;
+    --white: #FFFFFF;
+    --bg: #FBFBFC;
+    --yellow: #F5C842;
+    --yellow-soft: #FCEFC0;
+    --gray: #5B6577;
+    --gray-light: #E5E7EB;
+    --sage: #3F5C4E;
+    --red: #B81F2A;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--navy);
+    font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.55;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "tnum" 1;
+  }
+  .display { font-family: 'Inter Tight', sans-serif; font-weight: 700; line-height: 1; letter-spacing: -0.025em; }
+  .mono { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  
+  /* TOP BAR — utility */
+  .util {
+    background: var(--navy-deep); color: rgba(255,255,255,0.85); padding: 9px 32px;
+    display: flex; justify-content: space-between; align-items: center; font-size: 13px;
+  }
+  .util-left { display: flex; gap: 24px; align-items: center; }
+  .util a { color: inherit; text-decoration: none; opacity: 0.85; }
+  .util a:hover { opacity: 1; }
+  .util .pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(245,200,66,0.15); color: var(--yellow); padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+  .util .pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); }
+  
+  /* MAIN NAV */
+  nav {
+    background: var(--white); border-bottom: 1px solid var(--gray-light);
+    padding: 18px 32px; display: flex; justify-content: space-between; align-items: center;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo-mark {
+    width: 38px; height: 38px; background: var(--navy); border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; color: var(--yellow);
+    font-family: 'Inter Tight'; font-weight: 800; font-size: 18px;
+  }
+  .logo-text { font-family: 'Inter Tight'; font-weight: 700; font-size: 18px; line-height: 1; }
+  .logo-text small { display: block; font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 400; letter-spacing: 0.18em; opacity: 0.55; margin-top: 3px; }
+  .nav-links { display: flex; gap: 30px; align-items: center; }
+  .nav-links > a { color: var(--navy); text-decoration: none; font-size: 14px; font-weight: 500; padding: 8px 0; }
+  .nav-links > a:hover { color: var(--red); }
+  .nav-cta {
+    background: var(--yellow); color: var(--navy); padding: 11px 22px; border-radius: 8px;
+    font-weight: 600; font-size: 14px; text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: #e0b330; }
+  .nav-secondary {
+    color: var(--navy); padding: 11px 16px; font-weight: 600; font-size: 14px;
+    text-decoration: none; border: 1px solid var(--gray-light); border-radius: 8px;
+  }
+  
+  /* HERO */
+  .hero { padding: 80px 32px 100px; }
+  .hero-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1.1fr 1fr; gap: 80px; align-items: center; }
+  
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 12px;
+    color: var(--gray); margin-bottom: 24px;
+  }
+  .eyebrow .dash { width: 32px; height: 1px; background: var(--gray); }
+  
+  h1 { font-family: 'Inter Tight'; font-size: clamp(2.8rem, 6vw, 5.5rem); font-weight: 700; line-height: 1.02; letter-spacing: -0.025em; margin-bottom: 28px; }
+  h1 .accent { color: var(--red); }
+  
+  .hero-lede { font-size: 19px; max-width: 540px; color: var(--gray); margin-bottom: 40px; line-height: 1.55; }
+  
+  .hero-cta-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin-bottom: 40px; }
+  .btn-primary {
+    background: var(--navy); color: var(--white); padding: 16px 28px; border-radius: 10px;
+    font-weight: 600; font-size: 15px; text-decoration: none; display: inline-flex; gap: 10px; align-items: center;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--navy-soft); }
+  .btn-yellow {
+    background: var(--yellow); color: var(--navy); padding: 16px 28px; border-radius: 10px;
+    font-weight: 700; font-size: 15px; text-decoration: none; display: inline-flex; gap: 10px; align-items: center;
+  }
+  .btn-yellow:hover { background: #e0b330; }
+  .btn-ghost {
+    color: var(--navy); padding: 16px 24px; font-weight: 600; font-size: 15px; text-decoration: none;
+    border: 1.5px solid var(--gray-light); border-radius: 10px; display: inline-flex; gap: 8px; align-items: center;
+  }
+  .btn-ghost:hover { border-color: var(--navy); }
+  
+  .credentials-strip { display: flex; gap: 24px; flex-wrap: wrap; padding-top: 28px; border-top: 1px solid var(--gray-light); }
+  .cred {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em;
+    color: var(--gray); display: flex; align-items: center; gap: 8px;
+  }
+  .cred-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sage); }
+  .cred-dot.red { background: var(--red); }
+  .cred-dot.yellow { background: var(--yellow); }
+  
+  /* hero visual — operations dashboard */
+  .ops-card {
+    background: var(--white); border-radius: 16px; box-shadow: 0 30px 80px rgba(12,30,53,0.12);
+    padding: 0; overflow: hidden; border: 1px solid var(--gray-light);
+  }
+  .ops-head {
+    background: var(--navy); color: var(--white); padding: 16px 22px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .ops-head-title { font-weight: 600; font-size: 15px; display: flex; align-items: center; gap: 10px; }
+  .ops-head .live { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; color: var(--yellow); }
+  .ops-head .live::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); margin-right: 6px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  
+  .ops-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 24px; gap: 24px; border-bottom: 1px solid var(--gray-light); }
+  .ops-stat-num { font-family: 'Inter Tight'; font-weight: 700; font-size: 36px; line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .ops-stat-num .pct { color: var(--sage); font-size: 24px; }
+  .ops-stat-label { font-size: 12px; color: var(--gray); margin-top: 6px; }
+  
+  .ops-rows { padding: 8px 24px 24px; }
+  .ops-row {
+    display: grid; grid-template-columns: 32px 1fr 80px 100px;
+    padding: 14px 0; align-items: center; gap: 14px;
+    border-bottom: 1px solid var(--gray-light); font-size: 14px;
+  }
+  .ops-row:last-child { border-bottom: none; }
+  .ops-icon { width: 32px; height: 32px; background: var(--yellow-soft); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--navy); font-weight: 700; font-size: 14px; }
+  .ops-name strong { display: block; font-weight: 600; }
+  .ops-name span { font-size: 12px; color: var(--gray); }
+  .ops-stat-mini { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--gray); text-align: right; }
+  .ops-badge { padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; text-align: center; letter-spacing: 0.03em; }
+  .ops-badge.ok { background: rgba(63,92,78,0.12); color: var(--sage); }
+  .ops-badge.run { background: rgba(245,200,66,0.2); color: #8a6a10; }
+  .ops-badge.alert { background: rgba(184,31,42,0.1); color: var(--red); }
+  
+  /* CLIENT LOGO BAR */
+  .clients {
+    padding: 50px 32px; border-top: 1px solid var(--gray-light); border-bottom: 1px solid var(--gray-light);
+    background: var(--white);
+  }
+  .clients-row { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; gap: 60px; flex-wrap: wrap; justify-content: center; }
+  .clients-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--gray);
+  }
+  .client-logo { font-family: 'Inter Tight'; font-weight: 700; font-size: 22px; color: var(--navy); opacity: 0.55; letter-spacing: -0.01em; }
+  .client-logo:hover { opacity: 1; }
+  .client-logo.serif { font-family: Georgia, serif; font-style: italic; font-weight: 400; }
+  
+  /* SECTIONS */
+  section { padding: 110px 32px; max-width: 1400px; margin: 0 auto; }
+  .section-eye { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--red); margin-bottom: 16px; font-weight: 500; }
+  h2 { font-family: 'Inter Tight'; font-size: clamp(2.2rem, 4.5vw, 3.6rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.025em; margin-bottom: 20px; }
+  h2 .accent { color: var(--red); }
+  
+  .section-head { max-width: 720px; margin-bottom: 60px; }
+  .section-head p { font-size: 17px; color: var(--gray); }
+  
+  /* INDUSTRIES — bento with yellow circle icons */
+  .industries-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 280px 280px; gap: 16px; }
+  .industry-card {
+    background: var(--white); border-radius: 16px; padding: 32px;
+    border: 1px solid var(--gray-light);
+    display: flex; flex-direction: column; justify-content: space-between;
+    transition: transform 0.3s, border-color 0.2s;
+    cursor: pointer; position: relative; overflow: hidden;
+  }
+  .industry-card:hover { transform: translateY(-4px); border-color: var(--navy); }
+  .industry-card.feat {
+    background: var(--navy); color: var(--white); border-color: var(--navy);
+    grid-column: span 1; grid-row: span 2;
+  }
+  .industry-card.wide { grid-column: span 2; }
+  .industry-icon {
+    width: 64px; height: 64px; border-radius: 50%; background: var(--yellow);
+    display: flex; align-items: center; justify-content: center; color: var(--navy);
+    font-size: 28px;
+  }
+  .industry-card.feat .industry-icon { background: var(--yellow); }
+  .industry-card h3 { font-family: 'Inter Tight'; font-size: 26px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 8px; }
+  .industry-card.feat h3 { font-size: 36px; }
+  .industry-card p { font-size: 14px; color: var(--gray); line-height: 1.5; }
+  .industry-card.feat p { color: rgba(255,255,255,0.7); font-size: 16px; }
+  .industry-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 16px; }
+  .industry-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.05em;
+    padding: 4px 8px; border: 1px solid var(--gray-light); border-radius: 4px;
+  }
+  .industry-card.feat .industry-tag { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.9); }
+  
+  /* COMPLIANCE & STATS */
+  .compliance-section { background: var(--navy); color: var(--white); margin: 80px 0 0; padding: 110px 32px; }
+  .compliance-inner { max-width: 1400px; margin: 0 auto; }
+  .compliance-section h2 { color: var(--white); }
+  .compliance-section h2 .accent { color: var(--yellow); }
+  .compliance-section .section-eye { color: var(--yellow); }
+  
+  .compliance-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: center; }
+  .compliance-text p { color: rgba(255,255,255,0.75); font-size: 18px; max-width: 520px; margin-bottom: 32px; }
+  .badge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .badge-item {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .badge-item .badge-circle { width: 48px; height: 48px; background: var(--yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--navy); font-weight: 700; font-size: 16px; font-family: 'Inter Tight'; }
+  .badge-item h4 { font-family: 'Inter Tight'; font-size: 17px; font-weight: 600; line-height: 1.2; }
+  .badge-item p { font-size: 13px; color: rgba(255,255,255,0.6); }
+  
+  /* STATS RAIL */
+  .stats-section { background: var(--white); padding: 100px 32px; border-top: 1px solid var(--gray-light); }
+  .stats-inner { max-width: 1400px; margin: 0 auto; }
+  .stats-grid-b { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; padding-top: 40px; border-top: 1px solid var(--gray-light); }
+  .stat-b { padding: 0 32px 0 0; border-right: 1px solid var(--gray-light); }
+  .stat-b:last-child { border-right: none; }
+  .stat-b-num { font-family: 'Inter Tight'; font-weight: 700; font-size: clamp(3rem, 6vw, 5rem); line-height: 0.95; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .stat-b-num .pct { color: var(--red); }
+  .stat-b-label { font-size: 14px; color: var(--gray); margin-top: 12px; max-width: 220px; }
+  
+  /* CASE / PARTNER */
+  .case-section { padding: 110px 32px; max-width: 1400px; margin: 0 auto; }
+  .case-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: center; }
+  .case-photo {
+    aspect-ratio: 4/5; border-radius: 16px; overflow: hidden; position: relative;
+    background: linear-gradient(180deg, #4A6985 0%, #1F3A56 100%);
+  }
+  /* abstract: hospital corridor */
+  .case-photo::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 40%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+  }
+  .case-photo::after {
+    content: ''; position: absolute; bottom: 0; left: 30%; right: 30%; height: 60%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.15));
+    border-radius: 6px 6px 0 0;
+    border: 2px solid rgba(255,255,255,0.2);
+    border-bottom: none;
+  }
+  .case-overlay {
+    position: absolute; bottom: 24px; left: 24px; right: 24px;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-radius: 12px;
+    padding: 20px;
+  }
+  .case-overlay-stat { font-family: 'Inter Tight'; font-size: 32px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; margin-bottom: 4px; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .case-overlay-label { font-size: 13px; color: var(--gray); }
+  
+  .case-content .section-eye { color: var(--red); }
+  .case-content h2 { margin-bottom: 24px; }
+  .case-content blockquote {
+    font-family: 'Inter Tight'; font-size: 24px; line-height: 1.4; font-weight: 500;
+    letter-spacing: -0.015em; color: var(--navy); margin-bottom: 28px; padding-left: 0;
+    border-left: 4px solid var(--yellow); padding-left: 20px;
+  }
+  .case-author { display: flex; align-items: center; gap: 14px; margin-bottom: 32px; }
+  .case-author-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--navy-soft); color: var(--yellow); display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: 'Inter Tight'; }
+  .case-author-info strong { display: block; font-size: 15px; }
+  .case-author-info span { font-size: 13px; color: var(--gray); }
+  .case-content ul { list-style: none; }
+  .case-content ul li { padding: 12px 0; display: flex; gap: 14px; align-items: start; border-top: 1px solid var(--gray-light); font-size: 15px; }
+  .case-content ul li:first-child { border-top: none; }
+  .case-content ul li::before { content: ''; flex-shrink: 0; width: 18px; height: 18px; background: var(--yellow); border-radius: 50%; margin-top: 4px; display: flex; align-items: center; justify-content: center; }
+  
+  /* CALCULATOR */
+  .calc-section { background: var(--yellow-soft); padding: 100px 32px; }
+  .calc-inner { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .calc-text h2 { margin-bottom: 24px; }
+  .calc-text p { font-size: 17px; color: var(--gray); margin-bottom: 24px; max-width: 460px; }
+  .calc-card {
+    background: var(--white); border-radius: 16px; padding: 36px;
+    border: 1px solid rgba(12,30,53,0.08); box-shadow: 0 20px 60px rgba(12,30,53,0.08);
+  }
+  .calc-card h4 { font-family: 'Inter Tight'; font-size: 18px; font-weight: 600; margin-bottom: 24px; }
+  .calc-row { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--gray-light); }
+  .calc-row label { font-size: 14px; color: var(--gray); }
+  .calc-row input, .calc-row select {
+    border: 1px solid var(--gray-light); padding: 8px 12px; border-radius: 8px;
+    font-family: 'Inter', sans-serif; font-size: 14px; width: 130px; color: var(--navy);
+  }
+  .calc-result {
+    background: var(--navy); color: var(--white); border-radius: 10px; padding: 20px;
+    margin-top: 20px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .calc-result-num { font-family: 'Inter Tight'; font-size: 36px; font-weight: 700; line-height: 1; letter-spacing: -0.02em; color: var(--yellow); font-variant-numeric: tabular-nums; }
+  .calc-result-label { font-size: 13px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+  
+  /* CTA */
+  .cta-section { background: var(--navy); color: var(--white); padding: 100px 32px; }
+  .cta-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+  .cta-section h2 { color: var(--white); margin-bottom: 20px; }
+  .cta-section h2 .accent { color: var(--yellow); }
+  .cta-section p { font-size: 18px; color: rgba(255,255,255,0.7); margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto; }
+  .cta-row-c { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  
+  /* FOOTER */
+  footer { background: var(--navy-deep); color: rgba(255,255,255,0.85); padding: 70px 32px 30px; }
+  .foot-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 50px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .foot-brand .logo-mark { background: var(--yellow); color: var(--navy); }
+  .foot-brand p { font-size: 14px; color: rgba(255,255,255,0.55); margin-top: 16px; max-width: 320px; }
+  footer h4 { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 16px; color: var(--yellow); font-weight: 500; }
+  footer ul { list-style: none; }
+  footer ul li { padding: 5px 0; }
+  footer ul a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; }
+  footer ul a:hover { color: var(--yellow); }
+  .foot-bot { max-width: 1400px; margin: 0 auto; padding-top: 30px; display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.4); flex-wrap: wrap; gap: 14px; }
+  .compliance-row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .compliance-row span { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; }
+  
+  @media (max-width: 1000px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .industries-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+    .industry-card.feat { grid-row: auto; }
+    .industry-card.wide { grid-column: auto; }
+    .stats-grid-b { grid-template-columns: 1fr 1fr; }
+    .stat-b { border-right: none; padding: 24px 0; border-top: 1px solid var(--gray-light); }
+    .stat-b:nth-child(odd) { border-right: 1px solid var(--gray-light); }
+    .compliance-grid, .case-grid, .calc-inner { grid-template-columns: 1fr; gap: 40px; }
+    .badge-grid { grid-template-columns: 1fr 1fr; }
+    .nav-links a:not(.nav-cta):not(.nav-secondary) { display: none; }
+    .util-left .pill { display: none; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: span 2; }
+    section, nav, .hero, .clients, .stats-section, .case-section, .compliance-section, .calc-section, .cta-section, footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="util">
+  <div class="util-left">
+    <span class="pill">Trusted partner since 1968</span>
+    <a href="#">Customer login →</a>
+    <a href="#">Find your route rep</a>
+  </div>
+  <div>
+    <a href="#" style="font-weight:600;">Emergency? Call 1-800-555-0142</a>
+  </div>
+</div>
+
+<nav>
+  <div class="logo">
+    <div class="logo-mark">B</div>
+    <div class="logo-text">BELLWEATHER<small>LINEN PARTNERS · EST. 1968</small></div>
+  </div>
+  <div class="nav-links">
+    <a href="#industries">Industries</a>
+    <a href="#programs">Programs</a>
+    <a href="#case">Outcomes</a>
+    <a href="#compliance">Compliance</a>
+    <a href="#" class="nav-secondary">Find your rep</a>
+    <a href="#" class="nav-cta">Request an estimate →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow"><span class="dash"></span><span class="mono">Healthcare · Hospitality · Foodservice</span></div>
+      <h1 class="display">Linen, scrubs &amp; uniforms<br>delivered like a partner —<br><span class="accent">not a vendor.</span></h1>
+      <p class="hero-lede">Bellweather operates the largest HLAC-accredited healthcare laundry network in the Midwest, serving 2,400+ hospitals, surgery centers, hotels, and restaurants from twelve regional plants. Same route driver. Every week. For decades.</p>
+      <div class="hero-cta-row">
+        <a href="#" class="btn-yellow">Request a free estimate →</a>
+        <a href="#" class="btn-ghost">Find your local rep</a>
+      </div>
+      <div class="credentials-strip">
+        <span class="cred"><span class="cred-dot"></span>HLAC Accredited</span>
+        <span class="cred"><span class="cred-dot red"></span>TRSA Hygienically Clean</span>
+        <span class="cred"><span class="cred-dot"></span>OSHA-Trained Drivers</span>
+        <span class="cred"><span class="cred-dot yellow"></span>HIPAA-Compliant Tracking</span>
+      </div>
+    </div>
+    <div class="ops-card">
+      <div class="ops-head">
+        <div class="ops-head-title">📊 Bellweather Operations Console</div>
+        <span class="live">LIVE · 12 PLANTS</span>
+      </div>
+      <div class="ops-stats">
+        <div>
+          <div class="ops-stat-num">98.4<span class="pct">%</span></div>
+          <div class="ops-stat-label">On-time delivery, 30-day rolling avg</div>
+        </div>
+        <div>
+          <div class="ops-stat-num">2.1<span class="pct">M</span></div>
+          <div class="ops-stat-label">lbs processed weekly across the network</div>
+        </div>
+        <div>
+          <div class="ops-stat-num">0.02<span class="pct">%</span></div>
+          <div class="ops-stat-label">Loss rate — best-in-class for healthcare</div>
+        </div>
+      </div>
+      <div class="ops-rows">
+        <div class="ops-row">
+          <div class="ops-icon">M</div>
+          <div class="ops-name"><strong>Memorial Health System</strong><span>Cincinnati · 4 facilities</span></div>
+          <div class="ops-stat-mini">14,200 lb</div>
+          <span class="ops-badge ok">Delivered</span>
+        </div>
+        <div class="ops-row">
+          <div class="ops-icon">S</div>
+          <div class="ops-name"><strong>St. Vincent Surgery Center</strong><span>Chicago · OR-grade</span></div>
+          <div class="ops-stat-mini">2,800 lb</div>
+          <span class="ops-badge run">In transit</span>
+        </div>
+        <div class="ops-row">
+          <div class="ops-icon">F</div>
+          <div class="ops-name"><strong>Four Seasons Indianapolis</strong><span>Hospitality program</span></div>
+          <div class="ops-stat-mini">8,400 lb</div>
+          <span class="ops-badge ok">Processing</span>
+        </div>
+        <div class="ops-row">
+          <div class="ops-icon">B</div>
+          <div class="ops-name"><strong>Bobby Flay Group · Restaurants</strong><span>14 locations</span></div>
+          <div class="ops-stat-mini">3,100 lb</div>
+          <span class="ops-badge alert">Reorder needed</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="clients">
+  <div class="clients-row">
+    <span class="clients-label">Trusted by 2,400+ partners including</span>
+    <span class="client-logo">MEMORIAL</span>
+    <span class="client-logo serif">St. Vincent</span>
+    <span class="client-logo">FOUR SEASONS</span>
+    <span class="client-logo serif">Cleveland Clinic</span>
+    <span class="client-logo">MARRIOTT</span>
+    <span class="client-logo serif">Mayo Group</span>
+    <span class="client-logo">HILTON</span>
+  </div>
+</div>
+
+<section id="industries">
+  <div class="section-eye">Industries served</div>
+  <h2 class="display">Programs built for the<br>environments they <span class="accent">operate in.</span></h2>
+  <p style="font-size:17px; color:var(--gray); max-width: 600px; margin-bottom: 60px;">Procurement is different in a 200-bed hospital than in a 20-room boutique hotel. We organize our programs by environment, not by SKU.</p>
+
+  <div class="industries-grid">
+    <div class="industry-card feat">
+      <div>
+        <div class="industry-icon">⚕</div>
+      </div>
+      <div>
+        <h3>Healthcare &amp; medical</h3>
+        <p>Hospitals, surgery centers, dialysis, imaging, dermatology. HLAC-accredited processing, par-level scrubs, clean &amp; sterile linen tracked by RFID through every cycle.</p>
+        <div class="industry-tags">
+          <span class="industry-tag">Hospitals</span>
+          <span class="industry-tag">Surgery Centers</span>
+          <span class="industry-tag">Outpatient</span>
+          <span class="industry-tag">Dialysis</span>
+          <span class="industry-tag">Imaging</span>
+          <span class="industry-tag">Women's Care</span>
+        </div>
+      </div>
+    </div>
+    <div class="industry-card">
+      <div class="industry-icon">🛏</div>
+      <div>
+        <h3>Hospitality</h3>
+        <p>Sheets, towels, F&amp;B linens, banquet pieces. White-glove turnaround for boutiques and chains alike.</p>
+      </div>
+    </div>
+    <div class="industry-card">
+      <div class="industry-icon">🍳</div>
+      <div>
+        <h3>Foodservice</h3>
+        <p>Chef coats, aprons, kitchen towels, table linens. Restaurant-grade laundering for stains that don't blink.</p>
+      </div>
+    </div>
+    <div class="industry-card wide">
+      <div class="industry-icon">🛠</div>
+      <div>
+        <h3>Industrial &amp; uniform rental</h3>
+        <p>Branded uniform programs for plants, contractors, distribution, and route fleets. Embroidered identifiers, full repair &amp; replacement coverage, weekly service for fleets up to 4,000 wearers per facility.</p>
+      </div>
+    </div>
+    <div class="industry-card">
+      <div class="industry-icon">🧼</div>
+      <div>
+        <h3>Facility hygiene</h3>
+        <p>Floor mats, mops, towels, wipers, restroom service. Bundled with linen for one route, one invoice.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="compliance-section" id="compliance">
+  <div class="compliance-inner">
+    <div class="compliance-grid">
+      <div class="compliance-text">
+        <div class="section-eye">Compliance &amp; accreditation</div>
+        <h2 class="display">When the audit comes,<br>we've already <span class="accent">passed it.</span></h2>
+        <p>Every Bellweather plant is independently inspected against the strictest healthcare and hospitality laundry standards. We don't claim it — we publish the certificates.</p>
+        <a href="#" class="btn-yellow">Download our compliance dossier →</a>
+      </div>
+      <div class="badge-grid">
+        <div class="badge-item">
+          <div class="badge-circle">H</div>
+          <div>
+            <h4>HLAC Accredited</h4>
+            <p>Healthcare Laundry Accreditation Council, all 12 plants, current through 2027.</p>
+          </div>
+        </div>
+        <div class="badge-item">
+          <div class="badge-circle">T</div>
+          <div>
+            <h4>TRSA Hygienically Clean</h4>
+            <p>Quarterly third-party microbial testing of finished product.</p>
+          </div>
+        </div>
+        <div class="badge-item">
+          <div class="badge-circle">C</div>
+          <div>
+            <h4>CDC Aligned</h4>
+            <p>Wash chemistry &amp; thermal disinfection per CDC and AAMI guidelines.</p>
+          </div>
+        </div>
+        <div class="badge-item">
+          <div class="badge-circle">O</div>
+          <div>
+            <h4>OSHA-Trained Routes</h4>
+            <p>Every driver completes Bloodborne Pathogens annual recertification.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stats-section">
+  <div class="stats-inner">
+    <div class="section-eye">Network performance</div>
+    <h2 class="display">Numbers that show up<br>on a procurement <span class="accent">scorecard.</span></h2>
+    <div class="stats-grid-b">
+      <div class="stat-b">
+        <div class="stat-b-num">98.4<span class="pct">%</span></div>
+        <div class="stat-b-label">Customer retention rate, healthcare segment, 5-year average</div>
+      </div>
+      <div class="stat-b">
+        <div class="stat-b-num">12</div>
+        <div class="stat-b-label">Regional processing plants across 9 Midwest states</div>
+      </div>
+      <div class="stat-b">
+        <div class="stat-b-num">58</div>
+        <div class="stat-b-label">Years in business under continuous family ownership</div>
+      </div>
+      <div class="stat-b">
+        <div class="stat-b-num">2.1<span class="pct">M</span></div>
+        <div class="stat-b-label">Pounds of healthcare-grade linen processed weekly</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="case-section" id="case">
+  <div class="case-grid">
+    <div class="case-photo">
+      <div class="case-overlay">
+        <div class="case-overlay-stat">$340<span style="font-size:20px; opacity:0.5;">K</span></div>
+        <div class="case-overlay-label">First-year savings vs. in-house program at Memorial Health, system-wide</div>
+      </div>
+    </div>
+    <div class="case-content">
+      <div class="section-eye">Customer outcome — Memorial Health System</div>
+      <h2 class="display">When in-house laundry<br>cost more than it <span class="accent">should.</span></h2>
+      <blockquote>"Our internal program had become a hidden cost center. Bellweather priced the switch transparently, ran a 90-day pilot in two of our hospitals, and stood behind every metric on the contract. We didn't lose a single shift to a linen issue in the first year."</blockquote>
+      <div class="case-author">
+        <div class="case-author-avatar">JB</div>
+        <div class="case-author-info"><strong>Janelle Brooks</strong><span>VP, Supply Chain · Memorial Health System</span></div>
+      </div>
+      <ul>
+        <li><div><strong>$340K saved</strong> in operating costs in year one across four facilities</div></li>
+        <li><div><strong>2.4 day reduction</strong> in average linen-related work order resolution</div></li>
+        <li><div><strong>Zero shifts lost</strong> to linen shortages over 12 months</div></li>
+        <li><div><strong>HLAC compliance achieved</strong> from day one without internal investment</div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="calc-section">
+  <div class="calc-inner">
+    <div class="calc-text">
+      <div class="section-eye">In-house vs. outsourced</div>
+      <h2 class="display">Run the math<br>on switching.</h2>
+      <p>Most facilities find that outsourcing to Bellweather costs less than running an internal laundry operation, once labor, equipment, water, gas, chemistry, and depreciation are included.</p>
+      <p style="font-size:14px;">A real estimate from our team will be more accurate, but this calculator is a fast first pass.</p>
+    </div>
+    <div class="calc-card">
+      <h4>Quick-estimate calculator</h4>
+      <div class="calc-row">
+        <label>Your facility type</label>
+        <select>
+          <option>Hospital (50—200 beds)</option>
+          <option>Surgery center</option>
+          <option>Hotel (100—300 rooms)</option>
+          <option>Restaurant group</option>
+        </select>
+      </div>
+      <div class="calc-row">
+        <label>Approx. lbs / week</label>
+        <input type="text" value="14,000">
+      </div>
+      <div class="calc-row">
+        <label>Current in-house cost</label>
+        <input type="text" value="$ 0.92 / lb">
+      </div>
+      <div class="calc-row">
+        <label>Bellweather est. rate</label>
+        <input type="text" value="$ 0.71 / lb" disabled>
+      </div>
+      <div class="calc-result">
+        <div>
+          <div class="calc-result-num">$ 152,880</div>
+          <div class="calc-result-label">Estimated annual savings — based on your inputs</div>
+        </div>
+        <a href="#" class="btn-yellow" style="background:var(--yellow); padding:12px 18px; font-size:13px;">Get exact quote →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="cta-section">
+  <div class="cta-inner">
+    <div class="section-eye" style="color:var(--yellow);">Ready when you are</div>
+    <h2 class="display">Talk to a real,<br>named <span class="accent">person</span><br>this afternoon.</h2>
+    <p>Enter your zip and the kind of facility you operate. We'll route you to your local Bellweather rep — not a call center.</p>
+    <div class="cta-row-c">
+      <a href="#" class="btn-yellow">Find your rep →</a>
+      <a href="#" class="btn-ghost" style="color: var(--white); border-color: rgba(255,255,255,0.25);">Schedule a 15-min call</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div class="logo">
+        <div class="logo-mark">B</div>
+        <div class="logo-text" style="color:var(--white);">BELLWEATHER<small>LINEN PARTNERS · EST. 1968</small></div>
+      </div>
+      <p>Family-owned since 1968. Operating 12 plants across 9 Midwest states. Trusted by hospitals, hotels, and restaurant groups for healthcare-grade laundering.</p>
+    </div>
+    <div>
+      <h4>Industries</h4>
+      <ul>
+        <li><a href="#">Healthcare</a></li>
+        <li><a href="#">Hospitality</a></li>
+        <li><a href="#">Foodservice</a></li>
+        <li><a href="#">Industrial</a></li>
+        <li><a href="#">Facility hygiene</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Programs</h4>
+      <ul>
+        <li><a href="#">Linen rental</a></li>
+        <li><a href="#">Uniform rental</a></li>
+        <li><a href="#">Scrubs &amp; OR</a></li>
+        <li><a href="#">Direct purchase</a></li>
+        <li><a href="#">Floor mats</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="#">Compliance dossier</a></li>
+        <li><a href="#">Cost calculator</a></li>
+        <li><a href="#">Case studies</a></li>
+        <li><a href="#">Specs &amp; standards</a></li>
+        <li><a href="#">Help center</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Bellweather</a></li>
+        <li><a href="#">Plant network</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© 1968—2026 Bellweather Linen Partners, Inc. All rights reserved.</span>
+    <div class="compliance-row">
+      <span>HLAC ACCREDITED</span>
+      <span>TRSA HYGIENICALLY CLEAN</span>
+      <span>HIPAA COMPLIANT</span>
+      <span>OSHA TRAINED</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

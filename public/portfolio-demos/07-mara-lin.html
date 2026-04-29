@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mara Lin — Photographer &amp; director. New York / Los Angeles.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=DM+Mono:wght@300;400;500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0A0A0A;
+    --bg-light: #141414;
+    --bg-mid: #1C1C1C;
+    --fg: #F5F2EC;
+    --fg-dim: rgba(245,242,236,0.55);
+    --fg-faint: rgba(245,242,236,0.25);
+    --accent: #C8B8A0;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--fg);
+    font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.55;
+    font-weight: 300; overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor-dot, .cursor-ring {
+    position: fixed; pointer-events: none; z-index: 9999;
+    top: 0; left: 0; transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, opacity 0.2s;
+    mix-blend-mode: difference;
+  }
+  .cursor-dot { width: 6px; height: 6px; background: var(--fg); border-radius: 50%; }
+  .cursor-ring {
+    width: 28px; height: 28px; border: 1px solid var(--fg); border-radius: 50%;
+    transition: transform 0.18s cubic-bezier(.5,0,.5,1.4), width 0.2s, height 0.2s;
+  }
+  body.hover .cursor-ring { width: 64px; height: 64px; }
+  body.hover .cursor-dot { opacity: 0; }
+  @media (max-width: 900px) { body { cursor: auto; } .cursor-dot, .cursor-ring { display: none; } }
+
+  .display { font-family: 'Tenor Sans', serif; font-weight: 400; line-height: 0.96; letter-spacing: -0.005em; }
+  .mono { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 400; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 26px 36px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    background: linear-gradient(180deg, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.55) 70%, transparent 100%);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  .logo {
+    font-family: 'Tenor Sans', serif; font-size: 18px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--fg); text-decoration: none;
+  }
+  .logo small {
+    display: block; font-family: 'DM Mono'; font-size: 9px; letter-spacing: 0.25em;
+    color: var(--fg-dim); margin-top: 4px; font-weight: 400; text-transform: uppercase;
+  }
+  .nav-mid { display: flex; gap: 32px; justify-self: center; }
+  .nav-mid a {
+    color: var(--fg); text-decoration: none; font-family: 'DM Mono'; font-size: 11px;
+    letter-spacing: 0.22em; text-transform: uppercase; font-weight: 400;
+    position: relative; padding: 4px 0;
+  }
+  .nav-mid a::after {
+    content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px;
+    background: var(--fg); transition: width 0.3s;
+  }
+  .nav-mid a:hover::after { width: 100%; }
+  .nav-end { justify-self: end; font-family: 'DM Mono'; font-size: 11px; letter-spacing: 0.22em; color: var(--fg-dim); text-transform: uppercase; }
+
+  /* HERO */
+  .hero {
+    height: 100vh; min-height: 760px; position: relative; overflow: hidden;
+    display: flex; align-items: flex-end; padding: 80px 36px 44px;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 70% 40%, #4A3D2A 0%, transparent 50%),
+      radial-gradient(ellipse at 30% 80%, #2A2520 0%, transparent 60%),
+      linear-gradient(180deg, #1A1612 0%, #0A0807 100%);
+  }
+  .hero-bg::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 50% 50%, transparent 60%, rgba(0,0,0,0.7) 100%);
+  }
+  .hero-bg::after {
+    content: ''; position: absolute; inset: 0; opacity: 0.15;
+    background-image: repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 3px);
+  }
+  .hero-figure {
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 35%; height: 75%; min-width: 360px;
+    background: 
+      radial-gradient(ellipse at 50% 20%, #8E7556 0%, #5C4838 30%, #2A2018 70%, transparent 90%);
+    filter: blur(2px);
+    opacity: 0.8;
+  }
+  .hero-figure::before {
+    content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 30%; aspect-ratio: 1; border-radius: 50% 50% 30% 30%;
+    background: linear-gradient(180deg, #C8B8A0 0%, #6E5C46 100%);
+    filter: blur(1px);
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 1500px; margin: 0 auto; width: 100%; }
+  .hero-meta {
+    position: absolute; top: -55vh; right: 0; text-align: right;
+    font-family: 'DM Mono'; font-size: 11px; letter-spacing: 0.18em; color: var(--fg-dim);
+    line-height: 1.7; text-transform: uppercase;
+  }
+  .hero-meta strong { color: var(--accent); font-weight: 400; }
+  .hero-foot { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; align-items: end; }
+  .hero-foot h1 {
+    font-family: 'Tenor Sans', serif; font-weight: 400;
+    font-size: clamp(3rem, 8vw, 7rem); line-height: 0.95; letter-spacing: -0.01em;
+    grid-column: span 2;
+  }
+  .hero-foot h1 em { color: var(--accent); font-style: normal; }
+  .hero-foot h1 sub {
+    font-family: 'DM Mono'; font-size: 0.16em; letter-spacing: 0.2em;
+    vertical-align: super; color: var(--fg-dim); margin-left: 12px; text-transform: uppercase;
+  }
+  .hero-tagline {
+    text-align: right; font-family: 'DM Mono'; font-size: 11px; letter-spacing: 0.18em;
+    color: var(--fg-dim); line-height: 1.7; text-transform: uppercase;
+  }
+  .hero-tagline strong { color: var(--accent); font-weight: 400; }
+
+  /* SCROLL HINT */
+  .scroll-hint {
+    position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+    font-family: 'DM Mono'; font-size: 10px; letter-spacing: 0.3em; color: var(--fg-dim);
+    z-index: 3; text-transform: uppercase;
+  }
+  .scroll-hint::before { content: '↓ '; animation: bob 1.6s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translateY(4px); } }
+
+  /* SECTIONS */
+  .section {
+    padding: 140px 36px; max-width: 1500px; margin: 0 auto;
+  }
+  .section-head { display: flex; justify-content: space-between; align-items: end; margin-bottom: 60px; gap: 40px; }
+  .section-head h2 {
+    font-family: 'Tenor Sans', serif; font-weight: 400;
+    font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1; letter-spacing: -0.005em;
+  }
+  .section-head h2 em { color: var(--accent); font-style: normal; }
+  .section-head .lbl { font-family: 'DM Mono'; font-size: 11px; letter-spacing: 0.22em; color: var(--fg-dim); text-transform: uppercase; }
+
+  /* WORK GRID — asymmetric editorial */
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+  }
+  .work-item {
+    position: relative; overflow: hidden; cursor: pointer;
+    background: var(--bg-light);
+  }
+  .work-item.md { grid-column: span 6; aspect-ratio: 4/5; }
+  .work-item.lg { grid-column: span 8; aspect-ratio: 16/9; }
+  .work-item.sm { grid-column: span 4; aspect-ratio: 4/5; }
+  .work-item.tall { grid-column: span 4; aspect-ratio: 3/4; }
+  .work-item.wide { grid-column: span 8; aspect-ratio: 21/9; }
+  .work-item.sq { grid-column: span 6; aspect-ratio: 1; }
+
+  .work-photo {
+    position: absolute; inset: 0;
+    transition: transform 0.8s cubic-bezier(.16,.84,.44,1);
+  }
+  .work-item:hover .work-photo { transform: scale(1.04); }
+
+  /* fake photos via CSS gradients */
+  .work-photo.p1 { background: linear-gradient(180deg, #2E2A24 0%, #5C4836 50%, #2A1F18 100%); }
+  .work-photo.p1::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 40%, rgba(200,184,160,0.4) 0%, transparent 50%); }
+  .work-photo.p1::after { content: ''; position: absolute; bottom: 0; left: 30%; width: 40%; height: 60%; background: radial-gradient(ellipse at 50% 100%, rgba(40,30,20,0.7) 0%, transparent 70%); }
+
+  .work-photo.p2 { background: linear-gradient(135deg, #1A2530 0%, #3D5266 50%, #1A1C24 100%); }
+  .work-photo.p2::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.15) 0%, transparent 30%); }
+
+  .work-photo.p3 { background: linear-gradient(180deg, #6E2E15 0%, #842F22 50%, #3D1408 100%); }
+  .work-photo.p3::after { content: ''; position: absolute; bottom: 0; right: 0; width: 60%; height: 80%; background: radial-gradient(ellipse at 80% 60%, rgba(40,15,8,0.85) 0%, transparent 70%); }
+
+  .work-photo.p4 { background: linear-gradient(180deg, #2A3E2A 0%, #4A5238 60%, #1A1F18 100%); }
+  .work-photo.p4::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 20%, rgba(200,184,160,0.25) 0%, transparent 50%); }
+
+  .work-photo.p5 { background: linear-gradient(135deg, #0A0A0A 0%, #2A2520 50%, #0A0A0A 100%); }
+  .work-photo.p5::before { content: ''; position: absolute; left: 30%; top: 20%; width: 40%; height: 60%; border-radius: 50%; background: radial-gradient(circle at 50% 30%, rgba(245,242,236,0.5) 0%, rgba(140,120,90,0.3) 60%, transparent 90%); filter: blur(8px); }
+
+  .work-photo.p6 { background: linear-gradient(180deg, #4A3520 0%, #8E7556 50%, #2A1F12 100%); }
+
+  .work-photo.p7 { background: linear-gradient(135deg, #14060A 0%, #3D0F14 60%, #0A0507 100%); }
+  .work-photo.p7::before { content: ''; position: absolute; right: 20%; top: 30%; width: 30%; height: 50%; background: radial-gradient(ellipse, rgba(197,165,114,0.4) 0%, transparent 70%); filter: blur(5px); }
+
+  .work-photo.p8 { background: linear-gradient(180deg, #1A1612 0%, #4A3D2A 60%, #0A0807 100%); }
+  .work-photo.p8::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 50%, rgba(245,242,236,0.18) 0%, transparent 50%); }
+
+  .work-meta {
+    position: absolute; bottom: 18px; left: 18px; right: 18px;
+    display: flex; justify-content: space-between; align-items: end;
+    font-family: 'DM Mono'; font-size: 10px; letter-spacing: 0.18em;
+    color: var(--fg); text-transform: uppercase;
+    opacity: 0; transform: translateY(8px);
+    transition: opacity 0.4s, transform 0.4s;
+    z-index: 2;
+  }
+  .work-item:hover .work-meta { opacity: 1; transform: translateY(0); }
+  .work-meta .title {
+    font-family: 'Tenor Sans'; font-size: 22px; letter-spacing: 0.005em; text-transform: none;
+    line-height: 1.05;
+  }
+  .work-meta .yr { color: var(--fg-dim); }
+
+  .work-num {
+    position: absolute; top: 18px; left: 18px;
+    font-family: 'DM Mono'; font-size: 10px; letter-spacing: 0.22em; color: var(--fg-dim);
+    z-index: 2; text-transform: uppercase;
+  }
+
+  /* ABOUT */
+  .about-section { padding: 160px 36px; max-width: 1500px; margin: 0 auto; }
+  .about-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; align-items: start; }
+  .about-meta {
+    font-family: 'DM Mono'; font-size: 11px; letter-spacing: 0.18em; color: var(--fg-dim);
+    line-height: 1.9; text-transform: uppercase;
+  }
+  .about-meta strong { color: var(--accent); font-weight: 400; }
+  .about-meta .row {
+    display: grid; grid-template-columns: 110px 1fr; gap: 20px; padding: 12px 0;
+    border-bottom: 1px solid rgba(245,242,236,0.08);
+  }
+  .about-text {
+    font-family: 'Tenor Sans', serif; font-weight: 400;
+    font-size: clamp(1.3rem, 2vw, 1.7rem); line-height: 1.45;
+  }
+  .about-text > p { margin-bottom: 26px; }
+  .about-text > p em { color: var(--accent); font-style: normal; }
+  .about-text blockquote {
+    margin: 40px 0; padding: 30px 40px;
+    border-left: 1px solid var(--accent);
+    font-style: italic; color: var(--fg-dim);
+  }
+  .about-text blockquote em { color: var(--accent); }
+  .about-quote-attr {
+    display: block; margin-top: 12px; font-family: 'DM Mono'; font-size: 11px;
+    letter-spacing: 0.2em; font-style: normal; color: var(--fg-dim); text-transform: uppercase;
+  }
+
+  /* SERVICES */
+  .serv-section {
+    padding: 140px 36px; max-width: 1500px; margin: 0 auto;
+    border-top: 1px solid rgba(245,242,236,0.1);
+  }
+  .serv-list { border-top: 1px solid rgba(245,242,236,0.15); }
+  .serv-row {
+    display: grid; grid-template-columns: 80px 1fr 1fr 100px;
+    gap: 40px; padding: 36px 0; align-items: center;
+    border-bottom: 1px solid rgba(245,242,236,0.1);
+    transition: padding-left 0.4s; cursor: pointer;
+  }
+  .serv-row:hover { padding-left: 30px; background: rgba(245,242,236,0.02); }
+  .serv-row:hover .serv-name { color: var(--accent); }
+  .serv-row:hover .serv-arrow { transform: translateX(0); opacity: 1; color: var(--accent); }
+  .serv-num { font-family: 'DM Mono'; font-size: 11px; letter-spacing: 0.18em; color: var(--fg-dim); text-transform: uppercase; }
+  .serv-name { font-family: 'Tenor Sans'; font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.05; letter-spacing: -0.005em; transition: color 0.3s; }
+  .serv-desc { font-size: 14px; line-height: 1.5; color: var(--fg-dim); max-width: 400px; }
+  .serv-arrow { font-size: 18px; color: var(--fg-dim); opacity: 0.5; transform: translateX(-12px); transition: all 0.3s; text-align: right; }
+
+  /* CONTACT */
+  .contact-section {
+    padding: 180px 36px 100px; max-width: 1500px; margin: 0 auto;
+    text-align: center; border-top: 1px solid rgba(245,242,236,0.1);
+  }
+  .contact-eye {
+    font-family: 'DM Mono'; font-size: 11px; letter-spacing: 0.28em; color: var(--fg-dim);
+    margin-bottom: 30px; text-transform: uppercase;
+  }
+  h2.contact-h {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(3rem, 9vw, 9rem); line-height: 0.95; letter-spacing: -0.01em;
+    margin-bottom: 50px;
+  }
+  h2.contact-h em { color: var(--accent); font-style: normal; }
+  .contact-email {
+    display: inline-block; font-family: 'Tenor Sans'; font-size: clamp(1.3rem, 2.4vw, 2rem);
+    color: var(--fg); text-decoration: none; padding-bottom: 8px;
+    border-bottom: 1px solid var(--accent);
+    transition: color 0.2s;
+  }
+  .contact-email:hover { color: var(--accent); }
+  .contact-foot {
+    margin-top: 80px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;
+    text-align: left; padding-top: 60px; border-top: 1px solid rgba(245,242,236,0.1);
+  }
+  .contact-foot .col h4 {
+    font-family: 'DM Mono'; font-size: 11px; letter-spacing: 0.22em; color: var(--accent);
+    margin-bottom: 14px; font-weight: 400; text-transform: uppercase;
+  }
+  .contact-foot .col p, .contact-foot .col a {
+    font-size: 14px; color: var(--fg-dim); line-height: 1.6; text-decoration: none; display: block;
+  }
+  .contact-foot .col a:hover { color: var(--fg); }
+
+  footer {
+    padding: 30px 36px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+    font-family: 'DM Mono'; font-size: 10px; letter-spacing: 0.18em; color: var(--fg-faint);
+    text-transform: uppercase;
+    border-top: 1px solid rgba(245,242,236,0.05);
+  }
+
+  @media (max-width: 1000px) {
+    .nav-mid { display: none; }
+    .work-item.md, .work-item.lg, .work-item.sm, .work-item.tall, .work-item.wide, .work-item.sq { grid-column: span 12; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .serv-row { grid-template-columns: 50px 1fr 30px; gap: 18px; padding: 22px 0; }
+    .serv-row .serv-desc { display: none; }
+    .hero-foot { grid-template-columns: 1fr; gap: 24px; }
+    .hero-foot h1 { grid-column: 1; }
+    .hero-tagline { text-align: left; }
+    .hero-meta { display: none; }
+    .contact-foot { grid-template-columns: 1fr 1fr; }
+    nav, .section, .about-section, .serv-section, .contact-section, footer, .hero { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<nav>
+  <a href="#" class="logo">MARA LIN<small>PHOTOGRAPHER · DIRECTOR</small></a>
+  <div class="nav-mid">
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="nav-end">NYC ⇄ LA · 2026</div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-figure"></div>
+  <div class="hero-content">
+    <div class="hero-meta">
+      <strong>Currently:</strong><br>
+      Toronto · Apr 26—May 4<br>
+      &nbsp;<br>
+      <strong>Next:</strong><br>
+      Mexico City · Jun 12—22
+    </div>
+    <div class="hero-foot">
+      <h1 class="display">Mara<br>Lin<sub>EST. 2018 / NEW YORK</sub><br><em>Photographer</em><br>&amp; director.</h1>
+      <span></span>
+      <div class="hero-tagline">
+        <strong>Editorial · Fashion · Brand</strong><br>
+        Since 2018 — Vogue, NYT,<br>Apple, Hermès, A24,<br>Aesop, Loewe<br>&amp; others.
+      </div>
+    </div>
+  </div>
+  <span class="scroll-hint">SCROLL — SELECTED WORK</span>
+</section>
+
+<section class="section" id="work">
+  <div class="section-head">
+    <h2 class="display">Selected <em>work</em><br>2022 — 2026.</h2>
+    <span class="lbl">[ 14 PROJECTS ]</span>
+  </div>
+
+  <div class="work-grid">
+    <div class="work-item lg">
+      <div class="work-photo p1"></div>
+      <span class="work-num">01 / 14</span>
+      <div class="work-meta">
+        <div>
+          <div class="title">The hours before sunrise</div>
+          <div>EDITORIAL · NEW YORK TIMES STYLE</div>
+        </div>
+        <span class="yr">2025</span>
+      </div>
+    </div>
+    <div class="work-item sm">
+      <div class="work-photo p2"></div>
+      <span class="work-num">02 / 14</span>
+      <div class="work-meta">
+        <div>
+          <div class="title">Hermès SS25</div>
+          <div>CAMPAIGN · DIRECTED FILM</div>
+        </div>
+        <span class="yr">2025</span>
+      </div>
+    </div>
+
+    <div class="work-item sm">
+      <div class="work-photo p3"></div>
+      <span class="work-num">03 / 14</span>
+      <div class="work-meta">
+        <div>
+          <div class="title">Querido</div>
+          <div>SHORT FILM · A24</div>
+        </div>
+        <span class="yr">2024</span>
+      </div>
+    </div>
+    <div class="work-item md">
+      <div class="work-photo p4"></div>
+      <span class="work-num">04 / 14</span>
+      <div class="work-meta">
+        <div>
+          <div class="title">Slow gardens</div>
+          <div>EDITORIAL · APARTAMENTO</div>
+        </div>
+        <span class="yr">2024</span>
+      </div>
+    </div>
+    <div class="work-item tall">
+      <div class="work-photo p5"></div>
+      <span class="work-num">05 / 14</span>
+      <div class="work-meta">
+        <div>
+          <div class="title">Aesop, autumn</div>
+          <div>BRAND · COMMERCIAL</div>
+        </div>
+        <span class="yr">2024</span>
+      </div>
+    </div>
+
+    <div class="work-item wide">
+      <div class="work-photo p6"></div>
+      <span class="work-num">06 / 14</span>
+      <div class="work-meta">
+        <div>
+          <div class="title">A road in Sonora</div>
+          <div>PERSONAL · 16MM FILM</div>
+        </div>
+        <span class="yr">2024</span>
+      </div>
+    </div>
+    <div class="work-item tall">
+      <div class="work-photo p7"></div>
+      <span class="work-num">07 / 14</span>
+      <div class="work-meta">
+        <div>
+          <div class="title">Loewe — Paula's</div>
+          <div>CAMPAIGN · STILL &amp; MOTION</div>
+        </div>
+        <span class="yr">2023</span>
+      </div>
+    </div>
+
+    <div class="work-item md">
+      <div class="work-photo p8"></div>
+      <span class="work-num">08 / 14</span>
+      <div class="work-meta">
+        <div>
+          <div class="title">Twenty windows</div>
+          <div>EDITORIAL · VOGUE ITALIA</div>
+        </div>
+        <span class="yr">2023</span>
+      </div>
+    </div>
+    <div class="work-item sq">
+      <div class="work-photo p1"></div>
+      <span class="work-num">09 / 14</span>
+      <div class="work-meta">
+        <div>
+          <div class="title">Apple — quiet portraits</div>
+          <div>BRAND · SHOT ON IPHONE</div>
+        </div>
+        <span class="yr">2023</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about-section" id="about">
+  <div class="about-grid">
+    <div class="about-meta">
+      <div class="row"><span>BASED</span><strong>NYC ⇄ LA</strong></div>
+      <div class="row"><span>WORKING SINCE</span><strong>2018</strong></div>
+      <div class="row"><span>EDITORIAL</span><span>NYT · VOGUE · APARTAMENTO · ANOTHER · SSENSE</span></div>
+      <div class="row"><span>BRAND</span><span>HERMÈS · LOEWE · AESOP · APPLE · A24</span></div>
+      <div class="row"><span>REPRESENTATION</span><strong>ART + COMMERCE, NEW YORK</strong></div>
+      <div class="row"><span>AGENT</span><span>noah@artandcommerce.com</span></div>
+      <div class="row"><span>EQUIPMENT</span><span>HASSELBLAD H6D-100C · ARRI ALEXA MINI · 16MM</span></div>
+      <div class="row" style="border-bottom:none;"><span>SHE / HER</span><strong>EST. SHANGHAI / 1991</strong></div>
+    </div>
+    <div class="about-text">
+      <p>I make pictures, mostly. <em>Slow ones.</em></p>
+      <p>I'm interested in the moment before the moment — the breath before the sentence, the look between two people who know each other well. My pictures are quiet on purpose.</p>
+      <p>Trained at SVA (BFA, '13) and as an assistant to Tim Walker and Ryan McGinley between 2014 and 2018. I shoot on a Hasselblad medium format, sometimes a 1973 Pentax 6x7 if the project asks for it, and I direct on 16mm whenever I can. <em>Film holds light differently.</em></p>
+      <blockquote>"I'm not interested in beauty. I'm interested in <em>the small, true thing</em> that happens when someone forgets the camera is there."
+        <span class="about-quote-attr">— Mara, in conversation with Apartamento, 2024</span>
+      </blockquote>
+      <p>I work mostly between New York and Los Angeles, with occasional projects in Mexico and Tokyo. <em>I take three big jobs a year.</em> I take small ones sometimes too, if the room is right.</p>
+    </div>
+  </div>
+</section>
+
+<section class="serv-section" id="services">
+  <div class="section-head">
+    <h2 class="display">What I <em>do.</em></h2>
+    <span class="lbl">[ 04 SERVICES ]</span>
+  </div>
+  <div class="serv-list">
+    <a href="#" class="serv-row">
+      <span class="serv-num">01</span>
+      <div class="serv-name">Editorial photography</div>
+      <div class="serv-desc">Magazine commissions, portraits, fashion stories. Print-led, slow, story-first.</div>
+      <span class="serv-arrow">→</span>
+    </a>
+    <a href="#" class="serv-row">
+      <span class="serv-num">02</span>
+      <div class="serv-name">Brand campaigns &amp; commercial</div>
+      <div class="serv-desc">Stills &amp; moving image. End-to-end concepting, casting, location, post.</div>
+      <span class="serv-arrow">→</span>
+    </a>
+    <a href="#" class="serv-row">
+      <span class="serv-num">03</span>
+      <div class="serv-name">Direction &amp; short film</div>
+      <div class="serv-desc">Shorts, brand films, music videos. Mostly 16mm, occasionally Alexa Mini.</div>
+      <span class="serv-arrow">→</span>
+    </a>
+    <a href="#" class="serv-row">
+      <span class="serv-num">04</span>
+      <div class="serv-name">Personal &amp; fine-art print sales</div>
+      <div class="serv-desc">Limited-edition silver gelatin &amp; pigment prints. Edition of 8, signed.</div>
+      <span class="serv-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<section class="contact-section" id="contact">
+  <div class="contact-eye">[ Get in touch ]</div>
+  <h2 class="display contact-h">Tell me<br>about <em>the room</em>.</h2>
+  <a href="mailto:hello@maralin.studio" class="contact-email">hello@maralin.studio →</a>
+  <div class="contact-foot">
+    <div class="col">
+      <h4>Editorial</h4>
+      <a href="mailto:editorial@maralin.studio">editorial@maralin.studio</a>
+      <p style="margin-top:6px;">Direct, no agent</p>
+    </div>
+    <div class="col">
+      <h4>Commercial &amp; agent</h4>
+      <a href="mailto:noah@artandcommerce.com">noah@artandcommerce.com</a>
+      <p style="margin-top:6px;">Art + Commerce, NY</p>
+    </div>
+    <div class="col">
+      <h4>Print sales</h4>
+      <a href="mailto:prints@maralin.studio">prints@maralin.studio</a>
+      <p style="margin-top:6px;">Edition info on request</p>
+    </div>
+    <div class="col">
+      <h4>Following</h4>
+      <a href="#">Instagram → @mara.lin</a>
+      <a href="#">Are.na → mara-lin</a>
+      <a href="#">Newsletter → quarterly</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2018—2026 MARA LIN STUDIO LLC · NEW YORK, NY</span>
+  <span>SET IN TENOR SANS &amp; DM MONO</span>
+</footer>
+
+<script>
+  const dot = document.querySelector('.cursor-dot');
+  const ring = document.querySelector('.cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+  });
+  function loop() {
+    rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(loop);
+  }
+  loop();
+  document.querySelectorAll('a, .work-item, .serv-row').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('hover'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('hover'));
+  });
+</script>
+
+</body>
+</html>

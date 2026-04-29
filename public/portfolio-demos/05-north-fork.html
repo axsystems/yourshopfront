@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>North Fork — Independent brewery &amp; taproom. Brooklyn.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700;800;900&family=Crimson+Pro:ital,wght@0,400;0,500;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --forest: #2A4530;
+    --forest-deep: #1B2E1F;
+    --cream: #EDE3CD;
+    --cream-deep: #DDD0B0;
+    --paper: #F4ECD7;
+    --oxblood: #842F22;
+    --oxblood-deep: #5C2018;
+    --mustard: #D9A934;
+    --mustard-deep: #B58820;
+    --charcoal: #1A1A1A;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--cream); color: var(--charcoal);
+    font-family: 'Archivo', sans-serif; font-size: 16px; line-height: 1.55;
+    overflow-x: hidden; -webkit-font-smoothing: antialiased; position: relative;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: 0.5;
+    background-image: radial-gradient(circle at 1px 1px, rgba(26,26,26,0.05) 0.7px, transparent 0);
+    background-size: 4px 4px;
+  }
+  .display { font-family: 'Archivo Black', sans-serif; line-height: 0.92; letter-spacing: -0.02em; text-transform: uppercase; }
+  .topbar {
+    background: var(--forest-deep); color: var(--mustard); padding: 9px 30px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+  }
+  .topbar a { color: var(--cream); text-decoration: none; }
+  .topbar .open::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--mustard); margin-right: 8px; animation: blink 1.5s infinite; }
+  @keyframes blink { 50% { opacity: 0.3; } }
+  nav {
+    background: var(--forest); color: var(--cream); padding: 18px 30px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 4px solid var(--charcoal); position: sticky; top: 0; z-index: 100;
+  }
+  .logo {
+    font-family: 'Archivo Black', sans-serif; font-size: 26px; line-height: 1; letter-spacing: -0.02em;
+    text-transform: uppercase; display: flex; align-items: center; gap: 14px;
+  }
+  .logo .badge {
+    width: 44px; height: 44px; border: 2px solid var(--mustard); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Archivo Black'; color: var(--mustard); font-size: 18px; position: relative;
+  }
+  .logo .badge::after {
+    content: ''; position: absolute; inset: 3px; border: 1px dashed var(--mustard); border-radius: 50%; opacity: 0.5;
+  }
+  .logo small {
+    display: block; font-family: 'JetBrains Mono'; font-size: 9px; letter-spacing: 0.25em;
+    color: var(--mustard); margin-top: 4px; font-weight: 400; text-transform: uppercase;
+  }
+  .nav-mid { display: flex; gap: 28px; }
+  .nav-mid a {
+    color: var(--cream); text-decoration: none; font-family: 'Archivo'; font-weight: 600; font-size: 14px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .nav-mid a:hover { color: var(--mustard); }
+  .nav-cta {
+    background: var(--mustard); color: var(--charcoal); padding: 12px 22px;
+    text-decoration: none; font-family: 'Archivo Black'; font-size: 13px;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    border: 2px solid var(--charcoal); transition: all 0.15s;
+  }
+  .nav-cta:hover { background: var(--cream); }
+  .hero {
+    background: var(--forest); color: var(--cream); padding: 80px 30px 100px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 80%, rgba(217,169,52,0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(132,47,34,0.2) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 1500px; margin: 0 auto; position: relative; z-index: 2; }
+  .hero-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 60px; align-items: center; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 14px; margin-bottom: 28px;
+    color: var(--mustard);
+  }
+  .hero-eyebrow .line { width: 50px; height: 2px; background: currentColor; }
+  .hero-eyebrow .lbl { font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; }
+  h1.hero-h {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(3.5rem, 10vw, 10rem); line-height: 0.85; letter-spacing: -0.04em;
+    text-transform: uppercase; margin-bottom: 30px;
+  }
+  h1.hero-h .accent { color: var(--mustard); }
+  .hero-lede {
+    font-family: 'Crimson Pro', serif; font-size: clamp(1.2rem, 2.2vw, 1.7rem); font-style: italic;
+    line-height: 1.4; max-width: 540px; margin-bottom: 36px; color: rgba(237,227,205,0.9);
+  }
+  .hero-lede em { color: var(--mustard); }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .btn-mustard {
+    background: var(--mustard); color: var(--charcoal); padding: 16px 28px;
+    text-decoration: none; font-family: 'Archivo Black'; font-size: 14px;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    border: 2px solid var(--charcoal); box-shadow: 5px 5px 0 var(--charcoal);
+    transition: all 0.15s;
+  }
+  .btn-mustard:hover { transform: translate(-3px, -3px); box-shadow: 8px 8px 0 var(--charcoal); }
+  .btn-ghost {
+    color: var(--cream); padding: 14px 22px; font-family: 'Archivo'; font-weight: 600; font-size: 14px;
+    text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em;
+    border-bottom: 2px solid var(--cream);
+  }
+  .hero-can {
+    aspect-ratio: 3/5; max-width: 360px; margin: 0 auto;
+    position: relative; transform: rotate(-4deg);
+    filter: drop-shadow(20px 30px 40px rgba(0,0,0,0.35));
+  }
+  .can-body {
+    width: 100%; height: 100%; border-radius: 8% / 3%;
+    background: linear-gradient(90deg, var(--oxblood-deep) 0%, var(--oxblood) 50%, var(--oxblood-deep) 100%);
+    border: 2px solid var(--charcoal);
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; padding: 16% 14% 18%;
+  }
+  .can-body::before {
+    content: ''; position: absolute; top: 8%; left: 0; right: 0; height: 6%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+    border-bottom: 1px solid var(--charcoal);
+  }
+  .can-body::after {
+    content: ''; position: absolute; bottom: 8%; left: 0; right: 0; height: 6%;
+    background: linear-gradient(0deg, rgba(0,0,0,0.25) 0%, transparent 100%);
+    border-top: 1px solid var(--charcoal);
+  }
+  .can-top { text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+  .can-mark { font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.2em; color: var(--mustard); text-transform: uppercase; }
+  .can-name { font-family: 'Archivo Black'; font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 0.9; letter-spacing: -0.02em; color: var(--cream); text-transform: uppercase; }
+  .can-name em { color: var(--mustard); font-style: normal; display: block; }
+  .can-style { font-family: 'Crimson Pro', serif; font-style: italic; font-size: clamp(0.9rem, 1.4vw, 1.2rem); color: var(--cream); margin: 8px 0; }
+  .can-stats {
+    display: flex; justify-content: space-around; padding: 12px 0;
+    border-top: 1px solid rgba(237,227,205,0.4); border-bottom: 1px solid rgba(237,227,205,0.4);
+    margin: 12px 0;
+  }
+  .can-stat { text-align: center; }
+  .can-stat strong { font-family: 'Archivo Black'; font-size: 16px; color: var(--mustard); display: block; }
+  .can-stat span { font-family: 'JetBrains Mono'; font-size: 9px; letter-spacing: 0.2em; color: var(--cream); opacity: 0.85; text-transform: uppercase; }
+  .can-illustration {
+    width: 60%; aspect-ratio: 1; margin: 0 auto;
+    background: radial-gradient(circle at 50% 50%, var(--mustard) 0%, var(--mustard-deep) 60%, transparent 80%);
+    border-radius: 50%; position: relative;
+  }
+  .can-bot { font-family: 'JetBrains Mono'; font-size: 9px; letter-spacing: 0.18em; text-align: center; color: var(--mustard); text-transform: uppercase; margin-top: auto; }
+  .hero-stats {
+    grid-column: 1 / -1; padding-top: 60px; margin-top: 60px;
+    border-top: 1px solid rgba(237,227,205,0.2);
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;
+  }
+  .hero-stat { color: var(--cream); }
+  .hero-stat strong { font-family: 'Archivo Black'; font-size: clamp(2rem, 4vw, 3.5rem); display: block; color: var(--mustard); line-height: 1; }
+  .hero-stat span { font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.18em; opacity: 0.8; text-transform: uppercase; margin-top: 8px; display: block; }
+
+  .ticker {
+    background: var(--mustard); color: var(--charcoal); padding: 12px 0;
+    border-top: 4px solid var(--charcoal); border-bottom: 4px solid var(--charcoal);
+    overflow: hidden; position: relative; z-index: 2;
+  }
+  .ticker-track { display: flex; gap: 50px; white-space: nowrap; animation: scroll 28s linear infinite; }
+  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .ticker span {
+    font-family: 'Archivo Black'; font-size: 18px; display: inline-flex; align-items: center; gap: 50px;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .ticker span::after { content: '✶'; color: var(--oxblood); margin-left: 50px; }
+
+  section { padding: 110px 30px; max-width: 1500px; margin: 0 auto; }
+  .section-eye {
+    display: inline-block; padding: 5px 14px; background: var(--charcoal); color: var(--mustard);
+    font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  h2 {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(3rem, 7vw, 6rem); line-height: 0.92; letter-spacing: -0.025em;
+    text-transform: uppercase;
+  }
+  h2 em { font-style: normal; color: var(--oxblood); }
+
+  .taps-section .section-head { display: grid; grid-template-columns: 1.5fr 1fr; gap: 60px; margin-bottom: 60px; align-items: end; }
+  .taps-section .section-head p { font-family: 'Crimson Pro'; font-style: italic; font-size: 19px; line-height: 1.5; max-width: 380px; justify-self: end; color: rgba(26,26,26,0.85); }
+  .taps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .tap-card {
+    background: var(--paper); border: 3px solid var(--charcoal);
+    padding: 0; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;
+    text-decoration: none; color: var(--charcoal); display: flex; flex-direction: column;
+    position: relative; overflow: hidden;
+  }
+  .tap-card:hover { transform: translate(-3px, -3px); box-shadow: 8px 8px 0 var(--charcoal); }
+  .tap-label {
+    aspect-ratio: 1; position: relative; border-bottom: 3px solid var(--charcoal);
+    display: flex; flex-direction: column; padding: 24px; overflow: hidden;
+  }
+  .tap-label.l1 { background: var(--forest); color: var(--cream); }
+  .tap-label.l2 { background: var(--oxblood); color: var(--cream); }
+  .tap-label.l3 { background: var(--mustard); color: var(--charcoal); }
+  .tap-label.l4 { background: var(--charcoal); color: var(--mustard); }
+  .tap-label.l5 { background: var(--cream); color: var(--charcoal); }
+  .tap-label.l6 { background: var(--forest-deep); color: var(--mustard); }
+  .tap-num { font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.2em; opacity: 0.8; }
+  .tap-circle {
+    width: 55%; aspect-ratio: 1; border: 3px solid currentColor; border-radius: 50%;
+    margin: 14px auto;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Archivo Black'; font-size: clamp(1.5rem, 3vw, 2.4rem); line-height: 1; text-align: center; padding: 14px;
+    text-transform: uppercase; position: relative;
+  }
+  .tap-circle::after {
+    content: ''; position: absolute; inset: 4px; border: 1px dashed currentColor; border-radius: 50%; opacity: 0.5;
+  }
+  .tap-circle em { font-style: normal; }
+  .tap-style { text-align: center; font-family: 'Crimson Pro', serif; font-style: italic; font-size: 15px; margin-top: auto; }
+  .tap-info { padding: 22px 24px; display: flex; flex-direction: column; gap: 10px; }
+  .tap-info h3 {
+    font-family: 'Archivo Black'; font-size: 26px; line-height: 1; text-transform: uppercase; letter-spacing: -0.015em;
+  }
+  .tap-info h3 em { font-style: normal; color: var(--oxblood); }
+  .tap-info p { font-family: 'Crimson Pro'; font-style: italic; font-size: 15px; line-height: 1.5; color: rgba(26,26,26,0.8); }
+  .tap-info-bot {
+    display: flex; justify-content: space-between; padding-top: 14px; border-top: 1px solid rgba(26,26,26,0.2);
+    font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .tap-info-bot strong { font-family: 'Archivo Black'; color: var(--oxblood); }
+
+  .tap-section {
+    background: var(--paper); padding: 110px 30px;
+    max-width: none; margin: 0; border-top: 4px solid var(--charcoal); border-bottom: 4px solid var(--charcoal);
+    position: relative;
+  }
+  .tap-inner { max-width: 1500px; margin: 0 auto; }
+  .tap-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; }
+  .tap-text > p { font-family: 'Crimson Pro', serif; font-size: 19px; line-height: 1.6; max-width: 540px; margin-bottom: 20px; }
+  .tap-text > p em { font-style: italic; color: var(--oxblood); }
+  .tap-text > p:first-of-type::first-letter {
+    font-family: 'Archivo Black'; font-size: 4.5em; line-height: 0.85; float: left;
+    padding: 6px 14px 0 0; color: var(--oxblood);
+  }
+  .tap-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 30px; }
+  .tap-stat { background: var(--cream); border: 2px solid var(--charcoal); padding: 20px; box-shadow: 4px 4px 0 var(--charcoal); }
+  .tap-stat strong { font-family: 'Archivo Black'; font-size: 36px; line-height: 1; display: block; color: var(--oxblood); }
+  .tap-stat span { font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.7; margin-top: 6px; display: block; }
+  .tap-stat em { color: var(--mustard-deep); font-style: normal; }
+  .tap-photo {
+    aspect-ratio: 4/5; border: 3px solid var(--charcoal);
+    background: linear-gradient(180deg, var(--forest-deep) 0%, var(--charcoal) 100%);
+    position: relative; overflow: hidden; box-shadow: 12px 12px 0 var(--mustard);
+  }
+  .tap-photo::before {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60%;
+    background: 
+      radial-gradient(ellipse at 30% 70%, rgba(217,169,52,0.4) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 80%, var(--oxblood) 0%, transparent 60%);
+  }
+  .tap-photo::after {
+    content: ''; position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%);
+    width: 70%; height: 25%;
+    background: linear-gradient(180deg, transparent 0%, rgba(217,169,52,0.6) 50%, var(--mustard) 100%);
+    border-radius: 50% / 30%;
+    box-shadow: 0 -10px 40px rgba(217,169,52,0.5);
+  }
+  .tap-photo-cap {
+    position: absolute; bottom: 18px; left: 18px; right: 18px;
+    background: rgba(244,236,215,0.95); border: 1.5px solid var(--charcoal); padding: 10px;
+    text-align: center; font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; z-index: 1;
+  }
+
+  .visit-section .visit-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center; }
+  .visit-text h2 { margin-bottom: 28px; }
+  .visit-text > p { font-family: 'Crimson Pro'; font-style: italic; font-size: 21px; line-height: 1.45; max-width: 560px; margin-bottom: 24px; }
+  .visit-text > p em { color: var(--oxblood); }
+  .visit-actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-top: 30px; }
+  .hours-card {
+    background: var(--charcoal); color: var(--cream); padding: 32px;
+    border: 3px solid var(--charcoal); position: relative; box-shadow: 8px 8px 0 var(--mustard);
+  }
+  .hours-head {
+    text-align: center; padding-bottom: 18px; margin-bottom: 14px;
+    border-bottom: 1px dashed rgba(237,227,205,0.4);
+  }
+  .hours-head .lbl { font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.22em; color: var(--mustard); margin-bottom: 6px; text-transform: uppercase; }
+  .hours-head h3 { font-family: 'Archivo Black'; font-size: 28px; line-height: 1; text-transform: uppercase; letter-spacing: -0.015em; }
+  .hours-row {
+    display: grid; grid-template-columns: 1fr auto; padding: 9px 0;
+    font-size: 14px; border-bottom: 1px dashed rgba(237,227,205,0.2);
+  }
+  .hours-row:last-of-type { border-bottom: none; }
+  .hours-row .day { font-family: 'Crimson Pro'; font-style: italic; font-size: 16px; }
+  .hours-row .time { font-family: 'Archivo'; font-weight: 700; }
+  .hours-row .time.closed { color: var(--oxblood); font-style: italic; font-weight: 400; }
+  .hours-foot {
+    margin-top: 18px; padding-top: 18px; border-top: 1px dashed rgba(237,227,205,0.4);
+    font-family: 'Crimson Pro'; font-style: italic; font-size: 15px; text-align: center;
+  }
+  .hours-foot strong { display: block; font-family: 'Archivo Black'; font-size: 22px; color: var(--mustard); margin-top: 6px; letter-spacing: -0.01em; }
+
+  .dist-section { padding: 110px 30px; max-width: 1500px; margin: 0 auto; }
+  .dist-section .section-head { text-align: center; margin-bottom: 50px; }
+  .dist-section .section-head p { max-width: 540px; margin: 18px auto 0; font-family: 'Crimson Pro'; font-style: italic; font-size: 19px; line-height: 1.5; }
+  .dist-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+  .dist-tile {
+    background: var(--paper); border: 2px solid var(--charcoal); padding: 22px 14px; text-align: center;
+    transition: background 0.2s; cursor: pointer; text-decoration: none; color: var(--charcoal);
+  }
+  .dist-tile:hover { background: var(--forest); color: var(--cream); }
+  .dist-tile:nth-child(3n):hover { background: var(--oxblood); color: var(--cream); }
+  .dist-tile:nth-child(2n):hover { background: var(--mustard); }
+  .dist-tile strong { font-family: 'Archivo Black'; font-size: 16px; line-height: 1.1; display: block; text-transform: uppercase; letter-spacing: -0.01em; }
+  .dist-tile span { font-family: 'JetBrains Mono'; font-size: 9px; letter-spacing: 0.15em; opacity: 0.7; margin-top: 4px; display: block; text-transform: uppercase; }
+
+  footer { background: var(--forest); color: var(--cream); padding: 70px 30px 30px; }
+  .foot-grid { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 50px; border-bottom: 1px solid rgba(237,227,205,0.15); }
+  .foot-brand .logo { color: var(--cream); margin-bottom: 14px; font-size: 32px; }
+  .foot-brand p { font-family: 'Crimson Pro'; font-style: italic; font-size: 17px; max-width: 320px; line-height: 1.4; opacity: 0.85; }
+  .foot-addr { margin-top: 18px; font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.1em; line-height: 1.7; color: var(--mustard); text-transform: uppercase; }
+  footer h4 { font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 16px; color: var(--mustard); font-weight: 500; }
+  footer ul { list-style: none; }
+  footer ul li { padding: 5px 0; }
+  footer ul a { color: var(--cream); text-decoration: none; font-size: 14px; font-family: 'Archivo'; font-weight: 500; }
+  footer ul a:hover { color: var(--mustard); }
+  .foot-bot { max-width: 1500px; margin: 0 auto; padding-top: 30px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.12em; opacity: 0.7; text-transform: uppercase; }
+
+  @media (max-width: 1000px) {
+    .hero-grid, .tap-grid, .visit-section .visit-grid { grid-template-columns: 1fr; gap: 40px; }
+    .taps-grid, .dist-grid { grid-template-columns: 1fr 1fr; }
+    .hero-stats { grid-template-columns: 1fr 1fr; gap: 20px; }
+    .taps-section .section-head { grid-template-columns: 1fr; gap: 30px; }
+    .taps-section .section-head p { justify-self: start; }
+    .nav-mid { display: none; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: span 2; }
+    .topbar, nav, .hero, section, .tap-section, footer { padding-left: 18px; padding-right: 18px; }
+    .topbar { padding: 8px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="open">TAPROOM OPEN · 4P—12A TODAY</span>
+  <span><a href="#">Distribution map · find us in 47 bars →</a></span>
+</div>
+
+<nav>
+  <div class="logo">
+    <span class="badge">N</span>
+    <div>NORTH<br>FORK<small>BREWING CO. ° EST. 2014</small></div>
+  </div>
+  <div class="nav-mid">
+    <a href="#taps">Tap list</a>
+    <a href="#tap-section">Taproom</a>
+    <a href="#dist">Distribution</a>
+    <a href="#">Visit</a>
+  </div>
+  <a href="#" class="nav-cta">Order online →</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="line"></span>
+          <span class="lbl">Independent brewery · Brooklyn since 2014</span>
+        </div>
+        <h1 class="hero-h">BEER<br>FOR<br><span class="accent">PATIENT</span><br>PEOPLE.</h1>
+        <p class="hero-lede">A small craft brewery in Greenpoint, brewing twelve year-round beers and a rotating lineup of small-batch experiments. <em>Slow brewed, slow drunk,</em> packaged in cans we draw on by hand.</p>
+        <div class="hero-actions">
+          <a href="#" class="btn-mustard">Order online →</a>
+          <a href="#tap-section" class="btn-ghost">Visit the taproom</a>
+        </div>
+      </div>
+      <div class="hero-can">
+        <div class="can-body">
+          <div class="can-top">
+            <div class="can-mark">N° 04 · IPA</div>
+            <div class="can-name">FOG<em>HORN</em></div>
+            <div class="can-style">A west coast IPA</div>
+            <div class="can-illustration"></div>
+            <div class="can-stats">
+              <div class="can-stat"><strong>6.8%</strong><span>ABV</span></div>
+              <div class="can-stat"><strong>54</strong><span>IBU</span></div>
+              <div class="can-stat"><strong>16oz</strong><span>can</span></div>
+            </div>
+            <div class="can-bot">BREWED &amp; CANNED IN BROOKLYN, NY</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><strong>12</strong><span>YEAR-ROUND BEERS</span></div>
+        <div class="hero-stat"><strong>47</strong><span>BARS &amp; SHOPS</span></div>
+        <div class="hero-stat"><strong>2014</strong><span>FOUNDED</span></div>
+        <div class="hero-stat"><strong>3</strong><span>OWNERS · 9 STAFF</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ticker">
+  <div class="ticker-track">
+    <span>NEW: KOLSCH N° 011 · POURED THIS WEEK · TAPROOM OPEN WED—SUN · BREWED IN GREENPOINT · NEW: KOLSCH N° 011 · POURED THIS WEEK · TAPROOM OPEN WED—SUN · BREWED IN GREENPOINT</span>
+    <span>NEW: KOLSCH N° 011 · POURED THIS WEEK · TAPROOM OPEN WED—SUN · BREWED IN GREENPOINT · NEW: KOLSCH N° 011 · POURED THIS WEEK · TAPROOM OPEN WED—SUN · BREWED IN GREENPOINT</span>
+  </div>
+</div>
+
+<section class="taps-section" id="taps">
+  <div class="section-head">
+    <div>
+      <span class="section-eye">↗ On tap right now</span>
+      <h2 class="display">SIX BEERS,<br>POURED <em>FRESH.</em></h2>
+    </div>
+    <p>Six on draft, twelve in cans, a few experiments in the back. <em>Every recipe is ours.</em> Every can label is hand-drawn, screen-printed in Greenpoint.</p>
+  </div>
+
+  <div class="taps-grid">
+    <a href="#" class="tap-card">
+      <div class="tap-label l1">
+        <span class="tap-num">N° 01</span>
+        <div class="tap-circle">FOG<em>HORN</em></div>
+        <span class="tap-style">A west coast IPA</span>
+      </div>
+      <div class="tap-info">
+        <h3>FogHorn <em>IPA</em></h3>
+        <p>Heavy on Centennial &amp; Cascade. Citrus-forward, dry, balanced. The first beer we ever brewed.</p>
+        <div class="tap-info-bot"><span>6.8% ABV · 54 IBU</span><strong>$8 / pint</strong></div>
+      </div>
+    </a>
+    <a href="#" class="tap-card">
+      <div class="tap-label l2">
+        <span class="tap-num">N° 02</span>
+        <div class="tap-circle">SLOW<em>BURN</em></div>
+        <span class="tap-style">A bourbon stout</span>
+      </div>
+      <div class="tap-info">
+        <h3>Slow Burn <em>stout</em></h3>
+        <p>Imperial stout aged ten months in Buffalo Trace barrels. Vanilla, dark fruit, char. Drinks like dessert.</p>
+        <div class="tap-info-bot"><span>11.2% ABV · LIMITED</span><strong>$14 / 8oz</strong></div>
+      </div>
+    </a>
+    <a href="#" class="tap-card">
+      <div class="tap-label l3">
+        <span class="tap-num">N° 03</span>
+        <div class="tap-circle">FIELD<em>HAND</em></div>
+        <span class="tap-style">A pilsner, properly</span>
+      </div>
+      <div class="tap-info">
+        <h3>Field Hand <em>pils</em></h3>
+        <p>German-style pilsner with Saaz hops. Crisp, dry, herbal. The beer we drink after a shift.</p>
+        <div class="tap-info-bot"><span>4.8% ABV · 32 IBU</span><strong>$7 / pint</strong></div>
+      </div>
+    </a>
+    <a href="#" class="tap-card">
+      <div class="tap-label l4">
+        <span class="tap-num">N° 04</span>
+        <div class="tap-circle">BLACK<em>WATER</em></div>
+        <span class="tap-style">A schwarzbier</span>
+      </div>
+      <div class="tap-info">
+        <h3>Blackwater <em>schwarz</em></h3>
+        <p>Dark German lager. Looks like a stout, drinks like a pilsner. Coffee, cocoa, surprisingly light.</p>
+        <div class="tap-info-bot"><span>5.2% ABV · 28 IBU</span><strong>$8 / pint</strong></div>
+      </div>
+    </a>
+    <a href="#" class="tap-card">
+      <div class="tap-label l5">
+        <span class="tap-num">N° 11</span>
+        <div class="tap-circle">FAR<em>SIDE</em></div>
+        <span class="tap-style">A kolsch (new)</span>
+      </div>
+      <div class="tap-info">
+        <h3>Far Side <em>kolsch</em></h3>
+        <p>Rotating release. Light, crisp, lightly fruity, dangerously drinkable. <em>Brewed last month.</em></p>
+        <div class="tap-info-bot"><span>4.6% ABV · NEW</span><strong>$8 / pint</strong></div>
+      </div>
+    </a>
+    <a href="#" class="tap-card">
+      <div class="tap-label l6">
+        <span class="tap-num">N° 09</span>
+        <div class="tap-circle">SAW<em>MILL</em></div>
+        <span class="tap-style">A NEIPA, hazy</span>
+      </div>
+      <div class="tap-info">
+        <h3>Sawmill <em>NEIPA</em></h3>
+        <p>Heavy on Mosaic, Citra, Galaxy. Hazy, juicy, low bitterness. <em>Drink fresh.</em></p>
+        <div class="tap-info-bot"><span>6.4% ABV · 28 IBU</span><strong>$9 / pint</strong></div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<div class="tap-section" id="tap-section">
+  <div class="tap-inner">
+    <div class="tap-grid">
+      <div class="tap-text">
+        <span class="section-eye">↗ The taproom</span>
+        <h2 class="display">THE <em>TAPROOM</em><br>ON FRANKLIN ST.</h2>
+        <p>Our taproom shares a wall with the brewhouse. Concrete floors, salvaged wood bar, fourteen taps, no tvs, and a kitchen that does <em>one thing — pretzels &amp; a sausage plate.</em></p>
+        <p>We open Wednesday through Sunday at four. Food trucks Friday and Saturday. Free pours of whatever's left over, on Sunday afternoons, until we're empty.</p>
+        <div class="tap-cards">
+          <div class="tap-stat"><strong>14</strong><span>Taps · house only</span></div>
+          <div class="tap-stat"><strong><em>0</em></strong><span>Televisions</span></div>
+          <div class="tap-stat"><strong>72</strong><span>Seats &amp; standing</span></div>
+          <div class="tap-stat"><strong><em>$7</em></strong><span>Average pint</span></div>
+        </div>
+      </div>
+      <div class="tap-photo">
+        <div class="tap-photo-cap">PHOTOGRAPH · THE TAPROOM, 9:14 PM, FRIDAY</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="visit-section">
+  <div class="visit-grid">
+    <div class="visit-text">
+      <span class="section-eye">↗ Hours &amp; visit</span>
+      <h2 class="display">OPEN <em>WED—SUN.</em><br>SHUT <em>MON &amp; TUE.</em></h2>
+      <p>The brewhouse runs Monday and Tuesday. The taproom opens Wednesday at four and stays open until midnight on weekends. <em>21+ inside, dogs welcome on the patio.</em></p>
+      <p>Cash &amp; card. Food trucks rotate weekly — schedule on our Instagram. We don't take reservations except for groups of eight or more.</p>
+      <div class="visit-actions">
+        <a href="#" class="btn-mustard">Get directions →</a>
+      </div>
+    </div>
+    <div class="hours-card">
+      <div class="hours-head">
+        <div class="lbl">⊹ Taproom Hours ⊹</div>
+        <h3>148 Franklin St</h3>
+      </div>
+      <div class="hours-row"><span class="day">Monday</span><span class="time closed">Brewhouse only</span></div>
+      <div class="hours-row"><span class="day">Tuesday</span><span class="time closed">Brewhouse only</span></div>
+      <div class="hours-row"><span class="day">Wednesday</span><span class="time">4 PM — 11 PM</span></div>
+      <div class="hours-row"><span class="day">Thursday</span><span class="time">4 PM — 11 PM</span></div>
+      <div class="hours-row"><span class="day">Friday</span><span class="time">4 PM — 12 AM</span></div>
+      <div class="hours-row"><span class="day">Saturday</span><span class="time">2 PM — 12 AM</span></div>
+      <div class="hours-row"><span class="day">Sunday</span><span class="time">2 PM — 9 PM</span></div>
+      <div class="hours-foot">
+        Or order ahead:
+        <strong>(718) 555 — 0184</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dist-section" id="dist">
+  <div class="section-head">
+    <span class="section-eye">↗ Where to find us</span>
+    <h2 class="display">FORTY-SEVEN <em>BARS</em>,<br>SHOPS &amp; <em>RESTAURANTS.</em></h2>
+    <p>You can find our cans at the brewery, on tap and to-go. <em>Or in these forty-seven spots</em>, mostly Brooklyn, some Queens, two in Manhattan if you must.</p>
+  </div>
+  <div class="dist-grid">
+    <a href="#" class="dist-tile"><strong>Other Half</strong><span>Carroll Gardens</span></a>
+    <a href="#" class="dist-tile"><strong>Lobster Joint</strong><span>Greenpoint</span></a>
+    <a href="#" class="dist-tile"><strong>Hot Bird</strong><span>Clinton Hill</span></a>
+    <a href="#" class="dist-tile"><strong>Spuyten Duyvil</strong><span>Williamsburg</span></a>
+    <a href="#" class="dist-tile"><strong>Mission Dolores</strong><span>Park Slope</span></a>
+    <a href="#" class="dist-tile"><strong>Karasu</strong><span>Fort Greene</span></a>
+    <a href="#" class="dist-tile"><strong>Achilles Heel</strong><span>Greenpoint</span></a>
+    <a href="#" class="dist-tile"><strong>Diamond Bar</strong><span>Greenpoint</span></a>
+    <a href="#" class="dist-tile"><strong>Tørst</strong><span>Greenpoint</span></a>
+    <a href="#" class="dist-tile"><strong>The Owl Farm</strong><span>Park Slope</span></a>
+    <a href="#" class="dist-tile"><strong>Five Leaves</strong><span>Greenpoint</span></a>
+    <a href="#" class="dist-tile"><strong>+ 36 more</strong><span>see full map</span></a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div class="logo">
+        <span class="badge">N</span>
+        <div>NORTH FORK<small>BREWING CO. ° EST. 2014</small></div>
+      </div>
+      <p>"Beer for patient people. Independent &amp; small, since 2014."</p>
+      <div class="foot-addr">
+        148 FRANKLIN ST · GREENPOINT, BROOKLYN<br>
+        WED—SUN · (718) 555 — 0184
+      </div>
+    </div>
+    <div>
+      <h4>Beers</h4>
+      <ul>
+        <li><a href="#">Year-round 12</a></li>
+        <li><a href="#">Limited &amp; rotating</a></li>
+        <li><a href="#">Barrel program</a></li>
+        <li><a href="#">Mixed-pack subscription</a></li>
+        <li><a href="#">Order online</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Visit</h4>
+      <ul>
+        <li><a href="#">Taproom hours</a></li>
+        <li><a href="#">Brewery tours</a></li>
+        <li><a href="#">Private events</a></li>
+        <li><a href="#">Distribution map</a></li>
+        <li><a href="#">Wholesale</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Hello</h4>
+      <ul>
+        <li><a href="#">Newsletter</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Jobs</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© 2014 — 2026 NORTH FORK BREWING CO. · BROOKLYN, NY · DRINK RESPONSIBLY</span>
+    <span>SET IN ARCHIVO BLACK &amp; CRIMSON PRO</span>
+  </div>
+</footer>
+
+</body>
+</html>

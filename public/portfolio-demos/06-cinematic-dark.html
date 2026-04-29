@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIGHTFALL — Cinematic studio for ambitious brands</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --black: #0E0C0A;
+    --black-deep: #060504;
+    --surface: #1A1714;
+    --surface-2: #221E1A;
+    --warm-white: #E8E4DC;
+    --warm-white-soft: #B8B4AC;
+    --copper: #B87333;
+    --copper-soft: #8A5722;
+    --teal: #0E3A3A;
+    --gray: #6B6660;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black); color: var(--warm-white);
+    font-family: 'Inter', sans-serif; font-weight: 300; font-size: 15px; line-height: 1.6;
+    overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    cursor: none;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1;
+    background: 
+      radial-gradient(ellipse at 50% 0%, rgba(184,115,51,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(14,58,58,0.06) 0%, transparent 50%);
+  }
+  body::after {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: 0.04;
+    background-image: 
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(232,228,220,0.5) 2px, rgba(232,228,220,0.5) 3px);
+  }
+  
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed; width: 40px; height: 40px; border: 1px solid var(--warm-white);
+    border-radius: 50%; pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s, background 0.3s;
+    mix-blend-mode: difference;
+  }
+  .cursor-dot {
+    position: fixed; width: 4px; height: 4px; background: var(--warm-white); border-radius: 50%;
+    pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
+  }
+  
+  .serif { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; line-height: 1; letter-spacing: -0.02em; }
+  .light { font-weight: 200; letter-spacing: 0.01em; line-height: 0.95; }
+  .mono { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; }
+  
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 26px 40px; display: flex; justify-content: space-between; align-items: center;
+    backdrop-filter: blur(8px); background: rgba(14,12,10,0.4);
+  }
+  .logo {
+    font-family: 'Inter', sans-serif; font-weight: 200; font-size: 15px; letter-spacing: 0.45em;
+    text-transform: uppercase; color: var(--warm-white);
+  }
+  .logo span { color: var(--copper); }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a {
+    font-family: 'Inter', sans-serif; font-weight: 300; font-size: 12px; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--warm-white-soft); text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--copper); }
+  .sound-toggle {
+    display: flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; color: var(--warm-white-soft); cursor: pointer;
+  }
+  .sound-bars { display: flex; gap: 2px; align-items: end; height: 14px; }
+  .sound-bars span {
+    width: 2px; background: var(--copper); animation: bars 1s infinite ease-in-out alternate;
+  }
+  .sound-bars span:nth-child(1) { height: 6px; animation-delay: 0s; }
+  .sound-bars span:nth-child(2) { height: 12px; animation-delay: 0.2s; }
+  .sound-bars span:nth-child(3) { height: 8px; animation-delay: 0.4s; }
+  .sound-bars span:nth-child(4) { height: 14px; animation-delay: 0.6s; }
+  @keyframes bars { from { transform: scaleY(0.3); } to { transform: scaleY(1); } }
+  
+  /* HERO — full bleed cinematic */
+  .hero {
+    min-height: 100vh; padding: 130px 40px 60px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative; overflow: hidden;
+  }
+  .hero-video {
+    position: absolute; inset: 0; z-index: 0; opacity: 0.35; pointer-events: none;
+    background: 
+      radial-gradient(ellipse at 30% 40%, rgba(184,115,51,0.4) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 60%, rgba(14,58,58,0.5) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 90%, rgba(20,12,8,0.8) 0%, transparent 60%),
+      linear-gradient(180deg, #0E0C0A 0%, #1A0E08 30%, #2A1810 60%, #0E0C0A 100%);
+  }
+  .hero-video::before {
+    content: ''; position: absolute; inset: 0;
+    background: 
+      radial-gradient(circle at 70% 30%, rgba(255,200,140,0.3) 0%, transparent 40%);
+    animation: glow 8s ease-in-out infinite alternate;
+  }
+  @keyframes glow { 
+    0% { transform: scale(1) translate(0,0); opacity: 0.4; } 
+    100% { transform: scale(1.2) translate(50px,-30px); opacity: 0.7; } 
+  }
+  .hero-video::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 0%, transparent 50%, rgba(14,12,10,0.9) 100%);
+  }
+  
+  .hero-top { position: relative; z-index: 2; max-width: 1500px; margin: 0 auto; width: 100%; }
+  .hero-top-row { display: flex; justify-content: space-between; align-items: start; }
+  .hero-meta-left, .hero-meta-right { display: flex; flex-direction: column; gap: 8px; }
+  .hero-meta-left .mono, .hero-meta-right .mono { color: var(--warm-white-soft); }
+  .hero-meta-right { text-align: right; }
+  
+  .hero-center { position: relative; z-index: 2; max-width: 1500px; margin: auto; width: 100%; }
+  h1 {
+    font-family: 'Inter', sans-serif; font-weight: 200; font-size: clamp(3.5rem, 14vw, 18rem);
+    line-height: 0.85; letter-spacing: 0.005em; margin: 0;
+  }
+  h1 .ital { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; color: var(--copper); }
+  h1 .small-line { display: block; font-size: 0.45em; letter-spacing: 0.01em; opacity: 0.7; margin-top: 0.1em; }
+  
+  .hero-bottom { position: relative; z-index: 2; max-width: 1500px; margin: 0 auto; width: 100%; display: flex; justify-content: space-between; align-items: end; gap: 60px; }
+  .hero-tagline {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: clamp(1.2rem, 2vw, 1.8rem);
+    color: var(--warm-white-soft); max-width: 480px; line-height: 1.4;
+  }
+  .hero-counter {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em;
+    color: var(--warm-white-soft); display: flex; flex-direction: column; gap: 6px; text-align: right;
+  }
+  .hero-counter strong { color: var(--copper); font-weight: 400; }
+  
+  /* MARQUEE */
+  .marquee {
+    padding: 32px 0; border-top: 1px solid rgba(232,228,220,0.1); border-bottom: 1px solid rgba(232,228,220,0.1);
+    overflow: hidden; position: relative; z-index: 2; background: var(--black);
+  }
+  .marquee-track { display: flex; gap: 80px; white-space: nowrap; animation: scroll 50s linear infinite; }
+  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .marquee span {
+    font-family: 'Fraunces', serif; font-weight: 300; font-style: italic; font-size: 22px;
+    color: var(--warm-white-soft); display: inline-flex; align-items: center; gap: 80px;
+  }
+  .marquee span::after { content: '✦'; color: var(--copper); margin-left: 80px; }
+  
+  /* PROJECT GRID — case studies */
+  .work-section { padding: 180px 40px; max-width: 1500px; margin: 0 auto; position: relative; z-index: 2; }
+  .work-head { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 100px; align-items: end; }
+  .work-head .mono { color: var(--copper); margin-bottom: 16px; }
+  .work-head h2 {
+    font-family: 'Inter', sans-serif; font-weight: 200; font-size: clamp(2.5rem, 6vw, 5.5rem);
+    line-height: 0.95; letter-spacing: 0.005em;
+  }
+  .work-head h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; color: var(--copper); }
+  .work-head p {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: 22px;
+    line-height: 1.4; color: var(--warm-white-soft); max-width: 480px; align-self: end; justify-self: end;
+  }
+  
+  .project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px 60px; }
+  .project-card {
+    text-decoration: none; color: var(--warm-white);
+    display: flex; flex-direction: column; gap: 24px;
+    transition: transform 0.6s cubic-bezier(0.7, 0, 0.2, 1);
+  }
+  .project-card:nth-child(2n) { margin-top: 100px; }
+  .project-card:hover { transform: translateY(-8px); }
+  .project-image {
+    aspect-ratio: 4/5; border-radius: 4px; overflow: hidden; position: relative;
+    background: var(--surface);
+  }
+  .project-image::before {
+    content: ''; position: absolute; inset: 0;
+    transition: transform 0.8s cubic-bezier(0.7, 0, 0.2, 1), filter 0.6s;
+    transform: scale(1);
+  }
+  .project-card:hover .project-image::before { transform: scale(1.05); }
+  .project-image.p1::before { background: 
+    radial-gradient(ellipse at 50% 50%, rgba(184,115,51,0.5) 0%, transparent 60%),
+    linear-gradient(160deg, #2A1810 0%, #1A0E08 60%, #0A0604 100%); }
+  .project-image.p2::before { background:
+    radial-gradient(ellipse at 30% 30%, rgba(14,58,58,0.6) 0%, transparent 60%),
+    linear-gradient(180deg, #0A1A1A 0%, #0E0C0A 100%); }
+  .project-image.p3::before { background:
+    radial-gradient(ellipse at 60% 80%, rgba(184,115,51,0.4) 0%, transparent 50%),
+    linear-gradient(180deg, #1A1714 0%, #0E0C0A 100%); }
+  .project-image.p4::before { background:
+    radial-gradient(ellipse at 50% 0%, rgba(232,228,220,0.15) 0%, transparent 50%),
+    linear-gradient(180deg, #221E1A 0%, #0A0604 100%); }
+  
+  .project-image::after {
+    content: 'PLAY'; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 80px; height: 80px; border: 1px solid var(--warm-white); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em;
+    color: var(--warm-white); opacity: 0.7;
+    transition: all 0.4s;
+  }
+  .project-card:hover .project-image::after { opacity: 1; transform: translate(-50%,-50%) scale(1.05); border-color: var(--copper); color: var(--copper); }
+  
+  .project-meta { display: flex; flex-direction: column; gap: 8px; }
+  .project-meta-row { display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.15em; color: var(--warm-white-soft); }
+  .project-name {
+    font-family: 'Inter', sans-serif; font-weight: 300; font-size: clamp(1.6rem, 2.5vw, 2.6rem);
+    line-height: 1; letter-spacing: 0.005em;
+  }
+  .project-name em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; color: var(--copper); }
+  
+  /* SERVICES — long form */
+  .services-section { padding: 180px 40px; max-width: 1500px; margin: 0 auto; position: relative; z-index: 2; }
+  .services-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 100px; }
+  .services-left { position: sticky; top: 120px; align-self: start; }
+  .services-left .mono { color: var(--copper); margin-bottom: 20px; }
+  .services-left h2 {
+    font-family: 'Inter', sans-serif; font-weight: 200; font-size: clamp(2.5rem, 5.5vw, 5rem);
+    line-height: 0.95; letter-spacing: 0.005em; margin-bottom: 28px;
+  }
+  .services-left h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; color: var(--copper); }
+  .services-left p { color: var(--warm-white-soft); font-size: 16px; max-width: 380px; line-height: 1.5; }
+  
+  .service-list { display: flex; flex-direction: column; gap: 0; }
+  .service-item {
+    padding: 48px 0; border-top: 1px solid rgba(232,228,220,0.1);
+    display: grid; grid-template-columns: 80px 1fr; gap: 40px;
+    transition: border-color 0.3s;
+  }
+  .service-item:last-child { border-bottom: 1px solid rgba(232,228,220,0.1); }
+  .service-item:hover { border-color: var(--copper); }
+  .service-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: var(--copper); padding-top: 12px; }
+  .service-name {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: clamp(2rem, 4.5vw, 3.5rem);
+    line-height: 0.95; letter-spacing: -0.015em; margin-bottom: 18px;
+  }
+  .service-desc { font-size: 16px; color: var(--warm-white-soft); line-height: 1.6; max-width: 580px; margin-bottom: 16px; }
+  .service-tags { display: flex; gap: 12px; flex-wrap: wrap; }
+  .service-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 6px 12px; border: 1px solid rgba(232,228,220,0.2); border-radius: 999px;
+    color: var(--warm-white-soft);
+  }
+  
+  /* APPROACH */
+  .approach-section {
+    padding: 180px 40px; position: relative; z-index: 2;
+    background: var(--surface); border-top: 1px solid rgba(232,228,220,0.08); border-bottom: 1px solid rgba(232,228,220,0.08);
+  }
+  .approach-inner { max-width: 1100px; margin: 0 auto; text-align: center; }
+  .approach-quote {
+    font-family: 'Fraunces', serif; font-weight: 300; font-style: italic;
+    font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1.15; letter-spacing: -0.015em;
+    margin-bottom: 60px;
+  }
+  .approach-quote em { color: var(--copper); }
+  .approach-attribution {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em;
+    color: var(--warm-white-soft);
+  }
+  
+  /* RECOGNITION GRID */
+  .awards-section { padding: 180px 40px; max-width: 1500px; margin: 0 auto; position: relative; z-index: 2; }
+  .awards-head { margin-bottom: 80px; max-width: 800px; }
+  .awards-head .mono { color: var(--copper); margin-bottom: 20px; }
+  .awards-head h2 {
+    font-family: 'Inter', sans-serif; font-weight: 200; font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 0.95; letter-spacing: 0.005em;
+  }
+  .awards-head h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; color: var(--copper); }
+  
+  .awards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; padding-top: 40px; border-top: 1px solid rgba(232,228,220,0.15); }
+  .award {
+    padding: 0 32px 0 0; border-right: 1px solid rgba(232,228,220,0.12);
+  }
+  .award:last-child { border-right: none; padding-right: 0; }
+  .award-num {
+    font-family: 'Inter', sans-serif; font-weight: 200; font-size: clamp(3.5rem, 7vw, 6.5rem);
+    line-height: 0.9; letter-spacing: -0.02em; margin-bottom: 24px;
+  }
+  .award-num em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; color: var(--copper); }
+  .award-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; color: var(--warm-white-soft); line-height: 1.6; max-width: 220px; }
+  
+  /* CTA / FOOTER */
+  .cta-section { padding: 180px 40px 100px; max-width: 1500px; margin: 0 auto; position: relative; z-index: 2; }
+  .cta-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; padding-bottom: 80px; border-bottom: 1px solid rgba(232,228,220,0.1); }
+  .cta-left .mono { color: var(--copper); margin-bottom: 24px; }
+  .cta-left h2 {
+    font-family: 'Inter', sans-serif; font-weight: 200; font-size: clamp(3rem, 9vw, 11rem);
+    line-height: 0.85; letter-spacing: 0.005em;
+  }
+  .cta-left h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; color: var(--copper); }
+  .cta-right { display: flex; flex-direction: column; gap: 28px; align-items: end; }
+  .cta-email {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
+    font-size: clamp(1.5rem, 3vw, 2.4rem); color: var(--warm-white); text-decoration: none;
+    border-bottom: 1px solid var(--warm-white); padding-bottom: 6px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .cta-email:hover { color: var(--copper); border-color: var(--copper); }
+  .cta-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; color: var(--warm-white-soft); }
+  
+  /* FOOTER */
+  footer { padding: 60px 40px 40px; max-width: 1500px; margin: 0 auto; position: relative; z-index: 2; }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 50px; }
+  .foot-brand .logo { margin-bottom: 16px; display: block; }
+  .foot-brand p { color: var(--warm-white-soft); font-size: 13px; max-width: 320px; line-height: 1.6; }
+  footer h4 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--copper); margin-bottom: 16px; font-weight: 400; }
+  footer ul { list-style: none; }
+  footer ul li { padding: 5px 0; }
+  footer ul a {
+    color: var(--warm-white-soft); text-decoration: none;
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 17px; font-weight: 300;
+  }
+  footer ul a:hover { color: var(--copper); }
+  .foot-bot { padding-top: 30px; border-top: 1px solid rgba(232,228,220,0.1); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+  .foot-bot span { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--warm-white-soft); }
+  
+  @media (max-width: 1000px) {
+    body { cursor: auto; }
+    .cursor, .cursor-dot { display: none; }
+    .hero-top-row, .hero-bottom { flex-direction: column; align-items: start; gap: 30px; }
+    .hero-meta-right, .hero-counter { text-align: left; }
+    .work-head, .services-grid, .cta-inner, .approach-inner { grid-template-columns: 1fr; gap: 40px; }
+    .work-head p, .cta-right { justify-self: start; align-items: start; }
+    .services-left { position: static; }
+    .project-grid { grid-template-columns: 1fr; gap: 50px; }
+    .project-card:nth-child(2n) { margin-top: 0; }
+    .awards-grid { grid-template-columns: 1fr 1fr; }
+    .award:nth-child(2) { border-right: none; padding-right: 0; }
+    .award:nth-child(1), .award:nth-child(2) { border-bottom: 1px solid rgba(232,228,220,0.12); padding-bottom: 32px; margin-bottom: 32px; }
+    .nav-links { display: none; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: span 2; }
+    nav { padding: 16px 20px; }
+    .hero, .work-section, .services-section, .approach-section, .awards-section, .cta-section, footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor"></div>
+<div class="cursor-dot"></div>
+
+<nav>
+  <div class="logo">N I G H T <span>·</span> F A L L</div>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#services">Practice</a>
+    <a href="#about">Studio</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="sound-toggle">
+    <div class="sound-bars"><span></span><span></span><span></span><span></span></div>
+    <span>SOUND ON</span>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-video"></div>
+  
+  <div class="hero-top">
+    <div class="hero-top-row">
+      <div class="hero-meta-left">
+        <span class="mono">A cinematic studio</span>
+        <span class="mono" style="color: var(--copper);">EST. MMXIX · LOS ANGELES / TOKYO</span>
+      </div>
+      <div class="hero-meta-right">
+        <span class="mono">REEL 26.04</span>
+        <span class="mono" style="color: var(--copper);">CHAPTER 04 — IN MOTION</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="hero-center">
+    <h1 class="light">We make<br><span class="ital">slow images</span><br>for fast<br>brands.<span class="small-line">— Brand films, identities, and quiet little artifacts.</span></h1>
+  </div>
+  
+  <div class="hero-bottom">
+    <p class="hero-tagline">Nightfall is a small studio for brands building things that should be remembered. Film, brand, and the long form of motion design.</p>
+    <div class="hero-counter">
+      <span><strong>2 6 °</strong></span>
+      <span>34.0522 N · 118.2437 W</span>
+      <span>04 / 28 / 2026</span>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Brand films · Cinematography · Directing · Identity systems · Motion · Sound design · Brand films · Cinematography · Directing · Identity systems · Motion · Sound design</span>
+    <span>Brand films · Cinematography · Directing · Identity systems · Motion · Sound design · Brand films · Cinematography · Directing · Identity systems · Motion · Sound design</span>
+  </div>
+</div>
+
+<section class="work-section" id="work">
+  <div class="work-head">
+    <div>
+      <span class="mono">Selected Work · 2024—2026</span>
+      <h2 class="light">Films &amp; <em>moving</em><br>identities, <em>recently.</em></h2>
+    </div>
+    <p>Twelve projects from the last twenty-four months. Brand films, cinematic ad campaigns, and a handful of identities that came alive in motion.</p>
+  </div>
+  
+  <div class="project-grid">
+    <a href="#" class="project-card">
+      <div class="project-image p1"></div>
+      <div class="project-meta">
+        <div class="project-meta-row">
+          <span>01 · BRAND FILM</span>
+          <span>2026</span>
+        </div>
+        <h3 class="project-name light">Aesop —<br><em>Athena's Hour</em></h3>
+        <div class="project-meta-row">
+          <span style="opacity: 0.6;">Three-minute brand film, dir. Lina Park</span>
+          <span style="opacity: 0.6;">→</span>
+        </div>
+      </div>
+    </a>
+    
+    <a href="#" class="project-card">
+      <div class="project-image p2"></div>
+      <div class="project-meta">
+        <div class="project-meta-row">
+          <span>02 · IDENTITY + FILM</span>
+          <span>2026</span>
+        </div>
+        <h3 class="project-name light">Off-White —<br><em>Quiet Loud</em></h3>
+        <div class="project-meta-row">
+          <span style="opacity: 0.6;">Identity reframe + spring/summer campaign</span>
+          <span style="opacity: 0.6;">→</span>
+        </div>
+      </div>
+    </a>
+    
+    <a href="#" class="project-card">
+      <div class="project-image p3"></div>
+      <div class="project-meta">
+        <div class="project-meta-row">
+          <span>03 · DIRECTING</span>
+          <span>2025</span>
+        </div>
+        <h3 class="project-name light">Kering —<br><em>Inheritance</em></h3>
+        <div class="project-meta-row">
+          <span style="opacity: 0.6;">A documentary short, six-minute cut</span>
+          <span style="opacity: 0.6;">→</span>
+        </div>
+      </div>
+    </a>
+    
+    <a href="#" class="project-card">
+      <div class="project-image p4"></div>
+      <div class="project-meta">
+        <div class="project-meta-row">
+          <span>04 · MOTION + SOUND</span>
+          <span>2025</span>
+        </div>
+        <h3 class="project-name light">Patek Philippe —<br><em>The Hours</em></h3>
+        <div class="project-meta-row">
+          <span style="opacity: 0.6;">A six-part film series, narrated</span>
+          <span style="opacity: 0.6;">→</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="services-section" id="services">
+  <div class="services-grid">
+    <div class="services-left">
+      <span class="mono">Practice</span>
+      <h2 class="light">A small set of<br>things, made <em>well.</em></h2>
+      <p>We are not a full-service agency. We are a film studio that occasionally designs identities. The two disciplines flow into each other in ways we find generative — but the practice is, by intention, narrow.</p>
+    </div>
+    
+    <div class="service-list">
+      <div class="service-item">
+        <div class="service-num">— 01</div>
+        <div>
+          <h3 class="service-name">Brand <em>films</em></h3>
+          <p class="service-desc">Three-to-eight-minute films that act as the centerpiece of a brand campaign or chapter launch. Directed in-house, shot on film when the budget allows, scored by composers we trust.</p>
+          <div class="service-tags">
+            <span class="service-tag">Direction</span>
+            <span class="service-tag">Cinematography</span>
+            <span class="service-tag">Score</span>
+            <span class="service-tag">Color</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="service-item">
+        <div class="service-num">— 02</div>
+        <div>
+          <h3 class="service-name">Moving <em>identity</em></h3>
+          <p class="service-desc">Identity systems built from the ground up to live in motion — wordmarks that breathe, logos that resolve over time, type that behaves like a character. We work alongside your existing brand team or as the brand team.</p>
+          <div class="service-tags">
+            <span class="service-tag">Identity</span>
+            <span class="service-tag">Type</span>
+            <span class="service-tag">Motion</span>
+            <span class="service-tag">Brand strategy</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="service-item">
+        <div class="service-num">— 03</div>
+        <div>
+          <h3 class="service-name">Campaign <em>direction</em></h3>
+          <p class="service-desc">Multi-piece advertising campaigns where the through-line is a single directorial sensibility. Hero film, social cuts, OOH photography, brand poster series. One studio, one voice, four months.</p>
+          <div class="service-tags">
+            <span class="service-tag">Concept</span>
+            <span class="service-tag">Production</span>
+            <span class="service-tag">Photography</span>
+            <span class="service-tag">Print</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="service-item">
+        <div class="service-num">— 04</div>
+        <div>
+          <h3 class="service-name">Sound &amp; <em>scoring</em></h3>
+          <p class="service-desc">Original score, sound design, and audio branding — produced in our Tokyo studio. Increasingly, the most important work we do. The image gets remembered because the sound was right.</p>
+          <div class="service-tags">
+            <span class="service-tag">Composition</span>
+            <span class="service-tag">Foley</span>
+            <span class="service-tag">Mix</span>
+            <span class="service-tag">Audio identity</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="approach-section" id="about">
+  <div class="approach-inner">
+    <span class="mono" style="color: var(--copper); margin-bottom: 40px; display: block;">The studio</span>
+    <p class="approach-quote">"The trick of cinema isn't motion.<br>It's <em>knowing what to leave still.</em><br>The trick of brand-making, when<br>it works, is more or less <em>the same.</em>"</p>
+    <p class="approach-attribution">— LINA PARK, FOUNDER &amp; DIRECTOR</p>
+  </div>
+</section>
+
+<section class="awards-section">
+  <div class="awards-head">
+    <span class="mono">Recognition</span>
+    <h2 class="light">A small <em>shelf</em><br>of recognition.</h2>
+  </div>
+  <div class="awards-grid">
+    <div class="award">
+      <div class="award-num"><em>4</em>×</div>
+      <div class="award-label">CANNES LIONS — FILM CRAFT, MUSIC &amp; SOUND, 2023—2025</div>
+    </div>
+    <div class="award">
+      <div class="award-num"><em>2</em>×</div>
+      <div class="award-label">D&amp;AD WOOD PENCIL — DIRECTING, ENTERTAINMENT</div>
+    </div>
+    <div class="award">
+      <div class="award-num"><em>14</em></div>
+      <div class="award-label">AWWWARDS SOTD — INCLUDING SOTM AND HONOURABLE MENTIONS</div>
+    </div>
+    <div class="award">
+      <div class="award-num"><em>1</em></div>
+      <div class="award-label">EMMY · OUTSTANDING COMMERCIAL · SHORTLIST 2025</div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="contact">
+  <div class="cta-inner">
+    <div class="cta-left">
+      <span class="mono">Booking · Q3 — Q4 2026</span>
+      <h2 class="light">Let's <em>begin.</em></h2>
+    </div>
+    <div class="cta-right">
+      <a href="mailto:hello@nightfall.studio" class="cta-email">hello@nightfall.studio</a>
+      <span class="cta-meta">RESPONSE WITHIN 48 HOURS</span>
+      <span class="cta-meta">LOS ANGELES · TOKYO · ON LOCATION</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <span class="logo" style="display:block;">N I G H T <span style="color: var(--copper);">·</span> F A L L</span>
+      <p>A cinematic studio for brands. Founded in Los Angeles in 2019, with a sound-design outpost in Tokyo since 2022. We work, deliberately, with very few clients.</p>
+    </div>
+    <div>
+      <h4>Studio</h4>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Practice</a></li>
+        <li><a href="#">Reel</a></li>
+        <li><a href="#">Press</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Elsewhere</h4>
+      <ul>
+        <li><a href="#">Vimeo</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">It's Nice That</a></li>
+        <li><a href="#">Are.na</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">hello@nightfall.studio</a></li>
+        <li><a href="#">Press inquiries</a></li>
+        <li><a href="#">Careers (open)</a></li>
+        <li><a href="#">Newsletter</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© MMXIX—MMXXVI · NIGHTFALL STUDIO LLC.</span>
+    <span>SET IN INTER LIGHT &amp; FRAUNCES ITALIC · DESIGNED IN-HOUSE</span>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor logic
+  const cursor = document.querySelector('.cursor');
+  const dot = document.querySelector('.cursor-dot');
+  document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    dot.style.left = e.clientX + 'px';
+    dot.style.top = e.clientY + 'px';
+  });
+  // Scale on hover for project cards
+  document.querySelectorAll('a').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '80px';
+      cursor.style.height = '80px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '40px';
+      cursor.style.height = '40px';
+    });
+  });
+</script>
+
+</body>
+</html>

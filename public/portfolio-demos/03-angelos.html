@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANGELO'S — Pizza, since 1956. Brooklyn, New York.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,600;0,800;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --parchment: #F4ECDA;
+    --parchment-deep: #E9DEC2;
+    --paper: #FBF7EA;
+    --tomato: #C8332A;
+    --tomato-deep: #9E251D;
+    --olive: #4A4A2C;
+    --mustard: #D9A441;
+    --ink: #1A1A1A;
+    --cream: #FCF8EC;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--parchment); color: var(--ink);
+    font-family: 'Playfair Display', serif; font-size: 17px; line-height: 1.55;
+    overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+  /* paper noise */
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: 0.4;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(26,26,26,0.06) 0.8px, transparent 0),
+      radial-gradient(circle at 4px 5px, rgba(200,51,42,0.04) 1px, transparent 0);
+    background-size: 5px 5px, 7px 7px;
+  }
+
+  .display { font-family: 'Bodoni Moda', serif; font-weight: 800; line-height: 0.92; letter-spacing: -0.01em; }
+  .play { font-family: 'Playfair Display', serif; }
+  .script { font-family: 'Caveat', cursive; }
+  .mono { font-family: 'DM Mono', monospace; }
+
+  /* TOP BAR */
+  .topbar {
+    background: var(--ink); color: var(--cream); padding: 9px 30px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'DM Mono'; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .topbar a { color: var(--mustard); text-decoration: none; }
+  .topbar .open::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--mustard); margin-right: 8px; animation: blink 1.5s infinite; }
+  @keyframes blink { 50% { opacity: 0.3; } }
+
+  /* NAV */
+  nav {
+    background: var(--parchment); padding: 18px 30px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 3px double var(--ink); position: sticky; top: 0; z-index: 100;
+  }
+  .logo {
+    font-family: 'Bodoni Moda', serif; font-weight: 800; font-size: 30px; letter-spacing: -0.02em;
+    line-height: 0.95; display: flex; align-items: center; gap: 4px;
+  }
+  .logo .ap { color: var(--tomato); font-style: italic; }
+  .logo .stamp {
+    background: var(--tomato); color: var(--cream); padding: 2px 8px; transform: rotate(-3deg);
+    font-family: 'DM Mono'; font-size: 10px; letter-spacing: 0.18em; margin-left: 8px;
+    text-transform: uppercase; align-self: center; font-weight: 500;
+  }
+
+  .nav-mid { display: flex; gap: 26px; }
+  .nav-mid a {
+    color: var(--ink); text-decoration: none; font-family: 'Bodoni Moda'; font-size: 16px; font-weight: 600;
+    letter-spacing: 0.02em; text-transform: uppercase;
+  }
+  .nav-mid a:hover { color: var(--tomato); }
+  .nav-cta {
+    background: var(--tomato); color: var(--cream); padding: 11px 22px; border: 2px solid var(--ink);
+    text-decoration: none; font-family: 'Bodoni Moda'; font-size: 14px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    box-shadow: 4px 4px 0 var(--ink); transition: all 0.15s;
+  }
+  .nav-cta:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink); }
+
+  /* HERO — newspaper-style */
+  .hero {
+    padding: 50px 30px 80px; max-width: 1500px; margin: 0 auto; position: relative; z-index: 2;
+    border-bottom: 4px solid var(--ink);
+  }
+  .hero-banner {
+    text-align: center; padding: 14px 0; border-top: 3px double var(--ink); border-bottom: 3px double var(--ink);
+    margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center;
+    font-family: 'DM Mono'; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink);
+  }
+  .hero-banner em { font-family: 'Playfair Display'; font-style: italic; font-size: 16px; letter-spacing: 0.02em; text-transform: none; color: var(--tomato); }
+
+  .hero-headline {
+    text-align: center; padding: 30px 0 20px;
+  }
+  .hero-overline {
+    font-family: 'Playfair Display'; font-style: italic; font-size: 24px; color: var(--tomato);
+    margin-bottom: 18px;
+  }
+  h1.hero-h {
+    font-family: 'Bodoni Moda', serif; font-weight: 800;
+    font-size: clamp(4rem, 16vw, 16rem); line-height: 0.85; letter-spacing: -0.04em;
+    margin-bottom: 12px;
+  }
+  h1.hero-h .ital { font-style: italic; color: var(--tomato); }
+
+  .hero-subhead {
+    font-family: 'Playfair Display'; font-style: italic; font-size: clamp(1.2rem, 2.5vw, 2rem);
+    line-height: 1.3; max-width: 740px; margin: 20px auto 30px;
+  }
+  .hero-subhead em { color: var(--tomato); }
+
+  .hero-actions {
+    display: flex; gap: 18px; justify-content: center; align-items: center; flex-wrap: wrap;
+    padding-top: 30px; border-top: 1px solid var(--ink);
+  }
+  .btn-tomato {
+    background: var(--tomato); color: var(--cream); padding: 16px 32px; border: 2px solid var(--ink);
+    text-decoration: none; font-family: 'Bodoni Moda'; font-size: 17px; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    box-shadow: 5px 5px 0 var(--ink); transition: all 0.15s;
+  }
+  .btn-tomato:hover { transform: translate(-3px,-3px); box-shadow: 8px 8px 0 var(--ink); }
+  .btn-ink {
+    background: var(--ink); color: var(--cream); padding: 16px 32px; border: 2px solid var(--ink);
+    text-decoration: none; font-family: 'Bodoni Moda'; font-size: 17px; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    box-shadow: 5px 5px 0 var(--tomato); transition: all 0.15s;
+  }
+  .btn-ink:hover { transform: translate(-3px,-3px); box-shadow: 8px 8px 0 var(--tomato); }
+
+  .hero-meta-cells {
+    margin-top: 50px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink);
+  }
+  .hm-cell {
+    padding: 20px; border-right: 1px solid var(--ink); text-align: center;
+  }
+  .hm-cell:last-child { border-right: none; }
+  .hm-cell .lbl { font-family: 'DM Mono'; font-size: 10px; letter-spacing: 0.18em; color: var(--olive); margin-bottom: 6px; text-transform: uppercase; }
+  .hm-cell strong { font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 26px; line-height: 1; font-weight: 600; }
+  .hm-cell strong em { color: var(--tomato); font-style: normal; }
+
+  /* MARQUEE TICKER */
+  .marquee {
+    background: var(--tomato); color: var(--cream); padding: 14px 0;
+    border-top: 4px solid var(--ink); border-bottom: 4px solid var(--ink); overflow: hidden; position: relative; z-index: 2;
+  }
+  .marquee-track { display: flex; gap: 60px; white-space: nowrap; animation: scroll 30s linear infinite; }
+  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .marquee span {
+    font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 24px; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 60px;
+  }
+  .marquee span::after { content: '✺'; color: var(--mustard); margin-left: 60px; font-style: normal; }
+
+  /* SECTIONS */
+  section { padding: 90px 30px; max-width: 1500px; margin: 0 auto; position: relative; z-index: 2; }
+  .section-eye {
+    display: inline-block; padding: 4px 12px; background: var(--ink); color: var(--mustard);
+    font-family: 'DM Mono'; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  h2 {
+    font-family: 'Bodoni Moda', serif; font-weight: 800;
+    font-size: clamp(2.8rem, 7vw, 6rem); line-height: 0.95; letter-spacing: -0.02em;
+  }
+  h2 em { font-style: italic; color: var(--tomato); }
+
+  /* MENU — pizza index */
+  .menu-section .section-head { display: grid; grid-template-columns: 1.5fr 1fr; gap: 60px; align-items: end; margin-bottom: 50px; }
+  .menu-section .section-head p { font-family: 'Playfair Display'; font-style: italic; font-size: 19px; line-height: 1.5; max-width: 380px; justify-self: end; }
+
+  .menu-list {
+    border-top: 4px double var(--ink);
+  }
+  .menu-row {
+    display: grid; grid-template-columns: 80px 2fr 2.5fr 100px;
+    gap: 30px; padding: 28px 16px; border-bottom: 1px solid rgba(26,26,26,0.2);
+    align-items: baseline; transition: background 0.2s, padding-left 0.3s;
+    text-decoration: none; color: var(--ink); cursor: pointer;
+  }
+  .menu-row:hover { background: var(--paper); padding-left: 32px; }
+  .menu-row:hover h3 { color: var(--tomato); }
+  .menu-row .num { font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 28px; color: var(--tomato); font-weight: 600; }
+  .menu-row h3 {
+    font-family: 'Bodoni Moda', serif; font-weight: 800; font-size: 30px; line-height: 1; letter-spacing: -0.015em;
+    transition: color 0.2s;
+  }
+  .menu-row h3 em { font-style: italic; }
+  .menu-row p { font-family: 'Playfair Display'; font-style: italic; font-size: 16px; line-height: 1.4; color: rgba(26,26,26,0.8); }
+  .menu-row .price { font-family: 'Bodoni Moda', serif; font-weight: 800; font-size: 28px; text-align: right; }
+  .menu-row .price small { font-size: 13px; opacity: 0.6; display: block; font-weight: 400; font-style: italic; }
+  .menu-row .price em { font-style: italic; color: var(--tomato); font-weight: 600; }
+
+  .menu-aside {
+    margin-top: 40px; padding: 30px; border: 3px double var(--ink); background: var(--paper);
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px;
+  }
+  .menu-aside-cell h4 {
+    font-family: 'Bodoni Moda'; font-style: italic; font-size: 22px; font-weight: 600; margin-bottom: 10px;
+  }
+  .menu-aside-cell h4 em { color: var(--tomato); }
+  .menu-aside-cell p { font-family: 'Playfair Display'; font-style: italic; font-size: 15px; line-height: 1.45; }
+
+  /* STORY — old-newspaper feel */
+  .story-section {
+    background: var(--paper); padding: 100px 30px; max-width: none; margin: 0;
+    border-top: 4px solid var(--ink); border-bottom: 4px solid var(--ink);
+  }
+  .story-inner { max-width: 1500px; margin: 0 auto; }
+  .story-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: center; }
+  .story-text > p {
+    font-family: 'Playfair Display'; font-size: 19px; line-height: 1.6; max-width: 560px; margin-bottom: 20px;
+  }
+  .story-text > p:first-of-type::first-letter {
+    font-family: 'Bodoni Moda'; font-style: italic; font-size: 5em; line-height: 0.85;
+    float: left; padding: 6px 14px 0 0; color: var(--tomato); font-weight: 800;
+  }
+  .story-text > p em { font-style: italic; color: var(--tomato); }
+  .story-text blockquote {
+    font-family: 'Playfair Display'; font-style: italic; font-size: 24px; line-height: 1.35;
+    padding: 22px 0; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); margin: 28px 0;
+    text-align: center;
+  }
+  .story-photo {
+    aspect-ratio: 4/5; padding: 12px; background: var(--cream);
+    border: 2px solid var(--ink); position: relative;
+    box-shadow: 8px 8px 0 var(--tomato);
+  }
+  .story-photo-inner {
+    width: 100%; height: 100%; position: relative; overflow: hidden;
+    background: linear-gradient(180deg, #B85A4A 0%, #8E3128 50%, #4A1B16 100%);
+  }
+  /* abstract: pizza on table — circle on dark backdrop */
+  .story-photo-inner::before {
+    content: ''; position: absolute; top: 25%; left: 50%; transform: translate(-50%, 0);
+    width: 70%; aspect-ratio: 1; border-radius: 50%;
+    background: 
+      radial-gradient(circle at 50% 50%, var(--cream) 0%, #F4ECDA 30%, #C8973F 50%, #8E5A1F 70%, #5A3D0F 100%);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 -20px 40px rgba(0,0,0,0.3);
+  }
+  .story-photo-inner::after {
+    content: ''; position: absolute; top: 35%; left: 50%; transform: translate(-50%, 0);
+    width: 50%; aspect-ratio: 1; border-radius: 50%;
+    background: 
+      radial-gradient(circle at 30% 30%, var(--tomato) 0%, var(--tomato-deep) 60%, #5C1410 100%);
+  }
+  .story-cap {
+    position: absolute; bottom: 24px; left: 24px; right: 24px;
+    background: rgba(244,236,218,0.95); border: 1px solid var(--ink); padding: 10px;
+    text-align: center; font-family: 'DM Mono'; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .story-cap em { font-family: 'Playfair Display'; font-style: italic; font-size: 14px; letter-spacing: 0.02em; text-transform: none; color: var(--tomato); }
+
+  .story-aside {
+    margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;
+  }
+  .story-stat { text-align: center; padding: 18px; border: 2px solid var(--ink); background: var(--cream); }
+  .story-stat strong { font-family: 'Bodoni Moda'; font-weight: 800; font-style: italic; font-size: 36px; line-height: 1; display: block; }
+  .story-stat strong em { color: var(--tomato); font-style: normal; }
+  .story-stat span { font-family: 'DM Mono'; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.7; margin-top: 6px; display: block; }
+
+  /* HOURS / VISIT */
+  .visit-section .visit-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center; }
+  .visit-text h2 { margin-bottom: 28px; }
+  .visit-text > p { font-family: 'Playfair Display'; font-style: italic; font-size: 21px; line-height: 1.4; max-width: 540px; margin-bottom: 24px; }
+  .visit-text > p em { font-style: normal; font-weight: 700; color: var(--tomato); }
+  .visit-actions { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin-top: 30px; }
+
+  .visit-card {
+    background: var(--cream); border: 3px double var(--ink); padding: 32px;
+    box-shadow: 8px 8px 0 var(--tomato);
+  }
+  .visit-card-head {
+    text-align: center; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 2px solid var(--ink);
+  }
+  .visit-card-head .small { font-family: 'DM Mono'; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--tomato); margin-bottom: 6px; }
+  .visit-card-head h3 {
+    font-family: 'Bodoni Moda'; font-style: italic; font-weight: 800; font-size: 36px; line-height: 1;
+    margin-bottom: 4px;
+  }
+  .visit-card-row {
+    display: grid; grid-template-columns: 1fr auto; padding: 10px 0;
+    border-bottom: 1px dashed rgba(26,26,26,0.25); font-family: 'Playfair Display'; font-size: 16px;
+  }
+  .visit-card-row:last-of-type { border-bottom: none; }
+  .visit-card-row .day { font-style: italic; }
+  .visit-card-row .time { font-family: 'Bodoni Moda'; font-weight: 600; }
+  .visit-card-foot {
+    margin-top: 18px; padding-top: 18px; border-top: 2px solid var(--ink); text-align: center;
+    font-family: 'Playfair Display'; font-style: italic; font-size: 15px;
+  }
+  .visit-card-foot strong { font-family: 'Bodoni Moda'; font-weight: 800; font-style: normal; display: block; font-size: 22px; margin-top: 4px; letter-spacing: 0.02em; }
+
+  /* SCRIPT NOTE */
+  .note-section {
+    padding: 80px 30px; max-width: 1100px; margin: 0 auto; text-align: center; position: relative;
+  }
+  .note-section::before, .note-section::after {
+    content: '✺'; color: var(--mustard); font-size: 48px; opacity: 0.4;
+  }
+  .note-section h3 {
+    font-family: 'Caveat', cursive; font-weight: 700; font-size: clamp(2rem, 5vw, 4rem);
+    line-height: 1.15; color: var(--ink); padding: 30px 0;
+  }
+  .note-section h3 em { color: var(--tomato); font-style: italic; }
+  .note-section p { font-family: 'Playfair Display'; font-style: italic; font-size: 16px; }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink); color: var(--cream); padding: 70px 30px 30px;
+  }
+  .foot-grid { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 50px; border-bottom: 1px solid rgba(252,248,236,0.15); }
+  .foot-brand .logo { color: var(--cream); margin-bottom: 14px; font-size: 36px; }
+  .foot-brand .logo .ap { color: var(--mustard); }
+  .foot-brand .logo .stamp { background: var(--mustard); color: var(--ink); }
+  .foot-brand p { font-family: 'Playfair Display'; font-style: italic; font-size: 17px; max-width: 320px; line-height: 1.4; opacity: 0.85; }
+  .foot-addr { margin-top: 18px; font-family: 'DM Mono'; font-size: 11px; letter-spacing: 0.1em; line-height: 1.7; color: var(--mustard); text-transform: uppercase; }
+  footer h4 { font-family: 'DM Mono'; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 14px; color: var(--mustard); font-weight: 500; }
+  footer ul { list-style: none; }
+  footer ul li { padding: 5px 0; }
+  footer ul a { color: var(--cream); text-decoration: none; font-family: 'Playfair Display'; font-style: italic; font-size: 16px; }
+  footer ul a:hover { color: var(--mustard); }
+  .foot-bot { max-width: 1500px; margin: 0 auto; padding-top: 30px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; font-family: 'DM Mono'; font-size: 11px; letter-spacing: 0.12em; opacity: 0.7; text-transform: uppercase; }
+
+  @media (max-width: 1000px) {
+    .menu-row { grid-template-columns: 50px 1fr 80px; gap: 16px; padding: 20px 8px; }
+    .menu-row p { display: none; }
+    .menu-row .num { font-size: 20px; }
+    .menu-aside { grid-template-columns: 1fr; }
+    .visit-grid, .story-grid { grid-template-columns: 1fr; gap: 40px; }
+    .menu-section .section-head { grid-template-columns: 1fr; gap: 30px; }
+    .menu-section .section-head p { justify-self: start; }
+    .hero-meta-cells { grid-template-columns: 1fr 1fr; }
+    .hm-cell:nth-child(2) { border-right: none; }
+    .hm-cell:nth-child(1), .hm-cell:nth-child(2) { border-bottom: 1px solid var(--ink); }
+    .nav-mid a:not(:last-child) { display: none; }
+    .nav-mid { gap: 14px; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: span 2; }
+    .topbar { padding: 8px 18px; }
+    nav { padding: 14px 18px; }
+    nav, section, .marquee, .story-section, footer, .note-section { padding-left: 18px; padding-right: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="open">OPEN NOW · 11A — 11P</span>
+  <span><a href="tel:7185550199">CALL TO ORDER · (718) 555-0199</a></span>
+</div>
+
+<nav>
+  <div class="logo">ANGELO<span class="ap">'S</span><span class="stamp">EST. 1956</span></div>
+  <div class="nav-mid">
+    <a href="#menu">Menu</a>
+    <a href="#story">Story</a>
+    <a href="#visit">Visit</a>
+    <a href="#">Order</a>
+    <a href="#" class="nav-cta">Pickup →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-banner">
+    <span>VOL. LXIX · NO. 28</span>
+    <em>"Probably the best slice in Brooklyn." — The Times, 1979</em>
+    <span>BROOKLYN · 11215</span>
+  </div>
+  <div class="hero-headline">
+    <p class="hero-overline">Since 1956 · A neighborhood pizzeria</p>
+    <h1 class="hero-h">PIZZA,<br>the way<br>Angelo's<br><span class="ital">nonna</span><br>made it.</h1>
+    <p class="hero-subhead">Wood-fired, hand-stretched, slow-fermented two days. Six pies on the menu. <em>No substitutions, no gluten-free, no excuses.</em> The same recipe Angelo brought from Naples in 1956.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-tomato">Order pickup →</a>
+      <a href="#menu" class="btn-ink">See the menu</a>
+    </div>
+  </div>
+  <div class="hero-meta-cells">
+    <div class="hm-cell"><div class="lbl">Founded</div><strong><em>1956</em></strong></div>
+    <div class="hm-cell"><div class="lbl">Recipes</div><strong>Six, total</strong></div>
+    <div class="hm-cell"><div class="lbl">Owners</div><strong>3rd generation</strong></div>
+    <div class="hm-cell"><div class="lbl">Family</div><strong><em>Esposito</em></strong></div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>WE DO NOT DELIVER · CASH OR CARD · NO SUBSTITUTIONS · 6 PIES, NO MORE · WOOD FIRED · TUES — SUN · WE DO NOT DELIVER · CASH OR CARD · NO SUBSTITUTIONS · 6 PIES, NO MORE · WOOD FIRED · TUES — SUN</span>
+    <span>WE DO NOT DELIVER · CASH OR CARD · NO SUBSTITUTIONS · 6 PIES, NO MORE · WOOD FIRED · TUES — SUN · WE DO NOT DELIVER · CASH OR CARD · NO SUBSTITUTIONS · 6 PIES, NO MORE · WOOD FIRED · TUES — SUN</span>
+  </div>
+</div>
+
+<section class="menu-section" id="menu">
+  <div class="section-head">
+    <div>
+      <span class="section-eye">↗ The menu</span>
+      <h2 class="display">Six <em>pies.</em><br>Two salads.<br>That's <em>it.</em></h2>
+    </div>
+    <p>"You'll find a hundred pizza places that offer everything. We'd rather make six things, properly, every day." — Angelo Esposito Jr.</p>
+  </div>
+
+  <div class="menu-list">
+    <a href="#" class="menu-row">
+      <span class="num">i.</span>
+      <h3 class="display">Margherita</h3>
+      <p>San Marzano tomato, fior di latte, fresh basil, sea salt, EVOO. The original. <em>Don't ask for anything on it.</em></p>
+      <span class="price"><em>$22</em><small>14" pie · serves 2</small></span>
+    </a>
+    <a href="#" class="menu-row">
+      <span class="num">ii.</span>
+      <h3 class="display">Marinara</h3>
+      <p>San Marzano tomato, garlic, oregano, sea salt, EVOO. <em>No cheese.</em> Brought back from the dead by Angelo Sr. in 1962.</p>
+      <span class="price"><em>$18</em><small>14" pie · serves 2</small></span>
+    </a>
+    <a href="#" class="menu-row">
+      <span class="num">iii.</span>
+      <h3 class="display"><em>Nonna Lina's</em> sausage</h3>
+      <p>Fennel sausage, San Marzano tomato, fior di latte, hot honey, chili oil. The pie Angelo's grandmother sold from a cart in Naples.</p>
+      <span class="price"><em>$26</em><small>14" pie · serves 2</small></span>
+    </a>
+    <a href="#" class="menu-row">
+      <span class="num">iv.</span>
+      <h3 class="display">Bianca</h3>
+      <p>Ricotta, fior di latte, garlic, rosemary, lemon zest, sea salt, EVOO. <em>No tomato.</em> Slightly heretical, undeniably good.</p>
+      <span class="price"><em>$24</em><small>14" pie · serves 2</small></span>
+    </a>
+    <a href="#" class="menu-row">
+      <span class="num">v.</span>
+      <h3 class="display">Diavola</h3>
+      <p>San Marzano, fior di latte, hot calabrian salami, chili oil, basil. Spicy. <em>Genuinely spicy</em> — not American spicy.</p>
+      <span class="price"><em>$26</em><small>14" pie · serves 2</small></span>
+    </a>
+    <a href="#" class="menu-row">
+      <span class="num">vi.</span>
+      <h3 class="display"><em>The seasonal</em></h3>
+      <p>Whatever Lina has on her counter. Asks change every two weeks. <em>This week:</em> ramps, anchovy, fresh ricotta, lemon, EVOO.</p>
+      <span class="price"><em>$28</em><small>14" pie · serves 2</small></span>
+    </a>
+    <a href="#" class="menu-row">
+      <span class="num">vii.</span>
+      <h3 class="display">House <em>insalata</em></h3>
+      <p>Castelfranco radicchio, anchovy, capers, parmigiano, lemon, EVOO. Big enough for two if you don't fight over it.</p>
+      <span class="price"><em>$14</em><small>For two</small></span>
+    </a>
+    <a href="#" class="menu-row">
+      <span class="num">viii.</span>
+      <h3 class="display"><em>Tomato</em> &amp; mozzarella</h3>
+      <p>Local heirlooms (in season), torn fior di latte, basil, sea salt, EVOO, balsamic. <em>Summer only — May through October.</em></p>
+      <span class="price"><em>$16</em><small>For two</small></span>
+    </a>
+  </div>
+
+  <div class="menu-aside">
+    <div class="menu-aside-cell">
+      <h4>The <em>dough</em></h4>
+      <p>Type 00 flour from Naples. Cold-fermented 48 hours. Hand-stretched, never rolled. We make about 200 dough balls a day.</p>
+    </div>
+    <div class="menu-aside-cell">
+      <h4>The <em>oven</em></h4>
+      <p>An Acunto Mario wood-fired oven, imported from Naples in 1989. 800°F. We burn cherry &amp; oak. Pies cook in 90 seconds.</p>
+    </div>
+    <div class="menu-aside-cell">
+      <h4>The <em>tomato</em></h4>
+      <p>San Marzano DOP, packed in San Marzano. We don't blend, we don't sauce. Crushed by hand the morning of.</p>
+    </div>
+  </div>
+</section>
+
+<div class="story-section" id="story">
+  <div class="story-inner">
+    <div class="story-grid">
+      <div class="story-text">
+        <span class="section-eye">↗ Three generations</span>
+        <h2 class="display">A <em>family</em> business,<br>since the year <em>Eisenhower</em><br>was reelected.</h2>
+        <p>Angelo Esposito Sr. opened the doors of Angelo's in October of 1956, in a storefront on Sixth Avenue that had been a barber shop the week before. He brought one recipe from Naples — his grandmother Lina's — and one wood-fired oven, which he assembled in the back of the shop with bricks salvaged from a demolition on Fifth.</p>
+        <p>For sixty-eight years, the recipe has not changed. The oven has been rebuilt twice. The original counter, the chairs, the tomato can on the shelf — all of it is still here. <em>We are the third generation.</em></p>
+        <blockquote>"My grandfather said the menu was finished in 1956. My father added one pie. I've added one. That's the rate of change my family is comfortable with."</blockquote>
+        <p>— <em>Angelo Esposito III, the current pizzaiolo, 2026</em></p>
+
+        <div class="story-aside">
+          <div class="story-stat"><strong><em>69</em></strong><span>Years in business</span></div>
+          <div class="story-stat"><strong>3rd</strong><span>Generation owners</span></div>
+          <div class="story-stat"><strong><em>2</em></strong><span>Recipes added since '56</span></div>
+        </div>
+      </div>
+      <div class="story-photo">
+        <div class="story-photo-inner"></div>
+        <div class="story-cap">PHOTOGRAPH · <em>The margherita</em>, 11:42 AM, Tuesday</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="visit-section" id="visit">
+  <div class="visit-grid">
+    <div class="visit-text">
+      <span class="section-eye">↗ How to visit</span>
+      <h2 class="display">Pickup <em>only.</em><br>Walk-ups <em>welcome.</em></h2>
+      <p>We've never delivered, we never will. <em>Pickup only.</em> Tuesday through Sunday, eleven to eleven. Closed Mondays — that's when Lina rests and we clean the oven.</p>
+      <p>Order ahead by phone or on the website. Pies are ready in roughly twenty minutes. <em>If we run out of dough, we close early.</em> That's the deal.</p>
+      <div class="visit-actions">
+        <a href="#" class="btn-tomato">Call to order →</a>
+        <a href="#" class="btn-ink">Get directions</a>
+      </div>
+    </div>
+    <div class="visit-card">
+      <div class="visit-card-head">
+        <div class="small">⊹ Hours of operation ⊹</div>
+        <h3>189 6th Avenue</h3>
+        <em>Park Slope, Brooklyn</em>
+      </div>
+      <div class="visit-card-row"><span class="day">Monday</span><span class="time">— closed —</span></div>
+      <div class="visit-card-row"><span class="day">Tuesday</span><span class="time">11 AM — 11 PM</span></div>
+      <div class="visit-card-row"><span class="day">Wednesday</span><span class="time">11 AM — 11 PM</span></div>
+      <div class="visit-card-row"><span class="day">Thursday</span><span class="time">11 AM — 11 PM</span></div>
+      <div class="visit-card-row"><span class="day">Friday</span><span class="time">11 AM — midnight</span></div>
+      <div class="visit-card-row"><span class="day">Saturday</span><span class="time">11 AM — midnight</span></div>
+      <div class="visit-card-row"><span class="day">Sunday</span><span class="time">12 PM — 10 PM</span></div>
+      <div class="visit-card-foot">
+        Or call ahead:
+        <strong>(718) 555 — 0199</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="note-section">
+  <h3>"Don't ask for <em>ranch.</em> Don't ask for <em>pineapple.</em><br>Ask for the <em>seasonal</em>, and tell us how it was."</h3>
+  <p>— Note pinned to the front counter, since 1956.</p>
+</div>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div class="logo">ANGELO<span class="ap">'S</span><span class="stamp">EST. 1956</span></div>
+      <p>"Six pies. Two salads. The same recipe my grandmother brought from Naples in 1956."</p>
+      <div class="foot-addr">
+        189 6TH AVE · PARK SLOPE, BROOKLYN<br>
+        TUE—SUN · CLOSED MONDAYS<br>
+        (718) 555 — 0199
+      </div>
+    </div>
+    <div>
+      <h4>Menu</h4>
+      <ul>
+        <li><a href="#">All six pies</a></li>
+        <li><a href="#">Salads</a></li>
+        <li><a href="#">Beer &amp; wine</a></li>
+        <li><a href="#">Daily specials</a></li>
+        <li><a href="#">Whole pies for parties</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Visit</h4>
+      <ul>
+        <li><a href="#">Hours</a></li>
+        <li><a href="#">Directions</a></li>
+        <li><a href="#">Order pickup</a></li>
+        <li><a href="#">Catering</a></li>
+        <li><a href="#">Gift cards</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Hello</h4>
+      <ul>
+        <li><a href="#">Our story</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Newsletter</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© 1956 — 2026 · ANGELO'S PIZZERIA, BROOKLYN, NY</span>
+    <span>SET IN BODONI MODA &amp; PLAYFAIR · MADE BY THE FAMILY</span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HUNGRY HUNGRY — A LOUD agency for LOUD brands.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,600;12..96,700;12..96,800&family=Funnel+Display:wght@400;500;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --yellow: #FFE600;
+    --black: #000000;
+    --pink: #FF1493;
+    --blue: #0026FF;
+    --white: #FFFFFF;
+    --cream: #FFF8DC;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--yellow); color: var(--black);
+    font-family: 'Bricolage Grotesque', sans-serif; font-weight: 500; font-size: 16px; line-height: 1.4;
+    overflow-x: hidden; -webkit-font-smoothing: antialiased;
+  }
+  
+  .bricolage { font-family: 'Bricolage Grotesque', sans-serif; }
+  .funnel { font-family: 'Funnel Display', sans-serif; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  
+  /* CUSTOM CURSOR — inverted blob */
+  .cursor {
+    position: fixed; width: 24px; height: 24px; background: var(--white);
+    border-radius: 50%; pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%); transition: transform 0.2s, width 0.3s, height 0.3s;
+    mix-blend-mode: difference;
+  }
+  .cursor.big { width: 100px; height: 100px; }
+  
+  /* TICKER TOP */
+  .ticker {
+    background: var(--black); color: var(--yellow); padding: 12px 0;
+    overflow: hidden; border-bottom: 4px solid var(--black);
+  }
+  .ticker-track { display: flex; gap: 60px; white-space: nowrap; animation: tick 25s linear infinite; }
+  @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .ticker span {
+    font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: 16px; letter-spacing: 0.05em;
+    text-transform: uppercase; display: inline-flex; align-items: center; gap: 60px;
+  }
+  .ticker span::after { content: '✱'; color: var(--pink); margin-left: 60px; font-size: 18px; }
+  
+  /* NAV */
+  nav {
+    background: var(--yellow); border-bottom: 4px solid var(--black);
+    padding: 18px 32px; display: flex; justify-content: space-between; align-items: center;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo {
+    font-family: 'Funnel Display'; font-weight: 800; font-size: 28px; letter-spacing: -0.04em;
+    line-height: 0.9; display: flex; align-items: center; gap: 6px;
+  }
+  .logo-blob {
+    width: 28px; height: 28px; background: var(--black); border-radius: 50%;
+    display: inline-block; position: relative;
+  }
+  .logo-blob::before { content: ''; position: absolute; inset: 6px; background: var(--yellow); border-radius: 50%; }
+  
+  .nav-links { display: flex; gap: 8px; align-items: center; }
+  .nav-links a {
+    padding: 10px 16px; background: var(--white); color: var(--black); text-decoration: none;
+    border: 3px solid var(--black); border-radius: 999px; font-weight: 700; font-size: 14px;
+    box-shadow: 4px 4px 0 var(--black); transition: all 0.15s;
+  }
+  .nav-links a:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); background: var(--pink); color: var(--white); }
+  .nav-cta {
+    background: var(--black) !important; color: var(--yellow) !important;
+  }
+  .nav-cta:hover { background: var(--pink) !important; color: var(--white) !important; }
+  
+  /* HERO */
+  .hero {
+    padding: 80px 32px 60px; position: relative; overflow: hidden;
+    border-bottom: 4px solid var(--black);
+  }
+  .hero-mega {
+    font-family: 'Funnel Display'; font-weight: 800;
+    font-size: clamp(4rem, 22vw, 22rem); line-height: 0.82; letter-spacing: -0.05em;
+    text-transform: uppercase; margin-bottom: 0;
+  }
+  .hero-mega .pink { color: var(--pink); font-style: italic; }
+  .hero-mega .blue { color: var(--blue); }
+  .hero-mega .outline { -webkit-text-stroke: 4px var(--black); -webkit-text-fill-color: transparent; }
+  .hero-mega .bricolage-mix {
+    font-family: 'Bricolage Grotesque'; font-weight: 800; font-style: italic;
+    font-variation-settings: "wdth" 75;
+  }
+  .hero-mega .stripped {
+    font-family: 'Bricolage Grotesque'; font-weight: 300; letter-spacing: 0.02em;
+  }
+  
+  .hero-bottom-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;
+    margin-top: 40px; padding-top: 30px; border-top: 4px solid var(--black);
+    align-items: start;
+  }
+  .hero-meta {
+    background: var(--white); border: 3px solid var(--black); padding: 18px;
+    box-shadow: 6px 6px 0 var(--black); transform: rotate(-1deg);
+  }
+  .hero-meta:nth-child(2) { background: var(--pink); color: var(--white); transform: rotate(1deg); }
+  .hero-meta:nth-child(3) { background: var(--blue); color: var(--white); transform: rotate(-0.5deg); }
+  .hero-meta .label {
+    font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 8px; font-weight: 700;
+  }
+  .hero-meta .text {
+    font-family: 'Bricolage Grotesque'; font-weight: 600; font-size: 16px; line-height: 1.3;
+  }
+  .hero-meta .text em {
+    font-family: 'Funnel Display'; font-weight: 800; font-style: italic; text-transform: uppercase;
+  }
+  
+  /* MARQUEE BAND */
+  .marquee-band {
+    background: var(--pink); color: var(--white); padding: 20px 0;
+    overflow: hidden; border-bottom: 4px solid var(--black); position: relative;
+  }
+  .marquee-band-track {
+    display: flex; gap: 40px; white-space: nowrap; animation: tickReverse 30s linear infinite;
+  }
+  @keyframes tickReverse { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  .marquee-band span {
+    font-family: 'Funnel Display'; font-weight: 800; font-size: clamp(2rem, 5vw, 4rem);
+    letter-spacing: -0.03em; text-transform: uppercase; line-height: 1;
+    display: inline-flex; align-items: center; gap: 40px;
+  }
+  .marquee-band span .ital { font-style: italic; color: var(--yellow); }
+  .marquee-band span::after { content: '✦'; color: var(--yellow); margin-left: 40px; }
+  
+  /* SECTIONS — alternating color blocks */
+  section { padding: 100px 32px; position: relative; border-bottom: 4px solid var(--black); }
+  .container { max-width: 1500px; margin: 0 auto; }
+  .section-eye {
+    display: inline-block; background: var(--black); color: var(--yellow);
+    padding: 6px 14px; border-radius: 999px; font-family: 'JetBrains Mono';
+    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700;
+    margin-bottom: 28px;
+  }
+  
+  h2.mega {
+    font-family: 'Funnel Display'; font-weight: 800; font-size: clamp(3rem, 12vw, 12rem);
+    line-height: 0.85; letter-spacing: -0.045em; text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  
+  /* WHAT WE DO — section is white */
+  .work-section { background: var(--white); }
+  .work-section h2 .mix-it {
+    font-family: 'Bricolage Grotesque'; font-weight: 800; font-style: italic;
+    font-variation-settings: "wdth" 80;
+  }
+  .work-section h2 .mono-piece {
+    font-family: 'JetBrains Mono'; font-weight: 700; font-size: 0.4em; vertical-align: super;
+    color: var(--blue);
+  }
+  .work-section h2 em { font-style: italic; color: var(--pink); }
+  
+  .services-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 60px;
+  }
+  .service-card {
+    background: var(--yellow); border: 4px solid var(--black);
+    box-shadow: 8px 8px 0 var(--black);
+    padding: 32px; transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer; position: relative;
+    display: flex; flex-direction: column; gap: 18px;
+    min-height: 320px;
+  }
+  .service-card:hover { transform: translate(-4px,-4px); box-shadow: 12px 12px 0 var(--black); }
+  .service-card.pink { background: var(--pink); color: var(--white); }
+  .service-card.blue { background: var(--blue); color: var(--white); }
+  .service-card.white { background: var(--white); }
+  .service-card.black { background: var(--black); color: var(--yellow); }
+  
+  .service-num {
+    font-family: 'JetBrains Mono'; font-size: 13px; font-weight: 700; letter-spacing: 0.15em;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .service-num .arrow { font-size: 24px; }
+  .service-card h3 {
+    font-family: 'Funnel Display'; font-weight: 800; font-size: clamp(1.8rem, 3vw, 2.6rem);
+    line-height: 0.9; letter-spacing: -0.03em; text-transform: uppercase; margin-top: auto;
+  }
+  .service-card h3 em { font-style: italic; }
+  .service-card p { font-size: 14px; font-weight: 500; line-height: 1.4; }
+  .service-tags-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .service-tag {
+    background: rgba(0,0,0,0.15); padding: 4px 8px; border-radius: 999px;
+    font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.1em;
+  }
+  .service-card.white .service-tag { background: var(--yellow); }
+  
+  /* WORK SHOWCASE — section is BLUE */
+  .showcase-section { background: var(--blue); color: var(--white); }
+  .showcase-section h2 { color: var(--white); }
+  .showcase-section h2 em { color: var(--yellow); font-style: italic; }
+  .showcase-section h2 .strike {
+    text-decoration: line-through; text-decoration-color: var(--pink); text-decoration-thickness: 8px;
+  }
+  .showcase-section .section-eye { background: var(--yellow); color: var(--black); }
+  
+  .showcase-list { margin-top: 60px; }
+  .showcase-item {
+    border-top: 4px solid var(--white); padding: 32px 0;
+    display: grid; grid-template-columns: 60px 2fr 1.5fr 1fr 60px; gap: 32px; align-items: center;
+    text-decoration: none; color: var(--white); transition: padding-left 0.3s, background 0.3s;
+    cursor: pointer;
+  }
+  .showcase-item:last-child { border-bottom: 4px solid var(--white); }
+  .showcase-item:hover { padding-left: 32px; background: rgba(255,255,255,0.05); }
+  .showcase-item:hover h3 { color: var(--yellow); }
+  .showcase-item:hover .show-arrow { color: var(--yellow); transform: translateX(0); }
+  .show-num {
+    font-family: 'JetBrains Mono'; font-weight: 700; font-size: 18px;
+    background: var(--white); color: var(--blue); padding: 6px 10px; border-radius: 6px;
+    display: inline-block; text-align: center;
+  }
+  .showcase-item h3 {
+    font-family: 'Funnel Display'; font-weight: 700; font-size: clamp(1.5rem, 3vw, 2.6rem);
+    line-height: 0.95; letter-spacing: -0.02em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .showcase-item h3 em { font-style: italic; color: var(--pink); }
+  .showcase-item .show-meta {
+    font-family: 'JetBrains Mono'; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85;
+  }
+  .showcase-item .show-meta strong { display: block; color: var(--yellow); margin-bottom: 4px; font-weight: 700; }
+  .showcase-item .show-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .show-tag {
+    border: 2px solid var(--white); padding: 4px 8px; border-radius: 999px;
+    font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.1em; font-weight: 700;
+  }
+  .show-arrow {
+    font-size: 32px; transform: translateX(-12px); transition: all 0.3s; opacity: 0.6;
+  }
+  
+  /* PROCESS SECTION — section is PINK */
+  .process-section { background: var(--pink); color: var(--white); }
+  .process-section .section-eye { background: var(--yellow); color: var(--black); }
+  .process-section h2 { color: var(--white); }
+  .process-section h2 em { color: var(--yellow); font-style: italic; }
+  .process-section h2 .blue-piece { color: var(--blue); }
+  
+  .process-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 60px; }
+  .process-text-l p { font-size: 18px; font-weight: 500; max-width: 460px; margin-bottom: 28px; }
+  .process-text-l p strong { background: var(--yellow); color: var(--black); padding: 0 6px; }
+  .process-steps-r { display: flex; flex-direction: column; gap: 16px; }
+  .process-step {
+    background: var(--white); color: var(--black); border: 4px solid var(--black);
+    box-shadow: 6px 6px 0 var(--black); padding: 20px 24px;
+    display: grid; grid-template-columns: 50px 1fr; gap: 16px; align-items: start;
+    transition: transform 0.2s;
+  }
+  .process-step:hover { transform: translate(-3px,-3px); box-shadow: 9px 9px 0 var(--black); }
+  .process-step:nth-child(2n) { background: var(--yellow); transform: rotate(0.5deg); }
+  .process-step:nth-child(3n) { background: var(--blue); color: var(--white); transform: rotate(-0.5deg); }
+  .ps-num {
+    font-family: 'Funnel Display'; font-weight: 800; font-size: 36px; line-height: 1; font-style: italic;
+  }
+  .ps-text h4 {
+    font-family: 'Funnel Display'; font-weight: 800; font-size: 22px; line-height: 1; letter-spacing: -0.02em;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .ps-text p { font-size: 14px; font-weight: 500; line-height: 1.4; }
+  
+  /* CLIENTS — yellow */
+  .clients-section { background: var(--yellow); }
+  .clients-section h2 em { font-style: italic; color: var(--pink); }
+  .clients-section h2 .blue-cap { color: var(--blue); }
+  
+  .clients-grid {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 0;
+    margin-top: 60px; border: 4px solid var(--black);
+  }
+  .client-cell {
+    aspect-ratio: 1; border-right: 4px solid var(--black); border-bottom: 4px solid var(--black);
+    display: flex; align-items: center; justify-content: center; padding: 20px;
+    font-family: 'Funnel Display'; font-weight: 800; font-size: clamp(1rem, 1.6vw, 1.4rem);
+    line-height: 0.9; letter-spacing: -0.03em; text-transform: uppercase; text-align: center;
+    transition: background 0.2s, color 0.2s; cursor: pointer;
+  }
+  .client-cell:nth-child(6n) { border-right: none; }
+  .client-cell:nth-last-child(-n+6) { border-bottom: none; }
+  .client-cell:hover { background: var(--black); color: var(--yellow); }
+  .client-cell.active { background: var(--pink); color: var(--white); }
+  .client-cell.active2 { background: var(--blue); color: var(--white); }
+  .client-cell.active3 { background: var(--black); color: var(--yellow); }
+  .client-cell .ital { font-style: italic; }
+  
+  /* TESTIMONIAL — black */
+  .test-section { background: var(--black); color: var(--yellow); }
+  .test-section .section-eye { background: var(--pink); color: var(--white); }
+  .test-quote {
+    font-family: 'Funnel Display'; font-weight: 700; font-size: clamp(2rem, 6vw, 5.5rem);
+    line-height: 1; letter-spacing: -0.03em; text-transform: uppercase;
+    margin-bottom: 60px; max-width: 1200px;
+  }
+  .test-quote em { font-style: italic; color: var(--pink); }
+  .test-quote .blue-q { color: var(--blue); }
+  .test-quote .strike { text-decoration: line-through; text-decoration-color: var(--pink); text-decoration-thickness: 8px; }
+  .test-attr { display: flex; align-items: center; gap: 20px; }
+  .test-avatar {
+    width: 72px; height: 72px; border-radius: 50%; background: var(--pink);
+    display: flex; align-items: center; justify-content: center; color: var(--white);
+    font-family: 'Funnel Display'; font-weight: 800; font-size: 32px;
+    border: 4px solid var(--yellow);
+  }
+  .test-attr-text { color: var(--yellow); }
+  .test-attr-text strong { display: block; font-family: 'Funnel Display'; font-weight: 700; font-size: 22px; line-height: 1; margin-bottom: 4px; }
+  .test-attr-text span { font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.15em; opacity: 0.7; }
+  
+  /* CTA — yellow */
+  .cta-section { background: var(--yellow); padding: 140px 32px; text-align: center; }
+  .cta-section h2 {
+    font-family: 'Funnel Display'; font-weight: 800; font-size: clamp(4rem, 22vw, 22rem);
+    line-height: 0.8; letter-spacing: -0.06em; text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+  .cta-section h2 em { font-style: italic; color: var(--pink); }
+  .cta-section h2 .blue-c { color: var(--blue); }
+  .cta-email {
+    display: inline-block; background: var(--black); color: var(--yellow);
+    padding: 24px 40px; border-radius: 999px; text-decoration: none;
+    font-family: 'Funnel Display'; font-weight: 700; font-size: clamp(1.5rem, 3vw, 2.4rem);
+    border: 4px solid var(--black); box-shadow: 10px 10px 0 var(--pink);
+    transition: all 0.2s;
+  }
+  .cta-email:hover { transform: translate(-4px,-4px); box-shadow: 14px 14px 0 var(--pink); background: var(--pink); color: var(--white); border-color: var(--pink); }
+  
+  /* FOOTER */
+  footer {
+    background: var(--black); color: var(--yellow); padding: 60px 32px 30px;
+  }
+  .foot-grid { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 50px; border-bottom: 2px dashed var(--yellow); }
+  .foot-brand .logo { color: var(--yellow); margin-bottom: 16px; font-size: 36px; }
+  .foot-brand .logo-blob { background: var(--yellow); }
+  .foot-brand .logo-blob::before { background: var(--black); }
+  .foot-brand p { font-size: 14px; max-width: 320px; line-height: 1.5; opacity: 0.85; }
+  footer h4 { font-family: 'Funnel Display'; font-weight: 700; font-size: 16px; text-transform: uppercase; margin-bottom: 14px; color: var(--pink); }
+  footer ul { list-style: none; }
+  footer ul li { padding: 4px 0; }
+  footer ul a { color: var(--yellow); text-decoration: none; font-size: 14px; font-weight: 500; }
+  footer ul a:hover { color: var(--pink); }
+  .foot-bot { max-width: 1500px; margin: 0 auto; padding-top: 30px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+  .foot-bot span { font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.18em; opacity: 0.85; }
+  
+  @media (max-width: 1000px) {
+    body { cursor: auto; }
+    .cursor { display: none; }
+    .nav-links a:not(.nav-cta) { display: none; }
+    .hero-bottom-row { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .showcase-item { grid-template-columns: 50px 1fr 30px; gap: 16px; padding: 20px 0; }
+    .showcase-item .show-meta, .showcase-item .show-tags { display: none; }
+    .process-grid { grid-template-columns: 1fr; gap: 40px; }
+    .clients-grid { grid-template-columns: repeat(3, 1fr); }
+    .client-cell:nth-child(6n) { border-right: 4px solid var(--black); }
+    .client-cell:nth-child(3n) { border-right: none; }
+    .client-cell:nth-last-child(-n+6) { border-bottom: 4px solid var(--black); }
+    .client-cell:nth-last-child(-n+3) { border-bottom: none; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: span 2; }
+    section, nav, .hero, .cta-section, footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor"></div>
+
+<div class="ticker">
+  <div class="ticker-track">
+    <span>NOW BOOKING Q3 / Q4 — TWO SLOTS LEFT — SHIPPING SINCE 2018 — NEW YORK / KYIV / BUENOS AIRES — SAY HELLO LOUDLY — NOW BOOKING Q3 / Q4 — TWO SLOTS LEFT — SHIPPING SINCE 2018</span>
+    <span>NOW BOOKING Q3 / Q4 — TWO SLOTS LEFT — SHIPPING SINCE 2018 — NEW YORK / KYIV / BUENOS AIRES — SAY HELLO LOUDLY — NOW BOOKING Q3 / Q4 — TWO SLOTS LEFT — SHIPPING SINCE 2018</span>
+  </div>
+</div>
+
+<nav>
+  <div class="logo"><span class="logo-blob"></span>HUNGRY HUNGRY™</div>
+  <div class="nav-links">
+    <a href="#work">/work</a>
+    <a href="#services">/services</a>
+    <a href="#about">/about</a>
+    <a href="#contact" class="nav-cta">[ HELLO → ]</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <h1 class="hero-mega">
+      <span>WE MAKE</span><br>
+      <span class="bricolage-mix">BRANDS</span> <span class="pink">/loud/</span><br>
+      <span class="outline">FOR PEOPLE</span><br>
+      <span class="stripped">tired of</span> <span class="blue">QUIET.</span>
+    </h1>
+    
+    <div class="hero-bottom-row">
+      <div class="hero-meta">
+        <div class="label">↳ WHAT WE ARE</div>
+        <div class="text">An independent <em>BRAND &amp; DIGITAL</em> agency. Eight people. Forty-seven projects. Zero quiet logos.</div>
+      </div>
+      <div class="hero-meta">
+        <div class="label">↳ WHAT WE'RE NOT</div>
+        <div class="text">Pentagram. We're like Pentagram if Pentagram drank <em>FIVE ESPRESSOS</em> and forgot grids exist.</div>
+      </div>
+      <div class="hero-meta">
+        <div class="label">↳ STATUS</div>
+        <div class="text">Booking <em>Q3 2026</em>. We take 6 projects/year max. Currently saying yes to ~1 in 5.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-band">
+  <div class="marquee-band-track">
+    <span>BRAND <span class="ital">DESIGN</span></span>
+    <span>WEBSITES <span class="ital">THAT BITE</span></span>
+    <span>NAMING + <span class="ital">VOICE</span></span>
+    <span>PACKAGING <span class="ital">THAT POPS</span></span>
+    <span>BRAND <span class="ital">DESIGN</span></span>
+    <span>WEBSITES <span class="ital">THAT BITE</span></span>
+    <span>NAMING + <span class="ital">VOICE</span></span>
+    <span>PACKAGING <span class="ital">THAT POPS</span></span>
+  </div>
+</div>
+
+<section class="work-section" id="services">
+  <div class="container">
+    <span class="section-eye">[01] / WHAT WE DO</span>
+    <h2 class="mega">
+      WE <em>MAKE</em><br>
+      <span class="mix-it">BRANDS</span>
+      <span class="mono-piece">[that look]</span><br>
+      LIKE <em>NOTHING</em><br>
+      ELSE.
+    </h2>
+    
+    <div class="services-grid">
+      <div class="service-card pink">
+        <div class="service-num"><span>/ 01</span><span class="arrow">↗</span></div>
+        <h3>BRAND<br><em>SYSTEMS</em></h3>
+        <p>Identity. Wordmarks. Type. Voice. Visual systems that look like absolutely no one else's.</p>
+        <div class="service-tags-row">
+          <span class="service-tag">Identity</span>
+          <span class="service-tag">Type</span>
+          <span class="service-tag">Voice</span>
+        </div>
+      </div>
+      
+      <div class="service-card black">
+        <div class="service-num"><span>/ 02</span><span class="arrow">↗</span></div>
+        <h3>WEBSITES,<br><em>BUT LOUDER</em></h3>
+        <p>Sites that don't whisper. Awwwards-tier interaction. Marquees, brutalism, and properly weird typography.</p>
+        <div class="service-tags-row">
+          <span class="service-tag">Web design</span>
+          <span class="service-tag">Webflow</span>
+          <span class="service-tag">Custom dev</span>
+        </div>
+      </div>
+      
+      <div class="service-card blue">
+        <div class="service-num"><span>/ 03</span><span class="arrow">↗</span></div>
+        <h3><em>PACKAGING</em><br>WITH BITE</h3>
+        <p>FMCG, beverage, hot sauce, beer cans. The shelf is loud. We try to be louder.</p>
+        <div class="service-tags-row">
+          <span class="service-tag">Packaging</span>
+          <span class="service-tag">CPG</span>
+          <span class="service-tag">Spec</span>
+        </div>
+      </div>
+      
+      <div class="service-card white">
+        <div class="service-num"><span>/ 04</span><span class="arrow">↗</span></div>
+        <h3>NAMING<br><em>&amp; VERBAL</em></h3>
+        <p>Brand names, product names, manifestos, voice guidelines, taglines that actually <em>tag</em>.</p>
+        <div class="service-tags-row">
+          <span class="service-tag">Naming</span>
+          <span class="service-tag">Tagline</span>
+          <span class="service-tag">Manifesto</span>
+        </div>
+      </div>
+      
+      <div class="service-card">
+        <div class="service-num"><span>/ 05</span><span class="arrow">↗</span></div>
+        <h3>CAMPAIGN<br><em>WORK</em></h3>
+        <p>Big-format ads. OOH. Posters that get screenshotted. Print that gets stolen off walls.</p>
+        <div class="service-tags-row">
+          <span class="service-tag">Campaign</span>
+          <span class="service-tag">OOH</span>
+          <span class="service-tag">Print</span>
+        </div>
+      </div>
+      
+      <div class="service-card pink">
+        <div class="service-num"><span>/ 06</span><span class="arrow">↗</span></div>
+        <h3><em>MOTION</em><br>+ FILM</h3>
+        <p>Brand films. Motion identity. Title sequences. Short-form social work that doesn't look like everyone else's.</p>
+        <div class="service-tags-row">
+          <span class="service-tag">Direction</span>
+          <span class="service-tag">Motion</span>
+          <span class="service-tag">Edit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="showcase-section" id="work">
+  <div class="container">
+    <span class="section-eye">[02] / SELECTED WORK</span>
+    <h2 class="mega">
+      THINGS <em>WE</em><br>
+      <span class="strike">MADE</span> <em>SHIPPED</em><br>
+      RECENTLY.
+    </h2>
+    
+    <div class="showcase-list">
+      <a href="#" class="showcase-item">
+        <span class="show-num">01</span>
+        <h3>SCRAPPY <em>HOT SAUCE</em> — A REBRAND THAT BURNS</h3>
+        <div class="show-meta"><strong>2026</strong>BRAND + PACKAGING</div>
+        <div class="show-tags"><span class="show-tag">CPG</span><span class="show-tag">Print</span></div>
+        <span class="show-arrow">→</span>
+      </a>
+      <a href="#" class="showcase-item">
+        <span class="show-num">02</span>
+        <h3>OFF-WHITE <em>WINTER</em> '26 — LOUD QUIET</h3>
+        <div class="show-meta"><strong>2026</strong>CAMPAIGN + WEB</div>
+        <div class="show-tags"><span class="show-tag">Fashion</span><span class="show-tag">Direction</span></div>
+        <span class="show-arrow">→</span>
+      </a>
+      <a href="#" class="showcase-item">
+        <span class="show-num">03</span>
+        <h3>BRUTAL <em>BEER</em> — THE LABEL CAUGHT FIRE</h3>
+        <div class="show-meta"><strong>2025</strong>BRAND + PACKAGING</div>
+        <div class="show-tags"><span class="show-tag">Bev</span><span class="show-tag">Naming</span></div>
+        <span class="show-arrow">→</span>
+      </a>
+      <a href="#" class="showcase-item">
+        <span class="show-num">04</span>
+        <h3>SQUISH SODA — <em>JUICY</em>, ANNOYING, GOOD</h3>
+        <div class="show-meta"><strong>2025</strong>BRAND</div>
+        <div class="show-tags"><span class="show-tag">CPG</span><span class="show-tag">Identity</span></div>
+        <span class="show-arrow">→</span>
+      </a>
+      <a href="#" class="showcase-item">
+        <span class="show-num">05</span>
+        <h3>NEW YORK MAGAZINE — <em>"FUTURES"</em> ISSUE</h3>
+        <div class="show-meta"><strong>2025</strong>EDITORIAL</div>
+        <div class="show-tags"><span class="show-tag">Print</span><span class="show-tag">Cover</span></div>
+        <span class="show-arrow">→</span>
+      </a>
+      <a href="#" class="showcase-item">
+        <span class="show-num">06</span>
+        <h3>HEAVY <em>HARDWARE</em> — A TOOL BRAND, REWRITTEN</h3>
+        <div class="show-meta"><strong>2024</strong>FULL REBRAND</div>
+        <div class="show-tags"><span class="show-tag">Brand</span><span class="show-tag">Web</span><span class="show-tag">Pack</span></div>
+        <span class="show-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="process-section">
+  <div class="container">
+    <span class="section-eye">[03] / HOW IT GOES</span>
+    <h2 class="mega">
+      WE WORK <em>FAST</em><br>
+      LOUD<span class="blue-piece">,</span> &amp;<br>
+      <em>HONEST.</em>
+    </h2>
+    
+    <div class="process-grid">
+      <div class="process-text-l">
+        <p>We take <strong>six projects a year.</strong> Each engagement runs ten to sixteen weeks. We don't pitch — if you want us to make something for you, you'll know in our first conversation whether we're a fit.</p>
+        <p>We charge <strong>flat fees</strong>, not hourly, not retainers. We share rough budgets in the first call. We don't do change orders unless the brief actually changed.</p>
+        <p>We will ask <em>annoying questions early</em> so we can stop asking them later. Most of our process happens in week one — by week four you should already see something you can show your CEO without flinching.</p>
+      </div>
+      <div class="process-steps-r">
+        <div class="process-step">
+          <div class="ps-num">1</div>
+          <div class="ps-text"><h4>The hello call</h4><p>30 minutes, no slides, your project &amp; ours. We tell you if we're a fit by minute 25.</p></div>
+        </div>
+        <div class="process-step">
+          <div class="ps-num">2</div>
+          <div class="ps-text"><h4>The proposal, in three pages</h4><p>Scope, fee, milestones. No "discovery phase." No padding. Two contract signatures.</p></div>
+        </div>
+        <div class="process-step">
+          <div class="ps-num">3</div>
+          <div class="ps-text"><h4>Annoying-question week</h4><p>One week of fast research, sharp interviews, and the questions you didn't expect.</p></div>
+        </div>
+        <div class="process-step">
+          <div class="ps-num">4</div>
+          <div class="ps-text"><h4>Three directions, big swings</h4><p>We never bring you safe options. We bring three things you can pick &amp; defend.</p></div>
+        </div>
+        <div class="process-step">
+          <div class="ps-num">5</div>
+          <div class="ps-text"><h4>Build &amp; ship loudly</h4><p>System, applications, launch assets, social pack. Plus a noisy launch playbook.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="clients-section">
+  <div class="container">
+    <span class="section-eye">[04] / FRIENDS &amp; CLIENTS</span>
+    <h2 class="mega">
+      WE'VE MADE<br>
+      <em>THINGS</em> <span class="blue-cap">FOR</span><br>
+      THESE PEOPLE.
+    </h2>
+    
+    <div class="clients-grid">
+      <div class="client-cell active">SCRAPPY <span class="ital">SAUCE</span></div>
+      <div class="client-cell">OFF-WHITE</div>
+      <div class="client-cell active2">BRUTAL <span class="ital">BEER</span></div>
+      <div class="client-cell">SQUISH</div>
+      <div class="client-cell active3">NY <span class="ital">MAG</span></div>
+      <div class="client-cell">HEAVY HW</div>
+      <div class="client-cell">A24</div>
+      <div class="client-cell active2">PATAGONIA</div>
+      <div class="client-cell">GLOSSIER</div>
+      <div class="client-cell active">RED BULL</div>
+      <div class="client-cell">UMAMI BAR</div>
+      <div class="client-cell">VICE</div>
+      <div class="client-cell active3">M.I.T.</div>
+      <div class="client-cell">FIGMA</div>
+      <div class="client-cell active">LOUD POD</div>
+      <div class="client-cell">DELIVEROO</div>
+      <div class="client-cell active2">FRIDA</div>
+      <div class="client-cell">NIKE LAB</div>
+    </div>
+  </div>
+</section>
+
+<section class="test-section">
+  <div class="container">
+    <span class="section-eye">[05] / WHAT THEY SAY</span>
+    <p class="test-quote">
+      "WE HIRED <span class="strike">A QUIET AGENCY</span><br>
+      <em>HUNGRY HUNGRY</em><br>
+      AND OUR <span class="blue-q">SALES</span> WENT<br>
+      UP <em>43%</em> IN A QUARTER."
+    </p>
+    <div class="test-attr">
+      <div class="test-avatar">M</div>
+      <div class="test-attr-text">
+        <strong>Marisol Vega</strong>
+        <span>CEO &amp; FOUNDER · SCRAPPY HOT SAUCE</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="contact">
+  <div class="container">
+    <h2>
+      <em>SAY</em><br>
+      HELLO<span class="blue-c">,</span><br>
+      <em>LOUDLY.</em>
+    </h2>
+    <a href="mailto:hello@hungryhungry.studio" class="cta-email">hello @ hungryhungry.studio →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div class="logo"><span class="logo-blob"></span>HUNGRY HUNGRY™</div>
+      <p>An independent brand &amp; digital agency, since 2018. Eight people, three cities, six projects a year. We make brands loud.</p>
+      <p style="margin-top: 16px; font-family: 'JetBrains Mono'; font-size: 11px; opacity: 0.7;">62 GRAND ST, BROOKLYN NY 11211 / + KYIV / + BUENOS AIRES</p>
+    </div>
+    <div>
+      <h4>WORK</h4>
+      <ul>
+        <li><a href="#">/ Selected projects</a></li>
+        <li><a href="#">/ Services</a></li>
+        <li><a href="#">/ Process</a></li>
+        <li><a href="#">/ Clients</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>STUDIO</h4>
+      <ul>
+        <li><a href="#">/ About</a></li>
+        <li><a href="#">/ Press</a></li>
+        <li><a href="#">/ Awards</a></li>
+        <li><a href="#">/ Careers</a></li>
+        <li><a href="#">/ Newsletter</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>HELLO</h4>
+      <ul>
+        <li><a href="#">/ hello@hungryhungry</a></li>
+        <li><a href="#">/ Instagram</a></li>
+        <li><a href="#">/ Are.na</a></li>
+        <li><a href="#">/ Behance</a></li>
+        <li><a href="#">/ Vimeo</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© 2018—2026 / HUNGRY HUNGRY STUDIO LLC / NEW YORK / KYIV / BUENOS AIRES</span>
+    <span>SET IN FUNNEL DISPLAY + BRICOLAGE GROTESQUE / DESIGNED LOUDLY</span>
+  </div>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.querySelector('.cursor');
+  document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, .service-card, .client-cell, .showcase-item').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('big'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heritage Painters — Premium house painting in Charleston. 2-year warranty.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --ink: #1A1614; --char: #2A2520; --gray: #6B6259;
+    --bone: #FAF6EE; --paper: #F0E9DA; --cream: #E8DFC8; --white: #FFFFFF;
+    --terra: #C8634A; --terra-deep: #A04D38;
+    --sage: #6B7C5F; --gold: #B8985F;
+    --plum: #5C3A4A; --teal: #3F5965; --rose: #C4978A; --mustard: #BD8430; --olive: #687555;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bone); color: var(--ink);
+    font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.55;
+    overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    padding-bottom: 70px;
+  }
+  @media (min-width: 800px) { body { padding-bottom: 0; } }
+  .serif { font-family: 'Fraunces', serif; line-height: 1; letter-spacing: -0.02em; }
+
+  .topbar {
+    background: var(--ink); color: var(--cream); padding: 9px 28px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+    font-size: 12px; font-weight: 500;
+  }
+  .topbar a { color: var(--gold); text-decoration: none; font-weight: 600; }
+  .topbar a:hover { color: var(--bone); }
+  .topbar .swatch { display: inline-flex; gap: 3px; margin-right: 10px; vertical-align: middle; }
+  .topbar .swatch span { width: 10px; height: 10px; display: inline-block; border-radius: 2px; }
+
+  nav {
+    background: var(--bone); padding: 18px 28px;
+    display: flex; justify-content: space-between; align-items: center; gap: 18px;
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 1px solid rgba(26,22,20,0.08);
+  }
+  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
+  .logo-mark {
+    width: 44px; height: 44px; background: var(--ink); border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--bone); font-family: 'Fraunces'; font-weight: 700; font-size: 24px;
+    position: relative;
+  }
+  .logo-mark::after {
+    content: ''; position: absolute; bottom: -3px; left: 4px; right: 4px; height: 3px;
+    background: linear-gradient(90deg, var(--terra) 0%, var(--terra) 33%, var(--sage) 33%, var(--sage) 66%, var(--gold) 66%, var(--gold) 100%);
+    border-radius: 0 0 4px 4px;
+  }
+  .logo-text strong { font-family: 'Fraunces', serif; font-weight: 600; font-size: 22px; letter-spacing: -0.005em; display: block; line-height: 1; }
+  .logo-text small { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gray); margin-top: 4px; display: block; font-weight: 500; }
+  .nav-mid { display: flex; gap: 4px; }
+  .nav-mid a { color: var(--char); text-decoration: none; padding: 8px 14px; font-size: 14px; font-weight: 500; }
+  .nav-mid a:hover { color: var(--terra); }
+  .nav-end { display: flex; gap: 12px; align-items: center; }
+  .nav-phone { color: var(--ink); font-family: 'Fraunces', serif; font-weight: 600; font-size: 18px; text-decoration: none; line-height: 1; }
+  .nav-phone small { display: block; font-family: 'Inter'; font-size: 9px; letter-spacing: 0.18em; color: var(--gray); margin-top: 4px; font-weight: 500; text-transform: uppercase; }
+  .nav-cta {
+    background: var(--ink); color: var(--bone); padding: 13px 22px; text-decoration: none;
+    font-family: 'Fraunces', serif; font-weight: 600; font-size: 15px; transition: all 0.15s;
+  }
+  .nav-cta:hover { background: var(--terra); }
+
+  .hero { padding: 60px 28px 90px; max-width: 1500px; margin: 0 auto; position: relative; }
+  .hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 12px; margin-bottom: 28px;
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--terra-deep); font-weight: 600;
+  }
+  .hero-eyebrow .line { width: 32px; height: 1px; background: currentColor; }
+  h1.hero-h {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: clamp(3rem, 7.5vw, 6rem); line-height: 0.95; letter-spacing: -0.025em;
+    margin-bottom: 28px;
+  }
+  h1.hero-h em { font-style: italic; font-weight: 400; color: var(--terra); }
+  .hero-lede {
+    font-size: clamp(1.05rem, 1.4vw, 1.25rem); line-height: 1.55; max-width: 540px;
+    margin-bottom: 30px; color: var(--char);
+  }
+  .hero-lede strong { color: var(--terra-deep); font-weight: 600; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 36px; }
+  .btn-primary {
+    background: var(--ink); color: var(--bone); padding: 16px 28px; text-decoration: none;
+    font-family: 'Fraunces', serif; font-weight: 600; font-size: 16px;
+    display: inline-flex; align-items: center; gap: 10px; transition: all 0.15s;
+  }
+  .btn-primary:hover { background: var(--terra); }
+  .btn-ghost {
+    color: var(--ink); padding: 14px 24px; text-decoration: none;
+    font-weight: 600; font-size: 15px; border-bottom: 1.5px solid var(--ink);
+  }
+  .btn-ghost:hover { color: var(--terra); border-color: var(--terra); }
+  .hero-trust {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+    padding-top: 28px; border-top: 1px solid rgba(26,22,20,0.12);
+  }
+  .trust-cell strong {
+    font-family: 'Fraunces', serif; font-size: clamp(1.2rem, 1.7vw, 1.6rem); font-weight: 600; display: block; color: var(--ink);
+  }
+  .trust-cell small { font-size: 11px; color: var(--gray); margin-top: 6px; display: block; line-height: 1.4; }
+  .trust-cell .stars { color: var(--gold); letter-spacing: 1px; font-size: 14px; }
+
+  .hero-photo {
+    aspect-ratio: 4/5; position: relative;
+    background: linear-gradient(165deg, #C5A082 0%, #6B5544 60%, #3A2B22 100%);
+    border-radius: 6px; overflow: hidden;
+  }
+  .hero-photo::before {
+    content: ''; position: absolute; left: 0; top: 0; right: 0; height: 70%;
+    background:
+      linear-gradient(180deg, rgba(195,159,124,0.5) 0%, transparent 30%),
+      linear-gradient(180deg, transparent 50%, rgba(58,43,34,0.7) 100%);
+  }
+  .hero-photo::after {
+    content: ''; position: absolute; left: 12%; bottom: 30%; width: 30%; height: 25%;
+    background: linear-gradient(180deg, var(--terra) 0%, var(--terra-deep) 100%);
+    border-radius: 50% 50% 4px 4px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+  }
+  .photo-detail {
+    position: absolute; right: 14%; bottom: 14%; width: 38%;
+    background: rgba(250,246,238,0.95); backdrop-filter: blur(8px);
+    padding: 16px; border-radius: 4px; z-index: 2;
+  }
+  .photo-detail-label { font-family: 'Fraunces'; font-style: italic; font-size: 12px; color: var(--gray); margin-bottom: 8px; }
+  .photo-detail-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 15px; line-height: 1.1; margin-bottom: 4px; }
+  .photo-detail-num { font-size: 10px; color: var(--gray); letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; }
+  .palette-strip { position: absolute; left: 0; right: 0; bottom: 0; height: 36px; display: flex; z-index: 1; }
+  .palette-strip span { flex: 1; }
+
+  .marquee {
+    background: var(--ink); color: var(--bone); padding: 14px 0;
+    overflow: hidden; white-space: nowrap;
+    font-family: 'Fraunces'; font-size: 18px; font-weight: 500; letter-spacing: -0.01em;
+  }
+  .marquee em { font-style: italic; color: var(--gold); }
+  .marquee-inner { display: inline-block; animation: scroll 50s linear infinite; }
+  .marquee-inner span { padding: 0 26px; }
+  .marquee-inner span::before { content: '✦'; margin-right: 14px; color: var(--terra); font-size: 12px; }
+  @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .section { padding: 100px 28px; max-width: 1500px; margin: 0 auto; }
+  .section-eye {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--terra-deep); font-weight: 600; margin-bottom: 18px;
+  }
+  .section-eye::before { content: '✦'; color: var(--terra); }
+  h2 {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: clamp(2.4rem, 4.8vw, 4rem); line-height: 1; letter-spacing: -0.025em;
+  }
+  h2 em { font-style: italic; font-weight: 400; color: var(--terra); }
+  .section-lede { font-size: 17px; color: var(--char); line-height: 1.6; max-width: 580px; margin-top: 18px; }
+
+  .svcs-head { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px; }
+  .svcs-head .right { font-family: 'Fraunces'; font-style: italic; font-size: 17px; line-height: 1.5; color: var(--char); max-width: 380px; justify-self: end; padding-bottom: 6px; }
+  .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .svc {
+    background: var(--white); padding: 30px;
+    border-top: 4px solid var(--terra);
+    transition: all 0.25s;
+  }
+  .svc:nth-child(2) { border-top-color: var(--sage); }
+  .svc:nth-child(3) { border-top-color: var(--gold); }
+  .svc:nth-child(4) { border-top-color: var(--plum); }
+  .svc:nth-child(5) { border-top-color: var(--teal); }
+  .svc:nth-child(6) { border-top-color: var(--mustard); }
+  .svc:hover { transform: translateY(-4px); box-shadow: 0 24px 40px -16px rgba(26,22,20,0.15); }
+  .svc .num { font-family: 'Fraunces'; font-style: italic; font-size: 14px; color: var(--gray); margin-bottom: 14px; }
+  .svc h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 26px; line-height: 1.05; margin-bottom: 12px; letter-spacing: -0.015em; }
+  .svc p { color: var(--char); font-size: 14px; line-height: 1.6; margin-bottom: 18px; }
+  .svc .from { font-family: 'Fraunces'; font-style: italic; font-size: 14px; color: var(--terra-deep); padding-top: 14px; border-top: 1px solid var(--cream); }
+  .svc .from strong { font-style: normal; font-weight: 600; color: var(--ink); }
+
+  .gallery-section { background: var(--ink); color: var(--bone); padding: 100px 28px; }
+  .gallery-inner { max-width: 1500px; margin: 0 auto; }
+  .gallery-head { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px; }
+  .gallery-section .section-eye { color: var(--gold); }
+  .gallery-section h2 { color: var(--bone); }
+  .gallery-section h2 em { color: var(--gold); }
+  .gallery-section .section-lede { color: rgba(250,246,238,0.75); }
+  .gallery-filter { display: flex; gap: 8px; flex-wrap: wrap; align-self: end; justify-self: end; }
+  .filter-btn {
+    padding: 8px 16px; border: 1px solid rgba(250,246,238,0.25);
+    background: transparent; color: var(--bone); cursor: pointer;
+    font-size: 12px; letter-spacing: 0.06em; font-weight: 500;
+    border-radius: 100px;
+  }
+  .filter-btn.active, .filter-btn:hover { background: var(--bone); color: var(--ink); border-color: var(--bone); }
+
+  .gallery-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+  .project { position: relative; overflow: hidden; cursor: pointer; }
+  .project.lg { grid-column: span 8; aspect-ratio: 16/10; }
+  .project.md { grid-column: span 4; aspect-ratio: 4/5; }
+  .project.sq { grid-column: span 4; aspect-ratio: 1; }
+  .project.wide { grid-column: span 8; aspect-ratio: 21/10; }
+
+  .project-photo { position: absolute; inset: 0; transition: transform 0.6s cubic-bezier(.16,.84,.44,1); }
+  .project-photo.p1 { background: linear-gradient(165deg, #B89D7E 0%, #6B5544 50%, #2A1E18 100%); }
+  .project-photo.p1::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 40%, rgba(200,99,74,0.4) 0%, transparent 50%); }
+  .project-photo.p2 { background: linear-gradient(180deg, #98A188 0%, #4A5642 70%, #2A3024 100%); }
+  .project-photo.p2::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 70% 50%, rgba(184,152,95,0.3) 0%, transparent 50%); }
+  .project-photo.p3 { background: linear-gradient(135deg, #5C3A4A 0%, #3A1F2E 60%, #1A0E18 100%); }
+  .project-photo.p3::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 40% 30%, rgba(196,151,138,0.35) 0%, transparent 50%); }
+  .project-photo.p4 { background: linear-gradient(165deg, #C4978A 0%, #8E5F50 60%, #3F2A20 100%); }
+  .project-photo.p5 { background: linear-gradient(135deg, #E8DFC8 0%, #B89D7E 50%, #6B5544 100%); }
+  .project-photo.p5::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 50%, rgba(63,89,101,0.3) 0%, transparent 50%); }
+  .project-photo.p6 { background: linear-gradient(165deg, #687555 0%, #3F4A2F 60%, #1F2418 100%); }
+
+  .project:hover .project-photo { transform: scale(1.04); }
+  .project::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.7));
+    opacity: 0; transition: opacity 0.3s; z-index: 1;
+  }
+  .project:hover::before { opacity: 1; }
+  .project-info {
+    position: absolute; bottom: 18px; left: 18px; right: 18px; z-index: 2;
+    color: var(--bone);
+    opacity: 0; transform: translateY(8px); transition: all 0.4s;
+  }
+  .project:hover .project-info { opacity: 1; transform: translateY(0); }
+  .project-info .title { font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; line-height: 1.1; letter-spacing: -0.015em; }
+  .project-info .meta { font-size: 11px; opacity: 0.75; margin-top: 4px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .project-info .swatch-strip { display: flex; gap: 3px; margin-top: 8px; }
+  .project-info .swatch-strip span { width: 16px; height: 16px; border-radius: 2px; }
+
+  .process { padding: 100px 28px; max-width: 1500px; margin: 0 auto; }
+  .process-head { text-align: center; margin-bottom: 60px; }
+  .process-head h2 { margin: 0 auto; max-width: 700px; }
+  .process-head .section-lede { margin: 18px auto 0; }
+  .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+  .step {
+    padding: 30px 28px; position: relative;
+    border-right: 1px solid rgba(26,22,20,0.1);
+  }
+  .step:last-child { border-right: none; }
+  .step .num {
+    font-family: 'Fraunces', serif; font-weight: 500; font-size: 64px; line-height: 1;
+    letter-spacing: -0.04em; margin-bottom: 18px;
+  }
+  .step:nth-child(1) .num { color: var(--terra); }
+  .step:nth-child(2) .num { color: var(--sage); }
+  .step:nth-child(3) .num { color: var(--gold); }
+  .step:nth-child(4) .num { color: var(--plum); }
+  .step .lbl { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray); font-weight: 600; margin-bottom: 8px; }
+  .step h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; line-height: 1.05; margin-bottom: 8px; letter-spacing: -0.015em; }
+  .step p { color: var(--char); font-size: 14px; line-height: 1.55; }
+
+  .warranty { background: var(--paper); padding: 100px 28px; }
+  .warranty-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: center; }
+  .warranty-stamp {
+    aspect-ratio: 1/1; max-width: 380px; margin: 0 auto; position: relative;
+    border: 2px solid var(--ink); border-radius: 50%;
+    background: var(--bone);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 30px;
+    box-shadow: 8px 8px 0 var(--terra);
+  }
+  .warranty-stamp::before { content: ''; position: absolute; inset: 14px; border: 1px solid var(--ink); border-radius: 50%; }
+  .warranty-stamp .label { font-size: 11px; letter-spacing: 0.22em; color: var(--terra-deep); margin-bottom: 8px; font-weight: 600; }
+  .warranty-stamp h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(1.6rem, 2.6vw, 2.2rem); line-height: 1; }
+  .warranty-stamp .em { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(2.8rem, 5vw, 4.2rem); color: var(--ink); line-height: 1; margin: 14px 0; display: block; letter-spacing: -0.03em; }
+  .warranty-stamp .since { font-size: 10px; letter-spacing: 0.18em; color: var(--gray); margin-top: 14px; text-transform: uppercase; }
+  .warranty-text ul { list-style: none; margin-top: 24px; }
+  .warranty-text li {
+    padding: 14px 0; font-size: 16px; line-height: 1.5;
+    border-bottom: 1px solid rgba(26,22,20,0.12);
+    display: grid; grid-template-columns: 24px 1fr; gap: 14px; align-items: baseline;
+  }
+  .warranty-text li::before { content: '✦'; color: var(--terra); font-size: 14px; }
+  .warranty-text li strong { font-family: 'Fraunces'; font-weight: 600; color: var(--ink); }
+
+  .reviews { padding: 100px 28px; max-width: 1500px; margin: 0 auto; }
+  .reviews-head { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px; }
+  .reviews-stat { background: var(--ink); color: var(--bone); padding: 22px; }
+  .reviews-stat .top { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; }
+  .reviews-stat .stars { color: var(--gold); font-size: 22px; letter-spacing: 2px; }
+  .reviews-stat .num { font-family: 'Fraunces', serif; font-size: 32px; font-weight: 600; }
+  .reviews-stat small { font-size: 11px; color: rgba(250,246,238,0.7); display: block; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 4px; }
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .review {
+    padding: 28px; background: var(--white);
+    display: flex; flex-direction: column; gap: 14px;
+    border-left: 3px solid var(--terra);
+  }
+  .review:nth-child(2) { border-left-color: var(--sage); }
+  .review:nth-child(3) { border-left-color: var(--gold); }
+  .review .stars { color: var(--gold); font-size: 16px; letter-spacing: 1px; }
+  .review p { font-family: 'Fraunces', serif; font-weight: 400; font-size: 17px; line-height: 1.55; color: var(--char); flex: 1; }
+  .review .who { padding-top: 14px; border-top: 1px solid var(--cream); display: flex; gap: 12px; align-items: center; }
+  .review-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--terra); color: var(--bone); display: flex; align-items: center; justify-content: center; font-family: 'Fraunces'; font-weight: 600; font-size: 14px; }
+  .review:nth-child(2) .review-avatar { background: var(--sage); }
+  .review:nth-child(3) .review-avatar { background: var(--gold); color: var(--ink); }
+  .review .who div { line-height: 1.3; }
+  .review .who strong { font-size: 14px; font-weight: 600; display: block; }
+  .review .who span { font-size: 11px; color: var(--gray); }
+
+  .areas { background: var(--paper); padding: 100px 28px; }
+  .areas-inner { max-width: 1500px; margin: 0 auto; }
+  .areas-head { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; margin-bottom: 40px; }
+  .areas-head p { font-family: 'Fraunces'; font-style: italic; font-size: 18px; line-height: 1.5; color: var(--char); max-width: 420px; justify-self: end; }
+  .neighborhoods { columns: 4; column-gap: 28px; font-family: 'Fraunces', serif; font-size: 19px; line-height: 1.7; color: var(--char); }
+  .neighborhoods span { display: block; padding: 7px 0; border-bottom: 1px solid rgba(26,22,20,0.1); break-inside: avoid; }
+  .neighborhoods span::before { content: '✦  '; color: var(--terra); font-size: 12px; vertical-align: 2px; }
+
+  .final-cta {
+    background: var(--ink); color: var(--bone); padding: 100px 28px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .palette-bottom { position: absolute; left: 0; right: 0; height: 6px; display: flex; }
+  .palette-bottom.top { top: 0; }
+  .palette-bottom.bot { bottom: 0; }
+  .palette-bottom span { flex: 1; }
+  .final-cta-inner { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+  .final-cta .section-eye { color: var(--gold); }
+  .final-cta h2 { color: var(--bone); margin-bottom: 18px; }
+  .final-cta h2 em { color: var(--gold); }
+  .final-cta p { font-size: 18px; color: rgba(250,246,238,0.8); max-width: 540px; margin: 0 auto 32px; line-height: 1.55; }
+  .final-cta .actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .final-cta .btn-primary { background: var(--terra); color: var(--bone); }
+  .final-cta .btn-primary:hover { background: var(--gold); color: var(--ink); }
+  .final-cta .btn-ghost { color: var(--bone); border-color: var(--bone); }
+  .final-cta .btn-ghost:hover { color: var(--gold); border-color: var(--gold); }
+
+  footer { background: var(--char); color: var(--bone); padding: 60px 28px 24px; }
+  .foot-grid { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; padding-bottom: 36px; border-bottom: 1px solid rgba(250,246,238,0.1); }
+  .foot-brand p { color: rgba(250,246,238,0.7); font-size: 13px; line-height: 1.6; max-width: 320px; margin-top: 14px; }
+  .foot-brand .lic { font-size: 11px; color: var(--gold); margin-top: 14px; letter-spacing: 0.06em; line-height: 1.6; }
+  footer h4 { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 500; margin-bottom: 14px; color: var(--gold); }
+  footer ul { list-style: none; }
+  footer ul li { padding: 4px 0; }
+  footer ul a { color: rgba(250,246,238,0.7); text-decoration: none; font-size: 13px; }
+  footer ul a:hover { color: var(--bone); }
+  .foot-bot { max-width: 1500px; margin: 0 auto; padding-top: 22px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; font-size: 12px; color: rgba(250,246,238,0.5); letter-spacing: 0.06em; }
+
+  .sticky-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+    background: var(--bone); border-top: 1px solid rgba(26,22,20,0.1);
+    padding: 10px; display: flex; gap: 8px;
+  }
+  .sticky-bar a { flex: 1; padding: 14px; text-align: center; font-weight: 600; font-size: 14px; text-decoration: none; }
+  .sticky-bar a.call { background: var(--ink); color: var(--bone); }
+  .sticky-bar a.quote { background: var(--terra); color: var(--bone); }
+  @media (min-width: 800px) { .sticky-bar { display: none; } }
+
+  @media (max-width: 1000px) {
+    .hero-grid, .svcs-head, .gallery-head, .reviews-head, .areas-head, .warranty-inner { grid-template-columns: 1fr; gap: 32px; }
+    .svcs-head .right, .gallery-filter, .areas-head p { justify-self: start; }
+    .hero-trust { grid-template-columns: 1fr 1fr; gap: 14px; }
+    .nav-mid { display: none; }
+    .nav-phone small { display: none; }
+    .svc-grid, .reviews-grid { grid-template-columns: 1fr; }
+    .process-grid { grid-template-columns: 1fr 1fr; }
+    .step { border-right: none; border-bottom: 1px solid rgba(26,22,20,0.1); }
+    .gallery-grid { grid-template-columns: 1fr; }
+    .project.lg, .project.md, .project.sq, .project.wide { grid-column: 1; aspect-ratio: 4/3; }
+    .neighborhoods { columns: 2; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: span 2; }
+    .topbar, nav, .hero, .section, .gallery-section, .process, .warranty, .reviews, .areas, .final-cta, footer { padding-left: 18px; padding-right: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span><span class="swatch"><span style="background: var(--terra);"></span><span style="background: var(--sage);"></span><span style="background: var(--gold);"></span><span style="background: var(--plum);"></span></span>Now booking interior projects for fall — Charleston metro</span>
+  <span><a href="tel:18435550182">☎ (843) 555-0182</a> &nbsp;·&nbsp; <a href="#quote">Free estimate →</a></span>
+</div>
+
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-mark">H</div>
+    <div class="logo-text">
+      <strong>Heritage Painters</strong>
+      <small>CHARLESTON · EST. 2008</small>
+    </div>
+  </a>
+  <div class="nav-mid">
+    <a href="#services">Services</a>
+    <a href="#gallery">Recent work</a>
+    <a href="#process">Process</a>
+    <a href="#warranty">Warranty</a>
+    <a href="#reviews">Reviews</a>
+  </div>
+  <div class="nav-end">
+    <a href="tel:18435550182" class="nav-phone">(843) 555-0182<small>MON—SAT · 8—6</small></a>
+    <a href="#quote" class="nav-cta">Free estimate →</a>
+  </div>
+</nav>
+
+<section class="hero" id="quote">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-eyebrow"><span class="line"></span><span>PREMIUM HOUSE PAINTING · CHARLESTON · EST. 2008</span></div>
+      <h1 class="hero-h">Old houses<br>painted <em>well.</em></h1>
+      <p class="hero-lede">Heritage paints Charleston's stately and not-so-stately homes — interiors and exteriors — with <strong>museum-grade prep</strong>, low-VOC Benjamin Moore Aura, and a hand-picked crew that's been with us seven years on average. <strong>Backed by a 2-year written warranty</strong>, every project.</p>
+      <div class="hero-actions">
+        <a href="#quote" class="btn-primary">Schedule a free estimate →</a>
+        <a href="#gallery" class="btn-ghost">See recent work</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-cell"><div class="stars">★★★★★</div><strong>4.9 / 487</strong><small>GOOGLE REVIEWS</small></div>
+        <div class="trust-cell"><strong>17 yrs</strong><small>FAMILY-OWNED · SINCE 2008</small></div>
+        <div class="trust-cell"><strong>EPA</strong><small>LEAD-SAFE CERTIFIED</small></div>
+        <div class="trust-cell"><strong>2-yr</strong><small>WRITTEN WARRANTY</small></div>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <div class="photo-detail">
+        <div class="photo-detail-label">Recent project · exterior</div>
+        <div class="photo-detail-name">Tradd Street, South of Broad</div>
+        <div class="photo-detail-num">BENJAMIN MOORE · HC-72</div>
+      </div>
+      <div class="palette-strip">
+        <span style="background: var(--terra);"></span>
+        <span style="background: var(--sage);"></span>
+        <span style="background: var(--gold);"></span>
+        <span style="background: var(--plum);"></span>
+        <span style="background: var(--teal);"></span>
+        <span style="background: var(--rose);"></span>
+        <span style="background: var(--mustard);"></span>
+        <span style="background: var(--olive);"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-inner">
+    <span><em>Two-year written warranty</em></span><span>EPA Lead-Safe Certified</span><span><em>Benjamin Moore preferred contractor</em></span><span>In-house color consultation</span><span><em>Drop-cloth-everything prep</em></span><span>$2M general liability</span>
+    <span><em>Two-year written warranty</em></span><span>EPA Lead-Safe Certified</span><span><em>Benjamin Moore preferred contractor</em></span><span>In-house color consultation</span><span><em>Drop-cloth-everything prep</em></span><span>$2M general liability</span>
+  </div>
+</div>
+
+<section class="section" id="services">
+  <div class="svcs-head">
+    <div>
+      <span class="section-eye">SIX SERVICES</span>
+      <h2 class="serif">What we <em>paint.</em></h2>
+      <p class="section-lede">From a single accent wall to the entire exterior of an antebellum, every job gets the same prep, the same paint, and the same warranty. No subcontractors.</p>
+    </div>
+    <div class="right">
+      Custom commercial work?<br>
+      Restaurants, retail, hospitality.<br>
+      We've painted forty-plus King Street storefronts.
+    </div>
+  </div>
+  <div class="svc-grid">
+    <div class="svc">
+      <div class="num">i. 01</div>
+      <h3>Interior, residential</h3>
+      <p>Walls, ceilings, trim, doors, cabinets. Furniture moved &amp; covered, floors masked, drywall patched. Two coats minimum.</p>
+      <div class="from"><strong>From $4.50/sq ft</strong> · 2-year warranty</div>
+    </div>
+    <div class="svc">
+      <div class="num">i. 02</div>
+      <h3>Exterior, residential</h3>
+      <p>Power-wash, scrape, sand, prime, two finish coats. We replace rotten boards, caulk, and re-glaze old windows when needed.</p>
+      <div class="from"><strong>From $5.80/sq ft</strong> · 2-year warranty</div>
+    </div>
+    <div class="svc">
+      <div class="num">i. 03</div>
+      <h3>Cabinet refinishing</h3>
+      <p>Off-site spray finish, brand-new look without the cost of replacement. Doors come back factory-smooth in 5 days.</p>
+      <div class="from"><strong>$120—$210/door</strong> · spray-finished</div>
+    </div>
+    <div class="svc">
+      <div class="num">i. 04</div>
+      <h3>Historic &amp; restoration</h3>
+      <p>Lead-safe stripping, era-correct color matching, lime-based wash for stucco. We work with Charleston BAR routinely.</p>
+      <div class="from">QUOTED PER PROPERTY</div>
+    </div>
+    <div class="svc">
+      <div class="num">i. 05</div>
+      <h3>Color consultation</h3>
+      <p>One-on-one with our in-house color consultant, on-site, large draw-down samples on every key wall before commitment.</p>
+      <div class="from"><strong>$295</strong> · credited to project</div>
+    </div>
+    <div class="svc">
+      <div class="num">i. 06</div>
+      <h3>Commercial &amp; hospitality</h3>
+      <p>Off-hour and overnight schedules to keep you operating. Restaurants, boutiques, B&amp;Bs, offices. Net-30 billing available.</p>
+      <div class="from">CUSTOM QUOTE</div>
+    </div>
+  </div>
+</section>
+
+<div class="gallery-section" id="gallery">
+  <div class="gallery-inner">
+    <div class="gallery-head">
+      <div>
+        <span class="section-eye">RECENT WORK</span>
+        <h2 class="serif">A few <em>recent</em> projects.</h2>
+        <p class="section-lede">A small selection of houses we've finished in the last twelve months. Every project is photographed before-and-after, with the exact paint color and brand named.</p>
+      </div>
+      <div class="gallery-filter">
+        <button class="filter-btn active">All</button>
+        <button class="filter-btn">Interior</button>
+        <button class="filter-btn">Exterior</button>
+        <button class="filter-btn">Historic</button>
+      </div>
+    </div>
+    <div class="gallery-grid">
+      <div class="project lg">
+        <div class="project-photo p1"></div>
+        <div class="project-info">
+          <div class="title">A Tradd Street single house</div>
+          <div class="meta">EXTERIOR · BURGUNDY HC-72 · 14 DAYS</div>
+          <div class="swatch-strip"><span style="background:#7A2A2A"></span><span style="background:#F0E4D0"></span><span style="background:#1A1614"></span></div>
+        </div>
+      </div>
+      <div class="project sq">
+        <div class="project-photo p2"></div>
+        <div class="project-info">
+          <div class="title">Sage living room</div>
+          <div class="meta">INTERIOR · SAYBROOK SAGE · 4 DAYS</div>
+          <div class="swatch-strip"><span style="background:#6B7C5F"></span><span style="background:#F4F0E4"></span></div>
+        </div>
+      </div>
+      <div class="project md">
+        <div class="project-photo p3"></div>
+        <div class="project-info">
+          <div class="title">Plum dining room</div>
+          <div class="meta">INTERIOR · 2118-30 PLUM · 3 DAYS</div>
+          <div class="swatch-strip"><span style="background:#5C3A4A"></span><span style="background:#C4978A"></span></div>
+        </div>
+      </div>
+      <div class="project md">
+        <div class="project-photo p4"></div>
+        <div class="project-info">
+          <div class="title">Rose-pink kitchen cabinets</div>
+          <div class="meta">CABINET REFINISH · 5 DAYS</div>
+          <div class="swatch-strip"><span style="background:#C4978A"></span><span style="background:#FAF6EE"></span></div>
+        </div>
+      </div>
+      <div class="project sq">
+        <div class="project-photo p5"></div>
+        <div class="project-info">
+          <div class="title">Cream &amp; teal Federal</div>
+          <div class="meta">HISTORIC · BAR-APPROVED · 21 DAYS</div>
+          <div class="swatch-strip"><span style="background:#E8DFC8"></span><span style="background:#3F5965"></span></div>
+        </div>
+      </div>
+      <div class="project lg">
+        <div class="project-photo p6"></div>
+        <div class="project-info">
+          <div class="title">Olive-green farmhouse exterior</div>
+          <div class="meta">EXTERIOR · 12 DAYS · $34,200</div>
+          <div class="swatch-strip"><span style="background:#687555"></span><span style="background:#F0E9DA"></span><span style="background:#1A1614"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="process" id="process">
+  <div class="process-head">
+    <span class="section-eye">HOW WE WORK</span>
+    <h2 class="serif">Four steps. <em>No surprises.</em></h2>
+    <p class="section-lede">From the day you call to the day we hand back the keys, here's exactly how a Heritage project unfolds.</p>
+  </div>
+  <div class="process-grid">
+    <div class="step">
+      <div class="num">i.</div>
+      <div class="lbl">FREE ESTIMATE</div>
+      <h3>On-site walk-through</h3>
+      <p>We come out, measure rooms or façades, talk colors, photograph problem spots. You get a written, line-item quote within 48 hours.</p>
+    </div>
+    <div class="step">
+      <div class="num">ii.</div>
+      <div class="lbl">COLOR &amp; PREP</div>
+      <h3>Draw-downs &amp; protection</h3>
+      <p>Before a brush touches a wall, we paint draw-downs of every color on-site, mask floors and furniture, and patch every imperfection.</p>
+    </div>
+    <div class="step">
+      <div class="num">iii.</div>
+      <div class="lbl">PAINT</div>
+      <h3>Two coats. Always.</h3>
+      <p>Our crew works the same hours every day, end of day cleanup is full, and the same crew leader is on the job from start to finish.</p>
+    </div>
+    <div class="step">
+      <div class="num">iv.</div>
+      <div class="lbl">WALK-THROUGH</div>
+      <h3>Touch-ups &amp; warranty</h3>
+      <p>We walk every wall with you, fix anything you point out before we leave, and hand you a written 2-year warranty plus touch-up paint in labeled jars.</p>
+    </div>
+  </div>
+</section>
+
+<div class="warranty" id="warranty">
+  <div class="warranty-inner">
+    <div class="warranty-stamp">
+      <div class="label">★ THE HERITAGE GUARANTEE ★</div>
+      <h3 class="serif">Two-year</h3>
+      <span class="em">written warranty</span>
+      <h3 class="serif">on every project.</h3>
+      <div class="since">EST. 2008 · CHARLESTON</div>
+    </div>
+    <div class="warranty-text">
+      <span class="section-eye">THE WARRANTY</span>
+      <h2 class="serif">If it peels, cracks,<br>or fails — <em>we're back.</em></h2>
+      <ul>
+        <li><strong>Two years, written.</strong> We hand you the warranty card with the keys. No fine print, no exclusions, no "you used the wrong cleaner."</li>
+        <li><strong>We come back free.</strong> Anything that fails in those two years — peeling, blistering, cracking — we re-prep and re-paint, no charge.</li>
+        <li><strong>Touch-up paint included.</strong> Every project ends with labeled jars of leftover paint, by room, in case you nick a wall.</li>
+        <li><strong>Same crew, same standard.</strong> The crew that painted it is the crew that warranties it. No ticket-routing, no excuses.</li>
+        <li><strong>Backed by $2M liability.</strong> Heritage has carried full general &amp; workers' comp insurance for seventeen years. Certificates available on request.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<section class="reviews" id="reviews">
+  <div class="reviews-head">
+    <div>
+      <span class="section-eye">★ FOUR HUNDRED PLUS HOMES</span>
+      <h2 class="serif">"They <em>actually</em> showed up.<br>And they actually finished."</h2>
+      <p class="section-lede">Real Google reviews from real Charleston homeowners. Sorted newest first.</p>
+    </div>
+    <div class="reviews-stat">
+      <div class="top">
+        <span class="stars">★★★★★</span>
+        <span class="num">4.9</span>
+      </div>
+      <small>FROM 487 GOOGLE REVIEWS · UPDATED LAST WEEK</small>
+    </div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>Used three painters in twenty years on this old house. Heritage was on a different level. Showed up at 7:30 every morning, prep was meticulous, finished a day early. Cabinets look like new furniture. Won't use anyone else.</p>
+      <div class="who">
+        <div class="review-avatar">SK</div>
+        <div><strong>Susan K.</strong><span>SOUTH OF BROAD · 2 WEEKS AGO</span></div>
+      </div>
+    </div>
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>BAR-approved historic exterior is hard. Heritage handled the paperwork, matched the original color from a paint chip, and did 21 days of immaculate work. Neighbors keep stopping to ask who did it.</p>
+      <div class="who">
+        <div class="review-avatar">DM</div>
+        <div><strong>David M.</strong><span>HARLESTON VILLAGE · LAST MONTH</span></div>
+      </div>
+    </div>
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>Quoted middle of three painters. I went with them because the estimate was the only one with a real line-item budget and a written warranty. Two years later, no peeling anywhere. Worth every penny.</p>
+      <div class="who">
+        <div class="review-avatar">PA</div>
+        <div><strong>Priya A.</strong><span>MOUNT PLEASANT · 2 MONTHS AGO</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="areas">
+  <div class="areas-inner">
+    <div class="areas-head">
+      <div>
+        <span class="section-eye">SERVICE AREA</span>
+        <h2 class="serif">Charleston, <em>and the close-in.</em></h2>
+      </div>
+      <p>Our crews are out of two depots — King Street and Mt. Pleasant. We stay close to home so we don't waste your time on drive-around overhead. <strong>If your zip's not below, call us</strong> — we add neighborhoods every season.</p>
+    </div>
+    <div class="neighborhoods">
+      <span>South of Broad</span>
+      <span>Harleston Village</span>
+      <span>Ansonborough</span>
+      <span>French Quarter</span>
+      <span>Wagener Terrace</span>
+      <span>Hampton Park</span>
+      <span>Cannonborough</span>
+      <span>Westside</span>
+      <span>James Island</span>
+      <span>Mount Pleasant</span>
+      <span>Sullivan's Island</span>
+      <span>Daniel Island</span>
+      <span>Isle of Palms</span>
+      <span>West Ashley</span>
+      <span>North Charleston</span>
+      <span>Folly Beach</span>
+      <span>Johns Island</span>
+      <span>Kiawah</span>
+      <span>Seabrook</span>
+      <span>Awendaw</span>
+    </div>
+  </div>
+</div>
+
+<div class="final-cta">
+  <div class="palette-bottom top">
+    <span style="background: var(--terra);"></span>
+    <span style="background: var(--sage);"></span>
+    <span style="background: var(--gold);"></span>
+    <span style="background: var(--plum);"></span>
+    <span style="background: var(--teal);"></span>
+    <span style="background: var(--rose);"></span>
+    <span style="background: var(--mustard);"></span>
+    <span style="background: var(--olive);"></span>
+  </div>
+  <div class="palette-bottom bot">
+    <span style="background: var(--olive);"></span>
+    <span style="background: var(--mustard);"></span>
+    <span style="background: var(--rose);"></span>
+    <span style="background: var(--teal);"></span>
+    <span style="background: var(--plum);"></span>
+    <span style="background: var(--gold);"></span>
+    <span style="background: var(--sage);"></span>
+    <span style="background: var(--terra);"></span>
+  </div>
+  <div class="final-cta-inner">
+    <span class="section-eye">SCHEDULE A FREE ESTIMATE</span>
+    <h2 class="serif">A better paint job <em>starts</em><br>with a phone call.</h2>
+    <p>Free in-home estimate, written quote in 48 hours, project on the calendar within two weeks. No deposit until we start.</p>
+    <div class="actions">
+      <a href="#quote" class="btn-primary">Schedule estimate →</a>
+      <a href="tel:18435550182" class="btn-ghost">Or call (843) 555-0182</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a href="#" class="logo">
+        <div class="logo-mark">H</div>
+        <div class="logo-text">
+          <strong style="color: var(--bone);">Heritage Painters</strong>
+          <small style="color: var(--gold);">CHARLESTON · EST. 2008</small>
+        </div>
+      </a>
+      <p>Family-owned, painters' painters. Charleston interiors and exteriors since 2008. Benjamin Moore preferred contractor, EPA Lead-Safe certified, $2M liability insured.</p>
+      <div class="lic">SC LIC. 12348-G · EPA LEAD-SAFE NAT-F128493 · BBB A+ · BENJAMIN MOORE PREFERRED</div>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <ul><li><a href="#">Interior painting</a></li><li><a href="#">Exterior painting</a></li><li><a href="#">Cabinet refinishing</a></li><li><a href="#">Historic restoration</a></li><li><a href="#">Commercial</a></li></ul>
+    </div>
+    <div>
+      <h4>Resources</h4>
+      <ul><li><a href="#">Project gallery</a></li><li><a href="#">Color consultation</a></li><li><a href="#">Reviews</a></li><li><a href="#">FAQ</a></li><li><a href="#">Press</a></li></ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul><li><a href="tel:18435550182">☎ (843) 555-0182</a></li><li><a href="#">hello@heritagepaint.co</a></li><li><a href="#">412 King St, Charleston</a></li><li><a href="#">Mon—Sat · 8am—6pm</a></li></ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© 2008—2026 HERITAGE PAINTERS LLC · CHARLESTON, SC</span>
+    <span>SET IN FRAUNCES &amp; INTER</span>
+  </div>
+</footer>
+
+<div class="sticky-bar">
+  <a href="tel:18435550182" class="call">☎ Call us</a>
+  <a href="#quote" class="quote">Free estimate</a>
+</div>
+
+</body>
+</html>
