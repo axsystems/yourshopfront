@@ -34,6 +34,23 @@ export interface Customer {
   created_at: string
 }
 
+/**
+ * Per-site onboarding step state. Persisted as JSONB in
+ * sites.onboarding_state (added in migration 0002_onboarding.sql).
+ * Step 1 (purchase confirmed) is intrinsic to the row existing — not
+ * tracked in this object.
+ */
+export interface OnboardingState {
+  content_sent?: { complete: boolean; completed_at?: string }
+  assets_sent?: { complete: boolean; completed_at?: string }
+  domain?: {
+    complete: boolean
+    completed_at?: string
+    type?: "custom" | "subdomain"
+    custom_domain?: string
+  }
+}
+
 export interface Site {
   id: string
   customer_id: string
@@ -47,6 +64,7 @@ export interface Site {
   hosting_addon: boolean
   status: SiteStatus
   live_url: string | null
+  onboarding_state: OnboardingState
   created_at: string
   updated_at: string
 }
@@ -167,4 +185,46 @@ export async function updateSiteStatus(
     .update({ status })
     .eq("id", id)
   if (error) throw error
+}
+
+export async function getSiteById(id: string): Promise<Site | null> {
+  const { data, error } = await supabase()
+    .from("sites")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle()
+  if (error) throw error
+  return (data as Site | null) ?? null
+}
+
+/**
+ * Replaces the entire onboarding_state JSONB. Callers should read the
+ * existing state, merge in their patch, and pass the full new object.
+ * Done this way (vs. jsonb_set in SQL) because supabase-js doesn't
+ * expose Postgres JSONB operators directly.
+ */
+export async function updateOnboardingState(
+  id: string,
+  state: OnboardingState
+): Promise<Site> {
+  const { data, error } = await supabase()
+    .from("sites")
+    .update({ onboarding_state: state })
+    .eq("id", id)
+    .select("*")
+    .single()
+  if (error) throw error
+  return data as Site
+}
+
+/**
+ * Convenience: returns true when all three user-actionable steps are
+ * marked complete in onboarding_state.
+ */
+export function isOnboardingComplete(state: OnboardingState): boolean {
+  return Boolean(
+    state.content_sent?.complete &&
+      state.assets_sent?.complete &&
+      state.domain?.complete
+  )
 }
