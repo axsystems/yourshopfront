@@ -7,32 +7,27 @@ interface FooterProps {
   theme: Theme
 }
 
-const COLS = [
-  {
-    heading: "Sites",
-    links: [
-      { label: "Showcase", href: "/#demos" },
-      { label: "Pricing", href: "/pricing" },
-      { label: "How it works", href: "/#how" },
-      { label: "FAQ", href: "/faq" },
-    ],
-  },
-  {
-    heading: "Company",
-    links: [
-      { label: "About", href: "/about" },
-      { label: "Contact", href: "/contact" },
-      { label: "Customer login", href: "/portal" },
-    ],
-  },
-  {
-    heading: "Legal",
-    links: [
-      { label: "Terms", href: "/terms" },
-      { label: "Privacy", href: "/privacy" },
-      { label: "Refund policy", href: "/refund-policy" },
-    ],
-  },
+interface FooterLink {
+  label: string
+  href: string
+}
+
+const PRODUCT_LINKS: FooterLink[] = [
+  { label: "Pricing", href: "/pricing" },
+  { label: "Demos", href: "/#showcase" },
+  { label: "Portfolio", href: "/portfolio" },
+  { label: "FAQ", href: "/#faq" },
+]
+
+const COMPANY_LINKS: FooterLink[] = [
+  { label: "Contact", href: "/contact" },
+  { label: "About", href: "#" }, // TBD
+  { label: "Refund policy", href: "#" }, // TBD
+]
+
+const LEGAL_LINKS: FooterLink[] = [
+  { label: "Terms", href: "#" }, // TBD
+  { label: "Privacy", href: "#" }, // TBD
 ]
 
 export function Footer({ theme }: FooterProps) {
@@ -46,11 +41,15 @@ export function Footer({ theme }: FooterProps) {
         borderColor: "var(--apex-border)",
       }}
     >
-      <Container className="grid gap-12 lg:grid-cols-[1.4fr_2fr]">
+      <Container className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <p
             className="text-2xl"
-            style={{ fontFamily: "var(--apex-font-display)", fontWeight: 700, letterSpacing: "-0.02em" }}
+            style={{
+              fontFamily: "var(--apex-font-display)",
+              fontWeight: 700,
+              letterSpacing: "-0.02em",
+            }}
           >
             Apex Sites
           </p>
@@ -58,8 +57,7 @@ export function Footer({ theme }: FooterProps) {
             className="mt-3 max-w-sm text-sm leading-relaxed"
             style={{ color: "var(--apex-muted-fg)" }}
           >
-            Productized websites for home-service businesses. Pick a style, we launch in 24
-            hours. Subscription or one-time.
+            Websites that book more jobs.
           </p>
           <p
             className="mt-5 text-xs"
@@ -72,40 +70,53 @@ export function Footer({ theme }: FooterProps) {
             hello@apexsites.com
           </p>
         </div>
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
-          {COLS.map((col) => (
-            <div key={col.heading}>
-              <p
-                className="text-xs font-bold uppercase tracking-[0.16em]"
-                style={{ color: "var(--apex-muted-fg)" }}
-              >
-                {col.heading}
-              </p>
-              <ul className="mt-4 space-y-2">
-                {col.links.map((l) => (
-                  <li key={l.href}>
-                    <Link
-                      href={l.href}
-                      className="text-sm hover:underline"
-                      style={{ color: "var(--apex-fg)" }}
-                    >
-                      {l.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+        <FooterColumn heading="Product" links={PRODUCT_LINKS} />
+        <FooterColumn heading="Company" links={COMPANY_LINKS} />
+        <FooterColumn heading="Legal" links={LEGAL_LINKS} />
       </Container>
-      <Container className="mt-12 flex flex-col items-start justify-between gap-3 border-t pt-6 text-xs sm:flex-row sm:items-center" style={{ borderColor: "var(--apex-border)" }}>
+      <Container
+        className="mt-12 flex flex-col items-start justify-between gap-3 border-t pt-6 text-xs sm:flex-row sm:items-center"
+        style={{ borderColor: "var(--apex-border)" }}
+      >
         <p style={{ color: "var(--apex-muted-fg)" }}>
           © {new Date().getFullYear()} Apex Sites. All rights reserved.
         </p>
-        <p style={{ color: "var(--apex-muted-fg)", fontFamily: "var(--apex-font-mono)", letterSpacing: "0.06em" }}>
-          Built on Next.js · Hosted on Vercel
+        <p
+          style={{
+            color: "var(--apex-muted-fg)",
+            fontFamily: "var(--apex-font-mono)",
+            letterSpacing: "0.06em",
+          }}
+        >
+          Hosted on Vercel · Built with Next.js
         </p>
       </Container>
     </footer>
+  )
+}
+
+function FooterColumn({ heading, links }: { heading: string; links: FooterLink[] }) {
+  return (
+    <div>
+      <p
+        className="text-xs font-bold uppercase tracking-[0.16em]"
+        style={{ color: "var(--apex-muted-fg)" }}
+      >
+        {heading}
+      </p>
+      <ul className="mt-4 space-y-2">
+        {links.map((l) => (
+          <li key={`${heading}-${l.label}`}>
+            <Link
+              href={l.href}
+              className="text-sm hover:underline"
+              style={{ color: "var(--apex-fg)" }}
+            >
+              {l.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
