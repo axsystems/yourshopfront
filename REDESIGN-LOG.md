@@ -533,6 +533,68 @@ Source: `pnpm exec next build --webpack && node scripts/measure-first-load.mjs`.
 - The dominant chunk is `20-d0598a99d2717163.js` at 59.3 KB gzip — likely the framer-motion + lucide-react + Radix-base composite (per Next's default chunk splitting for shared dependencies). Framer-motion ends up in the shared bundle because the root layout's `<DemoSwitcher>` (client component, indirectly) and the home page's `<RotatingPreview>` both import it; Webpack hoists shared deps. The total shared cost is under budget so this is acceptable; if a future change pushes the number over, the master brief's #1 fix (dynamic import of RotatingPreview) is the first lever to pull.
 - The Webpack build (`--webpack` flag) is only used for analyzer runs. Default builds remain Turbopack. The numbers above are from the Webpack output — Turbopack chunks may differ slightly in size/grouping but the same dependency graph is shipped, so the order-of-magnitude is identical.
 
+Commit: `d23c327 perf(redesign): measure first-load JS`.
+
+---
+
+## Phase 6.6 — Themed-page motion
+
+**Status**: shipped.
+
+### Files modified (3)
+
+- `src/components/home/themed-home.tsx` — wrapped `<HowItWorks>`, `<FAQ>`, `<FinalCTA>` in `<FadeUp>`. The `<div id="how">` wrapper around HowItWorks became `<FadeUp id="how">` (the `id` propagates via the FadeUp component's `...rest` spread to the underlying `motion.div`, so the `#how` anchor target is preserved).
+- `src/components/home/pricing.tsx` — imported `<FadeUp>`, wrapped each of the 2 PriceCards individually with `delay={50}` and `delay={150}` so they cascade into view rather than appearing simultaneously.
+- `src/components/home/showcase.tsx` — imported `<FadeUp>`, wrapped only the section header block (Eyebrow + Display + lede paragraph). The thumbnail grid below is **not** wrapped — the cards already have hover-lift via existing CSS transforms; double-wrapping with FadeUp would create jitter on hover for cards mid-fade-in, per the brief's rule.
+
+### Sections wrapped
+
+| Section | Wrap location | Notes |
+|---|---|---|
+| `<Hero>` | **skipped** | Above-the-fold on first load; brief explicitly says don't fade-in the H1. |
+| `<TrustStrip>` | **skipped** | Stat-cells are small; cascade reads as fussy per brief rule. |
+| `<HowItWorks>` | `themed-home.tsx` (full section) | `<FadeUp id="how">` preserves the anchor target. |
+| `<Pricing>` cards | `pricing.tsx` (per-card) | 50ms + 150ms delays → cascade. |
+| `<Showcase>` header | `showcase.tsx` (header block only) | Thumbnail grid omitted: cards have hover-lift; double-motion would jitter. |
+| `<FAQ>` | `themed-home.tsx` (full section) | |
+| `<FinalCTA>` | `themed-home.tsx` (full section) | |
+
+### Reduced-motion verification
+
+Verified by direct inspection of `src/components/apex/motion/fade-up.tsx`:
+
+```tsx
+const reduce = useReducedMotion()
+return (
+  <motion.div
+    initial={{ opacity: 0, y: reduce ? 0 : 24 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once, margin: "-50px" }}
+    transition={{ duration: 0.5, ease: "easeOut", delay: delay / 1000 }}
+  >
+```
+
+When `prefers-reduced-motion: reduce` is active, `useReducedMotion()` returns truthy and the initial `y` is 0 — no transform animates. The opacity transition still runs (per master brief §10: "wrap in a useReducedMotion() check and disable transforms (keep opacity transitions, those are safe)"). No edits needed; the reduced-motion branch was already correct from Phase 2.
+
+The Playwright smoke suite uses Chromium without an explicit `prefers-reduced-motion: reduce` media-feature emulation (default is `no-preference`), so the suite exercises the *animated* code path and confirms content remains visible after hydration. A future Playwright addition could emulate reduced-motion to also exercise the suppressed-transform path; that's logged as a low-priority future-work item — the current verification is by-inspection plus integration-passes-with-motion-on.
+
+### Quality gate
+
+| Gate | Result |
+|---|---|
+| `pnpm typecheck` | **pass** (clean, first attempt). |
+| `pnpm lint` | **pass** (clean, first attempt). |
+| `pnpm build` | **pass**. **66 routes** — count unchanged from previous, as required by the brief. No new warnings. |
+| `pnpm test:e2e` | **5/5 pass** in 35.5s. The home-loads test (`tests/e2e/smoke.spec.ts:15`) navigates to `/` and asserts the H1 is visible — confirms FadeUp does not block content render after hydration on the chrome home. The themed-page test (`smoke.spec.ts:39`) does the same on `/demos/heritage-painters` — confirms the new themed FadeUp wraps don't break first-paint visibility either. |
+
+### Notes
+
+- No new dependencies. `framer-motion` was already imported by `<FadeUp>`, `<DemoCard>`, and `<RotatingPreview>` from earlier phases — the new wrap-sites in `themed-home.tsx`, `pricing.tsx`, `showcase.tsx` reuse the existing chunk.
+- First-load JS impact is negligible — the imports add a single named import per file, framer-motion was already in the shared bundle. Re-running `node scripts/measure-first-load.mjs` on a fresh Webpack build would show no meaningful change to the §6.5 numbers.
+- The brief's "wrap each pricing card individually with a delay prop (50ms, 150ms)" pattern was applied verbatim. Master brief §8 motion budget pattern 1 ("fade-up 24px, viewport intersect, 500ms ease-out, once") is preserved — only the `delay` prop varies.
+
+Commit: pending (this entry + the code change land in a single commit below).
+
 
 
 

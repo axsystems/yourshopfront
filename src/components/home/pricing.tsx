@@ -1,4 +1,5 @@
 import type { Theme } from "@/lib/themes/types"
+import { FadeUp } from "@/components/apex/motion/fade-up"
 import { ApexButton, Container, Display, Eyebrow, Section } from "./primitives"
 
 interface PricingProps {
@@ -51,31 +52,35 @@ export function Pricing({ theme, demoSlug }: PricingProps) {
           </p>
         </div>
         <div className="mx-auto mt-14 grid max-w-5xl gap-6 lg:grid-cols-2">
-          <PriceCard
-            theme={theme}
-            variant="featured"
-            tagline="MOST POPULAR · CANCEL ANYTIME"
-            title="Subscription"
-            price="$499"
-            priceDetail="setup"
-            recurring="+ $199/mo"
-            sub="We host it. Unlimited edits."
-            features={SUB_FEATURES}
-            ctaLabel="Start subscription →"
-            ctaHref={subHref}
-          />
-          <PriceCard
-            theme={theme}
-            variant="default"
-            tagline="YOURS FOREVER · NO RECURRING"
-            title="One-time build"
-            price="$2,997"
-            priceDetail="once"
-            sub="Full source code. Self-host or +$29/mo."
-            features={ONETIME_FEATURES}
-            ctaLabel="Buy one-time →"
-            ctaHref={oneHref}
-          />
+          <FadeUp delay={50}>
+            <PriceCard
+              theme={theme}
+              variant="featured"
+              tagline="MOST POPULAR · CANCEL ANYTIME"
+              title="Subscription"
+              price="$499"
+              priceDetail="setup"
+              recurring="+ $199/mo"
+              sub="We host it. Unlimited edits."
+              features={SUB_FEATURES}
+              ctaLabel="Start subscription →"
+              ctaHref={subHref}
+            />
+          </FadeUp>
+          <FadeUp delay={150}>
+            <PriceCard
+              theme={theme}
+              variant="default"
+              tagline="YOURS FOREVER · NO RECURRING"
+              title="One-time build"
+              price="$2,997"
+              priceDetail="once"
+              sub="Full source code. Self-host or +$29/mo."
+              features={ONETIME_FEATURES}
+              ctaLabel="Buy one-time →"
+              ctaHref={oneHref}
+            />
+          </FadeUp>
         </div>
         <p
           className="mx-auto mt-8 max-w-2xl text-center text-sm"

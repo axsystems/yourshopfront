@@ -2,6 +2,7 @@ import * as React from "react"
 
 import type { Theme } from "@/lib/themes/types"
 import { SiteFooter, SiteHeader } from "@/components/apex"
+import { FadeUp } from "@/components/apex/motion/fade-up"
 import { ThemeProvider } from "@/components/theme-provider"
 
 import { Hero } from "./hero"
@@ -42,13 +43,17 @@ export function ThemedHome({ theme, isDemoPreview }: ThemedHomeProps) {
           }
         />
         <TrustStrip theme={theme} />
-        <div id="how">
+        <FadeUp id="how">
           <HowItWorks theme={theme} />
-        </div>
+        </FadeUp>
         <Pricing theme={theme} demoSlug={isDemoPreview ? theme.slug : undefined} />
         <Showcase theme={theme} activeSlug={isDemoPreview ? theme.slug : undefined} />
-        <FAQ theme={theme} />
-        <FinalCTA theme={theme} />
+        <FadeUp>
+          <FAQ theme={theme} />
+        </FadeUp>
+        <FadeUp>
+          <FinalCTA theme={theme} />
+        </FadeUp>
       </main>
       <SiteFooter variant="themed" />
     </ThemeProvider>
