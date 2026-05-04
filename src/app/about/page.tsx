@@ -1,0 +1,143 @@
+import type { Metadata } from "next"
+
+import {
+  Button,
+  Container,
+  Display,
+  Eyebrow,
+  HighlightStroke,
+  Lede,
+  Section,
+  SiteFooter,
+  SiteHeader,
+} from "@/components/apex"
+import { FadeUp } from "@/components/apex/motion/fade-up"
+import { JsonLd } from "@/components/json-ld"
+import { SITE_URL, organizationSchema } from "@/lib/seo"
+
+const ABOUT_URL = `${SITE_URL}/about`
+
+export const metadata: Metadata = {
+  title: "About — Apex Sites",
+  description:
+    "Apex Sites is a productized agency for trades. 24 designs, 24-hour delivery, no contracts. Built by people who got tired of seeing good operators stuck on bad websites.",
+  alternates: { canonical: ABOUT_URL },
+  openGraph: {
+    title: "About — Apex Sites",
+    description: "A productized agency for trades. 24 designs, 24-hour delivery, no contracts.",
+    url: ABOUT_URL,
+    type: "website",
+    siteName: "Apex Sites",
+  },
+}
+
+export default function AboutPage() {
+  return (
+    <>
+      <JsonLd
+        data={[
+          organizationSchema(),
+          {
+            "@context": "https://schema.org",
+            "@type": "AboutPage",
+            url: ABOUT_URL,
+            name: "About Apex Sites",
+          },
+        ]}
+      />
+      <SiteHeader variant="default" />
+      <main id="main" className="flex-1 bg-apx-paper">
+        <Section bg="canvas" className="py-20 md:py-28">
+          <Container>
+            <Eyebrow>About</Eyebrow>
+            <Display level="display-2xl" as="h1" className="mt-4 max-w-[18ch]">
+              A productized agency for <HighlightStroke>trades</HighlightStroke>.
+            </Display>
+            <Lede className="mt-6 max-w-[60ch]">
+              We started Apex because the home-services market is underserved by template tools and overcharged by traditional agencies. There is a yawning gap between &ldquo;build it yourself in Squarespace&rdquo; and &ldquo;hire an agency for $15K and wait six months.&rdquo; Apex sits in that gap.
+            </Lede>
+          </Container>
+        </Section>
+
+        <Section bg="paper">
+          <Container>
+            <div className="mx-auto grid max-w-3xl gap-10 text-[17px] leading-[1.65] text-apx-ink">
+              <FadeUp>
+                <p>
+                  We&apos;ve designed and shipped 24 production-grade websites — each one tuned for a specific kind of trade, with hero patterns and conversion mechanics that match the way that trade actually books work. Plumbing emergencies want a phone-first hero. Painting projects want a gallery. Movers want an instant-quote calculator. Roofers want a form-card.
+                </p>
+              </FadeUp>
+              <FadeUp delay={60}>
+                <p>
+                  We don&apos;t hand you a blank canvas. We hand you a finished site that already works for your category, with your content swapped in. The whole transaction is built around speed: $499 and a half-hour worksheet on Monday morning, your site live by Tuesday afternoon, your phone ringing by Friday.
+                </p>
+              </FadeUp>
+              <FadeUp delay={120}>
+                <p>
+                  No contracts. No long onboarding. No design-by-committee. If we don&apos;t earn the second month, you cancel and the site stays online for thirty days while you figure out what&apos;s next. We don&apos;t lock anyone in — we keep customers because the site keeps booking jobs.
+                </p>
+              </FadeUp>
+            </div>
+          </Container>
+        </Section>
+
+        <Section bg="tint">
+          <Container>
+            <div className="mx-auto max-w-3xl">
+              <FadeUp>
+                <Eyebrow>How we work</Eyebrow>
+                <Display level="display-lg" className="mt-4">
+                  Three things we won&apos;t do.
+                </Display>
+              </FadeUp>
+              <ul className="mt-8 flex flex-col gap-6 text-[17px] leading-[1.6] text-apx-ink">
+                <FadeUp delay={60}>
+                  <li>
+                    <strong className="font-semibold">We won&apos;t pretend the deliverable is bespoke.</strong>{" "}
+                    The 24 designs are the deliverables. You pick one. We swap your content in. If you need something custom, we&apos;ll happily refer you to an agency — Apex isn&apos;t the right fit for that.
+                  </li>
+                </FadeUp>
+                <FadeUp delay={120}>
+                  <li>
+                    <strong className="font-semibold">We won&apos;t hide the price.</strong>{" "}
+                    $499 setup + $199/mo subscription, or $2,997 one-time. That&apos;s on the homepage, the pricing page, the checkout, the footer. No discovery call required to find out the number.
+                  </li>
+                </FadeUp>
+                <FadeUp delay={180}>
+                  <li>
+                    <strong className="font-semibold">We won&apos;t take longer than 24 hours.</strong>{" "}
+                    From the moment you submit your content worksheet, the clock starts. If we don&apos;t ship in 24 hours, the first month is free.
+                  </li>
+                </FadeUp>
+              </ul>
+            </div>
+          </Container>
+        </Section>
+
+        <Section bg="primary-soft">
+          <Container>
+            <FadeUp>
+              <div className="mx-auto max-w-3xl text-center">
+                <Display level="display-xl">
+                  Want to talk it through first?
+                </Display>
+                <Lede className="mx-auto mt-5">
+                  We&apos;re a small team. A real person reads every inbound email and replies within 24 hours.
+                </Lede>
+                <div className="mt-7 flex flex-wrap justify-center gap-3">
+                  <Button href="/contact" variant="primary" size="lg">
+                    Talk to us →
+                  </Button>
+                  <Button href="/portfolio" variant="secondary" size="lg">
+                    See the 24 designs
+                  </Button>
+                </div>
+              </div>
+            </FadeUp>
+          </Container>
+        </Section>
+      </main>
+      <SiteFooter variant="default" />
+    </>
+  )
+}

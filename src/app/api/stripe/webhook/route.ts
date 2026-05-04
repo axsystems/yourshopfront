@@ -156,7 +156,7 @@ async function handleSessionCompleted(session: Stripe.Checkout.Session) {
         `${site.business_name} · ${site.demo_slug}` +
           (site.industry ? ` · ${site.industry}` : ""),
         `${customer.email}${customer.phone ? ` · ${customer.phone}` : ""}`,
-        `<${SITE_URL}/admin|admin> · session \`${session.id.slice(-12)}\``,
+        `session \`${session.id.slice(-12)}\``,
       ].join("\n")
     ),
   ])

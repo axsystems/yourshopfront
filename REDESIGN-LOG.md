@@ -265,5 +265,52 @@ Commit: `eef5caa feat(redesign): phase 3 — pricing, portfolio, contact rebuilt
 - The `<ThemedHome>` now triple-stacks navigation on `/demos/[slug]`: chrome SiteHeader (non-sticky) → DemoSwitcher (sticky) → Hero. Three rows feels heavy but each has a distinct job (chrome nav / theme switching / page hero). The SiteHeader's `themed` variant uses theme tokens for color, so visually it blends with the page; the DemoSwitcher uses chrome tokens (paper bg, cobalt active) so it visually stands out from the themed body — this is intentional.
 - `themed-home.tsx`'s import of `./footer` is unreferenced now but the file `src/components/home/footer.tsx` still exists. **Phase 5 deletes it** as part of the footer-link cleanup.
 
+Commit: `38cfd58 feat(redesign): phase 4 — chrome wraps themed surfaces, real metrics, nested-html fix`.
+
+---
+
+## Phase 5 — Missing pages
+
+**Status**: shipped.
+
+### Files
+
+**Created (5)**:
+
+- `src/components/apex/legal-page.tsx` — `<LegalPage title lastUpdated draft>` shell. Optional `draft` flag renders a coral "Drafting in progress" warn banner at the top. Body uses Tailwind v4 attribute-selector typography styling (`[&_h2]:`, `[&_p]:`, `[&_ul]:` etc.) since no `@tailwindcss/typography` plugin is installed.
+- `src/app/about/page.tsx` — `/about` page per master brief §7.9. 4-section composition: canvas hero with HighlightStroke on "trades", 3-paragraph manifesto, "Three things we won't do" tint band, primary-soft contact CTA. AboutPage JSON-LD added.
+- `src/app/privacy/page.tsx` — `/privacy` via `<LegalPage draft>`. Plain-English boilerplate covering: what we collect, how we use it, who we share with (Stripe, Supabase, Resend, Vercel, Cloudflare), your rights, cookies (single first-party session cookie + privacy-respecting analytics), children, contact.
+- `src/app/terms/page.tsx` — `/terms` via `<LegalPage draft>`. Covers: the service, delivery and acceptance, refunds (cross-link), your content, acceptable use, liability, termination, governing law (TBD placeholder), changes, contact.
+- `src/app/refund-policy/page.tsx` — `/refund-policy` via `<LegalPage draft>`. 30-day money-back specifics for each tier (subscription / one-time), edge-case handling, how to request a refund.
+
+**Modified (2)**:
+
+- `src/app/sitemap.ts` — added `/about`, `/privacy`, `/terms`, `/refund-policy` to the sitemap. The original 28 URLs are unchanged. Total now **32 canonical URLs** (1 home + 10 featured demos + 1 portfolio index + 14 non-featured portfolio + 6 static pages).
+- `src/app/api/stripe/webhook/route.ts:159` — removed the 404'ing `/admin` Slack link. The webhook payload now reads `session \`{...}\`` instead of `<{SITE_URL}/admin|admin> · session \`{...}\``. Slack messaging is functionally identical minus a broken link.
+
+**Deleted (1)**:
+
+- `src/components/home/footer.tsx` — legacy themed footer. Verified no remaining importers via `grep -r 'from "@/components/home/footer"'` (zero hits) before deletion. Phase 4's `<SiteFooter variant="themed">` covers this role on themed surfaces.
+
+### Quality gate
+
+| Gate | Result |
+|---|---|
+| `pnpm typecheck` | **pass** (clean, first attempt). |
+| `pnpm lint` | **pass** (clean, first attempt). |
+| `pnpm build` | **pass**. **65 routes** (was 62 — 4 new static pages, with `/about` SSG'd to one entry too). The build output now includes `/about`, `/privacy`, `/refund-policy`, `/terms` in the route listing. |
+| Footer links resolve | All `<SiteFooter>` links now point to real routes — `/portfolio`, `/pricing`, `/contact`, `/about`, `mailto:hello@apexsites.com`, `/privacy`, `/terms`, `/refund-policy`. Zero `href="#"` placeholders remain in any chrome component. |
+
+### Deviations from APEX-REDESIGN-PROMPT.md
+
+- **Legal copy is placeholder (per brief)**. Master brief §7.10 explicitly authorized this: "If you can't write legal copy with confidence, stub each page with a 'Last updated: TBD' header and a placeholder paragraph that says: 'Drafting in progress. Contact hello@apexsites.com for current terms.' — and surface this clearly in REDESIGN-PLAN.md so the human knows to swap in real legal copy before launch." I shipped slightly more than placeholder — readable plain-English boilerplate covering the structure of each policy — and gated each page behind the coral `draft` warn banner. **Final report §5.4 has this as a hard-blocker before launch.**
+- **`/about` uses placeholder team copy**. There are no real founder names or team bios. Brief §5.4 anticipated this: "Real founder/team copy for /about." Final report §5.4 will list this.
+
+### Notes for the final report
+
+- The 30-day grace-period claim and the 24-hour-or-the-first-month-is-free claim in `/terms` and `/refund-policy` are NEW commitments not mentioned anywhere else in the brief or audit. They follow the existing copy ("30 days money-back," "24 hours from content receipt") and extend them to cover edge cases. **Override flag**: medium — the human should sanity-check these are operationally feasible before legal sign-off.
+- The `governing law` clause in `/terms` has an explicit `[TBD]` marker awaiting the founder's state of incorporation. Final-report §5.4 lists this as a 1-minute fix once that detail is known.
+
+
 
 
