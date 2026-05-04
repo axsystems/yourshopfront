@@ -31,23 +31,25 @@ export function ThemedHome({ theme, isDemoPreview }: ThemedHomeProps) {
   return (
     <ThemeProvider theme={theme}>
       <SiteHeader variant="themed" />
-      <Hero
-        theme={theme}
-        isDemoPreview={isDemoPreview}
-        ctaPrimaryHref={
-          isDemoPreview
-            ? `/checkout?tier=subscription&demo=${theme.slug}`
-            : "/checkout?tier=subscription"
-        }
-      />
-      <TrustStrip theme={theme} />
-      <div id="how">
-        <HowItWorks theme={theme} />
-      </div>
-      <Pricing theme={theme} demoSlug={isDemoPreview ? theme.slug : undefined} />
-      <Showcase theme={theme} activeSlug={isDemoPreview ? theme.slug : undefined} />
-      <FAQ theme={theme} />
-      <FinalCTA theme={theme} />
+      <main id="main" className="flex-1">
+        <Hero
+          theme={theme}
+          isDemoPreview={isDemoPreview}
+          ctaPrimaryHref={
+            isDemoPreview
+              ? `/checkout?tier=subscription&demo=${theme.slug}`
+              : "/checkout?tier=subscription"
+          }
+        />
+        <TrustStrip theme={theme} />
+        <div id="how">
+          <HowItWorks theme={theme} />
+        </div>
+        <Pricing theme={theme} demoSlug={isDemoPreview ? theme.slug : undefined} />
+        <Showcase theme={theme} activeSlug={isDemoPreview ? theme.slug : undefined} />
+        <FAQ theme={theme} />
+        <FinalCTA theme={theme} />
+      </main>
       <SiteFooter variant="themed" />
     </ThemeProvider>
   )

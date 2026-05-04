@@ -3,6 +3,7 @@ import { Suspense } from "react"
 import "./globals.css"
 
 import { DemoSwitcher } from "@/components/home/demo-switcher"
+import { PlausibleAnalytics } from "@/components/plausible"
 import { baseFontClassName } from "@/lib/fonts"
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://apexsites.com"
@@ -55,6 +56,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${baseFontClassName} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
+        <PlausibleAnalytics />
         <Suspense fallback={null}>
           <DemoSwitcher />
         </Suspense>
