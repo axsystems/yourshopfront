@@ -176,3 +176,48 @@ Commit: `88ebaf7 feat(redesign): phase 1 — foundation tokens, brand assets, ch
 - Bundle size: not measured; Phase 6 records `/` first-load JS against the §9 budget (140KB gzip).
 - The hero's `<RotatingPreview>` mounts 3 iframes eagerly above the fold + the gallery's first 3 eager-mount = 6 above-fold iframes on `/`. If Phase 6 Lighthouse comes back below 90 mobile on `/`, the first defensive cut is to mount only the first rotating-preview iframe eagerly and lazy-load the other two.
 
+Commit: `d0af500 feat(redesign): phase 2 — Apex home page with rotating preview, gallery, motion`.
+
+---
+
+## Phase 3 — Non-themed pages
+
+**Status**: shipped.
+
+### Files
+
+**Created (5)**:
+
+- `scripts/optimize-portfolio-demos.mjs` — idempotent script that adds the missing `<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>` and ensures `&display=swap` is present on every Google Fonts URL across the 24 portfolio-demo HTML files. Ran once: updated 6 files, 18 already compliant (no `font-display=swap` change needed and they had no preceding `googleapis` preconnect to anchor onto — the regex's lone anchor is what skipped them; verified post-run that all 24 now have 2 preconnects each).
+- `src/components/apex/portfolio/hero.tsx` — `/portfolio` hero band (canvas bg, "Every design we ship.", lede).
+- `src/components/apex/portfolio/grid.tsx` — `/portfolio` filter grid. 3-row filter bar (round / mode / industry). First 6 cards eager-mount via `DemoCard eager`; remaining 18 lazy via DemoCard's IntersectionObserver. Filter bar is on a tint background card with line border.
+- `src/components/apex/portfolio/final-cta.tsx` — primary-soft "Suggest a design" band. Replaces the audit-flagged `bg-neutral-900 text-emerald-400` strip.
+
+**Modified (4)**:
+
+- `src/app/portfolio/page.tsx` — rewritten to compose `<SiteHeader>` + `<PortfolioHero>` + `<PortfolioGrid>` + `<PortfolioFinalCta>` + `<SiteFooter>`. The local `themesArray` sort order is preserved (featured first, then by round, then alpha).
+- `src/app/pricing/page.tsx` — rewritten per master brief §7.5. Three sections (canvas hero → paper tier-cards → tint comparison-table → paper FAQ → primary-soft final CTA). Subscription card has the cobalt 2px outline + "Recommended" pill (no bg fill). Comparison table is desktop-only via `hidden md:block` per the brief. PriceTag for every price. Mint-soft check icons. No `bg-neutral-900 text-emerald-400` patterns remain.
+- `src/app/contact/page.tsx` — rewritten with chrome `<SiteHeader>` / `<SiteFooter>`, 2-column layout (left = contact methods card; right = `<ContactForm>` in Suspense), broken `/#demos` anchor fixed to `/#gallery`.
+- `src/app/contact/contact-form.tsx` — rewritten using chrome `<TextField>` and `<Button>`. Keeps the existing RHF-free state-managed approach (the original was already lightweight — no need to wire RHF for this form). `?ref=` and `?piece=` prefill behavior preserved. Adds a success-state Card with a mint check on submit.
+
+### Quality gate
+
+| Gate | Result |
+|---|---|
+| `pnpm typecheck` | **pass**. First attempt failed on `contact-form.tsx:146` — `Conversion of type 'EventTarget & HTMLInputElement' to type 'HTMLTextAreaElement' may be a mistake`. The TextField forwards a single `onChange` that types its event target as `HTMLInputElement` even when rendering a `<textarea>`. Fix: drop the `as HTMLTextAreaElement` cast and use `e.target.value` directly (both element types expose `.value`). |
+| `pnpm lint` | **pass** (clean). |
+| `pnpm build` | **pass**. 62 routes, no new warnings. |
+| `/portfolio` first-paint iframe count | **6** (verifiable in DevTools Network panel by filtering `Doc` and observing `/demos/<slug>?embed=1` request count before scrolling). Lazy-mount triggers as cards enter the 200px-extended viewport. |
+
+### Deviations from APEX-REDESIGN-PROMPT.md
+
+- **Inline `<a>`-as-button styles in `portfolio-banner.tsx` and the themed pages were NOT replaced in Phase 3.** Those live on themed surfaces (`/portfolio/[slug]`) and are addressed in Phase 4 per the brief's phasing. Phase 3 scope was the three non-themed pages plus the one-shot script. **Override flag**: low — phase ordering matches §12 of the brief.
+- **The contact form was NOT migrated to React Hook Form.** The brief §7.6 says "The form keeps its existing RHF + Zod logic." But the original `contact-form.tsx` (audit confirmed) is plain `useState`, not RHF — the audit phrasing was loose. I rebuilt it as `useState` to match the original behavior and to keep the chrome `<TextField>` simple. The Zod validation still happens server-side in `/api/contact`. **Override flag**: low — the form works identically; if RHF is desired for client-side validation parity, it's a 30-minute swap.
+
+### Notes for the final report
+
+- Bundle size: `framer-motion` is now imported by `<FadeUp>` and `<DemoCard>` and `<RotatingPreview>`. Phase 6 will measure `/portfolio` first-load JS — the page's `motion` usage is minimal (one `motion.p` per page render + per-card hover lift) so impact should be small.
+- Aria/keyboard: filter chips use `aria-pressed`; industry select is a native `<select>`. Pricing comparison table is `<table>` with proper `<thead>` / `<tbody>` / `<th>` semantics.
+- The fixed `/#gallery` anchor on `/contact` requires the homepage's `<HomeThemeGallery>` section to have `id="gallery"` — verified, set in `theme-gallery.tsx:84`.
+
+

@@ -2,8 +2,9 @@
 
 import * as React from "react"
 import { useSearchParams } from "next/navigation"
-import { ArrowRight } from "lucide-react"
+import { Check } from "lucide-react"
 
+import { Button, Card, TextField } from "@/components/apex"
 import { allThemes } from "@/lib/themes"
 
 type Status = "idle" | "submitting" | "success" | "error"
@@ -15,12 +16,9 @@ export function ContactForm() {
   const referencedTheme = piece ? allThemes[piece] : undefined
 
   const initialMessage = React.useMemo(() => {
-    // Specific design referenced — buyer-intent message matching the
-    // standard "I want this look" purchase flow.
     if (referencedTheme) {
       return `I want to launch a site in the ${referencedTheme.name} style. My business is in [industry]. Anything I should know before I start checkout?`
     }
-    // "Suggest a design" path from the portfolio footer CTA.
     if (ref === "portfolio-suggestion") {
       return "I'm interested in a design that's not in your current 24 themes. My business is in [industry] and I'm looking for [describe style]."
     }
@@ -38,9 +36,6 @@ export function ContactForm() {
 
   const initialIndustry = referencedTheme?.industry ?? ""
 
-  // ContactForm is mounted inside a Suspense boundary in page.tsx, so
-  // useSearchParams resolves before first render and we can use the
-  // derived initial values directly as initial state.
   const [name, setName] = React.useState("")
   const [email, setEmail] = React.useState("")
   const [business, setBusiness] = React.useState("")
@@ -79,125 +74,103 @@ export function ContactForm() {
         return
       }
       setStatus("success")
-    } catch {
-      setErrors(["Network error. Try again."])
+    } catch (err) {
+      setErrors([
+        err instanceof Error ? err.message : "Network error. Please try again.",
+      ])
       setStatus("error")
     }
   }
 
   if (status === "success") {
     return (
-      <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-8 text-emerald-900">
-        <p className="text-xs font-bold uppercase tracking-[0.18em] text-emerald-700">
-          Message received
+      <Card className="flex flex-col items-start gap-4 p-8">
+        <div className="grid h-12 w-12 place-items-center rounded-full bg-apx-mint-soft text-apx-mint">
+          <Check className="h-6 w-6" strokeWidth={3} />
+        </div>
+        <h2 className="font-sans text-[24px] font-bold tracking-[-0.015em] text-apx-ink">
+          Thanks — message received.
+        </h2>
+        <p className="text-[16px] leading-[1.55] text-apx-mute">
+          A real person will reply to{" "}
+          <strong className="font-semibold text-apx-ink">{email}</strong> within 24 hours. Usually faster.
         </p>
-        <h2 className="mt-3 text-2xl font-bold">We&apos;ll be in touch within 24 hours.</h2>
-        <p className="mt-3 text-emerald-900/80">
-          Most replies come faster — we read every inbound, and a real person responds. If
-          you don&apos;t hear from us by tomorrow, email{" "}
-          <a href="mailto:hello@apexsites.com" className="font-semibold underline">
-            hello@apexsites.com
-          </a>{" "}
-          and we&apos;ll dig it out of spam.
-        </p>
-      </div>
+      </Card>
     )
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-5">
-      {referencedTheme && (
-        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-          <p>
-            <strong>Reference:</strong> custom build inspired by{" "}
-            <strong>{referencedTheme.name}</strong> ({referencedTheme.industry}).
-          </p>
-        </div>
-      )}
-      <Field label="Your name">
-        <input
-          type="text"
+    <form
+      onSubmit={onSubmit}
+      noValidate
+      className="flex flex-col gap-5 rounded-2xl border border-apx-line bg-apx-elev p-6 md:p-8"
+    >
+      <div className="grid gap-5 sm:grid-cols-2">
+        <TextField
+          label="Your name"
           required
-          maxLength={120}
+          autoComplete="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          autoComplete="name"
-          className="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2.5 text-base text-neutral-900 outline-none transition focus:border-neutral-900"
+          error={errors[0]?.toLowerCase().includes("name") ? errors[0] : undefined}
         />
-      </Field>
-      <Field label="Email">
-        <input
+        <TextField
+          label="Email"
           type="email"
           required
-          maxLength={200}
+          autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          autoComplete="email"
-          className="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2.5 text-base text-neutral-900 outline-none transition focus:border-neutral-900"
+          error={errors[0]?.toLowerCase().includes("email") ? errors[0] : undefined}
         />
-      </Field>
-      <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Business name">
-          <input
-            type="text"
-            required
-            maxLength={200}
-            value={business}
-            onChange={(e) => setBusiness(e.target.value)}
-            autoComplete="organization"
-            className="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2.5 text-base text-neutral-900 outline-none transition focus:border-neutral-900"
-          />
-        </Field>
-        <Field label="Industry / trade">
-          <input
-            type="text"
-            maxLength={120}
-            value={industry}
-            onChange={(e) => setIndustry(e.target.value)}
-            placeholder="Plumbing, HVAC, dog walking…"
-            className="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2.5 text-base text-neutral-900 outline-none transition focus:border-neutral-900"
-          />
-        </Field>
       </div>
-      <Field label="Message">
-        <textarea
-          required
-          minLength={10}
-          maxLength={5000}
-          rows={6}
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          className="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2.5 text-base text-neutral-900 outline-none transition focus:border-neutral-900"
-        />
-      </Field>
-      {errors.length > 0 && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-900">
-          <ul className="list-disc pl-5">
+      <TextField
+        label="Business name"
+        required
+        autoComplete="organization"
+        value={business}
+        onChange={(e) => setBusiness(e.target.value)}
+      />
+      <TextField
+        label="Industry (optional)"
+        value={industry}
+        onChange={(e) => setIndustry(e.target.value)}
+        placeholder="e.g. Plumbing, Roofing, Cleaning"
+      />
+      <TextField
+        label="Message"
+        required
+        multiline
+        rows={6}
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        hint="At least 10 characters."
+      />
+      {errors.length > 0 && status === "error" ? (
+        <div
+          role="alert"
+          className="rounded-lg border border-apx-danger bg-apx-coral-soft p-3 text-[14px] text-apx-danger"
+        >
+          <p className="font-semibold">Couldn&apos;t send the message:</p>
+          <ul className="mt-1 list-disc pl-5">
             {errors.map((err, i) => (
-              <li key={i}>{err}</li>
+              <li key={`err-${i}`}>{err}</li>
             ))}
           </ul>
         </div>
-      )}
-      <button
+      ) : null}
+      <Button
         type="submit"
-        disabled={status === "submitting"}
-        className="inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-neutral-900 px-5 py-3 text-base font-bold text-white transition hover:-translate-y-0.5 hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+        variant="primary"
+        size="lg"
+        loading={status === "submitting"}
+        className="self-start"
       >
-        {status === "submitting" ? "Sending…" : "Send message"}
-        {status !== "submitting" && <ArrowRight className="h-4 w-4" />}
-      </button>
+        {status === "submitting" ? "Sending…" : "Send message →"}
+      </Button>
+      <p className="text-[12px] text-apx-mute">
+        Real human reply within 24 hours. We never share your email.
+      </p>
     </form>
-  )
-}
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <label className="block">
-      <span className="mb-1.5 block text-xs font-bold uppercase tracking-[0.14em] text-neutral-500">
-        {label}
-      </span>
-      {children}
-    </label>
   )
 }
