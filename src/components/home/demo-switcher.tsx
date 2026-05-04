@@ -31,12 +31,14 @@ export function DemoSwitcher() {
   const activeSlug = demosMatch?.[1] ?? portfolioMatch?.[1] ?? null
   const activeTheme = activeSlug ? allThemes[activeSlug] : null
 
-  const onHome = pathname === "/"
+  // After the redesign, / is Apex's own brand — not a themed page — so the
+  // DemoSwitcher only appears on themed surfaces (/demos/[slug] and
+  // /portfolio/[slug]). The home gets its own RotatingPreview hero instead.
   const onDemoOrPortfolioDetail = !!activeTheme
   const moreCount = Object.keys(allThemes).length - featuredThemes.length
 
   if (isEmbedded) return null
-  if (!onHome && !onDemoOrPortfolioDetail) return null
+  if (!onDemoOrPortfolioDetail) return null
 
   return (
     <div

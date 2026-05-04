@@ -129,3 +129,50 @@ None material. The Q1 inclusion of HighlightStroke/HeroFrame/PriceTag in Phase 1
 - `pnpm install` printed: "Ignored build scripts: esbuild@0.27.7, msw@2.13.6, sharp@0.33.5". Added `sharp` to `onlyBuiltDependencies` in `pnpm-workspace.yaml` and ran `pnpm rebuild sharp` — the rebuild reported "Done" for both `sharp@0.33.5` and `sharp@0.34.5` (transitive dep). PNG export then ran cleanly.
 - One bug fixed during the build pass: the initial export script set `density` proportional to output width, which exceeded sharp's pixel-input limit when generating `logo.png` (1024×1024 from a 1024-viewBox source = density 1536, → 24576-pixel-wide intermediate). Fixed by clamping density to 300 — sufficient oversampling for crisp output at every target size, well under the limit. The script is now reproducible: `pnpm brand:export` regenerates all 7 PNGs.
 
+Commit: `88ebaf7 feat(redesign): phase 1 — foundation tokens, brand assets, chrome primitives`.
+
+---
+
+## Phase 2 — Apex marketing home
+
+**Status**: shipped.
+
+### Files
+
+**Created (10)**:
+
+- `src/components/apex/motion/fade-up.tsx` — fade-up-on-scroll-into-view motion primitive (master brief §8 motion budget pattern 1). Respects `useReducedMotion`.
+- `src/components/apex/demo-card.tsx` — `<DemoCard>` + `<DemoCardSkeleton>`. Apex chrome frame (1px line, 12px radius, browser-chrome top bar with traffic-light dots + mono URL). IntersectionObserver lazy-mount with 200px rootMargin. Skeleton shimmer until iframe `load` event. `pointer-events: none` on iframe. Hover lift -2px via Framer Motion. "Live preview" pill with mint dot.
+- `src/components/apex/home/hero.tsx` — server. Eyebrow + H1 with HighlightStroke on "book" + lede + 2 CTAs + RotatingPreview wrapped in HeroFrame.
+- `src/components/apex/home/rotating-preview.tsx` — client. 3 featured themes (heritage-painters, ironside-plumbing, voltcraft-electric) crossfade every 5s. All 3 iframes mount eagerly; opacity-only transition. Hover/focus pauses the auto-advance. Tab dots below let users jump. Reduced-motion: instant swap.
+- `src/components/apex/home/stat-strip.tsx` — truthful 4-stat block on canvas band per master brief §5.6.
+- `src/components/apex/home/how-it-works.tsx` — 4 numbered steps in asymmetric 7+5 grid; mono oversized step numbers in cobalt.
+- `src/components/apex/home/theme-gallery.tsx` — client (filter state). 5 chips (All / Home services / Trades / Hospitality / Creative). Visible cap 12. First 3 cards eager; rest lazy.
+- `src/components/apex/home/pricing-teaser.tsx` — 2 cards on tint band. PriceTag for values. Subscription card has cobalt outline + "Recommended" pill. Mint checkmarks.
+- `src/components/apex/home/faq.tsx` — 6 questions (culled from 8). Asymmetric 1+2 grid.
+- `src/components/apex/home/final-cta.tsx` — primary-soft band, oversized H2 with HighlightStroke on "book", primary + secondary CTAs. **No dark band.**
+
+**Modified (2)**:
+
+- `src/app/page.tsx` — rewritten. Apex SiteHeader/SiteFooter chrome around the new 7-section composition. Heritage Painters default rendering is gone from `/`; lives at `/demos/heritage-painters`.
+- `src/components/home/demo-switcher.tsx` — show condition narrowed to themed pages only (no longer on `/`). Phase 4 redesigns the visual.
+
+### Quality gate
+
+| Gate | Result |
+|---|---|
+| `pnpm typecheck` | **pass** (clean). |
+| `pnpm lint` | **pass**. First attempt failed with 1 hard error: `react-hooks/set-state-in-effect` on `setShouldMount(true)` in `demo-card.tsx:59` (very-old-browser fallback inside the IntersectionObserver effect). Fixed by detecting IntersectionObserver-availability in the `useState` initializer. |
+| `pnpm build` | **pass**. 62 routes. Pre-existing `/api/og/[slug]` edge-runtime warning unchanged. |
+| Manual smoke | Deferred — Phase 6 Lighthouse + production browser run. Build success confirms `/` compiles + serializes. |
+
+### Deviations from APEX-REDESIGN-PROMPT.md
+
+- **DemoSwitcher show-condition was tightened to themed pages only.** The brief says (§6.1) the DemoSwitcher gets visually rebuilt in Phase 4. It does not explicitly say "remove from `/`." I tightened the condition because `/` is no longer a themed surface — the switcher there would sit above the new `<SiteHeader>` and be functionally meaningless. Phase 4 may revisit. **Override flag**: low.
+
+### Notes for the final report
+
+- Lighthouse deferred to Phase 6 per loop protocol.
+- Bundle size: not measured; Phase 6 records `/` first-load JS against the §9 budget (140KB gzip).
+- The hero's `<RotatingPreview>` mounts 3 iframes eagerly above the fold + the gallery's first 3 eager-mount = 6 above-fold iframes on `/`. If Phase 6 Lighthouse comes back below 90 mobile on `/`, the first defensive cut is to mount only the first rotating-preview iframe eagerly and lazy-load the other two.
+
