@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" aria-hidden="true">
+  <title>Apex Sites — default OG image</title>
+  <!--
+    1200x630 OG fallback. Apex chrome aesthetic — paper background, ink wordmark + mark in upper-left,
+    oversized "Websites that book more jobs." headline with sunshine underline beneath "book",
+    coral mono caption below, cobalt rule along the bottom edge.
+  -->
+  <rect width="1200" height="630" fill="#FFFFFF" />
+
+  <!-- top-left mark + wordmark, ~80px tall mark area -->
+  <g transform="translate(72,72) scale(3.333333)">
+    <path d="M 12 2 L 22 22 L 18.4 22 L 12 9.2 L 5.6 22 L 2 22 Z" fill="#111418" />
+    <path d="M 8.45 14 L 12 5.6 L 15.55 14 Z" fill="#2438FF" />
+    <path d="M 9.7 11 L 14.3 11 L 14.85 12.2 L 9.15 12.2 Z" fill="#111418" />
+    <path d="M 7.45 15.5 L 16.55 15.5 L 17.4 17.2 L 6.6 17.2 Z" fill="#111418" />
+  </g>
+  <text x="170" y="120" fill="#111418" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="32" font-weight="700" letter-spacing="-0.02em">Apex Sites</text>
+
+  <!-- Headline. Two lines. -->
+  <text x="72" y="320" fill="#111418" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="92" font-weight="800" letter-spacing="-0.025em">Websites that</text>
+  <text x="72" y="430" fill="#111418" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="92" font-weight="800" letter-spacing="-0.025em">
+    <tspan>book </tspan><tspan>more jobs.</tspan>
+  </text>
+
+  <!-- Sunshine underline beneath "book" — hand-drawn-feel slightly wobbly path. -->
+  <path d="M 72 446 C 130 438, 200 444, 234 442 L 234 458 C 200 460, 130 454, 72 462 Z" fill="#FFE34D" />
+
+  <!-- Coral mono caption -->
+  <text x="72" y="510" fill="#FF5B47" font-family="JetBrains Mono, ui-monospace, monospace" font-size="22" font-weight="600" letter-spacing="0.04em">$499 SETUP + $199/MO  ·  OR $2,997 ONCE  ·  LIVE IN 24H</text>
+
+  <!-- Cobalt bottom rule -->
+  <rect x="0" y="618" width="1200" height="12" fill="#2438FF" />
+</svg>
