@@ -2,21 +2,22 @@
 
 Final handoff document. Read with `REDESIGN-LOG.md` (the audit trail) and `LAUNCH-CHECKLIST.md` (the runbook for actually going live).
 
-Branch: `redesign` (cut from `master @ 3ad2571`). 8 commits ahead.
+Branch: `redesign` (cut from `master @ 3ad2571`). 11+ commits ahead.
 
 ---
 
 ## §5.1 — TL;DR
 
-- **Status**: complete. All 7 phases shipped; every quality gate passed locally; 5/5 Playwright smoke tests green.
-- **Phases attempted**: 1–7. **Phases completed**: 1–7.
+- **Status**: complete. All 7 phases plus pre-merge follow-ups (Phase 6.5 bundle measurement, Phase 6.6 themed-page motion) shipped; every quality gate passed locally; 5/5 Playwright smoke tests green.
+- **Phases attempted**: 1–7 + 6.5 + 6.6. **Phases completed**: all.
 - **Critical issues outstanding**: 0.
-- **Human-action items before launch**: 11 (mostly content + credentials + Lighthouse measurement). Listed in §5.4.
+- **Bundle budget compliance**: **verified**. `/` first-load JS = **127.6 KB gzip** (12.4 KB under the master brief §9 budget of 140 KB). Every other route is also under its respective budget — full table in §5.5.
+- **Human-action items before launch**: 11 (content + credentials + Lighthouse measurement). Listed in §5.4.
 - **Recommended next step**: Push `redesign` branch, open PR, watch CI run, then walk `LAUNCH-CHECKLIST.md` end-to-end against a Vercel preview deploy.
 
-The redesign delivers Apex's brand (cobalt + sunshine + cream + coral + mint, daylight-bright, `--apx-*` token namespace), 19 chrome primitives, a new `/` page, rebuilt `/pricing /portfolio /contact`, themed-surface chrome wrap, 4 new static pages (`/about`, `/privacy`, `/terms`, `/refund-policy`), Playwright smoke, GitHub Actions CI, Plausible analytics, JSON-LD XSS hardening, the audit's nested-`<html>` and tel-link bugs fixed, every dead shadcn primitive deleted, every `href="#"` placeholder removed, every fake metric replaced with truthful deliverables.
+The redesign delivers Apex's brand (cobalt + sunshine + cream + coral + mint, daylight-bright, `--apx-*` token namespace), 19 chrome primitives, a new `/` page, rebuilt `/pricing /portfolio /contact`, themed-surface chrome wrap, 4 new static pages (`/about`, `/privacy`, `/terms`, `/refund-policy`), Playwright smoke, GitHub Actions CI, Plausible analytics, JSON-LD XSS hardening, the audit's nested-`<html>` and tel-link bugs fixed, every dead shadcn primitive deleted, every `href="#"` placeholder removed, every fake metric replaced with truthful deliverables. Pre-merge follow-ups added bundle measurement (`@next/bundle-analyzer` + reproducible script) and `<FadeUp>` motion on every themed-surface section that the master brief asked for.
 
-What's *not* done in this loop: a real Vercel preview deploy + Lighthouse measurement + bundle-analyzer + real legal copy. All §5.4 items.
+What's *not* done in this loop: a real Vercel preview deploy + Lighthouse measurement + real legal copy. All §5.4 items.
 
 ---
 
@@ -129,20 +130,41 @@ What's *not* done in this loop: a real Vercel preview deploy + Lighthouse measur
 3. Targets per master brief §9: ≥90 mobile on every page except `/portfolio` which gets ≥85 mobile / ≥90 desktop.
 4. Median of the 3 runs is the canonical value.
 
-**First-load JS**: not precisely measured (no `@next/bundle-analyzer`). Approximate measurement from `.next/static/chunks/`:
+**First-load JS**: **measured**. Phase 6.5 added `@next/bundle-analyzer` (devDep) and `scripts/measure-first-load.mjs`. Reproducible workflow:
 
-- Total raw JS shipped across all chunks: ~1.4 MB across 18 files.
-- Largest single chunk: 300 KB raw (likely framework + framer-motion + react-dom).
-- Rough gzip extrapolation: total ~350 KB raw → gzip across all routes; the `/` route loads only a subset (specific number unknown without an analyzer).
-- **Master brief §9 budget: <140 KB gzip first-load on `/`.** Compliance status: unverified.
+```
+ANALYZE=true pnpm exec next build --webpack    # generates .next/analyze/{client,edge,nodejs}.html
+node scripts/measure-first-load.mjs            # prints the table below
+```
+
+Note: `@next/bundle-analyzer` is incompatible with Turbopack in Next 16 — the analyzer no-ops with a warning unless `--webpack` is passed. The default `pnpm build` remains Turbopack and is unaffected by the analyzer wrap (silent no-op when `ANALYZE` is unset).
+
+**Root main files (shared on every page)**: 415.2 KB raw / **122.5 KB gzip** total across 4 chunks. The dominant shared chunk is `20-…js` at 59.3 KB gzip — likely the framer-motion + lucide-react + Radix-base composite that Next hoists from the root layout's client islands.
+
+**Per-route first-load (gzipped, root mains + the route's page chunk)**:
+
+| Route | Raw KB | Gzip KB | Budget | Status |
+|---|---:|---:|---:|:---:|
+| `/` | 430.0 | **127.6** | < 140 | ✅ pass (12.4 KB headroom) |
+| `/portfolio` | 422.6 | **125.1** | < 180 | ✅ pass (54.9 KB headroom) |
+| `/pricing` | 419.7 | **124.3** | < 140 | ✅ pass |
+| `/contact` | 419.3 | **124.4** | < 140 | ✅ pass |
+| `/about` | 419.7 | **124.3** | < 140 | ✅ pass |
+| `/demos/[slug]` | 419.5 | **124.1** | < 200 | ✅ pass |
+| `/portfolio/[slug]` | 419.5 | **124.1** | < 200 | ✅ pass |
+| `/checkout` | 426.1 | **126.3** | (chrome page, no explicit budget) | ✅ |
+| `/onboarding` | 425.7 | **125.8** | (chrome page, no explicit budget) | ✅ |
+| `/privacy`, `/terms`, `/refund-policy` | 419.3 | **124.1** | < 140 | ✅ pass |
+
+**No optimization needed.** Per the master brief's "If `/` is at or under 140 KB gzip → record numbers, skip to step 7" instruction, the four candidate fixes (dynamic import of `<RotatingPreview>`, dynamic import of `<HomeThemeGallery>`, lucide tree-shake check, leaked `"use client"` audit) were not applied. If a future regression pushes `/` over budget, the first lever to pull is dynamic-importing `<RotatingPreview>` since framer-motion currently sits in the shared chunk.
 
 **Iframe-mount counts**:
 
 - `/portfolio` first paint loads 6 iframes (verifiable via DevTools Network → filter `Doc`). Remaining 18 lazy-mount via IntersectionObserver as cards scroll into 200px-extended viewport.
 - `/` hero loads 3 iframes eagerly (the rotating preview's `heritage-painters`, `ironside-plumbing`, `voltcraft-electric`); the gallery's first 3 cards also eager-mount.
-- Each `public/portfolio-demos/*.html` file now has both `fonts.googleapis.com` AND `fonts.gstatic.com crossorigin` preconnects (`pnpm node scripts/optimize-portfolio-demos.mjs` is idempotent and re-runnable).
+- Each `public/portfolio-demos/*.html` file has both `fonts.googleapis.com` AND `fonts.gstatic.com crossorigin` preconnects (`node scripts/optimize-portfolio-demos.mjs` is idempotent and re-runnable).
 
-**Pages that may miss the §9 mobile budget**: `/portfolio` is the highest-risk surface because of the iframe gallery. If the first Lighthouse measurement comes back below 85 mobile, the master brief §6.5 escalation applies (cap above-fold to 4 cards instead of 6) — don't silently relax the budget. The fallback is documented in `LAUNCH-CHECKLIST.md` step 9 and the master brief §6.5.
+**Pages that may miss the §9 mobile Lighthouse budget**: `/portfolio` is the highest-risk surface because of the iframe gallery. If the first Lighthouse measurement comes back below 85 mobile, the master brief §6.5 escalation applies (cap above-fold to 4 cards instead of 6) — don't silently relax the budget. The fallback is documented in `LAUNCH-CHECKLIST.md` step 9 and the master brief §6.5.
 
 ---
 
@@ -189,17 +211,15 @@ Verified. `git ls-files | xargs grep -l 'sk_live\|sk_test_[a-zA-Z0-9]\{20,\}\|wh
 
 ## §5.8 — Future work surfaced (out-of-scope but identified)
 
-1. **`@next/bundle-analyzer`** for precise per-route gzipped first-load JS measurement. Effort: 30 minutes (install + tiny `next.config.ts` wrap + run + report).
-2. **`invoice.payment_failed` webhook handler** (per `docs/post-launch-todo.md`). Effort: 2 hours (handler + test + Resend template). Required before scaling past ~50 active subscriptions.
-3. **`charge.refunded` webhook handler** (per `docs/post-launch-todo.md`). Effort: 1 hour. Required when refund volume exceeds ~5/month.
-4. **Stripe Customer Portal link on `/onboarding`** for subscription customers (self-service payment-method update). Effort: 30 minutes (`stripe.billingPortal.sessions.create` + render link).
-5. **`/api/contact` rate limit.** Currently anyone can spam the form. Effort: 1 hour with Vercel KV or Upstash (~20 submissions per IP per hour).
-6. **Higher-fidelity `og-default.png`.** The current sharp+librsvg render falls back to system fonts. A Puppeteer-based render hitting the same SVG with real Inter/JetBrains Mono loaded would produce pixel-perfect output. Effort: 15 minutes.
-7. **Themed-page motion expansion.** Phase 4 didn't add `<FadeUp>` wraps to the themed Hero / HowItWorks / Pricing / Showcase / FAQ / FinalCTA sections. Effort: 30 minutes mechanical wraps.
-8. **`<HeroFrame>` around `/portfolio/[slug]`'s themed body.** Brief §7.4 wanted the demo visually anchored as "an Apex design". Currently the chrome PortfolioBanner above + chrome SiteFooter below carry that signal. Adding a full-page outline is doable but visually heavy. Effort: 30 minutes + visual review.
-9. **`prose-apx` Tailwind v4 component class** for the legal pages (currently uses arbitrary `[&_h2]:` selectors inline). Effort: 15 minutes — add `@layer components { .prose-apx { … } }` block to `globals.css` and consume by class name in `<LegalPage>`.
-10. **A11y skip-link visibility on themed pages.** The chrome `<SiteHeader>`'s skip link uses `focus:bg-apx-primary` which is cobalt — visible on the paper-bg chrome page, but on a themed surface where the SiteHeader uses `--apex-bg` (theme background), the skip link's cobalt may clash with some theme palettes. Effort: 30 minutes to add a per-variant skip-link style.
-11. **CI workflow tested on a real PR.** The workflow exists (`.github/workflows/ci.yml`) but has never run. First post-merge PR will exercise it; if anything fails the artifact upload helps triage. Effort: zero (just push and watch).
+Items #1 (`@next/bundle-analyzer`) and #7 (themed-page motion) shipped in the pre-merge follow-ups (Phase 6.5 and 6.6 respectively). The remaining items, renumbered:
+
+1. **`invoice.payment_failed` webhook handler** (per `docs/post-launch-todo.md`). Effort: 2 hours (handler + test + Resend template). Required before scaling past ~50 active subscriptions.
+2. **`charge.refunded` webhook handler** (per `docs/post-launch-todo.md`). Effort: 1 hour. Required when refund volume exceeds ~5/month.
+3. **Stripe Customer Portal link on `/onboarding`** for subscription customers (self-service payment-method update). Effort: 30 minutes (`stripe.billingPortal.sessions.create` + render link).
+4. **`/api/contact` rate limit.** Currently anyone can spam the form. Effort: 1 hour with Vercel KV or Upstash (~20 submissions per IP per hour).
+5. **Higher-fidelity `og-default.png`.** The current sharp+librsvg render falls back to system fonts. A Puppeteer-based render hitting the same SVG with real Inter/JetBrains Mono loaded would produce pixel-perfect output. Effort: 15 minutes.
+6. **`<HeroFrame>` around `/portfolio/[slug]`'s themed body.** Brief §7.4 wanted the demo visually anchored as "an Apex design". Currently the chrome PortfolioBanner above + chrome SiteFooter below carry that signal. Adding a full-page outline is doable but visually heavy. Effort: 30 minutes + visual review.
+7. **CI workflow tested on a real PR.** The workflow exists (`.github/workflows/ci.yml`) but has never run. First post-merge PR will exercise it; if anything fails the artifact upload helps triage. Effort: zero (just push and watch).
 
 ---
 
