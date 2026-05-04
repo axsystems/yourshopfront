@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<!--
+  Apex Sites — brand mark inspection page.
+
+  This file is a development/review aid. It serves at /brand/inspect.html
+  during dev (and on a Vercel preview deploy), letting a human check the
+  A-mark and wordmark at every relevant size on every relevant background.
+
+  ⚠ DELETE THIS FILE BEFORE LAUNCH:
+       rm public/brand/inspect.html
+       git add public/brand/inspect.html
+       git commit -m "chore: remove brand inspection page"
+
+  No build pipeline references this file; it's a static asset only.
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apex Sites — Brand mark inspection</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --apx-paper: #ffffff;
+        --apx-canvas: #fffbf2;
+        --apx-tint: #f4f7fb;
+        --apx-primary: #2438ff;
+        --apx-ink: #111418;
+        --apx-mute: #5c6470;
+        --apx-line: #e8ecf1;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: "Inter", system-ui, sans-serif;
+        font-weight: 400;
+        color: var(--apx-ink);
+        background: var(--apx-tint);
+        line-height: 1.55;
+        padding: 32px 16px 80px;
+      }
+      .wrap { max-width: 1100px; margin: 0 auto; }
+      h1 {
+        font-weight: 700;
+        font-size: 28px;
+        letter-spacing: -0.02em;
+        margin-bottom: 8px;
+      }
+      h2 {
+        font-weight: 600;
+        font-size: 18px;
+        letter-spacing: -0.01em;
+        margin: 36px 0 14px;
+      }
+      p { font-size: 14px; max-width: 70ch; color: var(--apx-mute); margin-bottom: 12px; }
+      p strong { color: var(--apx-ink); font-weight: 600; }
+      .mono { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12px; }
+      code {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 12px;
+        background: var(--apx-paper);
+        padding: 2px 6px;
+        border-radius: 3px;
+        border: 1px solid var(--apx-line);
+      }
+      .delete-call {
+        background: #fff1ee;
+        border: 1px solid #ff5b47;
+        color: #b1311e;
+        padding: 12px 14px;
+        border-radius: 8px;
+        font-size: 13px;
+        margin-top: 14px;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 80px repeat(7, 1fr);
+        align-items: center;
+        gap: 8px;
+        background: var(--apx-paper);
+        border: 1px solid var(--apx-line);
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin-bottom: 8px;
+      }
+      .row.bg-canvas { background: var(--apx-canvas); }
+      .row.bg-tint { background: var(--apx-tint); }
+      .row.bg-cobalt { background: var(--apx-primary); color: #fff; }
+      .row.bg-cobalt .mono { color: rgba(255,255,255,0.85); }
+      .row.bg-black { background: #000; color: #fff; }
+      .row.bg-black .mono { color: rgba(255,255,255,0.85); }
+      .row > .label {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        opacity: 0.75;
+      }
+      .cell { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+      .cell img { display: block; flex-shrink: 0; }
+      .cell .size {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 10px;
+        opacity: 0.55;
+      }
+      .wordmark-row {
+        background: var(--apx-paper);
+        border: 1px solid var(--apx-line);
+        border-radius: 12px;
+        padding: 18px 20px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 32px;
+      }
+      .wordmark-row.bg-canvas { background: var(--apx-canvas); }
+      .wordmark-row.bg-cobalt { background: var(--apx-primary); }
+      .wordmark-row .label {
+        flex-shrink: 0;
+        width: 80px;
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        opacity: 0.75;
+      }
+      .wordmark-row.bg-cobalt .label { color: rgba(255,255,255,0.85); }
+      hr {
+        border: 0;
+        border-top: 1px solid var(--apx-line);
+        margin: 28px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Apex Sites — brand mark inspection</h1>
+      <p>
+        <strong>What to look for, in order:</strong>
+        readability of the mark at <strong>16 px favicon size</strong>;
+        <strong>cobalt counter visibility at 24 px+</strong>;
+        <strong>balance of the stacked-rooflines crossbar</strong> (the two horizontal shingles inside the A — they should read as separate strokes, not muddy together);
+        <strong>kerning of the wordmark</strong> at the header / footer / hero sizes (no awkward gaps after the &ldquo;A&rdquo;);
+        <strong>contrast on every background</strong>, especially the dark cobalt and pure black rows.
+      </p>
+      <p>
+        Variants tested:
+        <code>apex-mark.svg</code> (full color, ink + cobalt counter),
+        <code>apex-mark-mono.svg</code> (single-color ink, fallback for tight contexts),
+        <code>apex-wordmark.svg</code> (mark + &ldquo;Apex Sites&rdquo; text),
+        <code>apex-logo-square.svg</code> (1024×1024 logo with paper background — used for <code>logo.png</code>).
+      </p>
+      <p class="delete-call">
+        <strong>If anything reads wrong</strong>, tell Claude — quick swap to one of the alternate variants (notched A, rule-A) and a re-export takes ~5 min.
+        <strong>Otherwise delete this file before merge:</strong>
+        <code>rm public/brand/inspect.html</code> &middot; this page is dev-tooling only.
+      </p>
+
+      <hr />
+
+      <h2>1. Mark at every size, on every background</h2>
+      <p><span class="mono">apex-mark.svg</span> — the canonical 2-color mark, ink + cobalt counter.</p>
+
+      <div class="row">
+        <span class="label">Paper<br />#FFFFFF</span>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="16" height="16" alt="" /><span class="size">16</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="24" height="24" alt="" /><span class="size">24</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="32" height="32" alt="" /><span class="size">32</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="48" height="48" alt="" /><span class="size">48</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="96" height="96" alt="" /><span class="size">96</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="256" height="256" alt="" /><span class="size">256</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="512" height="512" alt="" /><span class="size">512</span></div>
+      </div>
+
+      <div class="row bg-canvas">
+        <span class="label">Canvas<br />#FFFBF2</span>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="16" height="16" alt="" /><span class="size">16</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="24" height="24" alt="" /><span class="size">24</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="32" height="32" alt="" /><span class="size">32</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="48" height="48" alt="" /><span class="size">48</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="96" height="96" alt="" /><span class="size">96</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="256" height="256" alt="" /><span class="size">256</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="512" height="512" alt="" /><span class="size">512</span></div>
+      </div>
+
+      <div class="row bg-tint">
+        <span class="label">Tint<br />#F4F7FB</span>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="16" height="16" alt="" /><span class="size">16</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="24" height="24" alt="" /><span class="size">24</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="32" height="32" alt="" /><span class="size">32</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="48" height="48" alt="" /><span class="size">48</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="96" height="96" alt="" /><span class="size">96</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="256" height="256" alt="" /><span class="size">256</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="512" height="512" alt="" /><span class="size">512</span></div>
+      </div>
+
+      <div class="row bg-cobalt">
+        <span class="label">Cobalt<br />#2438FF</span>
+        <div class="cell"><img src="/brand/apex-mark-mono.svg" width="16" height="16" alt="" /><span class="size">16</span></div>
+        <div class="cell"><img src="/brand/apex-mark-mono.svg" width="24" height="24" alt="" /><span class="size">24</span></div>
+        <div class="cell"><img src="/brand/apex-mark-mono.svg" width="32" height="32" alt="" /><span class="size">32</span></div>
+        <div class="cell"><img src="/brand/apex-mark-mono.svg" width="48" height="48" alt="" /><span class="size">48</span></div>
+        <div class="cell"><img src="/brand/apex-mark-mono.svg" width="96" height="96" alt="" /><span class="size">96</span></div>
+        <div class="cell"><img src="/brand/apex-mark-mono.svg" width="256" height="256" alt="" /><span class="size">256</span></div>
+        <div class="cell"><img src="/brand/apex-mark-mono.svg" width="512" height="512" alt="" /><span class="size">512</span></div>
+      </div>
+      <p style="font-size: 12px; opacity: 0.65; margin-top: -4px; margin-bottom: 14px;">
+        ↑ Cobalt row uses <code>apex-mark-mono.svg</code> — the 2-color mark would lose its cobalt counter against a cobalt background.
+      </p>
+
+      <div class="row bg-black">
+        <span class="label">Black<br />#000000</span>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="16" height="16" alt="" /><span class="size">16</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="24" height="24" alt="" /><span class="size">24</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="32" height="32" alt="" /><span class="size">32</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="48" height="48" alt="" /><span class="size">48</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="96" height="96" alt="" /><span class="size">96</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="256" height="256" alt="" /><span class="size">256</span></div>
+        <div class="cell"><img src="/brand/apex-mark.svg" width="512" height="512" alt="" /><span class="size">512</span></div>
+      </div>
+      <p style="font-size: 12px; opacity: 0.65; margin-top: -4px;">
+        ↑ Worst-case dark background. The ink fill of the mark goes invisible here — this is the variant the brand currently <em>doesn't have</em>: a paper-on-dark mark. Acceptable for v1 since the chrome never goes dark, but flagged.
+      </p>
+
+      <hr />
+
+      <h2>2. Wordmark — mark + &ldquo;Apex Sites&rdquo; text</h2>
+      <p>
+        <span class="mono">apex-wordmark.svg</span> at the three sizes the mark + wordmark combo actually renders at: footer (~140 px wide), header (~180 px), hero / OG (~600 px).
+      </p>
+
+      <div class="wordmark-row">
+        <span class="label">Footer<br />~140px</span>
+        <img src="/brand/apex-wordmark.svg" width="140" height="22" alt="" />
+      </div>
+      <div class="wordmark-row bg-canvas">
+        <span class="label">Header<br />~180px</span>
+        <img src="/brand/apex-wordmark.svg" width="180" height="29" alt="" />
+      </div>
+      <div class="wordmark-row">
+        <span class="label">Hero / OG<br />~600px</span>
+        <img src="/brand/apex-wordmark.svg" width="600" height="96" alt="" />
+      </div>
+
+      <hr />
+
+      <h2>3. Mono mark — fallback variant</h2>
+      <p>
+        <span class="mono">apex-mark-mono.svg</span> — single-color ink. Used in tight contexts where the 2-color version would muddy or lose its cobalt detail (e.g. on cobalt or black backgrounds, in print at small size).
+      </p>
+
+      <div class="row">
+        <span class="label">Paper<br />#FFFFFF</span>
+        <div class="cell"><img src="/brand/apex-mark-mono.svg" width="16" height="16" alt="" /><span class="size">16</span></div>
+        <div class="cell"><img src="/brand/apex-mark-mono.svg" width="24" height="24" alt="" /><span class="size">24</span></div>
+        <div class="cell"><img src="/brand/apex-mark-mono.svg" width="32" height="32" alt="" /><span class="size">32</span></div>
+        <div class="cell"><img src="/brand/apex-mark-mono.svg" width="48" height="48" alt="" /><span class="size">48</span></div>
+        <div class="cell"><img src="/brand/apex-mark-mono.svg" width="96" height="96" alt="" /><span class="size">96</span></div>
+        <div class="cell"><img src="/brand/apex-mark-mono.svg" width="256" height="256" alt="" /><span class="size">256</span></div>
+        <div class="cell"><img src="/brand/apex-mark-mono.svg" width="512" height="512" alt="" /><span class="size">512</span></div>
+      </div>
+
+      <hr />
+
+      <h2>4. Logo square (the source for logo.png)</h2>
+      <p>
+        <span class="mono">apex-logo-square.svg</span> — 1024×1024 with paper background, mark centered at 60% size.
+        This is the source of <code>/logo.png</code> (referenced in JSON-LD), <code>/favicon-{16,32}.png</code>, <code>/apple-touch-icon.png</code>, and <code>/icon-{192,512}.png</code> in the manifest.
+      </p>
+
+      <div style="background: var(--apx-paper); border: 1px solid var(--apx-line); border-radius: 12px; padding: 24px; display: flex; gap: 32px; align-items: center; justify-content: center; flex-wrap: wrap;">
+        <div style="text-align: center;">
+          <img src="/brand/apex-logo-square.svg" width="64" height="64" alt="" />
+          <div class="mono" style="margin-top: 6px; opacity: 0.6;">64×64</div>
+        </div>
+        <div style="text-align: center;">
+          <img src="/brand/apex-logo-square.svg" width="180" height="180" alt="" />
+          <div class="mono" style="margin-top: 6px; opacity: 0.6;">180×180 (apple-touch)</div>
+        </div>
+        <div style="text-align: center;">
+          <img src="/brand/apex-logo-square.svg" width="256" height="256" alt="" />
+          <div class="mono" style="margin-top: 6px; opacity: 0.6;">256×256</div>
+        </div>
+      </div>
+
+      <hr />
+
+      <p style="font-size: 12px; opacity: 0.55; margin-top: 32px;">
+        Apex Sites · brand inspection · delete <code>public/brand/inspect.html</code> before launch.
+      </p>
+    </div>
+  </body>
+</html>
