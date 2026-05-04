@@ -220,4 +220,50 @@ Commit: `d0af500 feat(redesign): phase 2 — Apex home page with rotating previe
 - Aria/keyboard: filter chips use `aria-pressed`; industry select is a native `<select>`. Pricing comparison table is `<table>` with proper `<thead>` / `<tbody>` / `<th>` semantics.
 - The fixed `/#gallery` anchor on `/contact` requires the homepage's `<HomeThemeGallery>` section to have `id="gallery"` — verified, set in `theme-gallery.tsx:84`.
 
+Commit: `eef5caa feat(redesign): phase 3 — pricing, portfolio, contact rebuilt in chrome`.
+
+---
+
+## Phase 4 — Themed-surface refinement
+
+**Status**: shipped.
+
+### Files
+
+**Created (1)**:
+
+- `src/app/onboarding/processing.tsx` — client component for the "processing your purchase" state. Uses `setTimeout` + `window.location.reload()` to poll, replacing the audit-flagged `<html><meta http-equiv="refresh">` nested-html bug.
+
+**Modified (8)**:
+
+- `src/components/home/themed-home.tsx` — composition now includes `<SiteHeader variant="themed">` at top and `<SiteFooter variant="themed">` at bottom. The pre-existing themed `<Footer>` import was removed. The internal Hero / TrustStrip / HowItWorks / Pricing / Showcase / FAQ / FinalCTA chain is preserved.
+- `src/components/home/trust-strip.tsx` — full content rewrite. The fake `★★★★★ 4.9 / 47 Google reviews` and `100+ sites launched` cells are replaced with the truthful 4-stat block (master brief §5.6). Theme color presentation logic (`vibePresentation`) preserved so each theme still varies. Caption added below each value.
+- `src/components/home/hero.tsx` — replaced the `<a href="tel:+15551234567">` deceptive tel-link in the `phone-first` hero variant with `<button type="button" cursor-default>` + a clear "Demo · tap-to-call" eyebrow + "On your Apex site this dials your real number" caption. Number changed from `(555) 123-XXXX` to `(555) 000-XXXX` to make the demo nature visually unambiguous.
+- `src/components/home/demo-switcher.tsx` — narrowed show-condition to `/demos/[slug]` only (previously also `/portfolio/[slug]`). On `/portfolio/[slug]` the rebuilt `<PortfolioBanner>` serves as the nav strip; stacking both sticky-top:0 ribbons would have collided. Visual rebuild: Apex chrome tokens (`bg-apx-paper/95`, `border-apx-line`, `text-apx-mute`), cobalt active ring, mono labels. ARIA was tablist-without-panels in the audit; now `role="navigation"` with `aria-label="Switch demo theme"`. Active chip uses `aria-current="page"`.
+- `src/components/portfolio/portfolio-banner.tsx` — full rebuild. Sticky chrome ribbon with prev/next arrows + "Design X of N · {theme.name}" position indicator + cobalt "I want this look →" CTA. Drops the hardcoded `#064E3B` emerald. Stable theme order matches `/portfolio` (featured first, then by round, then alpha). Mobile collapses the prev/next labels to a compact `1 / 24` indicator.
+- `src/app/onboarding/page.tsx` — full rewrite. Bare `<html><body>` fallback shells removed (audit-flagged invalid markup). All states now render inside the global root layout's html. `MissingSession`, `LookupFailed` use a chrome `<FallbackShell>` with `<SiteHeader variant="minimal">` + `<SiteFooter variant="minimal">`. Polling delegated to `<OnboardingProcessing>` (new client component). The "ready to build" celebration H1 now uses `<HighlightStroke>` on "everything" — the signature element. Subdomain copy updated from `*.apex-sites.com` to `*.apexsites.com` to match the brand domain.
+- `src/app/checkout/page.tsx` — inline header (audit-flagged) replaced by `<SiteHeader variant="minimal" backHref="/demos/{slug}" backLabel="Back to {theme.name}">`. Inline mark/wordmark dropped. Added a `<Lock>` icon + "Secure checkout via Stripe" caption beneath the form per master brief §7.7. **Stripe contract untouched**: form, schema, redirect, cancel-banner, all metadata preserved.
+
+### Quality gate
+
+| Gate | Result |
+|---|---|
+| `pnpm typecheck` | **pass** (clean, first attempt). |
+| `pnpm lint` | **pass** (clean, first attempt). |
+| `pnpm build` | **pass**. 62 routes, no new warnings. |
+| Stripe webhook contract | **untouched**. `metadata.site_id` propagation through `session.metadata` AND `subscription_data.metadata` preserved (no edits to `src/app/api/checkout/route.ts` or `src/app/api/stripe/webhook/route.ts` in this phase). API version pin `2024-11-20.acacia` unchanged. |
+| Per-theme font count | Not measured this phase; the chrome global font set (Inter + JetBrains Mono) is unchanged from Phase 1, and the per-theme subsetting in `<ThemeProvider>` is untouched. Phase 6 will verify with DevTools Network panel. |
+
+### Deviations from APEX-REDESIGN-PROMPT.md
+
+- **DemoSwitcher show-condition narrowed to `/demos/[slug]` only.** Brief §6.1 implies the switcher renders on both `/demos/[slug]` and `/portfolio/[slug]`. With the rebuilt PortfolioBanner now sticky-top:0 on portfolio detail pages, two sticky ribbons would have collided. The PortfolioBanner serves the same nav function (prev/next plus an "I want this look" CTA) on portfolio pages, so the switcher was removed there. **Override flag**: medium — a human may reasonably want the consistent presence of the switcher across both surfaces. If so, the fix is to make PortfolioBanner non-sticky and let DemoSwitcher take the sticky slot.
+- **Themed-page motion not yet wired**. Brief §12 Phase 4 adds "fade-up on scroll, hover lift on cards" to themed surfaces. I focused Phase 4 on the structural integration (chrome wrap, banner rebuild, fake-metric removal, nested-html fix, tel-link fix). Adding `<FadeUp>` wraps to the themed Hero / HowItWorks / Pricing / Showcase / FAQ / FinalCTA sections is mechanical and could land in a follow-up commit before Phase 5 — flagging here that it's deferred. **Override flag**: low — the chrome motion (already wired in Phase 2 for `/`) covers the highest-traffic surface; themed pages still inherit hover-lift via `<DemoCard>` where applicable.
+- **Full-size demo iframe in HeroFrame (brief §7.4) not implemented.** `/portfolio/[slug]` does not render the demo as an iframe — it server-renders `<ThemedHome isDemoPreview>` with theme tokens applied to actual React components. There is no iframe to wrap. The "HeroFrame the demo" intent of the brief reads as wanting the demo visually anchored as "an Apex design" — that signal is now carried by the chrome PortfolioBanner sitting above and the chrome SiteFooter below. **Override flag**: low — the brief's premise (the page renders an iframe) doesn't match the codebase reality; the alternative of refactoring portfolio detail pages to render an iframe of `?embed=1` would be a regression vs. the current SSG-of-real-components approach.
+
+### Notes for the final report
+
+- The `<ThemedHome>` now triple-stacks navigation on `/demos/[slug]`: chrome SiteHeader (non-sticky) → DemoSwitcher (sticky) → Hero. Three rows feels heavy but each has a distinct job (chrome nav / theme switching / page hero). The SiteHeader's `themed` variant uses theme tokens for color, so visually it blends with the page; the DemoSwitcher uses chrome tokens (paper bg, cobalt active) so it visually stands out from the themed body — this is intentional.
+- `themed-home.tsx`'s import of `./footer` is unreferenced now but the file `src/components/home/footer.tsx` still exists. **Phase 5 deletes it** as part of the footer-link cleanup.
+
+
 

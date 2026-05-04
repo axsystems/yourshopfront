@@ -5,11 +5,17 @@ interface TrustStripProps {
   theme: Theme
 }
 
+/**
+ * Themed truthful deliverable strip, used on /demos/[slug] and
+ * /portfolio/[slug] inside <ThemedHome>. Mirrors the chrome StatStrip on /
+ * (master brief §5.6) but renders in theme colors instead of Apex chrome
+ * tokens. NO fake metrics.
+ */
 const CELLS = [
-  { metric: "★★★★★", value: "4.9 / 47", label: "Google reviews" },
-  { metric: "100+", value: "sites launched", label: "Across 24 designs" },
-  { metric: "24h", value: "delivery", label: "From content receipt" },
-  { metric: "30 days", value: "money-back", label: "On the setup fee" },
+  { value: "24h", label: "Live within 24 hours", caption: "From content receipt" },
+  { value: "24", label: "Designs ready to ship", caption: "Across home services and adjacent trades" },
+  { value: "$0", label: "Setup commitment", caption: "Subscription tier — cancel any time" },
+  { value: "30 days", label: "Money-back guarantee", caption: "On the first month" },
 ] as const
 
 export function TrustStrip({ theme }: TrustStripProps) {
@@ -33,13 +39,13 @@ export function TrustStrip({ theme }: TrustStripProps) {
         borderColor: "var(--apex-border)",
       }}
     >
-      <Container className="grid grid-cols-2 gap-6 py-10 md:grid-cols-4">
+      <Container className="grid grid-cols-2 gap-6 py-12 md:grid-cols-4 md:py-16">
         {CELLS.map((cell) => (
           <Cell
             key={cell.label}
-            metric={cell.metric}
             value={cell.value}
             label={cell.label}
+            caption={cell.caption}
             presentation={presentation}
           />
         ))}
@@ -64,25 +70,20 @@ function vibePresentation(vibe: ThemeVibe): "stark" | "serif" | "pill" | "defaul
 }
 
 function Cell({
-  metric,
   value,
   label,
+  caption,
   presentation,
 }: {
-  metric: string
   value: string
   label: string
+  caption: string
   presentation: "stark" | "serif" | "pill" | "default"
 }) {
-  const isPill = presentation === "pill"
   const isStark = presentation === "stark"
   return (
     <div
-      className={
-        isPill
-          ? "rounded-2xl bg-[color-mix(in_oklab,var(--apex-bg)_70%,transparent)] p-4"
-          : "flex flex-col"
-      }
+      className="flex flex-col gap-1.5"
       style={
         isStark
           ? { borderLeft: "3px solid var(--apex-primary)", paddingLeft: 16 }
@@ -94,31 +95,30 @@ function Cell({
         style={{
           fontFamily: "var(--apex-font-display)",
           color: "var(--apex-primary)",
-          fontSize: presentation === "serif" ? 36 : 28,
+          fontSize: presentation === "serif" ? 48 : 40,
           fontWeight: presentation === "serif" ? 600 : 700,
           letterSpacing: "-0.02em",
         }}
       >
-        {metric}
-      </p>
-      <p
-        className="mt-2 text-base font-bold leading-tight"
-        style={{ fontFamily: "var(--apex-font-display)" }}
-      >
         {value}
       </p>
       <p
-        className="mt-1 text-xs"
+        className="text-base font-bold leading-tight"
+        style={{ fontFamily: "var(--apex-font-display)" }}
+      >
+        {label}
+      </p>
+      <p
+        className="text-xs"
         style={{
           color: isStark
             ? "color-mix(in oklab, var(--apex-bg) 70%, transparent)"
             : "var(--apex-muted-fg)",
           fontFamily: "var(--apex-font-mono)",
           letterSpacing: "0.06em",
-          textTransform: "uppercase",
         }}
       >
-        {label}
+        {caption}
       </p>
     </div>
   )

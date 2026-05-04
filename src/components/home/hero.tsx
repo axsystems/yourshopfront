@@ -189,9 +189,16 @@ function HeroPhoneFirst({ theme }: { theme: Theme }) {
       >
         ⚠ EMERGENCY DISPATCH — ANSWERED LIVE 24/7
       </p>
-      <a
-        href="tel:+15551234567"
-        className="mt-4 block w-full text-center transition-transform hover:-translate-y-1"
+      {/*
+        Demo phone-CTA. Rendered as <button type="button"> so screen readers
+        do not announce it as a dial-able tel: link — the number is
+        illustrative, not real. On a customer's actual Apex site the
+        equivalent CTA gets the customer's real number.
+      */}
+      <button
+        type="button"
+        aria-label="Demo number — your real Apex Sites tap-to-call goes here"
+        className="mt-4 block w-full cursor-default border-0 text-center transition-transform"
         style={{
           background: "var(--apex-primary)",
           color: "var(--apex-primary-fg)",
@@ -208,7 +215,7 @@ function HeroPhoneFirst({ theme }: { theme: Theme }) {
             fontFamily: "var(--apex-font-mono)",
           }}
         >
-          Tap to call
+          Demo · tap-to-call
         </span>
         <span
           className="mt-2 block text-4xl leading-none sm:text-5xl"
@@ -218,15 +225,15 @@ function HeroPhoneFirst({ theme }: { theme: Theme }) {
             letterSpacing: "-0.025em",
           }}
         >
-          (555) 123-{theme.slug.length.toString().padStart(4, "0")}
+          (555) 000-{theme.slug.length.toString().padStart(4, "0")}
         </span>
         <span
           className="mt-3 block text-xs font-semibold"
           style={{ opacity: 0.85 }}
         >
-          Avg pickup: 12 sec · Same-day dispatch
+          On your Apex site this dials your real number
         </span>
-      </a>
+      </button>
       <PreviewCaption>
         This is a live preview. The actual phone CTA on YOUR Apex site can do anything you want — call, SMS, schedule a callback.
       </PreviewCaption>

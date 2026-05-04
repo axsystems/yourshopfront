@@ -1,6 +1,7 @@
 import * as React from "react"
 
 import type { Theme } from "@/lib/themes/types"
+import { SiteFooter, SiteHeader } from "@/components/apex"
 import { ThemeProvider } from "@/components/theme-provider"
 
 import { Hero } from "./hero"
@@ -10,16 +11,26 @@ import { Pricing } from "./pricing"
 import { Showcase } from "./showcase"
 import { FAQ } from "./faq"
 import { FinalCTA } from "./final-cta"
-import { Footer } from "./footer"
 
 interface ThemedHomeProps {
   theme: Theme
   isDemoPreview?: boolean
 }
 
+/**
+ * Themed home composition. Used by /demos/[slug] and /portfolio/[slug] (the
+ * themed surfaces) — NOT by `/`, which has its own Apex-branded composition
+ * since Phase 2.
+ *
+ * After Phase 4: Apex chrome <SiteHeader variant="themed"> + <SiteFooter
+ * variant="themed"> wrap the themed body. The DemoSwitcher (rendered globally
+ * in src/app/layout.tsx for themed paths) sits as a sticky sub-nav between
+ * the header and Hero.
+ */
 export function ThemedHome({ theme, isDemoPreview }: ThemedHomeProps) {
   return (
     <ThemeProvider theme={theme}>
+      <SiteHeader variant="themed" />
       <Hero
         theme={theme}
         isDemoPreview={isDemoPreview}
@@ -37,7 +48,7 @@ export function ThemedHome({ theme, isDemoPreview }: ThemedHomeProps) {
       <Showcase theme={theme} activeSlug={isDemoPreview ? theme.slug : undefined} />
       <FAQ theme={theme} />
       <FinalCTA theme={theme} />
-      <Footer theme={theme} />
+      <SiteFooter variant="themed" />
     </ThemeProvider>
   )
 }
