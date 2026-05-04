@@ -44,9 +44,22 @@ export function SiteHeader({
         className
       )}
     >
+      {/*
+        Skip-to-content link. Variant-aware focus background:
+          - default + minimal: cobalt --apx-primary on white --apx-paper.
+          - themed: inverse of the surrounding theme (--apex-fg bg with
+            --apex-bg text), guaranteed to contrast cleanly regardless of
+            which of the 24 themes is active. Cobalt would clash with hi-vis
+            yellow Ironside or terracotta Heritage in some viewports.
+      */}
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-apx-primary focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-apx-primary-fg"
+        className={cn(
+          "sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:px-4 focus:py-2 focus:text-sm focus:font-semibold",
+          themed
+            ? "focus:bg-[var(--apex-fg)] focus:text-[var(--apex-bg)]"
+            : "focus:bg-apx-primary focus:text-apx-primary-fg"
+        )}
       >
         Skip to content
       </a>
