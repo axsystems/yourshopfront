@@ -222,3 +222,68 @@
     @apply font-sans;
   }
 }
+
+/*
+ * .prose-apx — Apex chrome typography for legal-page-style article content.
+ * Used by <LegalPage> (privacy / terms / refund-policy) so each instance
+ * doesn't redeclare the arbitrary [&_h2]: selectors inline. Same visual
+ * output as the previous inline selectors; the consolidation just stops
+ * the rules from being copy-pasted at every consumer.
+ */
+@layer components {
+  .prose-apx {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 720px;
+    color: var(--apx-ink);
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  .prose-apx h2 {
+    margin-top: 3rem;
+    font-family: var(--font-sans);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--apx-ink);
+  }
+  .prose-apx h2:first-child {
+    margin-top: 0;
+  }
+  .prose-apx h3 {
+    margin-top: 2rem;
+    font-family: var(--font-sans);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--apx-ink);
+  }
+  .prose-apx p {
+    margin-top: 1rem;
+    color: var(--apx-ink);
+  }
+  .prose-apx ul {
+    margin-top: 1rem;
+    display: flex;
+    list-style-type: disc;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-left: 1.25rem;
+  }
+  .prose-apx li {
+    color: var(--apx-ink);
+  }
+  .prose-apx a {
+    font-weight: 600;
+    color: var(--apx-ink);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.15s ease;
+  }
+  .prose-apx a:hover {
+    color: var(--apx-primary);
+  }
+  .prose-apx strong {
+    font-weight: 600;
+    color: var(--apx-ink);
+  }
+}

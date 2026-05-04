@@ -56,22 +56,7 @@ export function LegalPage({
         </Section>
         <Section bg="paper">
           <Container>
-            <article
-              className="
-                mx-auto max-w-[720px] text-[16px] leading-[1.65] text-apx-ink
-                [&_h2]:mt-12 [&_h2]:font-sans [&_h2]:text-[24px] [&_h2]:font-bold [&_h2]:tracking-[-0.01em] [&_h2]:text-apx-ink
-                [&_h2:first-child]:mt-0
-                [&_h3]:mt-8 [&_h3]:font-sans [&_h3]:text-[18px] [&_h3]:font-bold [&_h3]:text-apx-ink
-                [&_p]:mt-4 [&_p]:text-apx-ink
-                [&_ul]:mt-4 [&_ul]:flex [&_ul]:list-disc [&_ul]:flex-col [&_ul]:gap-2 [&_ul]:pl-5
-                [&_li]:text-apx-ink
-                [&_a]:font-semibold [&_a]:text-apx-ink [&_a]:underline [&_a]:underline-offset-2
-                hover:[&_a]:text-apx-primary
-                [&_strong]:font-semibold [&_strong]:text-apx-ink
-              "
-            >
-              {children}
-            </article>
+            <article className="prose-apx">{children}</article>
           </Container>
         </Section>
       </main>
