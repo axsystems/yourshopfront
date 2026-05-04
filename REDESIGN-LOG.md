@@ -410,6 +410,54 @@ Per R2's plan (Phase 1 dispatch), this was deferred to Phase 6 if safe. Audit sh
 - CI workflow is wired but **never tested via a real PR** in this loop (no remote push). The first PR after merging this branch will exercise it; if any step fails, the Playwright report uploads as an artifact for triage.
 - Plausible env vars deliberately default to no-op. Production deploys must set `NEXT_PUBLIC_PLAUSIBLE_DOMAIN=apexsites.com` (or self-hosted equivalent) for analytics to start collecting.
 
+Commit: `c0ced1b feat(redesign): phase 6 — playwright smoke, plausible, json-ld escape, ci, a11y` + `8cfadf5 chore(redesign): gitignore playwright artifacts`.
+
+---
+
+## Phase 7 — Launch readiness
+
+**Status**: shipped (handoff documents only — no actual production deploy from this loop).
+
+### Files
+
+**Created (2)**:
+
+- `.env.production.example` — every variable a Vercel production deploy needs, with comments naming where each value lives. References `STRIPE_*` (live keys + 4 price IDs), `SUPABASE_*` (production project URL + service-role + anon), `RESEND_*` (key + verified-domain from address + inbox), `SLACK_WEBHOOK_URL` (optional), `NEXT_PUBLIC_PLAUSIBLE_*` (optional).
+- `LAUNCH-CHECKLIST.md` — 11-section runbook for going live: repo state, Vercel project config, env vars (each one called out), Supabase migrations + RLS check, Stripe (live keys + endpoint + manual test plan reference), Resend (SPF + DKIM verification), DNS, SEO (sitemap submission + rich-results test + OG warmup), Lighthouse, final smoke, sign-off. Lists "items intentionally deferred" at the bottom (real legal copy, real founder copy, real testimonials, bundle analyzer, post-launch webhook handlers).
+
+**Modified (2)**:
+
+- `src/lib/email.ts` — added a clarifying comment around `DEFAULT_FROM` that production should set `RESEND_FROM_EMAIL=Apex Sites <hello@apexsites.com>` once DNS is verified, until which the `onboarding@resend.dev` fallback ships emails through Resend's shared subdomain. No behavioral change.
+- `README.md` — full rewrite to reflect post-redesign structure: surface table, namespace explanation, chrome primitives directory layout, brand-asset layout, updated stack (Plausible + Playwright + Framer Motion now), payment flow diagram unchanged, local-dev section now mentions `pnpm test:e2e` and `pnpm brand:export`, production-deployment section pointing at `LAUNCH-CHECKLIST.md` and `.env.production.example`.
+
+### Quality gate
+
+| Gate | Result |
+|---|---|
+| `pnpm typecheck` | **pass** (clean). |
+| `pnpm lint` | **pass** (clean). |
+| `pnpm build` | **pass**. 66 routes. Pre-existing `/api/og/[slug]` edge-runtime warning unchanged. |
+| `pnpm test:e2e` | Not re-run in Phase 7 (no code changes that would affect it; the 5/5 pass from Phase 6 stands). Will run on CI on the first PR after merge. |
+
+### Deviations from APEX-REDESIGN-PROMPT.md
+
+- **No Vercel preview deploy verification.** The brief §12 Phase 7 says "Vercel preview deploy succeeds. Smoke suite runs against the preview URL." This loop has no Vercel credentials/access. Deploy verification is the human's first task post-merge. **Override flag**: high — the entire premise of "launch-ready" includes a preview deploy passing smoke. We've shipped the code and the runbook; the human runs the deploy.
+- **`README.md` does not link to a deployed preview URL.** Until a deploy exists, there's no URL to link. The README references the local-dev URLs only.
+
+### Notes for the final report
+
+- The redesign branch (`redesign`) is ready to PR into `master`. Commits in chronological order:
+  - `88ebaf7` — Phase 1 (foundation tokens, brand assets, chrome primitives)
+  - `d0af500` — Phase 2 (Apex home page with rotating preview, gallery, motion)
+  - `eef5caa` — Phase 3 (pricing, portfolio, contact rebuilt in chrome)
+  - `38cfd58` — Phase 4 (chrome wraps themed surfaces, real metrics, nested-html fix)
+  - `ef21175` — Phase 5 (about, privacy, terms, refund-policy pages)
+  - `c0ced1b` — Phase 6 (Playwright smoke, Plausible, JSON-LD escape, CI, a11y)
+  - `8cfadf5` — gitignore Playwright artifacts (chore)
+  - (this commit) — Phase 7 (launch readiness handoff documents)
+- The CI workflow runs against the PR. If it doesn't pass on the first try, the artifact upload-on-failure dumps the Playwright report for triage.
+
+
 
 
 

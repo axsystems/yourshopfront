@@ -10,6 +10,10 @@ export interface SendEmailOpts {
   from?: string
 }
 
+// Production should set RESEND_FROM_EMAIL to "Apex Sites <hello@apexsites.com>"
+// once DNS records are verified in Resend. Until then, we fall back to the
+// shared resend.dev sender — works without domain verification but routes
+// through Resend's subdomain.
 const DEFAULT_FROM = "Apex Sites <onboarding@resend.dev>"
 
 /**
