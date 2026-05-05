@@ -34,6 +34,10 @@ const QUESTIONS = [
     q: "What's different about Apex vs Wix or Squarespace?",
     a: "We're done-for-you, conversion-focused, and home-service specialized. They sell tools and a blank canvas; we sell finished sites built on conversion patterns that actually work for trades. You don't pick a template — we build the site.",
   },
+  {
+    q: "Do you handle Google Ads or SEO too?",
+    a: "Not directly — we keep Apex focused on the deliverable. For paid acquisition and Local SEO, we partner with our sister company Axon Growth (axongrowth.ai), which is built for trades on the same playbook. Apex Sites customers get priority onboarding when they bundle.",
+  },
 ]
 
 export function HomeFaq() {

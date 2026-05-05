@@ -5,6 +5,7 @@ import { HomeFaq } from "@/components/apex/home/faq"
 import { HomeFinalCta } from "@/components/apex/home/final-cta"
 import { HomeHero } from "@/components/apex/home/hero"
 import { HomeHowItWorks } from "@/components/apex/home/how-it-works"
+import { HomePartnerAxonGrowth } from "@/components/apex/home/partner-axon-growth"
 import { HomePricingTeaser } from "@/components/apex/home/pricing-teaser"
 import { HomeStatStrip } from "@/components/apex/home/stat-strip"
 import { HomeThemeGallery } from "@/components/apex/home/theme-gallery"
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Apex Sites — Websites for trades that book more jobs",
     description:
-      "24 production-grade designs. Pick one, send us your content, your site is live in 24 hours. Subscription or one-time. Built for plumbers, painters, roofers, electricians.",
+      "30 production-grade designs. Pick one, send us your content, your site is live in 24 hours. Subscription or one-time. Built for plumbers, painters, roofers, electricians.",
     url: SITE_URL,
     type: "website",
     siteName: "Apex Sites",
@@ -42,6 +43,7 @@ export default function Home() {
         <HomeHowItWorks />
         <HomeThemeGallery />
         <HomePricingTeaser />
+        <HomePartnerAxonGrowth />
         <HomeFaq />
         <HomeFinalCta />
       </main>

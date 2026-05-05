@@ -26,6 +26,7 @@ const PRODUCT: FooterLink[] = [
 const COMPANY: FooterLink[] = [
   { label: "About", href: "/about" },
   { label: "Email us", href: "mailto:hello@apexsites.com" },
+  { label: "Marketing → Axon Growth", href: "https://axongrowth.ai/?ref=apexsites" },
 ]
 
 const LEGAL: FooterLink[] = [
