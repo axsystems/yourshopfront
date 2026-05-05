@@ -12,6 +12,7 @@ import {
   SiteHeader,
 } from "@/components/apex"
 import { FadeUp } from "@/components/apex/motion/fade-up"
+import { OpenChatButton } from "@/components/apex/open-chat-button"
 import { JsonLd } from "@/components/json-ld"
 import { SITE_URL, organizationSchema } from "@/lib/seo"
 
@@ -119,15 +120,15 @@ export default function AboutPage() {
             <FadeUp>
               <div className="mx-auto max-w-3xl text-center">
                 <Display level="display-xl">
-                  Want to talk it through first?
+                  Got a question first?
                 </Display>
                 <Lede className="mx-auto mt-5">
-                  We&apos;re a small team. A real person reads every inbound email and replies within 24 hours.
+                  Open the chat — the concierge has the full design catalog, pricing, and partner-marketing details on tap. No call, no email tag, no waiting.
                 </Lede>
                 <div className="mt-7 flex flex-wrap justify-center gap-3">
-                  <Button href="/contact" variant="primary" size="lg">
-                    Talk to us →
-                  </Button>
+                  <OpenChatButton variant="primary" size="lg">
+                    Open the chat →
+                  </OpenChatButton>
                   <Button href="/portfolio" variant="secondary" size="lg">
                     See the 30 designs
                   </Button>

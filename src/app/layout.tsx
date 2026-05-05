@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next"
 import { Suspense } from "react"
 import "./globals.css"
 
+import { SalesAgent } from "@/components/apex/sales-agent"
 import { DemoPalettePicker } from "@/components/home/demo-palette-picker"
 import { DemoSwitcher } from "@/components/home/demo-switcher"
 import { PlausibleAnalytics } from "@/components/plausible"
@@ -65,6 +66,7 @@ export default function RootLayout({
           <DemoPalettePicker />
         </Suspense>
         {children}
+        <SalesAgent />
       </body>
     </html>
   )

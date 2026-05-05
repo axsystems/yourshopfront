@@ -14,6 +14,7 @@ import {
   SiteHeader,
 } from "@/components/apex"
 import { FadeUp } from "@/components/apex/motion/fade-up"
+import { OpenChatButton } from "@/components/apex/open-chat-button"
 import { JsonLd } from "@/components/json-ld"
 import { SITE_URL, organizationSchema, serviceSchema } from "@/lib/seo"
 import { cn } from "@/lib/utils"
@@ -231,9 +232,9 @@ export default function PricingPage() {
                   <Button href="/portfolio" variant="primary" size="lg">
                     Browse the 30 designs →
                   </Button>
-                  <Button href="/contact" variant="secondary" size="lg">
-                    Talk to us
-                  </Button>
+                  <OpenChatButton variant="secondary" size="lg">
+                    Ask the concierge
+                  </OpenChatButton>
                 </div>
               </div>
             </FadeUp>
