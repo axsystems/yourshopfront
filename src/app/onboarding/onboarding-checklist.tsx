@@ -1,10 +1,12 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import { ArrowRight, Check, Circle, Lock } from "lucide-react"
 
 import type { OnboardingState, Site } from "@/lib/supabase"
-import { setAssetsSent, setContentSent, setDomain } from "./actions"
+import { siteContentIsValid } from "@/lib/site-content/types"
+import { setAssetsSent, setDomain } from "./actions"
 
 interface OnboardingChecklistProps {
   site: Site
@@ -24,7 +26,7 @@ export function OnboardingChecklist({ site }: OnboardingChecklistProps) {
         complete
         locked
       />
-      <ContentStep sessionId={sessionId} state={state} locked={locked} />
+      <ContentStep site={site} />
       <AssetsStep sessionId={sessionId} state={state} locked={locked} />
       <DomainStep sessionId={sessionId} state={state} locked={locked} />
     </div>
@@ -110,54 +112,30 @@ function Step({ n, title, description, complete, locked, children, error, pendin
 
 // -----------------------------------------------------------------------------
 
-function ContentStep({
-  sessionId,
-  state,
-  locked,
-}: {
-  sessionId: string
-  state: OnboardingState
-  locked: boolean
-}) {
-  const [pending, startTransition] = React.useTransition()
-  const [error, setError] = React.useState<string | null>(null)
-  const complete = state.content_sent?.complete ?? false
-
-  const toggle = () => {
-    setError(null)
-    startTransition(async () => {
-      const result = await setContentSent({ sessionId, complete: !complete })
-      if (!result.ok) setError(result.error)
-    })
-  }
+function ContentStep({ site }: { site: Site }) {
+  // Step 2 completion is now derived from the actual site_content rather
+  // than a manual toggle. The worksheet's saveWorksheetSection action also
+  // mirrors this into onboarding_state.content_sent so the cron pickup
+  // (which reads onboarding_state) sees the same answer.
+  const complete = siteContentIsValid(site.site_content ?? {})
+  const locked = site.status !== "pending_content"
+  const href = `/onboarding/worksheet?session_id=${encodeURIComponent(site.stripe_session_id)}`
 
   return (
     <Step
       n={2}
       title="Send us your content"
       description={
-        <>
-          Use the worksheet to fill in your business info, services, and
-          contact details. Takes about 30 minutes.{" "}
-          <a
-            href="#"
-            className="underline underline-offset-2"
-            style={{ color: "var(--apex-fg)" }}
-          >
-            Open the worksheet →
-          </a>
-        </>
+        complete
+          ? "All five required sections are filled. You can keep editing until we start the build."
+          : "Open the worksheet and fill in hero copy, services, contact info, about, and service area. Takes about 30 minutes."
       }
       complete={complete}
       locked={locked}
-      error={error}
-      pending={pending}
     >
-      <button
-        type="button"
-        onClick={toggle}
-        disabled={pending || locked}
-        className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-bold transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
+      <Link
+        href={href}
+        className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-bold transition hover:-translate-y-0.5"
         style={{
           background: complete ? "transparent" : "var(--apex-primary)",
           color: complete ? "var(--apex-fg)" : "var(--apex-primary-fg)",
@@ -166,16 +144,9 @@ function ContentStep({
           fontFamily: "var(--apex-font-display)",
         }}
       >
-        {complete ? (
-          <>
-            <Circle className="h-3.5 w-3.5" /> Mark as not sent
-          </>
-        ) : (
-          <>
-            <Check className="h-3.5 w-3.5" strokeWidth={3} /> Mark as sent
-          </>
-        )}
-      </button>
+        {complete ? "Edit worksheet" : "Open worksheet"}
+        <ArrowRight className="h-3.5 w-3.5" />
+      </Link>
     </Step>
   )
 }

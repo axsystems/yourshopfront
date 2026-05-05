@@ -17,7 +17,9 @@ test("home loads with chrome + hero", async ({ page }) => {
   expect(response?.status(), "home should respond 200").toBe(200)
   await expect(page.locator("main h1")).toContainText("Websites that")
   await expect(page.locator("main h1")).toContainText("more jobs")
-  await expect(page.locator("a", { hasText: /See the 24 designs/i })).toBeVisible()
+  // Hero CTA mentions the design count. Don't pin the exact number — the
+   // theme catalog grows; pin only the shape.
+   await expect(page.locator("a", { hasText: /See the \d+ designs/i })).toBeVisible()
 })
 
 test("/pricing loads with both tier cards", async ({ page }) => {

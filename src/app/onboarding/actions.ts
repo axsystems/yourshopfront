@@ -19,17 +19,17 @@ import {
 // tokens (~70 chars), so this is an acceptable bearer-token model for this
 // phase. Phase 5+ will layer customer auth on top.
 //
+// Step 2 (content) is no longer toggled here — the worksheet at
+// /onboarding/worksheet writes site_content and reconciles
+// onboarding_state.content_sent against siteContentIsValid(). These actions
+// cover steps 3 (assets) and 4 (domain) only.
+//
 // Each action validates inputs with Zod, fetches the site, merges the patch
 // into the existing JSONB state, writes back, and flips status to
 // 'ready_to_build' if all three user-actionable steps are now complete.
 // =============================================================================
 
 const SessionIdSchema = z.string().min(20).max(200)
-
-const SetContentSchema = z.object({
-  sessionId: SessionIdSchema,
-  complete: z.boolean(),
-})
 
 const SetAssetsSchema = z.object({
   sessionId: SessionIdSchema,
@@ -58,20 +58,6 @@ const SetDomainSchema = z.discriminatedUnion("type", [
 export type ActionResult =
   | { ok: true }
   | { ok: false; error: string }
-
-export async function setContentSent(input: {
-  sessionId: string
-  complete: boolean
-}): Promise<ActionResult> {
-  const parsed = SetContentSchema.safeParse(input)
-  if (!parsed.success) {
-    return { ok: false, error: parsed.error.issues[0].message }
-  }
-  return persist(parsed.data.sessionId, (state) => ({
-    ...state,
-    content_sent: stamped(parsed.data.complete),
-  }))
-}
 
 export async function setAssetsSent(input: {
   sessionId: string
