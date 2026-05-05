@@ -228,6 +228,23 @@ export async function getSiteById(id: string): Promise<Site | null> {
 }
 
 /**
+ * Looks up a site by its provision_slug — the host segment used on
+ * apexsites.com subdomains. Returns null if no match. Used by the
+ * multi-tenant tenant page at /_tenant to resolve hostname → site.
+ */
+export async function getSiteByProvisionSlug(
+  provisionSlug: string
+): Promise<Site | null> {
+  const { data, error } = await supabase()
+    .from("sites")
+    .select("*")
+    .eq("provision_slug", provisionSlug)
+    .maybeSingle()
+  if (error) throw error
+  return (data as Site | null) ?? null
+}
+
+/**
  * Replaces the entire onboarding_state JSONB. Callers should read the
  * existing state, merge in their patch, and pass the full new object.
  * Done this way (vs. jsonb_set in SQL) because supabase-js doesn't
