@@ -9,13 +9,14 @@ export interface TenantOverrides {
 
 /**
  * Returns a shallow clone of `base` with tenant fields swapped in. Used by
- * the multi-tenant route at `/_tenant` so a customer's subdomain shows
- * their business name where the demo had its placeholder.
+ * the multi-tenant route at `/_tenant` so theme-driven surfaces (the
+ * "Coming soon" interstitial; any future themed banner) carry the
+ * customer's business name instead of the demo placeholder.
  *
- * Color, fonts, hero pattern, button shape, and copy beyond the name are
- * preserved — Phase 5 v1 only swaps the name. Real per-customer copy
- * overlay (services, testimonials, hero text) requires a content-storage
- * layer that's out of scope for this commit.
+ * Real per-customer copy (services, hero, contact) does NOT live here — it
+ * lives in `sites.site_content` and is rendered by `<CustomerHome>` from
+ * `src/components/tenant/`. This helper is only for places where a
+ * Theme-shaped object is needed (e.g. ThemeProvider tokens).
  */
 export function applyTenantOverrides(
   base: Theme,

@@ -1,10 +1,11 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import { ThemedHome } from "@/components/home/themed-home"
+import { CustomerHome } from "@/components/tenant/customer-home"
 import { Button, SiteFooter, SiteHeader } from "@/components/apex"
 import { ThemeProvider } from "@/components/theme-provider"
 import { getSiteByProvisionSlug, type Site } from "@/lib/supabase"
+import { siteContentIsValid } from "@/lib/site-content/types"
 import { allThemes, defaultTheme } from "@/lib/themes"
 import { applyTenantOverrides } from "@/lib/themes/with-overrides"
 
@@ -66,7 +67,22 @@ export default async function TenantPage({ searchParams }: PageProps) {
     industry: site.industry ?? undefined,
   })
 
-  return <ThemedHome theme={theme} />
+  // Defensive: status moved past pending_content but the worksheet didn't
+  // actually fill required content. Shouldn't happen in normal flow (the
+  // worksheet's gating ties content_sent to siteContentIsValid), but if a
+  // human flips the status manually we don't want to render a half-empty
+  // page.
+  if (!siteContentIsValid(site.site_content)) {
+    return <BuildingNotice site={site} />
+  }
+
+  return (
+    <CustomerHome
+      theme={theme}
+      content={site.site_content}
+      businessName={site.business_name}
+    />
+  )
 }
 
 // -----------------------------------------------------------------------------
