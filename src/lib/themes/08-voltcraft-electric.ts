@@ -61,7 +61,7 @@ export const voltcraftElectric: Theme = {
   ],
   fonts: { display: "inter", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "0", md: "0", lg: "0", pill: "0" },
-  button: { shape: "sharp", shadow: "hard-offset", weight: "heavy", uppercase: false },
+  button: { shape: "sharp", shadow: "hard-offset", weight: "heavy", uppercase: true },
   seoTitle: "Apex Sites — Electric-Yellow Industrial Style for Trades",
   seoDescription:
     "The Voltcraft Electric demo. Black + voltage-yellow, mono accents, phone-first hero. For electricians, HVAC, and any 24/7 licensed trade.",

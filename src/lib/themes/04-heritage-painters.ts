@@ -7,7 +7,7 @@ export const heritagePainters: Theme = {
   city: "Charleston",
   tagline: "Premium house painting. 2-year warranty.",
   description:
-    "Warm premium. Editorial Fraunces serif, terracotta + gold + ink, gallery-led hero. For premium project work.",
+    "Warm premium. Editorial Fraunces serif, ivory + terracotta + ink, gallery-led hero. For premium project work.",
   mode: "project",
   vibe: "warm-premium",
   hero: "gallery",

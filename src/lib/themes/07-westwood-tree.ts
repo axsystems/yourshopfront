@@ -7,7 +7,7 @@ export const westwoodTree: Theme = {
   city: "Portland",
   tagline: "ISA Certified Arborists. Free estimate.",
   description:
-    "Naturalist + safety-orange. Forest greens, Oswald + Fraunces. Gallery hero for project showcase.",
+    "Naturalist + safety-orange. Forest greens, editorial Fraunces serif. Gallery hero for project showcase.",
   mode: "project",
   vibe: "naturalist",
   hero: "gallery",

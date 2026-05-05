@@ -8,7 +8,7 @@ export const brutalist: Theme = {
   city: "Los Angeles",
   tagline: "A LOUD agency for LOUD brands.",
   description:
-    "Pop-art neo-brutalism. Yellow + black + electric pink + cobalt blue, Bricolage Grotesque + Funnel Display (substituted Bricolage), 4px hard borders, hard-shadow buttons, ALL CAPS mega type.",
+    "Pop-art neo-brutalism. Yellow + black + electric pink + cobalt blue, Bricolage Grotesque mega type, 4px hard borders, hard-shadow buttons, ALL CAPS treatment.",
   mode: "project",
   vibe: "bold-industrial",
   hero: "gallery",

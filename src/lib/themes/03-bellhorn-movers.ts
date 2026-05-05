@@ -11,7 +11,7 @@ export const bellhornMovers: Theme = {
   mode: "project",
   vibe: "friendly-modern",
   hero: "calculator",
-  heroEyebrow: "BOSTON'S #1 RATED MOVERS",
+  heroEyebrow: "INSTANT MOVE QUOTE",
   colors: {
     bg: "#FFF8F0",
     fg: "#0A1628",
