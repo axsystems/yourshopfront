@@ -42,17 +42,28 @@ Reference: `.env.production.example` in repo root. Copy each line into Vercel an
 - [ ] `CONTACT_INBOX_EMAIL` — `hello@apexsites.com`.
 - [ ] `SLACK_WEBHOOK_URL` — production Slack webhook (optional but recommended).
 - [ ] `NEXT_PUBLIC_PLAUSIBLE_DOMAIN=apexsites.com` (optional — leave empty to disable analytics entirely).
+- [ ] `ANTHROPIC_API_KEY` — Claude Haiku 4.5, powers the SalesAgent chat bubble. Without it, `/api/chat` returns 503 and the bubble shows "offline."
+- [ ] `CLOUDFLARE_API_TOKEN` — Zone:DNS:Edit scoped to the apexsites.com zone. Used by the Phase 5 orchestrator to provision customer CNAMEs.
+- [ ] `CLOUDFLARE_ZONE_ID` — apexsites.com zone id (Cloudflare → Overview).
+- [ ] `VERCEL_API_TOKEN` — account-scoped token. Used to attach/detach customer subdomains to this project.
+- [ ] `VERCEL_TEAM_ID` — `team_*` containing this project.
+- [ ] `VERCEL_PROJECT_ID` — `prj_*` of THIS project (apex-sites itself, multi-tenant single project).
+- [ ] `APEX_DOMAIN=apexsites.com` (defaults to this if unset).
+- [ ] `CRON_SECRET` — random token, paste into Vercel only. Vercel auto-injects `Authorization: Bearer $CRON_SECRET` on cron-triggered requests; the cron route 401s anything else.
 
 ## 4. Supabase
 
 - [ ] Production project exists in Supabase.
-- [ ] Both migrations have been run in the SQL editor: `supabase/migrations/0001_initial.sql` and `0002_onboarding.sql`. Verify with:
+- [ ] All migrations have been run in the SQL editor: `0001_initial.sql`, `0002_onboarding.sql`, `0003_provisioning.sql`. Verify with:
   ```sql
   select count(*) from customers;     -- 0 expected on a fresh project
   select count(*) from sites;         -- 0 expected on a fresh project
   select column_name from information_schema.columns
-    where table_name = 'sites' and column_name = 'onboarding_state';
-  -- expected: 1 row
+    where table_name = 'sites'
+    and column_name in ('onboarding_state', 'provision_slug', 'provisioning_state', 'failure_reason');
+  -- expected: 4 rows
+  select conname from pg_constraint where conname = 'sites_status_check';
+  -- expected: 1 row (and the constraint should mention 'provisioning' and 'failed')
   ```
 - [ ] RLS is enabled on `customers` and `sites`. Verify in Supabase dashboard → Authentication → Policies.
 - [ ] No policies are defined for anon or authenticated roles (locked-by-default; service-role bypasses).
@@ -74,7 +85,21 @@ Reference: `.env.production.example` in repo root. Copy each line into Vercel an
   - [ ] Cancellation — `stripe subscriptions cancel sub_*` flips `sites.status` to `'cancelled'`, sends goodbye email.
   - [ ] Onboarding flow — content/assets/domain steps flip status to `'ready_to_build'`.
 
-## 6. Resend (email)
+## 5b. Provisioning pipeline (Phase 5)
+
+The cron job at `/api/cron/provision` runs every minute (configured in `vercel.json`). It picks up sites in status `ready_to_build` or `provisioning`, attaches a customer subdomain to this Vercel project, and flips status to `awaiting_approval`.
+
+- [ ] **Cloudflare API token**: Cloudflare dashboard → My Profile → API Tokens → Create Token. Template "Edit zone DNS" → restrict to `apexsites.com` zone only. Paste into `CLOUDFLARE_API_TOKEN`.
+- [ ] **Cloudflare zone id**: Cloudflare → apexsites.com Overview → API section (right sidebar) → Zone ID. Paste into `CLOUDFLARE_ZONE_ID`.
+- [ ] **Vercel API token**: Vercel → Settings → Tokens → Create. Account-scoped. Paste into `VERCEL_API_TOKEN`.
+- [ ] **Vercel team + project ids**: from this project's settings page. Paste into `VERCEL_TEAM_ID` and `VERCEL_PROJECT_ID`. (Note: `VERCEL_PROJECT_ID` is THIS project — the orchestrator attaches each customer subdomain to the same multi-tenant project.)
+- [ ] **CRON_SECRET**: generate a random token (`openssl rand -hex 32`). Set on Vercel. Vercel auto-injects it on cron requests as `Authorization: Bearer <CRON_SECRET>`.
+- [ ] **Smoke test the cron** — after deploy, manually trigger via Vercel dashboard → Settings → Cron Jobs → Run. Should return `{ ok: true, processed: 0 }` if no sites are pending.
+- [ ] **End-to-end provisioning test**: complete a Stripe test checkout, finish all 3 onboarding steps, watch the onboarding page show "Provisioning" → "Awaiting approval" within 60s. Verify the subdomain resolves: `dig <slug>.apexsites.com CNAME` should return `cname.vercel-dns.com`.
+- [ ] **Admin approve**: with `Authorization: Bearer $ADMIN_PASSWORD`, POST `{ "site_id": "..." }` to `/api/provisioning/approve`. Confirms status flips to `live` and a customer email goes out.
+- [ ] **Failure path**: with bad Cloudflare credentials, force a provisioning failure. Verify `sites.status='failed'`, `failure_reason` populated, Slack pinged, onboarding page shows the "We hit a snag" state.
+
+
 
 - [ ] Production Resend account exists.
 - [ ] **Domain verification**: in Resend → Domains → Add `apexsites.com`. Add the SPF + DKIM DNS records to Cloudflare (or your DNS host). Wait for both to validate (usually <10 min). Once green, switch `RESEND_FROM_EMAIL` from `onboarding@resend.dev` to `hello@apexsites.com`.

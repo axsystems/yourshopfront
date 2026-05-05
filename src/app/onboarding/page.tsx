@@ -1,10 +1,10 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { Check } from "lucide-react"
 
 import { OnboardingChecklist } from "./onboarding-checklist"
 import { OnboardingProcessing } from "./processing"
-import { Button, HighlightStroke, SiteFooter, SiteHeader } from "@/components/apex"
+import { ProvisioningStatus } from "./provisioning-status"
+import { Button, SiteFooter, SiteHeader } from "@/components/apex"
 import { ThemeProvider } from "@/components/theme-provider"
 import { allThemes, defaultTheme } from "@/lib/themes"
 import { getSiteByStripeSessionId, type Site } from "@/lib/supabase"
@@ -75,15 +75,15 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
   }
 
   const theme = allThemes[site.demo_slug] ?? defaultTheme
-  const isComplete = site.status !== "pending_content"
+  const pastOnboarding = site.status !== "pending_content"
 
   return (
     <ThemeProvider theme={theme}>
       <SiteHeader variant="minimal" backHref="/" backLabel="Back to home" />
       <main id="main" className="min-h-screen flex-1">
         <div className="mx-auto max-w-[820px] px-6 py-12 md:px-10 md:py-16">
-          {isComplete ? (
-            <ReadyToBuild site={site} />
+          {pastOnboarding ? (
+            <ProvisioningStatus initialSite={site} />
           ) : (
             <>
               <p
@@ -118,88 +118,6 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
       </main>
       <SiteFooter variant="minimal" />
     </ThemeProvider>
-  )
-}
-
-function ReadyToBuild({ site }: { site: Site }) {
-  return (
-    <div className="text-center">
-      <div
-        className="mx-auto grid h-16 w-16 place-items-center rounded-full"
-        style={{
-          background: "var(--apex-primary)",
-          color: "var(--apex-primary-fg)",
-        }}
-      >
-        <Check className="h-8 w-8" strokeWidth={3} />
-      </div>
-      <h1
-        className="mt-6 text-3xl font-bold leading-tight tracking-tight md:text-5xl"
-        style={{
-          color: "var(--apex-fg)",
-          fontFamily: "var(--apex-font-display)",
-        }}
-      >
-        We&apos;ve got <HighlightStroke>everything</HighlightStroke>.
-      </h1>
-      <p
-        className="mx-auto mt-4 max-w-xl text-lg leading-relaxed"
-        style={{ color: "var(--apex-muted-fg)" }}
-      >
-        We&apos;ll start building within 4 hours, and your site will be live
-        within 24. We&apos;ll email you a preview URL before we flip the switch.
-      </p>
-      <div
-        className="mx-auto mt-10 max-w-md rounded-2xl border p-6 text-left text-sm"
-        style={{
-          background: "var(--apex-surface)",
-          color: "var(--apex-surface-fg)",
-          borderColor: "var(--apex-border)",
-        }}
-      >
-        <p
-          className="text-xs font-bold uppercase tracking-[0.14em]"
-          style={{ color: "var(--apex-muted-fg)" }}
-        >
-          Your order
-        </p>
-        <p
-          className="mt-2 text-lg font-bold"
-          style={{ fontFamily: "var(--apex-font-display)" }}
-        >
-          {site.business_name} · {site.demo_slug}
-        </p>
-        <p className="mt-1" style={{ color: "var(--apex-muted-fg)" }}>
-          {site.tier === "subscription"
-            ? "Subscription · $499 setup + $199/mo"
-            : site.hosting_addon
-              ? "One-time build · $2,997 + $29/mo hosting"
-              : "One-time build · $2,997"}
-        </p>
-        {site.onboarding_state.domain?.type === "custom" &&
-          site.onboarding_state.domain.custom_domain && (
-            <p className="mt-2" style={{ color: "var(--apex-muted-fg)" }}>
-              Domain: {site.onboarding_state.domain.custom_domain}
-            </p>
-          )}
-        {site.onboarding_state.domain?.type === "subdomain" && (
-          <p className="mt-2" style={{ color: "var(--apex-muted-fg)" }}>
-            Domain: we&apos;ll pick a *.apexsites.com subdomain
-          </p>
-        )}
-      </div>
-      <p className="mt-8 text-sm" style={{ color: "var(--apex-muted-fg)" }}>
-        Need to change something?{" "}
-        <a
-          href="mailto:hello@apexsites.com"
-          className="font-semibold underline"
-          style={{ color: "var(--apex-fg)" }}
-        >
-          Email us
-        </a>
-        .
-      </p>
-    </div>
   )
 }
 
