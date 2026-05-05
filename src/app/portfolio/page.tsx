@@ -23,9 +23,9 @@ const themesArray = Object.values(allThemes).sort((a, b) => {
 })
 
 export const metadata: Metadata = {
-  title: "Portfolio — All 24 designs",
+  title: "Portfolio — All 30 designs",
   description:
-    "24 production-grade websites for home-service businesses. Plumbers, painters, cleaners, roofers, electricians, and more — every design is available as a theme option on Apex Sites.",
+    "30 production-grade websites for home-service businesses. Plumbers, painters, cleaners, roofers, electricians, laundromats, window cleaners, HVAC, pool care, junk removal, pressure washing, and more — every design is available as a theme option on Apex Sites.",
   alternates: { canonical: PORTFOLIO_URL },
   openGraph: {
     title: "Portfolio — Apex Sites",

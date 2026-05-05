@@ -20,11 +20,11 @@ const ABOUT_URL = `${SITE_URL}/about`
 export const metadata: Metadata = {
   title: "About — Apex Sites",
   description:
-    "Apex Sites is a productized agency for trades. 24 designs, 24-hour delivery, no contracts. Built by people who got tired of seeing good operators stuck on bad websites.",
+    "Apex Sites is a productized agency for trades. 30 designs, 24-hour delivery, no contracts. Built by people who got tired of seeing good operators stuck on bad websites.",
   alternates: { canonical: ABOUT_URL },
   openGraph: {
     title: "About — Apex Sites",
-    description: "A productized agency for trades. 24 designs, 24-hour delivery, no contracts.",
+    description: "A productized agency for trades. 30 designs, 24-hour delivery, no contracts.",
     url: ABOUT_URL,
     type: "website",
     siteName: "Apex Sites",
@@ -94,7 +94,7 @@ export default function AboutPage() {
                 <FadeUp delay={60}>
                   <li>
                     <strong className="font-semibold">We won&apos;t pretend the deliverable is bespoke.</strong>{" "}
-                    The 24 designs are the deliverables. You pick one. We swap your content in. If you need something custom, we&apos;ll happily refer you to an agency — Apex isn&apos;t the right fit for that.
+                    The 30 designs are the deliverables. You pick one. We swap your content in. If you need something custom, we&apos;ll happily refer you to an agency — Apex isn&apos;t the right fit for that.
                   </li>
                 </FadeUp>
                 <FadeUp delay={120}>
@@ -129,7 +129,7 @@ export default function AboutPage() {
                     Talk to us →
                   </Button>
                   <Button href="/portfolio" variant="secondary" size="lg">
-                    See the 24 designs
+                    See the 30 designs
                   </Button>
                 </div>
               </div>

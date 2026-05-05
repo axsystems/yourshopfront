@@ -79,7 +79,7 @@ export interface Theme {
   button: ThemeButton
   seoTitle: string
   seoDescription: string
-  /** True = offered as a switchable theme on the homepage (10 themes). False = portfolio-only at /portfolio/[slug] (14 pieces). */
+  /** True = offered as a switchable theme option (currently every theme is `true`). The homepage curated grid is gated separately on `featuredThemeSlugs` (10 picks); non-featured themes are reachable at `/demos/[slug]` and `/portfolio/[slug]`. */
   isThemeOption: boolean
   /** Filename of the source demo HTML inside the demos folder, used for portfolio static rendering. */
   sourceHtmlPath: string

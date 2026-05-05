@@ -66,10 +66,10 @@ const FAQ = [
   },
   {
     q: "Where do I see the designs?",
-    a: "Our portfolio shows all 24 designs across 3 design rounds. Every one is buyable under either tier — the 10 featured on the homepage are our highest-converting starting lineup; the other 14 are equally available, just one click deeper.",
+    a: "Our portfolio shows all 30 designs across 3 design rounds. Every one is buyable under either tier — the 10 featured on the homepage are our highest-converting starting lineup; the other 20 are equally available, just one click deeper.",
   },
   {
-    q: "What if none of the 24 designs fits my business?",
+    q: "What if none of the 30 designs fits my business?",
     a: "Send us a note via contact and we'll suggest the closest fit, or queue your industry for a future design round. We add new themes regularly.",
   },
 ]
@@ -225,11 +225,11 @@ export default function PricingPage() {
                   Ready to pick a design?
                 </Display>
                 <Lede className="mx-auto mt-5">
-                  Browse the 24, find one that fits your trade, and we&apos;ll launch your site in 24 hours.
+                  Browse the 30, find one that fits your trade, and we&apos;ll launch your site in 24 hours.
                 </Lede>
                 <div className="mt-7 flex flex-wrap justify-center gap-3">
                   <Button href="/portfolio" variant="primary" size="lg">
-                    Browse the 24 designs →
+                    Browse the 30 designs →
                   </Button>
                   <Button href="/contact" variant="secondary" size="lg">
                     Talk to us

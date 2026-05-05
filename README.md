@@ -1,8 +1,8 @@
 # Apex Sites
 
-Productized website design + hosting for home-service businesses. Pick one of 24 themes, send us your content, your site goes live in 24 hours.
+Productized website design + hosting for home-service businesses. Pick one of 30 themes, send us your content, your site goes live in 24 hours.
 
-**Two tiers**, both available against any of the 24 designs:
+**Two tiers**, both available against any of the 30 designs:
 
 - **Subscription** — $499 setup + $199/mo. Hosted, unlimited edits, Google Business profile management. Cancel anytime.
 - **One-time** — $2,997 once. Full source code delivered. Optional $29/mo hosting & maintenance.
@@ -18,15 +18,15 @@ The redesign loop (Phases 1–7) ships in commits prefixed `feat(redesign):`. Hi
 | Apex marketing chrome | `src/components/apex/` | 19 primitives + `home/`, `portfolio/` sections, `motion/` wrappers, `marks/` signature SVG, `legal-page.tsx`. Apex tokens namespaced as `--apx-*`. |
 | `/` (home) | `src/app/page.tsx` | Apex-branded — no longer renders Heritage Painters as the default theme. Hero with rotating preview, truthful stat strip, gallery, pricing teaser, FAQ, CTA. |
 | `/pricing` | `src/app/pricing/page.tsx` | Two-tier cards (cobalt-outlined "Recommended"), comparison table (desktop), FAQ, primary-soft final CTA. |
-| `/portfolio` | `src/app/portfolio/page.tsx` | All 24 designs in `<DemoCard>` grid. First 6 above-fold mount eagerly; remaining 18 lazy via IntersectionObserver. |
+| `/portfolio` | `src/app/portfolio/page.tsx` | All 30 designs in `<DemoCard>` grid. First 6 above-fold mount eagerly; remaining 24 lazy via IntersectionObserver. |
 | `/portfolio/[slug]` | `src/app/portfolio/[slug]/page.tsx` | Sticky `<PortfolioBanner>` (chrome-styled, prev/next nav) + themed `<ThemedHome isDemoPreview>` body + `<AboutThisDesign>` block. |
-| `/demos/[slug]` | `src/app/demos/[slug]/page.tsx` | Themed `<ThemedHome>` for all 24 themes. Sticky `<DemoSwitcher>` for hopping between featured 10. |
+| `/demos/[slug]` | `src/app/demos/[slug]/page.tsx` | Themed `<ThemedHome>` for all 30 themes. Sticky `<DemoSwitcher>` for hopping between featured 10. |
 | `/contact` | `src/app/contact/page.tsx` | Two-column. Form rebuilt on chrome `<TextField>` and `<Button>`. `?ref=`/`?piece=` prefill behavior preserved. |
 | `/checkout` | `src/app/checkout/page.tsx` | Themed (so the buyer sees the design they're buying). Minimal Apex header. RHF + Zod form. Stripe Checkout in 3 modes. |
 | `/onboarding` | `src/app/onboarding/page.tsx` | Themed. 3-step content checklist. Bearer-token via Stripe `session_id`. ReadyToBuild celebration uses `<HighlightStroke>` on "everything". |
 | `/about` | `src/app/about/page.tsx` | Manifesto + "Three things we won't do" + contact CTA. |
 | `/privacy`, `/terms`, `/refund-policy` | `src/app/{privacy,terms,refund-policy}/page.tsx` | Drafted via `<LegalPage draft>`. Plain-English boilerplate gated behind a coral "Drafting in progress" banner until real legal copy lands. |
-| Sitemap | `src/app/sitemap.ts` | 32 canonical URLs (1 home + 10 featured demos + portfolio index + 14 portfolio details + 6 static). |
+| Sitemap | `src/app/sitemap.ts` | 38 canonical URLs (1 home + 10 featured demos + portfolio index + 20 portfolio details + 6 static). |
 | Smoke tests | `tests/e2e/smoke.spec.ts` | 5 Playwright tests. CI runs them on every PR via `.github/workflows/ci.yml`. |
 
 61 → **66 routes** building. Lint + typecheck + build + smoke all clean.

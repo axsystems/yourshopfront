@@ -110,7 +110,7 @@ export function HomeThemeGallery() {
           <div className="max-w-[640px]">
             <Eyebrow>Gallery</Eyebrow>
             <Display level="display-xl" className="mt-5">
-              24 designs. Pick one. Go live in a day.
+              30 designs. Pick one. Go live in a day.
             </Display>
             <Lede className="mt-5">
               Every card below is a real iframe of the actual demo site — not a screenshot. Click into one to see it full-size with your industry framed in.

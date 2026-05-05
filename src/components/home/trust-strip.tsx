@@ -13,7 +13,7 @@ interface TrustStripProps {
  */
 const CELLS = [
   { value: "24h", label: "Live within 24 hours", caption: "From content receipt" },
-  { value: "24", label: "Designs ready to ship", caption: "Across home services and adjacent trades" },
+  { value: "30", label: "Designs ready to ship", caption: "Across home services and adjacent trades" },
   { value: "$0", label: "Setup commitment", caption: "Subscription tier — cancel any time" },
   { value: "30 days", label: "Money-back guarantee", caption: "On the first month" },
 ] as const

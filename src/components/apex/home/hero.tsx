@@ -18,11 +18,11 @@ export function HomeHero() {
               more jobs.
             </h1>
             <Lede className="mt-6">
-              Pick one of 24 designs, send us your content, your site is live in 24 hours. Subscription or one-time. Built for plumbers, painters, roofers, electricians — and anyone selling a service that needs the phone to ring.
+              Pick one of 30 designs, send us your content, your site is live in 24 hours. Subscription or one-time. Built for plumbers, painters, roofers, electricians — and anyone selling a service that needs the phone to ring.
             </Lede>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Button href="/portfolio" variant="primary" size="lg">
-                See the 24 designs →
+                See the 30 designs →
               </Button>
               <Button href="/pricing" variant="ghost" size="lg">
                 Pricing

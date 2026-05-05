@@ -13,7 +13,7 @@ const STEPS: Step[] = [
   {
     n: "01",
     title: "Pick a style",
-    body: "Browse the 24 designs in the portfolio. Click the one that fits your business — every detail re-skins to that style instantly.",
+    body: "Browse the 30 designs in the portfolio. Click the one that fits your business — every detail re-skins to that style instantly.",
   },
   {
     n: "02",

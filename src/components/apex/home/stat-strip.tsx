@@ -20,7 +20,7 @@ export function HomeStatStrip() {
               caption="From content receipt"
             />
             <Stat
-              value="24"
+              value="30"
               label="Designs ready to ship"
               caption="Across home services and adjacent trades"
             />

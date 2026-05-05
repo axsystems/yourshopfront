@@ -20,10 +20,10 @@ export function ContactForm() {
       return `I want to launch a site in the ${referencedTheme.name} style. My business is in [industry]. Anything I should know before I start checkout?`
     }
     if (ref === "portfolio-suggestion") {
-      return "I'm interested in a design that's not in your current 24 themes. My business is in [industry] and I'm looking for [describe style]."
+      return "I'm interested in a design that's not in your current 30 themes. My business is in [industry] and I'm looking for [describe style]."
     }
     if (ref === "portfolio") {
-      return "I'd like to talk about which of your 24 designs would fit my business best."
+      return "I'd like to talk about which of your 30 designs would fit my business best."
     }
     if (ref === "pricing") {
       return "I have a question about your pricing. "

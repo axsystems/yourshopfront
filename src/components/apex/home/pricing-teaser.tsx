@@ -18,7 +18,7 @@ interface TierCardProps {
 }
 
 const SUB_FEATURES = [
-  "Pick from any of our 24 designs",
+  "Pick from any of our 30 designs",
   "Live within 24 hours of content receipt",
   "Unlimited edits, forever",
   "We host it (Vercel + Cloudflare)",
@@ -26,7 +26,7 @@ const SUB_FEATURES = [
 ]
 
 const ONE_FEATURES = [
-  "Pick from any of our 24 designs",
+  "Pick from any of our 30 designs",
   "Live within 24 hours of content receipt",
   "30 days of free edits after launch",
   "Full source code handed over",
