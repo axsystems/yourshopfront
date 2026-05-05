@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next"
 import { Suspense } from "react"
 import "./globals.css"
 
+import { DemoPalettePicker } from "@/components/home/demo-palette-picker"
 import { DemoSwitcher } from "@/components/home/demo-switcher"
 import { PlausibleAnalytics } from "@/components/plausible"
 import { baseFontClassName } from "@/lib/fonts"
@@ -59,6 +60,9 @@ export default function RootLayout({
         <PlausibleAnalytics />
         <Suspense fallback={null}>
           <DemoSwitcher />
+        </Suspense>
+        <Suspense fallback={null}>
+          <DemoPalettePicker />
         </Suspense>
         {children}
       </body>

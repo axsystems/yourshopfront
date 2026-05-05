@@ -42,6 +42,18 @@ export interface ThemeColors {
   surfaceFg: string
 }
 
+/**
+ * An alternate palette for a theme. Same shape, vibe-coherent — used by the
+ * /demos/[slug] palette picker to let prospects preview a sibling color way
+ * without leaving the page. Default palette stays canonical (in `theme.colors`)
+ * so SEO/OG/sitemap remain stable.
+ */
+export interface ColorVariant {
+  /** Short label for the picker UI, e.g. "Mint Fresh", "Midnight Amber". */
+  name: string
+  colors: ThemeColors
+}
+
 export interface ThemeFonts {
   display: FontFamily
   body: FontFamily
@@ -74,6 +86,12 @@ export interface Theme {
   hero: HeroPattern
   heroEyebrow: string
   colors: ThemeColors
+  /**
+   * Optional sibling palettes shown by the /demos/[slug] palette picker.
+   * 0 = no variants (picker hidden); 2 is the recommended count. Variants
+   * are the same vibe in a different color way — not a different theme.
+   */
+  colorVariants?: ColorVariant[]
   fonts: ThemeFonts
   radius: ThemeRadius
   button: ThemeButton
