@@ -23,13 +23,16 @@ The redesign loop (Phases 1–7) ships in commits prefixed `feat(redesign):`. Hi
 | `/demos/[slug]` | `src/app/demos/[slug]/page.tsx` | Themed `<ThemedHome>` for all 30 themes. Sticky `<DemoSwitcher>` for hopping between featured 10. |
 | `/contact` | `src/app/contact/page.tsx` | Two-column. Form rebuilt on chrome `<TextField>` and `<Button>`. `?ref=`/`?piece=` prefill behavior preserved. |
 | `/checkout` | `src/app/checkout/page.tsx` | Themed (so the buyer sees the design they're buying). Minimal Apex header. RHF + Zod form. Stripe Checkout in 3 modes. |
-| `/onboarding` | `src/app/onboarding/page.tsx` | Themed. 3-step content checklist. Bearer-token via Stripe `session_id`. ReadyToBuild celebration uses `<HighlightStroke>` on "everything". |
+| `/onboarding` | `src/app/onboarding/page.tsx` | Themed. 3-step checklist. ContentStep + AssetsStep are derived from `site_content` (no manual toggles); DomainStep saves explicit choice. Bearer-token via Stripe `session_id`. |
+| `/onboarding/worksheet` | `src/app/onboarding/worksheet/page.tsx` | 7-section content worksheet. 5 required (hero, contact, services, about, service area), 2 optional (reviews, hero photo). Each section saves independently; `siteContentIsValid` + `assetsAreSufficient` reconciliation flips status to `ready_to_build` when all three checklist steps pass. |
+| `/tenant` | `src/app/tenant/page.tsx` | Customer-facing render at `*.apexsites.com`. Switches on `provision_slug`. Renders `<CustomerHome>` (theme tokens drive style; `site_content` drives copy) when content is valid + status ∈ {awaiting_approval, live}. Branded interstitials for the other states. |
+| `/api/upload/sign` | `src/app/api/upload/sign/route.ts` | Mints one-shot signed Storage upload URLs. Browser POSTs `{sessionId, kind, filename, contentType}`; server validates + returns `{signedUrl, publicUrl, path}`. Used by `<AssetUploader>`. |
 | `/about` | `src/app/about/page.tsx` | Manifesto + "Three things we won't do" + contact CTA. |
 | `/privacy`, `/terms`, `/refund-policy` | `src/app/{privacy,terms,refund-policy}/page.tsx` | Drafted via `<LegalPage draft>`. Plain-English boilerplate gated behind a coral "Drafting in progress" banner until real legal copy lands. |
 | Sitemap | `src/app/sitemap.ts` | 38 canonical URLs (1 home + 10 featured demos + portfolio index + 20 portfolio details + 6 static). |
-| Smoke tests | `tests/e2e/smoke.spec.ts` | 5 Playwright tests. CI runs them on every PR via `.github/workflows/ci.yml`. |
+| Smoke tests | `tests/e2e/smoke.spec.ts` | 5 Playwright tests against marketing surfaces. Worksheet/upload flows aren't smoke-covered — manual gate per `LAUNCH-CHECKLIST.md`. |
 
-61 → **66 routes** building. Lint + typecheck + build + smoke all clean.
+**68 routes** building (was 66 — added `/onboarding/worksheet` + `/api/upload/sign`). Lint + typecheck + build + smoke all clean.
 
 ---
 
@@ -163,9 +166,9 @@ pnpm brand:export # regenerate PNG brand assets from SVG masters
 
 ## Setup (one-time, requires real credentials)
 
-### 1. Supabase tables
+### 1. Supabase tables + Storage
 
-In Supabase SQL Editor, paste and run `supabase/migrations/0001_initial.sql` and `0002_onboarding.sql`. Creates `customers` and `sites` tables, enables RLS, sets up the `updated_at` trigger.
+In Supabase SQL Editor, paste and run each migration in order: `0001_initial.sql`, `0002_onboarding.sql`, `0003_provisioning.sql`, `0004_site_content.sql`, `0005_storage_bucket.sql`. Creates `customers` + `sites` tables (with `site_content` JSONB), enables RLS, sets up the `updated_at` trigger, and provisions the public-read `site-assets` Storage bucket for customer logos/photos.
 
 After running, set in `.env.local`:
 

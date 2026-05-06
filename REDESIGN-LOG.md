@@ -595,8 +595,112 @@ The Playwright smoke suite uses Chromium without an explicit `prefers-reduced-mo
 
 Commit: pending (this entry + the code change land in a single commit below).
 
+---
 
+## Phase 8 — Multi-tenant content layer
 
+**Status**: shipped (code complete; two human to-dos before prod-usable).
+
+Built on top of the multi-tenant routing + auto-provisioning that landed in `9d6b8c2` and `d05fcd7`. Closes the loop from "subdomain renders themed marketing with the customer's name overlaid" (placeholder) to "subdomain renders the customer's actual content driven by a JSONB column" (real product).
+
+### Subphase 8a — Content storage + worksheet + tenant composition
+
+Three commits laying the foundation: schema/types, the worksheet UI that captures content, and the customer-facing composition that renders it.
+
+**Commit `22ec105` — schema + types + validation**
+
+- `supabase/migrations/0004_site_content.sql` — single `jsonb not null default '{}'` column on `sites`. No index (lookups are by `id` / `provision_slug`, never by content fields). Reversible: `alter table sites drop column site_content;`.
+- `src/lib/site-content/types.ts` — client-safe module. Atomic types (`SiteContentHero`, `SiteContentContact`, …) + the `SiteContent` aggregate + `siteContentIsValid()` structural check. Lives outside `lib/supabase.ts` because the latter has `server-only`, which would poison any client component that imported the types alongside the validator.
+- `src/lib/site-content/schema.ts` — Zod mirror with two flavors: `PartialSiteContentSchema` (what the worksheet writes incrementally) and `CompleteSiteContentSchema` (the launch bar — required hero, contact, ≥3 services, about, ≥1 service-area city).
+- `src/lib/supabase.ts` — added `SiteContent` to the `Site` interface, plus `updateSiteContent()` helper and re-exports for server callers.
+
+**Commit `ae79164` — worksheet UI + checklist gating**
+
+- `src/app/onboarding/worksheet/page.tsx` + `worksheet-form.tsx` + `actions.ts` + 5 sections (`hero-section`, `contact-section`, `services-section`, `about-section`, `service-area-section`) + a shared `section-shell` wrapper. Each section saves independently via `saveWorksheetSection`, which validates with the per-section Zod schema, merges into the JSONB, then reconciles `onboarding_state.content_sent` against `siteContentIsValid(merged)`. Status flips to `ready_to_build` automatically when all three onboarding steps now pass.
+- `src/app/onboarding/onboarding-checklist.tsx` — `ContentStep` is now derived state. Replaces the click-theater "Mark as sent" toggle with a link to the worksheet. Drops the dead `setContentSent` action from `actions.ts`.
+- `tests/e2e/smoke.spec.ts` — drive-by: relaxed stale `/See the 24 designs/` assertion to `/See the \d+ designs/` (catalog grew to 30 in `cf31d6a`).
+
+**Commit `270896c` — CustomerHome composition for tenant subdomains**
+
+- `src/components/tenant/customer-home.tsx` orchestrator + 7 sub-components (`customer-header`, `customer-hero`, `customer-services`, `customer-about`, `customer-service-area`, `customer-reviews`, `customer-contact`, `customer-footer`).
+- `src/app/tenant/page.tsx` — switched from `<ThemedHome>` (Apex's marketing page with the business name swapped in — wrong for a customer subdomain) to `<CustomerHome>`. Defensive fallback to `BuildingNotice` when status moved past `pending_content` but `siteContentIsValid` is somehow false.
+- `src/lib/themes/with-overrides.ts` — comment refresh; content overlay no longer "out of scope," now lives in CustomerHome.
+
+Theme tokens (colors, fonts, radius, hero-eyebrow) carry visual style; copy comes from `site_content`. Theme.hero patterns (phone-first / calculator / etc.) are NOT reused here — those are demo affordances. Real customer sites use one reliable hero with a call-CTA.
+
+### Subphase 8b — Storage + asset uploads + remaining sections
+
+Four commits closing the asset-upload loop and finishing the optional sections.
+
+**Commit `b45fd48` — Storage bucket + media schema + AssetUploader**
+
+- Schema rename `photos` → `media`, added `logoUrl` peer field. Safe rename: migration 0004 had not been applied to prod yet, so it's purely a TS/Zod change with the migration's comment block updated to match.
+- `supabase/migrations/0005_storage_bucket.sql` — creates the `site-assets` bucket via `insert into storage.buckets ... on conflict do update`, attaches a public-read RLS policy on `storage.objects`. No anon/auth INSERT policy means only service-role bypasses RLS for writes. 10MB max per file, image MIMEs only.
+- `src/lib/storage.ts` — server-only helpers. `mintSignedUpload` validates kind + MIME + size, builds a `{site_id}/{kind}/{uuid}-{filename}` path, asks Supabase for a one-shot signed URL, returns `{ signedUrl, publicUrl, path }`. `deleteByPublicUrl` is best-effort (logs, doesn't throw).
+- `src/app/api/upload/sign/route.ts` — POST endpoint. Validates Stripe-session-id bearer, gates on `status='pending_content'`, forwards to `mintSignedUpload`.
+- `src/components/upload/asset-uploader.tsx` — drag-drop client uploader. Single-file kinds (logo/hero) replace the existing URL; gallery appends. Uses `next/image` with `unoptimized` (Supabase domain whitelisting deferred to a future perf pass).
+
+**Commit `6157176` — AssetsStep wired to real uploads**
+
+- `src/lib/site-content/types.ts` — added `MIN_GALLERY_PHOTOS` constant + `assetsAreSufficient(c)` (true when `c.media.logoUrl` is set AND `gallery.length >= MIN_GALLERY_PHOTOS`).
+- `src/app/onboarding/worksheet/actions.ts` — `saveWorksheetSection` now reconciles BOTH `content_sent` AND `assets_sent` on every save. Either flag flipping triggers an `updateOnboardingState` write; either reaching complete=true alongside the third (domain) flag flips status to `ready_to_build`. Added a `stamp()` helper that preserves prior `completed_at` when already complete.
+- `src/app/onboarding/onboarding-checklist.tsx` — `AssetsStep` takes the full `Site`, wires two `<AssetUploader>` instances (logo cap 1, gallery cap 40), persists each change via `saveWorksheetSection({section: "media"})`, derives `complete` from `assetsAreSufficient`. Drops the manual toggle and email-instructions copy.
+- `src/app/onboarding/actions.ts` — drop the now-unused `setAssetsSent` action + its Zod schema + the `stamped()` helper. `setDomain` remains.
+
+**Commit `3ff8d84` — reviews worksheet section**
+
+- `src/app/onboarding/worksheet/sections/reviews-section.tsx` — optional 6th section, max 20. Dynamic list mirroring `services-section`'s add/remove pattern. `RatingPicker` with click-again-to-clear behavior. CustomerReviews on the tenant page (already shipped in `270896c`) hides itself if the array is empty, so this only adds the input UI.
+
+**Commit `c0e7a03` — media worksheet section + tenant rendering**
+
+- `src/app/onboarding/worksheet/sections/media-section.tsx` — optional 7th section. Owns `heroUrl` only; logo + gallery stay on the checklist's AssetsStep. Saves merge with existing logo/gallery via `section="media"` so neither side clobbers the other's data.
+- `src/components/tenant/customer-header.tsx` — renders `media.logoUrl` as a small `<img>` (40px height) next to the business-name wordmark when set. Plain `<img>` (not `next/image`) because logos are tiny + fixed-size, so optimization headers offer little versus the cost of a remote-pattern config.
+- `src/components/tenant/customer-hero.tsx` — when `media.heroUrl` is set, the right column shows the hero image (4:5 aspect, themed border + shadow) instead of the contact card. The header carries the phone in every state, so removing the inline contact card doesn't lose the conversion path.
+- `src/components/tenant/customer-gallery.tsx` — NEW. Up to 12 photos in a 2/3/4-col grid. Eager-loads first 4. Hidden when `media.gallery` is empty.
+- `src/components/tenant/customer-home.tsx` — insert CustomerGallery between Services and About when gallery is non-empty.
+
+### Quality gate (each commit)
+
+| Gate | Result across all 7 commits |
+|---|---|
+| `pnpm typecheck` | **pass** (clean). One issue across the run: client-component import of `siteContentIsValid` from `lib/supabase.ts` failed at build because the latter has `server-only`. Fixed in `b45fd48` predecessor by relocating types + validator to `lib/site-content/types.ts` (client-safe) and re-exporting from supabase.ts. |
+| `pnpm lint` | **pass** (clean). One drive-by fix in `6157176` to remove a now-unused `stamped()` helper after `setAssetsSent` was deleted. |
+| `pnpm build` | **pass**. **68 routes** (was 66 — added `/onboarding/worksheet` + `/api/upload/sign`). |
+| `pnpm test:e2e` | **5/5 pass** (no regressions). Smoke covers marketing surfaces; the worksheet + tenant flows aren't yet smoke-tested (would require a Supabase fixture). |
+
+### Deviations from prior plans
+
+- **Schema rename `photos` → `media`** wasn't in any plan doc but landed cleanly in `b45fd48`. Reason: `photos` doesn't fit a logo, and adding `logoUrl` as a peer of `heroUrl/gallery` is the natural shape. Migration 0004 hadn't been applied to prod, so the rename was purely TS/Zod with an updated migration comment block. **Override flag**: low.
+- **Image optimization deferred.** Tenant-page Storage URLs use `next/image` with `unoptimized`. Adding `*.supabase.co` to `next.config.ts` `images.remotePatterns` would enable optimization but adds a tenant-perf dimension that's outside this scope. Logged as the next perf pass.
+- **Worksheet smoke tests not added.** The flow needs a Supabase test fixture to be deterministic. Manual verification (after migrations apply) is the immediate gate; automated coverage is a future improvement.
+
+### Two human to-dos before prod-usable
+
+1. **Apply migrations** in Supabase SQL Editor:
+   - `supabase/migrations/0004_site_content.sql`
+   - `supabase/migrations/0005_storage_bucket.sql`
+2. **Walk the worksheet end-to-end** against the migrated DB: purchase → checklist → worksheet (5 required sections + optional reviews + optional hero photo) → AssetsStep upload (logo + ≥3 photos) → status flip to `ready_to_build` → cron pickup → `awaiting_approval` → tenant page renders the customer's content.
+
+Marketing surfaces (home, pricing, portfolio, contact, about, demos, portfolio detail) and the SalesAgent concierge bubble are unaffected by these migrations and deploy clean to production.
+
+Commits in order: `22ec105`, `ae79164`, `270896c`, `b45fd48`, `6157176`, `3ff8d84`, `c0e7a03`.
+
+---
+
+## Pickup notes for next session
+
+Where we left off:
+
+1. Code complete on Phase 8 — content storage, worksheet (5 required + 2 optional sections), AssetsStep with real Storage uploads, CustomerHome composition with logo/hero/gallery rendering.
+2. Migrations 0004 + 0005 written and on disk. **Not yet applied to prod Supabase.** Apply them before any worksheet/upload/tenant testing.
+3. Branch: pushed to `master` for production deploy of the SalesAgent concierge check + the marketing surfaces.
+
+Open work (in order of value):
+
+1. **Brand pivot.** "Apex Sites" is taken; the working candidate family is Axon (Axon Sites, Axon Web, Axon Forge, etc.) to tie into Axon Growth + Axon Labs. Trademark check on Axon Enterprise (Taser/body-cam co.) is a hard prerequisite — they enforce aggressively. After the name lands, sweep `CustomerFooter` ("Site by Apex Sites"), `SiteHeader` logo + wordmark, OG metadata, README, marketing copy.
+2. **Image optimization for tenant pages.** Add `*.supabase.co` to `next.config.ts` `images.remotePatterns`, drop `unoptimized` on the tenant-page `<Image>` calls. Measurable LCP impact for customers with hero photos.
+3. **Worksheet/upload smoke tests.** Currently uncovered by automation. Needs a Supabase test fixture or a mocked client.
+4. **Stripe webhook handlers** still on the post-launch TODO (`docs/post-launch-todo.md`): `invoice.payment_failed` (dunning), `charge.refunded` (de-provisioning).
 
 
 

@@ -54,19 +54,27 @@ Reference: `.env.production.example` in repo root. Copy each line into Vercel an
 ## 4. Supabase
 
 - [ ] Production project exists in Supabase.
-- [ ] All migrations have been run in the SQL editor: `0001_initial.sql`, `0002_onboarding.sql`, `0003_provisioning.sql`. Verify with:
+- [ ] All migrations have been run in the SQL editor (in order): `0001_initial.sql`, `0002_onboarding.sql`, `0003_provisioning.sql`, `0004_site_content.sql`, `0005_storage_bucket.sql`. Verify with:
   ```sql
   select count(*) from customers;     -- 0 expected on a fresh project
   select count(*) from sites;         -- 0 expected on a fresh project
   select column_name from information_schema.columns
     where table_name = 'sites'
-    and column_name in ('onboarding_state', 'provision_slug', 'provisioning_state', 'failure_reason');
-  -- expected: 4 rows
+    and column_name in ('onboarding_state', 'provision_slug', 'provisioning_state',
+                        'failure_reason', 'site_content');
+  -- expected: 5 rows
   select conname from pg_constraint where conname = 'sites_status_check';
   -- expected: 1 row (and the constraint should mention 'provisioning' and 'failed')
+  select id, public, file_size_limit from storage.buckets where id = 'site-assets';
+  -- expected: 1 row, public=true, file_size_limit=10485760
+  select policyname from pg_policies
+    where schemaname = 'storage' and tablename = 'objects'
+    and policyname = 'site-assets public read';
+  -- expected: 1 row
   ```
 - [ ] RLS is enabled on `customers` and `sites`. Verify in Supabase dashboard → Authentication → Policies.
-- [ ] No policies are defined for anon or authenticated roles (locked-by-default; service-role bypasses).
+- [ ] No policies are defined for anon or authenticated roles on `sites`/`customers` (locked-by-default; service-role bypasses).
+- [ ] **`site-assets` bucket** has only the public-read policy on `storage.objects`. No INSERT/UPDATE/DELETE policies for anon/auth — writes go through service-role-issued signed upload URLs.
 
 ## 5. Stripe
 
@@ -153,6 +161,9 @@ The cron job at `/api/cron/provision` runs every minute (configured in `vercel.j
 - [ ] DemoSwitcher chips on `/demos/heritage-painters` navigate without flicker.
 - [ ] PortfolioBanner on `/portfolio/heritage-painters` prev/next arrows work; "I want this look" links to checkout.
 - [ ] Onboarding processing state polls every 5s when no `site` row exists yet (test by hitting `/onboarding?session_id=cs_test_invalid`).
+- [ ] **Worksheet end-to-end** at `/onboarding/worksheet?session_id=...` — fill all 5 required sections, save each, watch ContentStep on the checklist auto-flip. Reviews + media sections optional.
+- [ ] **Upload end-to-end** on AssetsStep — upload a logo (any image ≤10MB) + 3 photos. Watch AssetsStep auto-flip to complete. Confirm the URLs land in `site_content.media` (`select site_content from sites where id='...'`).
+- [ ] **Tenant page renders content** — once onboarding flips to `awaiting_approval` (cron picked up + provisioned), visit `https://<provision_slug>.apexsites.com` and confirm the customer's hero/services/about/contact render. Logo shows in the header if uploaded; gallery section appears if ≥1 photo uploaded.
 
 ## 11. Sign-off
 
@@ -176,3 +187,6 @@ These are flagged in the redesign loop and the final report. They are not launch
 - **`@next/bundle-analyzer`** for precise per-route gzipped first-load JS measurement. Approximate measurement only today.
 - **`invoice.payment_failed` and `charge.refunded` webhook handlers.** Per `docs/post-launch-todo.md` — add before scaling past ~50 active subscriptions.
 - **Stripe Customer Portal link** on `/onboarding` for subscription customers — self-service payment-method update.
+- **Image optimization for tenant pages.** Tenant `<Image>` calls use `unoptimized` because Supabase Storage URLs aren't whitelisted. Add `*.supabase.co` to `next.config.ts` `images.remotePatterns` and drop `unoptimized` once a real customer needs the LCP gain.
+- **Brand pivot from "Apex Sites".** Domain is taken; working candidate family is Axon (Sites/Web/Forge) tied to Axon Growth + Axon Labs. Trademark check on Axon Enterprise required first — they enforce aggressively. After the name lands: `<CustomerFooter>` "Site by Apex Sites" credit, `<SiteHeader>` logo, `<SiteFooter>` copy, OG metadata, README.
+- **Worksheet + upload smoke automation.** Manual gates only today; needs a Supabase test fixture or mocked client to run in CI.
