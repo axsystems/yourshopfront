@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { CustomerAbout } from "./customer-about"
 import { CustomerContact } from "./customer-contact"
 import { CustomerFooter } from "./customer-footer"
+import { CustomerGallery } from "./customer-gallery"
 import { CustomerHeader } from "./customer-header"
 import { CustomerHero } from "./customer-hero"
 import { CustomerReviews } from "./customer-reviews"
@@ -31,20 +32,26 @@ interface CustomerHomeProps {
  */
 export function CustomerHome({ theme, content, businessName }: CustomerHomeProps) {
   const hasReviews = Boolean(content.reviews?.length)
+  const hasGallery = Boolean(content.media?.gallery?.length)
   return (
     <ThemeProvider theme={theme}>
       <CustomerHeader
         businessName={businessName}
         contact={content.contact!}
+        media={content.media}
         hasReviews={hasReviews}
       />
       <main id="main" className="flex-1">
         <CustomerHero
           hero={content.hero!}
           contact={content.contact!}
+          media={content.media}
           theme={theme}
         />
         <CustomerServices services={content.services!} />
+        {hasGallery ? (
+          <CustomerGallery gallery={content.media!.gallery!} />
+        ) : null}
         <CustomerAbout about={content.about!} />
         <CustomerServiceArea
           serviceArea={content.serviceArea!}

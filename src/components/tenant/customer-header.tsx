@@ -1,11 +1,15 @@
 import * as React from "react"
 import { Phone } from "lucide-react"
 
-import type { SiteContentContact } from "@/lib/site-content/types"
+import type {
+  SiteContentContact,
+  SiteContentMedia,
+} from "@/lib/site-content/types"
 
 interface CustomerHeaderProps {
   businessName: string
   contact: SiteContentContact
+  media?: SiteContentMedia
   hasReviews?: boolean
 }
 
@@ -18,6 +22,7 @@ interface CustomerHeaderProps {
 export function CustomerHeader({
   businessName,
   contact,
+  media,
   hasReviews,
 }: CustomerHeaderProps) {
   const telHref = `tel:${stripPhoneFormatting(contact.phone)}`
@@ -40,10 +45,24 @@ export function CustomerHeader({
       <div className="mx-auto flex h-16 w-full max-w-[1400px] items-center justify-between gap-4 px-6 md:h-20 md:px-10">
         <a
           href="#"
-          className="text-xl font-bold leading-none tracking-tight md:text-2xl"
-          style={{ fontFamily: "var(--apex-font-display)" }}
+          className="inline-flex items-center gap-3"
+          aria-label={businessName}
         >
-          {businessName}
+          {media?.logoUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={media.logoUrl}
+              alt=""
+              className="h-9 w-auto md:h-10"
+              loading="eager"
+            />
+          ) : null}
+          <span
+            className="text-xl font-bold leading-none tracking-tight md:text-2xl"
+            style={{ fontFamily: "var(--apex-font-display)" }}
+          >
+            {businessName}
+          </span>
         </a>
         <nav
           aria-label="Page sections"

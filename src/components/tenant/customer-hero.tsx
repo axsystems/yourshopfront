@@ -1,10 +1,12 @@
 import * as React from "react"
+import Image from "next/image"
 import { Phone } from "lucide-react"
 
 import type { Theme } from "@/lib/themes/types"
 import type {
   SiteContentContact,
   SiteContentHero,
+  SiteContentMedia,
 } from "@/lib/site-content/types"
 
 import { Container, Display } from "@/components/home/primitives"
@@ -12,6 +14,7 @@ import { Container, Display } from "@/components/home/primitives"
 interface CustomerHeroProps {
   hero: SiteContentHero
   contact: SiteContentContact
+  media?: SiteContentMedia
   theme: Theme
 }
 
@@ -24,11 +27,12 @@ interface CustomerHeroProps {
  * used here — those are demo/marketing affordances. A real customer site
  * needs a single reliable CTA: call.
  */
-export function CustomerHero({ hero, contact, theme }: CustomerHeroProps) {
+export function CustomerHero({ hero, contact, media, theme }: CustomerHeroProps) {
   const telHref = `tel:${stripPhoneFormatting(contact.phone)}`
   const explicitHref = sanitizeHref(hero.primaryCtaHref)
   const ctaHref = explicitHref ?? telHref
   const ctaLabel = hero.primaryCtaLabel?.trim() || `Call ${contact.phone}`
+  const heroUrl = media?.heroUrl
 
   return (
     <section
@@ -99,9 +103,33 @@ export function CustomerHero({ hero, contact, theme }: CustomerHeroProps) {
             </a>
           </div>
         </div>
-        <ContactCard contact={contact} />
+        {heroUrl ? <HeroImage url={heroUrl} /> : <ContactCard contact={contact} />}
       </Container>
     </section>
+  )
+}
+
+function HeroImage({ url }: { url: string }) {
+  return (
+    <div
+      className="relative aspect-[4/5] w-full max-w-md justify-self-end overflow-hidden"
+      style={{
+        borderRadius: "var(--apex-radius-lg)",
+        boxShadow:
+          "0 30px 60px -24px color-mix(in oklab, var(--apex-fg) 25%, transparent)",
+        border: "1px solid var(--apex-border)",
+      }}
+    >
+      <Image
+        src={url}
+        alt=""
+        fill
+        sizes="(max-width: 1024px) 100vw, 480px"
+        className="object-cover"
+        priority
+        unoptimized
+      />
+    </div>
   )
 }
 

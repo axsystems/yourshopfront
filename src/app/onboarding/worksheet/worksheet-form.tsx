@@ -12,6 +12,7 @@ import {
 import { AboutSection } from "./sections/about-section"
 import { ContactSection } from "./sections/contact-section"
 import { HeroSection } from "./sections/hero-section"
+import { MediaSection } from "./sections/media-section"
 import { ReviewsSection } from "./sections/reviews-section"
 import { ServicesSection } from "./sections/services-section"
 import { ServiceAreaSection } from "./sections/service-area-section"
@@ -76,6 +77,13 @@ export function WorksheetForm({ site }: WorksheetFormProps) {
         initial={content.reviews}
         locked={locked}
         onSaved={(reviews) => setContent((c) => ({ ...c, reviews }))}
+      />
+      <MediaSection
+        n={7}
+        sessionId={sessionId}
+        initial={content.media}
+        locked={locked}
+        onSaved={(media) => setContent((c) => ({ ...c, media }))}
       />
       <CompletionBanner complete={complete} bottom />
     </div>
