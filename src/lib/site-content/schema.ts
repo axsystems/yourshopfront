@@ -95,7 +95,8 @@ export const ReviewSchema = z.object({
   source: z.string().trim().max(40).optional(),
 })
 
-export const PhotosSchema = z.object({
+export const MediaSchema = z.object({
+  logoUrl: z.string().trim().url().optional(),
   heroUrl: z.string().trim().url().optional(),
   gallery: z.array(z.string().trim().url()).max(40).optional(),
 })
@@ -112,7 +113,7 @@ export const PartialSiteContentSchema = z.object({
   about: AboutSchema.optional(),
   serviceArea: ServiceAreaSchema.optional(),
   reviews: z.array(ReviewSchema).max(20).optional(),
-  photos: PhotosSchema.optional(),
+  media: MediaSchema.optional(),
 })
 
 /**
@@ -126,7 +127,7 @@ export const CompleteSiteContentSchema = z.object({
   about: AboutSchema,
   serviceArea: ServiceAreaSchema,
   reviews: z.array(ReviewSchema).max(20).optional(),
-  photos: PhotosSchema.optional(),
+  media: MediaSchema.optional(),
 })
 
 export type PartialSiteContent = z.infer<typeof PartialSiteContentSchema>

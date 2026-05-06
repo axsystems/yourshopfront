@@ -86,7 +86,7 @@ export type {
   SiteContentAbout,
   SiteContentContact,
   SiteContentHero,
-  SiteContentPhotos,
+  SiteContentMedia,
   SiteContentReview,
   SiteContentService,
   SiteContentServiceArea,

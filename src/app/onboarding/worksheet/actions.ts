@@ -17,7 +17,7 @@ import {
   AboutSchema,
   ContactSchema,
   HeroSchema,
-  PhotosSchema,
+  MediaSchema,
   ReviewSchema,
   ServiceAreaSchema,
   ServiceSchema,
@@ -45,7 +45,7 @@ const SectionEnum = z.enum([
   "about",
   "serviceArea",
   "reviews",
-  "photos",
+  "media",
 ])
 
 const sectionSchemas = {
@@ -55,7 +55,7 @@ const sectionSchemas = {
   about: AboutSchema,
   serviceArea: ServiceAreaSchema,
   reviews: z.array(ReviewSchema).max(20),
-  photos: PhotosSchema,
+  media: MediaSchema,
 } as const
 
 export type ActionResult = { ok: true } | { ok: false; error: string }

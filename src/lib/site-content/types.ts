@@ -64,8 +64,12 @@ export interface SiteContentReview {
   source?: string
 }
 
-export interface SiteContentPhotos {
+export interface SiteContentMedia {
+  /** Customer logo, shown in the tenant page header. */
+  logoUrl?: string
+  /** Hero background or side image. */
   heroUrl?: string
+  /** Gallery thumbnails shown in their own section if non-empty. */
   gallery?: string[]
 }
 
@@ -76,7 +80,7 @@ export interface SiteContent {
   about?: SiteContentAbout
   serviceArea?: SiteContentServiceArea
   reviews?: SiteContentReview[]
-  photos?: SiteContentPhotos
+  media?: SiteContentMedia
 }
 
 /**

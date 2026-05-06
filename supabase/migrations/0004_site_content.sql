@@ -21,7 +21,8 @@
 --     "serviceArea": { "cities": ["...", ...] },
 --     "reviews":     [{ "author": "...", "body": "...",
 --                       "rating": 1..5, "source": "..." }, ...],
---     "photos":      { "heroUrl": "...", "gallery": ["...", ...] }
+--     "media":       { "logoUrl": "...", "heroUrl": "...",
+--                       "gallery": ["...", ...] }
 --   }
 --
 -- Empty `{}` = no customer content yet — the tenant page falls back to the
