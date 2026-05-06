@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache"
 import { z } from "zod"
 
 import {
+  assetsAreSufficient,
   getSiteByStripeSessionId,
   isOnboardingComplete,
   siteContentIsValid,
@@ -101,17 +102,22 @@ export async function saveWorksheetSection(
     }
     await updateSiteContent(site.id, nextContent)
 
-    // Reconcile content_sent against the new structural validity.
-    const valid = siteContentIsValid(nextContent)
+    // Reconcile both onboarding flags against the new content. Step 2
+    // (content_sent) is driven by siteContentIsValid; step 3 (assets_sent)
+    // is driven by assetsAreSufficient. Either can flip on a single save
+    // if the media section just crossed the threshold.
+    const validContent = siteContentIsValid(nextContent)
+    const validAssets = assetsAreSufficient(nextContent)
     const prior: OnboardingState = site.onboarding_state ?? {}
-    const priorComplete = prior.content_sent?.complete ?? false
-    if (valid !== priorComplete) {
-      const nextOnboarding: OnboardingState = {
-        ...prior,
-        content_sent: valid
-          ? { complete: true, completed_at: new Date().toISOString() }
-          : { complete: false },
-      }
+    const nextOnboarding: OnboardingState = {
+      ...prior,
+      content_sent: stamp(prior.content_sent, validContent),
+      assets_sent: stamp(prior.assets_sent, validAssets),
+    }
+    if (
+      nextOnboarding.content_sent?.complete !== prior.content_sent?.complete ||
+      nextOnboarding.assets_sent?.complete !== prior.assets_sent?.complete
+    ) {
       await updateOnboardingState(site.id, nextOnboarding)
       if (isOnboardingComplete(nextOnboarding)) {
         await updateSiteStatus(site.id, "ready_to_build")
@@ -128,4 +134,16 @@ export async function saveWorksheetSection(
       error: err instanceof Error ? err.message : "Could not save the worksheet.",
     }
   }
+}
+
+function stamp(
+  prior: { complete: boolean; completed_at?: string } | undefined,
+  next: boolean
+): { complete: boolean; completed_at?: string } {
+  if (next) {
+    return prior?.complete
+      ? prior
+      : { complete: true, completed_at: new Date().toISOString() }
+  }
+  return { complete: false }
 }

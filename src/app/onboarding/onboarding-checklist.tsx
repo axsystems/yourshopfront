@@ -2,11 +2,17 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { ArrowRight, Check, Circle, Lock } from "lucide-react"
+import { ArrowRight, Check, Lock } from "lucide-react"
 
-import type { OnboardingState, Site } from "@/lib/supabase"
-import { siteContentIsValid } from "@/lib/site-content/types"
-import { setAssetsSent, setDomain } from "./actions"
+import type { OnboardingState, Site, SiteContentMedia } from "@/lib/supabase"
+import {
+  MIN_GALLERY_PHOTOS,
+  assetsAreSufficient,
+  siteContentIsValid,
+} from "@/lib/site-content/types"
+import { AssetUploader } from "@/components/upload/asset-uploader"
+import { setDomain } from "./actions"
+import { saveWorksheetSection } from "./worksheet/actions"
 
 interface OnboardingChecklistProps {
   site: Site
@@ -27,7 +33,7 @@ export function OnboardingChecklist({ site }: OnboardingChecklistProps) {
         locked
       />
       <ContentStep site={site} />
-      <AssetsStep sessionId={sessionId} state={state} locked={locked} />
+      <AssetsStep site={site} />
       <DomainStep sessionId={sessionId} state={state} locked={locked} />
     </div>
   )
@@ -151,23 +157,37 @@ function ContentStep({ site }: { site: Site }) {
   )
 }
 
-function AssetsStep({
-  sessionId,
-  state,
-  locked,
-}: {
-  sessionId: string
-  state: OnboardingState
-  locked: boolean
-}) {
+function AssetsStep({ site }: { site: Site }) {
+  const sessionId = site.stripe_session_id
+  const locked = site.status !== "pending_content"
+  const initialMedia: SiteContentMedia = site.site_content?.media ?? {}
+
+  // Optimistic state — uploads complete immediately on the client; the
+  // server action mirrors them into site_content.media in the background.
+  const [media, setMedia] = React.useState<SiteContentMedia>(initialMedia)
   const [pending, startTransition] = React.useTransition()
   const [error, setError] = React.useState<string | null>(null)
-  const complete = state.assets_sent?.complete ?? false
 
-  const toggle = () => {
+  const logoValue = media.logoUrl ? [media.logoUrl] : []
+  const galleryValue = media.gallery ?? []
+  const complete = assetsAreSufficient({ media })
+
+  const persist = (next: SiteContentMedia) => {
+    setMedia(next)
     setError(null)
     startTransition(async () => {
-      const result = await setAssetsSent({ sessionId, complete: !complete })
+      const result = await saveWorksheetSection({
+        sessionId,
+        section: "media",
+        // Drop empty fields so Zod's optional rules apply cleanly.
+        data: {
+          ...(next.logoUrl ? { logoUrl: next.logoUrl } : {}),
+          ...(next.heroUrl ? { heroUrl: next.heroUrl } : {}),
+          ...(next.gallery && next.gallery.length > 0
+            ? { gallery: next.gallery }
+            : {}),
+        },
+      })
       if (!result.ok) setError(result.error)
     })
   }
@@ -178,15 +198,8 @@ function AssetsStep({
       title="Send us your logo and photos"
       description={
         <>
-          Drag-and-drop or email{" "}
-          <a
-            href="mailto:hello@apexsites.com"
-            className="underline underline-offset-2"
-            style={{ color: "var(--apex-fg)" }}
-          >
-            hello@apexsites.com
-          </a>{" "}
-          your logo + ~10 representative photos (JPG/PNG, any resolution).
+          Upload your logo (1 file) and at least {MIN_GALLERY_PHOTOS}{" "}
+          representative photos. JPG, PNG, WebP, or SVG — up to 10MB each.
         </>
       }
       complete={complete}
@@ -194,38 +207,39 @@ function AssetsStep({
       error={error}
       pending={pending}
     >
-      <div
-        className="mb-4 grid place-items-center rounded-lg border-2 border-dashed p-6 text-sm"
-        style={{
-          borderColor: "var(--apex-border)",
-          color: "var(--apex-muted-fg)",
-        }}
-      >
-        <p>Drop zone (we&apos;ll wire up uploads soon — for now, email is fine)</p>
+      <div className="space-y-6">
+        <div>
+          <p className="mb-2 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-apx-mute">
+            Logo <span className="text-apx-primary">*</span>
+          </p>
+          <AssetUploader
+            sessionId={sessionId}
+            kind="logo"
+            value={logoValue}
+            disabled={locked}
+            onChange={(urls) =>
+              persist({ ...media, logoUrl: urls[0] ?? undefined })
+            }
+          />
+        </div>
+        <div>
+          <p className="mb-2 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-apx-mute">
+            Photos <span className="text-apx-primary">*</span>{" "}
+            <span className="font-normal text-apx-mute">
+              ({galleryValue.length}/{MIN_GALLERY_PHOTOS} minimum)
+            </span>
+          </p>
+          <AssetUploader
+            sessionId={sessionId}
+            kind="gallery"
+            value={galleryValue}
+            disabled={locked}
+            onChange={(urls) =>
+              persist({ ...media, gallery: urls.length > 0 ? urls : undefined })
+            }
+          />
+        </div>
       </div>
-      <button
-        type="button"
-        onClick={toggle}
-        disabled={pending || locked}
-        className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-bold transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
-        style={{
-          background: complete ? "transparent" : "var(--apex-primary)",
-          color: complete ? "var(--apex-fg)" : "var(--apex-primary-fg)",
-          border: complete ? "1.5px solid var(--apex-border)" : "none",
-          borderRadius: "var(--apex-radius-md)",
-          fontFamily: "var(--apex-font-display)",
-        }}
-      >
-        {complete ? (
-          <>
-            <Circle className="h-3.5 w-3.5" /> Mark as not sent
-          </>
-        ) : (
-          <>
-            <Check className="h-3.5 w-3.5" strokeWidth={3} /> Mark as sent
-          </>
-        )}
-      </button>
     </Step>
   )
 }

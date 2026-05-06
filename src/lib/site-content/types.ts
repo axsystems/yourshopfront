@@ -83,6 +83,9 @@ export interface SiteContent {
   media?: SiteContentMedia
 }
 
+/** Minimum gallery size for AssetsStep to consider step 3 done. */
+export const MIN_GALLERY_PHOTOS = 3
+
 /**
  * "Is this site_content complete enough to launch?" — the bar that gates
  * onboarding step 2 and the content_sent → ready_to_build status flip.
@@ -103,5 +106,18 @@ export function siteContentIsValid(c: SiteContent): boolean {
       c.about?.body?.trim() &&
       c.serviceArea?.cities &&
       c.serviceArea.cities.length >= 1
+  )
+}
+
+/**
+ * "Has the customer uploaded enough media?" — gates onboarding step 3.
+ * Logo + at least MIN_GALLERY_PHOTOS gallery photos. Hero image is
+ * optional.
+ */
+export function assetsAreSufficient(c: SiteContent): boolean {
+  return Boolean(
+    c.media?.logoUrl?.trim() &&
+      c.media.gallery &&
+      c.media.gallery.length >= MIN_GALLERY_PHOTOS
   )
 }

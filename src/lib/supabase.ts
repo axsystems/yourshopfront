@@ -92,7 +92,10 @@ export type {
   SiteContentServiceArea,
   WeekHours,
 } from "./site-content/types"
-export { siteContentIsValid } from "./site-content/types"
+export {
+  assetsAreSufficient,
+  siteContentIsValid,
+} from "./site-content/types"
 
 import type { SiteContent } from "./site-content/types"
 
