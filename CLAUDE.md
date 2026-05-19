@@ -1,1 +1,120 @@
-@AGENTS.md
+# Apex Sites — CLAUDE.md
+
+> Productized website design + hosting for home-service businesses. 24 themes, $499 setup + $199/mo OR $2,997 one-time. **Wedge product for the axon-growth marketing OS.**
+
+## Strategic Role (read FIRST)
+
+apex-sites is **NOT a standalone product** in the long term. It's the **wedge** for `axon-growth` (Path A secondary breakout — LIVE B2B SaaS at axongrowth.ai).
+
+**ICP is identical for both:** home-service SMBs (painters, electricians, HVAC, plumbers, handymen). Same customers buy a website (apex-sites), realize they need leads, then upsell into Google Ads + GBP + SEO management (axon-growth).
+
+**4-Stage launch sequence:**
+1. ✅ axon-growth launches solo (code-ready, brand-assets blocker)
+2. ⏳ apex-sites finish Phase 4e+4f+5 (this repo's work)
+3. ⏳ apex-sites launches solo (validate funnel)
+4. ⏳ Bundle launch — upsell modal, shared Clerk, cross-product webhooks
+
+See `docs/BUNDLE-PLAN.md` for full Stage 4 spec. See `axon-growth/CLAUDE.md` for the upstream side.
+
+## Tech Stack
+- **Web:** Next.js 16.2.4 (App Router), React 19.2.4, TypeScript strict
+- **Styling:** Tailwind v4 (`@theme` in `globals.css` — NO `tailwind.config.ts`), shadcn/ui
+- **Payments:** Stripe 22.1.0 (API version `2024-11-20.acacia` PINNED in `src/lib/stripe.ts`)
+- **DB:** Supabase (RLS enabled, no policies = locked-by-default; service-role key server-only)
+- **Email:** Resend 6.12.2 · **Forms:** React Hook Form 7.74 + Zod 4.3 · **Animations:** Framer Motion 12.38
+- **Deploy:** Vercel (paused until end of Phase 4) · **Package manager:** pnpm
+
+⚠️ **Stripe API version cross-repo:** axon-growth uses `2024-06-20`. If sharing metadata between repos in Stage 4, verify payload schemas match across both versions.
+
+## Commands
+```bash
+pnpm install
+pnpm dev          # http://localhost:3000
+pnpm typecheck    # tsc --noEmit — MUST pass before commit
+pnpm lint         # eslint src/
+pnpm build        # next build — verifies all 61 routes
+pnpm stripe:setup # idempotent — creates Stripe products + prices
+```
+
+## IMPORTANT Rules
+- Default branch is **`master`**, not `main`. Use upstream-tracking push.
+- All API routes: Zod validation at boundary; never trust client input.
+- Stripe webhook (`/api/stripe/webhook`): signature verify FIRST, then idempotency check via `getSiteByStripeSessionId` — bail if row exists.
+- Stripe API version `2024-11-20.acacia` is PINNED — do NOT bump without re-testing webhook payload shapes AND cross-checking against axon-growth's `2024-06-20`.
+- Service-role Supabase key is server-only — never import in client components.
+- Email failures (Resend) are best-effort — log + continue, do NOT block checkout success.
+
+## Authentication (current vs future)
+
+**Current (Phase 4):** Public + anonymous. No Clerk. Customer email captured at Stripe Checkout only. Deliberate for conversion.
+
+**Phase 5.5 (planned):** Optional Clerk sign-up post-purchase for self-service portal (check onboarding status, update content, view invoices). Not required for basic flow.
+
+**Stage 4 / Bundle goal:** **SHARED Clerk org** with axon-growth. Customer signs in once via Clerk, accesses both dashboards. Stripe `customer_id` shared across both products (no duplicate customer objects).
+
+## Critical Stage 4 Integration Hooks (MUST ship before paid GA)
+
+These must be baked in BEFORE apex-sites reaches paid general availability, or bundle launch will hit duplicate-customer hell:
+
+### Hook 1 — Shared Stripe customer logic
+Before `stripe.checkout.sessions.create()`, call `stripe.customers.list({ email, limit: 1 })`. If found, pass existing `customer` param. If not, let Checkout create. Both apex-sites and axon-growth must do this — prevents 2-customer-per-bundle problem.
+
+### Hook 2 — Stripe metadata convention
+Every Checkout session metadata must include:
+```typescript
+metadata: {
+  product: 'apex-sites',     // or 'axon-growth' in the other repo
+  email: customer_email,
+  site_id: <pre-generated>,
+  axon_product: null,         // null for apex-sites solo; 'JUST_ADS'|'FULL_SUITE' if bundle
+}
+```
+Future bundle webhook handlers depend on this. Adding later means backfilling old records.
+
+### Hook 3 — Email canonical-key policy
+Both repos must enforce same email normalization (lowercase, trim, validate). Don't let bundle customers fragment with personal vs business email variants.
+
+## Next.js 16 critical rules
+- `params` is a Promise — must `await params` in dynamic routes.
+- `useSearchParams` must be wrapped in `<Suspense>`.
+- File is `proxy.ts`, NOT `middleware.ts`.
+- Tailwind v4 config lives in `src/app/globals.css` via `@theme {}` — no `tailwind.config.ts`.
+
+## Gotchas
+- 24 themes total. Featured 10 canonical to `/demos`, other 14 canonical to `/portfolio` (SEO).
+- `<ThemeProvider>` applies only the active theme's font className — don't load all 9 fonts everywhere.
+- Stripe checkout has 3 modes (subscription / onetime+hosting / onetime-only) — see `src/lib/stripe.ts` comments.
+- Custom-build tier was REMOVED in Phase 2.5 — don't re-introduce.
+- Supabase RLS is locked-by-default (no policies). Use service-role key from server components only.
+
+## Do Not Build
+- `middleware.ts` (use `proxy.ts`)
+- `tailwind.config.ts` (use `@theme` in `globals.css`)
+- Custom-build tier — killed Phase 2.5 (all 24 unified as themes)
+- Client-side Stripe session creation — server-only
+- Direct commits to `main` — branch is `master`
+- ❌ **DO NOT bundle with axon-growth before apex-sites Phase 5 launches solo + validates standalone funnel.** Stage 4 is months away. Don't add bundle pricing or cross-product upsell flows yet.
+
+## Deferred Webhook Handlers (post-launch-todo.md:7-40)
+
+Current webhook only handles `checkout.session.completed` + `customer.subscription.deleted`. Pre-Stage 4, must add:
+- `invoice.payment_failed` (dunning emails)
+- `customer.subscription.updated` (payment method changes, unpause)
+- `charge.refunded` (refund lifecycle)
+
+## Key Files
+- `src/lib/themes/` — 24 theme configs + featured slugs index
+- `src/lib/stripe.ts` — pinned-version Stripe client + 3-mode checkout
+- `src/lib/supabase.ts` — server-only typed helpers
+- `src/lib/checkout-schema.ts` — Zod schemas (form + API)
+- `src/app/api/checkout/route.ts` — Stripe session creation (Hook 1 lives here in future)
+- `src/app/api/stripe/webhook/route.ts` — signature-verified, idempotent
+- `src/app/dev/themes/page.tsx` — dev-only audit of all 24 themes
+- `supabase/migrations/0001_initial.sql` — `customers` + `sites` tables, RLS, triggers
+- `scripts/create-stripe-products.ts` — Phase 4a setup script
+- `README.md` — full architecture deep-dive + manual setup
+- `docs/BUNDLE-PLAN.md` — Stage 4 integration spec (apex-sites ↔ axon-growth)
+
+## Status pointers
+- Phases 0-4d shipped. 4e (onboarding) + 4f (test plan) pending. 5+ (provisioning, admin, portal, static pages, launch) pending.
+- Detailed phase history: `~/.claude/projects/-Users-parker-code/memory/apex-sites-status.md`
