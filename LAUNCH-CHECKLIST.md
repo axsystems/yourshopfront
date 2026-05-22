@@ -110,6 +110,24 @@ The cron job at `/api/cron/provision` runs every minute (configured in `vercel.j
 - [ ] **Admin approve**: with `Authorization: Bearer $ADMIN_PASSWORD`, POST `{ "site_id": "..." }` to `/api/provisioning/approve`. Confirms status flips to `live` and a customer email goes out.
 - [ ] **Failure path**: with bad Cloudflare credentials, force a provisioning failure. Verify `sites.status='failed'`, `failure_reason` populated, Slack pinged, onboarding page shows the "We hit a snag" state.
 
+## 5c. Stripe Customer Portal config (one-time, before /api/billing-portal works)
+
+The Customer Portal must be configured ONCE in the Stripe Dashboard:
+
+1. Stripe Dashboard → Settings → Billing → Customer portal
+2. Enable the portal
+3. Configure allowed actions:
+   - [x] Update payment method
+   - [x] Cancel subscriptions — recommend "Cancel at end of period" so the 30-day grace period in refund-policy is respected
+   - [x] View invoice history + download receipts
+   - [ ] Disable "Switch plans" — we don't support self-serve plan changes yet
+4. Set redirect URL whitelist to include `https://yourshopfront.com/*`
+5. Save
+
+Without this, `POST /api/billing-portal` returns a Stripe error and the "Manage billing" button on the onboarding page errors out.
+
+- [ ] Operator confirms portal configured
+
 
 
 - [ ] Production Resend account exists.
@@ -189,7 +207,6 @@ These are flagged in the redesign loop and the final report. They are not launch
 - **Real customer testimonials / case-study photography.** None exist today; the trust strip metrics are truthful deliverables only.
 - **`@next/bundle-analyzer`** for precise per-route gzipped first-load JS measurement. Approximate measurement only today.
 - **`invoice.payment_failed` and `charge.refunded` webhook handlers.** Per `docs/post-launch-todo.md` — add before scaling past ~50 active subscriptions.
-- **Stripe Customer Portal link** on `/onboarding` for subscription customers — self-service payment-method update.
 - **Image optimization for tenant pages.** Tenant `<Image>` calls use `unoptimized` because Supabase Storage URLs aren't whitelisted. Add `*.supabase.co` to `next.config.ts` `images.remotePatterns` and drop `unoptimized` once a real customer needs the LCP gain.
 - **Brand assets** (logos, OG images, favicon) still render the old Apex SVG mark. Update `public/brand/` SVG sources and re-run `pnpm brand:export` when new Your Shopfront brand assets are ready.
 - **Worksheet + upload smoke automation.** Manual gates only today; needs a Supabase test fixture or mocked client to run in CI.

@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { CheckCircle, PenLine } from "lucide-react"
 
+import { BillingButton } from "./billing-button"
 import { OnboardingChecklist } from "./onboarding-checklist"
 import { OnboardingProcessing } from "./processing"
 import { ProvisioningStatus } from "./provisioning-status"
@@ -79,6 +80,13 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
 
   const theme = allThemes[site.demo_slug] ?? defaultTheme
   const pastOnboarding = site.status !== "pending_content"
+  // Show "Manage billing" only when the customer has a recurring charge:
+  // - subscription tier (always has the $149/mo sub), OR
+  // - one-time tier with the $49/mo hosting add-on.
+  // Pure one-time customers have nothing to manage in the portal.
+  const hasRecurringBilling =
+    site.tier === "subscription" ||
+    (site.tier === "onetime" && site.hosting_addon)
 
   return (
     <ThemeProvider theme={theme}>
@@ -126,6 +134,37 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
                 <OnboardingChecklist site={site} />
               </div>
             </>
+          )}
+
+          {hasRecurringBilling && (
+            <section
+              id="billing"
+              aria-labelledby="billing-heading"
+              className="mt-12 rounded-2xl border p-6"
+              style={{
+                background: "var(--apex-surface)",
+                borderColor: "var(--apex-border)",
+                color: "var(--apex-surface-fg)",
+              }}
+            >
+              <h2
+                id="billing-heading"
+                className="text-base font-bold leading-tight"
+                style={{ fontFamily: "var(--apex-font-display)" }}
+              >
+                Billing
+              </h2>
+              <p
+                className="mt-1 text-sm leading-relaxed"
+                style={{ color: "var(--apex-muted-fg)" }}
+              >
+                Update your payment method, download invoices, or cancel any
+                time from Stripe&apos;s secure portal.
+              </p>
+              <div className="mt-4">
+                <BillingButton sessionId={session_id} />
+              </div>
+            </section>
           )}
         </div>
       </main>

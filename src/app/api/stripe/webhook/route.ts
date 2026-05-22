@@ -179,6 +179,7 @@ async function handleSessionCompleted(session: Stripe.Checkout.Session) {
       tier: site.tier,
       demoSlug: site.demo_slug,
       sessionId: session.id,
+      hostingAddon: site.hosting_addon,
     }),
     notifySlack(
       [
@@ -382,12 +383,26 @@ interface WelcomeEmailOpts {
   tier: Tier
   demoSlug: string
   sessionId: string
+  hostingAddon: boolean
 }
 
 async function sendWelcomeEmail(opts: WelcomeEmailOpts): Promise<void> {
   const onboardingUrl = `${SITE_URL}/onboarding?session_id=${opts.sessionId}`
   const tierLabel =
     opts.tier === "subscription" ? "Subscription ($299 + $149/mo)" : "One-time build ($997)"
+  // Show the billing-portal line only for customers with a recurring
+  // charge — subscription tier always recurs, and one-time + hosting
+  // add-on recurs at $49/mo. Pure one-time has nothing to manage.
+  const hasRecurringBilling =
+    opts.tier === "subscription" ||
+    (opts.tier === "onetime" && opts.hostingAddon)
+  const billingLines = hasRecurringBilling
+    ? [
+        "",
+        `Manage your billing any time: ${onboardingUrl}#billing`,
+        '(then click "Manage billing" in the page)',
+      ]
+    : []
   await sendEmail({
     to: opts.to,
     subject: "Welcome to Your Shopfront — let's build your site",
@@ -404,6 +419,7 @@ async function sendWelcomeEmail(opts: WelcomeEmailOpts): Promise<void> {
       "Questions? Just reply to this email — a real person reads every inbound.",
       "",
       "Lost this email? Recover your link any time at yourshopfront.com/access.",
+      ...billingLines,
       "",
       "— Your Shopfront",
     ].join("\n"),
