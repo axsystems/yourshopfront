@@ -92,7 +92,7 @@ export async function saveWorksheetSection(
     if (site.status !== "pending_content") {
       return {
         ok: false,
-        error: `Onboarding is locked (status: ${site.status}). Email hello@apexsites.com to change anything.`,
+        error: `Onboarding is locked (status: ${site.status}). Email hello@yourshopfront.com to change anything.`,
       }
     }
 

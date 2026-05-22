@@ -2,7 +2,7 @@ import "server-only"
 
 /**
  * Minimal Cloudflare DNS REST API client for Phase 5 provisioning. Single
- * surface — managing CNAME records on the apexsites.com zone — so we
+ * surface — managing CNAME records on the yourshopfront.com zone — so we
  * don't pull in `cloudflare`.
  *
  * Reference: https://developers.cloudflare.com/api/operations/dns-records-for-a-zone-create-dns-record
@@ -62,7 +62,7 @@ async function cfFetch<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 /**
- * Looks up a DNS record by its full name (e.g. "northridge-plumbing.apexsites.com").
+ * Looks up a DNS record by its full name (e.g. "northridge-plumbing.yourshopfront.com").
  * Returns null when no matching record exists. Used for idempotency in
  * createSubdomainCname.
  */
@@ -77,14 +77,14 @@ export async function findCnameByName(
 }
 
 /**
- * Idempotently creates `<subdomain>.apexsites.com → cname.vercel-dns.com`.
+ * Idempotently creates `<subdomain>.yourshopfront.com → cname.vercel-dns.com`.
  * If a CNAME with the same name already exists pointing at Vercel, this
  * is a no-op and returns the existing record id.
  */
 export async function createSubdomainCname(
   subdomain: string
 ): Promise<{ id: string; hostname: string }> {
-  const apex = process.env.APEX_DOMAIN ?? "apexsites.com"
+  const apex = process.env.APEX_DOMAIN ?? "yourshopfront.com"
   const hostname = `${subdomain}.${apex}`
 
   const existing = await findCnameByName(hostname)

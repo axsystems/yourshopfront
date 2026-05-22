@@ -22,7 +22,7 @@ export function HomeStatStrip() {
             <Stat
               value="30"
               label="Designs ready to ship"
-              caption="Across home services and adjacent trades"
+              caption="For small businesses of every shape"
             />
             <Stat
               tone="cobalt"

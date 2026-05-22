@@ -11,14 +11,14 @@ export function HomeHero() {
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
           <div className="max-w-[640px]">
-            <Eyebrow tone="cobalt">Productized websites for trades</Eyebrow>
+            <Eyebrow tone="cobalt">Productized websites for small businesses</Eyebrow>
             <h1 className="mt-5 font-sans text-[44px] font-bold leading-[0.98] tracking-[-0.025em] text-apx-ink md:text-[76px]">
-              Websites that{" "}
-              <HighlightStroke>book</HighlightStroke>{" "}
-              more jobs.
+              A website your{" "}
+              <HighlightStroke>business</HighlightStroke>{" "}
+              deserves.
             </h1>
             <Lede className="mt-6">
-              Pick one of 30 designs, send us your content, your site is live in 24 hours. Subscription or one-time. Built for plumbers, painters, roofers, electricians — and anyone selling a service that needs the phone to ring.
+              Pick one of 30 designs, send us your content, your site is live in 24 hours. Subscription or one-time. From neighborhood barbers to growing law firms — every small business welcome.
             </Lede>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Button href="/portfolio" variant="primary" size="lg">

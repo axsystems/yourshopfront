@@ -99,7 +99,7 @@ function ThemeSwatch({ theme }: { theme: Theme }) {
               color: "var(--apex-fg)",
             }}
           >
-            Apex Sites in the {theme.name} style.
+            Your Shopfront in the {theme.name} style.
           </h3>
           <p className="text-sm" style={{ color: "var(--apex-muted-fg)" }}>
             {theme.tagline}

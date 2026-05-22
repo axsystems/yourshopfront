@@ -96,7 +96,7 @@ export async function provisionSite(site: Site): Promise<void> {
 
     // Step 4: attach domain to Vercel project (idempotent — 409 from
     // Vercel = already attached = success).
-    const apex = process.env.APEX_DOMAIN ?? "apexsites.com"
+    const apex = process.env.APEX_DOMAIN ?? "yourshopfront.com"
     const fullHostname = `${provisionSlug}.${apex}`
     if (!state.vercel?.complete) {
       await addDomainToProject(fullHostname)

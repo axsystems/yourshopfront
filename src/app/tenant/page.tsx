@@ -153,8 +153,8 @@ function RemovedNotice() {
             love to help.
           </p>
           <div className="mt-8">
-            <Button href="https://apexsites.com" variant="primary" size="lg">
-              See Apex Sites →
+            <Button href="https://yourshopfront.com" variant="primary" size="lg">
+              See Your Shopfront →
             </Button>
           </div>
         </div>

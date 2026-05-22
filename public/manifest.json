@@ -1,7 +1,7 @@
 {
-  "name": "Apex Sites",
-  "short_name": "Apex",
-  "description": "Productized websites for trades. 24 designs, 24-hour delivery, two ways to buy.",
+  "name": "Your Shopfront",
+  "short_name": "Shopfront",
+  "description": "Productized websites for small businesses. 30 designs, 24-hour delivery, two ways to buy.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FFFFFF",

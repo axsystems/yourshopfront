@@ -18,27 +18,51 @@ const GREETING: ChatMessage = {
   id: "greeting",
   role: "assistant",
   content:
-    "Hey — I'm the Apex Sites concierge. Tell me your trade and I'll point you at the right design, or ask anything about pricing or how the 24-hour build works.",
+    "Hey — I'm the Your Shopfront concierge. Tell me about your business and I'll point you at the right design, or ask anything about pricing or how the 24-hour build works.",
 }
 
 const QUICK_REPLIES = [
   "Show me the laundromat demo",
   "What's the cheapest way to start?",
-  "I run a HVAC business — which design fits?",
+  "I run a yoga studio — which design fits?",
   "Do you do Google Ads?",
 ] as const
 
 const LINK_PATTERN = /\[([^\]]+)\]\(([^)]+)\)/g
 
+const SAFE_EXTERNAL_HOSTS = ["yourshopfront.com"] as const
+
+type LinkClassification = "internal" | "external" | "mailto" | "blocked"
+
+function classifyLinkHref(href: string): LinkClassification {
+  if (href.startsWith("/")) return "internal"
+  if (href.startsWith("mailto:")) return "mailto"
+  try {
+    const url = new URL(href)
+    if (url.protocol !== "https:") return "blocked"
+    const host = url.hostname.toLowerCase()
+    for (const safe of SAFE_EXTERNAL_HOSTS) {
+      if (host === safe || host.endsWith(`.${safe}`)) return "external"
+    }
+    return "blocked"
+  } catch {
+    return "blocked"
+  }
+}
+
 /**
  * Parses Markdown-style `[text](url)` links and renders them as Next.js
- * Link components for internal routes, plain anchors for external. Plain
- * text segments preserve newlines via whitespace-pre-wrap on the parent.
+ * Link components for internal routes, plain anchors for allowed external
+ * hosts, and bare text for everything else. The allowlist defends against
+ * prompt injection — the LLM can't smuggle an arbitrary URL or
+ * `data:`/`javascript:` payload into the rendered chat.
  */
 function renderMessageContent(content: string): React.ReactNode[] {
   const nodes: React.ReactNode[] = []
   let lastIndex = 0
   let match: RegExpExecArray | null
+  const linkClass =
+    "font-semibold text-apx-primary underline underline-offset-2 hover:text-apx-primary-ink"
 
   LINK_PATTERN.lastIndex = 0
   while ((match = LINK_PATTERN.exec(content)) !== null) {
@@ -46,30 +70,35 @@ function renderMessageContent(content: string): React.ReactNode[] {
       nodes.push(content.slice(lastIndex, match.index))
     }
     const [, label, href] = match
-    const isInternal = href!.startsWith("/")
     const key = `link-${match.index}`
-    if (isInternal) {
+    const classification = classifyLinkHref(href!)
+    if (classification === "internal") {
       nodes.push(
-        <Link
-          key={key}
-          href={href!}
-          className="font-semibold text-apx-primary underline underline-offset-2 hover:text-apx-primary-ink"
-        >
+        <Link key={key} href={href!} className={linkClass}>
           {label}
         </Link>
       )
-    } else {
+    } else if (classification === "external") {
       nodes.push(
         <a
           key={key}
           href={href!}
           target="_blank"
           rel="noopener noreferrer"
-          className="font-semibold text-apx-primary underline underline-offset-2 hover:text-apx-primary-ink"
+          className={linkClass}
         >
           {label}
         </a>
       )
+    } else if (classification === "mailto") {
+      nodes.push(
+        <a key={key} href={href!} className={linkClass}>
+          {label}
+        </a>
+      )
+    } else {
+      // Blocked: render the label as plain text, no anchor.
+      nodes.push(label)
     }
     lastIndex = match.index + match[0].length
   }
@@ -108,7 +137,7 @@ function saveHistory(messages: ChatMessage[]): void {
 }
 
 /**
- * Apex Sites sales-agent chat bubble. Streams Claude Haiku 4.5 via
+ * Your Shopfront sales-agent chat bubble. Streams Claude Haiku 4.5 via
  * /api/chat as SSE. Conversation persists in localStorage so a refresh
  * doesn't reset context. Other CTAs can open this widget by dispatching
  * the `apex:open-chat` custom event.
@@ -270,7 +299,7 @@ export function SalesAgent() {
           type="button"
           onClick={() => setOpen(true)}
           className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-apx-ink text-apx-paper shadow-[0_8px_24px_rgba(0,0,0,0.15)] transition-transform hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(0,0,0,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-apx-primary focus-visible:ring-offset-2 sm:bottom-6 sm:right-6"
-          aria-label="Open chat with Apex Sites concierge"
+          aria-label="Open chat with Your Shopfront concierge"
         >
           <MessageCircle className="h-6 w-6" />
           <span className="sr-only">Chat</span>
@@ -281,7 +310,7 @@ export function SalesAgent() {
       {open && (
         <div
           role="dialog"
-          aria-label="Apex Sites concierge"
+          aria-label="Your Shopfront concierge"
           className="fixed inset-x-0 bottom-0 z-50 flex flex-col rounded-t-2xl border border-apx-line bg-apx-paper shadow-[0_-8px_32px_rgba(0,0,0,0.15)] sm:inset-x-auto sm:bottom-6 sm:right-6 sm:h-[560px] sm:w-[400px] sm:rounded-2xl"
           style={{ maxHeight: "min(90vh, 720px)" }}
         >
@@ -293,7 +322,7 @@ export function SalesAgent() {
               </span>
               <div>
                 <p className="font-sans text-[14px] font-semibold leading-tight text-apx-ink">
-                  Apex Sites concierge
+                  Your Shopfront concierge
                 </p>
                 <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-apx-mute">
                   Replies in seconds
@@ -389,7 +418,7 @@ export function SalesAgent() {
                 onKeyDown={onKeyDown}
                 disabled={streaming}
                 rows={1}
-                placeholder="Ask anything about Apex Sites…"
+                placeholder="Ask anything about Your Shopfront…"
                 className="flex-1 resize-none bg-transparent text-[14px] leading-[1.5] text-apx-ink placeholder:text-apx-mute focus:outline-none disabled:opacity-60"
                 style={{ maxHeight: "120px" }}
               />

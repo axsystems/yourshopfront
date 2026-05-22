@@ -52,7 +52,7 @@ export function Logo({ size = "md", markOnly, asLink = true, className }: LogoPr
           fill="currentColor"
         />
       </svg>
-      {!markOnly ? <span className={TEXT_SIZE[size]}>Apex Sites</span> : null}
+      {!markOnly ? <span className={TEXT_SIZE[size]}>Your Shopfront</span> : null}
     </span>
   )
 
@@ -60,7 +60,7 @@ export function Logo({ size = "md", markOnly, asLink = true, className }: LogoPr
   return (
     <Link
       href="/"
-      aria-label="Apex Sites — home"
+      aria-label="Your Shopfront — home"
       className="group inline-flex items-center"
     >
       {inner}

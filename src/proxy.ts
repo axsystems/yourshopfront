@@ -2,29 +2,29 @@ import { NextResponse, type NextRequest } from "next/server"
 
 /**
  * Next 16 proxy (formerly middleware.ts). Resolves customer subdomains
- * on apexsites.com to the multi-tenant render path.
+ * on yourshopfront.com to the multi-tenant render path.
  *
- *   apexsites.com           → marketing site (no rewrite)
- *   www.apexsites.com       → marketing site (no rewrite — Vercel handles
- *                             the apex redirect at the domain layer)
- *   <slug>.apexsites.com/   → rewritten to /_tenant?slug=<slug>
- *   <slug>.apexsites.com/x  → marketing site (only `/` is multi-tenant
- *                             in v1; deeper routes serve apex content)
- *   localhost:3000          → marketing site (dev — no subdomain match)
- *   *.vercel.app            → marketing site (preview deploys)
+ *   yourshopfront.com           → marketing site (no rewrite)
+ *   www.yourshopfront.com       → marketing site (no rewrite — Vercel handles
+ *                                 the apex redirect at the domain layer)
+ *   <slug>.yourshopfront.com/   → rewritten to /_tenant?slug=<slug>
+ *   <slug>.yourshopfront.com/x  → marketing site (only `/` is multi-tenant
+ *                                 in v1; deeper routes serve apex content)
+ *   localhost:3000              → marketing site (dev — no subdomain match)
+ *   *.vercel.app                → marketing site (preview deploys)
  *
  * The matcher excludes API routes, Next internals, and static files so
  * the proxy doesn't add hops to every asset request.
  */
 
-const APEX_DOMAIN = process.env.APEX_DOMAIN ?? "apexsites.com"
+const APEX_DOMAIN = process.env.APEX_DOMAIN ?? "yourshopfront.com"
 
 export function proxy(req: NextRequest): NextResponse {
   const hostHeader = req.headers.get("host") ?? ""
   const host = hostHeader.split(":")[0]!.toLowerCase()
 
   // Skip non-apex hosts entirely (preview deploys, localhost, etc.).
-  // Subdomain rewriting only kicks in for `*.apexsites.com`.
+  // Subdomain rewriting only kicks in for `*.yourshopfront.com`.
   if (host !== APEX_DOMAIN && !host.endsWith(`.${APEX_DOMAIN}`)) {
     return NextResponse.next()
   }

@@ -25,8 +25,7 @@ const PRODUCT: FooterLink[] = [
 
 const COMPANY: FooterLink[] = [
   { label: "About", href: "/about" },
-  { label: "Email us", href: "mailto:hello@apexsites.com" },
-  { label: "Marketing → Axon Growth", href: "https://axongrowth.ai/?ref=apexsites" },
+  { label: "Email us", href: "mailto:hello@yourshopfront.com" },
 ]
 
 const LEGAL: FooterLink[] = [
@@ -70,7 +69,7 @@ function FullFooter({ themed, className }: { themed: boolean; className?: string
             )}
             style={themed ? { color: "var(--apex-muted-fg)" } : undefined}
           >
-            Websites that book more jobs. Live in 24 hours.
+            Websites for every small business. Live in 24 hours.
           </p>
           <p
             className={cn(
@@ -79,7 +78,7 @@ function FullFooter({ themed, className }: { themed: boolean; className?: string
             )}
             style={themed ? { color: "var(--apex-muted-fg)" } : undefined}
           >
-            hello@apexsites.com
+            hello@yourshopfront.com
           </p>
         </div>
         <FooterColumn heading="Product" links={PRODUCT} themed={themed} />
@@ -94,7 +93,7 @@ function FullFooter({ themed, className }: { themed: boolean; className?: string
       >
         <Container className="flex flex-col items-start justify-between gap-3 py-6 text-[12px] sm:flex-row sm:items-center">
           <p className={themed ? "" : "text-apx-mute"} style={themed ? { color: "var(--apex-muted-fg)" } : undefined}>
-            © {new Date().getFullYear()} Apex Sites. All rights reserved.
+            © {new Date().getFullYear()} Shopfront. All rights reserved.
           </p>
           <p
             className={cn("font-mono uppercase tracking-[0.06em]", themed ? "" : "text-apx-mute")}
@@ -112,8 +111,8 @@ function MinimalFooter({ className }: { className?: string }) {
   return (
     <footer className={cn("border-t border-apx-line bg-apx-paper", className)}>
       <Container className="flex flex-col items-start justify-between gap-2 py-6 text-[12px] text-apx-mute sm:flex-row sm:items-center">
-        <p>© {new Date().getFullYear()} Apex Sites. All rights reserved.</p>
-        <p className="font-mono uppercase tracking-[0.06em]">hello@apexsites.com</p>
+        <p>© {new Date().getFullYear()} Shopfront. All rights reserved.</p>
+        <p className="font-mono uppercase tracking-[0.06em]">hello@yourshopfront.com</p>
       </Container>
     </footer>
   )

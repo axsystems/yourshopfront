@@ -8,17 +8,17 @@ import { DemoSwitcher } from "@/components/home/demo-switcher"
 import { PlausibleAnalytics } from "@/components/plausible"
 import { baseFontClassName } from "@/lib/fonts"
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://apexsites.com"
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://yourshopfront.com"
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Apex Sites — Websites that book more jobs",
-    template: "%s — Apex Sites",
+    default: "Your Shopfront — A website your business deserves",
+    template: "%s — Your Shopfront",
   },
   description:
-    "Production-grade home-service websites, designed to convert. Pick a style, send us your content, we launch in 24 hours.",
-  applicationName: "Apex Sites",
+    "Pick one of 30 designs, send us your content, your site is live in 24 hours. Built for every small business.",
+  applicationName: "Your Shopfront",
   manifest: "/manifest.json",
   icons: {
     icon: [
@@ -30,14 +30,14 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    siteName: "Apex Sites",
+    siteName: "Your Shopfront",
     url: siteUrl,
     images: [
       {
         url: "/og-default.png",
         width: 1200,
         height: 630,
-        alt: "Apex Sites — Websites that book more jobs",
+        alt: "Your Shopfront — A website your business deserves",
       },
     ],
   },

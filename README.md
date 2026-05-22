@@ -1,6 +1,6 @@
-# Apex Sites
+# Your Shopfront
 
-Productized website design + hosting for home-service businesses. Pick one of 30 themes, send us your content, your site goes live in 24 hours.
+Productized website design + hosting for small businesses. Pick one of 30 themes, send us your content, your site goes live in 24 hours.
 
 **Two tiers**, both available against any of the 30 designs:
 
@@ -25,7 +25,7 @@ The redesign loop (Phases 1–7) ships in commits prefixed `feat(redesign):`. Hi
 | `/checkout` | `src/app/checkout/page.tsx` | Themed (so the buyer sees the design they're buying). Minimal Apex header. RHF + Zod form. Stripe Checkout in 3 modes. |
 | `/onboarding` | `src/app/onboarding/page.tsx` | Themed. 3-step checklist. ContentStep + AssetsStep are derived from `site_content` (no manual toggles); DomainStep saves explicit choice. Bearer-token via Stripe `session_id`. |
 | `/onboarding/worksheet` | `src/app/onboarding/worksheet/page.tsx` | 7-section content worksheet. 5 required (hero, contact, services, about, service area), 2 optional (reviews, hero photo). Each section saves independently; `siteContentIsValid` + `assetsAreSufficient` reconciliation flips status to `ready_to_build` when all three checklist steps pass. |
-| `/tenant` | `src/app/tenant/page.tsx` | Customer-facing render at `*.apexsites.com`. Switches on `provision_slug`. Renders `<CustomerHome>` (theme tokens drive style; `site_content` drives copy) when content is valid + status ∈ {awaiting_approval, live}. Branded interstitials for the other states. |
+| `/tenant` | `src/app/tenant/page.tsx` | Customer-facing render at `*.yourshopfront.com`. Switches on `provision_slug`. Renders `<CustomerHome>` (theme tokens drive style; `site_content` drives copy) when content is valid + status ∈ {awaiting_approval, live}. Branded interstitials for the other states. |
 | `/api/upload/sign` | `src/app/api/upload/sign/route.ts` | Mints one-shot signed Storage upload URLs. Browser POSTs `{sessionId, kind, filename, contentType}`; server validates + returns `{signedUrl, publicUrl, path}`. Used by `<AssetUploader>`. |
 | `/about` | `src/app/about/page.tsx` | Manifesto + "Three things we won't do" + contact CTA. |
 | `/privacy`, `/terms`, `/refund-policy` | `src/app/{privacy,terms,refund-policy}/page.tsx` | Drafted via `<LegalPage draft>`. Plain-English boilerplate gated behind a coral "Drafting in progress" banner until real legal copy lands. |
@@ -87,7 +87,7 @@ public/
 ├── brand/
 │   ├── apex-mark.svg           24×24 grid, ink + cobalt counter
 │   ├── apex-mark-mono.svg      single-color ink variant
-│   ├── apex-wordmark.svg       mark + "Apex Sites" text
+│   ├── apex-wordmark.svg       mark + "Your Shopfront" text
 │   ├── apex-logo-square.svg    1024×1024 logo source
 │   └── og-default.svg          1200×630 OG composition source
 └── portfolio-demos/            24 standalone HTML files (the demo bodies)
@@ -156,7 +156,7 @@ pnpm brand:export # regenerate PNG brand assets from SVG masters
 
 ### Useful URLs in dev
 
-- `http://localhost:3000/` — new Apex marketing home
+- `http://localhost:3000/` — Your Shopfront marketing home
 - `http://localhost:3000/portfolio` — gallery of all 24
 - `http://localhost:3000/demos/heritage-painters` — themed demo
 - `http://localhost:3000/dev/themes` — visual audit grid (gated to non-prod)
@@ -203,7 +203,7 @@ If `RESEND_API_KEY` and `CONTACT_INBOX_EMAIL` are unset, `/api/contact` and webh
 ```
 RESEND_API_KEY=re_<real>
 CONTACT_INBOX_EMAIL=you@your-domain.com
-RESEND_FROM_EMAIL=Apex Sites <onboarding@resend.dev>   # works without verified domain
+RESEND_FROM_EMAIL=Your Shopfront <onboarding@resend.dev>   # works without verified domain
 ```
 
 ### 5. Slack (optional)
@@ -223,7 +223,7 @@ See `LAUNCH-CHECKLIST.md` and `.env.production.example`. The tl;dr:
 1. Connect Vercel to `master` branch.
 2. Set every env var from `.env.production.example` (with real live-mode values) under Vercel → Production scope.
 3. Run `pnpm stripe:setup` against your **live** Stripe key, paste the 4 emitted price IDs into Vercel.
-4. Add a Stripe webhook endpoint at `https://apexsites.com/api/stripe/webhook` listening for `checkout.session.completed` + `customer.subscription.deleted`.
+4. Add a Stripe webhook endpoint at `https://yourshopfront.com/api/stripe/webhook` listening for `checkout.session.completed` + `customer.subscription.deleted`.
 5. Verify Resend domain (SPF + DKIM in Cloudflare).
 6. Run the manual Stripe test plan in `docs/phase-4-test-plan.md` against a staging deploy.
 7. Walk the LAUNCH-CHECKLIST end-to-end.
@@ -232,4 +232,4 @@ See `LAUNCH-CHECKLIST.md` and `.env.production.example`. The tl;dr:
 
 ## License + contact
 
-Private project. Contact: `hello@apexsites.com`.
+Private project. Contact: `hello@yourshopfront.com`.

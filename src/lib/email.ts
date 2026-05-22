@@ -10,11 +10,11 @@ export interface SendEmailOpts {
   from?: string
 }
 
-// Production should set RESEND_FROM_EMAIL to "Apex Sites <hello@apexsites.com>"
+// Production should set RESEND_FROM_EMAIL to "Your Shopfront <hello@yourshopfront.com>"
 // once DNS records are verified in Resend. Until then, we fall back to the
 // shared resend.dev sender — works without domain verification but routes
 // through Resend's subdomain.
-const DEFAULT_FROM = "Apex Sites <onboarding@resend.dev>"
+const DEFAULT_FROM = "Your Shopfront <onboarding@resend.dev>"
 
 /**
  * Best-effort transactional email send. Never throws — logs warnings if

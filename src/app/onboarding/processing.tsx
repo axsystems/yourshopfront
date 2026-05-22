@@ -42,10 +42,10 @@ export function OnboardingProcessing({ sessionId }: { sessionId: string }) {
           <p className="mt-8 text-[14px] text-apx-mute">
             If this hangs for more than a minute, email{" "}
             <a
-              href="mailto:hello@apexsites.com"
+              href="mailto:hello@yourshopfront.com"
               className="font-semibold text-apx-ink underline underline-offset-2 hover:text-apx-primary"
             >
-              hello@apexsites.com
+              hello@yourshopfront.com
             </a>{" "}
             with the session ID above.
           </p>

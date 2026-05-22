@@ -1,5 +1,7 @@
 import "server-only"
 
+import { timingSafeEqual } from "node:crypto"
+
 import { NextResponse } from "next/server"
 import { z } from "zod"
 
@@ -12,6 +14,13 @@ import {
   transitionStatus,
   updateProvisioningState,
 } from "@/lib/supabase"
+
+function safeEqual(a: string, b: string): boolean {
+  const aBuf = Buffer.from(a)
+  const bBuf = Buffer.from(b)
+  if (aBuf.length !== bBuf.length) return false
+  return timingSafeEqual(aBuf, bBuf)
+}
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -37,8 +46,8 @@ export async function POST(req: Request): Promise<Response> {
       { status: 500 }
     )
   }
-  const auth = req.headers.get("authorization")
-  if (auth !== `Bearer ${expected}`) {
+  const auth = req.headers.get("authorization") ?? ""
+  if (!safeEqual(auth, `Bearer ${expected}`)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
@@ -117,7 +126,7 @@ async function sendCustomerLiveEmail(siteId: string): Promise<void> {
       "",
       "If anything looks off, hit reply — we'll fix it the same day.",
       "",
-      "— Apex Sites",
+      "— Your Shopfront",
     ].join("\n"),
   })
 }

@@ -29,7 +29,7 @@ export function ContactForm() {
       return "I have a question about your pricing. "
     }
     if (ref === "final-cta") {
-      return "I'd like to book a 15-minute call to walk through Apex Sites and figure out which design fits my business. "
+      return "I'd like to talk through which of your designs would fit my business best. "
     }
     return ""
   }, [ref, referencedTheme])

@@ -28,15 +28,11 @@ const QUESTIONS = [
   },
   {
     q: "Can I use my own domain?",
-    a: "Yes. We launch on a temporary apexsites.com subdomain within 24 hours, then migrate to your domain when DNS propagates. If you don't have a domain yet, we'll register one for you.",
+    a: "Yes. We launch on a temporary yourshopfront.com subdomain within 24 hours, then migrate to your domain when DNS propagates. If you don't have a domain yet, we'll register one for you.",
   },
   {
-    q: "What's different about Apex vs Wix or Squarespace?",
-    a: "We're done-for-you, conversion-focused, and home-service specialized. They sell tools and a blank canvas; we sell finished sites built on conversion patterns that actually work for trades. You don't pick a template — we build the site.",
-  },
-  {
-    q: "Do you handle Google Ads or SEO too?",
-    a: "Not directly — we keep Apex focused on the deliverable. For paid acquisition and Local SEO, we partner with our sister company Axon Growth (axongrowth.ai), which is built for trades on the same playbook. Apex Sites customers get priority onboarding when they bundle.",
+    q: "What's different about Your Shopfront vs Wix or Squarespace?",
+    a: "We're done-for-you and conversion-focused. They sell tools and a blank canvas; we sell finished sites built on patterns that actually work. You don't pick a template — we build the site for you, and you're live the next day.",
   },
 ]
 
@@ -53,10 +49,10 @@ export function HomeFaq() {
             <Lede className="mt-5">
               Still wondering something? Email us at{" "}
               <a
-                href="mailto:hello@apexsites.com"
+                href="mailto:hello@yourshopfront.com"
                 className="font-semibold text-apx-ink underline underline-offset-2 hover:text-apx-primary"
               >
-                hello@apexsites.com
+                hello@yourshopfront.com
               </a>
               .
             </Lede>

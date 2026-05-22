@@ -87,7 +87,7 @@ async function persist(
       // edits — a customer who needs to change something can email us.
       return {
         ok: false,
-        error: `Onboarding is locked (status: ${site.status}). Email hello@apexsites.com to change anything.`,
+        error: `Onboarding is locked (status: ${site.status}). Email hello@yourshopfront.com to change anything.`,
       }
     }
     const next = patch(site.onboarding_state ?? {})

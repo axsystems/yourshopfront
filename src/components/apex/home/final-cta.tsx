@@ -11,7 +11,8 @@ export function HomeFinalCta() {
         <FadeUp>
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="font-sans text-[36px] font-bold leading-[0.98] tracking-[-0.025em] text-apx-ink md:text-[64px]">
-              Ready to <HighlightStroke>book</HighlightStroke> more jobs?
+              Ready to get your{" "}
+              <HighlightStroke>site</HighlightStroke> live?
             </h2>
             <p className="mx-auto mt-6 max-w-xl text-[18px] leading-[1.55] text-apx-mute md:text-[20px]">
               Pick a design, send us your content, and we&apos;ll launch your site within 24 hours. Cancel anytime — no calls, no contracts.

@@ -19,16 +19,16 @@ import { SITE_URL, organizationSchema } from "@/lib/seo"
 const ABOUT_URL = `${SITE_URL}/about`
 
 export const metadata: Metadata = {
-  title: "About — Apex Sites",
+  title: "About — Your Shopfront",
   description:
-    "Apex Sites is a productized agency for trades. 30 designs, 24-hour delivery, no contracts. Built by people who got tired of seeing good operators stuck on bad websites.",
+    "Your Shopfront is a productized agency for small businesses. 30 designs, 24-hour delivery, no contracts. Built by people who got tired of seeing good operators stuck on bad websites.",
   alternates: { canonical: ABOUT_URL },
   openGraph: {
-    title: "About — Apex Sites",
-    description: "A productized agency for trades. 30 designs, 24-hour delivery, no contracts.",
+    title: "About — Your Shopfront",
+    description: "A productized agency for small businesses. 30 designs, 24-hour delivery, no contracts.",
     url: ABOUT_URL,
     type: "website",
-    siteName: "Apex Sites",
+    siteName: "Your Shopfront",
   },
 }
 
@@ -42,7 +42,7 @@ export default function AboutPage() {
             "@context": "https://schema.org",
             "@type": "AboutPage",
             url: ABOUT_URL,
-            name: "About Apex Sites",
+            name: "About Your Shopfront",
           },
         ]}
       />
@@ -52,10 +52,10 @@ export default function AboutPage() {
           <Container>
             <Eyebrow>About</Eyebrow>
             <Display level="display-2xl" as="h1" className="mt-4 max-w-[18ch]">
-              A productized agency for <HighlightStroke>trades</HighlightStroke>.
+              A productized agency for <HighlightStroke>every small business</HighlightStroke>.
             </Display>
             <Lede className="mt-6 max-w-[60ch]">
-              We started Apex because the home-services market is underserved by template tools and overcharged by traditional agencies. There is a yawning gap between &ldquo;build it yourself in Squarespace&rdquo; and &ldquo;hire an agency for $15K and wait six months.&rdquo; Apex sits in that gap.
+              We started Your Shopfront because small businesses are underserved by template tools and overcharged by traditional agencies. There is a yawning gap between &ldquo;build it yourself in Squarespace&rdquo; and &ldquo;hire an agency for $15K and wait six months.&rdquo; We sit in that gap.
             </Lede>
           </Container>
         </Section>
@@ -65,7 +65,7 @@ export default function AboutPage() {
             <div className="mx-auto grid max-w-3xl gap-10 text-[17px] leading-[1.65] text-apx-ink">
               <FadeUp>
                 <p>
-                  We&apos;ve designed and shipped 24 production-grade websites — each one tuned for a specific kind of trade, with hero patterns and conversion mechanics that match the way that trade actually books work. Plumbing emergencies want a phone-first hero. Painting projects want a gallery. Movers want an instant-quote calculator. Roofers want a form-card.
+                  We&apos;ve designed and shipped 30 production-grade websites — each one built around how a real business actually gets customers. Laundromats want a clean booking card. Yoga studios want a warm gallery. Law firms want credibility-first copy. Roofers want a storm-damage form.
                 </p>
               </FadeUp>
               <FadeUp delay={60}>
@@ -75,7 +75,7 @@ export default function AboutPage() {
               </FadeUp>
               <FadeUp delay={120}>
                 <p>
-                  No contracts. No long onboarding. No design-by-committee. If we don&apos;t earn the second month, you cancel and the site stays online for thirty days while you figure out what&apos;s next. We don&apos;t lock anyone in — we keep customers because the site keeps booking jobs.
+                  No contracts. No long onboarding. No design-by-committee. If we don&apos;t earn the second month, you cancel and the site stays online for thirty days while you figure out what&apos;s next. We don&apos;t lock anyone in — we keep customers because the site keeps delivering.
                 </p>
               </FadeUp>
             </div>

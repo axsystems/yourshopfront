@@ -85,10 +85,10 @@ export default async function WorksheetPage({ searchParams }: PageProps) {
             >
               Onboarding is locked (status: {site.status}). Email{" "}
               <a
-                href="mailto:hello@apexsites.com"
+                href="mailto:hello@yourshopfront.com"
                 className="font-semibold underline underline-offset-2"
               >
-                hello@apexsites.com
+                hello@yourshopfront.com
               </a>{" "}
               if you need to change something.
             </p>
@@ -120,10 +120,10 @@ function FallbackShell({ title }: { title: string }) {
               Back to home →
             </Button>
             <Link
-              href="mailto:hello@apexsites.com"
+              href="mailto:hello@yourshopfront.com"
               className="text-sm font-semibold text-apx-ink underline underline-offset-2"
             >
-              hello@apexsites.com
+              hello@yourshopfront.com
             </Link>
           </div>
         </div>

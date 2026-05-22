@@ -57,10 +57,10 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
           payment is safe — this is purely a display issue. Refresh in a moment,
           or email{" "}
           <a
-            href="mailto:hello@apexsites.com"
+            href="mailto:hello@yourshopfront.com"
             className="font-semibold text-apx-ink underline underline-offset-2 hover:text-apx-primary"
           >
-            hello@apexsites.com
+            hello@yourshopfront.com
           </a>{" "}
           if it persists.
         </p>
@@ -90,7 +90,7 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
                 className="text-xs font-bold uppercase tracking-[0.18em]"
                 style={{ color: "var(--apex-muted-fg)" }}
               >
-                Welcome to Apex Sites
+                Welcome to Your Shopfront
               </p>
               <h1
                 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl"

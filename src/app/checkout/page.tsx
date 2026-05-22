@@ -16,7 +16,7 @@ interface PageProps {
 
 export const metadata: Metadata = {
   title: "Checkout",
-  description: "Complete your Apex Sites purchase.",
+  description: "Complete your Your Shopfront purchase.",
   robots: { index: false, follow: false },
   alternates: { canonical: `${SITE_URL}/checkout` },
 }

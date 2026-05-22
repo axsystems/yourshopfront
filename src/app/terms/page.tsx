@@ -7,7 +7,7 @@ const URL = `${SITE_URL}/terms`
 
 export const metadata: Metadata = {
   title: "Terms of Service",
-  description: "The agreement between you and Apex Sites for using our service.",
+  description: "The agreement between you and Your Shopfront for using our service.",
   alternates: { canonical: URL },
 }
 
@@ -15,12 +15,12 @@ export default function TermsPage() {
   return (
     <LegalPage title="Terms of Service" lastUpdated="2026-05-04" draft>
       <p>
-        These terms govern your use of Apex Sites (apexsites.com) and any websites we build, host, or maintain on your behalf. By buying our service or using the site, you agree to these terms.
+        These terms govern your use of Your Shopfront (yourshopfront.com) and any websites we build, host, or maintain on your behalf. By buying our service or using the site, you agree to these terms.
       </p>
 
       <h2>The service</h2>
       <p>
-        Apex Sites builds and hosts production-grade websites for small businesses, primarily in home services and adjacent trades. We offer two tiers:
+        Your Shopfront builds and hosts production-grade websites for small businesses of every kind. We offer two tiers:
       </p>
       <ul>
         <li><strong>Subscription:</strong> $499 setup fee plus $199/month. Includes hosting, unlimited content edits, SSL, backups, security patches, and Google Business Profile management. Cancel any time.</li>
@@ -47,12 +47,12 @@ export default function TermsPage() {
 
       <h2>Acceptable use</h2>
       <p>
-        You agree not to use Apex Sites to host content that is illegal, infringes someone else&apos;s rights, contains malware, or violates Stripe&apos;s acceptable-use policy. We reserve the right to suspend any site we determine in good faith violates these rules.
+        You agree not to use Your Shopfront to host content that is illegal, infringes someone else&apos;s rights, contains malware, or violates Stripe&apos;s acceptable-use policy. We reserve the right to suspend any site we determine in good faith violates these rules.
       </p>
 
       <h2>Liability</h2>
       <p>
-        Apex Sites is provided &ldquo;as is.&rdquo; We make best efforts to keep your site online and secure, but we don&apos;t guarantee uninterrupted service. Our liability is capped at the amount you paid us in the most recent twelve months.
+        Your Shopfront is provided &ldquo;as is.&rdquo; We make best efforts to keep your site online and secure, but we don&apos;t guarantee uninterrupted service. Our liability is capped at the amount you paid us in the most recent twelve months.
       </p>
 
       <h2>Termination</h2>
@@ -72,7 +72,7 @@ export default function TermsPage() {
 
       <h2>Contact</h2>
       <p>
-        Questions about these terms: <a href="mailto:hello@apexsites.com">hello@apexsites.com</a>.
+        Questions about these terms: <a href="mailto:hello@yourshopfront.com">hello@yourshopfront.com</a>.
       </p>
     </LegalPage>
   )

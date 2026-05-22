@@ -44,10 +44,10 @@ export function LegalPage({
                 <strong className="font-bold">Drafting in progress.</strong>{" "}
                 This page contains placeholder language only. Contact{" "}
                 <a
-                  href="mailto:hello@apexsites.com"
+                  href="mailto:hello@yourshopfront.com"
                   className="underline underline-offset-2"
                 >
-                  hello@apexsites.com
+                  hello@yourshopfront.com
                 </a>{" "}
                 for the current terms before relying on anything below.
               </div>

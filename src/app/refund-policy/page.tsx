@@ -7,7 +7,7 @@ const URL = `${SITE_URL}/refund-policy`
 
 export const metadata: Metadata = {
   title: "Refund Policy",
-  description: "30-day money-back guarantee on Apex Sites. The exact terms.",
+  description: "30-day money-back guarantee on Your Shopfront. The exact terms.",
   alternates: { canonical: URL },
 }
 
@@ -20,8 +20,8 @@ export default function RefundPolicyPage() {
 
       <h2>Subscription tier</h2>
       <p>
-        The $499 setup fee is fully refundable for 30 days from the date you submitted your content worksheet — no questions asked. If you decide Apex isn&apos;t for you within that window, email{" "}
-        <a href="mailto:hello@apexsites.com">hello@apexsites.com</a> and we&apos;ll process the refund within 5 business days.
+        The $499 setup fee is fully refundable for 30 days from the date you submitted your content worksheet — no questions asked. If you decide Your Shopfront isn&apos;t for you within that window, email{" "}
+        <a href="mailto:hello@yourshopfront.com">hello@yourshopfront.com</a> and we&apos;ll process the refund within 5 business days.
       </p>
       <p>
         Monthly fees ($199/mo) are non-refundable, but you can cancel any time from your customer portal — you&apos;ll only ever pay for the months you actually use. Cancellation is immediate; your site stays online for 30 days as a grace period after cancellation.
@@ -37,7 +37,7 @@ export default function RefundPolicyPage() {
 
       <h2>How to request a refund</h2>
       <p>
-        Email <a href="mailto:hello@apexsites.com">hello@apexsites.com</a> with the subject line &ldquo;Refund request&rdquo; and the email address you used at checkout. We process all refund requests within 5 business days. Refunds are returned to the original payment method via Stripe.
+        Email <a href="mailto:hello@yourshopfront.com">hello@yourshopfront.com</a> with the subject line &ldquo;Refund request&rdquo; and the email address you used at checkout. We process all refund requests within 5 business days. Refunds are returned to the original payment method via Stripe.
       </p>
 
       <h2>Edge cases</h2>

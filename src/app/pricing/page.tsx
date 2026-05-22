@@ -24,14 +24,14 @@ const PRICING_URL = `${SITE_URL}/pricing`
 export const metadata: Metadata = {
   title: "Pricing — Subscription or one-time",
   description:
-    "Two ways to buy Apex Sites: $499 setup + $199/mo subscription with unlimited edits, or $2,997 one-time build with full source code. 30-day money-back guarantee.",
+    "Two ways to buy Your Shopfront: $499 setup + $199/mo subscription with unlimited edits, or $2,997 one-time build with full source code. 30-day money-back guarantee.",
   alternates: { canonical: PRICING_URL },
   openGraph: {
-    title: "Pricing — Apex Sites",
+    title: "Pricing — Your Shopfront",
     description: "Subscription ($499 + $199/mo) or one-time ($2,997). Pick what fits.",
     url: PRICING_URL,
     type: "website",
-    siteName: "Apex Sites",
+    siteName: "Your Shopfront",
   },
 }
 
@@ -55,7 +55,7 @@ const COMPARISON: ComparisonRow[] = [
 const FAQ = [
   {
     q: "Subscription or one-time — how do I decide?",
-    a: "Subscription if you want unlimited edits and don't want to manage hosting. One-time if you want to own the source code outright. Most home-service businesses go subscription because their site changes every season — offers, photos, holiday hours, new services.",
+    a: "Subscription if you want unlimited edits and don't want to manage hosting. One-time if you want to own the source code outright. Most small businesses go subscription because their site changes regularly — offers, photos, holiday hours, new services.",
   },
   {
     q: "Can I switch from subscription to one-time later?",
@@ -89,7 +89,7 @@ export default function PricingPage() {
                 Two ways to buy. Pick the one that fits.
               </Display>
               <Lede className="mx-auto mt-6">
-                The average home-service customer is worth $400–800. Apex pays for itself the first time it books you a job you wouldn&apos;t have gotten otherwise. Most clients see their first booking within 7 days of launch.
+                A new customer found through your site can pay for a year of subscription. Most clients see their first inquiry within 7 days of launch.
               </Lede>
             </div>
           </Container>

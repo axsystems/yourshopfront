@@ -46,7 +46,7 @@ async function request(
 }
 
 /**
- * Adds a domain (e.g. "northridge-plumbing.apexsites.com") to the apex
+ * Adds a domain (e.g. "northridge-plumbing.yourshopfront.com") to the apex
  * Vercel project. Idempotent — if the domain is already attached, the
  * Vercel API returns 409 and we treat it as success.
  */

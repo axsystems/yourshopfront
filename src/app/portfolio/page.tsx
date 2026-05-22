@@ -25,28 +25,28 @@ const themesArray = Object.values(allThemes).sort((a, b) => {
 export const metadata: Metadata = {
   title: "Portfolio — All 30 designs",
   description:
-    "30 production-grade websites for home-service businesses. Plumbers, painters, cleaners, roofers, electricians, laundromats, window cleaners, HVAC, pool care, junk removal, pressure washing, and more — every design is available as a theme option on Apex Sites.",
+    "30 production-grade website designs for small businesses of every kind — from barbers to law firms to trades. Every design is available as a theme option on Your Shopfront.",
   alternates: { canonical: PORTFOLIO_URL },
   openGraph: {
-    title: "Portfolio — Apex Sites",
+    title: "Portfolio — Your Shopfront",
     description:
-      "24 production-grade home-service websites — every one is available as a theme option.",
+      "30 production-grade website designs for small businesses — every one is available as a theme option.",
     url: PORTFOLIO_URL,
     type: "website",
-    siteName: "Apex Sites",
+    siteName: "Your Shopfront",
     images: [
       {
         url: "/og-default.png",
         width: 1200,
         height: 630,
-        alt: "Apex Sites Portfolio",
+        alt: "Your Shopfront Portfolio",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Portfolio — Apex Sites",
-    description: "24 production-grade home-service websites — every one is available.",
+    title: "Portfolio — Your Shopfront",
+    description: "30 production-grade website designs for small businesses — every one is available.",
   },
 }
 
@@ -59,11 +59,11 @@ export default function PortfolioPage() {
           {
             "@context": "https://schema.org",
             "@type": "CollectionPage",
-            name: "Apex Sites Portfolio",
+            name: "Your Shopfront Portfolio",
             url: PORTFOLIO_URL,
             description:
-              "24 production-grade home-service website designs across 3 design rounds.",
-            isPartOf: { "@type": "WebSite", name: "Apex Sites", url: SITE_URL },
+              "30 production-grade small business website designs across 3 design rounds.",
+            isPartOf: { "@type": "WebSite", name: "Your Shopfront", url: SITE_URL },
             hasPart: themesArray.map((t) => ({
               "@type": "WebPage",
               name: t.name,

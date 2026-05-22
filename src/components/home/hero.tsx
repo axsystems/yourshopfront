@@ -11,9 +11,9 @@ interface HeroProps {
   isDemoPreview?: boolean
 }
 
-const DEFAULT_HEADLINE = "Websites that book more jobs."
+const DEFAULT_HEADLINE = "A website your business deserves."
 const DEFAULT_SUBHEAD =
-  "Production-grade home-service websites, designed to convert. Pick a style, send us your content, we launch in 24 hours."
+  "Pick a design, send us your content, your site is live in 24 hours. Built for every small business."
 
 export function Hero({
   theme,
@@ -23,7 +23,7 @@ export function Hero({
 }: HeroProps) {
   const headline = isDemoPreview ? previewHeadline(theme) : DEFAULT_HEADLINE
   const subhead = isDemoPreview
-    ? `${theme.description} Same Apex Sites service underneath — pick this style and we'll have your site live in 24 hours.`
+    ? `${theme.description} Same Your Shopfront service underneath — pick this style and we'll have your site live in 24 hours.`
     : DEFAULT_SUBHEAD
 
   // Gallery puts the visual below the headline, full-width.
@@ -197,7 +197,7 @@ function HeroPhoneFirst({ theme }: { theme: Theme }) {
       */}
       <button
         type="button"
-        aria-label="Demo number — your real Apex Sites tap-to-call goes here"
+        aria-label="Demo number — your real Your Shopfront tap-to-call goes here"
         className="mt-4 block w-full cursor-default border-0 text-center transition-transform"
         style={{
           background: "var(--apex-primary)",

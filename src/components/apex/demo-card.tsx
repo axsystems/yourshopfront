@@ -144,7 +144,7 @@ function BrowserChrome({ slug, themeName }: { slug: string; themeName: string })
         <span className="h-2.5 w-2.5 rounded-full bg-apx-mint/80" aria-hidden />
       </div>
       <div className="ml-1 min-w-0 flex-1 truncate rounded-md bg-apx-paper px-2 py-1 font-mono text-[10px] tracking-tight text-apx-mute">
-        apexsites.com/demos/{slug}
+        yourshopfront.com/demos/{slug}
       </div>
       <span
         aria-hidden

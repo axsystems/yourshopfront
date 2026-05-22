@@ -125,7 +125,7 @@ function ThemedNav() {
           color: "var(--apex-primary-fg)",
         }}
       >
-        Apex Sites home →
+        Your Shopfront home →
       </Link>
     </nav>
   )
@@ -150,10 +150,10 @@ function MinimalNav({
         </Link>
       ) : null}
       <a
-        href="mailto:hello@apexsites.com"
+        href="mailto:hello@yourshopfront.com"
         className="text-sm font-semibold text-apx-mute transition-colors hover:text-apx-ink"
       >
-        hello@apexsites.com
+        hello@yourshopfront.com
       </a>
     </nav>
   )

@@ -64,7 +64,7 @@ export async function POST(req: Request) {
   if (site.status !== "pending_content") {
     return NextResponse.json(
       {
-        error: `Uploads locked (status: ${site.status}). Email hello@apexsites.com to change anything.`,
+        error: `Uploads locked (status: ${site.status}). Email hello@yourshopfront.com to change anything.`,
       },
       { status: 409 }
     )

@@ -24,11 +24,11 @@ export const metadata: Metadata = {
     "Get a custom-build quote, ask about pricing, or send any other question. We reply within 24 hours.",
   alternates: { canonical: CONTACT_URL },
   openGraph: {
-    title: "Talk to us — Apex Sites",
+    title: "Talk to us — Your Shopfront",
     description: "Custom-build quotes, pricing questions, and general inquiries.",
     url: CONTACT_URL,
     type: "website",
-    siteName: "Apex Sites",
+    siteName: "Your Shopfront",
   },
 }
 
@@ -42,7 +42,7 @@ export default function ContactPage() {
             "@context": "https://schema.org",
             "@type": "ContactPage",
             url: CONTACT_URL,
-            name: "Talk to us — Apex Sites",
+            name: "Talk to us — Your Shopfront",
           },
         ]}
       />
@@ -84,10 +84,10 @@ export default function ContactPage() {
                       <>
                         Email{" "}
                         <a
-                          href="mailto:hello@apexsites.com"
+                          href="mailto:hello@yourshopfront.com"
                           className="font-semibold text-apx-ink underline underline-offset-2 hover:text-apx-primary"
                         >
-                          hello@apexsites.com
+                          hello@yourshopfront.com
                         </a>{" "}
                         directly for fastest reply.
                       </>

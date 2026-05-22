@@ -18,7 +18,7 @@ interface CustomerFooterProps {
  * Themed footer for the tenant page. Replaces SiteFooter — that one is
  * Apex's footer (about / pricing / portfolio / legal). Here we surface
  * the customer's contact essentials, top services, and service area, with
- * a small "Site by Apex Sites" credit at the very bottom.
+ * a small "Site by Your Shopfront" credit at the very bottom.
  */
 export function CustomerFooter({
   businessName,
@@ -148,12 +148,12 @@ export function CustomerFooter({
           <p>
             Site by{" "}
             <a
-              href="https://apexsites.com"
+              href="https://yourshopfront.com"
               className="font-semibold underline underline-offset-2"
               style={{ color: "var(--apex-fg)" }}
               rel="noopener"
             >
-              Apex Sites
+              Your Shopfront
             </a>
             .
           </p>

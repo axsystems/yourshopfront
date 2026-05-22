@@ -5,7 +5,7 @@ import { randomUUID } from "node:crypto"
 import { supabase } from "./supabase"
 
 // =============================================================================
-// Apex Sites — Storage helpers (server-only)
+// Your Shopfront — Storage helpers (server-only)
 // =============================================================================
 // Wraps the Supabase Storage SDK with the apex-sites conventions:
 //

@@ -1,7 +1,7 @@
 import { z } from "zod"
 
 // =============================================================================
-// Apex Sites — site_content validation
+// Your Shopfront — site_content validation
 // =============================================================================
 // Zod mirror of the SiteContent TypeScript types in src/lib/supabase.ts.
 // Two flavors:
@@ -95,10 +95,36 @@ export const ReviewSchema = z.object({
   source: z.string().trim().max(40).optional(),
 })
 
+const allowedMediaHost = (() => {
+  const url = process.env.SUPABASE_URL
+  if (!url) return null
+  try {
+    return new URL(url).hostname
+  } catch {
+    return null
+  }
+})()
+
+const mediaUrlSchema = z
+  .string()
+  .trim()
+  .url("Media URL must be a valid URL.")
+  .refine((url) => {
+    if (!allowedMediaHost) return false
+    try {
+      const parsed = new URL(url)
+      return (
+        parsed.protocol === "https:" && parsed.hostname === allowedMediaHost
+      )
+    } catch {
+      return false
+    }
+  }, "Media URL must be on the configured Supabase Storage host.")
+
 export const MediaSchema = z.object({
-  logoUrl: z.string().trim().url().optional(),
-  heroUrl: z.string().trim().url().optional(),
-  gallery: z.array(z.string().trim().url()).max(40).optional(),
+  logoUrl: mediaUrlSchema.optional(),
+  heroUrl: mediaUrlSchema.optional(),
+  gallery: z.array(mediaUrlSchema).max(40).optional(),
 })
 
 // -----------------------------------------------------------------------------

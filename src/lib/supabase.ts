@@ -2,7 +2,7 @@ import "server-only"
 import { createClient, type SupabaseClient } from "@supabase/supabase-js"
 
 // =============================================================================
-// Apex Sites — typed Supabase client (server-only)
+// Your Shopfront — typed Supabase client (server-only)
 // =============================================================================
 // Mirrors supabase/migrations/0001_initial.sql. Uses the service-role key,
 // which bypasses RLS — never expose this client to a browser bundle. The
@@ -255,7 +255,7 @@ export async function getSiteById(id: string): Promise<Site | null> {
 
 /**
  * Looks up a site by its provision_slug — the host segment used on
- * apexsites.com subdomains. Returns null if no match. Used by the
+ * yourshopfront.com subdomains. Returns null if no match. Used by the
  * multi-tenant tenant page at /_tenant to resolve hostname → site.
  */
 export async function getSiteByProvisionSlug(

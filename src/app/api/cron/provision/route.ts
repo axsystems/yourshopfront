@@ -1,9 +1,18 @@
 import "server-only"
 
+import { timingSafeEqual } from "node:crypto"
+
 import { NextResponse } from "next/server"
 
 import { provisionSite } from "@/lib/provisioning/orchestrator"
 import { getSitesByStatus } from "@/lib/supabase"
+
+function safeEqual(a: string, b: string): boolean {
+  const aBuf = Buffer.from(a)
+  const bBuf = Buffer.from(b)
+  if (aBuf.length !== bBuf.length) return false
+  return timingSafeEqual(aBuf, bBuf)
+}
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -27,8 +36,8 @@ export async function GET(req: Request): Promise<Response> {
     console.error("[cron/provision] CRON_SECRET not set — refusing to run")
     return NextResponse.json({ error: "Cron not configured" }, { status: 500 })
   }
-  const auth = req.headers.get("authorization")
-  if (auth !== `Bearer ${expected}`) {
+  const auth = req.headers.get("authorization") ?? ""
+  if (!safeEqual(auth, `Bearer ${expected}`)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
