@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 import { MessageCircle, X, Send, Loader2 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -14,6 +14,13 @@ interface ChatMessage {
 }
 
 type ChatMode = "sales" | "onboarding"
+type PanelView = "chat" | "refund-form" | "refund-success" | "refund-error"
+
+type RefundReason =
+  | "changed_mind"
+  | "service_issue"
+  | "billing_issue"
+  | "other"
 
 // Separate storage keys per mode so a customer's onboarding session
 // doesn't surface their pre-purchase sales chat (and vice versa).
@@ -170,14 +177,250 @@ function saveHistory(mode: ChatMode, messages: ChatMessage[]): void {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Refund form — rendered inline inside the chat panel
+// ---------------------------------------------------------------------------
+
+const REFUND_REASONS: { value: RefundReason; label: string }[] = [
+  { value: "changed_mind", label: "Changed my mind" },
+  { value: "service_issue", label: "Service issue" },
+  { value: "billing_issue", label: "Billing issue" },
+  { value: "other", label: "Other" },
+]
+
+const DETAIL_MIN = 10
+const DETAIL_MAX = 2000
+
+interface RefundFormProps {
+  sessionId: string
+  onCancel: () => void
+  onSuccess: (message: string) => void
+  onError: (message: string) => void
+}
+
+function RefundForm({ sessionId, onCancel, onSuccess, onError }: RefundFormProps) {
+  const [reason, setReason] = React.useState<RefundReason>("changed_mind")
+  const [detail, setDetail] = React.useState("")
+  const [email, setEmail] = React.useState("")
+  const [submitting, setSubmitting] = React.useState(false)
+  const [inlineError, setInlineError] = React.useState<string | null>(null)
+  const formRef = React.useRef<HTMLFormElement | null>(null)
+
+  // Escape key returns to chat
+  React.useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onCancel()
+    }
+    window.addEventListener("keydown", handler)
+    return () => window.removeEventListener("keydown", handler)
+  }, [onCancel])
+
+  const detailCount = detail.length
+  const detailValid = detailCount >= DETAIL_MIN && detailCount <= DETAIL_MAX
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
+  const canSubmit = detailValid && emailValid && !submitting
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!canSubmit) return
+    setSubmitting(true)
+    setInlineError(null)
+
+    try {
+      const res = await fetch("/api/refund-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId,
+          reason,
+          reasonDetail: detail.trim(),
+          confirmEmail: email.trim().toLowerCase(),
+        }),
+      })
+
+      const body = (await res.json().catch(() => null)) as
+        | { message?: string }
+        | null
+      const apiMessage = body?.message ?? null
+
+      if (res.ok) {
+        onSuccess(
+          apiMessage ??
+            "Your refund request has been received. We'll follow up by email within 1-2 business days."
+        )
+        return
+      }
+
+      if (res.status === 429) {
+        setInlineError("Too many requests, try again in a moment.")
+      } else if (res.status >= 500) {
+        setInlineError(
+          "Something went wrong. Please email hello@yourshopfront.com."
+        )
+      } else {
+        // 400 / 403
+        setInlineError(
+          apiMessage ?? "Please check your input and try again."
+        )
+      }
+    } catch {
+      setInlineError(
+        "Something went wrong. Please email hello@yourshopfront.com."
+      )
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  const labelClass = "block text-[12px] font-semibold text-apx-ink mb-1"
+  const fieldClass =
+    "w-full rounded-lg border border-apx-line bg-apx-paper px-3 py-2 text-[13px] text-apx-ink placeholder:text-apx-soft focus:border-apx-ink focus:outline-none"
+
+  return (
+    <form
+      ref={formRef}
+      onSubmit={(e) => void handleSubmit(e)}
+      className="flex flex-col gap-4 px-4 py-4"
+      noValidate
+    >
+      <div>
+        <p className="text-[14px] font-semibold text-apx-ink">Request a refund</p>
+        <p className="mt-0.5 text-[12px] text-apx-mute">
+          We review every request within 1-2 business days.
+        </p>
+      </div>
+
+      {/* Reason */}
+      <div>
+        <label htmlFor="refund-reason" className={labelClass}>
+          Reason
+        </label>
+        <select
+          id="refund-reason"
+          value={reason}
+          onChange={(e) => setReason(e.target.value as RefundReason)}
+          className={fieldClass}
+          disabled={submitting}
+        >
+          {REFUND_REASONS.map((r) => (
+            <option key={r.value} value={r.value}>
+              {r.label}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Detail */}
+      <div>
+        <label htmlFor="refund-detail" className={labelClass}>
+          Tell us more
+        </label>
+        <textarea
+          id="refund-detail"
+          value={detail}
+          onChange={(e) => setDetail(e.target.value)}
+          rows={3}
+          maxLength={DETAIL_MAX}
+          placeholder="Give us a bit of context so we can handle this quickly."
+          className={cn(fieldClass, "resize-none")}
+          disabled={submitting}
+        />
+        <p
+          className={cn(
+            "mt-0.5 text-right text-[11px]",
+            detailCount > DETAIL_MAX
+              ? "text-apx-danger"
+              : detailCount > 0 && detailCount < DETAIL_MIN
+                ? "text-apx-warn"
+                : "text-apx-soft"
+          )}
+        >
+          {detailCount}/{DETAIL_MAX}
+          {detailCount > 0 && detailCount < DETAIL_MIN && (
+            <span className="ml-1">(min {DETAIL_MIN})</span>
+          )}
+        </p>
+      </div>
+
+      {/* Email */}
+      <div>
+        <label htmlFor="refund-email" className={labelClass}>
+          Confirm your email
+        </label>
+        <input
+          id="refund-email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="you@example.com"
+          className={fieldClass}
+          disabled={submitting}
+          autoComplete="email"
+        />
+      </div>
+
+      {/* Inline error */}
+      <div aria-live="polite" aria-atomic="true">
+        {inlineError && (
+          <p className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-800">
+            {inlineError}
+          </p>
+        )}
+      </div>
+
+      {/* Actions */}
+      <div className="flex gap-2">
+        <button
+          type="button"
+          onClick={onCancel}
+          disabled={submitting}
+          className="flex-1 rounded-lg border border-apx-line px-3 py-2 text-[13px] font-medium text-apx-mute transition-colors hover:border-apx-ink hover:text-apx-ink disabled:opacity-50"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          disabled={!canSubmit}
+          aria-disabled={!canSubmit}
+          className={cn(
+            "flex-1 rounded-lg px-3 py-2 text-[13px] font-semibold transition-colors",
+            canSubmit
+              ? "bg-apx-ink text-apx-paper hover:bg-apx-primary-ink"
+              : "cursor-not-allowed bg-apx-line text-apx-mute opacity-60"
+          )}
+        >
+          {submitting ? (
+            <span className="inline-flex items-center justify-center gap-1.5">
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              Submitting...
+            </span>
+          ) : (
+            "Submit refund request"
+          )}
+        </button>
+      </div>
+    </form>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// Main SalesAgent component
+// ---------------------------------------------------------------------------
+
 /**
  * Your Shopfront sales-agent chat bubble. Streams Claude Haiku 4.5 via
  * /api/chat as SSE. Conversation persists in localStorage so a refresh
  * doesn't reset context. Other CTAs can open this widget by dispatching
  * the `apex:open-chat` custom event.
+ *
+ * In onboarding mode (pathname starts with /onboarding) and when a
+ * session_id query param is present, a subtle "Request a refund" link
+ * appears below the input. Clicking it swaps to an inline refund form.
  */
 export function SalesAgent() {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
+
   // /onboarding and /onboarding/worksheet → onboarding helper persona.
   // Everywhere else → sales concierge. Derived per render so a SPA
   // navigation between marketing and onboarding swaps personas cleanly.
@@ -185,11 +428,21 @@ export function SalesAgent() {
     ? "onboarding"
     : "sales"
 
+  // session_id is present in the URL on all onboarding pages.
+  const sessionId = mode === "onboarding"
+    ? (searchParams.get("session_id") ?? null)
+    : null
+
+  const showRefundTrigger = mode === "onboarding" && sessionId !== null
+
   const greeting = GREETING_BY_MODE[mode]
   const quickReplies = QUICK_REPLIES_BY_MODE[mode]
   const headerLabel = HEADER_LABEL_BY_MODE[mode]
 
   const [open, setOpen] = React.useState(false)
+  const [view, setView] = React.useState<PanelView>("chat")
+  const [successMessage, setSuccessMessage] = React.useState<string | null>(null)
+
   // Lazy initializer is safe here: the panel is gated on `open` (false on
   // first render), so the initial-render output that gets hydrated is only
   // the bubble trigger — which doesn't read `messages`. No SSR mismatch.
@@ -212,6 +465,8 @@ export function SalesAgent() {
       lastModeRef.current = mode
       setMessages(loadHistory(mode))
       setError(null)
+      setView("chat")
+      setSuccessMessage(null)
     }
   }, [mode])
 
@@ -239,13 +494,13 @@ export function SalesAgent() {
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight
   }, [messages, open])
 
-  // Focus input when opened.
+  // Focus input when opened (chat view only).
   React.useEffect(() => {
-    if (open && inputRef.current) {
+    if (open && view === "chat" && inputRef.current) {
       const t = setTimeout(() => inputRef.current?.focus(), 50)
       return () => clearTimeout(t)
     }
-  }, [open])
+  }, [open, view])
 
   const send = React.useCallback(
     async (text: string) => {
@@ -356,6 +611,22 @@ export function SalesAgent() {
     }
   }
 
+  const handleRefundSuccess = React.useCallback((message: string) => {
+    setSuccessMessage(message)
+    setView("refund-success")
+  }, [])
+
+  const handleRefundError = React.useCallback((_message: string) => {
+    // Inline errors are shown inside RefundForm — this path is not used
+    // but satisfies the prop contract.
+    setView("refund-error")
+  }, [])
+
+  const returnToChat = React.useCallback(() => {
+    setView("chat")
+    setSuccessMessage(null)
+  }, [])
+
   return (
     <>
       {/* Bubble trigger */}
@@ -395,14 +666,16 @@ export function SalesAgent() {
               </div>
             </div>
             <div className="flex items-center gap-1">
-              <button
-                type="button"
-                onClick={reset}
-                className="rounded-md px-2 py-1 text-[11px] font-semibold text-apx-mute transition-colors hover:bg-apx-canvas hover:text-apx-ink"
-                aria-label="Clear conversation"
-              >
-                Clear
-              </button>
+              {view === "chat" && (
+                <button
+                  type="button"
+                  onClick={reset}
+                  className="rounded-md px-2 py-1 text-[11px] font-semibold text-apx-mute transition-colors hover:bg-apx-canvas hover:text-apx-ink"
+                  aria-label="Clear conversation"
+                >
+                  Clear
+                </button>
+              )}
               <button
                 type="button"
                 onClick={() => setOpen(false)}
@@ -414,97 +687,137 @@ export function SalesAgent() {
             </div>
           </div>
 
-          {/* Messages */}
-          <div
-            ref={scrollRef}
-            className="flex-1 overflow-y-auto px-4 py-4 [scrollbar-width:thin]"
-          >
-            <ul className="flex flex-col gap-3">
-              {messages.map((m) => (
-                <li
-                  key={m.id}
-                  className={cn(
-                    "flex",
-                    m.role === "user" ? "justify-end" : "justify-start"
-                  )}
-                >
-                  <div
-                    className={cn(
-                      "max-w-[85%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-[14px] leading-[1.5]",
-                      m.role === "user"
-                        ? "rounded-br-sm bg-apx-ink text-apx-paper"
-                        : "rounded-bl-sm bg-apx-canvas text-apx-ink"
-                    )}
-                  >
-                    {m.content === "" ? (
-                      <span className="inline-flex items-center gap-1.5 text-apx-mute">
-                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                        thinking…
-                      </span>
-                    ) : (
-                      renderMessageContent(m.content)
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
-
-            {/* Quick replies on greeting only */}
-            {messages.length === 1 && messages[0]!.id === "greeting" && (
-              <div className="mt-4 flex flex-wrap gap-2">
-                {quickReplies.map((q) => (
-                  <button
-                    key={q}
-                    type="button"
-                    onClick={() => void send(q)}
-                    disabled={streaming}
-                    className="rounded-full border border-apx-line bg-apx-paper px-3 py-1.5 text-[12px] font-medium text-apx-ink transition-colors hover:border-apx-ink disabled:opacity-50"
-                  >
-                    {q}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {error && (
-              <p className="mt-3 rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-800">
-                {error}
-              </p>
-            )}
-          </div>
-
-          {/* Input */}
-          <div className="border-t border-apx-line p-3">
-            <div className="flex items-end gap-2 rounded-xl border border-apx-line bg-apx-paper px-3 py-2 focus-within:border-apx-ink">
-              <textarea
-                ref={inputRef}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={onKeyDown}
-                disabled={streaming}
-                rows={1}
-                placeholder="Ask anything about Your Shopfront…"
-                className="flex-1 resize-none bg-transparent text-[14px] leading-[1.5] text-apx-ink placeholder:text-apx-mute focus:outline-none disabled:opacity-60"
-                style={{ maxHeight: "120px" }}
+          {/* Body — swaps between chat, refund form, and success/error */}
+          {view === "refund-form" && sessionId ? (
+            <div className="flex-1 overflow-y-auto [scrollbar-width:thin]">
+              <RefundForm
+                sessionId={sessionId}
+                onCancel={returnToChat}
+                onSuccess={handleRefundSuccess}
+                onError={handleRefundError}
               />
+            </div>
+          ) : view === "refund-success" ? (
+            <div className="flex flex-1 flex-col items-start justify-start overflow-y-auto px-4 py-6 [scrollbar-width:thin]">
+              <div className="w-full rounded-2xl rounded-bl-sm bg-apx-canvas px-3.5 py-3 text-[14px] leading-[1.5] text-apx-ink">
+                {successMessage}
+              </div>
               <button
                 type="button"
-                onClick={() => void send(input)}
-                disabled={streaming || !input.trim()}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-apx-ink text-apx-paper transition-colors hover:bg-apx-primary-ink disabled:cursor-not-allowed disabled:opacity-40"
-                aria-label="Send"
+                onClick={returnToChat}
+                className="mt-4 text-[13px] font-semibold text-apx-mute underline underline-offset-2 hover:text-apx-ink"
               >
-                {streaming ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Send className="h-4 w-4" />
-                )}
+                Back to chat
               </button>
             </div>
-            <p className="mt-1.5 text-center font-mono text-[10px] uppercase tracking-[0.1em] text-apx-mute">
-              Self-serve · No calls needed
-            </p>
-          </div>
+          ) : (
+            <>
+              {/* Messages */}
+              <div
+                ref={scrollRef}
+                className="flex-1 overflow-y-auto px-4 py-4 [scrollbar-width:thin]"
+              >
+                <ul className="flex flex-col gap-3">
+                  {messages.map((m) => (
+                    <li
+                      key={m.id}
+                      className={cn(
+                        "flex",
+                        m.role === "user" ? "justify-end" : "justify-start"
+                      )}
+                    >
+                      <div
+                        className={cn(
+                          "max-w-[85%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-[14px] leading-[1.5]",
+                          m.role === "user"
+                            ? "rounded-br-sm bg-apx-ink text-apx-paper"
+                            : "rounded-bl-sm bg-apx-canvas text-apx-ink"
+                        )}
+                      >
+                        {m.content === "" ? (
+                          <span className="inline-flex items-center gap-1.5 text-apx-mute">
+                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                            thinking…
+                          </span>
+                        ) : (
+                          renderMessageContent(m.content)
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Quick replies on greeting only */}
+                {messages.length === 1 && messages[0]!.id === "greeting" && (
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {quickReplies.map((q) => (
+                      <button
+                        key={q}
+                        type="button"
+                        onClick={() => void send(q)}
+                        disabled={streaming}
+                        className="rounded-full border border-apx-line bg-apx-paper px-3 py-1.5 text-[12px] font-medium text-apx-ink transition-colors hover:border-apx-ink disabled:opacity-50"
+                      >
+                        {q}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {error && (
+                  <p className="mt-3 rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-800">
+                    {error}
+                  </p>
+                )}
+              </div>
+
+              {/* Input */}
+              <div className="border-t border-apx-line p-3">
+                <div className="flex items-end gap-2 rounded-xl border border-apx-line bg-apx-paper px-3 py-2 focus-within:border-apx-ink">
+                  <textarea
+                    ref={inputRef}
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={onKeyDown}
+                    disabled={streaming}
+                    rows={1}
+                    placeholder="Ask anything about Your Shopfront…"
+                    className="flex-1 resize-none bg-transparent text-[14px] leading-[1.5] text-apx-ink placeholder:text-apx-mute focus:outline-none disabled:opacity-60"
+                    style={{ maxHeight: "120px" }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => void send(input)}
+                    disabled={streaming || !input.trim()}
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-apx-ink text-apx-paper transition-colors hover:bg-apx-primary-ink disabled:cursor-not-allowed disabled:opacity-40"
+                    aria-label="Send"
+                  >
+                    {streaming ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Send className="h-4 w-4" />
+                    )}
+                  </button>
+                </div>
+                <p className="mt-1.5 text-center font-mono text-[10px] uppercase tracking-[0.1em] text-apx-mute">
+                  Self-serve · No calls needed
+                </p>
+
+                {/* Refund trigger — onboarding mode only, when session is known */}
+                {showRefundTrigger && (
+                  <div className="mt-2 text-center">
+                    <button
+                      type="button"
+                      onClick={() => setView("refund-form")}
+                      className="text-[12px] text-apx-mute underline-offset-2 hover:underline hover:text-apx-ink transition-colors"
+                    >
+                      Request a refund
+                    </button>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
         </div>
       )}
     </>
