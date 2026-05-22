@@ -175,3 +175,4 @@ export const DiscoverySchema = z.object({
   preferredTone: z.enum(["professional", "friendly", "premium", "direct"]),
 })
 export type Discovery = z.infer<typeof DiscoverySchema>
+export type PreferredTone = Discovery["preferredTone"]

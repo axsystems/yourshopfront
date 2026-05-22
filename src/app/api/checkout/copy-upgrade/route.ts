@@ -97,7 +97,15 @@ export async function POST(req: Request) {
     )
   }
 
-  if (!["pending_content", "awaiting_copy"].includes(site.status)) {
+  if (
+    ![
+      "pending_content",
+      "awaiting_copy",
+      "awaiting_copy_draft",
+      "awaiting_copy_review",
+      "awaiting_copy_approval",
+    ].includes(site.status)
+  ) {
     return NextResponse.json(
       { error: "Site is past the copy stage." },
       { status: 409 }

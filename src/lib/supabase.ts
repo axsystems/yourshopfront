@@ -432,6 +432,40 @@ export async function markFailed(id: string, reason: string): Promise<void> {
   if (error) throw error
 }
 
+// -----------------------------------------------------------------------------
+// AI copy draft (Phase 4f) — STREAM-A-DEPENDENCY
+// -----------------------------------------------------------------------------
+
+/**
+ * Persists the customer's discovery answers. Called from the discovery
+ * server action right before kicking off the Haiku draft.
+ */
+export async function updateDiscoveryAnswers(
+  id: string,
+  answers: Discovery
+): Promise<void> {
+  const { error } = await supabase()
+    .from("sites")
+    .update({ discovery_answers: answers })
+    .eq("id", id)
+  if (error) throw error
+}
+
+/**
+ * Persists the latest AI-drafted copy + metadata. Replaces the whole blob —
+ * callers should pass the merged object including the bumped attemptCount.
+ */
+export async function updateAiCopyDraft(
+  id: string,
+  draft: AICopyDraftMeta
+): Promise<void> {
+  const { error } = await supabase()
+    .from("sites")
+    .update({ ai_copy_draft: draft })
+    .eq("id", id)
+  if (error) throw error
+}
+
 /**
  * Atomic-ish status transition guard. Updates only when current status
  * matches `from` — used by the orchestrator to avoid stomping a site
