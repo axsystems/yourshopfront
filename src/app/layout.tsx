@@ -66,7 +66,9 @@ export default function RootLayout({
           <DemoPalettePicker />
         </Suspense>
         {children}
-        <SalesAgent />
+        <Suspense fallback={null}>
+          <SalesAgent />
+        </Suspense>
       </body>
     </html>
   )
