@@ -61,7 +61,7 @@ export function RotatingPreview({
         <div className="relative h-[calc(100%-32px)] w-full">
           {slugs.map((slug, i) => {
             const isActive = i === index
-            const isNext = i === (index + 1) % slugs.length
+            const isNext = slugs.length > 1 && i === (index + 1) % slugs.length
             if (!isActive && !isNext) return null
             return (
               <iframe

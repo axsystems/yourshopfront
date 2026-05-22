@@ -127,12 +127,14 @@ function OrderSummary({
           {/* Static OG image instead of a scaled iframe: cuts ~160KB of
               competing document fetch on the checkout critical path
               (form hydration was racing the iframe for bandwidth). */}
+          {/* No explicit width/height: container's aspect-[4/3] reserves
+              layout slot. Setting img dimensions to the OG image's intrinsic
+              1.9:1 ratio (1200x630) would fight the container and cause
+              minor CLS during paint. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={`/api/og/${theme.slug}`}
             alt={`${theme.name} preview`}
-            width={1200}
-            height={630}
             loading="eager"
             className="absolute inset-0 h-full w-full object-cover"
           />

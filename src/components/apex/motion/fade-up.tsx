@@ -19,8 +19,9 @@ interface FadeUpProps extends React.HTMLAttributes<HTMLDivElement> {
 /**
  * Fade-up-on-scroll-into-view. CSS + IntersectionObserver — no
  * framer-motion. 24px translateY + opacity, 500ms ease-out. Respects
- * prefers-reduced-motion via the `motion-reduce:` Tailwind variants
- * applied via inline style (since we can't use Tailwind dynamic classes).
+ * prefers-reduced-motion at runtime via `window.matchMedia` — when the
+ * user has reduced motion enabled, the element appears immediately
+ * with no transition.
  *
  * Previously imported framer-motion which added 52.7 KB gzip to the
  * shared chunk on every page (15 call sites — every page used it).
@@ -36,6 +37,16 @@ export function FadeUp({
 }: FadeUpProps) {
   const ref = React.useRef<HTMLDivElement>(null)
   const [visible, setVisible] = React.useState(false)
+  const [reduce, setReduce] = React.useState(false)
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") return
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
+    setReduce(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setReduce(e.matches)
+    mq.addEventListener("change", handler)
+    return () => mq.removeEventListener("change", handler)
+  }, [])
 
   React.useEffect(() => {
     const el = ref.current
@@ -64,8 +75,10 @@ export function FadeUp({
       ref={ref}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(24px)",
-        transition: `opacity 500ms ease-out ${delay}ms, transform 500ms ease-out ${delay}ms`,
+        transform: visible ? "translateY(0)" : reduce ? "none" : "translateY(24px)",
+        transition: reduce
+          ? "opacity 1ms"
+          : `opacity 500ms ease-out ${delay}ms, transform 500ms ease-out ${delay}ms`,
         ...style,
       }}
       {...rest}
