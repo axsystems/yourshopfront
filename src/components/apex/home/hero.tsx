@@ -17,11 +17,11 @@ export function HomeHero() {
               <HighlightStroke>24 hours</HighlightStroke>.
             </h1>
             <Lede className="mt-6">
-              Pick one of 30 designs, send us your content, your site is live in 24 hours. Subscription or one-time. From neighborhood barbers to growing law firms — every small business welcome.
+              Pick one of 30 designs, send us your content, your site is live in 24 hours. Subscription or one-time. From neighborhood barbers to growing law firms. Every small business welcome.
             </Lede>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Button href="/portfolio" variant="primary" size="lg">
-                Pick your design — live tomorrow →
+                Pick your design, go live tomorrow →
               </Button>
               <Button href="/pricing" variant="ghost" size="lg">
                 Pricing

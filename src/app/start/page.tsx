@@ -20,12 +20,12 @@ import { featuredThemeSlugs } from "@/lib/themes"
 const URL = `${SITE_URL}/start`
 
 export const metadata: Metadata = {
-  title: "Launch Special — $99 to Start, $99/mo for 3 Months",
+  title: "Launch Special: $99 to Start, $99/mo for 3 Months",
   description:
     "Launch promo: $99 setup + $99/mo for your first 3 months on Your Shopfront. After that, $149/mo. Cancel anytime. Site live in 24 hours.",
   alternates: { canonical: URL },
   openGraph: {
-    title: "Your Shopfront — Launch Special",
+    title: "Your Shopfront: Launch Special",
     description:
       "$99 setup + $99/mo for the first 3 months. Pick from 30 designs. Site live in 24 hours.",
     url: URL,
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
         url: "/og-default.png",
         width: 1200,
         height: 630,
-        alt: "Your Shopfront — Launch Special",
+        alt: "Your Shopfront: Launch Special",
       },
     ],
   },
@@ -77,8 +77,8 @@ function PromoHero() {
           <div className="mx-auto max-w-3xl text-center">
             <Eyebrow tone="cobalt">Launch special</Eyebrow>
             <Display level="display-xl" className="mt-5">
-              Your shopfront, live in 24 hours —{" "}
-              <span className="text-apx-primary">starting at $99</span>.
+              Your shopfront, live in 24 hours.{" "}
+              <span className="text-apx-primary">Starting at $99.</span>
             </Display>
             <Lede className="mt-6">
               For your first 3 months, pay $99 setup and $99/month. After
@@ -124,19 +124,19 @@ function PricingBreakdown() {
             <PriceRow
               label="Setup (one-time)"
               value="$99"
-              note="Standard rate is $299 — save $200 today"
+              note="Standard rate is $299. Save $200 today."
             />
             <Divider />
             <PriceRow
               label="Months 1, 2, 3"
               value="$99/mo"
-              note="Standard rate is $149/mo — save $50/mo for 3 months"
+              note="Standard rate is $149/mo. Save $50/mo for 3 months."
             />
             <Divider />
             <PriceRow
               label="Month 4 onward"
               value="$149/mo"
-              note="Standard subscription rate — cancel any time"
+              note="Standard subscription rate. Cancel any time."
             />
             <hr className="my-6 border-apx-line" />
             <div className="flex items-baseline justify-between gap-4">
@@ -246,7 +246,7 @@ function WhatsIncluded() {
           <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <Feature
               title="30 production-grade designs"
-              body="Pick one. Send your content. We build it — you don't pick a template, we build the site."
+              body="Pick one. Send your content. We build it. You don't pick a template; we build the whole site."
             />
             <Feature
               title="Live in 24 hours"
@@ -286,9 +286,9 @@ function DemoGallery() {
               Pick one. Send your content. We build it.
             </Display>
             <Lede className="mt-4">
-              Designs work for every kind of small business — from
-              neighborhood barbers and yoga studios to law firms,
-              contractors, and growing trades.
+              Designs work for every kind of small business: neighborhood
+              barbers, yoga studios, law firms, contractors, growing
+              trades.
             </Lede>
           </div>
         </FadeUp>
@@ -329,11 +329,11 @@ function PromoFaq() {
             />
             <FaqRow
               q="Is the $99 setup refundable?"
-              a="Yes — before you submit your content worksheet. Once you submit and our team starts building, the setup fee covers that work and becomes non-refundable. Same rules as our standard $299 setup."
+              a="Yes. Before you submit your content worksheet. Once you submit and our team starts building, the setup fee covers that work and becomes non-refundable. Same rules as our standard $299 setup."
             />
             <FaqRow
               q="Can I cancel during the 3-month promo?"
-              a="Yes. Your first month is fully refundable within 30 days. After that, you can cancel any time — you just won't be charged again. Your site stays online for a 30-day grace period."
+              a="Yes. Your first month is fully refundable within 30 days. After that, you can cancel any time. You just won't be charged again. Your site stays online for a 30-day grace period."
             />
             <FaqRow
               q="Do I own the site?"
@@ -341,7 +341,7 @@ function PromoFaq() {
             />
             <FaqRow
               q="What if I don't see a design I like?"
-              a="We have 30 designs, every one buyable under this promo. If none fits, email hello@yourshopfront.com — we add new themes regularly."
+              a="We have 30 designs, every one buyable under this promo. If none fits, email hello@yourshopfront.com. We add new themes regularly."
             />
             <FaqRow
               q="Why is this promo a thing?"
