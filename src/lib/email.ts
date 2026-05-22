@@ -44,3 +44,37 @@ export async function sendEmail(opts: SendEmailOpts): Promise<void> {
     console.warn("[email] resend threw:", err)
   }
 }
+
+interface AccessLinkEmailOpts {
+  to: string
+  firstName: string
+  onboardingUrl: string
+}
+
+/**
+ * Self-serve recovery email — fires from /api/access when a customer
+ * requests a fresh onboarding link. Plain text, no marketing tone, mirrors
+ * the welcome-email voice. Caller is responsible for verifying the email
+ * belongs to a real customer; this helper just composes + sends.
+ */
+export async function sendAccessLinkEmail(
+  opts: AccessLinkEmailOpts
+): Promise<void> {
+  await sendEmail({
+    to: opts.to,
+    subject: "Your Shopfront access link",
+    text: [
+      `Hi ${opts.firstName},`,
+      "",
+      "You asked us to send you a fresh access link to your Your Shopfront account. Here it is:",
+      "",
+      opts.onboardingUrl,
+      "",
+      "Bookmark that page so you don't lose it again. If you didn't request this email, ignore it — your account is unaffected.",
+      "",
+      "Questions? Just reply to this email.",
+      "",
+      "— Your Shopfront",
+    ].join("\n"),
+  })
+}
