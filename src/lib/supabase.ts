@@ -20,6 +20,12 @@ export type Tier = "subscription" | "onetime"
 export type SiteStatus =
   | "pending_content"
   | "awaiting_copy"
+  // AI-drafted copy cycle (migration 0008). Sites with copy_addon=true
+  // flow draft → review → approval → ready_to_build. Legacy
+  // 'awaiting_copy' is kept for pre-AI rows that may still be in-flight.
+  | "awaiting_copy_draft"
+  | "awaiting_copy_review"
+  | "awaiting_copy_approval"
   | "ready_to_build"
   | "provisioning"
   | "awaiting_approval"
@@ -99,6 +105,32 @@ export {
 } from "./site-content/types"
 
 import type { SiteContent } from "./site-content/types"
+import type { Discovery, PartialSiteContent } from "./site-content/schema"
+
+// Re-export schema-derived types so callers can import them from a single
+// server-side entrypoint (mirrors the SiteContent re-exports above).
+export type { Discovery, PartialSiteContent } from "./site-content/schema"
+
+/**
+ * AI-drafted copy state stored in sites.ai_copy_draft (JSONB, migration
+ * 0008). Records the drafted content plus the cycle's bookkeeping fields
+ * — attempt count for the 3-strike cap, operator's hand-edits applied
+ * on approval, and timestamps for both approval gates.
+ */
+export interface AICopyDraftMeta {
+  /** The drafted content from the model. */
+  content: PartialSiteContent
+  /** ISO timestamp of the most recent draft run. */
+  draftedAt: string
+  /** How many times we've drafted for this site. Hard cap at 3. */
+  attemptCount: number
+  /** Operator's edits, applied to `content` when they approve. */
+  operatorEdits?: PartialSiteContent
+  /** ISO timestamp when the operator approved (sent to customer). */
+  operatorApprovedAt?: string
+  /** ISO timestamp when the customer approved (flips to ready_to_build). */
+  customerApprovedAt?: string
+}
 
 export interface Site {
   id: string
@@ -123,6 +155,12 @@ export interface Site {
   provisioning_state: ProvisioningState
   /** Populated when status='failed'. Plain text for ops. */
   failure_reason: string | null
+  /** Customer's raw answers to the 5-fact discovery form. Null until
+   * the customer submits. Persisted separately from site_content so we
+   * keep an audit trail of what they told us vs what got drafted. */
+  discovery_answers: Discovery | null
+  /** AI draft + cycle bookkeeping. Null until the first draft attempt. */
+  ai_copy_draft: AICopyDraftMeta | null
   created_at: string
   updated_at: string
 }
