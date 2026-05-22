@@ -105,10 +105,13 @@ export function DemoCard({
               tabIndex={-1}
               loading="lazy"
               onLoad={() => setIframeLoaded(true)}
-              className={cn(
-                "pointer-events-none absolute left-0 top-0 origin-top-left border-0 transition-opacity duration-300",
-                iframeLoaded ? "opacity-100" : "opacity-0"
-              )}
+              // No opacity gating: a same-origin iframe can fire its load
+              // event before React attaches onLoad, which would leave the
+              // iframe invisible forever. The skeleton sits behind the
+              // iframe and is hidden once the iframe paints content over
+              // it; once `iframeLoaded` flips true (or never, in the race
+              // case) we drop the skeleton too.
+              className="pointer-events-none absolute left-0 top-0 origin-top-left border-0"
               style={{
                 width: "238%",
                 height: "238%",
