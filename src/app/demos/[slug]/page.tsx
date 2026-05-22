@@ -2,6 +2,8 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import { ThemedHome } from "@/components/home/themed-home"
+import { PortfolioBanner } from "@/components/portfolio/portfolio-banner"
+import { MobileStickyCTA, MobileStickySpacer } from "@/components/apex/mobile-sticky-cta"
 import { JsonLd } from "@/components/json-ld"
 import {
   SITE_URL,
@@ -19,7 +21,7 @@ export const dynamicParams = false
 
 export function generateStaticParams() {
   // After Phase 2.5 every theme is buyable, so /demos/[slug] resolves
-  // for all 24 — useful for marketing, sharing, and ad targeting.
+  // for all 30 — useful for marketing, sharing, and ad targeting.
   return Object.keys(allThemes).map((slug) => ({ slug }))
 }
 
@@ -78,7 +80,14 @@ export default async function DemoPage({ params }: PageProps) {
           ]),
         ]}
       />
+      <PortfolioBanner theme={theme} />
       <ThemedHome theme={theme} isDemoPreview />
+      <MobileStickySpacer />
+      <MobileStickyCTA
+        href={`/checkout?tier=subscription&promo=launch&demo=${theme.slug}`}
+        label="Get this site for $99 →"
+        subLabel="30-day money-back"
+      />
     </>
   )
 }

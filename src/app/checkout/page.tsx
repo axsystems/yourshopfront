@@ -86,6 +86,7 @@ export default async function CheckoutPage({ searchParams }: PageProps) {
                 demo={theme.slug}
                 cancelled={cancelled}
                 promo={promo}
+                defaultIndustry={theme.industry}
               />
             </div>
             <p

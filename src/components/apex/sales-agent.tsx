@@ -18,7 +18,7 @@ const GREETING: ChatMessage = {
   id: "greeting",
   role: "assistant",
   content:
-    "Hey — I'm the Your Shopfront concierge. Tell me about your business and I'll point you at the right design, or ask anything about pricing or how the 24-hour build works.",
+    "I'm the concierge. Tell me your business and I'll match it to a design, pricing, or whatever else you want to know.",
 }
 
 const QUICK_REPLIES = [
@@ -298,7 +298,7 @@ export function SalesAgent() {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-apx-ink text-apx-paper shadow-[0_8px_24px_rgba(0,0,0,0.15)] transition-transform hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(0,0,0,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-apx-primary focus-visible:ring-offset-2 sm:bottom-6 sm:right-6"
+          className="fixed bottom-24 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-apx-ink text-apx-paper shadow-[0_8px_24px_rgba(0,0,0,0.15)] transition-transform hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(0,0,0,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-apx-primary focus-visible:ring-offset-2 md:bottom-6 md:right-6"
           aria-label="Open chat with Your Shopfront concierge"
         >
           <MessageCircle className="h-6 w-6" />
@@ -437,7 +437,7 @@ export function SalesAgent() {
               </button>
             </div>
             <p className="mt-1.5 text-center font-mono text-[10px] uppercase tracking-[0.1em] text-apx-mute">
-              Powered by Claude · Self-serve, no calls needed
+              Self-serve · No calls needed
             </p>
           </div>
         </div>

@@ -8,7 +8,7 @@ interface PricingProps {
 }
 
 const SUB_FEATURES = [
-  "Pick from any of our 24 theme designs",
+  "Pick from any of our 30 theme designs",
   "We swap in your content within 24 hours",
   "Unlimited edits, forever",
   "We host it (fast Vercel + Cloudflare)",
@@ -18,7 +18,7 @@ const SUB_FEATURES = [
 ]
 
 const ONETIME_FEATURES = [
-  "Pick from any of our 24 theme designs",
+  "Pick from any of our 30 theme designs",
   "We swap in your content within 24 hours",
   "30 days of free edits after launch",
   "Full source code handed over",
@@ -47,8 +47,7 @@ export function Pricing({ theme, demoSlug }: PricingProps) {
             className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed"
             style={{ color: "var(--apex-muted-fg)" }}
           >
-            A new customer found through your site can pay for a year of subscription. Most
-            clients see their first inquiry within 7 days of launch.
+            A single new customer often pays for a full year of subscription. Built to capture inquiries from day one.
           </p>
         </div>
         <div className="mx-auto mt-14 grid max-w-5xl gap-6 lg:grid-cols-2">
@@ -86,7 +85,6 @@ export function Pricing({ theme, demoSlug }: PricingProps) {
           className="mx-auto mt-8 max-w-2xl text-center text-sm"
           style={{ color: "var(--apex-muted-fg)" }}
         >
-          Most clients see their first booking from the new site within 7 days of launch.
           30-day money-back guarantee on every plan.
         </p>
       </Container>

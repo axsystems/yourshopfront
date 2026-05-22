@@ -17,9 +17,10 @@ interface CheckoutFormProps {
   demo: string
   cancelled?: boolean
   promo?: "launch"
+  defaultIndustry?: string
 }
 
-export function CheckoutForm({ tier, demo, cancelled, promo }: CheckoutFormProps) {
+export function CheckoutForm({ tier, demo, cancelled, promo, defaultIndustry }: CheckoutFormProps) {
   const form = useForm<CheckoutFormData>({
     resolver: zodResolver(CheckoutFormSchema),
     defaultValues: {
@@ -27,9 +28,8 @@ export function CheckoutForm({ tier, demo, cancelled, promo }: CheckoutFormProps
       contact_name: "",
       email: "",
       phone: "",
-      industry: "",
+      industry: defaultIndustry ?? "",
       current_website_url: "",
-      headline_pref: "",
       hosting_addon: tier === "onetime",
     },
   })
@@ -123,14 +123,13 @@ export function CheckoutForm({ tier, demo, cancelled, promo }: CheckoutFormProps
           required
         />
         <Field
-          label="Phone"
+          label="Phone (optional)"
           name="phone"
           type="tel"
           register={register}
           errors={errors}
           autoComplete="tel"
           placeholder="(555) 123-4567"
-          required
         />
       </div>
 
@@ -162,25 +161,6 @@ export function CheckoutForm({ tier, demo, cancelled, promo }: CheckoutFormProps
         errors={errors}
         placeholder="https://example.com"
       />
-
-      <FieldWrap
-        label="What should your headline say? (optional)"
-        error={errors.headline_pref?.message}
-        hint="Max 200 characters. We can fine-tune the wording for you."
-      >
-        <textarea
-          {...register("headline_pref")}
-          rows={3}
-          maxLength={200}
-          className="w-full rounded-lg border bg-[var(--apex-surface)] px-3 py-2.5 text-base text-[var(--apex-surface-fg)] outline-none transition focus:border-[var(--apex-fg)]"
-          style={{
-            borderColor: errors.headline_pref
-              ? "color-mix(in oklab, red 60%, var(--apex-border))"
-              : "var(--apex-border)",
-          }}
-          placeholder="e.g. Plumbing & HVAC, properly engineered."
-        />
-      </FieldWrap>
 
       {tier === "onetime" && (
         <label
@@ -236,7 +216,7 @@ export function CheckoutForm({ tier, demo, cancelled, promo }: CheckoutFormProps
           </>
         ) : (
           <>
-            Continue to payment <ArrowRight className="h-4 w-4" />
+            Pay securely with Stripe <ArrowRight className="h-4 w-4" />
           </>
         )}
       </button>
@@ -245,7 +225,7 @@ export function CheckoutForm({ tier, demo, cancelled, promo }: CheckoutFormProps
         className="text-center text-xs"
         style={{ color: "var(--apex-muted-fg)" }}
       >
-        We charge through Stripe. We never see your card number. 30-day money-back guarantee.
+        We charge through Stripe. We never see your card number. 30-day money-back guarantee · cancel anytime.
       </p>
     </form>
   )

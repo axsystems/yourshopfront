@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <LegalPage title="Privacy Policy" lastUpdated="2026-05-04" draft>
+    <LegalPage title="Privacy Policy" lastUpdated="2026-05-04">
       <p>
         Your Shopfront (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) provides website design and hosting services for small businesses. This policy describes what personal information we collect, how we use it, and the choices you have. It applies to yourshopfront.com and any sites we host on your behalf.
       </p>

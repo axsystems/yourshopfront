@@ -39,7 +39,7 @@ export function HomeHowItWorks() {
         <div className="max-w-[760px]">
           <Eyebrow>How it works</Eyebrow>
           <Display level="display-xl" className="mt-5">
-            Four steps, your site live by the end of the week.
+            Four steps. Live within 24 hours of your worksheet.
           </Display>
           <Lede className="mt-5">
             We don&apos;t disappear into a six-week design process. You see progress every day, and most sites launch in under a week from the day you sign up.

@@ -11,7 +11,7 @@ export function PortfolioHero({ count }: { count: number }) {
           Every design we ship.
         </Display>
         <Lede className="mt-6 max-w-[60ch]">
-          {count} production-grade home-service site designs across 3 design rounds — every one is available as a theme option. Pick any of the {count}, send us your content, we launch in 24 hours.
+          {count} production-grade small-business site designs across 3 design rounds — every one is available as a theme option. Pick any of the {count}, send us your content, we launch in 24 hours.
         </Lede>
       </Container>
     </Section>

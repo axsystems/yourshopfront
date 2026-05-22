@@ -65,12 +65,12 @@ export default function AboutPage() {
             <div className="mx-auto grid max-w-3xl gap-10 text-[17px] leading-[1.65] text-apx-ink">
               <FadeUp>
                 <p>
-                  We&apos;ve designed and shipped 30 production-grade websites — each one built around how a real business actually gets customers. Laundromats want a clean booking card. Yoga studios want a warm gallery. Law firms want credibility-first copy. Roofers want a storm-damage form.
+                  We&apos;ve designed and prototyped 30 production-grade websites — each one built around how a real business actually gets customers. Laundromats want a clean booking card. Yoga studios want a warm gallery. Law firms want credibility-first copy. Roofers want a storm-damage form.
                 </p>
               </FadeUp>
               <FadeUp delay={60}>
                 <p>
-                  We don&apos;t hand you a blank canvas. We hand you a finished site that already works for your category, with your content swapped in. The whole transaction is built around speed: $299 and a half-hour worksheet on Monday morning, your site live by Tuesday afternoon, your phone ringing by Friday.
+                  We don&apos;t hand you a blank canvas. We hand you a finished site that already works for your category, with your content swapped in. The whole transaction is built around speed: $299 and a half-hour worksheet on Monday morning, your site live by Tuesday afternoon, indexed by Friday.
                 </p>
               </FadeUp>
               <FadeUp delay={120}>
@@ -95,7 +95,7 @@ export default function AboutPage() {
                 <FadeUp delay={60}>
                   <li>
                     <strong className="font-semibold">We won&apos;t pretend the deliverable is bespoke.</strong>{" "}
-                    The 30 designs are the deliverables. You pick one. We swap your content in. If you need something custom, we&apos;ll happily refer you to an agency — Apex isn&apos;t the right fit for that.
+                    The 30 designs are the deliverables. You pick one. We swap your content in. If you need something custom, we&apos;ll happily refer you to an agency — Your Shopfront isn&apos;t the right fit for that.
                   </li>
                 </FadeUp>
                 <FadeUp delay={120}>

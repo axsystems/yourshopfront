@@ -93,7 +93,7 @@ function FullFooter({ themed, className }: { themed: boolean; className?: string
       >
         <Container className="flex flex-col items-start justify-between gap-3 py-6 text-[12px] sm:flex-row sm:items-center">
           <p className={themed ? "" : "text-apx-mute"} style={themed ? { color: "var(--apex-muted-fg)" } : undefined}>
-            © {new Date().getFullYear()} Shopfront. All rights reserved.
+            © {new Date().getFullYear()} Your Shopfront. All rights reserved.
           </p>
           <p
             className={cn("font-mono uppercase tracking-[0.06em]", themed ? "" : "text-apx-mute")}
@@ -111,7 +111,7 @@ function MinimalFooter({ className }: { className?: string }) {
   return (
     <footer className={cn("border-t border-apx-line bg-apx-paper", className)}>
       <Container className="flex flex-col items-start justify-between gap-2 py-6 text-[12px] text-apx-mute sm:flex-row sm:items-center">
-        <p>© {new Date().getFullYear()} Shopfront. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Your Shopfront. All rights reserved.</p>
         <p className="font-mono uppercase tracking-[0.06em]">hello@yourshopfront.com</p>
       </Container>
     </footer>
