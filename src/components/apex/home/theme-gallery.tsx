@@ -149,11 +149,7 @@ export function HomeThemeGallery() {
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {visible.map((t, i) => (
             <FadeUp key={t.slug} delay={Math.min(i * 40, 240)}>
-              <DemoCard
-                slug={t.slug}
-                eager={i < 3}
-                featured={i < 3 && filterKey === "all"}
-              />
+              <DemoCard slug={t.slug} eager={i < 3} />
             </FadeUp>
           ))}
         </div>
