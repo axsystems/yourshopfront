@@ -1,7 +1,9 @@
+import "server-only"
+
 import { NextResponse } from "next/server"
 import { z } from "zod"
 
-import { checkRateLimit } from "@/lib/chat/rate-limit"
+import { checkRateLimit, pruneExpired } from "@/lib/chat/rate-limit"
 import { sendEmail } from "@/lib/email"
 import { getClientIp } from "@/lib/get-client-ip"
 import { notifySlack } from "@/lib/notify"
@@ -24,6 +26,10 @@ export async function POST(req: Request) {
   // 3/min/IP keeps a determined attacker from burning the Resend monthly
   // cap or blowing up the Slack channel. Namespaced key so contact and
   // chat have separate buckets.
+  // 5% probabilistic prune so the in-memory bucket map doesn't grow
+  // unbounded under sustained traffic. Matches the pattern in chat/route.
+  if (Math.random() < 0.05) pruneExpired()
+
   const ip = getClientIp(req)
   const limit = checkRateLimit(`contact:${ip}`, 3)
   if (!limit.ok) {
@@ -35,7 +41,7 @@ export async function POST(req: Request) {
       },
       {
         status: 429,
-        headers: { "retry-after": String(limit.retryAfterSeconds) },
+        headers: { "Retry-After": String(limit.retryAfterSeconds) },
       }
     )
   }
