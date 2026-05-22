@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { MessageCircle, X, Send, Loader2 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -12,21 +13,50 @@ interface ChatMessage {
   content: string
 }
 
-const STORAGE_KEY = "apex-sales-agent-v1"
+type ChatMode = "sales" | "onboarding"
+
+// Separate storage keys per mode so a customer's onboarding session
+// doesn't surface their pre-purchase sales chat (and vice versa).
+const STORAGE_KEY_BY_MODE: Record<ChatMode, string> = {
+  sales: "apex-sales-agent-v1",
+  onboarding: "apex-onboarding-helper-v1",
+}
 const OPEN_EVENT = "apex:open-chat"
-const GREETING: ChatMessage = {
-  id: "greeting",
-  role: "assistant",
-  content:
-    "I'm the concierge. Tell me your business and I'll match it to a design, pricing, or whatever else you want to know.",
+
+const GREETING_BY_MODE: Record<ChatMode, ChatMessage> = {
+  sales: {
+    id: "greeting",
+    role: "assistant",
+    content:
+      "I'm the concierge. Tell me your business and I'll match it to a design, pricing, or whatever else you want to know.",
+  },
+  onboarding: {
+    id: "greeting",
+    role: "assistant",
+    content:
+      "I'm here to help you fill out your worksheet. Stuck on a section? Want me to draft sample copy? Just ask.",
+  },
 }
 
-const QUICK_REPLIES = [
-  "Show me the laundromat demo",
-  "What's the cheapest way to start?",
-  "I run a yoga studio — which design fits?",
-  "Do you do Google Ads?",
-] as const
+const QUICK_REPLIES_BY_MODE: Record<ChatMode, readonly string[]> = {
+  sales: [
+    "Show me the laundromat demo",
+    "What's the cheapest way to start?",
+    "I run a yoga studio — which design fits?",
+    "Do you do Google Ads?",
+  ],
+  onboarding: [
+    "Write me 3 hero headlines",
+    "What services should I list?",
+    "Help me write my About section",
+    "What's next?",
+  ],
+}
+
+const HEADER_LABEL_BY_MODE: Record<ChatMode, string> = {
+  sales: "Your Shopfront concierge",
+  onboarding: "Onboarding helper",
+}
 
 const LINK_PATTERN = /\[([^\]]+)\]\(([^)]+)\)/g
 
@@ -115,22 +145,26 @@ function newId(): string {
   return Math.random().toString(36).slice(2)
 }
 
-function loadHistory(): ChatMessage[] {
-  if (typeof window === "undefined") return [GREETING]
+function loadHistory(mode: ChatMode): ChatMessage[] {
+  const greeting = GREETING_BY_MODE[mode]
+  if (typeof window === "undefined") return [greeting]
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY)
-    if (!raw) return [GREETING]
+    const raw = window.localStorage.getItem(STORAGE_KEY_BY_MODE[mode])
+    if (!raw) return [greeting]
     const parsed = JSON.parse(raw) as ChatMessage[]
-    if (!Array.isArray(parsed) || parsed.length === 0) return [GREETING]
+    if (!Array.isArray(parsed) || parsed.length === 0) return [greeting]
     return parsed
   } catch {
-    return [GREETING]
+    return [greeting]
   }
 }
 
-function saveHistory(messages: ChatMessage[]): void {
+function saveHistory(mode: ChatMode, messages: ChatMessage[]): void {
   try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(messages))
+    window.localStorage.setItem(
+      STORAGE_KEY_BY_MODE[mode],
+      JSON.stringify(messages)
+    )
   } catch {
     // Silent fail — privacy mode, quota, etc.
   }
@@ -143,19 +177,43 @@ function saveHistory(messages: ChatMessage[]): void {
  * the `apex:open-chat` custom event.
  */
 export function SalesAgent() {
+  const pathname = usePathname()
+  // /onboarding and /onboarding/worksheet → onboarding helper persona.
+  // Everywhere else → sales concierge. Derived per render so a SPA
+  // navigation between marketing and onboarding swaps personas cleanly.
+  const mode: ChatMode = pathname?.startsWith("/onboarding")
+    ? "onboarding"
+    : "sales"
+
+  const greeting = GREETING_BY_MODE[mode]
+  const quickReplies = QUICK_REPLIES_BY_MODE[mode]
+  const headerLabel = HEADER_LABEL_BY_MODE[mode]
+
   const [open, setOpen] = React.useState(false)
   // Lazy initializer is safe here: the panel is gated on `open` (false on
   // first render), so the initial-render output that gets hydrated is only
   // the bubble trigger — which doesn't read `messages`. No SSR mismatch.
   const [messages, setMessages] = React.useState<ChatMessage[]>(() => {
-    if (typeof window === "undefined") return [GREETING]
-    return loadHistory()
+    if (typeof window === "undefined") return [greeting]
+    return loadHistory(mode)
   })
   const [input, setInput] = React.useState("")
   const [streaming, setStreaming] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
   const scrollRef = React.useRef<HTMLDivElement | null>(null)
   const inputRef = React.useRef<HTMLTextAreaElement | null>(null)
+
+  // When the mode changes (route swap), reload history from the right
+  // storage bucket so the customer sees their onboarding chat on
+  // onboarding pages and their sales chat on marketing pages.
+  const lastModeRef = React.useRef(mode)
+  React.useEffect(() => {
+    if (lastModeRef.current !== mode) {
+      lastModeRef.current = mode
+      setMessages(loadHistory(mode))
+      setError(null)
+    }
+  }, [mode])
 
   // Persist conversation across refreshes. Skip the initial render so we
   // don't write the greeting back over an existing saved history.
@@ -165,8 +223,8 @@ export function SalesAgent() {
       isFirstRender.current = false
       return
     }
-    saveHistory(messages)
-  }, [messages])
+    saveHistory(mode, messages)
+  }, [mode, messages])
 
   // Listen for the global open-chat event from other CTAs.
   React.useEffect(() => {
@@ -211,6 +269,7 @@ export function SalesAgent() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            mode,
             messages: nextHistory
               .filter((m) => m.id !== "greeting")
               .map(({ role, content }) => ({ role, content })),
@@ -265,10 +324,16 @@ export function SalesAgent() {
           }
         }
       } catch (err) {
-        const msg =
+        const raw =
           err instanceof Error
             ? err.message
             : "The chat dropped — try again."
+        // Translate Anthropic's "Overloaded" / 529 errors into a
+        // friendlier retry-friendly message. These are transient and
+        // a refresh in a few seconds usually works.
+        const msg = /overloaded/i.test(raw)
+          ? "Lots of folks chatting right now — try again in a few seconds."
+          : raw
         setError(msg)
         // Drop the empty placeholder on error.
         setMessages((prev) => prev.filter((m) => m.content !== ""))
@@ -276,13 +341,13 @@ export function SalesAgent() {
         setStreaming(false)
       }
     },
-    [messages, streaming]
+    [messages, mode, streaming]
   )
 
   const reset = React.useCallback(() => {
-    setMessages([GREETING])
+    setMessages([greeting])
     setError(null)
-  }, [])
+  }, [greeting])
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -299,7 +364,7 @@ export function SalesAgent() {
           type="button"
           onClick={() => setOpen(true)}
           className="fixed bottom-24 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-apx-ink text-apx-paper shadow-[0_8px_24px_rgba(0,0,0,0.15)] transition-transform hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(0,0,0,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-apx-primary focus-visible:ring-offset-2 md:bottom-6 md:right-6"
-          aria-label="Open chat with Your Shopfront concierge"
+          aria-label={`Open chat with the ${headerLabel}`}
         >
           <MessageCircle className="h-6 w-6" />
           <span className="sr-only">Chat</span>
@@ -310,7 +375,7 @@ export function SalesAgent() {
       {open && (
         <div
           role="dialog"
-          aria-label="Your Shopfront concierge"
+          aria-label={headerLabel}
           className="fixed inset-x-0 bottom-0 z-50 flex flex-col rounded-t-2xl border border-apx-line bg-apx-paper shadow-[0_-8px_32px_rgba(0,0,0,0.15)] sm:inset-x-auto sm:bottom-6 sm:right-6 sm:h-[560px] sm:w-[400px] sm:rounded-2xl"
           style={{ maxHeight: "min(90vh, 720px)" }}
         >
@@ -322,7 +387,7 @@ export function SalesAgent() {
               </span>
               <div>
                 <p className="font-sans text-[14px] font-semibold leading-tight text-apx-ink">
-                  Your Shopfront concierge
+                  {headerLabel}
                 </p>
                 <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-apx-mute">
                   Replies in seconds
@@ -387,7 +452,7 @@ export function SalesAgent() {
             {/* Quick replies on greeting only */}
             {messages.length === 1 && messages[0]!.id === "greeting" && (
               <div className="mt-4 flex flex-wrap gap-2">
-                {QUICK_REPLIES.map((q) => (
+                {quickReplies.map((q) => (
                   <button
                     key={q}
                     type="button"

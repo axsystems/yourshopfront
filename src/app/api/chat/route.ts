@@ -3,7 +3,10 @@ import "server-only"
 import Anthropic from "@anthropic-ai/sdk"
 import { z } from "zod"
 
-import { buildSystemPrompt } from "@/lib/chat/system-prompt"
+import {
+  buildOnboardingHelperPrompt,
+  buildSystemPrompt,
+} from "@/lib/chat/system-prompt"
 import { checkRateLimit, pruneExpired } from "@/lib/chat/rate-limit"
 import { getClientIp } from "@/lib/get-client-ip"
 
@@ -21,6 +24,10 @@ const ChatMessageSchema = z.object({
 
 const RequestSchema = z.object({
   messages: z.array(ChatMessageSchema).min(1).max(MAX_HISTORY_TURNS),
+  // "sales" (default) → marketing-page concierge that recommends demos
+  // and points to checkout. "onboarding" → post-purchase helper that
+  // generates content copy + walks through the worksheet sections.
+  mode: z.enum(["sales", "onboarding"]).optional().default("sales"),
 })
 
 export async function POST(req: Request): Promise<Response> {
@@ -67,6 +74,11 @@ export async function POST(req: Request): Promise<Response> {
 
   const client = new Anthropic({ apiKey })
 
+  const systemPromptText =
+    parsed.data.mode === "onboarding"
+      ? buildOnboardingHelperPrompt()
+      : buildSystemPrompt()
+
   // Stream the reply as Server-Sent Events. Keeps first-token latency
   // low and lets the widget show typed text as it arrives.
   const encoder = new TextEncoder()
@@ -78,10 +90,12 @@ export async function POST(req: Request): Promise<Response> {
           max_tokens: MAX_TOKENS,
           // Cache the system prompt so every conversation past the first
           // pays only the cached-read price (~10% of normal input).
+          // Sales + onboarding modes get separate cache entries (Anthropic
+          // keys on the text content) so each persona stays warm.
           system: [
             {
               type: "text",
-              text: buildSystemPrompt(),
+              text: systemPromptText,
               cache_control: { type: "ephemeral" },
             },
           ],
