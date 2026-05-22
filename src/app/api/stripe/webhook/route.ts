@@ -156,7 +156,7 @@ async function handleSessionCompleted(session: Stripe.Checkout.Session) {
         `${site.business_name} · ${site.demo_slug}` +
           (site.industry ? ` · ${site.industry}` : ""),
         `${customer.email}${customer.phone ? ` · ${customer.phone}` : ""}`,
-        `<${SITE_URL}/admin|admin> · session \`${session.id.slice(-12)}\``,
+        `session \`${session.id.slice(-12)}\``,
       ].join("\n")
     ),
   ])
@@ -207,7 +207,7 @@ async function sendWelcomeEmail(opts: WelcomeEmailOpts): Promise<void> {
     opts.tier === "subscription" ? "Subscription ($499 + $199/mo)" : "One-time build ($2,997)"
   await sendEmail({
     to: opts.to,
-    subject: "Welcome to Apex Sites — let's build your site",
+    subject: "Welcome to Your Shopfront — let's build your site",
     text: [
       `Hi ${opts.name.split(" ")[0]},`,
       "",
@@ -220,7 +220,7 @@ async function sendWelcomeEmail(opts: WelcomeEmailOpts): Promise<void> {
       "",
       "Questions? Just reply to this email — a real person reads every inbound.",
       "",
-      "— Apex Sites",
+      "— Your Shopfront",
     ].join("\n"),
   })
 }
@@ -228,18 +228,18 @@ async function sendWelcomeEmail(opts: WelcomeEmailOpts): Promise<void> {
 async function sendGoodbyeEmail(opts: { to: string; name: string }): Promise<void> {
   await sendEmail({
     to: opts.to,
-    subject: "Your Apex Sites subscription has been cancelled",
+    subject: "Your Shopfront subscription has been cancelled",
     text: [
       `Hi ${opts.name.split(" ")[0]},`,
       "",
-      "Your Apex Sites subscription has been cancelled. We're sorry to see you go.",
+      "Your Shopfront subscription has been cancelled. We're sorry to see you go.",
       "",
       "Your site stays live for 30 days as a grace period — plenty of time to migrate or",
       "decide to come back. After that, we take it down and your domain reverts.",
       "",
       "If there was anything we could have done better, hit reply — we read every word.",
       "",
-      "— Apex Sites",
+      "— Your Shopfront",
     ].join("\n"),
   })
 }

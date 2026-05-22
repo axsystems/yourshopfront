@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" aria-hidden="true">
+  <title>Apex Sites logo (square, 1024)</title>
+  <!-- Paper background, mark centered at 60% size. Used to export logo.png + apple-touch-icon.png + favicon-{16,32}.png + manifest icons. -->
+  <rect width="1024" height="1024" fill="#FFFFFF" />
+  <g transform="translate(192,192) scale(26.666667)">
+    <!-- mark scaled from 24x24 to 640x640 (factor 26.666...), inset 192px on every side -->
+    <path d="M 12 2 L 22 22 L 18.4 22 L 12 9.2 L 5.6 22 L 2 22 Z" fill="#111418" />
+    <path d="M 8.45 14 L 12 5.6 L 15.55 14 Z" fill="#2438FF" />
+    <path d="M 9.7 11 L 14.3 11 L 14.85 12.2 L 9.15 12.2 Z" fill="#111418" />
+    <path d="M 7.45 15.5 L 16.55 15.5 L 17.4 17.2 L 6.6 17.2 Z" fill="#111418" />
+  </g>
+</svg>

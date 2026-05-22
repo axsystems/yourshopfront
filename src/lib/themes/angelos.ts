@@ -8,7 +8,7 @@ export const angelos: Theme = {
   city: "Brooklyn",
   tagline: "Pizza, since 1956.",
   description:
-    "Newspaper-Italian-Americana. Parchment + tomato + olive + mustard, Bodoni Moda + Playfair Display + Caveat script. Newspaper banner hero, double-rule borders, hand-stamp accents.",
+    "Newspaper-Italian-Americana. Parchment + tomato + olive + mustard, Playfair Display editorial serif. Newspaper banner hero, double-rule borders, hand-stamp accents.",
   mode: "recurring",
   vibe: "warm-premium",
   hero: "gallery",
@@ -31,7 +31,7 @@ export const angelos: Theme = {
   button: { shape: "sharp", shadow: "hard-offset", weight: "bold", uppercase: true },
   seoTitle: "Angelo's — Brooklyn Pizza Since 1956 · Apex Sites Portfolio",
   seoDescription:
-    "Apex Sites portfolio: a heritage Brooklyn pizza joint. Parchment + tomato + mustard, Bodoni Moda, double-rule newspaper masthead. Built for restaurants and food brands with history.",
+    "Apex Sites portfolio: a heritage Brooklyn pizza joint. Parchment + tomato + mustard, Playfair Display, double-rule newspaper masthead. Built for restaurants and food brands with history.",
   isThemeOption: true,
   sourceHtmlPath: "03-angelos.html",
   round: 2,

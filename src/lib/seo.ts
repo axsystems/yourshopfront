@@ -1,12 +1,12 @@
 import type { Theme } from "./themes/types"
 
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://apexsites.com"
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://yourshopfront.com"
 
-export const SITE_NAME = "Apex Sites"
+export const SITE_NAME = "Your Shopfront"
 
 export const ORG_DESCRIPTION =
-  "Productized website design and hosting for home-service businesses. Pick a style from 10 designed templates, we swap your content in, your site goes live in 24 hours."
+  "Productized website design and hosting for small businesses. Pick one of 30 designs, send us your content, your site goes live in 24 hours."
 
 export function organizationSchema() {
   return {
@@ -20,7 +20,7 @@ export function organizationSchema() {
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer support",
-      email: "hello@apexsites.com",
+      email: "hello@yourshopfront.com",
       availableLanguage: "en",
     },
   }
@@ -30,7 +30,7 @@ export function serviceSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: "Apex Sites — Productized Website Design",
+    name: "Your Shopfront — Productized Website Design",
     provider: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
     areaServed: "United States",
     description: ORG_DESCRIPTION,

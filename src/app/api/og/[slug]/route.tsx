@@ -127,7 +127,7 @@ export async function GET(_req: Request, ctx: RouteContext) {
           >
             A
           </span>
-          Apex Sites · {theme.name}
+          Your Shopfront · {theme.name}
         </div>
         <div
           style={{

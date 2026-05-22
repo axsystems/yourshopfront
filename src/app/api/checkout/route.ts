@@ -7,6 +7,12 @@ export const runtime = "nodejs"
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
 
+// Statement descriptor shown on customer credit-card statements.
+// Max 22 chars. Per-charge override so Axon Labs LLC's other product
+// lines (apex-studio, axon-growth, ai-researcher) keep their own
+// descriptors when sharing this Stripe account.
+const STATEMENT_DESCRIPTOR = "YOURSHOPFRONT"
+
 interface PriceIds {
   setup: string
   monthly: string
@@ -153,7 +159,10 @@ async function createSession(
     success_url: successUrl,
     cancel_url: cancelUrl,
     metadata,
-    payment_intent_data: { metadata },
+    payment_intent_data: {
+      metadata,
+      statement_descriptor: STATEMENT_DESCRIPTOR,
+    },
     allow_promotion_codes: true,
   })
 }

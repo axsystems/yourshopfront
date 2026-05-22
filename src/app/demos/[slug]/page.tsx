@@ -42,13 +42,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: theme.seoDescription,
       url: demoUrl,
       type: "website",
-      siteName: "Apex Sites",
+      siteName: "Your Shopfront",
       images: [
         {
           url: `${SITE_URL}/api/og/${theme.slug}`,
           width: 1200,
           height: 630,
-          alt: `${theme.name} demo — Apex Sites`,
+          alt: `${theme.name} demo — Your Shopfront`,
         },
       ],
     },

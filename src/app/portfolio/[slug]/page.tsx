@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   // 14 (so URLs work everywhere) but it canonicals back to /portfolio/[slug].
   const canonical = isFeatured(theme.slug) ? demoUrl : portfolioUrl
 
-  const title = `${theme.name} — Available as a theme option · Apex Sites`
+  const title = `${theme.name} — Available as a theme option · Your Shopfront`
 
   return {
     title,
@@ -46,13 +46,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: theme.seoDescription,
       url: portfolioUrl,
       type: "website",
-      siteName: "Apex Sites",
+      siteName: "Your Shopfront",
       images: [
         {
           url: `${SITE_URL}/api/og/${theme.slug}`,
           width: 1200,
           height: 630,
-          alt: `${theme.name} — Apex Sites portfolio`,
+          alt: `${theme.name} — Your Shopfront portfolio`,
         },
       ],
     },

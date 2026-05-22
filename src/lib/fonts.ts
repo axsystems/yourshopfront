@@ -103,7 +103,13 @@ export function themeFontClassNames(theme: Theme): string {
 }
 
 /**
- * Single fallback font className used by utility pages (/pricing, /contact,
- * /portfolio index) that don't render inside a ThemeProvider.
+ * Apex chrome global font className. Loaded once on every page via root layout.
+ * Inter (body + display in chrome) + JetBrains Mono (prices, mono eyebrows, code).
+ *
+ * Per-theme pages additionally wrap in <ThemeProvider> which adds the active
+ * theme's display + body + mono fonts. next/font/google deduplicates the same
+ * font across the build, so a /demos/[slug] page where the theme uses Inter +
+ * Fraunces + JetBrains Mono ends up loading: Inter, JetBrains Mono, Fraunces
+ * — exactly the chrome two plus one extra. No regression in font count.
  */
-export const baseFontClassName = inter.variable
+export const baseFontClassName = `${inter.variable} ${jetbrainsMono.variable}`

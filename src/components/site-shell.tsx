@@ -16,7 +16,7 @@ export function SiteShellHeader({ backHref, backLabel }: { backHref?: string; ba
           <span className="grid h-8 w-8 place-items-center rounded bg-neutral-900 text-sm font-black text-white">
             A
           </span>
-          Apex Sites
+          Your Shopfront
         </Link>
         <nav className="flex items-center gap-5 text-sm font-semibold text-neutral-700">
           {backHref && (
@@ -47,8 +47,8 @@ export function SiteShellFooter({ className }: { className?: string }) {
   return (
     <footer className={cn("border-t border-neutral-200 bg-white", className)}>
       <div className="mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-3 px-6 py-8 text-xs text-neutral-500 sm:flex-row sm:items-center md:px-10">
-        <p>© {new Date().getFullYear()} Apex Sites. All rights reserved.</p>
-        <p className="font-mono uppercase tracking-[0.06em]">hello@apexsites.com</p>
+        <p>© {new Date().getFullYear()} Shopfront. All rights reserved.</p>
+        <p className="font-mono uppercase tracking-[0.06em]">hello@yourshopfront.com</p>
       </div>
     </footer>
   )

@@ -77,6 +77,6 @@ export const portfolioCopy: Record<string, string> = {
 export function getPortfolioCopy(slug: string): string {
   return (
     portfolioCopy[slug] ??
-    "A production-grade design from the Apex Sites portfolio."
+    "A production-grade design from the Your Shopfront portfolio."
   )
 }

@@ -8,7 +8,7 @@ export const northFork: Theme = {
   city: "Brooklyn",
   tagline: "Independent brewery & taproom.",
   description:
-    "Beer-hall masthead. Forest green + cream + mustard + oxblood, Archivo Black display, Crimson Pro italic lede (substituted Fraunces). Heritage badge mark, taproom-loud type.",
+    "Beer-hall masthead. Forest green + cream + mustard + oxblood, Archivo Black display + Fraunces italic lede. Heritage badge mark, taproom-loud type.",
   mode: "recurring",
   vibe: "bold-industrial",
   hero: "gallery",

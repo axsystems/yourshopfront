@@ -8,7 +8,7 @@ export const caskVine: Theme = {
   city: "Brooklyn",
   tagline: "Natural wine. Twenty-two seats.",
   description:
-    "Sommelier elegance. Wine #3D0F14 + gold + cream, Italiana display (substituted Playfair), Cormorant italic accent. Deep, low-lit, elegant — the dinner-reservation kind.",
+    "Sommelier elegance. Wine #3D0F14 + gold + cream, Playfair Display editorial serif. Deep, low-lit, elegant — the dinner-reservation kind.",
   mode: "recurring",
   vibe: "warm-premium",
   hero: "gallery",
@@ -31,7 +31,7 @@ export const caskVine: Theme = {
   button: { shape: "sharp", shadow: "none", weight: "regular", uppercase: true },
   seoTitle: "Cask & Vine — Natural Wine Bar · Apex Sites Portfolio",
   seoDescription:
-    "Apex Sites portfolio: a natural wine bar. Wine + gold + cream, Italiana display, sommelier elegance. Built for wine bars, fine dining, and reservation-led restaurants.",
+    "Apex Sites portfolio: a natural wine bar. Wine + gold + cream, Playfair Display, sommelier elegance. Built for wine bars, fine dining, and reservation-led restaurants.",
   isThemeOption: true,
   sourceHtmlPath: "06-cask-vine.html",
   round: 2,

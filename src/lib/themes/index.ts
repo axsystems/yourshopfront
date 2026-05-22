@@ -1,6 +1,6 @@
 import type { Theme } from "./types"
 
-// Round 3 — home-service brands (8).
+// Round 3 — home-service brands (14).
 import { ironsidePlumbing } from "./01-ironside-plumbing"
 import { greenwiseLawn } from "./02-greenwise-lawn"
 import { bellhornMovers } from "./03-bellhorn-movers"
@@ -9,6 +9,12 @@ import { brightsideCleaning } from "./05-brightside-cleaning"
 import { summitRoofing } from "./06-summit-roofing"
 import { westwoodTree } from "./07-westwood-tree"
 import { voltcraftElectric } from "./08-voltcraft-electric"
+import { sparkleSudsLaundromat } from "./09-sparkle-suds-laundromat"
+import { crystallineWindowCo } from "./10-crystalline-window-co"
+import { mesaHvac } from "./11-mesa-hvac"
+import { sandstonePoolCare } from "./12-sandstone-pool-care"
+import { tidyProsJunk } from "./13-tidy-pros-junk"
+import { auroraPressureWash } from "./14-aurora-pressure-wash"
 
 // Round 1 — abstract concepts (8).
 import { daylightLounge } from "./daylight-lounge"
@@ -39,6 +45,12 @@ const all: Theme[] = [
   summitRoofing,
   westwoodTree,
   voltcraftElectric,
+  sparkleSudsLaundromat,
+  crystallineWindowCo,
+  mesaHvac,
+  sandstonePoolCare,
+  tidyProsJunk,
+  auroraPressureWash,
   daylightLounge,
   doorstepEditorial,
   documentaryB2b,
@@ -57,7 +69,7 @@ const all: Theme[] = [
   switchback,
 ]
 
-/** All 24 themes keyed by slug. After Phase 2.5 every theme is purchasable. */
+/** All 30 themes keyed by slug. After Phase 2.5 every theme is purchasable. */
 export const allThemes: Record<string, Theme> = Object.fromEntries(
   all.map((t) => [t.slug, t])
 )
@@ -67,10 +79,12 @@ export const allThemeSlugs: string[] = all.map((t) => t.slug)
 
 /**
  * The 10 themes featured in the curated homepage Showcase grid and in
- * the DemoSwitcher's sticky strip. All 24 are buyable, but these 10 are
+ * the DemoSwitcher's sticky strip. All 30 are buyable, but these 10 are
  * the front-of-store picks: 8 home-service brand demos (R3) plus the 2
  * R1 promotions (premiumTrade, doorstepEditorial). Order is the order
- * they render in the grid.
+ * they render in the grid. The 6 newer R3 home-service themes
+ * (laundromat, window-cleaning, hvac, pool-care, junk-removal, pressure-
+ * washing) are reachable at /demos/<slug> and listed at /portfolio.
  */
 export const featuredThemeSlugs: readonly string[] = [
   "ironside-plumbing",
@@ -111,10 +125,10 @@ export function getTheme(slug: string): Theme | undefined {
 /** @deprecated Use `allThemes`. */
 export const themes: Record<string, Theme> = allThemes
 
-/** @deprecated Use `featuredThemeSlugs` (curated 10) or `allThemeSlugs` (all 24). */
+/** @deprecated Use `featuredThemeSlugs` (curated 10) or `allThemeSlugs` (all 30). */
 export const themeOptionSlugs: readonly string[] = featuredThemeSlugs
 
-/** @deprecated Use `featuredThemes` (curated 10) or `allThemesList` (all 24). */
+/** @deprecated Use `featuredThemes` (curated 10) or `allThemesList` (all 30). */
 export const themeOptions: Theme[] = featuredThemes
 
 /** @deprecated Use `featuredThemes`. */

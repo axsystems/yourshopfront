@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <title>Apex Sites mark</title>
+  <!--
+    Stacked-rooflines A. 24x24 grid.
+    - Outer A built from a single 2-unit stroke that walks: bottom-left foot up to apex, back down to bottom-right foot.
+    - Two horizontal "shingle" rules across the body of the A. The lower of the two is the conventional crossbar.
+    - Inner counter (the negative triangle inside the A above the lower crossbar) is filled in cobalt — the signature move.
+    - At very small sizes the cobalt counter simplifies to a single fill (no stroke detail).
+  -->
+  <!-- Cobalt counter triangle. Sits between the two diagonal legs and above the lower (crossbar) shingle. -->
+  <path d="M 8.45 14 L 12 5.6 L 15.55 14 Z" fill="#2438FF" />
+  <!-- Outer A diagonal legs (single continuous stroke shape). -->
+  <path d="M 12 2 L 22 22 L 18.4 22 L 12 9.2 L 5.6 22 L 2 22 Z" fill="#111418" />
+  <!-- Upper shingle: thin horizontal rule across the upper-mid of the A. -->
+  <path d="M 9.7 11 L 14.3 11 L 14.85 12.2 L 9.15 12.2 Z" fill="#111418" />
+  <!-- Lower shingle: the conventional crossbar. -->
+  <path d="M 7.45 15.5 L 16.55 15.5 L 17.4 17.2 L 6.6 17.2 Z" fill="#111418" />
+</svg>

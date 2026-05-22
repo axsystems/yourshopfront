@@ -15,7 +15,7 @@ export const premiumTrade: Theme = {
   mode: "project",
   vibe: "warm-premium",
   hero: "form-card",
-  heroEyebrow: "EST. 1996 — 24/7 DISPATCH",
+  heroEyebrow: "EST. 1996 — LICENSED & INSURED",
   colors: {
     bg: "#FAF8F4",
     fg: "#0E0E0E",

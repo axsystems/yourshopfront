@@ -18,7 +18,7 @@ const QUESTIONS = [
   },
   {
     q: "What if I don't see a style I like?",
-    a: "We have 24 designs available as theme options — every one is buyable under either tier. The 10 featured on the homepage are our highest-converting starting lineup; the other 14 live in the portfolio. If none fits, get in touch — we add new themes regularly and may have something in the pipeline that suits you.",
+    a: "We have 30 designs available as theme options — every one is buyable under either tier. The 10 featured on the homepage are our highest-converting starting lineup; the other 20 live in the portfolio. If none fits, get in touch — we add new themes regularly and may have something in the pipeline that suits you.",
   },
   {
     q: "Can I edit my own content?",
@@ -30,7 +30,7 @@ const QUESTIONS = [
   },
   {
     q: "Can I use my own domain?",
-    a: "Yes. We launch on a temporary apex-sites.com subdomain within 24 hours, then migrate to your domain when DNS propagates (usually a few hours). If you don't have a domain yet, we'll register one for you.",
+    a: "Yes. We launch on a temporary yourshopfront.com subdomain within 24 hours, then migrate to your domain when DNS propagates (usually a few hours). If you don't have a domain yet, we'll register one for you.",
   },
   {
     q: "What if I want to cancel?",
@@ -41,8 +41,8 @@ const QUESTIONS = [
     a: "30-day money-back guarantee, no questions asked, on the $499 setup fee. Monthly fees are non-refundable, but you can cancel anytime so you only pay for the months you actually use.",
   },
   {
-    q: "What's different about Apex vs Wix or Squarespace?",
-    a: "We're done-for-you, conversion-focused, and home-service specialized. They sell tools and a blank canvas; we sell finished sites built on conversion patterns that actually work for trades. You don't pick a template — we build the site.",
+    q: "What's different about Your Shopfront vs Wix or Squarespace?",
+    a: "We're done-for-you and conversion-focused. They sell tools and a blank canvas; we sell finished sites built on patterns that actually work. You don't pick a template — we build the site for you, and you're live the next day.",
   },
 ]
 
@@ -61,11 +61,11 @@ export function FAQ({ theme }: FAQProps) {
             <p className="mt-5 text-lg leading-relaxed" style={{ color: "var(--apex-muted-fg)" }}>
               Still wondering something? Email us at{" "}
               <a
-                href="mailto:hello@apexsites.com"
+                href="mailto:hello@yourshopfront.com"
                 className="underline underline-offset-2"
                 style={{ color: "var(--apex-fg)" }}
               >
-                hello@apexsites.com
+                hello@yourshopfront.com
               </a>
               .
             </p>

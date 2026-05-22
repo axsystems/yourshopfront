@@ -1,0 +1,40 @@
+-- =============================================================================
+-- Apex Sites — site content storage
+-- =============================================================================
+-- Run after 0003_provisioning.sql in the Supabase SQL editor (Project → SQL
+-- Editor → New query → paste → Run).
+--
+-- Adds the JSONB column the customer-facing tenant page reads to populate
+-- hero copy, services, contact, etc. Customer fills it in via the worksheet
+-- at /onboarding/worksheet during step 2 of onboarding.
+--
+-- Shape (TS-mirrored as `SiteContent` in src/lib/supabase.ts; partial /
+-- complete validation in src/lib/site-content/schema.ts):
+--
+--   {
+--     "hero":        { "headline": "...", "subhead": "...",
+--                      "primaryCtaLabel": "...", "primaryCtaHref": "..." },
+--     "contact":     { "phone": "...", "email": "...", "address": "...",
+--                      "hoursMode": "24/7" | "hours", "hours": { ... } },
+--     "services":    [{ "title": "...", "blurb": "...", "priceFrom": "..." }, ...],
+--     "about":       { "heading": "...", "body": "..." },
+--     "serviceArea": { "cities": ["...", ...] },
+--     "reviews":     [{ "author": "...", "body": "...",
+--                       "rating": 1..5, "source": "..." }, ...],
+--     "media":       { "logoUrl": "...", "heroUrl": "...",
+--                       "gallery": ["...", ...] }
+--   }
+--
+-- Empty `{}` = no customer content yet — the tenant page falls back to the
+-- "Coming soon" interstitial that the route already renders for non-live
+-- statuses.
+--
+-- No index: every read goes through `id` or `provision_slug`, never through
+-- a content-field predicate. JSONB stays cheap.
+--
+-- Reversible: `alter table sites drop column site_content;` rolls back.
+-- Schema evolution happens at the TS/Zod layer, not the SQL layer.
+-- =============================================================================
+
+alter table sites
+  add column site_content jsonb not null default '{}'::jsonb;

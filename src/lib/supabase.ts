@@ -2,7 +2,7 @@ import "server-only"
 import { createClient, type SupabaseClient } from "@supabase/supabase-js"
 
 // =============================================================================
-// Apex Sites — typed Supabase client (server-only)
+// Your Shopfront — typed Supabase client (server-only)
 // =============================================================================
 // Mirrors supabase/migrations/0001_initial.sql. Uses the service-role key,
 // which bypasses RLS — never expose this client to a browser bundle. The
@@ -20,10 +20,35 @@ export type Tier = "subscription" | "onetime"
 export type SiteStatus =
   | "pending_content"
   | "ready_to_build"
+  | "provisioning"
   | "awaiting_approval"
   | "live"
   | "cancelled"
   | "refunded"
+  | "failed"
+
+/**
+ * Per-site provisioning record. Persisted as JSONB in
+ * sites.provisioning_state (added in migration 0003_provisioning.sql).
+ * Lets the orchestrator be idempotent — re-running on a half-done site
+ * skips steps already marked complete.
+ */
+export interface ProvisioningState {
+  dns?: {
+    complete: boolean
+    completed_at?: string
+    /** Cloudflare DNS record id, kept so we can delete on cancel. */
+    record_id?: string
+  }
+  vercel?: {
+    complete: boolean
+    completed_at?: string
+    /** The full hostname attached to the Vercel project. */
+    domain?: string
+  }
+  approval_pending_at?: string
+  live_at?: string
+}
 
 export interface Customer {
   id: string
@@ -51,6 +76,29 @@ export interface OnboardingState {
   }
 }
 
+// SiteContent types + structural validator live in a client-safe module
+// because both the worksheet form (client) and the customer home (server)
+// need them. This module re-exports for server-side callers.
+export type {
+  DayHours,
+  HoursMode,
+  SiteContent,
+  SiteContentAbout,
+  SiteContentContact,
+  SiteContentHero,
+  SiteContentMedia,
+  SiteContentReview,
+  SiteContentService,
+  SiteContentServiceArea,
+  WeekHours,
+} from "./site-content/types"
+export {
+  assetsAreSufficient,
+  siteContentIsValid,
+} from "./site-content/types"
+
+import type { SiteContent } from "./site-content/types"
+
 export interface Site {
   id: string
   customer_id: string
@@ -65,6 +113,14 @@ export interface Site {
   status: SiteStatus
   live_url: string | null
   onboarding_state: OnboardingState
+  /** Customer-authored content (worksheet output). Empty `{}` until the
+   * customer starts filling in step 2 of onboarding. */
+  site_content: SiteContent
+  /** Set when provisioning starts; unique across all sites. */
+  provision_slug: string | null
+  provisioning_state: ProvisioningState
+  /** Populated when status='failed'. Plain text for ops. */
+  failure_reason: string | null
   created_at: string
   updated_at: string
 }
@@ -198,6 +254,23 @@ export async function getSiteById(id: string): Promise<Site | null> {
 }
 
 /**
+ * Looks up a site by its provision_slug — the host segment used on
+ * yourshopfront.com subdomains. Returns null if no match. Used by the
+ * multi-tenant tenant page at /_tenant to resolve hostname → site.
+ */
+export async function getSiteByProvisionSlug(
+  provisionSlug: string
+): Promise<Site | null> {
+  const { data, error } = await supabase()
+    .from("sites")
+    .select("*")
+    .eq("provision_slug", provisionSlug)
+    .maybeSingle()
+  if (error) throw error
+  return (data as Site | null) ?? null
+}
+
+/**
  * Replaces the entire onboarding_state JSONB. Callers should read the
  * existing state, merge in their patch, and pass the full new object.
  * Done this way (vs. jsonb_set in SQL) because supabase-js doesn't
@@ -227,4 +300,117 @@ export function isOnboardingComplete(state: OnboardingState): boolean {
       state.assets_sent?.complete &&
       state.domain?.complete
   )
+}
+
+/**
+ * Replaces the entire site_content JSONB. Same merge-then-write pattern as
+ * the other JSONB updaters — callers fetch, merge, and write the full
+ * object back.
+ */
+export async function updateSiteContent(
+  id: string,
+  content: SiteContent
+): Promise<Site> {
+  const { data, error } = await supabase()
+    .from("sites")
+    .update({ site_content: content })
+    .eq("id", id)
+    .select("*")
+    .single()
+  if (error) throw error
+  return data as Site
+}
+
+// -----------------------------------------------------------------------------
+// Provisioning (Phase 5)
+// -----------------------------------------------------------------------------
+
+/**
+ * Returns sites with the given status, oldest first. Used by the cron to
+ * pick up `ready_to_build` and `provisioning` sites in the order they
+ * became eligible. Limit caps the per-tick batch size so a single cron
+ * invocation can't blow the function timeout.
+ */
+export async function getSitesByStatus(
+  status: SiteStatus | SiteStatus[],
+  limit = 5
+): Promise<Site[]> {
+  const list = Array.isArray(status) ? status : [status]
+  const { data, error } = await supabase()
+    .from("sites")
+    .select("*")
+    .in("status", list)
+    .order("created_at", { ascending: true })
+    .limit(limit)
+  if (error) throw error
+  return (data as Site[] | null) ?? []
+}
+
+export async function setProvisionSlug(
+  id: string,
+  provisionSlug: string
+): Promise<void> {
+  const { error } = await supabase()
+    .from("sites")
+    .update({ provision_slug: provisionSlug })
+    .eq("id", id)
+  if (error) throw error
+}
+
+/**
+ * Replaces the entire provisioning_state JSONB. Same merge-then-write
+ * pattern as updateOnboardingState.
+ */
+export async function updateProvisioningState(
+  id: string,
+  state: ProvisioningState
+): Promise<Site> {
+  const { data, error } = await supabase()
+    .from("sites")
+    .update({ provisioning_state: state })
+    .eq("id", id)
+    .select("*")
+    .single()
+  if (error) throw error
+  return data as Site
+}
+
+export async function setLiveUrl(id: string, liveUrl: string): Promise<void> {
+  const { error } = await supabase()
+    .from("sites")
+    .update({ live_url: liveUrl })
+    .eq("id", id)
+  if (error) throw error
+}
+
+export async function markFailed(id: string, reason: string): Promise<void> {
+  const { error } = await supabase()
+    .from("sites")
+    .update({ status: "failed" as SiteStatus, failure_reason: reason })
+    .eq("id", id)
+  if (error) throw error
+}
+
+/**
+ * Atomic-ish status transition guard. Updates only when current status
+ * matches `from` — used by the orchestrator to avoid stomping a site
+ * that another cron invocation is already working on.
+ *
+ * Returns true if the row was updated, false if no row matched (already
+ * progressed). Supabase doesn't expose row-count directly via the JS
+ * client, so we select the updated row and check.
+ */
+export async function transitionStatus(
+  id: string,
+  from: SiteStatus,
+  to: SiteStatus
+): Promise<boolean> {
+  const { data, error } = await supabase()
+    .from("sites")
+    .update({ status: to })
+    .eq("id", id)
+    .eq("status", from)
+    .select("id")
+  if (error) throw error
+  return Array.isArray(data) && data.length > 0
 }

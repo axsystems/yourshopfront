@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 32" aria-hidden="true">
+  <title>Apex Sites wordmark</title>
+  <!--
+    "Apex Sites" set in Inter SemiBold-equivalent path data, locked kerning.
+    Mark on the left at 24x24, then ~12px gap, then the wordmark text.
+    Actual text rendered as <text> with an Inter font-family stack so it inherits the page's loaded Inter.
+    For maximum portability we keep this as live text — at favicon sizes we use the mark, not this combined mark.
+  -->
+  <g transform="translate(0,4)">
+    <path d="M 12 2 L 22 22 L 18.4 22 L 12 9.2 L 5.6 22 L 2 22 Z" fill="#111418" />
+    <path d="M 8.45 14 L 12 5.6 L 15.55 14 Z" fill="#2438FF" />
+    <path d="M 9.7 11 L 14.3 11 L 14.85 12.2 L 9.15 12.2 Z" fill="#111418" />
+    <path d="M 7.45 15.5 L 16.55 15.5 L 17.4 17.2 L 6.6 17.2 Z" fill="#111418" />
+  </g>
+  <text x="34" y="22" fill="#111418" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="700" letter-spacing="-0.02em">Apex Sites</text>
+</svg>

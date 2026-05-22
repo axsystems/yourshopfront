@@ -1,0 +1,66 @@
+import * as React from "react"
+
+import {
+  Container,
+  Display,
+  Eyebrow,
+  Section,
+  SiteFooter,
+  SiteHeader,
+} from "@/components/apex"
+
+interface LegalPageProps {
+  title: string
+  /** ISO date or human-readable. Shown in the eyebrow. */
+  lastUpdated?: string
+  /**
+   * If true, render a "drafting in progress" banner at the top. Use for the
+   * placeholder-text Phase 5 deliverables until real legal copy lands.
+   */
+  draft?: boolean
+  children: React.ReactNode
+}
+
+export function LegalPage({
+  title,
+  lastUpdated,
+  draft,
+  children,
+}: LegalPageProps) {
+  return (
+    <>
+      <SiteHeader variant="default" />
+      <main id="main" className="flex-1 bg-apx-paper">
+        <Section bg="canvas" className="py-16 md:py-20">
+          <Container>
+            <Eyebrow>
+              {lastUpdated ? `Last updated · ${lastUpdated}` : "Legal"}
+            </Eyebrow>
+            <Display level="display-xl" as="h1" className="mt-4">
+              {title}
+            </Display>
+            {draft ? (
+              <div className="mt-6 rounded-xl border border-apx-warn bg-apx-coral-soft px-4 py-3 font-mono text-[12px] text-apx-warn">
+                <strong className="font-bold">Drafting in progress.</strong>{" "}
+                This page contains placeholder language only. Contact{" "}
+                <a
+                  href="mailto:hello@yourshopfront.com"
+                  className="underline underline-offset-2"
+                >
+                  hello@yourshopfront.com
+                </a>{" "}
+                for the current terms before relying on anything below.
+              </div>
+            ) : null}
+          </Container>
+        </Section>
+        <Section bg="paper">
+          <Container>
+            <article className="prose-apx">{children}</article>
+          </Container>
+        </Section>
+      </main>
+      <SiteFooter variant="default" />
+    </>
+  )
+}

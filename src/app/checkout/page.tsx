@@ -1,9 +1,9 @@
 import type { Metadata } from "next"
-import Link from "next/link"
 import { redirect } from "next/navigation"
-import { ArrowLeft, Check } from "lucide-react"
+import { Check, Lock } from "lucide-react"
 
 import { CheckoutForm } from "./checkout-form"
+import { SiteFooter, SiteHeader } from "@/components/apex"
 import { ThemeProvider } from "@/components/theme-provider"
 import { JsonLd } from "@/components/json-ld"
 import { allThemes } from "@/lib/themes"
@@ -16,7 +16,7 @@ interface PageProps {
 
 export const metadata: Metadata = {
   title: "Checkout",
-  description: "Complete your Apex Sites purchase.",
+  description: "Complete your Your Shopfront purchase.",
   robots: { index: false, follow: false },
   alternates: { canonical: `${SITE_URL}/checkout` },
 }
@@ -47,42 +47,12 @@ export default async function CheckoutPage({ searchParams }: PageProps) {
   return (
     <ThemeProvider theme={theme}>
       <JsonLd data={[organizationSchema()]} />
-      <main className="min-h-screen">
-        <header
-          className="border-b"
-          style={{
-            background: "var(--apex-bg)",
-            borderColor: "var(--apex-border)",
-          }}
-        >
-          <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-4 px-6 py-4 md:px-10">
-            <Link
-              href="/"
-              className="flex items-center gap-2 text-sm font-bold tracking-tight hover:opacity-80"
-              style={{ color: "var(--apex-fg)" }}
-            >
-              <span
-                className="grid h-8 w-8 place-items-center rounded text-sm font-black"
-                style={{
-                  background: "var(--apex-fg)",
-                  color: "var(--apex-bg)",
-                }}
-              >
-                A
-              </span>
-              Apex Sites
-            </Link>
-            <Link
-              href={`/demos/${theme.slug}`}
-              className="inline-flex items-center gap-1 text-sm font-semibold hover:underline"
-              style={{ color: "var(--apex-muted-fg)" }}
-            >
-              <ArrowLeft className="h-3.5 w-3.5" />
-              Back to {theme.name} demo
-            </Link>
-          </div>
-        </header>
-
+      <SiteHeader
+        variant="minimal"
+        backHref={`/demos/${theme.slug}`}
+        backLabel={`Back to ${theme.name}`}
+      />
+      <main id="main" className="min-h-screen flex-1">
         <div className="mx-auto grid max-w-[1200px] gap-10 px-6 py-12 md:px-10 md:py-16 lg:grid-cols-[1fr_1.4fr] lg:gap-14">
           <OrderSummary tier={tier} theme={theme} />
           <div>
@@ -105,9 +75,17 @@ export default async function CheckoutPage({ searchParams }: PageProps) {
             <div className="mt-8">
               <CheckoutForm tier={tier} demo={theme.slug} cancelled={cancelled} />
             </div>
+            <p
+              className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold"
+              style={{ color: "var(--apex-muted-fg)" }}
+            >
+              <Lock className="h-3 w-3" aria-hidden />
+              Secure checkout via Stripe
+            </p>
           </div>
         </div>
       </main>
+      <SiteFooter variant="minimal" />
     </ThemeProvider>
   )
 }
