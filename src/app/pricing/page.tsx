@@ -67,7 +67,7 @@ const FAQ = [
   },
   {
     q: "Where do I see the designs?",
-    a: "Our portfolio shows all 30 designs across 3 design rounds. Every one is buyable under either tier — the 10 featured on the homepage are our highest-converting starting lineup; the other 20 are equally available, just one click deeper.",
+    a: "Our portfolio shows all 30 designs across 3 design rounds. Every one is buyable under either tier — the 10 featured on the homepage are our front-of-store picks; the other 20 are equally available, just one click deeper.",
   },
   {
     q: "What if none of the 30 designs fits my business?",
@@ -89,7 +89,7 @@ export default function PricingPage() {
                 Two ways to buy. Pick the one that fits.
               </Display>
               <Lede className="mx-auto mt-6">
-                A new customer found through your site can pay for a year of subscription. Most clients see their first inquiry within 7 days of launch.
+                Designed to capture inquiries from day one — lead form, click-to-call, and Google Business hooks built in.
               </Lede>
             </div>
           </Container>
@@ -107,7 +107,7 @@ export default function PricingPage() {
                   period="setup, then $149/mo"
                   sub="We host it. Unlimited edits."
                   features={[
-                    "Pick from any of our 24 theme designs",
+                    "Pick from any of our 30 theme designs",
                     "We swap in your content within 24 hours",
                     "Unlimited edits, forever",
                     "We host it (fast Vercel + Cloudflare)",
@@ -127,7 +127,7 @@ export default function PricingPage() {
                   period="once"
                   sub="Full source code. Self-host or +$49/mo."
                   features={[
-                    "Pick from any of our 24 theme designs",
+                    "Pick from any of our 30 theme designs",
                     "We swap in your content within 24 hours",
                     "30 days of free edits after launch",
                     "Full source code handed over",
@@ -317,6 +317,9 @@ function TierCard({
       >
         {ctaLabel}
       </Button>
+      <p className="text-center font-mono text-[10px] uppercase tracking-[0.12em] text-apx-mute">
+        30-day money-back · cancel anytime
+      </p>
     </Card>
   )
 }

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <LegalPage title="Terms of Service" lastUpdated="2026-05-04" draft>
+    <LegalPage title="Terms of Service" lastUpdated="2026-05-04">
       <p>
         These terms govern your use of Your Shopfront (yourshopfront.com) and any websites we build, host, or maintain on your behalf. By buying our service or using the site, you agree to these terms.
       </p>

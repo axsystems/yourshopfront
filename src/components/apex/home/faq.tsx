@@ -16,7 +16,7 @@ const QUESTIONS = [
   },
   {
     q: "What if I don't see a style I like?",
-    a: "We have 30 designs available, every one buyable under either tier. The 10 featured on the homepage are our highest-converting starting lineup; the other 20 live in the portfolio. If none fits, get in touch — we add new themes regularly.",
+    a: "We have 30 designs available, every one buyable under either tier. The 10 featured on the homepage are our front-of-store picks; the other 20 live in the portfolio. If none fits, get in touch — we add new themes regularly.",
   },
   {
     q: "Can I edit my own content?",

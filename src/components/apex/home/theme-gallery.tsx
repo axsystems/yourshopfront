@@ -19,7 +19,7 @@ interface FilterDef {
 }
 
 const FILTERS: FilterDef[] = [
-  { key: "all", label: "All 24" },
+  { key: "all", label: "All 30" },
   {
     key: "home-services",
     label: "Home services",
@@ -120,7 +120,7 @@ export function HomeThemeGallery() {
             href="/portfolio"
             className="font-mono text-[12px] font-semibold uppercase tracking-[0.14em] text-apx-mute transition-colors hover:text-apx-primary"
           >
-            See all 24 →
+            See all 30 →
           </Link>
         </div>
 

@@ -43,7 +43,7 @@ export function HomePricingTeaser() {
             Two ways to buy. Pick the one that fits.
           </Display>
           <Lede className="mx-auto mt-5">
-            The average home-service customer is worth $400–800. Apex pays for itself the first time it books you a job you wouldn&apos;t have gotten otherwise.
+            A single new customer often pays for a full year of subscription. Built to capture inquiries from day one.
           </Lede>
         </div>
         <div className="mx-auto mt-12 grid max-w-5xl gap-6 lg:grid-cols-2">

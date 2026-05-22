@@ -91,7 +91,7 @@ function DefaultNav() {
         <NavLink href="/about">About</NavLink>
       </div>
       <Button href="/portfolio" variant="primary" size="sm">
-        Pick a style →
+        See the 30 designs →
       </Button>
     </nav>
   )

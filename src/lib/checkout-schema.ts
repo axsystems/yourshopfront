@@ -24,11 +24,12 @@ export const CheckoutFormSchema = z.object({
     .max(200, "Email too long"),
   phone: z
     .string()
-    .min(10, "Phone is required")
     .max(30, "Phone too long")
-    .refine((p) => p.replace(/\D/g, "").length >= 10, {
+    .refine((p) => p === "" || p.replace(/\D/g, "").length >= 10, {
       message: "Phone must include at least 10 digits",
-    }),
+    })
+    .optional()
+    .or(z.literal("")),
   industry: z
     .string()
     .min(1, "Industry is required")
@@ -37,11 +38,6 @@ export const CheckoutFormSchema = z.object({
     .string()
     .url("Must be a valid URL (include https://)")
     .max(500)
-    .or(z.literal(""))
-    .optional(),
-  headline_pref: z
-    .string()
-    .max(200, "Headline must be 200 characters or less")
     .or(z.literal(""))
     .optional(),
   hosting_addon: z.boolean(),

@@ -84,9 +84,8 @@ export async function POST(req: Request) {
     business_name: data.business_name,
     contact_name: data.contact_name,
     email: data.email,
-    phone: data.phone,
+    phone: data.phone ?? "",
     industry: data.industry,
-    headline_pref: data.headline_pref || "",
     current_website_url: data.current_website_url || "",
     hosting_addon: data.hosting_addon ? "true" : "false",
   }

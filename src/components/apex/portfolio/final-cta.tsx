@@ -20,7 +20,7 @@ export function PortfolioFinalCta() {
                 Suggest a design — we add new themes regularly.
               </Display>
               <Lede className="mt-5">
-                If your industry, vibe, or hero pattern isn&apos;t represented in our 24, send a quick note. We may have something in the pipeline that suits you, or we&apos;ll add yours to the queue.
+                If your industry, vibe, or hero pattern isn&apos;t represented in our 30, send a quick note. We may have something in the pipeline that suits you, or we&apos;ll add yours to the queue.
               </Lede>
             </div>
             <div className="flex flex-col gap-3 md:items-end">

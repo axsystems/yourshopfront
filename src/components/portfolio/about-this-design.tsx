@@ -73,7 +73,7 @@ export function AboutThisDesign({ theme }: { theme: Theme }) {
             href="/portfolio"
             className="inline-flex items-center gap-1.5 rounded-full px-5 py-3 text-sm font-semibold text-neutral-700 hover:text-neutral-900"
           >
-            Browse the other 23 designs →
+            Browse the other 29 designs →
           </Link>
         </div>
       </div>

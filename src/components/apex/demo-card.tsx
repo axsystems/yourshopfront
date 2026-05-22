@@ -96,6 +96,15 @@ export function DemoCard({
         className="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-apx-primary"
       >
         <div className="relative aspect-[4/3] w-full overflow-hidden bg-apx-tint">
+          {/* Mobile: render OG image instead of iframe — avoids 9× full-page renders on homepage LCP */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`/api/og/${slug}`}
+            alt={`${theme.name} — ${theme.industry} preview`}
+            className="absolute inset-0 h-full w-full object-cover md:hidden"
+            loading="lazy"
+          />
+          {/* Desktop: lazy-loaded iframe */}
           {!iframeLoaded ? <DemoCardSkeleton themeName={theme.name} /> : null}
           {shouldMount ? (
             <iframe
@@ -111,7 +120,7 @@ export function DemoCard({
               // iframe and is hidden once the iframe paints content over
               // it; once `iframeLoaded` flips true (or never, in the race
               // case) we drop the skeleton too.
-              className="pointer-events-none absolute left-0 top-0 origin-top-left border-0"
+              className="pointer-events-none absolute left-0 top-0 origin-top-left border-0 hidden md:block"
               style={{
                 width: "238%",
                 height: "238%",

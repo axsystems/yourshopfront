@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function RefundPolicyPage() {
   return (
-    <LegalPage title="Refund Policy" lastUpdated="2026-05-21" draft>
+    <LegalPage title="Refund Policy" lastUpdated="2026-05-21">
       <p>
         Your Shopfront is backed by a 30-day money-back guarantee, with one
         common-sense exception: once we&apos;ve started building your site or

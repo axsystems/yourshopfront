@@ -10,6 +10,7 @@ import {
   SiteFooter,
   SiteHeader,
 } from "@/components/apex"
+import { MobileStickyCTA, MobileStickySpacer } from "@/components/apex/mobile-sticky-cta"
 import { FadeUp } from "@/components/apex/motion/fade-up"
 import { RotatingPreview } from "@/components/apex/home/rotating-preview"
 import { JsonLd } from "@/components/json-ld"
@@ -51,12 +52,19 @@ export default function StartPage() {
       <main id="main" className="flex-1 bg-apx-paper">
         <PromoHero />
         <PricingBreakdown />
+        <ComparisonStrip />
         <WhatsIncluded />
         <DemoGallery />
         <PromoFaq />
         <FinalCta />
+        <MobileStickySpacer />
       </main>
       <SiteFooter variant="default" />
+      <MobileStickyCTA
+        href={PROMO_CHECKOUT_HREF}
+        label="Start my site for $99 →"
+        subLabel="30-day money-back · cancel anytime"
+      />
     </>
   )
 }
@@ -83,14 +91,14 @@ function PromoHero() {
                 variant="primary"
                 size="lg"
               >
-                Get started for $99 →
+                Start my site for $99 →
               </Button>
-              <Button href="/portfolio" variant="ghost" size="lg">
+              <Button href="#designs" variant="ghost" size="lg">
                 Browse the 30 designs
               </Button>
             </div>
             <p className="mt-6 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-apx-mute">
-              $99 setup + $99/mo × 3 months · then $149/mo · cancel anytime
+              $99 setup + $99/mo × 3 months · then $149/mo · cancel anytime · 30-day money-back
             </p>
           </div>
         </FadeUp>
@@ -150,6 +158,78 @@ function PricingBreakdown() {
   )
 }
 
+function ComparisonStrip() {
+  return (
+    <Section bg="tint">
+      <Container>
+        <FadeUp>
+          <div className="mx-auto max-w-3xl">
+            <Eyebrow>How we compare</Eyebrow>
+            <Display level="display-xl" className="mt-4">
+              You&apos;ve got options. Here&apos;s the honest breakdown.
+            </Display>
+          </div>
+        </FadeUp>
+        <FadeUp delay={100}>
+          <div className="mx-auto mt-10 max-w-3xl grid gap-4 sm:grid-cols-3">
+            <CompareCard
+              label="Wix / Squarespace"
+              cost="$23/mo + your weekend"
+              note="You build it. You maintain it. You fix it when it breaks."
+            />
+            <CompareCard
+              label="Local agency"
+              cost="$5K–15K + 6 weeks"
+              note="Bespoke design. Long timeline. Invoice before launch."
+              muted
+            />
+            <CompareCard
+              label="Your Shopfront"
+              cost="$99 + 30 minutes"
+              note="We build it. You launch tomorrow. Unlimited edits included."
+              highlight
+            />
+          </div>
+        </FadeUp>
+      </Container>
+    </Section>
+  )
+}
+
+function CompareCard({
+  label,
+  cost,
+  note,
+  highlight,
+  muted,
+}: {
+  label: string
+  cost: string
+  note: string
+  highlight?: boolean
+  muted?: boolean
+}) {
+  return (
+    <div
+      className={`rounded-2xl border p-6 ${
+        highlight
+          ? "border-apx-primary bg-apx-paper"
+          : muted
+          ? "border-apx-line bg-apx-tint opacity-70"
+          : "border-apx-line bg-apx-paper"
+      }`}
+    >
+      <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-apx-mute">
+        {label}
+      </p>
+      <p className={`mt-2 font-sans text-[20px] font-bold leading-tight ${highlight ? "text-apx-primary" : "text-apx-ink"}`}>
+        {cost}
+      </p>
+      <p className="mt-2 text-[13px] leading-[1.5] text-apx-mute">{note}</p>
+    </div>
+  )
+}
+
 function WhatsIncluded() {
   return (
     <Section bg="paper">
@@ -197,7 +277,7 @@ function WhatsIncluded() {
 
 function DemoGallery() {
   return (
-    <Section bg="canvas">
+    <Section bg="canvas" id="designs">
       <Container>
         <FadeUp>
           <div className="max-w-2xl">
@@ -265,7 +345,7 @@ function PromoFaq() {
             />
             <FaqRow
               q="Why is this promo a thing?"
-              a="We're new, and we're stacking the first 100 happy customers. The promo is our bet that once you see what we build, you'll stay past the 3-month mark."
+              a="We want the first 100 customers cheap so we can refine the build and gather case studies. Be one of them."
             />
           </dl>
         </FadeUp>
@@ -281,19 +361,22 @@ function FinalCta() {
         <FadeUp>
           <div className="mx-auto max-w-2xl text-center">
             <Display level="display-xl">
-              Ready to be online tomorrow?
+              Your site can be live tomorrow.
             </Display>
             <Lede className="mt-6">
               $99 to start. Live by tomorrow morning. Cancel any time.
             </Lede>
-            <div className="mt-8">
+            <div className="mt-8 flex flex-col items-center gap-3">
               <Button
                 href={PROMO_CHECKOUT_HREF}
                 variant="primary"
                 size="lg"
               >
-                Get started for $99 →
+                Start my site for $99 →
               </Button>
+              <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-apx-mute">
+                30-day money-back · cancel anytime
+              </p>
             </div>
           </div>
         </FadeUp>
