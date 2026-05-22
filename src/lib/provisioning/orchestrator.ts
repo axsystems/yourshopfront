@@ -1,10 +1,12 @@
 import "server-only"
 
+import { sendEmail } from "@/lib/email"
 import { notifySlack } from "@/lib/notify"
 import {
   markFailed,
   setLiveUrl,
   setProvisionSlug,
+  supabase,
   transitionStatus,
   updateProvisioningState,
   type ProvisioningState,
@@ -146,6 +148,40 @@ export async function provisionSite(site: Site): Promise<void> {
         `Reason: ${reason}`,
       ].join("\n")
     )
+
+    // A4: notify the customer that we're on it. Wrapped in its own try
+    // so a Resend failure doesn't mask the original provisioning error
+    // (which is already logged + Slacked above).
+    try {
+      const { data: customer } = await supabase()
+        .from("customers")
+        .select("email, name")
+        .eq("id", site.customer_id)
+        .maybeSingle()
+      if (customer?.email) {
+        const firstName = customer.name?.split(" ")[0] ?? "there"
+        await sendEmail({
+          to: customer.email,
+          subject: "We're on it — your site is taking a little longer",
+          text: [
+            `Hi ${firstName},`,
+            "",
+            "We hit a snag setting up your site. Our team has been alerted and we'll have it sorted within a few hours.",
+            "",
+            "No action needed on your end — we'll email you again the moment it's live.",
+            "",
+            "If you have questions, just reply to this email. A real person reads every inbound.",
+            "",
+            "— Your Shopfront",
+          ].join("\n"),
+        })
+      }
+    } catch (emailErr) {
+      console.warn(
+        `[provision ${site.id}] customer apology email failed`,
+        emailErr
+      )
+    }
   }
 }
 
