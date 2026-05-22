@@ -3,12 +3,15 @@ import type Stripe from "stripe"
 
 import { sendEmail } from "@/lib/email"
 import { notifySlack } from "@/lib/notify"
+import { unprovisionSite } from "@/lib/provisioning/orchestrator"
 import { stripe } from "@/lib/stripe"
 import {
   createSite,
   getCustomerByStripeId,
   getOrCreateCustomer,
+  getSiteById,
   getSiteByStripeSessionId,
+  supabase,
   updateSiteStatus,
   type Tier,
 } from "@/lib/supabase"
@@ -66,6 +69,8 @@ export async function POST(req: Request) {
       await handleSessionCompleted(event.data.object)
     } else if (event.type === "customer.subscription.deleted") {
       await handleSubscriptionDeleted(event.data.object)
+    } else if (event.type === "charge.refunded") {
+      await handleChargeRefunded(event.data.object)
     }
     return NextResponse.json({ received: true })
   } catch (err) {
@@ -106,6 +111,18 @@ async function handleSessionCompleted(session: Stripe.Checkout.Session) {
     session.customer_details?.phone ?? metadata.phone ?? null
 
   if (!customerEmail || !customerName) {
+    // A3: silent failure was the worst possible mode — money collected,
+    // no site row, no welcome email, operator only finds out via Stripe
+    // Dashboard. Alert immediately before the early return.
+    await notifySlack(
+      [
+        `🚨 *Checkout missing customer data — manual intervention required*`,
+        `Session: \`${session.id.slice(-12)}\``,
+        `Stripe customer: \`${stripeCustomerId.slice(-12)}\``,
+        `Amount: $${((session.amount_total ?? 0) / 100).toFixed(2)}`,
+        `Site row NOT created. The customer paid but has no onboarding link.`,
+      ].join("\n")
+    )
     console.error(
       `[webhook] missing customer email/name on session ${session.id} — skipping`
     )
@@ -177,6 +194,21 @@ async function handleSubscriptionDeleted(sub: Stripe.Subscription) {
 
   await updateSiteStatus(siteId, "cancelled")
 
+  // A1: clean up Cloudflare DNS + Vercel domain attach. Best-effort —
+  // log + continue on failure so the goodbye email still sends and the
+  // operator gets the Slack ping.
+  try {
+    const site = await getSiteById(siteId)
+    if (site) {
+      await unprovisionSite(site)
+    }
+  } catch (err) {
+    console.warn(
+      `[webhook] unprovision after cancel failed for site ${siteId}`,
+      err
+    )
+  }
+
   const customerId =
     typeof sub.customer === "string" ? sub.customer : sub.customer?.id
   if (!customerId) return
@@ -186,6 +218,79 @@ async function handleSubscriptionDeleted(sub: Stripe.Subscription) {
   await sendGoodbyeEmail({ to: customer.email, name: customer.name })
   await notifySlack(
     `🚪 *Subscription cancelled* — ${customer.email} · sub \`${sub.id.slice(-12)}\``
+  )
+}
+
+// A2: charge.refunded → flip site to 'refunded', clean up if live,
+// alert operator. Stripe's charge.refunded doesn't carry session_id, so
+// we resolve via the Stripe customer ID → our customers table → the
+// most recent site row for that customer. Handles both subscription
+// refunds and one-time-payment refunds uniformly.
+async function handleChargeRefunded(charge: Stripe.Charge) {
+  const stripeCustomerId =
+    typeof charge.customer === "string" ? charge.customer : charge.customer?.id
+  if (!stripeCustomerId) {
+    await notifySlack(
+      `🚨 charge.refunded with no customer — charge \`${charge.id.slice(-12)}\``
+    )
+    return
+  }
+
+  const customer = await getCustomerByStripeId(stripeCustomerId)
+  if (!customer) {
+    await notifySlack(
+      `🚨 charge.refunded for unknown customer \`${stripeCustomerId.slice(-12)}\` — charge \`${charge.id.slice(-12)}\``
+    )
+    return
+  }
+
+  const { data: sites } = await supabase()
+    .from("sites")
+    .select("*")
+    .eq("customer_id", customer.id)
+    .order("created_at", { ascending: false })
+    .limit(1)
+
+  const site = sites?.[0]
+  if (!site) {
+    await notifySlack(
+      `🚨 charge.refunded for ${customer.email} but no site row found — charge \`${charge.id.slice(-12)}\``
+    )
+    return
+  }
+
+  // Idempotency: if already refunded, just log + return.
+  if (site.status === "refunded") {
+    console.log(
+      `[webhook] charge.refunded already processed for site ${site.id}`
+    )
+    return
+  }
+
+  const wasLive = site.status === "live"
+  await updateSiteStatus(site.id, "refunded")
+
+  if (wasLive) {
+    try {
+      await unprovisionSite(site)
+    } catch (err) {
+      console.warn(
+        `[webhook] unprovision after refund failed for site ${site.id}`,
+        err
+      )
+    }
+  }
+
+  await notifySlack(
+    [
+      `💸 *Refund processed*`,
+      `${site.business_name} · ${customer.email}`,
+      `Amount: $${(charge.amount_refunded / 100).toFixed(2)}`,
+      wasLive
+        ? `Was LIVE — DNS + Vercel cleaned up.`
+        : `Prior status: ${site.status}.`,
+      `Charge \`${charge.id.slice(-12)}\``,
+    ].join("\n")
   )
 }
 
