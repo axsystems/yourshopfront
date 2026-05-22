@@ -11,9 +11,12 @@ const CONTENT_SECURITY_POLICY = [
   "img-src 'self' data: blob: https://*.supabase.co",
   "font-src 'self' data:",
   "connect-src 'self' https://api.stripe.com",
-  "frame-src https://js.stripe.com https://hooks.stripe.com",
+  "frame-src 'self' https://js.stripe.com https://hooks.stripe.com",
   "form-action 'self' https://checkout.stripe.com",
-  "frame-ancestors 'none'",
+  // Same-origin iframes are intentional: the homepage's rotating preview
+  // component renders /demos/<slug>?embed=1 in iframes. 'self' still
+  // blocks cross-origin sites from framing us (clickjacking defense).
+  "frame-ancestors 'self'",
   "base-uri 'self'",
   "object-src 'none'",
   "upgrade-insecure-requests",
@@ -26,7 +29,9 @@ const SECURITY_HEADERS = [
     value: "max-age=63072000; includeSubDomains; preload",
   },
   { key: "X-Content-Type-Options", value: "nosniff" },
-  { key: "X-Frame-Options", value: "DENY" },
+  // SAMEORIGIN (not DENY) so the homepage's iframe-based preview works.
+  // Cross-origin framing is still blocked.
+  { key: "X-Frame-Options", value: "SAMEORIGIN" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   {
     key: "Permissions-Policy",
