@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import { CheckCircle, PenLine } from "lucide-react"
 
 import { OnboardingChecklist } from "./onboarding-checklist"
 import { OnboardingProcessing } from "./processing"
@@ -7,8 +8,10 @@ import { ProvisioningStatus } from "./provisioning-status"
 import { Button, SiteFooter, SiteHeader } from "@/components/apex"
 import { ThemeProvider } from "@/components/theme-provider"
 import { allThemes, defaultTheme } from "@/lib/themes"
-import { getSiteByStripeSessionId, type Site } from "@/lib/supabase"
+import { getSiteByStripeSessionId, type Site, type SiteStatus } from "@/lib/supabase"
 import { SITE_URL } from "@/lib/seo"
+
+const COPY_ACTIVE_STATUSES: SiteStatus[] = ["pending_content", "awaiting_copy"]
 
 interface PageProps {
   searchParams: Promise<{ session_id?: string }>
@@ -82,6 +85,16 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
       <SiteHeader variant="minimal" backHref="/" backLabel="Back to home" />
       <main id="main" className="min-h-screen flex-1">
         <div className="mx-auto max-w-[820px] px-6 py-12 md:px-10 md:py-16">
+          {/* Copy-service banner is OUTSIDE the pastOnboarding ternary so
+              awaiting_copy customers (who are technically past pending_content)
+              still see the banner explaining their site is in the copy-drafting
+              phase. Without this, copy-addon customers would only see
+              ProvisioningStatus which doesn't know about copy service. */}
+          {site.copy_addon && (
+            <div className="mb-8">
+              <CopyAddonBanner status={site.status} />
+            </div>
+          )}
           {pastOnboarding ? (
             <ProvisioningStatus initialSite={site} />
           ) : (
@@ -118,6 +131,57 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
       </main>
       <SiteFooter variant="minimal" />
     </ThemeProvider>
+  )
+}
+
+function CopyAddonBanner({ status }: { status: SiteStatus }) {
+  const isActive = COPY_ACTIVE_STATUSES.includes(status)
+
+  if (isActive) {
+    return (
+      <div
+        className="flex items-start gap-3 rounded-xl border-2 px-5 py-4 text-sm leading-relaxed"
+        style={{
+          background: "color-mix(in oklab, #3b6eff 6%, transparent)",
+          borderColor: "color-mix(in oklab, #3b6eff 30%, var(--apex-border))",
+          color: "var(--apex-fg)",
+        }}
+      >
+        <PenLine
+          className="mt-0.5 h-5 w-5 flex-shrink-0"
+          style={{ color: "#3b6eff" }}
+          aria-hidden
+        />
+        <span>
+          <strong className="font-semibold">Copy service active.</strong>{" "}
+          We&apos;ll be drafting your hero, services, about, and CTAs based on
+          the discovery questionnaire below. You just need to upload your logo
+          and photos and fill in the 5 facts. We&apos;ll email you when your
+          draft is ready (typically within 24 hours).
+        </span>
+      </div>
+    )
+  }
+
+  return (
+    <div
+      className="flex items-start gap-3 rounded-xl border px-5 py-4 text-sm leading-relaxed"
+      style={{
+        background: "color-mix(in oklab, var(--apex-primary) 8%, transparent)",
+        borderColor: "color-mix(in oklab, var(--apex-primary) 25%, var(--apex-border))",
+        color: "var(--apex-fg)",
+      }}
+    >
+      <CheckCircle
+        className="mt-0.5 h-5 w-5 flex-shrink-0"
+        style={{ color: "var(--apex-primary)" }}
+        aria-hidden
+      />
+      <span>
+        <strong className="font-semibold">Your copy has been drafted and approved.</strong>{" "}
+        You&apos;re all set.
+      </span>
+    </div>
   )
 }
 

@@ -149,9 +149,14 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ url: session.url })
   } catch (err) {
+    // Log the real error server-side so the operator can debug, but
+    // return a generic message to the client. Stripe errors can leak
+    // price IDs, account-level config hints, and billing detail
+    // metadata that the customer doesn't need to see.
     console.error("[copy-upgrade] stripe error", err)
-    const message =
-      err instanceof Error ? err.message : "Checkout creation failed."
-    return NextResponse.json({ error: message }, { status: 400 })
+    return NextResponse.json(
+      { error: "Checkout creation failed. Please try again." },
+      { status: 400 }
+    )
   }
 }
