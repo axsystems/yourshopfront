@@ -158,3 +158,20 @@ export const CompleteSiteContentSchema = z.object({
 
 export type PartialSiteContent = z.infer<typeof PartialSiteContentSchema>
 export type CompleteSiteContent = z.infer<typeof CompleteSiteContentSchema>
+
+// -----------------------------------------------------------------------------
+// Discovery — 5-fact customer intake that seeds the AI copy draft
+// -----------------------------------------------------------------------------
+// Customers complete this form when copy_addon = true. The raw answers are
+// persisted to sites.discovery_answers (audit trail) and fed to the LLM that
+// produces sites.ai_copy_draft. Keep this lean — every extra field is a
+// drop-off risk.
+
+export const DiscoverySchema = z.object({
+  yearsInBusiness: z.string().trim().min(1).max(40),
+  whatMakesYouDifferent: z.string().trim().min(20).max(800),
+  topServices: z.array(z.string().trim().min(2).max(120)).min(1).max(8),
+  targetCustomer: z.string().trim().min(10).max(400),
+  preferredTone: z.enum(["professional", "friendly", "premium", "direct"]),
+})
+export type Discovery = z.infer<typeof DiscoverySchema>
