@@ -26,14 +26,14 @@ export default function RefundPolicyPage() {
         <strong>Setup fee ($299, or $99 during our launch promo).</strong>{" "}
         Fully refundable <em>before</em> you submit your content worksheet.
         Once you submit the worksheet, our team starts building, and the
-        setup fee covers that work — at that point it becomes
+        setup fee covers that work, and from that point it becomes
         non-refundable.
       </p>
       <p>
         <strong>Monthly subscription ($149/mo, or $99/mo for your first 3 months during the launch promo).</strong>{" "}
         Your first month is fully refundable within 30 days of the first
         charge. After your first month, monthly payments are non-refundable,
-        but you can cancel any time from your customer portal — you&apos;ll
+        but you can cancel any time from your customer portal. You&apos;ll
         only ever pay for the months you actually use. Cancellation is
         immediate; your site stays online for 30 days as a grace period.
       </p>
@@ -46,7 +46,7 @@ export default function RefundPolicyPage() {
           once you&apos;ve received the source code or pointed your own
           domain at the site, the payment is final.
         </strong>{" "}
-        Source-code transfer is irreversible — once you have it, we can&apos;t
+        Source-code transfer is irreversible. Once you have it, we can&apos;t
         undo the delivery.
       </p>
       <p>
@@ -68,8 +68,8 @@ export default function RefundPolicyPage() {
       <h2>Edge cases</h2>
       <p>
         If you have a billing question that doesn&apos;t fit cleanly into
-        the categories above — duplicate charges, accidental purchases,
-        fraud claims, abnormally delayed delivery on our end — email us. A
+        the categories above (duplicate charges, accidental purchases,
+        fraud claims, abnormally delayed delivery on our end), email us. A
         real person reads every refund email; we&apos;d rather sort it out
         directly than hide behind a policy.
       </p>

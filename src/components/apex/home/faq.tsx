@@ -12,19 +12,19 @@ import {
 const QUESTIONS = [
   {
     q: "How fast can you really launch in 24 hours?",
-    a: "From receipt of your content. We provide a fillable worksheet that takes about 30 minutes — once you submit, the 24-hour clock starts. Most clients complete the worksheet the same day they buy and are live by the next morning.",
+    a: "From receipt of your content. We provide a fillable worksheet that takes about 30 minutes. Once you submit, the 24-hour clock starts. Most clients complete the worksheet the same day they buy and are live by the next morning.",
   },
   {
     q: "What if I don't see a style I like?",
-    a: "We have 30 designs available, every one buyable under either tier. The 10 featured on the homepage are our front-of-store picks; the other 20 live in the portfolio. If none fits, get in touch — we add new themes regularly.",
+    a: "We have 30 designs available, every one buyable under either tier. The 10 featured on the homepage are our front-of-store picks; the other 20 live in the portfolio. If none fits, get in touch. We add new themes regularly.",
   },
   {
     q: "Can I edit my own content?",
-    a: "Yes. Subscription includes unlimited edits via your customer portal — copy, photos, colors, layout. One-time customers get 30 days of free edits after launch, then read-only unless you add the $49/mo hosting plan.",
+    a: "Yes. Subscription includes unlimited edits via your customer portal: copy, photos, colors, layout. One-time customers get 30 days of free edits after launch, then read-only unless you add the $49/mo hosting plan.",
   },
   {
     q: "Who owns the site?",
-    a: "You do. Subscription customers can export their content + design at any time. One-time customers receive the full source code on launch — host it on your own Vercel, Netlify, or anywhere else.",
+    a: "You do. Subscription customers can export their content + design at any time. One-time customers receive the full source code on launch. Host it on your own Vercel, Netlify, or anywhere else.",
   },
   {
     q: "Can I use my own domain?",
@@ -32,7 +32,11 @@ const QUESTIONS = [
   },
   {
     q: "What's different about Your Shopfront vs Wix or Squarespace?",
-    a: "We're done-for-you and conversion-focused. They sell tools and a blank canvas; we sell finished sites built on patterns that actually work. You don't pick a template — we build the site for you, and you're live the next day.",
+    a: "We're done-for-you and conversion-focused. They sell tools and a blank canvas; we sell finished sites built on patterns that actually work. You don't pick a template. We build the site for you, and you're live the next day.",
+  },
+  {
+    q: "What if you're slammed?",
+    a: "During our launch period (first 100 customers), high-demand weeks may bump turnaround to 48 hours. We'll always tell you up front and email you a status if there's any delay. The 30-day money-back guarantee still applies if we miss.",
   },
 ]
 

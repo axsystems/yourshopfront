@@ -62,7 +62,7 @@ export default function TermsPage() {
 
       <h2>Governing law</h2>
       <p>
-        These terms are governed by the laws of [TBD — typically the founder&apos;s state of incorporation]. Disputes are resolved in the courts located there.
+        These terms are governed by the laws of the state in which Axon Labs LLC is registered. Disputes are resolved in the courts located there.
       </p>
 
       <h2>Changes</h2>
