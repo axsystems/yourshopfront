@@ -29,7 +29,7 @@ export function HomeHero() {
               </Button>
             </div>
             <p className="mt-7 max-w-md font-mono text-[12px] uppercase tracking-[0.12em] text-apx-mute">
-              $499 setup + $199/mo · or $2,997 once · live in 24h
+              $299 setup + $149/mo · or $997 once · live in 24h
             </p>
           </div>
           <div className="flex justify-center lg:justify-end">

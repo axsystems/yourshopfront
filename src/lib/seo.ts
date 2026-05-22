@@ -38,24 +38,24 @@ export function serviceSchema() {
       {
         "@type": "Offer",
         name: "Subscription",
-        price: "199",
+        price: "149",
         priceCurrency: "USD",
         priceSpecification: {
           "@type": "UnitPriceSpecification",
-          price: "199",
+          price: "149",
           priceCurrency: "USD",
           billingDuration: "P1M",
         },
         description:
-          "$499 setup + $199/mo. Includes hosting, unlimited edits, Google Business profile management.",
+          "$299 setup + $149/mo. Includes hosting, unlimited edits, Google Business profile management.",
       },
       {
         "@type": "Offer",
         name: "One-time build",
-        price: "2997",
+        price: "997",
         priceCurrency: "USD",
         description:
-          "$2,997 one-time. Full source code delivered. Optional $29/mo hosting addon.",
+          "$997 one-time. Full source code delivered. Optional $49/mo hosting addon.",
       },
     ],
   }

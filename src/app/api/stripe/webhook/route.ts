@@ -204,7 +204,7 @@ interface WelcomeEmailOpts {
 async function sendWelcomeEmail(opts: WelcomeEmailOpts): Promise<void> {
   const onboardingUrl = `${SITE_URL}/onboarding?session_id=${opts.sessionId}`
   const tierLabel =
-    opts.tier === "subscription" ? "Subscription ($499 + $199/mo)" : "One-time build ($2,997)"
+    opts.tier === "subscription" ? "Subscription ($299 + $149/mo)" : "One-time build ($997)"
   await sendEmail({
     to: opts.to,
     subject: "Welcome to Your Shopfront — let's build your site",

@@ -11,7 +11,12 @@ import type { Tier } from "@/lib/checkout-schema"
 import { SITE_URL, organizationSchema } from "@/lib/seo"
 
 interface PageProps {
-  searchParams: Promise<{ tier?: string; demo?: string; cancelled?: string }>
+  searchParams: Promise<{
+    tier?: string
+    demo?: string
+    cancelled?: string
+    promo?: string
+  }>
 }
 
 export const metadata: Metadata = {
@@ -43,6 +48,9 @@ export default async function CheckoutPage({ searchParams }: PageProps) {
   }
 
   const cancelled = params.cancelled === "1"
+  // Only "launch" is a valid promo. Anything else is treated as absent.
+  const promo = params.promo === "launch" ? "launch" : undefined
+  const isPromoSubscription = promo === "launch" && tier === "subscription"
 
   return (
     <ThemeProvider theme={theme}>
@@ -54,7 +62,7 @@ export default async function CheckoutPage({ searchParams }: PageProps) {
       />
       <main id="main" className="min-h-screen flex-1">
         <div className="mx-auto grid max-w-[1200px] gap-10 px-6 py-12 md:px-10 md:py-16 lg:grid-cols-[1fr_1.4fr] lg:gap-14">
-          <OrderSummary tier={tier} theme={theme} />
+          <OrderSummary tier={tier} theme={theme} promo={isPromoSubscription} />
           <div>
             <h1
               className="text-3xl font-bold leading-tight tracking-tight md:text-4xl"
@@ -73,7 +81,12 @@ export default async function CheckoutPage({ searchParams }: PageProps) {
               Stripe — we never see your card number.
             </p>
             <div className="mt-8">
-              <CheckoutForm tier={tier} demo={theme.slug} cancelled={cancelled} />
+              <CheckoutForm
+                tier={tier}
+                demo={theme.slug}
+                cancelled={cancelled}
+                promo={promo}
+              />
             </div>
             <p
               className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold"
@@ -93,9 +106,11 @@ export default async function CheckoutPage({ searchParams }: PageProps) {
 function OrderSummary({
   tier,
   theme,
+  promo,
 }: {
   tier: Tier
   theme: (typeof allThemes)[string]
+  promo: boolean
 }) {
   return (
     <aside className="lg:sticky lg:top-8 lg:self-start">
@@ -161,34 +176,65 @@ function OrderSummary({
               {TIER_LABELS[tier]}
             </p>
             {tier === "subscription" ? (
-              <>
-                <PriceLine label="Setup fee (today)" amount="$499" />
-                <PriceLine label="First month" amount="$199" />
-                <PriceLine
-                  label="Ongoing"
-                  amount="$199/mo"
-                  muted
-                  detail="Cancel anytime"
-                />
-                <div
-                  className="flex items-baseline justify-between border-t pt-3"
-                  style={{ borderColor: "var(--apex-border)" }}
-                >
-                  <span className="text-sm font-bold">Today&apos;s charge</span>
-                  <span
-                    className="text-2xl font-extrabold"
-                    style={{ fontFamily: "var(--apex-font-display)" }}
+              promo ? (
+                <>
+                  <PriceLine label="Setup fee (today)" amount="$99" />
+                  <PriceLine label="First month" amount="$99" />
+                  <PriceLine
+                    label="Months 2 + 3"
+                    amount="$99/mo"
+                    muted
+                    detail="Promo rate"
+                  />
+                  <PriceLine
+                    label="Month 4 onward"
+                    amount="$149/mo"
+                    muted
+                    detail="Standard rate · cancel anytime"
+                  />
+                  <div
+                    className="flex items-baseline justify-between border-t pt-3"
+                    style={{ borderColor: "var(--apex-border)" }}
                   >
-                    $698
-                  </span>
-                </div>
-              </>
+                    <span className="text-sm font-bold">Today&apos;s charge</span>
+                    <span
+                      className="text-2xl font-extrabold"
+                      style={{ fontFamily: "var(--apex-font-display)" }}
+                    >
+                      $198
+                    </span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <PriceLine label="Setup fee (today)" amount="$299" />
+                  <PriceLine label="First month" amount="$149" />
+                  <PriceLine
+                    label="Ongoing"
+                    amount="$149/mo"
+                    muted
+                    detail="Cancel anytime"
+                  />
+                  <div
+                    className="flex items-baseline justify-between border-t pt-3"
+                    style={{ borderColor: "var(--apex-border)" }}
+                  >
+                    <span className="text-sm font-bold">Today&apos;s charge</span>
+                    <span
+                      className="text-2xl font-extrabold"
+                      style={{ fontFamily: "var(--apex-font-display)" }}
+                    >
+                      $448
+                    </span>
+                  </div>
+                </>
+              )
             ) : (
               <>
-                <PriceLine label="One-time build" amount="$2,997" />
+                <PriceLine label="One-time build" amount="$997" />
                 <PriceLine
                   label="Optional hosting (selectable below)"
-                  amount="+ $29/mo"
+                  amount="+ $49/mo"
                   muted
                 />
                 <div
@@ -200,7 +246,7 @@ function OrderSummary({
                     className="text-2xl font-extrabold"
                     style={{ fontFamily: "var(--apex-font-display)" }}
                   >
-                    $2,997
+                    $997
                   </span>
                 </div>
               </>

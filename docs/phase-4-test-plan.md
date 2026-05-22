@@ -48,7 +48,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-key>
 
 # Optional but recommended for the email/Slack verification steps
 RESEND_API_KEY=re_<real-or-omit>
-RESEND_FROM_EMAIL=Apex Sites <onboarding@resend.dev>
+RESEND_FROM_EMAIL=Your Shopfront <onboarding@resend.dev>
 CONTACT_INBOX_EMAIL=<your-test-email>
 SLACK_WEBHOOK_URL=<your-slack-webhook-or-omit>
 
@@ -122,7 +122,7 @@ select count(*) as sites from sites;
 Open: `http://localhost:3000/checkout?tier=subscription&demo=heritage-painters`
 
 - [ ] Page loads themed in Heritage Painters style (warm-premium, terracotta accents, Fraunces serif)
-- [ ] Order summary on the left shows iframe of `/demos/heritage-painters?embed=1`, "Subscription" label, "$698 today's charge" subtotal
+- [ ] Order summary on the left shows iframe of `/demos/heritage-painters?embed=1`, "Subscription" label, "$448 today's charge" subtotal
 - [ ] Form on the right has all fields, no hosting-addon checkbox
 
 ### 1.2 — Fill the form
@@ -161,8 +161,8 @@ Click **Subscribe**.
 In <https://dashboard.stripe.com/test/customers> (must be in Test mode):
 
 - [ ] New customer appears at the top with the email you submitted
-- [ ] Click into the customer — there's 1 invoice for `$698.00` (`$499.00` setup line + `$199.00` first month line)
-- [ ] Customer has 1 active subscription, next billing in ~1 month at `$199.00`
+- [ ] Click into the customer — there's 1 invoice for `$448.00` (`$299.00` setup line + `$149.00` first month line)
+- [ ] Customer has 1 active subscription, next billing in ~1 month at `$149.00`
 
 ### 1.5 — Verify Terminal 1 (webhook listener)
 
@@ -215,11 +215,11 @@ limit 1;
 ### 1.7 — Verify Resend (if configured)
 
 - [ ] Email arrived at the address you used in the form
-- [ ] Subject: `Welcome to Apex Sites — let's build your site`
+- [ ] Subject: `Welcome to Your Shopfront — let's build your site`
 - [ ] Body mentions Heritage Painters and the Subscription tier
 - [ ] Onboarding URL link works
 
-If you skipped Resend setup, the dev server log shows `[email] skipped — RESEND_API_KEY not set: Welcome to Apex Sites — let's build your site`. That's the expected fallback.
+If you skipped Resend setup, the dev server log shows `[email] skipped — RESEND_API_KEY not set: Welcome to Your Shopfront — let's build your site`. That's the expected fallback.
 
 ### 1.8 — Verify Slack (if configured)
 
@@ -235,7 +235,7 @@ If skipped: silent no-op, no log entry expected.
 Open: `http://localhost:3000/checkout?tier=onetime&demo=brutalist`
 
 - [ ] Page renders themed in Neo-Brutalist (yellow + black + pink, Bricolage Grotesque, hard-shadow buttons)
-- [ ] Order summary shows "$2,997 today's charge"
+- [ ] Order summary shows "$997 today's charge"
 - [ ] Hosting-addon checkbox is visible **and unchecked** for this test
 
 Fill the form (different email this time so you can distinguish customers):
@@ -252,7 +252,7 @@ Submit → pay with `4242 4242 4242 4242`. **No subscription** is created in thi
 
 ### Verify
 
-- [ ] Stripe dashboard: new customer with **1 charge of $2,997.00**, no subscription
+- [ ] Stripe dashboard: new customer with **1 charge of $997.00**, no subscription
 - [ ] Terminal 1: `checkout.session.completed [200]`, no `subscription.created` events
 - [ ] Supabase `sites`: new row with `tier = 'onetime'`, `demo_slug = 'brutalist'`, `hosting_addon = false`, `status = 'pending_content'`
 - [ ] Resend welcome email arrived (different subject body — mentions "One-time build")
@@ -277,8 +277,8 @@ Submit → pay with `4242 4242 4242 4242`.
 
 ### Verify
 
-- [ ] Stripe dashboard: new customer with `1 invoice for $3,026.00` (`$2,997 build + $29 first-month hosting`)
-- [ ] Active subscription scheduled at `$29/month`
+- [ ] Stripe dashboard: new customer with `1 invoice for $1,046.00` (`$997 build + $49 first-month hosting`)
+- [ ] Active subscription scheduled at `$49/month`
 - [ ] Supabase `sites`: `tier = 'onetime'`, `hosting_addon = true`, `status = 'pending_content'`
 - [ ] Welcome email arrived
 
@@ -342,7 +342,7 @@ where stripe_session_id = 'cs_test_...'  -- whichever session you cancelled
 order by updated_at desc;
 ```
 
-- [ ] Resend goodbye email arrived (subject: "Your Apex Sites subscription has been cancelled")
+- [ ] Resend goodbye email arrived (subject: "Your Shopfront subscription has been cancelled")
 - [ ] Slack ping: `🚪 Subscription cancelled — <email> · sub <id>`
 
 ---

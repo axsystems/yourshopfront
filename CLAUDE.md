@@ -1,6 +1,6 @@
 # Apex Sites — CLAUDE.md
 
-> Productized website design + hosting for home-service businesses. 24 themes, $499 setup + $199/mo OR $2,997 one-time. **Wedge product for the axon-growth marketing OS.**
+> Productized website design + hosting for home-service businesses. 24 themes, $299 setup + $149/mo OR $997 one-time. **Wedge product for the axon-growth marketing OS.**
 
 ## Strategic Role (read FIRST)
 

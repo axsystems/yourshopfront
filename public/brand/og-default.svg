@@ -26,7 +26,7 @@
   <path d="M 72 446 C 130 438, 200 444, 234 442 L 234 458 C 200 460, 130 454, 72 462 Z" fill="#FFE34D" />
 
   <!-- Coral mono caption -->
-  <text x="72" y="510" fill="#FF5B47" font-family="JetBrains Mono, ui-monospace, monospace" font-size="22" font-weight="600" letter-spacing="0.04em">$499 SETUP + $199/MO  ·  OR $2,997 ONCE  ·  LIVE IN 24H</text>
+  <text x="72" y="510" fill="#FF5B47" font-family="JetBrains Mono, ui-monospace, monospace" font-size="22" font-weight="600" letter-spacing="0.04em">$299 SETUP + $149/MO  ·  OR $997 ONCE  ·  LIVE IN 24H</text>
 
   <!-- Cobalt bottom rule -->
   <rect x="0" y="618" width="1200" height="12" fill="#2438FF" />

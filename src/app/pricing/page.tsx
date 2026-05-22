@@ -24,11 +24,11 @@ const PRICING_URL = `${SITE_URL}/pricing`
 export const metadata: Metadata = {
   title: "Pricing — Subscription or one-time",
   description:
-    "Two ways to buy Your Shopfront: $499 setup + $199/mo subscription with unlimited edits, or $2,997 one-time build with full source code. 30-day money-back guarantee.",
+    "Two ways to buy Your Shopfront: $299 setup + $149/mo subscription with unlimited edits, or $997 one-time build with full source code. 30-day money-back guarantee.",
   alternates: { canonical: PRICING_URL },
   openGraph: {
     title: "Pricing — Your Shopfront",
-    description: "Subscription ($499 + $199/mo) or one-time ($2,997). Pick what fits.",
+    description: "Subscription ($299 + $149/mo) or one-time ($997). Pick what fits.",
     url: PRICING_URL,
     type: "website",
     siteName: "Your Shopfront",
@@ -42,8 +42,8 @@ interface ComparisonRow {
 }
 
 const COMPARISON: ComparisonRow[] = [
-  { label: "Setup fee", subscription: "$499", onetime: "Included" },
-  { label: "Recurring", subscription: "$199/mo", onetime: "$0 (or +$29/mo hosting)" },
+  { label: "Setup fee", subscription: "$299", onetime: "Included" },
+  { label: "Recurring", subscription: "$149/mo", onetime: "$0 (or +$49/mo hosting)" },
   { label: "Hosting included", subscription: true, onetime: "Optional" },
   { label: "Unlimited edits", subscription: true, onetime: "30 days, then read-only" },
   { label: "Source code delivered", subscription: "On request", onetime: true },
@@ -59,11 +59,11 @@ const FAQ = [
   },
   {
     q: "Can I switch from subscription to one-time later?",
-    a: "Yes — your $499 setup credits toward a one-time license at any point in the first year. After that, switching costs the full $2,997 one-time price.",
+    a: "Yes — your $299 setup credits toward a one-time license at any point in the first year. After that, switching costs the full $997 one-time price.",
   },
   {
-    q: "What does the $29/mo hosting addon include?",
-    a: "Vercel + Cloudflare hosting, SSL renewal, weekly backups, security patches, uptime monitoring, and a Slack channel for issues — same as what we run for subscription customers.",
+    q: "What does the $49/mo hosting addon include?",
+    a: "Vercel + Cloudflare hosting, SSL renewal, weekly backups, security patches, uptime monitoring, unlimited small edits, a monthly SEO check, and a Slack channel for issues — same as what we run for subscription customers.",
   },
   {
     q: "Where do I see the designs?",
@@ -103,8 +103,8 @@ export default function PricingPage() {
                   recommended
                   tagline="Most popular · Cancel anytime"
                   title="Subscription"
-                  price="$499"
-                  period="setup, then $199/mo"
+                  price="$299"
+                  period="setup, then $149/mo"
                   sub="We host it. Unlimited edits."
                   features={[
                     "Pick from any of our 24 theme designs",
@@ -123,16 +123,16 @@ export default function PricingPage() {
                 <TierCard
                   tagline="Yours forever · No recurring"
                   title="One-time build"
-                  price="$2,997"
+                  price="$997"
                   period="once"
-                  sub="Full source code. Self-host or +$29/mo."
+                  sub="Full source code. Self-host or +$49/mo."
                   features={[
                     "Pick from any of our 24 theme designs",
                     "We swap in your content within 24 hours",
                     "30 days of free edits after launch",
                     "Full source code handed over",
                     "Self-host on your own Vercel / Netlify",
-                    "Optional hosting & maintenance: +$29/mo",
+                    "Optional hosting & maintenance: +$49/mo (unlimited small edits + monthly SEO check)",
                   ]}
                   ctaLabel="Buy one-time →"
                   ctaHref="/checkout?tier=onetime"

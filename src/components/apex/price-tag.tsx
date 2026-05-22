@@ -2,7 +2,7 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 
 interface PriceTagProps {
-  /** The numeric value. e.g. "$499", "$199", "$2,997". */
+  /** The numeric value. e.g. "$299", "$149", "$997". */
   value: string
   /** Optional period suffix. e.g. "/mo", "once", "setup". */
   period?: string

@@ -16,9 +16,10 @@ interface CheckoutFormProps {
   tier: Tier
   demo: string
   cancelled?: boolean
+  promo?: "launch"
 }
 
-export function CheckoutForm({ tier, demo, cancelled }: CheckoutFormProps) {
+export function CheckoutForm({ tier, demo, cancelled, promo }: CheckoutFormProps) {
   const form = useForm<CheckoutFormData>({
     resolver: zodResolver(CheckoutFormSchema),
     defaultValues: {
@@ -43,7 +44,12 @@ export function CheckoutForm({ tier, demo, cancelled }: CheckoutFormProps) {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ ...data, tier, demo }),
+        body: JSON.stringify({
+          ...data,
+          tier,
+          demo,
+          ...(promo ? { promo } : {}),
+        }),
       })
       if (!res.ok) {
         const body = (await res.json().catch(() => null)) as
@@ -191,10 +197,10 @@ export function CheckoutForm({ tier, demo, cancelled }: CheckoutFormProps) {
             className="mt-1 h-4 w-4 flex-shrink-0 accent-[var(--apex-primary)]"
           />
           <span>
-            <strong>Add managed hosting + maintenance for $29/mo.</strong>{" "}
+            <strong>Add managed hosting + maintenance for $49/mo.</strong>{" "}
             Most customers add this — running your own hosting is a part-time
             job. Includes Vercel + Cloudflare hosting, SSL, weekly backups,
-            security patches, and a Slack channel for issues. Cancel anytime.
+            security patches, unlimited small edits, monthly SEO check, and a Slack channel for issues. Cancel anytime.
           </span>
         </label>
       )}
