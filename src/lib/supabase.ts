@@ -19,6 +19,7 @@ export type Tier = "subscription" | "onetime"
 
 export type SiteStatus =
   | "pending_content"
+  | "awaiting_copy"
   | "ready_to_build"
   | "provisioning"
   | "awaiting_approval"
@@ -110,6 +111,7 @@ export interface Site {
   headline_pref: string | null
   current_website_url: string | null
   hosting_addon: boolean
+  copy_addon: boolean
   status: SiteStatus
   live_url: string | null
   onboarding_state: OnboardingState
@@ -143,6 +145,7 @@ export interface NewSite {
   headline_pref?: string | null
   current_website_url?: string | null
   hosting_addon?: boolean
+  copy_addon?: boolean
   status?: SiteStatus
   live_url?: string | null
 }

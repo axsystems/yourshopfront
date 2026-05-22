@@ -58,6 +58,10 @@ export const CheckoutRequestSchema = CheckoutFormSchema.extend({
   // and applies STRIPE_COUPON_LAUNCH_PROMO ($50/mo off × 3 months).
   // Anything else, including absent, gets standard pricing.
   promo: z.enum(["launch"]).optional(),
+  // copy_addon lives here (not in CheckoutFormSchema) so Stream B can wire
+  // up the checkbox without form-level type changes until ready.
+  // Defaults to false so existing clients that don't send the field keep working.
+  copy_addon: z.boolean().default(false),
 })
 
 export type CheckoutRequest = z.infer<typeof CheckoutRequestSchema>

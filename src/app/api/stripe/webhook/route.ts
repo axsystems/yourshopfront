@@ -14,6 +14,7 @@ import {
   supabase,
   updateSiteStatus,
   type Tier,
+  type SiteStatus,
 } from "@/lib/supabase"
 
 export const runtime = "nodejs"
@@ -81,6 +82,14 @@ export async function POST(req: Request) {
 }
 
 async function handleSessionCompleted(session: Stripe.Checkout.Session) {
+  const metadata = session.metadata ?? {}
+
+  // Copy-addon upgrade: customer already has a site, they're just buying the add-on.
+  if (metadata.upgrade === "copy_addon") {
+    await handleCopyAddonUpgrade(session, metadata)
+    return
+  }
+
   // Idempotency guard #1: skip if we've already processed this session.
   const existing = await getSiteByStripeSessionId(session.id)
   if (existing) {
@@ -89,8 +98,6 @@ async function handleSessionCompleted(session: Stripe.Checkout.Session) {
     )
     return
   }
-
-  const metadata = session.metadata ?? {}
 
   const stripeCustomerId =
     typeof session.customer === "string"
@@ -144,6 +151,11 @@ async function handleSessionCompleted(session: Stripe.Checkout.Session) {
     return
   }
 
+  const copyAddon = metadata.copy_addon === "true"
+  // When copy service is purchased, hold the site in awaiting_copy until
+  // the operator has drafted the copy and written it into site_content.
+  const initialStatus: SiteStatus = copyAddon ? "awaiting_copy" : "pending_content"
+
   const site = await createSite({
     id: metadata.site_id || undefined,
     customer_id: customer.id,
@@ -155,7 +167,8 @@ async function handleSessionCompleted(session: Stripe.Checkout.Session) {
     headline_pref: metadata.headline_pref || null,
     current_website_url: metadata.current_website_url || null,
     hosting_addon: metadata.hosting_addon === "true",
-    status: "pending_content",
+    copy_addon: copyAddon,
+    status: initialStatus,
   })
 
   // Side effects: best-effort, never throw out of these.
@@ -171,12 +184,70 @@ async function handleSessionCompleted(session: Stripe.Checkout.Session) {
       [
         `*💸 New ${site.tier} sale*`,
         `${site.business_name} · ${site.demo_slug}` +
-          (site.industry ? ` · ${site.industry}` : ""),
+          (site.industry ? ` · ${site.industry}` : "") +
+          (copyAddon ? " · + Copy service" : ""),
         `${customer.email}${customer.phone ? ` · ${customer.phone}` : ""}`,
         `session \`${session.id.slice(-12)}\``,
       ].join("\n")
     ),
   ])
+}
+
+async function handleCopyAddonUpgrade(
+  session: Stripe.Checkout.Session,
+  metadata: Record<string, string>
+) {
+  const siteId = metadata.site_id
+  if (!siteId) {
+    console.error(
+      `[webhook] copy_addon upgrade missing site_id — session ${session.id}`
+    )
+    await notifySlack(
+      `🚨 *Copy upgrade — missing site_id* — session \`${session.id.slice(-12)}\``
+    )
+    return
+  }
+
+  const site = await getSiteById(siteId)
+  if (!site) {
+    console.error(
+      `[webhook] copy_addon upgrade: site ${siteId} not found — session ${session.id}`
+    )
+    await notifySlack(
+      `🚨 *Copy upgrade — site not found* \`${siteId.slice(-12)}\` — session \`${session.id.slice(-12)}\``
+    )
+    return
+  }
+
+  // Idempotency: if already flipped, nothing to do.
+  if (site.copy_addon) {
+    console.log(
+      `[webhook] copy_addon upgrade already applied for site ${siteId}`
+    )
+    return
+  }
+
+  const { error } = await supabase()
+    .from("sites")
+    .update({
+      copy_addon: true,
+      // If the site is still in pending_content, move it to awaiting_copy
+      // so the operator knows copy hasn't been written yet.
+      ...(site.status === "pending_content" ? { status: "awaiting_copy" as SiteStatus } : {}),
+    })
+    .eq("id", siteId)
+
+  if (error) {
+    console.error(
+      `[webhook] copy_addon upgrade DB update failed for site ${siteId}`,
+      error
+    )
+    throw error
+  }
+
+  await notifySlack(
+    `💰 *Copy upgrade purchased* — ${site.business_name} · session \`${session.id.slice(-12)}\``
+  )
 }
 
 async function handleSubscriptionDeleted(sub: Stripe.Subscription) {

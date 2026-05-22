@@ -19,6 +19,7 @@ interface PriceIds {
   monthly: string
   onetime: string
   hosting: string
+  copyAddon: string
 }
 
 function readPriceIds(): PriceIds | null {
@@ -26,15 +27,16 @@ function readPriceIds(): PriceIds | null {
   const monthly = process.env.STRIPE_PRICE_SUBSCRIPTION_MONTHLY
   const onetime = process.env.STRIPE_PRICE_ONETIME
   const hosting = process.env.STRIPE_PRICE_HOSTING_ADDON
-  if (!setup || !monthly || !onetime || !hosting) return null
+  const copyAddon = process.env.STRIPE_PRICE_COPY_ADDON
+  if (!setup || !monthly || !onetime || !hosting || !copyAddon) return null
   if (
-    [setup, monthly, onetime, hosting].some((p) => p.includes("xxx"))
+    [setup, monthly, onetime, hosting, copyAddon].some((p) => p.includes("xxx"))
   )
     return null
   const setupPromoRaw = process.env.STRIPE_PRICE_SUBSCRIPTION_SETUP_PROMO
   const setupPromo =
     setupPromoRaw && !setupPromoRaw.includes("xxx") ? setupPromoRaw : null
-  return { setup, setupPromo, monthly, onetime, hosting }
+  return { setup, setupPromo, monthly, onetime, hosting, copyAddon }
 }
 
 function readLaunchPromoCoupon(): string | null {
@@ -88,6 +90,7 @@ export async function POST(req: Request) {
     industry: data.industry,
     current_website_url: data.current_website_url || "",
     hosting_addon: data.hosting_addon ? "true" : "false",
+    copy_addon: data.copy_addon ? "true" : "false",
   }
 
   const successUrl = `${SITE_URL}/onboarding?session_id={CHECKOUT_SESSION_ID}`
@@ -137,6 +140,7 @@ async function createSession(
       line_items: [
         { price: prices.monthly, quantity: 1 },
         { price: setupPrice, quantity: 1 },
+        ...(data.copy_addon ? [{ price: prices.copyAddon, quantity: 1 }] : []),
       ],
       subscription_data: { metadata: sessionMetadata },
       // Stripe's SubscriptionData type does NOT accept discounts —
@@ -165,6 +169,7 @@ async function createSession(
       line_items: [
         { price: prices.hosting, quantity: 1 },
         { price: prices.onetime, quantity: 1 },
+        ...(data.copy_addon ? [{ price: prices.copyAddon, quantity: 1 }] : []),
       ],
       subscription_data: { metadata },
       customer_email: data.email,
@@ -178,7 +183,10 @@ async function createSession(
   // One-time, no hosting: pure mode=payment with the $997 line item.
   return s.checkout.sessions.create({
     mode: "payment",
-    line_items: [{ price: prices.onetime, quantity: 1 }],
+    line_items: [
+      { price: prices.onetime, quantity: 1 },
+      ...(data.copy_addon ? [{ price: prices.copyAddon, quantity: 1 }] : []),
+    ],
     customer_email: data.email,
     customer_creation: "always",
     success_url: successUrl,
