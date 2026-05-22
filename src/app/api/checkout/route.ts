@@ -15,6 +15,7 @@ const STATEMENT_DESCRIPTOR = "YOURSHOPFRONT"
 
 interface PriceIds {
   setup: string
+  setupPromo: string | null
   monthly: string
   onetime: string
   hosting: string
@@ -30,7 +31,16 @@ function readPriceIds(): PriceIds | null {
     [setup, monthly, onetime, hosting].some((p) => p.includes("xxx"))
   )
     return null
-  return { setup, monthly, onetime, hosting }
+  const setupPromoRaw = process.env.STRIPE_PRICE_SUBSCRIPTION_SETUP_PROMO
+  const setupPromo =
+    setupPromoRaw && !setupPromoRaw.includes("xxx") ? setupPromoRaw : null
+  return { setup, setupPromo, monthly, onetime, hosting }
+}
+
+function readLaunchPromoCoupon(): string | null {
+  const coupon = process.env.STRIPE_COUPON_LAUNCH_PROMO
+  if (!coupon || coupon.includes("xxx")) return null
+  return coupon
 }
 
 export async function POST(req: Request) {
@@ -116,24 +126,40 @@ async function createSession(
     // price — it auto-creates an invoice item for the one-time on the
     // first invoice. Cleaner than subscription_data.add_invoice_items
     // (which Checkout doesn't expose).
+    const promoCoupon = readLaunchPromoCoupon()
+    const isPromo =
+      data.promo === "launch" && prices.setupPromo !== null && promoCoupon !== null
+    const setupPrice = isPromo ? prices.setupPromo! : prices.setup
+    const sessionMetadata = isPromo
+      ? { ...metadata, promo: "launch" }
+      : metadata
     return s.checkout.sessions.create({
       mode: "subscription",
       line_items: [
         { price: prices.monthly, quantity: 1 },
-        { price: prices.setup, quantity: 1 },
+        { price: setupPrice, quantity: 1 },
       ],
-      subscription_data: { metadata },
+      subscription_data: { metadata: sessionMetadata },
+      // Stripe's SubscriptionData type does NOT accept discounts —
+      // session-level `discounts` is the only valid place for coupons
+      // in Checkout subscription mode. The coupon applies $50/mo off
+      // for 3 months per its own configuration.
+      ...(isPromo && promoCoupon
+        ? { discounts: [{ coupon: promoCoupon }] }
+        : {}),
       customer_email: data.email,
       success_url: successUrl,
       cancel_url: cancelUrl,
-      metadata,
-      allow_promotion_codes: true,
+      metadata: sessionMetadata,
+      // When the launch promo is auto-applied, disable manual promo codes
+      // so customers can't stack discounts.
+      allow_promotion_codes: !isPromo,
     })
   }
 
   if (data.hosting_addon) {
-    // One-time + hosting: same multi-line-item pattern. The $2,997
-    // one-time and the $29/mo hosting both land on the first invoice;
+    // One-time + hosting: same multi-line-item pattern. The $997
+    // one-time and the $49/mo hosting both land on the first invoice;
     // hosting recurs monthly thereafter.
     return s.checkout.sessions.create({
       mode: "subscription",
@@ -150,7 +176,7 @@ async function createSession(
     })
   }
 
-  // One-time, no hosting: pure mode=payment with the $2,997 line item.
+  // One-time, no hosting: pure mode=payment with the $997 line item.
   return s.checkout.sessions.create({
     mode: "payment",
     line_items: [{ price: prices.onetime, quantity: 1 }],

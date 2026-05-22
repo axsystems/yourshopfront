@@ -74,7 +74,7 @@ Read full `src/app/api/checkout/route.ts` (160 lines) and `src/app/api/stripe/we
 
 - **All 3 modes wired correctly**:
   - `tier=subscription`: `mode: "subscription"` with monthly + setup as line_items (checkout/route.ts:113-125). One-time setup auto-becomes an invoice item on first invoice — the cleaner pattern.
-  - `tier=onetime` + `hosting_addon=true`: `mode: "subscription"` with hosting + onetime as line_items (133-144). $2,997 + $29 today, then $29/mo.
+  - `tier=onetime` + `hosting_addon=true`: `mode: "subscription"` with hosting + onetime as line_items (133-144). $997 + $49 today, then $49/mo.
   - `tier=onetime` no addon: `mode: "payment"` with onetime only (148-158). `customer_creation: "always"` set explicitly so the customer record exists for downstream lookup.
 - **Metadata propagation**: `site_id`, `tier`, `demo_slug`, `business_name`, `email`, `phone`, `industry`, `hosting_addon` all stamped on `session.metadata` AND `subscription_data.metadata` where applicable (64-76, 119, 138). Correct — guarantees `customer.subscription.deleted` events 6 months from now can still find the site.
 - **Idempotency**: webhook checks `getSiteByStripeSessionId(session.id)` at line 80 *before* writing anything. Belt-and-suspenders via the `sites.stripe_session_id` unique constraint (documented at lines 30-34). Correct.

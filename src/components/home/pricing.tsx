@@ -23,7 +23,7 @@ const ONETIME_FEATURES = [
   "30 days of free edits after launch",
   "Full source code handed over",
   "Self-host on your own Vercel / Netlify",
-  "Optional hosting & maintenance: +$29/mo",
+  "Optional hosting & maintenance: +$49/mo (unlimited small edits + monthly SEO check)",
 ]
 
 export function Pricing({ theme, demoSlug }: PricingProps) {
@@ -58,9 +58,9 @@ export function Pricing({ theme, demoSlug }: PricingProps) {
               variant="featured"
               tagline="MOST POPULAR · CANCEL ANYTIME"
               title="Subscription"
-              price="$499"
+              price="$299"
               priceDetail="setup"
-              recurring="+ $199/mo"
+              recurring="+ $149/mo"
               sub="We host it. Unlimited edits."
               features={SUB_FEATURES}
               ctaLabel="Start subscription →"
@@ -73,9 +73,9 @@ export function Pricing({ theme, demoSlug }: PricingProps) {
               variant="default"
               tagline="YOURS FOREVER · NO RECURRING"
               title="One-time build"
-              price="$2,997"
+              price="$997"
               priceDetail="once"
-              sub="Full source code. Self-host or +$29/mo."
+              sub="Full source code. Self-host or +$49/mo."
               features={ONETIME_FEATURES}
               ctaLabel="Buy one-time →"
               ctaHref={oneHref}

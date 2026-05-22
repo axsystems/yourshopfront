@@ -302,8 +302,8 @@ Example, Ironside Plumbing (`src/lib/themes/01-ironside-plumbing.ts`): `bg #F4F4
 
 A **productized website agency** for home-service businesses. Two-tier offering:
 
-- **Subscription**: $499 setup + $199/mo. Hosted on Apex's Vercel/Cloudflare, unlimited edits, Google Business profile management, cancel anytime, 30-day grace period. (`src/components/home/pricing.tsx:9-17`, `src/app/pricing/page.tsx:59-67`.)
-- **One-time**: $2,997 once. Full source code handed over. Optional $29/mo hosting+maintenance addon. 30 days of edits included. (`src/components/home/pricing.tsx:19-26`.)
+- **Subscription**: $299 setup + $149/mo. Hosted on Apex's Vercel/Cloudflare, unlimited edits, Google Business profile management, cancel anytime, 30-day grace period. (`src/components/home/pricing.tsx:9-17`, `src/app/pricing/page.tsx:59-67`.)
+- **One-time**: $997 once. Full source code handed over. Optional $49/mo hosting+maintenance addon (unlimited small edits + monthly SEO check). 30 days of edits included. (`src/components/home/pricing.tsx:19-26`.)
 
 The product mechanism: customer picks 1 of 24 designed themes → fills out 30-min content worksheet → Apex swaps in their content → site live in 24 hours.
 
@@ -493,7 +493,7 @@ The onboarding access model is a **bearer-token pattern**: anyone holding the St
 Centralized in `src/lib/seo.ts`:
 
 - `organizationSchema()` — Organization with logo (`${SITE_URL}/logo.png`, **404s today**), contact point.
-- `serviceSchema()` — Service with two offers (Subscription $199/mo, One-time $2,997).
+- `serviceSchema()` — Service with two offers (Subscription $149/mo, One-time $997).
 - `breadcrumbSchema(items)` — BreadcrumbList.
 - `demoSchema(theme)` — WebPage with `about` Service.
 
@@ -563,7 +563,7 @@ But specific basic-ness inside the themed surfaces:
 - **No motion.** No scroll-triggered animation, no hover micro-interactions beyond `hover:-translate-y-0.5`. `framer-motion` is installed and unused.
 - **TrustStrip metrics are placeholder** (`★★★★★ 4.9 / 47 Google reviews`, `100+ sites launched`). Will look fake/stock-y to anyone scanning. (`src/components/home/trust-strip.tsx:9-13`.)
 - **The "logo" is a black square with the letter A** rendered as a div. Looks like a placeholder, because it is. (`demo-switcher.tsx:51`, etc.)
-- **Hero CTA secondary copy**: `$499 setup + $199/mo · or $2,997 one-time · live in 24h` (mono, 11px, all caps) is fine — but the hero has no visual rhythm beyond [eyebrow → display H1 → body → CTAs → mono CTA]. Same template every theme uses.
+- **Hero CTA secondary copy**: `$299 setup + $149/mo · or $997 one-time · live in 24h` (mono, 11px, all caps) is fine — but the hero has no visual rhythm beyond [eyebrow → display H1 → body → CTAs → mono CTA]. Same template every theme uses.
 - **Single-column scrolling** for the entire home composition. No editorial multi-column layouts, no asymmetric grids, no overlapping elements.
 
 ### B. The non-themed surfaces (`/pricing`, `/portfolio` index, `/contact`, `/checkout`-summary)
@@ -631,7 +631,7 @@ The site has not deployed yet (Vercel is paused per README) so there is **no inb
 
 ### Branded elements the owner cares about
 
-- **Two-tier offer ($499+$199/mo, $2,997+optional $29/mo)** — repeated 6 different places in copy. Pricing structure is core to the product.
+- **Two-tier offer ($299+$149/mo, $997+optional $49/mo)** — repeated 6 different places in copy. Pricing structure is core to the product.
 - **24-hour delivery promise** — repeated everywhere as a key differentiator.
 - **24 themes** — the count is in headlines, the FAQ, the portfolio CTA. Redesigning to "12 themes" or "30 themes" requires copy rewrites everywhere.
 - **The vibe×hero matrix** (5 vibes × 5 hero patterns × 3 modes × 3 design rounds) is non-trivial design IP that should survive the redesign.

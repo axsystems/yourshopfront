@@ -70,7 +70,7 @@ export default function AboutPage() {
               </FadeUp>
               <FadeUp delay={60}>
                 <p>
-                  We don&apos;t hand you a blank canvas. We hand you a finished site that already works for your category, with your content swapped in. The whole transaction is built around speed: $499 and a half-hour worksheet on Monday morning, your site live by Tuesday afternoon, your phone ringing by Friday.
+                  We don&apos;t hand you a blank canvas. We hand you a finished site that already works for your category, with your content swapped in. The whole transaction is built around speed: $299 and a half-hour worksheet on Monday morning, your site live by Tuesday afternoon, your phone ringing by Friday.
                 </p>
               </FadeUp>
               <FadeUp delay={120}>
@@ -101,7 +101,7 @@ export default function AboutPage() {
                 <FadeUp delay={120}>
                   <li>
                     <strong className="font-semibold">We won&apos;t hide the price.</strong>{" "}
-                    $499 setup + $199/mo subscription, or $2,997 one-time. That&apos;s on the homepage, the pricing page, the checkout, the footer. No discovery call required to find out the number.
+                    $299 setup + $149/mo subscription, or $997 one-time. That&apos;s on the homepage, the pricing page, the checkout, the footer. No discovery call required to find out the number.
                   </li>
                 </FadeUp>
                 <FadeUp delay={180}>

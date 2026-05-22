@@ -30,7 +30,7 @@ const ONE_FEATURES = [
   "Live within 24 hours of content receipt",
   "30 days of free edits after launch",
   "Full source code handed over",
-  "Optional hosting & maintenance: +$29/mo",
+  "Optional hosting & maintenance: +$49/mo (unlimited small edits + monthly SEO check)",
 ]
 
 export function HomePricingTeaser() {
@@ -52,8 +52,8 @@ export function HomePricingTeaser() {
               recommended
               tagline="Most popular · Cancel anytime"
               title="Subscription"
-              price="$499"
-              period="setup, then $199/mo"
+              price="$299"
+              period="setup, then $149/mo"
               sub="We host it. Unlimited edits."
               features={SUB_FEATURES}
               ctaLabel="Start subscription →"
@@ -64,9 +64,9 @@ export function HomePricingTeaser() {
             <TierCard
               tagline="Yours forever · No recurring"
               title="One-time build"
-              price="$2,997"
+              price="$997"
               period="once"
-              sub="Full source code. Self-host or +$29/mo."
+              sub="Full source code. Self-host or +$49/mo."
               features={ONE_FEATURES}
               ctaLabel="Buy one-time →"
               ctaHref="/checkout?tier=onetime"

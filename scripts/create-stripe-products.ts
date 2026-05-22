@@ -16,18 +16,23 @@
  *
  * The script reads STRIPE_SECRET_KEY from .env.local automatically (via
  * the --env-file flag in the npm script). After it finishes, it prints
- * the four resolved price IDs as a .env-snippet for you to paste into
+ * the resolved price IDs as a .env-snippet for you to paste into
  * .env.local (and later into your Vercel project env).
  *
  * Each product is created with statement_descriptor: "YOURSHOPFRONT".
  * That isolates the descriptor from other Axon Labs LLC products in the
  * shared Stripe account (apex-studio, axon-growth, ai-researcher).
  *
- * Creates 4 products:
- *   1. Subscription Setup       — $499 one-time
- *   2. Subscription Monthly     — $199/mo recurring
- *   3. One-time Build           — $2,997 one-time
- *   4. Hosting Addon            — $29/mo recurring
+ * Creates 5 products:
+ *   1. Subscription Setup        — $299 one-time
+ *   2. Subscription Setup (Promo)— $99 one-time   (used via /start landing page)
+ *   3. Subscription Monthly      — $149/mo recurring
+ *   4. One-time Build            — $997 one-time
+ *   5. Hosting Addon             — $49/mo recurring
+ *
+ * Promo recurring discount ($50 off $149 → $99/mo for 3 months) is
+ * applied via a Stripe Coupon (created separately, ID stored in
+ * STRIPE_COUPON_LAUNCH_PROMO env var). See docs/launch-promo.md.
  */
 
 import Stripe from "stripe"
@@ -48,9 +53,18 @@ const PRODUCTS: ProductSpec[] = [
     productKey: "subscription_setup",
     name: "Your Shopfront — Subscription Setup",
     description:
-      "One-time setup fee for the Your Shopfront subscription tier. Pairs with the $199/mo recurring plan.",
+      "One-time setup fee for the Your Shopfront subscription tier. Pairs with the $149/mo recurring plan.",
     envVar: "STRIPE_PRICE_SUBSCRIPTION_SETUP",
-    unitAmount: 49900, // $499.00
+    unitAmount: 29900, // $299.00
+    recurring: false,
+  },
+  {
+    productKey: "subscription_setup_promo",
+    name: "Your Shopfront — Subscription Setup (Launch Promo)",
+    description:
+      "Launch promo setup fee for the Your Shopfront subscription tier. Used only when the customer enters via /start.",
+    envVar: "STRIPE_PRICE_SUBSCRIPTION_SETUP_PROMO",
+    unitAmount: 9900, // $99.00
     recurring: false,
   },
   {
@@ -59,7 +73,7 @@ const PRODUCTS: ProductSpec[] = [
     description:
       "Monthly hosting + unlimited edits + Google Business profile management for Your Shopfront subscription customers.",
     envVar: "STRIPE_PRICE_SUBSCRIPTION_MONTHLY",
-    unitAmount: 19900, // $199.00 / month
+    unitAmount: 14900, // $149.00 / month
     recurring: true,
   },
   {
@@ -68,16 +82,16 @@ const PRODUCTS: ProductSpec[] = [
     description:
       "One-time build of a Your Shopfront homepage in any of our 30 theme designs. Full source code delivered on launch.",
     envVar: "STRIPE_PRICE_ONETIME",
-    unitAmount: 299700, // $2,997.00
+    unitAmount: 99700, // $997.00
     recurring: false,
   },
   {
     productKey: "hosting_addon",
     name: "Your Shopfront — Hosting Addon",
     description:
-      "Optional managed hosting + maintenance for one-time-build customers. Vercel + Cloudflare hosting, SSL, backups, security patches.",
+      "Optional managed hosting + unlimited small edits + monthly SEO check for one-time-build customers. Vercel + Cloudflare hosting, SSL, backups, security patches.",
     envVar: "STRIPE_PRICE_HOSTING_ADDON",
-    unitAmount: 2900, // $29.00 / month
+    unitAmount: 4900, // $49.00 / month
     recurring: true,
   },
 ]

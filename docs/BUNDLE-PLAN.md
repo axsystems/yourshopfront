@@ -7,7 +7,7 @@
 
 | Tier | Setup | Monthly | What you get |
 |---|---|---|---|
-| apex-sites alone | $499 | $199 | Website only |
+| apex-sites alone | $299 | $149 | Website only |
 | axon-growth JUST_ADS alone | $497 | $497 | Google Ads + GBP mgmt only |
 | **Site + Ads bundle** | **$697** ($200 off) | **$499** | Website + ads (saves ~$197/mo) |
 | **Site + Full Suite bundle** | **$997** | **$797** | Website + full marketing OS |
@@ -37,7 +37,7 @@ apex-sites = wedge. axon-growth = lift.
 - **Bake in Hook 1 + Hook 2 + Hook 3** during this work (see apex-sites/CLAUDE.md)
 
 ### Stage 3 — apex-sites solo launch
-- Launch with standalone pricing only ($199/mo or $2,997 once)
+- Launch with standalone pricing only ($149/mo or $997 once)
 - Get 5-10 customers through standalone funnel
 - Validate the conversion math before adding bundle complexity
 

@@ -4,8 +4,8 @@ Productized website design + hosting for small businesses. Pick one of 30 themes
 
 **Two tiers**, both available against any of the 30 designs:
 
-- **Subscription** — $499 setup + $199/mo. Hosted, unlimited edits, Google Business profile management. Cancel anytime.
-- **One-time** — $2,997 once. Full source code delivered. Optional $29/mo hosting & maintenance.
+- **Subscription** — $299 setup + $149/mo. Hosted, unlimited edits, Google Business profile management. Cancel anytime.
+- **One-time** — $997 once. Full source code delivered. Optional $49/mo hosting & maintenance (unlimited small edits + monthly SEO check).
 
 ---
 

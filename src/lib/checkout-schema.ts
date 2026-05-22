@@ -58,6 +58,10 @@ export const CheckoutRequestSchema = CheckoutFormSchema.extend({
   demo: z
     .string()
     .refine((s) => allThemeSlugs.includes(s), { message: "Unknown demo slug" }),
+  // "launch" → subscription tier swaps setup price to the promo $99 SKU
+  // and applies STRIPE_COUPON_LAUNCH_PROMO ($50/mo off × 3 months).
+  // Anything else, including absent, gets standard pricing.
+  promo: z.enum(["launch"]).optional(),
 })
 
 export type CheckoutRequest = z.infer<typeof CheckoutRequestSchema>

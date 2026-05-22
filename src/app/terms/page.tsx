@@ -23,8 +23,8 @@ export default function TermsPage() {
         Your Shopfront builds and hosts production-grade websites for small businesses of every kind. We offer two tiers:
       </p>
       <ul>
-        <li><strong>Subscription:</strong> $499 setup fee plus $199/month. Includes hosting, unlimited content edits, SSL, backups, security patches, and Google Business Profile management. Cancel any time.</li>
-        <li><strong>One-time build:</strong> $2,997 paid once. Includes the full source code on launch. Optional $29/month managed hosting addon.</li>
+        <li><strong>Subscription:</strong> $299 setup fee plus $149/month. Includes hosting, unlimited content edits, SSL, backups, security patches, and Google Business Profile management. Cancel any time.</li>
+        <li><strong>One-time build:</strong> $997 paid once. Includes the full source code on launch. Optional $49/month managed hosting addon (includes unlimited small edits + monthly SEO check).</li>
       </ul>
 
       <h2>Delivery and acceptance</h2>
