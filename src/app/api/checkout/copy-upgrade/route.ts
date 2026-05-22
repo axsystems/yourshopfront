@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
 
+import { checkRateLimit } from "@/lib/chat/rate-limit"
+import { getClientIp } from "@/lib/get-client-ip"
 import { stripe } from "@/lib/stripe"
 import { getSiteByStripeSessionId } from "@/lib/supabase"
 
@@ -29,6 +31,24 @@ const RequestSchema = z.object({
 })
 
 export async function POST(req: Request) {
+  // Rate-limit to prevent garbage-session-id quota burn on Stripe API
+  // (each invalid lookup still hits Stripe before we 404). 5/min/IP is
+  // generous for legit usage but kills cost-grief attacks.
+  const ip = getClientIp(req)
+  const limit = checkRateLimit(`copy-upgrade:${ip}`, 5)
+  if (!limit.ok) {
+    return NextResponse.json(
+      {
+        error: "Too many requests. Try again in a moment.",
+        retryAfterSeconds: limit.retryAfterSeconds,
+      },
+      {
+        status: 429,
+        headers: { "Retry-After": String(limit.retryAfterSeconds) },
+      }
+    )
+  }
+
   let json: unknown
   try {
     json = await req.json()

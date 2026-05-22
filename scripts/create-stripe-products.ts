@@ -94,6 +94,15 @@ const PRODUCTS: ProductSpec[] = [
     unitAmount: 4900, // $49.00 / month
     recurring: true,
   },
+  {
+    productKey: "copy_addon",
+    name: "Your Shopfront — Copy Writing Service",
+    description:
+      "Industry-tested copy written for your site. Customer answers a short 5-fact discovery questionnaire instead of filling out all 7 worksheet sections. We draft hero, services, about, and CTA copy using the conversion patterns proven across our 30 production designs.",
+    envVar: "STRIPE_PRICE_COPY_ADDON",
+    unitAmount: 19900, // $199.00 one-time
+    recurring: false,
+  },
 ]
 
 async function main(): Promise<void> {
