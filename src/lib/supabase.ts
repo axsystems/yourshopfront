@@ -188,6 +188,23 @@ export async function getCustomerByStripeId(
   return (data as Customer | null) ?? null
 }
 
+/**
+ * Look up a customer by their email. Used by self-serve access recovery —
+ * caller MUST normalize (lowercase + trim) before calling, since we do an
+ * exact `.eq` match. Returns null when no row matches.
+ */
+export async function getCustomerByEmail(
+  email: string
+): Promise<Customer | null> {
+  const { data, error } = await supabase()
+    .from("customers")
+    .select("*")
+    .eq("email", email)
+    .maybeSingle()
+  if (error) throw error
+  return (data as Customer | null) ?? null
+}
+
 export async function createCustomer(input: NewCustomer): Promise<Customer> {
   const { data, error } = await supabase()
     .from("customers")

@@ -403,6 +403,8 @@ async function sendWelcomeEmail(opts: WelcomeEmailOpts): Promise<void> {
       "",
       "Questions? Just reply to this email — a real person reads every inbound.",
       "",
+      "Lost this email? Recover your link any time at yourshopfront.com/access.",
+      "",
       "— Your Shopfront",
     ].join("\n"),
   })

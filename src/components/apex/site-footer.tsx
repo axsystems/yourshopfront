@@ -26,6 +26,7 @@ const PRODUCT: FooterLink[] = [
 const COMPANY: FooterLink[] = [
   { label: "About", href: "/about" },
   { label: "Email us", href: "mailto:hello@yourshopfront.com" },
+  { label: "Recover access", href: "/access" },
 ]
 
 const LEGAL: FooterLink[] = [
