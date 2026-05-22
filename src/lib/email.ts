@@ -45,6 +45,67 @@ export async function sendEmail(opts: SendEmailOpts): Promise<void> {
   }
 }
 
+interface CopyReadyForReviewEmailOpts {
+  to: string
+  firstName: string
+  onboardingUrl: string
+}
+
+/**
+ * Sent to the customer after the operator has reviewed + approved the AI
+ * draft. Plain text, same voice as sendAccessLinkEmail. Caller is responsible
+ * for verifying the email belongs to the right customer.
+ */
+export async function sendCopyReadyForReviewEmail(
+  opts: CopyReadyForReviewEmailOpts
+): Promise<void> {
+  await sendEmail({
+    to: opts.to,
+    subject: "Your draft is ready for review",
+    text: [
+      `Hi ${opts.firstName},`,
+      "",
+      "Your AI-drafted site copy has been reviewed by our team and is ready for your approval.",
+      "",
+      `Review it here: ${opts.onboardingUrl}`,
+      "",
+      "If everything looks good, click \"Build my site\" and we'll have your site live in 24-48 hours. If you'd like changes, just let us know — we read every reply.",
+      "",
+      "— Your Shopfront",
+    ].join("\n"),
+  })
+}
+
+interface CopyChangeRequestEmailOpts {
+  /** Operator inbox — defaults to hello@yourshopfront.com if omitted. */
+  to?: string
+  siteId: string
+  businessName: string
+  feedback: string
+}
+
+/**
+ * Sent to the operator inbox when a customer requests changes to the
+ * AI-drafted copy. Best-effort like every other sendEmail caller —
+ * fire-and-forget, never blocks the action's response.
+ */
+export async function sendCopyChangeRequestEmail(
+  opts: CopyChangeRequestEmailOpts
+): Promise<void> {
+  const to = opts.to ?? "hello@yourshopfront.com"
+  await sendEmail({
+    to,
+    subject: `Copy change request — ${opts.businessName}`,
+    text: [
+      `Site: ${opts.siteId}`,
+      `Business: ${opts.businessName}`,
+      "",
+      "Customer feedback:",
+      opts.feedback,
+    ].join("\n"),
+  })
+}
+
 interface AccessLinkEmailOpts {
   to: string
   firstName: string
