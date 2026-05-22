@@ -316,7 +316,7 @@ export async function POST(req: Request) {
 
     // --- Customer-facing message ---
     const message = eligibility.anyEligible
-      ? "Got it. Our team is reviewing your refund request and will process it within 1 business day. If approved, you'll see the refund on your card within 5-10 business days. We'll email hello@yourshopfront.com if we need any clarification."
+      ? "Got it. Our team is reviewing your refund request and will process it within 1 business day. If approved, you'll see the refund on your card within 5-10 business days. If we need any clarification, we'll reach out to you directly."
       : "Per our refund policy, this purchase is past the refundable window. We've still flagged your request for our team — if there's an exceptional circumstance, reply to your welcome email with details and we'll review case-by-case."
 
     return NextResponse.json({ ok: true, eligibility, message })
