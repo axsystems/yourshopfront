@@ -5,12 +5,21 @@ import { useForm, type FieldErrors, type UseFormRegister } from "react-hook-form
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowRight } from "lucide-react"
 
+import { z } from "zod"
 import {
   CheckoutFormSchema,
   INDUSTRY_OPTIONS,
   type CheckoutFormData,
   type Tier,
 } from "@/lib/checkout-schema"
+
+// copy_addon is intentionally absent from CheckoutFormSchema (Stream A comment).
+// Stream B extends the schema locally for the form resolver so the field is
+// validated and typed without modifying the shared schema file.
+const CheckoutFormSchemaWithCopy = CheckoutFormSchema.extend({
+  copy_addon: z.boolean(),
+})
+type CheckoutFormDataWithCopy = z.infer<typeof CheckoutFormSchemaWithCopy>
 
 interface CheckoutFormProps {
   tier: Tier
@@ -21,8 +30,8 @@ interface CheckoutFormProps {
 }
 
 export function CheckoutForm({ tier, demo, cancelled, promo, defaultIndustry }: CheckoutFormProps) {
-  const form = useForm<CheckoutFormData>({
-    resolver: zodResolver(CheckoutFormSchema),
+  const form = useForm<CheckoutFormDataWithCopy>({
+    resolver: zodResolver(CheckoutFormSchemaWithCopy),
     defaultValues: {
       business_name: "",
       contact_name: "",
@@ -31,6 +40,7 @@ export function CheckoutForm({ tier, demo, cancelled, promo, defaultIndustry }: 
       industry: defaultIndustry ?? "",
       current_website_url: "",
       hosting_addon: tier === "onetime",
+      copy_addon: false,
     },
   })
 
@@ -38,7 +48,7 @@ export function CheckoutForm({ tier, demo, cancelled, promo, defaultIndustry }: 
   const { errors, isSubmitting } = formState
   const [serverError, setServerError] = React.useState<string | null>(null)
 
-  const onSubmit = async (data: CheckoutFormData) => {
+  const onSubmit = async (data: CheckoutFormDataWithCopy) => {
     setServerError(null)
     try {
       const res = await fetch("/api/checkout", {
@@ -162,6 +172,43 @@ export function CheckoutForm({ tier, demo, cancelled, promo, defaultIndustry }: 
         placeholder="https://example.com"
       />
 
+      {/* copy_addon — shown on both tiers */}
+      <label
+        className="flex cursor-pointer items-start gap-3 rounded-xl border-2 p-5 text-sm leading-relaxed transition-colors"
+        style={{
+          background: "color-mix(in oklab, #3b6eff 6%, transparent)",
+          borderColor: "color-mix(in oklab, #3b6eff 35%, var(--apex-border))",
+          color: "var(--apex-fg)",
+        }}
+      >
+        <input
+          type="checkbox"
+          {...register("copy_addon")}
+          className="mt-0.5 h-4 w-4 flex-shrink-0 accent-[var(--apex-primary)]"
+        />
+        <span>
+          <span className="flex flex-wrap items-baseline gap-x-2">
+            <strong className="text-base font-bold">Have us write your copy.</strong>
+            <span
+              className="rounded px-1.5 py-0.5 text-xs font-extrabold tracking-wide"
+              style={{
+                background: "color-mix(in oklab, #3b6eff 15%, transparent)",
+                color: "#2952cc",
+                fontFamily: "var(--apex-font-display)",
+              }}
+            >
+              $199 one-time
+            </span>
+          </span>
+          <span className="mt-1.5 block" style={{ color: "var(--apex-muted-fg)" }}>
+            Industry-tested copy that converts. We designed 30 production sites
+            and know what wording books jobs in your industry. Skip writing
+            6&nbsp;sections — answer 5 facts instead, we draft your hero,
+            services, about, and CTAs. Most customers add this.
+          </span>
+        </span>
+      </label>
+
       {tier === "onetime" && (
         <label
           className="flex cursor-pointer items-start gap-3 rounded-lg border p-4 text-sm leading-relaxed"
@@ -233,9 +280,9 @@ export function CheckoutForm({ tier, demo, cancelled, promo, defaultIndustry }: 
 
 interface FieldProps {
   label: string
-  name: keyof CheckoutFormData
-  register: UseFormRegister<CheckoutFormData>
-  errors: FieldErrors<CheckoutFormData>
+  name: keyof CheckoutFormDataWithCopy
+  register: UseFormRegister<CheckoutFormDataWithCopy>
+  errors: FieldErrors<CheckoutFormDataWithCopy>
   type?: string
   autoComplete?: string
   placeholder?: string

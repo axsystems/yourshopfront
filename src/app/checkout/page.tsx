@@ -206,6 +206,7 @@ function OrderSummary({
                       $198
                     </span>
                   </div>
+                  <CopyAddonHint />
                 </>
               ) : (
                 <>
@@ -229,6 +230,7 @@ function OrderSummary({
                       $448
                     </span>
                   </div>
+                  <CopyAddonHint />
                 </>
               )
             ) : (
@@ -251,6 +253,7 @@ function OrderSummary({
                     $997
                   </span>
                 </div>
+                <CopyAddonHint />
               </>
             )}
           </div>
@@ -322,5 +325,16 @@ function Bullet({ children }: { children: React.ReactNode }) {
       />
       <span>{children}</span>
     </li>
+  )
+}
+
+function CopyAddonHint() {
+  return (
+    <p
+      className="font-mono text-[11px] leading-snug"
+      style={{ color: "var(--apex-muted-fg)" }}
+    >
+      +$199 if you add copy service (selectable in the form)
+    </p>
   )
 }
