@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
 
-import { getSiteByStripeSessionId } from "@/lib/supabase"
+import { getSiteById, getSiteByStripeSessionId } from "@/lib/supabase"
 import {
-  ASSET_KINDS,
   StorageInputError,
   mintSignedUpload,
 } from "@/lib/storage"
@@ -11,24 +10,52 @@ import {
 // =============================================================================
 // POST /api/upload/sign
 // =============================================================================
-// Issues a one-shot signed upload URL the browser can PUT a file to. Same
-// Stripe-session-id bearer-token model as the rest of /onboarding — the
-// session id resolves to a site_id which becomes the path prefix.
+// Issues a one-shot signed upload URL the browser can PUT a file to.
 //
-// Request:
-//   { sessionId, kind, filename, contentType, contentLength? }
+// Two auth modes, discriminated on `kind`:
 //
-// Response (200):
-//   { signedUrl, publicUrl, path }
+//   - kind in ("logo" | "hero" | "gallery"):
+//       Stripe-session-id bearer-token, used during onboarding. Site must
+//       still be in pending_content status (onboarding lock).
+//
+//   - kind === "edit-request":
+//       Authed customer mode (Stream A). Requires { siteId } and resolves
+//       the customer from the Supabase auth user, then verifies the site
+//       belongs to that customer. Works at any site status — edit
+//       requests are explicitly for the post-launch lifecycle.
+//
+// Response (200): { signedUrl, publicUrl, path }
 // =============================================================================
 
-const RequestSchema = z.object({
-  sessionId: z.string().min(20).max(200),
-  kind: z.enum(ASSET_KINDS as unknown as [string, ...string[]]),
+// STREAM-A-DEPENDENCY: replace with real @/lib/auth import after merge
+async function requireAuth(): Promise<StubAuthReturn> {
+  const { redirect } = await import("next/navigation")
+  redirect("/login")
+  throw new Error("unreachable")
+}
+type StubAuthReturn = {
+  user: { id: string; email: string }
+  customer: { id: string; auth_user_id: string | null; email: string; name: string }
+}
+
+const BaseFields = {
   filename: z.string().min(1).max(120),
   contentType: z.string().min(1).max(120),
   contentLength: z.number().int().positive().optional(),
-})
+}
+
+const RequestSchema = z.discriminatedUnion("kind", [
+  z.object({
+    kind: z.enum(["logo", "hero", "gallery"]),
+    sessionId: z.string().min(20).max(200),
+    ...BaseFields,
+  }),
+  z.object({
+    kind: z.literal("edit-request"),
+    siteId: z.string().uuid(),
+    ...BaseFields,
+  }),
+])
 
 export async function POST(req: Request) {
   let json: unknown
@@ -46,37 +73,60 @@ export async function POST(req: Request) {
     )
   }
 
-  const { sessionId, kind, filename, contentType, contentLength } = parsed.data
+  const input = parsed.data
 
-  let site
-  try {
-    site = await getSiteByStripeSessionId(sessionId)
-  } catch (err) {
-    console.error("[upload/sign] supabase lookup failed", err)
-    return NextResponse.json({ error: "Lookup failed." }, { status: 500 })
-  }
-  if (!site) {
-    return NextResponse.json(
-      { error: "Site not found for that session." },
-      { status: 404 }
-    )
-  }
-  if (site.status !== "pending_content") {
-    return NextResponse.json(
-      {
-        error: `Uploads locked (status: ${site.status}). Email hello@yourshopfront.com to change anything.`,
-      },
-      { status: 409 }
-    )
+  // --- Resolve siteId based on auth mode --------------------------------
+  let siteId: string
+  if (input.kind === "edit-request") {
+    const { customer } = await requireAuth()
+    let site
+    try {
+      site = await getSiteById(input.siteId)
+    } catch (err) {
+      console.error("[upload/sign] supabase lookup failed", err)
+      return NextResponse.json({ error: "Lookup failed." }, { status: 500 })
+    }
+    if (!site) {
+      return NextResponse.json({ error: "Site not found." }, { status: 404 })
+    }
+    if (site.customer_id !== customer.id) {
+      // Don't leak existence — same 404 as not-found.
+      return NextResponse.json({ error: "Site not found." }, { status: 404 })
+    }
+    siteId = site.id
+  } else {
+    let site
+    try {
+      site = await getSiteByStripeSessionId(input.sessionId)
+    } catch (err) {
+      console.error("[upload/sign] supabase lookup failed", err)
+      return NextResponse.json({ error: "Lookup failed." }, { status: 500 })
+    }
+    if (!site) {
+      return NextResponse.json(
+        { error: "Site not found for that session." },
+        { status: 404 }
+      )
+    }
+    if (site.status !== "pending_content") {
+      return NextResponse.json(
+        {
+          error: `Uploads locked (status: ${site.status}). Email hello@yourshopfront.com to change anything.`,
+        },
+        { status: 409 }
+      )
+    }
+    siteId = site.id
   }
 
+  // --- Mint --------------------------------------------------------------
   try {
     const result = await mintSignedUpload({
-      siteId: site.id,
-      kind: kind as "logo" | "hero" | "gallery",
-      filename,
-      contentType,
-      contentLength,
+      siteId,
+      kind: input.kind,
+      filename: input.filename,
+      contentType: input.contentType,
+      contentLength: input.contentLength,
     })
     return NextResponse.json(result)
   } catch (err) {
@@ -90,3 +140,4 @@ export async function POST(req: Request) {
     )
   }
 }
+

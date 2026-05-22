@@ -10,8 +10,12 @@ import { supabase } from "./supabase"
 // Wraps the Supabase Storage SDK with the apex-sites conventions:
 //
 //   - Bucket: "site-assets" (created in migration 0005).
-//   - Path scheme: "{site_id}/{kind}/{uuid}-{safe-filename}"
-//   - Kind: "logo" | "hero" | "gallery"
+//   - Site-content path scheme: "{site_id}/{kind}/{uuid}-{safe-filename}"
+//     where Kind is "logo" | "hero" | "gallery".
+//   - Edit-request path scheme: "{site_id}/edit-requests/_pending/{uuid}-{safe}"
+//     We can't use the real request_id at upload time (the form uploads
+//     attachments BEFORE the row exists), so MVP namespaces everything under
+//     _pending/ and accepts that orphan-upload cleanup is deferred.
 //
 // The signed-upload-URL flow:
 //
@@ -21,7 +25,7 @@ import { supabase } from "./supabase"
 //      which returns { signedUrl, publicUrl, path }.
 //   3. Browser PUTs the file bytes to `signedUrl` directly.
 //   4. Browser POSTs the resulting `publicUrl` back to a server action,
-//      which writes it into site_content.media.
+//      which writes it into site_content.media or edit_requests.attachments.
 // =============================================================================
 
 const BUCKET = "site-assets"
@@ -39,9 +43,14 @@ const ALLOWED_MIME = new Set([
 
 const MAX_BYTES = 10 * 1024 * 1024 // 10MB — matches the bucket limit.
 
-export type AssetKind = "logo" | "hero" | "gallery"
+export type AssetKind = "logo" | "hero" | "gallery" | "edit-request"
 
-export const ASSET_KINDS: readonly AssetKind[] = ["logo", "hero", "gallery"]
+export const ASSET_KINDS: readonly AssetKind[] = [
+  "logo",
+  "hero",
+  "gallery",
+  "edit-request",
+]
 
 export interface SignedUploadResult {
   /** PUT-able URL with one-shot auth baked in. */
@@ -88,7 +97,14 @@ export async function mintSignedUpload(
   }
 
   const safe = sanitizeFilename(input.filename)
-  const path = `${input.siteId}/${input.kind}/${randomUUID()}-${safe}`
+  // edit-request uploads happen before the edit_requests row exists, so
+  // they land under a stable _pending namespace and are linked to the
+  // request later via the public URL stored in edit_requests.attachments.
+  const segment =
+    input.kind === "edit-request"
+      ? "edit-requests/_pending"
+      : input.kind
+  const path = `${input.siteId}/${segment}/${randomUUID()}-${safe}`
 
   const { data, error } = await supabase()
     .storage.from(BUCKET)
