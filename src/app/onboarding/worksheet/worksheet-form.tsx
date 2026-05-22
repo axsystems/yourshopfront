@@ -30,7 +30,10 @@ interface WorksheetFormProps {
 export function WorksheetForm({ site }: WorksheetFormProps) {
   const [content, setContent] = React.useState<SiteContent>(site.site_content ?? {})
   const locked = site.status !== "pending_content"
-  const sessionId = site.stripe_session_id
+  // Empty-string fallback for type-safety on the upgrade-button POST.
+  // CopyServiceBanner internally disables the upgrade button when sessionId
+  // is empty so a malformed POST never reaches /api/checkout/copy-upgrade.
+  const sessionId = site.stripe_session_id || ""
   const complete = siteContentIsValid(content)
 
   return (
@@ -182,7 +185,7 @@ function CopyServiceBanner({
       <button
         type="button"
         onClick={handleUpgrade}
-        disabled={pending}
+        disabled={pending || !sessionId}
         className="mt-3 inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-bold transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
         style={{
           background: "#3b6eff",

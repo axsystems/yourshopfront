@@ -85,6 +85,16 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
       <SiteHeader variant="minimal" backHref="/" backLabel="Back to home" />
       <main id="main" className="min-h-screen flex-1">
         <div className="mx-auto max-w-[820px] px-6 py-12 md:px-10 md:py-16">
+          {/* Copy-service banner is OUTSIDE the pastOnboarding ternary so
+              awaiting_copy customers (who are technically past pending_content)
+              still see the banner explaining their site is in the copy-drafting
+              phase. Without this, copy-addon customers would only see
+              ProvisioningStatus which doesn't know about copy service. */}
+          {site.copy_addon && (
+            <div className="mb-8">
+              <CopyAddonBanner status={site.status} />
+            </div>
+          )}
           {pastOnboarding ? (
             <ProvisioningStatus initialSite={site} />
           ) : (
@@ -112,11 +122,6 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
                 building. Most sites go live within 24 hours of you marking
                 everything complete.
               </p>
-              {site.copy_addon && (
-                <div className="mt-6">
-                  <CopyAddonBanner status={site.status} />
-                </div>
-              )}
               <div className="mt-10">
                 <OnboardingChecklist site={site} />
               </div>
