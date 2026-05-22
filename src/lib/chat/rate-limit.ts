@@ -13,9 +13,22 @@ type Bucket = { count: number; resetAt: number }
 const buckets = new Map<string, Bucket>()
 
 const WINDOW_MS = 60_000 // 1 minute
-const MAX_REQUESTS = 10
+const DEFAULT_MAX_REQUESTS = 10
 
-export function checkRateLimit(key: string): {
+/**
+ * Check a sliding-window rate-limit bucket.
+ *
+ * Pass a tight `max` (e.g. 3) for cost-sensitive endpoints like the
+ * contact form which fans out to Resend + Slack on every request.
+ * Default 10 matches the historical chat-route behavior.
+ *
+ * Keys should be namespaced by caller (e.g. `contact:${ip}`,
+ * `chat:${ip}`) so different endpoints don't share buckets.
+ */
+export function checkRateLimit(
+  key: string,
+  max: number = DEFAULT_MAX_REQUESTS
+): {
   ok: boolean
   retryAfterSeconds: number
 } {
@@ -27,7 +40,7 @@ export function checkRateLimit(key: string): {
     return { ok: true, retryAfterSeconds: 0 }
   }
 
-  if (existing.count >= MAX_REQUESTS) {
+  if (existing.count >= max) {
     return {
       ok: false,
       retryAfterSeconds: Math.ceil((existing.resetAt - now) / 1000),
