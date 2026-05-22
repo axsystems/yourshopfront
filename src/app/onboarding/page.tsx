@@ -104,6 +104,12 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
     redirect(`/onboarding/discovery?session_id=${encodeURIComponent(session_id)}`)
   }
 
+  // Once the operator has approved the draft, bounce the customer to the
+  // dedicated review surface for their final sign-off.
+  if (site.status === "awaiting_copy_approval" && site.copy_addon) {
+    redirect(`/onboarding/copy-review?session_id=${encodeURIComponent(session_id)}`)
+  }
+
   const theme = allThemes[site.demo_slug] ?? defaultTheme
   const inCopyReview = COPY_REVIEW_STATUSES.includes(site.status)
   // "Past onboarding" historically meant any status beyond pending_content.
