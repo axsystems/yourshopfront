@@ -6,7 +6,7 @@ import { z } from "zod"
 import { checkRateLimit, pruneExpired } from "@/lib/chat/rate-limit"
 import { sendAccessLinkEmail } from "@/lib/email"
 import { getClientIp } from "@/lib/get-client-ip"
-import { getCustomerByEmail, supabase, type Site } from "@/lib/supabase"
+import { supabase } from "@/lib/supabase"
 
 // =============================================================================
 // POST /api/access
@@ -68,43 +68,49 @@ export async function POST(req: Request) {
 
   const normalizedEmail = parsed.data.email.toLowerCase().trim()
 
-  // From here on, every branch returns the same 200 body.
+  // Single JOIN — one DB round-trip whether or not the email is registered,
+  // closing the timing side-channel that two sequential lookups would open.
+  // Found path still has the extra Resend latency, but that's a much weaker
+  // signal than a deterministic 2x DB query count.
   try {
-    const customer = await getCustomerByEmail(normalizedEmail)
-    if (!customer) {
-      return NextResponse.json(GENERIC_OK_BODY)
-    }
-
-    const { data: siteRow, error: siteErr } = await supabase()
+    const { data: row, error: lookupErr } = await supabase()
       .from("sites")
-      .select("*")
-      .eq("customer_id", customer.id)
+      .select(
+        "id, stripe_session_id, created_at, customers!inner(id, email, name)"
+      )
+      .eq("customers.email", normalizedEmail)
       .order("created_at", { ascending: false })
       .limit(1)
       .maybeSingle()
 
-    if (siteErr) {
-      // Log but don't leak the failure to the caller.
-      console.error("[access] site lookup failed", siteErr)
+    if (lookupErr) {
+      console.error("[access] lookup failed", lookupErr)
       return NextResponse.json(GENERIC_OK_BODY)
     }
 
-    const site = siteRow as Site | null
-    if (!site) {
+    if (!row) {
       return NextResponse.json(GENERIC_OK_BODY)
     }
 
-    const firstName = customer.name?.split(" ")[0] ?? "there"
-    const onboardingUrl = `${SITE_URL}/onboarding?session_id=${site.stripe_session_id}`
+    // supabase-js types !inner joins loosely; narrow here. The selected
+    // customers projection is the joined row, not the full Customer.
+    const joined = row as unknown as {
+      id: string
+      stripe_session_id: string
+      customers: { id: string; email: string; name: string | null }
+    }
+
+    const firstName = joined.customers.name?.split(" ")[0] ?? "there"
+    const onboardingUrl = `${SITE_URL}/onboarding?session_id=${joined.stripe_session_id}`
 
     try {
       await sendAccessLinkEmail({
-        to: customer.email,
+        to: joined.customers.email,
         firstName,
         onboardingUrl,
       })
       // Log a trace WITHOUT the email — site id slice is enough to correlate.
-      console.log(`[access] sent site=${site.id.slice(-12)}`)
+      console.log(`[access] sent site=${joined.id.slice(-12)}`)
     } catch (err) {
       console.warn("[access] sendAccessLinkEmail threw", err)
       // Fall through — still return GENERIC_OK_BODY.
