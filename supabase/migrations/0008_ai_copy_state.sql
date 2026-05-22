@@ -45,3 +45,20 @@ alter table sites
 -- AI draft text stored alongside site_content; allows comparison/redo.
 alter table sites
   add column if not exists ai_copy_draft jsonb;
+
+-- Widen the copy-pending partial index from 0007 to cover the new
+-- statuses, so operator-queue lookups like
+--   where copy_addon = true and status = 'awaiting_copy_draft'
+-- stay index-only instead of falling back to a sequential scan once
+-- Stream B's queue view starts running.
+drop index if exists sites_copy_addon_pending_idx;
+create index sites_copy_addon_pending_idx
+  on sites(status)
+  where copy_addon = true
+    and status in (
+      'pending_content',
+      'awaiting_copy',
+      'awaiting_copy_draft',
+      'awaiting_copy_review',
+      'awaiting_copy_approval'
+    );
