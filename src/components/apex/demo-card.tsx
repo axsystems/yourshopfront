@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { motion, useReducedMotion } from "framer-motion"
 
 import { allThemes, isFeatured } from "@/lib/themes"
 import { cn } from "@/lib/utils"
@@ -44,7 +43,6 @@ export function DemoCard({
 }: DemoCardProps) {
   const theme = allThemes[slug]
   const target = href ?? `/portfolio/${slug}`
-  const reduce = useReducedMotion()
 
   const cardRef = React.useRef<HTMLDivElement | null>(null)
   // Initial state: eager → mount immediately; otherwise wait. The very-old-
@@ -80,12 +78,10 @@ export function DemoCard({
   if (!theme) return null
 
   const card = (
-    <motion.div
+    <div
       ref={cardRef}
-      whileHover={reduce ? undefined : { y: -2 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
       className={cn(
-        "group relative overflow-hidden rounded-xl border border-apx-line bg-apx-elev shadow-[0_1px_0_rgba(0,0,0,0.02)] transition-colors hover:border-apx-primary/40",
+        "group relative overflow-hidden rounded-xl border border-apx-line bg-apx-elev shadow-[0_1px_0_rgba(0,0,0,0.02)] transition-[transform,border-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-apx-primary/40 motion-reduce:transition-none motion-reduce:hover:translate-y-0",
         className
       )}
     >
@@ -138,7 +134,7 @@ export function DemoCard({
           </p>
         </div>
       </Link>
-    </motion.div>
+    </div>
   )
 
   if (featured) {

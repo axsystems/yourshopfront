@@ -124,18 +124,17 @@ function OrderSummary({
         }}
       >
         <div className="relative aspect-[4/3] w-full overflow-hidden">
-          <iframe
-            src={`/demos/${theme.slug}?embed=1`}
-            title={`${theme.name} preview`}
-            aria-hidden="true"
-            tabIndex={-1}
-            loading="lazy"
-            className="pointer-events-none absolute left-0 top-0 origin-top-left border-0"
-            style={{
-              width: "334%",
-              height: "334%",
-              transform: "scale(0.3)",
-            }}
+          {/* Static OG image instead of a scaled iframe: cuts ~160KB of
+              competing document fetch on the checkout critical path
+              (form hydration was racing the iframe for bandwidth). */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`/api/og/${theme.slug}`}
+            alt={`${theme.name} preview`}
+            width={1200}
+            height={630}
+            loading="eager"
+            className="absolute inset-0 h-full w-full object-cover"
           />
         </div>
         <div className="space-y-5 p-6">
