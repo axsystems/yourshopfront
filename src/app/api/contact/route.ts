@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
 
+import { checkRateLimit } from "@/lib/chat/rate-limit"
 import { sendEmail } from "@/lib/email"
+import { getClientIp } from "@/lib/get-client-ip"
 import { notifySlack } from "@/lib/notify"
 
 const ContactSchema = z.object({
@@ -17,6 +19,27 @@ const ContactSchema = z.object({
 type ContactData = z.infer<typeof ContactSchema>
 
 export async function POST(req: Request) {
+  // B2: tight rate limit — contact form fans out to Resend + Slack on
+  // every successful submission, both of which are spend/cap-bound.
+  // 3/min/IP keeps a determined attacker from burning the Resend monthly
+  // cap or blowing up the Slack channel. Namespaced key so contact and
+  // chat have separate buckets.
+  const ip = getClientIp(req)
+  const limit = checkRateLimit(`contact:${ip}`, 3)
+  if (!limit.ok) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "Too many requests. Try again in a moment.",
+        retryAfterSeconds: limit.retryAfterSeconds,
+      },
+      {
+        status: 429,
+        headers: { "retry-after": String(limit.retryAfterSeconds) },
+      }
+    )
+  }
+
   let body: unknown
   try {
     body = await req.json()

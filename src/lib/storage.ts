@@ -26,11 +26,15 @@ import { supabase } from "./supabase"
 
 const BUCKET = "site-assets"
 
+// SVG is intentionally NOT allowed: a public-read bucket serving
+// image/svg+xml lets an uploaded SVG with embedded <script> execute
+// in the requester's origin, which on tenant subdomains gives stored
+// XSS. See supabase/migrations/0006_drop_svg_mime.sql for the matching
+// Storage-bucket-level guard.
 const ALLOWED_MIME = new Set([
   "image/jpeg",
   "image/png",
   "image/webp",
-  "image/svg+xml",
 ])
 
 const MAX_BYTES = 10 * 1024 * 1024 // 10MB — matches the bucket limit.

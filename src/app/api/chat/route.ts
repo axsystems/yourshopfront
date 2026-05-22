@@ -5,6 +5,7 @@ import { z } from "zod"
 
 import { buildSystemPrompt } from "@/lib/chat/system-prompt"
 import { checkRateLimit, pruneExpired } from "@/lib/chat/rate-limit"
+import { getClientIp } from "@/lib/get-client-ip"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -22,14 +23,6 @@ const RequestSchema = z.object({
   messages: z.array(ChatMessageSchema).min(1).max(MAX_HISTORY_TURNS),
 })
 
-function getClientIp(req: Request): string {
-  const fwd = req.headers.get("x-forwarded-for")
-  if (fwd) return fwd.split(",")[0]!.trim()
-  const real = req.headers.get("x-real-ip")
-  if (real) return real
-  return "unknown"
-}
-
 export async function POST(req: Request): Promise<Response> {
   const apiKey = process.env.ANTHROPIC_API_KEY
   if (!apiKey) {
@@ -40,7 +33,7 @@ export async function POST(req: Request): Promise<Response> {
   }
 
   const ip = getClientIp(req)
-  const limit = checkRateLimit(ip)
+  const limit = checkRateLimit(`chat:${ip}`)
   if (!limit.ok) {
     return Response.json(
       {
