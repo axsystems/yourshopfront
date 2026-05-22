@@ -152,9 +152,10 @@ async function handleSessionCompleted(session: Stripe.Checkout.Session) {
   }
 
   const copyAddon = metadata.copy_addon === "true"
-  // When copy service is purchased, hold the site in awaiting_copy until
-  // the operator has drafted the copy and written it into site_content.
-  const initialStatus: SiteStatus = copyAddon ? "awaiting_copy" : "pending_content"
+  // When copy service is purchased, hold the site in awaiting_copy_draft so
+  // the AI drafting flow (Discovery → Haiku → operator review → customer
+  // approval) can run before the site is provisioned.
+  const initialStatus: SiteStatus = copyAddon ? "awaiting_copy_draft" : "pending_content"
 
   const site = await createSite({
     id: metadata.site_id || undefined,
@@ -240,7 +241,7 @@ async function handleCopyAddonUpgrade(
       ...((["pending_content", "ready_to_build"] as SiteStatus[]).includes(
         site.status
       )
-        ? { status: "awaiting_copy" as SiteStatus }
+        ? { status: "awaiting_copy_draft" as SiteStatus }
         : {}),
     })
     .eq("id", siteId)

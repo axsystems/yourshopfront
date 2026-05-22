@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import { redirect } from "next/navigation"
 import { CheckCircle, PenLine } from "lucide-react"
 
 import { BillingButton } from "./billing-button"
@@ -12,7 +13,19 @@ import { allThemes, defaultTheme } from "@/lib/themes"
 import { getSiteByStripeSessionId, type Site, type SiteStatus } from "@/lib/supabase"
 import { SITE_URL } from "@/lib/seo"
 
-const COPY_ACTIVE_STATUSES: SiteStatus[] = ["pending_content", "awaiting_copy"]
+const COPY_ACTIVE_STATUSES: SiteStatus[] = [
+  "pending_content",
+  "awaiting_copy",
+  "awaiting_copy_draft",
+  "awaiting_copy_review",
+  "awaiting_copy_approval",
+]
+
+/** Copy-addon statuses where the customer is in the AI draft → review loop. */
+const COPY_REVIEW_STATUSES: SiteStatus[] = [
+  "awaiting_copy_review",
+  "awaiting_copy_approval",
+]
 
 interface PageProps {
   searchParams: Promise<{ session_id?: string }>
@@ -78,8 +91,30 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
     return <OnboardingProcessing sessionId={session_id} />
   }
 
+  // Copy-addon routing: customers who paid for the copy service skip the
+  // worksheet and fill out the 5-question discovery form instead. Send
+  // them to that page until they've submitted at least one draft.
+  if (
+    site.copy_addon &&
+    (site.status === "pending_content" ||
+      site.status === "awaiting_copy" ||
+      site.status === "awaiting_copy_draft") &&
+    !site.ai_copy_draft
+  ) {
+    redirect(`/onboarding/discovery?session_id=${encodeURIComponent(session_id)}`)
+  }
+
   const theme = allThemes[site.demo_slug] ?? defaultTheme
-  const pastOnboarding = site.status !== "pending_content"
+  const inCopyReview = COPY_REVIEW_STATUSES.includes(site.status)
+  // "Past onboarding" historically meant any status beyond pending_content.
+  // With the new copy_addon flow, statuses awaiting_copy* are NOT yet past
+  // onboarding — the customer is still in the copy-drafting loop, not in
+  // provisioning. Exclude them so we render the right surface.
+  const pastOnboarding =
+    site.status !== "pending_content" &&
+    !inCopyReview &&
+    site.status !== "awaiting_copy" &&
+    site.status !== "awaiting_copy_draft"
   // Show "Manage billing" only when the customer has a recurring charge:
   // - subscription tier (always has the $149/mo sub), OR
   // - one-time tier with the $49/mo hosting add-on.
@@ -97,13 +132,17 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
               awaiting_copy customers (who are technically past pending_content)
               still see the banner explaining their site is in the copy-drafting
               phase. Without this, copy-addon customers would only see
-              ProvisioningStatus which doesn't know about copy service. */}
-          {site.copy_addon && (
+              ProvisioningStatus which doesn't know about copy service.
+              Suppressed during inCopyReview because CopyReviewState already
+              announces that state — showing both would be noisy. */}
+          {site.copy_addon && !inCopyReview && (
             <div className="mb-8">
               <CopyAddonBanner status={site.status} />
             </div>
           )}
-          {pastOnboarding ? (
+          {inCopyReview ? (
+            <CopyReviewState site={site} />
+          ) : pastOnboarding ? (
             <ProvisioningStatus initialSite={site} />
           ) : (
             <>
@@ -221,6 +260,75 @@ function CopyAddonBanner({ status }: { status: SiteStatus }) {
         You&apos;re all set.
       </span>
     </div>
+  )
+}
+
+/**
+ * "We're reviewing your draft" state for copy-addon customers whose discovery
+ * has been turned into a Haiku draft and is now in the operator review queue
+ * (status = awaiting_copy_review) or has been operator-approved and is
+ * waiting on customer sign-off (status = awaiting_copy_approval).
+ *
+ * No action is available yet — this is intentionally a passive holding state.
+ * The follow-on customer-approval UI lives in a later Stream.
+ */
+function CopyReviewState({ site }: { site: Site }) {
+  const heading =
+    site.status === "awaiting_copy_approval"
+      ? "Your draft is ready for your approval."
+      : "We're reviewing your draft."
+  const body =
+    site.status === "awaiting_copy_approval"
+      ? "Our copywriter has reviewed and polished the AI draft. The link to approve or request edits is on its way to your inbox — check there now."
+      : "Our copywriter is reviewing the draft and tightening anything that needs it. You'll get an email with a link to review and approve within one business day. No action needed from you right now."
+
+  return (
+    <>
+      <p
+        className="text-xs font-bold uppercase tracking-[0.18em]"
+        style={{ color: "var(--apex-muted-fg)" }}
+      >
+        Copy service · In review
+      </p>
+      <h1
+        className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl"
+        style={{
+          color: "var(--apex-fg)",
+          fontFamily: "var(--apex-font-display)",
+        }}
+      >
+        Hi {site.business_name.split(" ")[0]} — {heading.toLowerCase()}
+      </h1>
+      <p
+        className="mt-3 text-base leading-relaxed"
+        style={{ color: "var(--apex-muted-fg)" }}
+      >
+        {body}
+      </p>
+      <div
+        className="mt-8 rounded-2xl border p-6"
+        style={{
+          background: "var(--apex-surface)",
+          borderColor: "var(--apex-border)",
+          color: "var(--apex-surface-fg)",
+        }}
+      >
+        <p
+          className="text-xs font-bold uppercase tracking-[0.18em]"
+          style={{ color: "var(--apex-muted-fg)" }}
+        >
+          What happens next
+        </p>
+        <ol
+          className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-relaxed"
+          style={{ color: "var(--apex-fg)" }}
+        >
+          <li>Copywriter reviews the AI draft. Usually same-day.</li>
+          <li>We email you a link to approve or request edits.</li>
+          <li>Once approved, we build and launch within 24 hours.</li>
+        </ol>
+      </div>
+    </>
   )
 }
 
