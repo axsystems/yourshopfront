@@ -142,7 +142,7 @@ export async function POST(req: Request) {
     try {
       const portal = await stripe().billingPortal.sessions.create({
         customer: customer.stripe_customer_id,
-        return_url: `${SITE_URL}/onboarding?session_id=${sessionId}`,
+        return_url: `${SITE_URL}/onboarding?session_id=${encodeURIComponent(sessionId)}`,
       })
       return NextResponse.json({ ok: true, url: portal.url })
     } catch (stripeErr) {

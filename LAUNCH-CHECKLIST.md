@@ -128,7 +128,7 @@ Without this, `POST /api/billing-portal` returns a Stripe error and the "Manage 
 
 - [ ] Operator confirms portal configured
 
-
+## 6. Email / Resend
 
 - [ ] Production Resend account exists.
 - [ ] **Domain verification**: in Resend → Domains → Add `yourshopfront.com`. Add the SPF + DKIM DNS records to Cloudflare (or your DNS host). Wait for both to validate (usually <10 min). Once green, switch `RESEND_FROM_EMAIL` from `onboarding@resend.dev` to `hello@yourshopfront.com`.
@@ -206,7 +206,7 @@ These are flagged in the redesign loop and the final report. They are not launch
 - **Real founder/team copy** in `/about`.
 - **Real customer testimonials / case-study photography.** None exist today; the trust strip metrics are truthful deliverables only.
 - **`@next/bundle-analyzer`** for precise per-route gzipped first-load JS measurement. Approximate measurement only today.
-- **`invoice.payment_failed` and `charge.refunded` webhook handlers.** Per `docs/post-launch-todo.md` — add before scaling past ~50 active subscriptions.
+- **`invoice.payment_failed` webhook handler.** Per `docs/post-launch-todo.md` — add before scaling past ~50 active subscriptions. (`charge.refunded` is already handled in `webhook/route.ts:73`.)
 - **Image optimization for tenant pages.** Tenant `<Image>` calls use `unoptimized` because Supabase Storage URLs aren't whitelisted. Add `*.supabase.co` to `next.config.ts` `images.remotePatterns` and drop `unoptimized` once a real customer needs the LCP gain.
 - **Brand assets** (logos, OG images, favicon) still render the old Apex SVG mark. Update `public/brand/` SVG sources and re-run `pnpm brand:export` when new Your Shopfront brand assets are ready.
 - **Worksheet + upload smoke automation.** Manual gates only today; needs a Supabase test fixture or mocked client to run in CI.
