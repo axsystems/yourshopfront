@@ -14,7 +14,7 @@ interface ChatMessage {
 }
 
 type ChatMode = "sales" | "onboarding"
-type PanelView = "chat" | "refund-form" | "refund-success" | "refund-error"
+type PanelView = "chat" | "refund-form" | "refund-success"
 
 type RefundReason =
   | "changed_mind"
@@ -195,10 +195,9 @@ interface RefundFormProps {
   sessionId: string
   onCancel: () => void
   onSuccess: (message: string) => void
-  onError: (message: string) => void
 }
 
-function RefundForm({ sessionId, onCancel, onSuccess, onError }: RefundFormProps) {
+function RefundForm({ sessionId, onCancel, onSuccess }: RefundFormProps) {
   const [reason, setReason] = React.useState<RefundReason>("changed_mind")
   const [detail, setDetail] = React.useState("")
   const [email, setEmail] = React.useState("")
@@ -616,12 +615,6 @@ export function SalesAgent() {
     setView("refund-success")
   }, [])
 
-  const handleRefundError = React.useCallback((_message: string) => {
-    // Inline errors are shown inside RefundForm — this path is not used
-    // but satisfies the prop contract.
-    setView("refund-error")
-  }, [])
-
   const returnToChat = React.useCallback(() => {
     setView("chat")
     setSuccessMessage(null)
@@ -694,7 +687,6 @@ export function SalesAgent() {
                 sessionId={sessionId}
                 onCancel={returnToChat}
                 onSuccess={handleRefundSuccess}
-                onError={handleRefundError}
               />
             </div>
           ) : view === "refund-success" ? (
@@ -809,7 +801,7 @@ export function SalesAgent() {
                     <button
                       type="button"
                       onClick={() => setView("refund-form")}
-                      className="text-[12px] text-apx-mute underline-offset-2 hover:underline hover:text-apx-ink transition-colors"
+                      className="text-[12px] text-apx-mute underline underline-offset-2 hover:text-apx-ink transition-colors"
                     >
                       Request a refund
                     </button>
