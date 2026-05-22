@@ -25,6 +25,12 @@ alter table sites
     )
   );
 
+-- Partial index on status (filtered to copy-addon sites in pending states).
+-- Postgres won't actually use a single-column boolean index because
+-- cardinality is 2, so we key the index on status and let copy_addon be
+-- the partial-index predicate. The operator's "who needs copy written?"
+-- query is `where copy_addon = true and status = 'awaiting_copy'` which
+-- this index serves efficiently.
 create index if not exists sites_copy_addon_pending_idx
-  on sites(copy_addon)
+  on sites(status)
   where copy_addon = true and status in ('pending_content', 'awaiting_copy');

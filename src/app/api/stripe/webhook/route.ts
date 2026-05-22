@@ -231,9 +231,16 @@ async function handleCopyAddonUpgrade(
     .from("sites")
     .update({
       copy_addon: true,
-      // If the site is still in pending_content, move it to awaiting_copy
-      // so the operator knows copy hasn't been written yet.
-      ...(site.status === "pending_content" ? { status: "awaiting_copy" as SiteStatus } : {}),
+      // Nudge status to awaiting_copy from any pre-build state so the
+      // cron can't accidentally provision a site whose copy is still
+      // being drafted. ready_to_build is in this list because a customer
+      // can complete the worksheet (status flips to ready_to_build) then
+      // upgrade to copy service mid-flight.
+      ...((["pending_content", "ready_to_build"] as SiteStatus[]).includes(
+        site.status
+      )
+        ? { status: "awaiting_copy" as SiteStatus }
+        : {}),
     })
     .eq("id", siteId)
 
