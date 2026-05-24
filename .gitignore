@@ -52,3 +52,9 @@ next-env.d.ts
 
 .vercel
 .env*.local
+
+# Claude Code working dirs + autonomous-run artifacts (operator-local only)
+/.claude/
+/.claude-prompts/
+DEFERRED-*.md
+PHASE-*-COMPLETE-*.md

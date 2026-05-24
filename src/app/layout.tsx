@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next"
 import { Suspense } from "react"
+import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
 import { SalesAgent } from "@/components/apex/sales-agent"
@@ -69,6 +70,11 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <SalesAgent />
         </Suspense>
+        {/* Vercel Web Analytics — page views + Web Vitals. Co-exists with
+            Plausible (different vendor surfaces, different dashboards). No
+            env var or config required; reads NEXT_PUBLIC_VERCEL_* injected
+            by Vercel at build time. */}
+        <Analytics />
       </body>
     </html>
   )

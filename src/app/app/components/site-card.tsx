@@ -62,7 +62,7 @@ export function SiteCard({ site }: SiteCardProps) {
             href={site.live_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 truncate text-xs font-medium text-apx-mute underline-offset-2 hover:text-apx-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-apx-primary focus-visible:ring-offset-1 rounded"
+            className="inline-flex items-center gap-1 truncate text-xs font-medium text-apx-mute underline-offset-2 hover:text-apx-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-apx-primary focus-visible:ring-offset-2 rounded"
             aria-label={`Visit ${site.business_name} website (opens in new tab)`}
           >
             <ExternalLink className="h-3 w-3 flex-shrink-0" aria-hidden />
