@@ -1,19 +1,6 @@
-// STREAM-A-DEPENDENCY: remove this entire stub block and replace the
-// requireAuth() call below with:
-//   import { requireAuth } from "@/lib/auth"
-// once the auth foundation branch merges.
-import { redirect } from "next/navigation"
-import type { Customer } from "@/lib/supabase"
-
-type StubUser = { id: string; email: string }
-
-async function requireAuth(): Promise<{ user: StubUser; customer: Customer }> {
-  redirect("/login")
-  throw new Error("unreachable")
-}
-// END STREAM-A-DEPENDENCY STUB
-
 import Link from "next/link"
+
+import { requireAuth } from "@/lib/auth"
 import { ExternalLink } from "lucide-react"
 
 import { supabase, type Site } from "@/lib/supabase"

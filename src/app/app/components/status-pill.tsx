@@ -1,12 +1,6 @@
 import { cn } from "@/lib/utils"
 import type { SiteStatus } from "@/lib/supabase"
 
-// STREAM-A-DEPENDENCY: if the SiteStatus union in src/lib/supabase.ts is
-// extended with additional copy-cycle states (awaiting_copy_draft,
-// awaiting_copy_review, awaiting_copy_approval), add them to STATUS_MAP below
-// and update the SiteStatus union — this component will pick them up without
-// layout changes.
-
 interface StatusPillProps {
   status: SiteStatus
   className?: string
@@ -25,8 +19,10 @@ const STATUS_MAP: Record<SiteStatus, PillConfig> = {
   ready_to_build: { label: "Ready to build", variant: "blue" },
   awaiting_approval: { label: "Awaiting your approval", variant: "amber" },
   pending_content: { label: "Awaiting content", variant: "grey" },
-  // copy-cycle states — currently one value; see STREAM-A-DEPENDENCY note above
   awaiting_copy: { label: "Drafting copy", variant: "amber" },
+  awaiting_copy_draft: { label: "Drafting copy", variant: "amber" },
+  awaiting_copy_review: { label: "Copy in review", variant: "amber" },
+  awaiting_copy_approval: { label: "Awaiting your approval", variant: "amber" },
   cancelled: { label: "Cancelled", variant: "red" },
   refunded: { label: "Refunded", variant: "red" },
   failed: { label: "Failed", variant: "red" },

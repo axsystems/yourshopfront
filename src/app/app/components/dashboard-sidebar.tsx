@@ -212,14 +212,14 @@ export function DashboardSidebar({ email, isOpen, onClose }: DashboardSidebarPro
           <p className="truncate text-xs text-apx-soft" title={email}>
             {email}
           </p>
-          {/* STREAM-A-DEPENDENCY: replace href with real sign-out action once
-              auth foundation merges. Stream A will ship POST /auth/signout. */}
-          <Link
-            href="/login"
-            className="mt-2 inline-flex items-center text-xs font-medium text-apx-mute underline-offset-2 transition-colors hover:text-apx-danger hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-apx-primary focus-visible:ring-offset-1 rounded"
-          >
-            Sign out
-          </Link>
+          <form action="/auth/signout" method="post" className="mt-2">
+            <button
+              type="submit"
+              className="inline-flex items-center text-xs font-medium text-apx-mute underline-offset-2 transition-colors hover:text-apx-danger hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-apx-primary focus-visible:ring-offset-1 rounded"
+            >
+              Sign out
+            </button>
+          </form>
         </div>
       </aside>
 
