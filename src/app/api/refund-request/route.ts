@@ -4,7 +4,7 @@ import { z } from "zod"
 import { checkRateLimit } from "@/lib/chat/rate-limit"
 import { getClientIp } from "@/lib/get-client-ip"
 import { getCustomerById, getSiteByStripeSessionId } from "@/lib/supabase"
-import { notifySlack } from "@/lib/notify"
+import { escapeSlackText, notifySlack } from "@/lib/notify"
 import type { Customer, Site } from "@/lib/supabase"
 
 // =============================================================================
@@ -169,10 +169,13 @@ function buildSlackMessage(
   sessionId: string,
   eligibility: Eligibility
 ): string {
+  // Escape customer-supplied + tenant-supplied fields. business_name, email,
+  // and reasonDetail all originate from the customer, so they could contain
+  // Slack mrkdwn metacharacters (`<`, `>`, `|`).
   const lines: string[] = [
     "🛟 *Refund request submitted*",
-    `${site.business_name} · ${customer.email}`,
-    `Reason: ${reason} — ${reasonDetail.slice(0, 300)}`,
+    `${escapeSlackText(site.business_name)} · ${escapeSlackText(customer.email)}`,
+    `Reason: ${reason} — ${escapeSlackText(reasonDetail.slice(0, 300))}`,
     "Eligibility:",
   ]
 

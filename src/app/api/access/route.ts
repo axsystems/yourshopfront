@@ -103,18 +103,24 @@ export async function POST(req: Request) {
     const firstName = joined.customers.name?.split(" ")[0] ?? "there"
     const onboardingUrl = `${SITE_URL}/onboarding?session_id=${joined.stripe_session_id}`
 
-    try {
-      await sendAccessLinkEmail({
-        to: joined.customers.email,
-        firstName,
-        onboardingUrl,
+    // Fire-and-forget the email so registered vs unregistered code paths have
+    // the same response latency. Awaiting Resend introduces a 200-800ms
+    // timing oracle: an attacker can enumerate emails by measuring response
+    // time even though we always return GENERIC_OK_BODY. The .catch keeps the
+    // promise from becoming an unhandled rejection if Resend is down.
+    const siteIdTrace = joined.id.slice(-12)
+    void sendAccessLinkEmail({
+      to: joined.customers.email,
+      firstName,
+      onboardingUrl,
+    })
+      .then(() => {
+        // Trace WITHOUT the email — site id slice is enough to correlate.
+        console.log(`[access] sent site=${siteIdTrace}`)
       })
-      // Log a trace WITHOUT the email — site id slice is enough to correlate.
-      console.log(`[access] sent site=${joined.id.slice(-12)}`)
-    } catch (err) {
-      console.warn("[access] sendAccessLinkEmail threw", err)
-      // Fall through — still return GENERIC_OK_BODY.
-    }
+      .catch((err) => {
+        console.error("[access] email send failed", { siteIdTrace, err })
+      })
 
     return NextResponse.json(GENERIC_OK_BODY)
   } catch (err) {

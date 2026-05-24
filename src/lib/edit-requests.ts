@@ -5,11 +5,13 @@ import { supabase } from "./supabase"
 // =============================================================================
 // edit_requests — typed helpers (server-only)
 // =============================================================================
-// Mirrors supabase/migrations/0010_edit_requests.sql. JSONB columns
-// (attachments + comments) are append-only from the customer's POV; we
-// use read-modify-write for comment appends because supabase-js doesn't
-// expose Postgres jsonb operators directly. Low contention per row makes
-// this safe in practice for this product's scale.
+// Mirrors supabase/migrations/0010_edit_requests.sql and
+// 0012_edit_request_append_comment.sql.
+//
+// Attachments are appended by the create-row path. Comments are appended via
+// the `append_edit_request_comment` Postgres RPC (0012) which uses
+// SELECT ... FOR UPDATE + the jsonb || operator inside a single transaction
+// so concurrent customer/operator submits never clobber each other.
 // =============================================================================
 
 export const EDIT_REQUEST_SECTIONS = [
@@ -114,26 +116,23 @@ export async function createEditRequestRow(
 }
 
 /**
- * Appends a comment via read-modify-write. Low contention per request row
- * (one customer + the operator) makes the race window acceptable; if two
- * authors hit submit within the same millisecond, the second write wins
- * its own comment and the first is preserved (because we re-read inside
- * the same call). Use a transaction in Postgres directly if this ever
- * becomes a hot path.
+ * Appends a comment atomically via the `append_edit_request_comment` RPC
+ * (migration 0012). The RPC takes a row-level lock and uses the jsonb ||
+ * operator, so concurrent customer+operator submits cannot lose comments.
  */
 export async function appendCommentToEditRequest(
   editRequestId: string,
   comment: EditRequestComment
 ): Promise<EditRequest> {
-  const current = await getEditRequestById(editRequestId)
-  if (!current) throw new Error(`edit_request ${editRequestId} not found`)
-  const nextComments = [...current.comments, comment]
-  const { data, error } = await supabase()
-    .from("edit_requests")
-    .update({ comments: nextComments })
-    .eq("id", editRequestId)
-    .select("*")
-    .single()
+  const { data, error } = await supabase().rpc(
+    "append_edit_request_comment",
+    {
+      p_edit_request_id: editRequestId,
+      // RPC takes jsonb — supabase-js serializes object args as JSON for us.
+      p_comment: comment,
+    }
+  )
   if (error) throw error
+  if (!data) throw new Error(`edit_request ${editRequestId} not found`)
   return data as EditRequest
 }

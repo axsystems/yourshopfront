@@ -109,7 +109,15 @@ export async function proxy(req: NextRequest): Promise<NextResponse> {
 
 export const config = {
   matcher: [
-    // Run everywhere except API, Next internals, and static files.
-    "/((?!api/|_next/static|_next/image|_next/data|favicon.ico|robots.txt|sitemap.xml|og-default.png).*)",
+    // Run everywhere except non-authed API, Next internals, and static files.
+    //
+    // We INCLUDE `/api/app/*` in the matcher so the cookie-refresh pass
+    // runs on authed API routes (e.g. server actions, dashboard endpoints).
+    // Without this, customers hitting `/api/app/...` near the access-token
+    // TTL would intermittently 401 because the cookie never gets refreshed
+    // mid-flight. Public API routes (/api/access, /api/billing-portal, the
+    // chat endpoints, etc.) don't need a session, so we keep them out of
+    // the matcher to avoid the extra Supabase round-trip per asset hit.
+    "/((?!api/(?!app/)|_next/static|_next/image|_next/data|favicon.ico|robots.txt|sitemap.xml|og-default.png).*)",
   ],
 }
