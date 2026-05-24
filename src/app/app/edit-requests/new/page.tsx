@@ -1,25 +1,10 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 
+import { requireAuth } from "@/lib/auth"
 import { listSitesForCustomer, type Site } from "@/lib/supabase"
 
 import { NewEditRequestForm } from "./new-edit-request-form"
-
-// STREAM-A-DEPENDENCY: replace with real @/lib/auth import after merge
-async function requireAuth(): Promise<StubAuthReturn> {
-  const { redirect } = await import("next/navigation")
-  redirect("/login")
-  throw new Error("unreachable")
-}
-type StubAuthReturn = {
-  user: { id: string; email: string }
-  customer: {
-    id: string
-    auth_user_id: string | null
-    email: string
-    name: string
-  }
-}
 
 export const metadata: Metadata = {
   title: "New edit request",

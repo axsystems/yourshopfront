@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
 
+import { requireAuth } from "@/lib/auth"
 import { getSiteById, getSiteByStripeSessionId } from "@/lib/supabase"
 import {
   StorageInputError,
@@ -26,17 +27,6 @@ import {
 //
 // Response (200): { signedUrl, publicUrl, path }
 // =============================================================================
-
-// STREAM-A-DEPENDENCY: replace with real @/lib/auth import after merge
-async function requireAuth(): Promise<StubAuthReturn> {
-  const { redirect } = await import("next/navigation")
-  redirect("/login")
-  throw new Error("unreachable")
-}
-type StubAuthReturn = {
-  user: { id: string; email: string }
-  customer: { id: string; auth_user_id: string | null; email: string; name: string }
-}
 
 const BaseFields = {
   filename: z.string().min(1).max(120),

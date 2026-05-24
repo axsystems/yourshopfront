@@ -12,6 +12,7 @@ import {
   createEditRequestRow,
   getEditRequestById,
 } from "@/lib/edit-requests"
+import { requireAuth } from "@/lib/auth"
 import { notifySlack } from "@/lib/notify"
 import { getSiteById } from "@/lib/supabase"
 
@@ -22,22 +23,6 @@ import { getSiteById } from "@/lib/supabase"
 // customer, we run all mutations as the service role and verify ownership
 // in code. RLS is the second line, not the first.
 // =============================================================================
-
-// STREAM-A-DEPENDENCY: replace with real @/lib/auth import after merge
-async function requireAuth(): Promise<StubAuthReturn> {
-  const { redirect } = await import("next/navigation")
-  redirect("/login")
-  throw new Error("unreachable")
-}
-type StubAuthReturn = {
-  user: { id: string; email: string }
-  customer: {
-    id: string
-    auth_user_id: string | null
-    email: string
-    name: string
-  }
-}
 
 export type CreateEditRequestResult =
   | { ok: true; id: string }
@@ -64,7 +49,7 @@ export async function createEditRequest(
   }
   const data = parsed.data
 
-  let customer: StubAuthReturn["customer"]
+  let customer: Awaited<ReturnType<typeof requireAuth>>["customer"]
   try {
     ;({ customer } = await requireAuth())
   } catch (err) {
@@ -131,7 +116,7 @@ export async function addComment(
   }
   const data = parsed.data
 
-  let customer: StubAuthReturn["customer"]
+  let customer: Awaited<ReturnType<typeof requireAuth>>["customer"]
   try {
     ;({ customer } = await requireAuth())
   } catch (err) {
