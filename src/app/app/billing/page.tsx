@@ -1,17 +1,17 @@
 import type { Metadata } from "next"
 
-import { BillingActions } from "./billing-actions"
+import { requireAuth } from "@/lib/auth"
 import { supabase } from "@/lib/supabase"
 import type { Site } from "@/lib/supabase"
+
+import { BillingActions } from "./billing-actions"
 
 // =============================================================================
 // /app/billing — Customer billing dashboard
 // =============================================================================
-// Server component. Calls requireAuth() (STREAM-A-DEPENDENCY) to get the
-// authed customer, fetches their most-recent site from Supabase, and renders
-// plan details + action buttons.
-//
-// Stream B owns the /app layout shell. This page renders inside that layout.
+// Server component. Calls requireAuth() to get the authed customer, fetches
+// their most-recent site from Supabase, and renders plan details + action
+// buttons. Stream B owns the /app layout shell; this page renders inside it.
 // =============================================================================
 
 export const metadata: Metadata = {
@@ -22,20 +22,6 @@ export const metadata: Metadata = {
 
 // Don't cache — billing status can change on every Stripe webhook.
 export const dynamic = "force-dynamic"
-
-// ---------------------------------------------------------------------------
-// STREAM-A-DEPENDENCY — replace with real @/lib/auth import after merge.
-// ---------------------------------------------------------------------------
-type AuthedUser = { id: string; email: string }
-type AuthedCustomer = { id: string; stripe_customer_id: string; email: string }
-type AuthReturn = { user: AuthedUser; customer: AuthedCustomer }
-
-async function requireAuth(): Promise<AuthReturn> {
-  const { redirect } = await import("next/navigation")
-  redirect("/login")
-  throw new Error("unreachable")
-}
-// ---------------------------------------------------------------------------
 
 export default async function BillingPage() {
   const { customer } = await requireAuth()

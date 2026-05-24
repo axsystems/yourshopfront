@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import Stripe from "stripe"
 import { z } from "zod"
 
+import { requireAuth } from "@/lib/auth"
 import { checkRateLimit } from "@/lib/chat/rate-limit"
 import { getClientIp } from "@/lib/get-client-ip"
 import { stripe } from "@/lib/stripe"
@@ -17,35 +18,14 @@ import { stripe } from "@/lib/stripe"
 // Differences from /api/billing-portal:
 //   - /api/billing-portal uses a Stripe session_id as a bearer token (for the
 //     onboarding chat flow). Do NOT touch that route.
-//   - This route authenticates via the /app session (Clerk in Phase 5.5) and
+//   - This route authenticates via the /app session (requireAuth) and
 //     deep-links into a specific portal flow.
-//
-// Auth: requireAuth() — STREAM-A-DEPENDENCY.
-//   Replace with real @/lib/auth import after Stream A merges.
-//   The stub below redirects to /login unconditionally so that:
-//     (a) unauthenticated requests are blocked correctly in production
-//     (b) TypeScript sees a non-void return type for control-flow narrowing
 // =============================================================================
 
 export const runtime = "nodejs"
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://yourshopfront.com"
-
-// ---------------------------------------------------------------------------
-// STREAM-A-DEPENDENCY — replace with real @/lib/auth import after merge.
-// ---------------------------------------------------------------------------
-type AuthedUser = { id: string; email: string }
-type AuthedCustomer = { id: string; stripe_customer_id: string; email: string }
-type AuthReturn = { user: AuthedUser; customer: AuthedCustomer }
-
-async function requireAuth(): Promise<AuthReturn> {
-  const { redirect } = await import("next/navigation")
-  redirect("/login")
-  // Unreachable — satisfies TypeScript return type without `any`.
-  throw new Error("unreachable")
-}
-// ---------------------------------------------------------------------------
 
 const FlowSchema = z.object({
   flow: z.enum(["payment_method_update", "subscription_cancel", "default"]),
