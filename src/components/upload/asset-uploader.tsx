@@ -26,6 +26,10 @@ const DEFAULT_MAX: Record<AssetKind, number> = {
   logo: 1,
   hero: 1,
   gallery: 40,
+  // edit-request uploads use a dedicated client (see edit-requests new form);
+  // this entry exists only to satisfy the Record type — AssetUploader itself
+  // is not used for edit-request attachments.
+  "edit-request": 10,
 }
 
 /**

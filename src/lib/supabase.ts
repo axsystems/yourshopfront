@@ -284,6 +284,16 @@ export async function updateSiteStatus(
   if (error) throw error
 }
 
+export async function listSitesForCustomer(customerId: string): Promise<Site[]> {
+  const { data, error } = await supabase()
+    .from("sites")
+    .select("*")
+    .eq("customer_id", customerId)
+    .order("created_at", { ascending: false })
+  if (error) throw error
+  return (data as Site[] | null) ?? []
+}
+
 export async function getSiteById(id: string): Promise<Site | null> {
   const { data, error } = await supabase()
     .from("sites")
