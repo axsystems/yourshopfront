@@ -1,7 +1,10 @@
 import type { Metadata } from "next"
 import { redirect } from "next/navigation"
+import { z } from "zod"
 
 import { supabaseServer } from "@/lib/supabase-server"
+
+const EmailSchema = z.string().trim().toLowerCase().email()
 
 export const metadata: Metadata = {
   title: "Sign in",
@@ -23,34 +26,32 @@ interface Props {
 async function sendMagicLink(formData: FormData): Promise<never> {
   "use server"
 
-  const email = formData.get("email")
-  if (typeof email !== "string" || !email.includes("@")) {
+  const parsed = EmailSchema.safeParse(formData.get("email"))
+  if (!parsed.success) {
     redirect("/login?error=invalid_email")
   }
+  const email = parsed.data
 
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://yourshopfront.com"
 
   const sb = await supabaseServer()
   const { error } = await sb.auth.signInWithOtp({
-    email: email.toLowerCase().trim(),
+    email,
     options: {
       emailRedirectTo: `${siteUrl}/auth/callback`,
-      // Don't auto-create a new user if the email doesn't exist in auth.users.
-      // We want them to sign up through the purchase flow, not this form.
-      shouldCreateUser: false,
+      // Allow Supabase to create an auth.users row on first sign-in. The
+      // dashboard's requireAuth() then gates access on the customers row
+      // existing for that email — non-customers see ?error=no_customer.
+      shouldCreateUser: true,
     },
   })
 
   if (error) {
-    // Supabase returns a generic error for unrecognised emails when
-    // shouldCreateUser=false. Map all errors to the no_customer banner
-    // rather than exposing auth internals.
     redirect("/login?error=no_customer")
   }
 
-  const encoded = encodeURIComponent(email.toLowerCase().trim())
-  redirect(`/login/check-email?email=${encoded}`)
+  redirect(`/login/check-email?email=${encodeURIComponent(email)}`)
 }
 
 export default async function LoginPage({ searchParams }: Props) {

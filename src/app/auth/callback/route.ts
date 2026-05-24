@@ -41,7 +41,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const { error } = await sb.auth.exchangeCodeForSession(code)
 
   if (error) {
-    console.error("[auth/callback] exchangeCodeForSession error:", error.message)
+    console.warn("[auth/callback] exchangeCodeForSession error:", error.message)
     return NextResponse.redirect(new URL("/login?error=callback_failed", request.url))
   }
 

@@ -52,7 +52,7 @@ export async function requireAuth(): Promise<{
   // get_customer_by_email is SECURITY DEFINER and revoked from
   // public/anon/authenticated — only the service role can call it.
   const { data, error } = await supabaseAdmin().rpc("get_customer_by_email", {
-    p_email: user.email,
+    p_email: user.email.toLowerCase().trim(),
   })
 
   if (error || !data) {
