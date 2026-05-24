@@ -175,8 +175,12 @@ function LivePreviewPill() {
 }
 
 export function DemoCardSkeleton({ themeName }: { themeName?: string }) {
+  // Desktop-only. On mobile, the OG image sits behind this in DemoCard with
+  // `md:hidden`-paired classes; if we render the skeleton on mobile too it
+  // covers the image (iframeLoaded never flips because the iframe path is
+  // `md:block hidden` on mobile).
   return (
-    <div className="absolute inset-0 grid place-items-center bg-apx-tint">
+    <div className="absolute inset-0 hidden place-items-center bg-apx-tint md:grid">
       <div className="flex flex-col items-center gap-3">
         <div className="h-3 w-32 animate-pulse rounded-full bg-apx-line" />
         <div className="font-mono text-[11px] uppercase tracking-[0.16em] text-apx-mute">
