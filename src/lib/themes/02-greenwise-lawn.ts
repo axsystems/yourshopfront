@@ -74,4 +74,44 @@ export const greenwiseLawn: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "02-greenwise-lawn.html",
   round: 3,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Get an instant quote",
+          body: "Enter your address and lawn size — our calculator returns a price in under 60 seconds. No call required.",
+        },
+        {
+          title: "Pick your schedule",
+          body: "Weekly or bi-weekly, choose the day that fits your routine. We show up on the same day every visit so you can plan around us.",
+        },
+        {
+          title: "We care for it right",
+          body: "Organic fertilizer, sharp blades, edged borders — your lawn gets treated like it's our own. No chemical shortcuts.",
+        },
+        {
+          title: "Consistent results",
+          body: "Same crew each visit learns what your lawn needs. You get photos after every service so you know we were there.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Organic", label: "Lawn treatments", caption: "Safe for kids and pets" },
+        { value: "Weekly", label: "Or bi-weekly service", caption: "Your schedule, your choice" },
+        { value: "Insured", label: "Fully covered crew", caption: "Your property protected" },
+        { value: "Free", label: "Online estimate", caption: "Price in 60 seconds" },
+      ],
+    },
+    finalCta: {
+      headline: "Lawn looking overgrown?",
+      highlight: "Get a quote in 60 seconds.",
+      body: "Organic treatments, consistent crew, no contracts. Book online — first cut as soon as this week.",
+      ctaLabel: "Get instant quote →",
+      backgroundImage: {
+        url: "/themes/greenwise-lawn/hero.jpg",
+        alt: "Freshly cut green lawn in strong daylight",
+      },
+    },
+  },
 }

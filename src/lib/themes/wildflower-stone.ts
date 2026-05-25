@@ -41,4 +41,44 @@ export const wildflowerStone: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "02-wildflower-stone.html",
   round: 2,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Browse what's in season",
+          body: "Our selection changes with the land. Weekly drops of seasonal blooms, dried botanicals, and apothecary goods — no filler, no dyes.",
+        },
+        {
+          title: "Order or walk in",
+          body: "Custom arrangements by request, or shop the studio on weekends. We do weddings, events, and weekly stems for the home.",
+        },
+        {
+          title: "We arrange with intention",
+          body: "Every arrangement is composed by hand — foraged textures, locally sourced flowers, no floral foam. Made to last longer, look quieter.",
+        },
+        {
+          title: "Wrapped and ready",
+          body: "Local pickup from the Hudson Valley studio, or ship-ready for dried botanicals. Gift wrapping in recycled paper, always.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Seasonal", label: "Blooms only", caption: "No dyed or artificial filler" },
+        { value: "Local", label: "Hudson Valley sourced", caption: "When the land allows" },
+        { value: "Custom", label: "Arrangements available", caption: "Weddings and events welcome" },
+        { value: "Dried", label: "Botanicals ship", caption: "Across the US" },
+      ],
+    },
+    finalCta: {
+      headline: "Want flowers that feel real?",
+      highlight: "Seasonal, local, arranged by hand.",
+      body: "Wildflowers, dried botanicals, and slow goods from the Hudson Valley. Custom arrangements available.",
+      ctaLabel: "See what's in season →",
+      backgroundImage: {
+        url: "/themes/wildflower-stone/hero.jpg",
+        alt: "Wildflowers and dried botanicals arranged on a weathered stone surface",
+      },
+    },
+  },
 }

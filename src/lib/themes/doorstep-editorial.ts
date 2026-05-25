@@ -44,4 +44,44 @@ export const doorstepEditorial: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "02-doorstep-editorial.html",
   round: 1,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Enter your address",
+          body: "Type in your zip — we tell you instantly if we pick up in your area. Most Brooklyn and Brooklyn-adjacent neighborhoods covered.",
+        },
+        {
+          title: "Leave it at the door",
+          body: "We pick up at the time you chose. Bag it, leave it — you don't even need to be home. We'll send a photo confirmation.",
+        },
+        {
+          title: "We handle it",
+          body: "Washed, folded, or cleaned with care. Every order treated like it matters — because it is your stuff, not ours.",
+        },
+        {
+          title: "Back at your door",
+          body: "Delivered to your door, neatly packaged. Schedule a weekly pickup and stop thinking about it entirely.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Free", label: "Door pickup", caption: "No extra fee to collect" },
+        { value: "Same", label: "Driver each week", caption: "Someone who knows your place" },
+        { value: "No", label: "Contracts", caption: "Pause or skip anytime" },
+        { value: "Photo", label: "Pickup confirmation", caption: "Timestamped, every time" },
+      ],
+    },
+    finalCta: {
+      headline: "Hate running errands?",
+      highlight: "We'll take it from your door.",
+      body: "Free pickup, no contracts, same driver each week. Enter your address — we'll tell you if we cover your zip.",
+      ctaLabel: "Check your zip →",
+      backgroundImage: {
+        url: "/themes/doorstep-editorial/hero.jpg",
+        alt: "Brown cardboard parcel sitting on a clean residential doorstep",
+      },
+    },
+  },
 }

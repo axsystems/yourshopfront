@@ -41,4 +41,44 @@ export const documentaryB2b: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "03-documentary-b2b.html",
   round: 1,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Request a service assessment",
+          body: "We review your facility's volume, compliance requirements, and current linen program. No commitment, no sales pressure — just a clear picture.",
+        },
+        {
+          title: "We design the program",
+          body: "Custom pickup schedule, par inventory, and processing specifications matched to your facility type and regulatory environment.",
+        },
+        {
+          title: "Compliant processing",
+          body: "OSHA and HIPAA-aligned handling for healthcare linen. Temperature logs, chain-of-custody documentation, and audit-ready records.",
+        },
+        {
+          title: "Reliable delivery, every cycle",
+          body: "Clean linen delivered on schedule, quantity verified, condition documented. Discrepancies flagged and resolved before they become incidents.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "HIPAA", label: "Compliant handling", caption: "Healthcare linen specialists" },
+        { value: "ISO", label: "9001 certified process", caption: "Documented quality system" },
+        { value: "Audit-", label: "Ready records", caption: "Chain-of-custody documentation" },
+        { value: "Contract", label: "Flexible terms", caption: "Scalable to your volume" },
+      ],
+    },
+    finalCta: {
+      headline: "Linen program not performing?",
+      highlight: "Let's run the numbers.",
+      body: "Healthcare and hospitality linen partnerships. HIPAA-compliant, ISO-certified, audit-ready. Schedule an assessment.",
+      ctaLabel: "Request assessment →",
+      backgroundImage: {
+        url: "/themes/documentary-b2b/hero.jpg",
+        alt: "Professionals reviewing documents around a conference table",
+      },
+    },
+  },
 }

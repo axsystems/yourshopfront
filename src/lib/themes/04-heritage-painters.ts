@@ -74,4 +74,44 @@ export const heritagePainters: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "04-heritage-painters.html",
   round: 3,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "On-site consultation",
+          body: "We visit the property, assess the surfaces, and talk through finishes, sheens, and color direction with you — no rush.",
+        },
+        {
+          title: "Detailed written quote",
+          body: "Itemized scope, product specs, and timeline handed to you in writing. No vague estimates that balloon mid-project.",
+        },
+        {
+          title: "Meticulous preparation",
+          body: "Surfaces cleaned, filled, and primed correctly. Furniture moved and protected. The prep is half the job — we don't skip it.",
+        },
+        {
+          title: "2-year workmanship warranty",
+          body: "Every paint job is backed with a 2-year warranty. Peeling, cracking, or bubbling? We come back and make it right.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Free", label: "On-site consultation", caption: "No obligation, no pressure" },
+        { value: "Licensed", label: "Fully insured painters", caption: "Bonded on every job" },
+        { value: "Premium", label: "Professional-grade paints", caption: "Specified to the surface" },
+        { value: "2-year", label: "Workmanship warranty", caption: "Peeling? We come back" },
+      ],
+    },
+    finalCta: {
+      headline: "Interior looking tired?",
+      highlight: "Let's talk finishes.",
+      body: "On-site consultation, itemized quote, premium materials, 2-year warranty. Craft you can actually see.",
+      ctaLabel: "Schedule consultation →",
+      backgroundImage: {
+        url: "/themes/heritage-painters/hero.jpg",
+        alt: "Painter using a roller on an interior wall in warm afternoon light",
+      },
+    },
+  },
 }

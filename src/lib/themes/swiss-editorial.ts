@@ -41,4 +41,44 @@ export const swissEditorial: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "05-swiss-editorial.html",
   round: 1,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Discovery and framing",
+          body: "We map the problem before we design anything. What needs to be communicated, to whom, and in what context. No assumptions.",
+        },
+        {
+          title: "Concept presentation",
+          body: "One direction, developed fully — not a spread of half-baked options. We present our reasoning alongside the work.",
+        },
+        {
+          title: "Refinement",
+          body: "Two rounds of focused revisions based on your response. We push back where the work needs defending. We adapt where you're right.",
+        },
+        {
+          title: "Delivery and handoff",
+          body: "Final files in every format required. Brand guidelines documented so internal teams can apply the work correctly going forward.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Est.", label: "2017 — New York", caption: "Independent practice" },
+        { value: "One", label: "Direction per project", caption: "Decisive, not indecisive" },
+        { value: "Full", label: "Brand to system", caption: "Strategy through delivery" },
+        { value: "Documented", label: "Guidelines at handoff", caption: "So it stays consistent" },
+      ],
+    },
+    finalCta: {
+      headline: "Need design that actually holds up?",
+      highlight: "Let's talk.",
+      body: "Independent practice, decisive process, documented systems. Identity, editorial, and digital from 2017.",
+      ctaLabel: "Start a project →",
+      backgroundImage: {
+        url: "/themes/swiss-editorial/hero.jpg",
+        alt: "Black ink type on cream paper in a tight editorial composition",
+      },
+    },
+  },
 }

@@ -41,4 +41,44 @@ export const maraLin: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "07-mara-lin.html",
   round: 2,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Send a brief",
+          body: "Tell us who the subject is, what the campaign needs to say, and who it needs to land with. The rest is our job.",
+        },
+        {
+          title: "We develop the concept",
+          body: "Reference mood, location direction, lighting language, and cast notes — all in writing before a single setup is touched.",
+        },
+        {
+          title: "Shoot day",
+          body: "One cohesive shoot, directed with intention. Every frame is deliberate. We don't machine-gun and sort later.",
+        },
+        {
+          title: "Selects and delivery",
+          body: "Final retouched selects delivered as high-res files, print-ready and web-ready. Usage rights spelled out in plain language.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Editorial", label: "Not commercial filler", caption: "Intentional, frame by frame" },
+        { value: "Represented", label: "By Meridian+", caption: "Agency commissions welcome" },
+        { value: "NYC", label: "And Los Angeles based", caption: "Available to travel" },
+        { value: "Usage", label: "Rights clarified upfront", caption: "No licensing surprises" },
+      ],
+    },
+    finalCta: {
+      headline: "Campaign needs a photographer?",
+      highlight: "Send us the brief.",
+      body: "Editorial direction, intentional frames, high-res delivery. NYC and LA based — available to travel.",
+      ctaLabel: "Get in touch →",
+      backgroundImage: {
+        url: "/themes/mara-lin/hero.jpg",
+        alt: "Editorial portrait against a dark backdrop with soft directional light",
+      },
+    },
+  },
 }

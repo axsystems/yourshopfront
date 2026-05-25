@@ -41,4 +41,44 @@ export const brutalist: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "08-brutalist.html",
   round: 1,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "We audit your brand",
+          body: "We tear apart what you have, find what's failing, and tell you the truth. No soft-pedaling, no fluff deck.",
+        },
+        {
+          title: "We make the concept",
+          body: "One bold direction, not a deck of options. We pick what's right and show you why. Fast, decisive, built to move.",
+        },
+        {
+          title: "We build it loud",
+          body: "Brand, campaign, digital — executed at full volume. We don't do safe. Safe is invisible. Loud gets clicks.",
+        },
+        {
+          title: "You get noticed",
+          body: "We measure impact, not effort. Did people stop scrolling? Did they share it? Did it generate leads? That's what we track.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "No", label: "Vanilla concepts", caption: "Loud only. Safe gets ignored" },
+        { value: "Fast", label: "Concept turnaround", caption: "One direction, no option overload" },
+        { value: "Full", label: "Brand to campaign", caption: "Strategy through execution" },
+        { value: "Open", label: "To direct feedback", caption: "We want your real reaction" },
+      ],
+    },
+    finalCta: {
+      headline: "Invisible brand?",
+      highlight: "We make noise.",
+      body: "Bold concept, fast turnaround, zero safe choices. If you want loud, we're already talking.",
+      ctaLabel: "Start the conversation →",
+      backgroundImage: {
+        url: "/themes/brutalist/hero.jpg",
+        alt: "Stark concrete architectural geometry with strong shadows",
+      },
+    },
+  },
 }

@@ -74,4 +74,44 @@ export const sparkleSudsLaundromat: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "09-sparkle-suds-laundromat.html",
   round: 3,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Schedule a pickup",
+          body: "Book online in under a minute. We pick up from your door — no driving, no parking, no hauling a basket to the car.",
+        },
+        {
+          title: "We wash and fold",
+          body: "Your clothes are washed in commercial machines, dried on your preferred settings, folded neatly — treated like they matter.",
+        },
+        {
+          title: "Delivered back by tomorrow",
+          body: "Next-day return to your door. Everything folded, bagged, and ready to put away. Most pickups are back within 24 hours.",
+        },
+        {
+          title: "Recurring plans available",
+          body: "Set a weekly or bi-weekly pickup schedule and forget about laundry permanently. Pause or cancel anytime, no fees.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Free", label: "Door pickup + delivery", caption: "We come to you" },
+        { value: "24-hr", label: "Turnaround", caption: "Back by tomorrow" },
+        { value: "Fragrance-free", label: "Option available", caption: "Sensitive-skin friendly" },
+        { value: "No", label: "Contracts required", caption: "Pause or cancel anytime" },
+      ],
+    },
+    finalCta: {
+      headline: "Laundry piling up?",
+      highlight: "We pick it up tomorrow.",
+      body: "Free door pickup, 24-hour turnaround, folded and delivered. Weekly plans available — no contracts.",
+      ctaLabel: "Schedule pickup →",
+      backgroundImage: {
+        url: "/themes/sparkle-suds-laundromat/hero.jpg",
+        alt: "Row of front-load washing machines in a clean laundromat",
+      },
+    },
+  },
 }

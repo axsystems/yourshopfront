@@ -74,4 +74,44 @@ export const westwoodTree: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "07-westwood-tree.html",
   round: 3,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Free on-site estimate",
+          body: "Certified arborist walks your property, assesses every tree, and gives you a written quote before any work is scheduled.",
+        },
+        {
+          title: "We explain your options",
+          body: "Prune, cable, or remove — we tell you what the tree actually needs, not just the most expensive option on the list.",
+        },
+        {
+          title: "ISA-certified crew",
+          body: "Climbing arborists trained to ISA standards, rigging gear for tight yards, full liability coverage on every job.",
+        },
+        {
+          title: "Clean property, no trace",
+          body: "All debris chipped or hauled same day. Stump grinding available. We leave your yard looking better than we found it.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Free", label: "On-site estimate", caption: "Certified arborist visit" },
+        { value: "ISA", label: "Certified arborists", caption: "Trained and insured" },
+        { value: "Same-day", label: "Debris removal", caption: "Chipped or hauled clean" },
+        { value: "Insured", label: "Full liability coverage", caption: "Every job, every crew" },
+      ],
+    },
+    finalCta: {
+      headline: "Tree looking dangerous?",
+      highlight: "We assess it free.",
+      body: "ISA-certified arborists, full insurance, same-day debris removal. Free estimate, no pressure.",
+      ctaLabel: "Schedule free estimate →",
+      backgroundImage: {
+        url: "/themes/westwood-tree/hero.jpg",
+        alt: "Tall trees seen from below against a bright canopy of leaves",
+      },
+    },
+  },
 }

@@ -41,4 +41,44 @@ export const webglExperimental: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "07-webgl-experimental.html",
   round: 1,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Sign up in beta",
+          body: "Early access. No waitlist, no form, no pitch call. Create an account, hit the dashboard, start building inside the browser.",
+        },
+        {
+          title: "Connect your stack",
+          body: "APIs, WebSockets, WebGL pipelines — native integrations for modern runtimes. The SDK speaks your language, not ours.",
+        },
+        {
+          title: "Ship and experiment",
+          body: "Deploy in one click. Iterate without rebuilding. Roll back if it breaks. The feedback loop is tight by design.",
+        },
+        {
+          title: "Scale when you're ready",
+          body: "Usage-based pricing, no minimums. Run it solo, hand it to a team, or embed it in something bigger. We don't get in the way.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Beta", label: "Early access open", caption: "No waitlist, start now" },
+        { value: "Browser-", label: "Native runtime", caption: "No backend required to start" },
+        { value: "Usage-", label: "Based pricing", caption: "No minimums, no seat fees" },
+        { value: "Open", label: "API standard", caption: "No proprietary lock-in" },
+      ],
+    },
+    finalCta: {
+      headline: "Building something that doesn't exist yet?",
+      highlight: "Ship it here.",
+      body: "Browser-native runtime, no-config deploys, usage-based pricing. Early access open now.",
+      ctaLabel: "Get beta access →",
+      backgroundImage: {
+        url: "/themes/webgl-experimental/hero.jpg",
+        alt: "Abstract blue and violet generative gradient texture",
+      },
+    },
+  },
 }

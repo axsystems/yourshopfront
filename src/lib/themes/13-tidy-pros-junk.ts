@@ -74,4 +74,44 @@ export const tidyProsJunk: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "13-tidy-pros-junk.html",
   round: 3,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Text us a photo",
+          body: "Snap a photo of what needs to go. Text it over and we send back a flat-rate price — no in-person estimate needed.",
+        },
+        {
+          title: "Pick a time",
+          body: "Choose a two-hour window that works for you. We confirm, we show up on time — no four-hour wait-around windows.",
+        },
+        {
+          title: "We haul everything",
+          body: "Old furniture, appliances, yard debris, construction leftovers — two-person crew loads it all. You don't lift a thing.",
+        },
+        {
+          title: "Space cleared, done",
+          body: "We sweep the area before we leave. Items that can be donated go to a local charity — we handle the drop-off.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Flat-rate", label: "Photo quote", caption: "No surprise charges" },
+        { value: "Same-day", label: "Available pickup", caption: "Book by noon, gone today" },
+        { value: "Insured", label: "Fully covered crew", caption: "Your property protected" },
+        { value: "Free", label: "Donation drop-off", caption: "Usable items don't landfill" },
+      ],
+    },
+    finalCta: {
+      headline: "Done looking at that pile?",
+      highlight: "We'll haul it today.",
+      body: "Text a photo, get a flat-rate price, pick a window. Two-person crew, fully insured, same-day available.",
+      ctaLabel: "Get a photo quote →",
+      backgroundImage: {
+        url: "/themes/tidy-pros-junk/hero.jpg",
+        alt: "Pickup truck loaded with materials parked in front of a home",
+      },
+    },
+  },
 }
