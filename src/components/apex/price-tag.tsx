@@ -19,7 +19,7 @@ interface PriceTagProps {
 
 /**
  * Mono numeric price with a thin coral underline beneath the value.
- * Apex chrome's signature element 3 — used everywhere a price renders.
+ * Your Shopfront chrome's signature element 3 — used everywhere a price renders.
  *
  * When `originalValue` is set, prepends a strikethrough version of the
  * pre-sale price to make the discount obvious (classic ecommerce sale

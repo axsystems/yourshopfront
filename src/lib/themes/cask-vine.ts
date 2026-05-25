@@ -35,9 +35,9 @@ export const caskVine: Theme = {
     credit: "Photo by Kelsey Knight on Unsplash",
   },
 
-  seoTitle: "Cask & Vine — Natural Wine Bar · Apex Sites Portfolio",
+  seoTitle: "Cask & Vine — Natural Wine Bar · Your Shopfront Portfolio",
   seoDescription:
-    "Apex Sites portfolio: a natural wine bar. Wine + gold + cream, Playfair Display, sommelier elegance. Built for wine bars, fine dining, and reservation-led restaurants.",
+    "Your Shopfront portfolio: a natural wine bar. Wine + gold + cream, Playfair Display, sommelier elegance. Built for wine bars, fine dining, and reservation-led restaurants.",
   isThemeOption: true,
   sourceHtmlPath: "06-cask-vine.html",
   round: 2,

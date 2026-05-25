@@ -19,7 +19,7 @@ interface DemoCardProps {
 }
 
 /**
- * Live mini-rendering of a theme demo, framed in Apex chrome.
+ * Live mini-rendering of a theme demo, framed in Your Shopfront chrome.
  *
  * Implementation:
  *   - Top bar: browser-chrome row (3 traffic-light dots + mono URL pill).

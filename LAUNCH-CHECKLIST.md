@@ -49,7 +49,7 @@ Reference: `.env.production.example` in repo root. Copy each line into Vercel an
 - [ ] `CLOUDFLARE_ZONE_ID` — yourshopfront.com zone id (Cloudflare → Overview).
 - [ ] `VERCEL_API_TOKEN` — account-scoped token. Used to attach/detach customer subdomains to this project.
 - [ ] `VERCEL_TEAM_ID` — `team_*` containing this project.
-- [ ] `VERCEL_PROJECT_ID` — `prj_*` of THIS project (apex-sites itself, multi-tenant single project).
+- [ ] `VERCEL_PROJECT_ID` — `prj_*` of THIS project (Your Shopfront itself, multi-tenant single project).
 - [ ] `APEX_DOMAIN=yourshopfront.com` (defaults to this if unset).
 - [ ] `CRON_SECRET` — random token, paste into Vercel only. Vercel auto-injects `Authorization: Bearer $CRON_SECRET` on cron-triggered requests; the cron route 401s anything else.
 
@@ -208,5 +208,5 @@ These are flagged in the redesign loop and the final report. They are not launch
 - **`@next/bundle-analyzer`** for precise per-route gzipped first-load JS measurement. Approximate measurement only today.
 - **`invoice.payment_failed` webhook handler.** Per `docs/post-launch-todo.md` — add before scaling past ~50 active subscriptions. (`charge.refunded` is already handled in `webhook/route.ts:73`.)
 - **Image optimization for tenant pages.** Tenant `<Image>` calls use `unoptimized` because Supabase Storage URLs aren't whitelisted. Add `*.supabase.co` to `next.config.ts` `images.remotePatterns` and drop `unoptimized` once a real customer needs the LCP gain.
-- **Brand assets** (logos, OG images, favicon) still render the old Apex SVG mark. Update `public/brand/` SVG sources and re-run `pnpm brand:export` when new Your Shopfront brand assets are ready.
+- **Brand assets** (logos, OG images, favicon) still render the old Your Shopfront SVG mark. Update `public/brand/` SVG sources and re-run `pnpm brand:export` when new Your Shopfront brand assets are ready.
 - **Worksheet + upload smoke automation.** Manual gates only today; needs a Supabase test fixture or mocked client to run in CI.

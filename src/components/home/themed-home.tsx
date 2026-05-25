@@ -20,10 +20,10 @@ interface ThemedHomeProps {
 
 /**
  * Themed home composition. Used by /demos/[slug] and /portfolio/[slug] (the
- * themed surfaces) — NOT by `/`, which has its own Apex-branded composition
+ * themed surfaces) — NOT by `/`, which has its own Your Shopfront–branded composition
  * since Phase 2.
  *
- * After Phase 4: Apex chrome <SiteHeader variant="themed"> + <SiteFooter
+ * After Phase 4: Your Shopfront chrome <SiteHeader variant="themed"> + <SiteFooter
  * variant="themed"> wrap the themed body. The DemoSwitcher (rendered globally
  * in src/app/layout.tsx for themed paths) sits as a sticky sub-nav between
  * the header and Hero.

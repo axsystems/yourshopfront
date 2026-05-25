@@ -8,7 +8,7 @@ interface TrustStripProps {
 /**
  * Themed truthful deliverable strip, used on /demos/[slug] and
  * /portfolio/[slug] inside <ThemedHome>. Mirrors the chrome StatStrip on /
- * (master brief §5.6) but renders in theme colors instead of Apex chrome
+ * (master brief §5.6) but renders in theme colors instead of Your Shopfront chrome
  * tokens. NO fake metrics.
  */
 const DEFAULT_CELLS: ThemeStatOverride[] = [

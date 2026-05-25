@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test"
 
 /**
- * Apex Sites — smoke tests. Master brief §2 #14:
+ * Your Shopfront — smoke tests. Master brief §2 #14:
  *   1. home loads
  *   2. /pricing loads
  *   3. /portfolio loads

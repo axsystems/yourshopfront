@@ -35,9 +35,9 @@ export const angelos: Theme = {
     credit: "Photo by Ivan Torres on Unsplash",
   },
 
-  seoTitle: "Angelo's — Brooklyn Pizza Since 1956 · Apex Sites Portfolio",
+  seoTitle: "Angelo's — Brooklyn Pizza Since 1956 · Your Shopfront Portfolio",
   seoDescription:
-    "Apex Sites portfolio: a heritage Brooklyn pizza joint. Parchment + tomato + mustard, Playfair Display, double-rule newspaper masthead. Built for restaurants and food brands with history.",
+    "Your Shopfront portfolio: a heritage Brooklyn pizza joint. Parchment + tomato + mustard, Playfair Display, double-rule newspaper masthead. Built for restaurants and food brands with history.",
   isThemeOption: true,
   sourceHtmlPath: "03-angelos.html",
   round: 2,

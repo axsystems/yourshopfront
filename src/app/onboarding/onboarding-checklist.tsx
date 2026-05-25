@@ -278,7 +278,7 @@ function DomainStep({
     <Step
       n={4}
       title="Pick your domain"
-      description="Use a domain you already own, or get an Apex subdomain (free, instant)."
+      description="Use a domain you already own, or get a Your Shopfront subdomain (free, instant)."
       complete={complete}
       locked={locked}
       error={error}
@@ -300,7 +300,7 @@ function DomainStep({
             className="mt-0.5 accent-[var(--apex-primary)]"
           />
           <span>
-            <strong>Use an Apex subdomain</strong> — free, ready instantly.{" "}
+            <strong>Use a Your Shopfront subdomain</strong> — free, ready instantly.{" "}
             <span style={{ color: "var(--apex-muted-fg)" }}>
               We&apos;ll pick something based on your business name.
             </span>

@@ -35,9 +35,9 @@ export const maraLin: Theme = {
     credit: "Photo by Ali Pazani on Unsplash",
   },
 
-  seoTitle: "Mara Lin — Photographer & Director · Apex Sites Portfolio",
+  seoTitle: "Mara Lin — Photographer & Director · Your Shopfront Portfolio",
   seoDescription:
-    "Apex Sites portfolio: a fashion photographer and director. Near-black + warm-white + tan, Tenor Sans, full-bleed editorial. Built for photographers, directors, and fashion talent.",
+    "Your Shopfront portfolio: a fashion photographer and director. Near-black + warm-white + tan, Tenor Sans, full-bleed editorial. Built for photographers, directors, and fashion talent.",
   isThemeOption: true,
   sourceHtmlPath: "07-mara-lin.html",
   round: 2,

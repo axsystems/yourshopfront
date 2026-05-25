@@ -68,7 +68,7 @@ export const mesaHvac: Theme = {
     credit: "Photo by Pixabay on Pexels",
   },
 
-  seoTitle: "Apex Sites — Emergency HVAC & 24/7 Trade Style",
+  seoTitle: "Your Shopfront — Emergency HVAC & 24/7 Trade Style",
   seoDescription:
     "The Mesa HVAC demo. Navy + sunset orange, condensed Oswald headlines, phone-first hero. For HVAC, A/C repair, garage-door, and any 24/7 emergency trade.",
   isThemeOption: true,

@@ -242,7 +242,7 @@ function HeroPhoneFirst({ theme }: { theme: Theme }) {
       {/*
         Demo phone-CTA. Rendered as <button type="button"> so screen readers
         do not announce it as a dial-able tel: link — the number is
-        illustrative, not real. On a customer's actual Apex site the
+        illustrative, not real. On a customer's actual live site the
         equivalent CTA gets the customer's real number.
       */}
       <button
@@ -281,11 +281,11 @@ function HeroPhoneFirst({ theme }: { theme: Theme }) {
           className="mt-3 block text-xs font-semibold"
           style={{ opacity: 0.85 }}
         >
-          On your Apex site this dials your real number
+          On your live site this dials your real number
         </span>
       </button>
       <PreviewCaption>
-        This is a live preview. The actual phone CTA on YOUR Apex site can do anything you want — call, SMS, schedule a callback.
+        This is a live preview. The actual phone CTA on YOUR live site can do anything you want — call, SMS, schedule a callback.
       </PreviewCaption>
     </div>
   )
@@ -364,7 +364,7 @@ function HeroCalculator({ theme }: { theme: Theme }) {
         </ApexButton>
       </VisualCard>
       <PreviewCaption>
-        This is a live preview. The actual calculator on YOUR Apex site can pull prices from your CRM, your service-area lookup, or anywhere else.
+        This is a live preview. The actual calculator on YOUR live site can pull prices from your CRM, your service-area lookup, or anywhere else.
       </PreviewCaption>
     </div>
   )
@@ -410,7 +410,7 @@ function HeroGallery({ theme }: { theme: Theme }) {
         ))}
       </div>
       <PreviewCaption>
-        This is a live preview. The actual gallery on YOUR Apex site can pull from Instagram, your project CMS, or hand-picked photos.
+        This is a live preview. The actual gallery on YOUR live site can pull from Instagram, your project CMS, or hand-picked photos.
       </PreviewCaption>
     </div>
   )
@@ -472,7 +472,7 @@ function HeroBookingCard({ theme }: { theme: Theme }) {
         </ApexButton>
       </VisualCard>
       <PreviewCaption>
-        This is a live preview. The actual booking widget on YOUR Apex site can sync to Google Calendar, Calendly, or your scheduling system.
+        This is a live preview. The actual booking widget on YOUR live site can sync to Google Calendar, Calendly, or your scheduling system.
       </PreviewCaption>
     </div>
   )
@@ -541,7 +541,7 @@ function HeroFormCard({ theme }: { theme: Theme }) {
         </p>
       </VisualCard>
       <PreviewCaption>
-        This is a live preview. The actual quote form on YOUR Apex site can route leads to your CRM, Slack, or anyone&apos;s inbox.
+        This is a live preview. The actual quote form on YOUR live site can route leads to your CRM, Slack, or anyone&apos;s inbox.
       </PreviewCaption>
     </div>
   )

@@ -68,7 +68,7 @@ export const sandstonePoolCare: Theme = {
     credit: "Photo by Tim Hüfner on Unsplash",
   },
 
-  seoTitle: "Apex Sites — Warm Premium Style for Pool & Outdoor Service Brands",
+  seoTitle: "Your Shopfront — Warm Premium Style for Pool & Outdoor Service Brands",
   seoDescription:
     "The Sandstone Pool Care demo. Sandstone cream + pool-aqua, editorial Fraunces headlines, instant-quote calculator. For pool service, lawn care, and recurring outdoor brands.",
   isThemeOption: true,

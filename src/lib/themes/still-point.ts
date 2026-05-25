@@ -35,9 +35,9 @@ export const stillPoint: Theme = {
     credit: "Photo by Anupam Mahapatra on Unsplash",
   },
 
-  seoTitle: "Still Point — Yoga & Meditation · Apex Sites Portfolio",
+  seoTitle: "Still Point — Yoga & Meditation · Your Shopfront Portfolio",
   seoDescription:
-    "Apex Sites portfolio: a wabi-sabi yoga studio. Bone + terracotta + sage, Cormorant italic, morphing organic shape. Built for yoga, meditation, and wellness brands.",
+    "Your Shopfront portfolio: a wabi-sabi yoga studio. Bone + terracotta + sage, Cormorant italic, morphing organic shape. Built for yoga, meditation, and wellness brands.",
   isThemeOption: true,
   sourceHtmlPath: "04-still-point.html",
   round: 2,

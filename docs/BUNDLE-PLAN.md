@@ -70,7 +70,7 @@ apex-sites session creates AND emails customer:
 axon-growth landing detects ?ref=apexsites:
   - Pre-fills email
   - Shows bundle pricing tier (with the $200 setup + $97/mo discount applied)
-  - Shows note: "Welcome from Apex Sites! Your bundle discount is active."
+  - Shows note: "Welcome from Your Shopfront! Your bundle discount is active."
   ↓
 axon-growth Stripe Checkout uses Hook 1: existing Stripe customer ID (created by apex-sites)
   → NO duplicate customer in Stripe

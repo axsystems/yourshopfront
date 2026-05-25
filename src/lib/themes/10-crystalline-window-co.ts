@@ -68,7 +68,7 @@ export const crystallineWindowCo: Theme = {
     credit: "Photo by Joel Filipe on Unsplash",
   },
 
-  seoTitle: "Apex Sites — Dark Premium Style for Window & Exterior Brands",
+  seoTitle: "Your Shopfront — Dark Premium Style for Window & Exterior Brands",
   seoDescription:
     "The Crystalline Window Co. demo. Deep navy with cyan glow, glass-card sections, before/after gallery. For window cleaners, exterior detailers, and premium home-service brands.",
   isThemeOption: true,

@@ -16,7 +16,7 @@ interface CustomerFooterProps {
 
 /**
  * Themed footer for the tenant page. Replaces SiteFooter — that one is
- * Apex's footer (about / pricing / portfolio / legal). Here we surface
+ * Your Shopfront's footer (about / pricing / portfolio / legal). Here we surface
  * the customer's contact essentials, top services, and service area, with
  * a small "Site by Your Shopfront" credit at the very bottom.
  */

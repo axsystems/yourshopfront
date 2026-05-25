@@ -68,7 +68,7 @@ export const summitRoofing: Theme = {
     credit: "Photo by Pixabay on Pexels",
   },
 
-  seoTitle: "Apex Sites — Industrial Dark Style for Roofing & Exterior Brands",
+  seoTitle: "Your Shopfront — Industrial Dark Style for Roofing & Exterior Brands",
   seoDescription:
     "The Summit Roofing demo. Black + orange glow, Oswald display, form-card hero. For roofers, exterior contractors, and storm-restoration brands.",
   isThemeOption: true,

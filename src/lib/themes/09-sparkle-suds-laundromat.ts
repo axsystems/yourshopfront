@@ -68,7 +68,7 @@ export const sparkleSudsLaundromat: Theme = {
     credit: "Photo by Raychan on Unsplash",
   },
 
-  seoTitle: "Apex Sites — Friendly Laundromat & Wash-and-Fold Style",
+  seoTitle: "Your Shopfront — Friendly Laundromat & Wash-and-Fold Style",
   seoDescription:
     "The Sparkle Suds Laundromat demo. Bubble-cyan + coral, pillowy cards, instant pickup booking. For laundromats, dry cleaners, and wash-and-fold brands.",
   isThemeOption: true,

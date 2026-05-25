@@ -7,7 +7,7 @@ import { supabase } from "./supabase"
 // =============================================================================
 // Your Shopfront — Storage helpers (server-only)
 // =============================================================================
-// Wraps the Supabase Storage SDK with the apex-sites conventions:
+// Wraps the Supabase Storage SDK with the Your Shopfront conventions:
 //
 //   - Bucket: "site-assets" (created in migration 0005).
 //   - Site-content path scheme: "{site_id}/{kind}/{uuid}-{safe-filename}"

@@ -71,7 +71,7 @@ export function HomePartnerAxonGrowth() {
               </Button>
             </div>
             <p className="text-[13px] text-apx-mute">
-              Sold separately. Apex Sites customers get priority onboarding.
+              Sold separately. Your Shopfront customers get priority onboarding.
             </p>
           </div>
         </FadeUp>

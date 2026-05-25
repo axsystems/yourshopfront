@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test"
 
 /**
- * Apex Sites Playwright config — minimal smoke suite (master brief §2 #14).
+ * Your Shopfront Playwright config — minimal smoke suite (master brief §2 #14).
  *
  * Run: pnpm test:e2e
  *

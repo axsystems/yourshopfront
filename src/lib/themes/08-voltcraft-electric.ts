@@ -68,7 +68,7 @@ export const voltcraftElectric: Theme = {
     credit: "Photo by Pixabay on Pexels",
   },
 
-  seoTitle: "Apex Sites — Electric-Yellow Industrial Style for Trades",
+  seoTitle: "Your Shopfront — Electric-Yellow Industrial Style for Trades",
   seoDescription:
     "The Voltcraft Electric demo. Black + voltage-yellow, mono accents, phone-first hero. For electricians, HVAC, and any 24/7 licensed trade.",
   isThemeOption: true,

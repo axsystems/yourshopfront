@@ -1,4 +1,4 @@
-// Apex chrome primitive barrel.
+// Your Shopfront chrome primitive barrel.
 //
 // Imports flatten to: import { Button, Container, ... } from "@/components/apex"
 // — keeping page files free of long primitive-import paragraphs.

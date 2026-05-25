@@ -68,7 +68,7 @@ export const westwoodTree: Theme = {
     credit: "Photo by Sergei Akulich on Unsplash",
   },
 
-  seoTitle: "Apex Sites — Naturalist Style with Safety-Orange Accents",
+  seoTitle: "Your Shopfront — Naturalist Style with Safety-Orange Accents",
   seoDescription:
     "The Westwood Tree Care demo. Forest greens, safety orange, gallery hero. For arborists, landscapers, and rugged outdoor trades.",
   isThemeOption: true,

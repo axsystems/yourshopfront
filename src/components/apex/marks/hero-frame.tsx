@@ -11,7 +11,7 @@ interface HeroFrameProps {
 /**
  * Cobalt double-frame. A 2px --apx-primary outline, offset N pixels from the
  * inner content. Used to anchor the rotating-theme preview on / and the
- * full-size demo iframe on /portfolio/[slug] as "an Apex design," not an
+ * full-size demo iframe on /portfolio/[slug] as "a Your Shopfront design," not an
  * unframed standalone site.
  *
  * Implementation: wrap children in a div with a cobalt 2px outer ring via
