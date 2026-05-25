@@ -25,7 +25,7 @@ export default function DevThemesPage() {
   return (
     <main className="min-h-screen bg-neutral-100 p-8">
       <header className="mx-auto mb-10 max-w-7xl">
-        <h1 className="text-3xl font-bold text-neutral-900">Apex theme audit</h1>
+        <h1 className="text-3xl font-bold text-neutral-900">Your Shopfront theme audit</h1>
         <p className="mt-2 text-sm text-neutral-600">
           {themes.length} themes · {optionsCount} switchable options ·{" "}
           {portfolioCount} portfolio pieces. Visually verify each theme&apos;s

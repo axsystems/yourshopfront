@@ -68,7 +68,7 @@ export const heritagePainters: Theme = {
     credit: "Photo by Theme Photos on Unsplash",
   },
 
-  seoTitle: "Apex Sites — Warm Premium Editorial Style for Craft Brands",
+  seoTitle: "Your Shopfront — Warm Premium Editorial Style for Craft Brands",
   seoDescription:
     "The Heritage Painters demo. Editorial serif, ivory + terracotta + gold palette, gallery hero. For painters, restorers, and high-craft trades.",
   isThemeOption: true,

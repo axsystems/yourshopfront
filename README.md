@@ -15,14 +15,14 @@ The redesign loop (Phases 1–7) ships in commits prefixed `feat(redesign):`. Hi
 
 | Surface | Where it lives | Notes |
 |---|---|---|
-| Apex marketing chrome | `src/components/apex/` | 19 primitives + `home/`, `portfolio/` sections, `motion/` wrappers, `marks/` signature SVG, `legal-page.tsx`. Apex tokens namespaced as `--apx-*`. |
-| `/` (home) | `src/app/page.tsx` | Apex-branded — no longer renders Heritage Painters as the default theme. Hero with rotating preview, truthful stat strip, gallery, pricing teaser, FAQ, CTA. |
+| Your Shopfront marketing chrome | `src/components/apex/` | 19 primitives + `home/`, `portfolio/` sections, `motion/` wrappers, `marks/` signature SVG, `legal-page.tsx`. Your Shopfront tokens namespaced as `--apx-*`. |
+| `/` (home) | `src/app/page.tsx` | Your Shopfront–branded — no longer renders Heritage Painters as the default theme. Hero with rotating preview, truthful stat strip, gallery, pricing teaser, FAQ, CTA. |
 | `/pricing` | `src/app/pricing/page.tsx` | Two-tier cards (cobalt-outlined "Recommended"), comparison table (desktop), FAQ, primary-soft final CTA. |
 | `/portfolio` | `src/app/portfolio/page.tsx` | All 30 designs in `<DemoCard>` grid. First 6 above-fold mount eagerly; remaining 24 lazy via IntersectionObserver. |
 | `/portfolio/[slug]` | `src/app/portfolio/[slug]/page.tsx` | Sticky `<PortfolioBanner>` (chrome-styled, prev/next nav) + themed `<ThemedHome isDemoPreview>` body + `<AboutThisDesign>` block. |
 | `/demos/[slug]` | `src/app/demos/[slug]/page.tsx` | Themed `<ThemedHome>` for all 30 themes. Sticky `<DemoSwitcher>` for hopping between featured 10. |
 | `/contact` | `src/app/contact/page.tsx` | Two-column. Form rebuilt on chrome `<TextField>` and `<Button>`. `?ref=`/`?piece=` prefill behavior preserved. |
-| `/checkout` | `src/app/checkout/page.tsx` | Themed (so the buyer sees the design they're buying). Minimal Apex header. RHF + Zod form. Stripe Checkout in 3 modes. |
+| `/checkout` | `src/app/checkout/page.tsx` | Themed (so the buyer sees the design they're buying). Minimal Your Shopfront header. RHF + Zod form. Stripe Checkout in 3 modes. |
 | `/onboarding` | `src/app/onboarding/page.tsx` | Themed. 3-step checklist. ContentStep + AssetsStep are derived from `site_content` (no manual toggles); DomainStep saves explicit choice. Bearer-token via Stripe `session_id`. |
 | `/onboarding/worksheet` | `src/app/onboarding/worksheet/page.tsx` | 7-section content worksheet. 5 required (hero, contact, services, about, service area), 2 optional (reviews, hero photo). Each section saves independently; `siteContentIsValid` + `assetsAreSufficient` reconciliation flips status to `ready_to_build` when all three checklist steps pass. |
 | `/tenant` | `src/app/tenant/page.tsx` | Customer-facing render at `*.yourshopfront.com`. Switches on `provision_slug`. Renders `<CustomerHome>` (theme tokens drive style; `site_content` drives copy) when content is valid + status ∈ {awaiting_approval, live}. Branded interstitials for the other states. |
@@ -40,10 +40,10 @@ The redesign loop (Phases 1–7) ships in commits prefixed `feat(redesign):`. Hi
 
 ### Token namespaces — two co-existing systems
 
-- **Apex chrome (`--apx-*`)** — defined in `src/app/globals.css :root`. Stable across every chrome page. Owned by `/`, `/pricing`, `/portfolio`, `/contact`, `/about`, legal pages, and the unified header/footer.
+- **Your Shopfront chrome (`--apx-*`)** — defined in `src/app/globals.css :root`. Stable across every chrome page. Owned by `/`, `/pricing`, `/portfolio`, `/contact`, `/about`, legal pages, and the unified header/footer.
 - **Per-theme (`--apex-*`)** — set by `<ThemeProvider>` on a wrapper `<div>` when rendering one of the 24 themed surfaces (`/demos/[slug]`, `/portfolio/[slug]` body). Defined per-theme in `src/lib/themes/<theme>.ts` via `themeToCssVars()`.
 
-The shadcn token names (`--background`, `--foreground`, `--primary`, etc.) are remapped to Apex equivalents in `:root` (e.g. `--primary: #2438FF` is cobalt) so surviving shadcn primitives (Accordion, Form, Input, Label) render in Apex colors automatically.
+The shadcn token names (`--background`, `--foreground`, `--primary`, etc.) are remapped to Your Shopfront equivalents in `:root` (e.g. `--primary: #2438FF` is cobalt) so surviving shadcn primitives (Accordion, Form, Input, Label) render in Your Shopfront colors automatically.
 
 ### Chrome primitives (`src/components/apex/`)
 

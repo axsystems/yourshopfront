@@ -1,17 +1,17 @@
-# Apex Sites — CLAUDE.md
+# Your Shopfront — CLAUDE.md
 
 > Productized website design + hosting for home-service businesses. 24 themes, $299 setup + $149/mo OR $997 one-time. **Wedge product for the axon-growth marketing OS.**
 
 ## Strategic Role (read FIRST)
 
-apex-sites is **NOT a standalone product** in the long term. It's the **wedge** for `axon-growth` (Path A secondary breakout — LIVE B2B SaaS at axongrowth.ai).
+Your Shopfront is **NOT a standalone product** in the long term. It's the **wedge** for `axon-growth` (Path A secondary breakout — LIVE B2B SaaS at axongrowth.ai).
 
-**ICP is identical for both:** home-service SMBs (painters, electricians, HVAC, plumbers, handymen). Same customers buy a website (apex-sites), realize they need leads, then upsell into Google Ads + GBP + SEO management (axon-growth).
+**ICP is identical for both:** home-service SMBs (painters, electricians, HVAC, plumbers, handymen). Same customers buy a website (Your Shopfront), realize they need leads, then upsell into Google Ads + GBP + SEO management (axon-growth).
 
 **4-Stage launch sequence:**
 1. ✅ axon-growth launches solo (code-ready, brand-assets blocker)
-2. ⏳ apex-sites finish Phase 4e+4f+5 (this repo's work)
-3. ⏳ apex-sites launches solo (validate funnel)
+2. ⏳ Your Shopfront finishes Phase 4e+4f+5 (this repo's work)
+3. ⏳ Your Shopfront launches solo (validate funnel)
 4. ⏳ Bundle launch — upsell modal, shared Clerk, cross-product webhooks
 
 See `docs/BUNDLE-PLAN.md` for full Stage 4 spec. See `axon-growth/CLAUDE.md` for the upstream side.
@@ -54,10 +54,10 @@ pnpm stripe:setup # idempotent — creates Stripe products + prices
 
 ## Critical Stage 4 Integration Hooks (MUST ship before paid GA)
 
-These must be baked in BEFORE apex-sites reaches paid general availability, or bundle launch will hit duplicate-customer hell:
+These must be baked in BEFORE Your Shopfront reaches paid general availability, or bundle launch will hit duplicate-customer hell:
 
 ### Hook 1 — Shared Stripe customer logic
-Before `stripe.checkout.sessions.create()`, call `stripe.customers.list({ email, limit: 1 })`. If found, pass existing `customer` param. If not, let Checkout create. Both apex-sites and axon-growth must do this — prevents 2-customer-per-bundle problem.
+Before `stripe.checkout.sessions.create()`, call `stripe.customers.list({ email, limit: 1 })`. If found, pass existing `customer` param. If not, let Checkout create. Both Your Shopfront and axon-growth must do this — prevents 2-customer-per-bundle problem.
 
 ### Hook 2 — Stripe metadata convention
 Every Checkout session metadata must include:
@@ -93,7 +93,7 @@ Both repos must enforce same email normalization (lowercase, trim, validate). Do
 - Custom-build tier — killed Phase 2.5 (all 24 unified as themes)
 - Client-side Stripe session creation — server-only
 - Direct commits to `main` — branch is `master`
-- ❌ **DO NOT bundle with axon-growth before apex-sites Phase 5 launches solo + validates standalone funnel.** Stage 4 is months away. Don't add bundle pricing or cross-product upsell flows yet.
+- ❌ **DO NOT bundle with axon-growth before Your Shopfront Phase 5 launches solo + validates standalone funnel.** Stage 4 is months away. Don't add bundle pricing or cross-product upsell flows yet.
 
 ## Deferred Webhook Handlers (post-launch-todo.md:7-40)
 
@@ -113,8 +113,8 @@ Current webhook only handles `checkout.session.completed` + `customer.subscripti
 - `supabase/migrations/0001_initial.sql` — `customers` + `sites` tables, RLS, triggers
 - `scripts/create-stripe-products.ts` — Phase 4a setup script
 - `README.md` — full architecture deep-dive + manual setup
-- `docs/BUNDLE-PLAN.md` — Stage 4 integration spec (apex-sites ↔ axon-growth)
+- `docs/BUNDLE-PLAN.md` — Stage 4 integration spec (Your Shopfront ↔ axon-growth)
 
 ## Status pointers
 - Phases 0-4d shipped. 4e (onboarding) + 4f (test plan) pending. 5+ (provisioning, admin, portal, static pages, launch) pending.
-- Detailed phase history: `~/.claude/projects/-Users-parker-code/memory/apex-sites-status.md`
+- Detailed phase history: `~/.claude/projects/-Users-parker-code/memory/yourshopfront-status.md`

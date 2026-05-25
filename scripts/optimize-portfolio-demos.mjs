@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Apex Sites — portfolio-demos cold-load font optimization
+ * Your Shopfront — portfolio-demos cold-load font optimization
  *
  * The 24 demo HTML files in /public/portfolio-demos/ each load Google Fonts
  * via <link rel="stylesheet">. The current setup has:

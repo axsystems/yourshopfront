@@ -15,7 +15,7 @@ interface CustomerHeaderProps {
 
 /**
  * Sticky themed header for the customer's tenant page. Replaces SiteHeader
- * variant="themed" — that one shows the Apex logo, which is wrong for a
+ * variant="themed" — that one shows the Your Shopfront logo, which is wrong for a
  * customer subdomain. Here the wordmark IS the business name, styled with
  * the chosen theme's display font.
  */

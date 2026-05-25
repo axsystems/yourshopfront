@@ -36,9 +36,9 @@ const LEGAL: FooterLink[] = [
 ]
 
 /**
- * Unified Apex chrome footer. Same three variants as SiteHeader.
+ * Unified Your Shopfront chrome footer. Same three variants as SiteHeader.
  *
- *   - default : full 4-column footer on Apex chrome pages.
+ *   - default : full 4-column footer on Your Shopfront chrome pages.
  *   - themed  : same layout but colored in --apex-* (theme) tokens.
  *   - minimal : single-line footer on /checkout, /onboarding.
  */

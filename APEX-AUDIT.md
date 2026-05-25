@@ -126,7 +126,7 @@ No `test`, no `format`, no `prettier`, no `prepare`/`postinstall` hooks.
 There are **two parallel nav surfaces**, plus the themed footer.
 
 1. **DemoSwitcher** (`src/components/home/demo-switcher.tsx`) — sticky 50/60px top bar, mounted at root layout (`src/app/layout.tsx:34`) inside a `<Suspense>`. Self-hides on every route except `/`, `/demos/[slug]`, `/portfolio/[slug]`. Hides itself when `?embed=1`. Shows a square color-chip per featured theme (10) plus a `+14 more →` pill linking to `/portfolio`. When viewing a demo, shows an "I want this look" pill linking to `/checkout?tier=subscription&demo=...`.
-2. **SiteShellHeader** (`src/components/site-shell.tsx:11-43`) — used on `/pricing` and `/contact` only. Plain white bar with `Apex Sites` mark + `Portfolio · Pricing · Talk to us` links.
+2. **SiteShellHeader** (`src/components/site-shell.tsx:11-43`) — used on `/pricing` and `/contact` only. Plain white bar with `Your Shopfront` mark + `Portfolio · Pricing · Talk to us` links.
 3. **Onboarding** (`src/app/onboarding/page.tsx:54-86`) and **Checkout** (`src/app/checkout/page.tsx:51-83`) each define their own bespoke header inline (themed, with logo + back link / contact email).
 
 So nav is inconsistent: 4 different headers across the app (DemoSwitcher, SiteShellHeader, OnboardingHeader inline, CheckoutHeader inline). No single source of truth.
@@ -198,7 +198,7 @@ The team scaffolded shadcn early then built `<ApexButton>` and per-theme primiti
 
 - **Two pricing cards**: `src/components/home/pricing.tsx` (themed, used in Showcase strip) and `src/app/pricing/page.tsx` (non-themed, hardcoded emerald + neutral). Different prop names, different markup, same data.
 - **Three buttons**: `<ApexButton>` (themed), shadcn `<Button>` (unused), and dozens of inline `<a className="...">` chrome buttons (e.g. `app/portfolio/page.tsx:96-107`, `app/checkout/page.tsx:75-83`, `components/portfolio/portfolio-banner.tsx:44-50`). No single button abstraction.
-- **Four headers** (Section 2 above) — DemoSwitcher, SiteShellHeader, inline checkout header, inline onboarding header. Each duplicates the `[A logo] Apex Sites` mark inline.
+- **Four headers** (Section 2 above) — DemoSwitcher, SiteShellHeader, inline checkout header, inline onboarding header. Each duplicates the `[A logo] Your Shopfront` mark inline.
 - **Two footers**: `Footer` (themed) and `SiteShellFooter` (untheme'd). Different copy, different links, no shared source.
 
 ---
@@ -298,7 +298,7 @@ Example, Ironside Plumbing (`src/lib/themes/01-ironside-plumbing.ts`): `bg #F4F4
 
 ## 5. Brand & content
 
-### What is "Apex Sites"?
+### What is "Your Shopfront"?
 
 A **productized website agency** for home-service businesses. Two-tier offering:
 
@@ -312,7 +312,7 @@ The product mechanism: customer picks 1 of 24 designed themes → fills out 30-m
 **Home-service businesses** (per the homepage hero): plumbers, painters, cleaners, roofers, electricians, lawn care, tree care, movers, HVAC. The 24 themes also cover adjacent categories (creative agencies, restaurants, breweries, photographers, design studios) but the marketing copy explicitly positions home-service as the wedge:
 
 > "Production-grade home-service websites, designed to convert." — `src/components/home/hero.tsx:15`
-> "The average home-service customer is worth $400–800. Apex Sites pays for itself the first time it books you a job you wouldn't have gotten otherwise." — `src/components/home/pricing.tsx:50-51`
+> "The average home-service customer is worth $400–800. Your Shopfront pays for itself the first time it books you a job you wouldn't have gotten otherwise." — `src/components/home/pricing.tsx:50-51`
 
 ### Value proposition
 
@@ -468,9 +468,9 @@ The onboarding access model is a **bearer-token pattern**: anyone holding the St
 
 - **Global defaults** in `src/app/layout.tsx:10-25`:
   - `metadataBase: new URL(SITE_URL)` (good — fixes relative URLs)
-  - Title template: `%s — Apex Sites`, default `Apex Sites — Websites that book more jobs`
+  - Title template: `%s — Your Shopfront`, default `Your Shopfront — Websites that book more jobs`
   - Default description (60 words)
-  - Default OG: `type: website`, `siteName: Apex Sites`
+  - Default OG: `type: website`, `siteName: Your Shopfront`
   - Default Twitter: `card: summary_large_image`
   - `robots: { index: true, follow: true }`
 
@@ -583,7 +583,7 @@ These are **definitively basic.** They look like default shadcn + Tailwind neutr
 - **No depth.** Shadows are soft / hard-offset / glow per theme spec, but used sparingly. No layered z-index. No glassmorphism (correct call), but also no subtle elevation.
 - **Inconsistent spacing.** `py-20 md:py-28` is the standard `Section` rhythm in `primitives.tsx:31`, but checkout/onboarding/pricing pick their own (`py-12 md:py-16`, `py-20 md:py-28`, `py-16 md:py-24`).
 - **Inconsistent buttons.** ApexButton (themed), shadcn Button (unused), inline `<a>` chrome buttons (10+ different style strings across pages).
-- **The default theme is Heritage Painters** which is a *painting business*, not a generic Apex Sites brand. The `/` homepage thus looks like a painter's site by default, not an Apex Sites marketing site. This is intentional ("the homepage is the demo"), but it means **Apex Sites has no brand of its own** beyond a black A square.
+- **The default theme is Heritage Painters** which is a *painting business*, not a generic Your Shopfront brand. The `/` homepage thus looks like a painter's site by default, not an Your Shopfront marketing site. This is intentional ("the homepage is the demo"), but it means **Your Shopfront has no brand of its own** beyond a black A square.
 
 ### Specific files to attack first for the redesign
 
@@ -635,8 +635,8 @@ The site has not deployed yet (Vercel is paused per README) so there is **no inb
 - **24-hour delivery promise** — repeated everywhere as a key differentiator.
 - **24 themes** — the count is in headlines, the FAQ, the portfolio CTA. Redesigning to "12 themes" or "30 themes" requires copy rewrites everywhere.
 - **The vibe×hero matrix** (5 vibes × 5 hero patterns × 3 modes × 3 design rounds) is non-trivial design IP that should survive the redesign.
-- **Domain**: `apexsites.com` (referenced in `seo.ts:4` fallback, `email.ts:13`, footer copy, contact email).
-- **Resend `from` address**: `Apex Sites <onboarding@resend.dev>` — works without verification but should move to a custom verified domain before launch.
+- **Domain**: `yourshopfront.com` (referenced in `seo.ts:4` fallback, `email.ts:13`, footer copy, contact email).
+- **Resend `from` address**: `Your Shopfront <onboarding@resend.dev>` — works without verification but should move to a custom verified domain before launch.
 
 ### Dependencies to be careful with
 
@@ -652,14 +652,14 @@ The site has not deployed yet (Vercel is paused per README) so there is **no inb
 These are the things I cannot determine from the code alone. Need answers before redesign starts.
 
 1. **Brand identity**. Is there a logo file, wordmark, or brand-guideline doc anywhere outside this repo? Right now the brand is a black A square. Should the redesign create one, or keep the "we are infrastructure, our customers are the brand" stance?
-2. **What is the *Apex Sites* visual identity supposed to look like?** The default theme on `/` is Heritage Painters — i.e. the marketing site looks like a painter's site by default. Is that intentional ("the homepage is a live demo"), or should `/` get its own dedicated Apex-branded look that's separate from the 24 themes?
+2. **What is the *Your Shopfront* visual identity supposed to look like?** The default theme on `/` is Heritage Painters — i.e. the marketing site looks like a painter's site by default. Is that intentional ("the homepage is a live demo"), or should `/` get its own dedicated Apex-branded look that's separate from the 24 themes?
 3. **Real customer assets**. Are there testimonials, case studies, customer logos, before/after photos, or any social proof we can use? The `100+ sites launched · 4.9/47 Google reviews` placeholders are the only social proof on the site.
 4. **Real content for the 24 demos**. The portfolio HTML files use plausible-but-fictional businesses (Heritage Painters, Ironside Plumbing, etc.). Are any of those real customers, or are they all illustrative? This affects whether we can show "real work" or have to keep them framed as concept demos.
 5. **Has anything launched in production yet?** The README says Vercel is paused. Are there any inbound URLs we're worried about for SEO continuity, or is this still pre-launch with zero traffic?
 6. **Is the customer redirected somewhere we don't have admin tooling for?** The webhook posts a `/admin` Slack link that 404s. What's the operational tooling story for actually building sites once an order comes in — manual? Notion doc? Something else?
-7. **Domain strategy.** `apexsites.com` is referenced everywhere. Is that registered? Will the customer's site live on a `*.apex-sites.com` subdomain (referenced in `.env.example:32`), `*.apexsites.com`, or their own domain via Vercel + Cloudflare?
+7. **Domain strategy.** `yourshopfront.com` is referenced everywhere. Is that registered? Will the customer's site live on a `*.apex-sites.com` subdomain (referenced in `.env.example:32`), `*.yourshopfront.com`, or their own domain via Vercel + Cloudflare?
 8. **Persona**. The copy targets home-service operators, but the theme catalog includes creative agencies, restaurants, breweries, photographers, etc. (24 themes covers many verticals). Is the redesign aiming to **narrow** the marketing toward home services only (and treat the other 16 themes as pleasant surprises), or **broaden** to "we do all small-business brands"? This changes hero copy, hero imagery, and which themes get featured.
-9. **Scope of "redesign"**. Are we redesigning the *Apex Sites* marketing+commerce surface (the chrome around the themes), or are we also touching the 24 themes themselves? Or both?
+9. **Scope of "redesign"**. Are we redesigning the *Your Shopfront* marketing+commerce surface (the chrome around the themes), or are we also touching the 24 themes themselves? Or both?
 10. **Timeline / launch tie-in**. The README marks Phase 4f (test plan) as ⏳ pending. Is the redesign blocking launch, parallel to launch, or post-launch?
 11. **Custom-build offering.** Phase 2.5 *removed* the custom-build tier per the README, but `/contact?ref=portfolio-suggestion` still implies one ("If your industry, vibe, or hero pattern isn't represented in our 24, send a quick note"). Do we want to bring custom-build back as a third tier, or keep it as just an inquiry-only path?
 12. **Animation appetite**. `framer-motion` is installed unused. How much motion do you want — none, subtle (fade-on-scroll, hover micro), or expressive (scroll-driven hero animations, theme-switch transitions)?

@@ -5,7 +5,7 @@ import { allThemesList, isFeatured } from "@/lib/themes"
 import type { Theme } from "@/lib/themes/types"
 
 /**
- * Sticky ribbon at the top of /portfolio/[slug]. Apex chrome tokens — no more
+ * Sticky ribbon at the top of /portfolio/[slug]. Your Shopfront chrome tokens — no more
  * hardcoded #064E3B emerald. Shows "Design X of N" and prev/next arrows so the
  * gallery feels navigable rather than scattered. The "I want this look" CTA
  * jumps to checkout in cobalt.

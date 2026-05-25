@@ -68,7 +68,7 @@ export const tidyProsJunk: Theme = {
     credit: "Photo by Erik Mclean on Unsplash",
   },
 
-  seoTitle: "Apex Sites — Bold Friendly Style for Junk, Hauling & Project Trades",
+  seoTitle: "Your Shopfront — Bold Friendly Style for Junk, Hauling & Project Trades",
   seoDescription:
     "The Tidy Pros demo. High-contrast black + coral, confident headlines, photo-quote form hero. For junk removal, hauling, demolition, and any photo-quote service brand.",
   isThemeOption: true,

@@ -5,11 +5,11 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * APEX CHROME TOKENS
+ * YOUR SHOPFRONT CHROME TOKENS
  * --------------------------------------------------------------------------
  * Two namespaces co-exist on this page:
  *
- *   --apx-*  : Apex chrome tokens. Owned by /, /pricing, /portfolio, /contact,
+ *   --apx-*  : Your Shopfront chrome tokens. Owned by /, /pricing, /portfolio, /contact,
  *              /about, legal pages, the unified header/footer, and the chrome
  *              wrapping /checkout and /onboarding. Defined here, never set by
  *              <ThemeProvider>. Stable across every chrome page.
@@ -23,7 +23,7 @@
  * --muted-foreground, --input, --border, --ring, --destructive, etc.) are
  * referenced by the surviving shadcn primitives (Accordion, Form, Input,
  * Label) via Tailwind utilities (bg-input, text-foreground, etc.).
- * We keep the names and remap the values to Apex equivalents — see
+ * We keep the names and remap the values to Your Shopfront equivalents — see
  * REDESIGN-LOG.md "R1 dispatch" remap table.
  */
 
@@ -61,7 +61,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /* --- Apex chrome color tokens (utility class generators) --- */
+  /* --- Your Shopfront chrome color tokens (utility class generators) --- */
   --color-apx-paper: var(--apx-paper);
   --color-apx-canvas: var(--apx-canvas);
   --color-apx-tint: var(--apx-tint);
@@ -90,7 +90,7 @@
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
   --font-heading: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
-  /* --- Radii (shadcn legacy + Apex chrome card radius) --- */
+  /* --- Radii (shadcn legacy + Your Shopfront chrome card radius) --- */
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -101,7 +101,7 @@
 }
 
 :root {
-  /* shadcn token names — values remapped to Apex equivalents */
+  /* shadcn token names — values remapped to Your Shopfront equivalents */
   --background: #FFFFFF;
   --foreground: #111418;
   --card: #FFFFFF;
@@ -135,7 +135,7 @@
   --sidebar-border: #E8ECF1;
   --sidebar-ring: #2438FF;
 
-  /* Apex chrome tokens — surfaces */
+  /* Your Shopfront chrome tokens — surfaces */
   --apx-paper: #FFFFFF;        /* true white */
   --apx-canvas: #FFFBF2;       /* warm cream */
   --apx-tint: #F4F7FB;         /* cool blue-white */
@@ -143,28 +143,28 @@
   --apx-line: #E8ECF1;         /* cool hairline */
   --apx-line-warm: #F0E9D8;    /* warm hairline (on cream) */
 
-  /* Apex chrome tokens — text */
+  /* Your Shopfront chrome tokens — text */
   --apx-ink: #111418;          /* primary text — slightly cool near-black */
   --apx-mute: #5C6470;         /* secondary text */
   --apx-soft: #8A93A0;         /* tertiary, placeholders */
 
-  /* Apex chrome tokens — primary action (electric cobalt) */
+  /* Your Shopfront chrome tokens — primary action (electric cobalt) */
   --apx-primary: #2438FF;
   --apx-primary-fg: #FFFFFF;
   --apx-primary-ink: #1A28C7;  /* darker variant for text-on-light */
   --apx-primary-soft: #EEF0FF; /* tinted bg for primary-themed bands */
 
-  /* Apex chrome tokens — custom highlight (sunshine) */
+  /* Your Shopfront chrome tokens — custom highlight (sunshine) */
   --apx-highlight: #FFE34D;
   --apx-highlight-ink: #1A1500;
 
-  /* Apex chrome tokens — supporting accents */
+  /* Your Shopfront chrome tokens — supporting accents */
   --apx-coral: #FF5B47;
   --apx-coral-soft: #FFF1EE;
   --apx-mint: #00C896;
   --apx-mint-soft: #E6FBF5;
 
-  /* Apex chrome tokens — status */
+  /* Your Shopfront chrome tokens — status */
   --apx-success: #00A86B;
   --apx-warn: #C97A1F;
   --apx-danger: #DC2D3C;
@@ -224,7 +224,7 @@
 }
 
 /*
- * .prose-apx — Apex chrome typography for legal-page-style article content.
+ * .prose-apx — Your Shopfront chrome typography for legal-page-style article content.
  * Used by <LegalPage> (privacy / terms / refund-policy) so each instance
  * doesn't redeclare the arbitrary [&_h2]: selectors inline. Same visual
  * output as the previous inline selectors; the consolidation just stops

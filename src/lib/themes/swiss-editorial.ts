@@ -35,9 +35,9 @@ export const swissEditorial: Theme = {
     credit: "Photo by Annie Spratt on Unsplash",
   },
 
-  seoTitle: "Swiss Editorial — Independent Design Practice · Apex Sites Portfolio",
+  seoTitle: "Swiss Editorial — Independent Design Practice · Your Shopfront Portfolio",
   seoDescription:
-    "Apex Sites portfolio: a Swiss-style design studio. Cream + ink + oxblood, italic display, tabular project index. Built for studios and agencies.",
+    "Your Shopfront portfolio: a Swiss-style design studio. Cream + ink + oxblood, italic display, tabular project index. Built for studios and agencies.",
   isThemeOption: true,
   sourceHtmlPath: "05-swiss-editorial.html",
   round: 1,

@@ -38,7 +38,7 @@ export const premiumTrade: Theme = {
     credit: "Photo by Theme Photos on Unsplash",
   },
 
-  seoTitle: "Apex Sites — Editorial Trade Style for Premium Contractors",
+  seoTitle: "Your Shopfront — Editorial Trade Style for Premium Contractors",
   seoDescription:
     "The Premium Trade demo. Bone + copper + pipe-blue palette, Fraunces serif display, form-card hero with stat tiles. Built for plumbers, HVAC techs, electricians, and trades that want to feel premium.",
   isThemeOption: true,

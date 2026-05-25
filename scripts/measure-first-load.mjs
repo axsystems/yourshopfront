@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Apex Sites — first-load JS measurement
+ * Your Shopfront — first-load JS measurement
  *
  * Reads .next/build-manifest.json for the root main files (shared across
  * every page), then for each top-level route: gzips its page chunk + the

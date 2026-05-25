@@ -68,7 +68,7 @@ export const auroraPressureWash: Theme = {
     credit: "Photo by Pixabay on Pexels",
   },
 
-  seoTitle: "Apex Sites — Bright Friendly Style for Exterior Restoration Brands",
+  seoTitle: "Your Shopfront — Bright Friendly Style for Exterior Restoration Brands",
   seoDescription:
     "The Aurora Pressure Washing demo. Sky blue + sunny gold, bricolage-grotesque headlines, before/after gallery hero. For pressure washing, soft wash, paver sealing, and curb-appeal brands.",
   isThemeOption: true,

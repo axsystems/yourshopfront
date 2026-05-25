@@ -68,7 +68,7 @@ export const brightsideCleaning: Theme = {
     credit: "Photo by Roam In Color on Unsplash",
   },
 
-  seoTitle: "Apex Sites — Friendly Modern Booking-Card Style",
+  seoTitle: "Your Shopfront — Friendly Modern Booking-Card Style",
   seoDescription:
     "The Brightside Cleaning demo. Sky + mint gradient, soft pillowy cards, instant-book hero. For cleaners, dog walkers, and recurring home services.",
   isThemeOption: true,

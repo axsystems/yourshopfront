@@ -3,7 +3,7 @@ import "server-only"
 /**
  * Minimal Vercel REST API client for the multi-tenant domain attach/detach
  * needed by Phase 5 provisioning. Single endpoint surface — adding domains
- * to the apex-sites project — so we don't pull in `@vercel/sdk`.
+ * to the Your Shopfront project — so we don't pull in `@vercel/sdk`.
  *
  * Reference: https://vercel.com/docs/rest-api/endpoints/domains
  */

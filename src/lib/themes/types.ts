@@ -95,7 +95,7 @@ export interface ThemeHeroImage {
 /**
  * Phase B content overrides. Optional per-theme strings + image paths that
  * let HowItWorks, TrustStrip, and FinalCTA render industry-relevant copy
- * and stock photography instead of the generic Apex-templated defaults.
+ * and stock photography instead of the generic Your Shopfront–templated defaults.
  *
  * Every field is optional — when omitted, the section falls back to the
  * existing hardcoded defaults so Phase B can roll out theme-by-theme
@@ -185,7 +185,7 @@ export interface Theme {
   /**
    * Phase B: optional per-theme content + imagery overrides for the
    * HowItWorks, TrustStrip, and FinalCTA sections. When omitted, each
-   * section renders its generic Apex-templated default. Populated per
+   * section renders its generic Your Shopfront–templated default. Populated per
    * theme in Phase B1.
    */
   content?: ThemeContentOverrides

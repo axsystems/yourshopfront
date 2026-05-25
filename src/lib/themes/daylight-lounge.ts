@@ -35,9 +35,9 @@ export const daylightLounge: Theme = {
     credit: "Photo by Spacejoy on Unsplash",
   },
 
-  seoTitle: "Daylight Lounge — Laundry-as-Lounge Concept · Apex Sites Portfolio",
+  seoTitle: "Daylight Lounge — Laundry-as-Lounge Concept · Your Shopfront Portfolio",
   seoDescription:
-    "Apex Sites portfolio: an indie laundromat lounge concept. Cream + terracotta + sage palette, Fraunces serif, photo-collage hero.",
+    "Your Shopfront portfolio: an indie laundromat lounge concept. Cream + terracotta + sage palette, Fraunces serif, photo-collage hero.",
   isThemeOption: true,
   sourceHtmlPath: "01-daylight-lounge.html",
   round: 1,

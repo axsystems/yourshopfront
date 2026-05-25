@@ -38,7 +38,7 @@ export const doorstepEditorial: Theme = {
     credit: "Photo by Claudio Schwarz on Unsplash",
   },
 
-  seoTitle: "Apex Sites — Editorial Pickup-and-Delivery Style",
+  seoTitle: "Your Shopfront — Editorial Pickup-and-Delivery Style",
   seoDescription:
     "The Doorstep Editorial demo. Cream + forest + butter palette, address-bar booking hero, italic editorial display. Built for laundry pickup, dog walking, oil delivery, and recurring delivery brands.",
   isThemeOption: true,

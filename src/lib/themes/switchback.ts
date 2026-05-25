@@ -35,9 +35,9 @@ export const switchback: Theme = {
     credit: "Photo by Markus Spiske on Unsplash",
   },
 
-  seoTitle: "Switchback — Observability SaaS · Apex Sites Portfolio",
+  seoTitle: "Switchback — Observability SaaS · Your Shopfront Portfolio",
   seoDescription:
-    "Apex Sites portfolio: a developer-tools observability brand. Near-black + emerald glow, JetBrains Mono, code-card hero. Built for SaaS, devtools, and B2B subscription products.",
+    "Your Shopfront portfolio: a developer-tools observability brand. Near-black + emerald glow, JetBrains Mono, code-card hero. Built for SaaS, devtools, and B2B subscription products.",
   isThemeOption: true,
   sourceHtmlPath: "08-switchback.html",
   round: 2,

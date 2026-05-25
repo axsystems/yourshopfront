@@ -19,10 +19,10 @@ interface SiteHeaderProps {
 }
 
 /**
- * Unified Apex chrome header. Three variants:
+ * Unified Your Shopfront chrome header. Three variants:
  *   - default : on /, /pricing, /portfolio, /contact, /about, legal pages.
  *   - themed  : inside <ThemedHome> (i.e. /demos/[slug] and /portfolio/[slug])
- *               where it must color itself in theme tokens but keep Apex layout.
+ *               where it must color itself in theme tokens but keep Your Shopfront layout.
  *   - minimal : on /checkout, /onboarding (logo + back link only, no nav).
  *
  * Includes a skip-to-content link as the first focusable element.

@@ -103,7 +103,7 @@ export function themeFontClassNames(theme: Theme): string {
 }
 
 /**
- * Apex chrome global font className. Loaded once on every page via root layout.
+ * Your Shopfront chrome global font className. Loaded once on every page via root layout.
  * Inter (body + display in chrome) + JetBrains Mono (prices, mono eyebrows, code).
  *
  * Per-theme pages additionally wrap in <ThemeProvider> which adds the active

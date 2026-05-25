@@ -35,9 +35,9 @@ export const cinematicDark: Theme = {
     credit: "Photo by Jakob Owens on Unsplash",
   },
 
-  seoTitle: "Cinematic Dark — Film Studio Style · Apex Sites Portfolio",
+  seoTitle: "Cinematic Dark — Film Studio Style · Your Shopfront Portfolio",
   seoDescription:
-    "Apex Sites portfolio: a cinematic film-studio brand. Deep black + copper + teal, Fraunces italic, custom cursor. Built for production companies and luxury creative.",
+    "Your Shopfront portfolio: a cinematic film-studio brand. Deep black + copper + teal, Fraunces italic, custom cursor. Built for production companies and luxury creative.",
   isThemeOption: true,
   sourceHtmlPath: "06-cinematic-dark.html",
   round: 1,

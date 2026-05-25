@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Apex Sites — brand PNG export
+ * Your Shopfront — brand PNG export
  *
  * Rasterizes the SVG masters in /public/brand/ to PNG variants at the spec sizes.
  * Reproducible: run `pnpm brand:export` after editing any SVG master and the PNGs

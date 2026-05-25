@@ -353,7 +353,7 @@ function CopyReviewState({ site }: { site: Site }) {
 }
 
 /**
- * Apex-chrome'd fallback shell for missing-session / lookup-failed states.
+ * Your Shopfront–chrome'd fallback shell for missing-session / lookup-failed states.
  * Renders inside the page tree (no nested <html>) — uses the global root
  * layout's html/body. The audit flagged the previous nested <html> as
  * invalid markup.

@@ -35,9 +35,9 @@ export const brutalist: Theme = {
     credit: "Photo by Joel Filipe on Unsplash",
   },
 
-  seoTitle: "Neo-Brutalist — LOUD Agency Style · Apex Sites Portfolio",
+  seoTitle: "Neo-Brutalist — LOUD Agency Style · Your Shopfront Portfolio",
   seoDescription:
-    "Apex Sites portfolio: a neo-brutalist agency brand. Yellow + black + pink + blue, Bricolage Grotesque, hard-shadow buttons, mega type. Built for agencies and brands that want to be loud.",
+    "Your Shopfront portfolio: a neo-brutalist agency brand. Yellow + black + pink + blue, Bricolage Grotesque, hard-shadow buttons, mega type. Built for agencies and brands that want to be loud.",
   isThemeOption: true,
   sourceHtmlPath: "08-brutalist.html",
   round: 1,
