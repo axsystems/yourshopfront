@@ -34,9 +34,12 @@ export function ThemedHome({ theme, isDemoPreview }: ThemedHomeProps) {
   return (
     <ThemeProvider theme={theme}>
       <SiteHeader variant="themed" />
-      {/* `pb-20` on mobile only — clears the fixed `<MobileStickyCta>` so the
-          last bit of FinalCTA doesn't sit behind it. Desktop unaffected. */}
-      <main id="main" className={isDemoPreview ? "flex-1 pb-20 md:pb-0" : "flex-1"}>
+      {/* `pb-24` on mobile only — clears the fixed `<MobileStickyCta>` plus
+          iPhone home-indicator safe-area inset so the last bit of FinalCTA
+          doesn't sit behind the bar. Bar is single-line (~48px) + py-2.5 +
+          safe-area up to 34px → max ~82px; pb-24 (96px) covers worst case
+          with margin. Desktop unaffected (md:pb-0). */}
+      <main id="main" className={isDemoPreview ? "flex-1 pb-24 md:pb-0" : "flex-1"}>
         <Hero
           theme={theme}
           isDemoPreview={isDemoPreview}

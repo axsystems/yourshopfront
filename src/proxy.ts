@@ -41,10 +41,19 @@ export async function proxy(req: NextRequest): Promise<NextResponse> {
   // ── 2. Auth cookie refresh (additive — must happen before any redirects) ──
   // Build a lightweight Supabase client bound to the request/response cookies.
   // The setAll callback writes refreshed tokens back into `response`.
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
+  //
+  // Skip the entire block when Supabase env vars are unset (CI smoke tests,
+  // clean local clones without `.env.local`). createServerClient throws
+  // "Your project's URL and Key are required" if called with `undefined`,
+  // which would crash every request the proxy matches — so without this
+  // guard, even the 5 anonymous marketing routes the smoke test hits
+  // (/, /pricing, /portfolio, /demos/heritage-painters, /api/og/...) would
+  // 500 in CI, blocking the build-and-smoke job. In production Vercel both
+  // env vars are set and the auth-refresh branch runs as before.
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (supabaseUrl && supabaseAnonKey) {
+    const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
       cookies: {
         getAll() {
           return req.cookies.getAll()
@@ -65,14 +74,14 @@ export async function proxy(req: NextRequest): Promise<NextResponse> {
           )
         },
       },
-    }
-  )
+    })
 
-  // getUser() validates the JWT against the Supabase auth server and
-  // triggers token refresh via setAll() above when needed.
-  // We intentionally discard the result — never use middleware user data
-  // for authorization (it runs before the request handler and can race).
-  await supabase.auth.getUser()
+    // getUser() validates the JWT against the Supabase auth server and
+    // triggers token refresh via setAll() above when needed.
+    // We intentionally discard the result — never use middleware user data
+    // for authorization (it runs before the request handler and can race).
+    await supabase.auth.getUser()
+  }
 
   // ── 3. Subdomain routing (original logic — preserved exactly) ──
   const hostHeader = req.headers.get("host") ?? ""
