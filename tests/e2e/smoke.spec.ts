@@ -15,11 +15,14 @@ import { test, expect } from "@playwright/test"
 test("home loads with chrome + hero", async ({ page }) => {
   const response = await page.goto("/")
   expect(response?.status(), "home should respond 200").toBe(200)
-  await expect(page.locator("main h1")).toContainText("Websites that")
-  await expect(page.locator("main h1")).toContainText("more jobs")
-  // Hero CTA mentions the design count. Don't pin the exact number — the
-   // theme catalog grows; pin only the shape.
-   await expect(page.locator("a", { hasText: /See the \d+ designs/i })).toBeVisible()
+  await expect(page.locator("main h1")).toContainText("Your site, live in")
+  // Pin the structural contract — the primary CTA navigates to /portfolio
+  // (the design catalog) — not the literal button label, which marketing
+  // iterates faster than test runs. Previous version of this test asserted
+  // "See the \d+ designs" copy that was changed without updating the test,
+  // and the regression was hidden because the build-and-smoke job was
+  // failing for an unrelated reason (see fix in src/proxy.ts).
+  await expect(page.locator('main a[href="/portfolio"]')).toBeVisible()
 })
 
 test("/pricing loads with both tier cards", async ({ page }) => {
