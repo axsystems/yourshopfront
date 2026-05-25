@@ -74,4 +74,44 @@ export const auroraPressureWash: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "14-aurora-pressure-wash.html",
   round: 3,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Get a free quote",
+          body: "Send us a photo or your address. We quote driveways, patios, roofs, and siding fast — no site visit required.",
+        },
+        {
+          title: "We show up ready",
+          body: "Fully insured crew arrives with commercial-grade equipment. We assess the surface and pick the right method — pressure or soft wash.",
+        },
+        {
+          title: "Restored in an afternoon",
+          body: "Most jobs done same day. Concrete, pavers, vinyl siding, roof shingles — we leave it looking like new without surface damage.",
+        },
+        {
+          title: "Walk-through and done",
+          body: "We walk the finished job with you before we pack up. Not satisfied with a spot? We re-do it on the spot, no argument.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Free", label: "Photo estimate", caption: "No visit needed to quote" },
+        { value: "Insured", label: "Fully covered crew", caption: "Your property protected" },
+        { value: "Same-day", label: "Most jobs finished", caption: "In and out, one afternoon" },
+        { value: "Safe", label: "Soft wash available", caption: "Right method for every surface" },
+      ],
+    },
+    finalCta: {
+      headline: "Driveway looking rough?",
+      highlight: "We restore it same day.",
+      body: "Free photo quote, insured crew, soft wash safe. Driveways, patios, siding — done in one afternoon.",
+      ctaLabel: "Get a free quote →",
+      backgroundImage: {
+        url: "/themes/aurora-pressure-wash/hero.jpg",
+        alt: "High-pressure water spray restoring a grey concrete surface",
+      },
+    },
+  },
 }

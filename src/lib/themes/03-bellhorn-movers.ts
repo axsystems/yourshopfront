@@ -74,4 +74,44 @@ export const bellhornMovers: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "03-bellhorn-movers.html",
   round: 3,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Get your move price",
+          body: "Enter your pickup and drop-off zip codes and home size — our calculator shows an instant flat-rate estimate. No waiting on a callback.",
+        },
+        {
+          title: "Book your date",
+          body: "Pick the day that works. We send a confirmation and reminder so nothing falls through. Your spot is held the moment you book.",
+        },
+        {
+          title: "We do the heavy lifting",
+          body: "Uniformed two-person crew wraps furniture, disassembles beds, loads the truck. You point, we move — you don't touch a box.",
+        },
+        {
+          title: "Settled in, same day",
+          body: "We place everything where you want it in the new space. If something needs to swap rooms, we do it before we leave.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Flat-rate", label: "Instant move quote", caption: "No hourly billing surprises" },
+        { value: "Insured", label: "Licensed and bonded", caption: "Your belongings covered" },
+        { value: "Same-day", label: "Moves available", caption: "Book by 10am, move today" },
+        { value: "Free", label: "Furniture wrapping", caption: "Included on every job" },
+      ],
+    },
+    finalCta: {
+      headline: "Moving soon?",
+      highlight: "Get your price in seconds.",
+      body: "Flat-rate moves, licensed and insured crew, same-day available. Book online — we do the rest.",
+      ctaLabel: "Get move estimate →",
+      backgroundImage: {
+        url: "/themes/bellhorn-movers/hero.jpg",
+        alt: "Stack of brown cardboard moving boxes in an empty sunlit room",
+      },
+    },
+  },
 }

@@ -74,4 +74,44 @@ export const mesaHvac: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "11-mesa-hvac.html",
   round: 3,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Call — we answer now",
+          body: "A/C out at 2am in July? We pick up. Real dispatcher, real tech, on the way — not a voicemail that calls back tomorrow.",
+        },
+        {
+          title: "Flat-rate quote on site",
+          body: "Technician diagnoses the system, tells you the price before touching anything. No trip-charge bait-and-switch.",
+        },
+        {
+          title: "Fixed, same visit",
+          body: "We stock the parts other guys have to order. Most repairs done the same visit — unit back on before we leave.",
+        },
+        {
+          title: "Covered for a year",
+          body: "Every repair is backed with a 1-year parts and labor warranty. Cool your house, not your confidence.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "24/7", label: "Same-day dispatch", caption: "Live answer, not a queue" },
+        { value: "Licensed", label: "Certified technicians", caption: "Bonded and insured" },
+        { value: "Flat-rate", label: "No surprise billing", caption: "Quoted before we start" },
+        { value: "1-year", label: "Repair warranty", caption: "Parts and labor covered" },
+      ],
+    },
+    finalCta: {
+      headline: "A/C down in the desert?",
+      highlight: "We'll be there today.",
+      body: "24/7 dispatch, same-visit repairs, flat-rate pricing. Call now — a licensed tech answers.",
+      ctaLabel: "Get a tech out today →",
+      backgroundImage: {
+        url: "/themes/mesa-hvac/hero.jpg",
+        alt: "Outdoor air conditioning condenser unit beside a residential wall",
+      },
+    },
+  },
 }

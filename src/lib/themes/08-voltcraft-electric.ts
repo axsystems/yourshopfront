@@ -74,4 +74,44 @@ export const voltcraftElectric: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "08-voltcraft-electric.html",
   round: 3,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Call — we pick up",
+          body: "Tripped breaker, dead outlet, sparking panel — call any hour. A master electrician answers, not an answering service.",
+        },
+        {
+          title: "Diagnose and quote",
+          body: "We find the fault, explain it in plain language, and hand you a flat-rate price before we pull a single wire.",
+        },
+        {
+          title: "Code-compliant repair",
+          body: "Licensed master electricians, permit-ready work, zero shortcuts. We do it right so the inspector signs off first time.",
+        },
+        {
+          title: "Guaranteed work",
+          body: "Every job is backed by our workmanship guarantee. If something's off after we leave, we come back and make it right.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "24/7", label: "Emergency dispatch", caption: "Master electrician answers" },
+        { value: "Licensed", label: "Master electricians", caption: "Bonded and insured" },
+        { value: "Flat-rate", label: "No hourly surprises", caption: "Quoted before we start" },
+        { value: "Guaranteed", label: "Workmanship warranty", caption: "We come back if needed" },
+      ],
+    },
+    finalCta: {
+      headline: "Panel sparking?",
+      highlight: "Don't wait — call now.",
+      body: "24/7 emergency response, master electricians, flat-rate quotes. Licensed, bonded, and permit-ready.",
+      ctaLabel: "Call an electrician now →",
+      backgroundImage: {
+        url: "/themes/voltcraft-electric/hero.jpg",
+        alt: "Electrical service panel with neatly run wiring",
+      },
+    },
+  },
 }

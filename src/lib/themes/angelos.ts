@@ -41,4 +41,44 @@ export const angelos: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "03-angelos.html",
   round: 2,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Order by phone or walk in",
+          body: "We've been taking orders since 1956 — by phone, at the counter, or from the sidewalk window. No app required.",
+        },
+        {
+          title: "Made to order, every pie",
+          body: "Dough stretched by hand, sauce from the same recipe, cheese layered the right way. Nothing pre-made, nothing reheated.",
+        },
+        {
+          title: "Ready in 20 minutes",
+          body: "Whole pies or by the slice — ready when you're hungry. Dine in at the counter or take it out the door.",
+        },
+        {
+          title: "Come back for the next one",
+          body: "Regulars get remembered. The same families have been coming here for generations — that's the standard we cook to.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Est.", label: "1956 — Brooklyn original", caption: "Same corner, same recipe" },
+        { value: "Hand-", label: "Stretched dough daily", caption: "Never frozen, never rushed" },
+        { value: "Open", label: "Until 11pm tonight", caption: "Late-night slices always ready" },
+        { value: "Dine-in", label: "Or take it to go", caption: "Counter seating available" },
+      ],
+    },
+    finalCta: {
+      headline: "Hungry tonight?",
+      highlight: "We've been ready since 1956.",
+      body: "Hand-stretched dough, old-recipe sauce, ready in 20 minutes. Walk in or call ahead.",
+      ctaLabel: "See our menu →",
+      backgroundImage: {
+        url: "/themes/angelos/hero.jpg",
+        alt: "Overhead shot of a freshly baked pizza on a rustic wooden table",
+      },
+    },
+  },
 }

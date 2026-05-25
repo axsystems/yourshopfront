@@ -74,4 +74,44 @@ export const summitRoofing: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "06-summit-roofing.html",
   round: 3,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Free storm inspection",
+          body: "We get on the roof, take photos, and give you a written damage assessment — no charge, no pressure, no sales pitch.",
+        },
+        {
+          title: "Straight insurance support",
+          body: "We document everything your adjuster needs. We walk the claim with you so nothing gets missed and nothing gets lowballed.",
+        },
+        {
+          title: "Crew on your roof",
+          body: "GAF Master Elite certified crew. Manufacturer-spec installation, all debris hauled same day, yard left cleaner than we found it.",
+        },
+        {
+          title: "Transferable warranty",
+          body: "Your roof comes with a full manufacturer warranty plus our own workmanship coverage — transferable to the next owner.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Free", label: "Storm inspection", caption: "No obligation, no pitch" },
+        { value: "Licensed", label: "GAF certified crew", caption: "Bonded and insured" },
+        { value: "Same-day", label: "Debris removal", caption: "Yard clean before we leave" },
+        { value: "Warranty", label: "Workmanship backed", caption: "Transferable to next owner" },
+      ],
+    },
+    finalCta: {
+      headline: "Storm hit your roof?",
+      highlight: "We inspect free — today.",
+      body: "Licensed crew, full insurance support, same-day debris haul. No cost to get on the roof and find out.",
+      ctaLabel: "Schedule free inspection →",
+      backgroundImage: {
+        url: "/themes/summit-roofing/hero.jpg",
+        alt: "Roofer installing dark asphalt shingles on a residential rooftop",
+      },
+    },
+  },
 }

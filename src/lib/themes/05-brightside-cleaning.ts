@@ -74,4 +74,44 @@ export const brightsideCleaning: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "05-brightside-cleaning.html",
   round: 3,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Book in 60 seconds",
+          body: "Select your home size, choose a date, and get an instant flat-rate price. No back-and-forth, no in-home estimate.",
+        },
+        {
+          title: "Meet your cleaner",
+          body: "We send the same cleaner every visit — background-checked, insured, trained on our process. You get a name, not a rotating stranger.",
+        },
+        {
+          title: "We clean it properly",
+          body: "Checklist-driven, top-to-bottom clean. Kitchens, bathrooms, bedrooms — every surface covered, not just the obvious spots.",
+        },
+        {
+          title: "Love it or it's free",
+          body: "If something's not right, we come back within 24 hours and re-clean at no charge. No debate, no drama.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Flat-rate", label: "Instant pricing", caption: "No hidden fees" },
+        { value: "Insured", label: "Background-checked cleaners", caption: "Every team member" },
+        { value: "Same", label: "Cleaner each visit", caption: "Someone who knows your home" },
+        { value: "24-hr", label: "Re-clean guarantee", caption: "Not right? We come back" },
+      ],
+    },
+    finalCta: {
+      headline: "Home needs a proper clean?",
+      highlight: "Book in 60 seconds.",
+      body: "Flat-rate pricing, background-checked cleaners, same cleaner every time. Love it or it's free.",
+      ctaLabel: "Get instant price →",
+      backgroundImage: {
+        url: "/themes/brightside-cleaning/hero.jpg",
+        alt: "Bright clean living room with neutral textiles and natural light",
+      },
+    },
+  },
 }

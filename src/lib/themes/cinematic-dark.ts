@@ -41,4 +41,44 @@ export const cinematicDark: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "06-cinematic-dark.html",
   round: 1,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Brief and creative call",
+          body: "We sit with you, understand what you're building toward, and find the visual language that makes it unavoidable.",
+        },
+        {
+          title: "Pre-production and plan",
+          body: "Shot list, location scouting, talent direction — all of it handled before a camera rolls. Nothing improvised on shoot day.",
+        },
+        {
+          title: "We shoot it",
+          body: "Cinema-grade gear, controlled light, intentional frame. Every shot serves the story — nothing is filler.",
+        },
+        {
+          title: "Delivered, ready to run",
+          body: "Edited, color-graded, mixed, and exported in every format you need. Ready for broadcast, digital, or the big screen.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Cinema", label: "Grade production", caption: "Not run-and-gun content" },
+        { value: "Full", label: "Pre to post service", caption: "One studio, start to finish" },
+        { value: "Licensed", label: "Music and clearances", caption: "Broadcast-ready delivery" },
+        { value: "Every", label: "Format delivered", caption: "Digital, broadcast, social" },
+      ],
+    },
+    finalCta: {
+      headline: "Brand needs a film?",
+      highlight: "We make it unavoidable.",
+      body: "Cinema-grade production, full pre-to-post, broadcast-ready delivery. Let's talk about your vision.",
+      ctaLabel: "Start with a brief →",
+      backgroundImage: {
+        url: "/themes/cinematic-dark/hero.jpg",
+        alt: "Cinematic low-key portrait silhouette in deep amber and shadow",
+      },
+    },
+  },
 }

@@ -44,4 +44,44 @@ export const premiumTrade: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "04-premium-trade.html",
   round: 1,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Request a consultation",
+          body: "Tell us what system is giving you trouble. We schedule a diagnostic visit at your convenience — no emergency rush pricing.",
+        },
+        {
+          title: "Proper diagnosis",
+          body: "Licensed technician inspects the full system, not just the symptom. You get a clear explanation and a written quote before anything is touched.",
+        },
+        {
+          title: "Engineered repair",
+          body: "Code-compliant materials, manufacturer-spec installation, permit-pulled when required. We do it once, we do it correctly.",
+        },
+        {
+          title: "Documented and warranted",
+          body: "Full-service record provided on completion. Every job backed by our workmanship warranty — call if anything is off.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Licensed", label: "Master technicians", caption: "Bonded and insured" },
+        { value: "Written", label: "Quote before work starts", caption: "No surprise billing" },
+        { value: "Permit-", label: "Ready work standard", caption: "Code-compliant every job" },
+        { value: "Warranted", label: "Workmanship guarantee", caption: "Documented at completion" },
+      ],
+    },
+    finalCta: {
+      headline: "System not performing?",
+      highlight: "Let's engineer a fix.",
+      body: "Licensed technicians, written quotes, permit-ready work, documented warranty. Properly done from the start.",
+      ctaLabel: "Schedule a consultation →",
+      backgroundImage: {
+        url: "/themes/premium-trade/hero.jpg",
+        alt: "Tradesperson's tools laid out on a clean workbench",
+      },
+    },
+  },
 }

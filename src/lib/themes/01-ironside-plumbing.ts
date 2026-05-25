@@ -74,4 +74,44 @@ export const ironsidePlumbing: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "01-ironside-plumbing.html",
   round: 3,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Call us, 24/7",
+          body: "Burst pipe? Slow drain? Call any hour — a real plumber answers, never a menu tree or callback queue.",
+        },
+        {
+          title: "We diagnose on site",
+          body: "Licensed plumber arrives, walks the issue with you, hands you a flat-rate quote before any wrench turns.",
+        },
+        {
+          title: "We fix it right",
+          body: "Commercial-grade parts, code-compliant work, no surprise upsells. You see the invoice before we start.",
+        },
+        {
+          title: "Backed by warranty",
+          body: "Every repair carries a 1-year warranty on parts and labor. Something goes wrong? We come back, no charge.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "24/7", label: "Emergency service", caption: "Live answer, never a machine" },
+        { value: "Licensed", label: "ROC certified", caption: "Bonded and insured" },
+        { value: "Flat-rate", label: "Quoted before we start", caption: "No surprise add-ons" },
+        { value: "1-year", label: "Parts + labor warranty", caption: "Every repair, no exceptions" },
+      ],
+    },
+    finalCta: {
+      headline: "Pipe burst?",
+      highlight: "We're already on the truck.",
+      body: "24/7 emergency dispatch, flat-rate quotes, 1-year warranty. Call now — a real plumber answers.",
+      ctaLabel: "Get a plumber now →",
+      backgroundImage: {
+        url: "/themes/ironside-plumbing/hero.jpg",
+        alt: "Plumber's hand tightening a brass fitting on copper pipework",
+      },
+    },
+  },
 }

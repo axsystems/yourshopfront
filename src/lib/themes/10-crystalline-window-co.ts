@@ -74,4 +74,44 @@ export const crystallineWindowCo: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "10-crystalline-window-co.html",
   round: 3,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Book online in 2 minutes",
+          body: "Enter your window count and property type — price appears instantly. Pick a date, confirm. That's the whole booking.",
+        },
+        {
+          title: "Trained team shows up",
+          body: "Uniformed, insured technicians arrive in a marked vehicle. Screens removed, frames wiped, sills detailed — every panel.",
+        },
+        {
+          title: "Streak-free, every time",
+          body: "Pure-water system and professional-grade squeegees. Inside and out, top to bottom. No streaks, no drips, no missed edges.",
+        },
+        {
+          title: "Satisfaction guaranteed",
+          body: "We re-clean any window you're not happy with — same day, no extra charge, no questions asked.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Insured", label: "Trained technicians", caption: "Bonded and background-checked" },
+        { value: "Pure-water", label: "Streak-free system", caption: "No chemical residue" },
+        { value: "Inside+out", label: "Full-panel service", caption: "Screens and frames included" },
+        { value: "Guaranteed", label: "Streak-free results", caption: "Re-clean free if not right" },
+      ],
+    },
+    finalCta: {
+      headline: "Windows looking hazy?",
+      highlight: "We make them crystal.",
+      body: "Insured crew, pure-water system, inside and out. Book in 2 minutes — satisfaction guaranteed.",
+      ctaLabel: "Book window cleaning →",
+      backgroundImage: {
+        url: "/themes/crystalline-window-co/hero.jpg",
+        alt: "Modern building facade with rows of clean glass windows",
+      },
+    },
+  },
 }

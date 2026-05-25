@@ -41,4 +41,44 @@ export const stillPoint: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "04-still-point.html",
   round: 2,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Drop in or book ahead",
+          body: "Morning and evening classes, drop-in welcome. Reserve your spot online or just show up — we keep room for walk-ins.",
+        },
+        {
+          title: "All levels, genuinely",
+          body: "No performance. No comparison. Whether it's your first class or your thousandth, the floor holds everyone the same.",
+        },
+        {
+          title: "Practice in the space",
+          body: "Wooden floors, good light, no mirrors, no music with lyrics. A room built to settle your nervous system, not excite it.",
+        },
+        {
+          title: "Come back regularly",
+          body: "The benefits are cumulative. Monthly memberships available with unlimited class access and priority booking.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Morning", label: "And evening sessions", caption: "Drop-in always welcome" },
+        { value: "All", label: "Levels, no exceptions", caption: "Beginners taught with care" },
+        { value: "Small", label: "Class sizes", caption: "Intentional, not crowded" },
+        { value: "Monthly", label: "Membership available", caption: "Unlimited access" },
+      ],
+    },
+    finalCta: {
+      headline: "Looking for something quieter?",
+      highlight: "The floor is open.",
+      body: "Morning and evening classes, drop-in welcome, all levels. A practice built for consistency, not performance.",
+      ctaLabel: "See the schedule →",
+      backgroundImage: {
+        url: "/themes/still-point/hero.jpg",
+        alt: "Empty yoga studio with morning light across a wooden floor",
+      },
+    },
+  },
 }

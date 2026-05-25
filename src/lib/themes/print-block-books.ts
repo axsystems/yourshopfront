@@ -41,4 +41,44 @@ export const printBlockBooks: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "01-print-block-books.html",
   round: 2,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Browse without a plan",
+          body: "The shelves are organized by mood, not genre. Come in with no list and leave with three books you didn't know you needed.",
+        },
+        {
+          title: "Ask the staff",
+          body: "Everyone here reads. Tell us what you loved last and we'll find what's next. No bad recommendations, only honest ones.",
+        },
+        {
+          title: "Pick up a zine",
+          body: "We press and stock local zines, chapbooks, and small-run editions you won't find on any algorithm. New arrivals every week.",
+        },
+        {
+          title: "Come back",
+          body: "New stock weekly, monthly events, and a mailing list that's actually worth opening. No spam. Just books and stuff we like.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Indie", label: "No chain affiliations", caption: "Staff-owned and curated" },
+        { value: "Local", label: "Zines and presses", caption: "Stocked fresh every week" },
+        { value: "Events", label: "Monthly in-store", caption: "Readings, launches, talks" },
+        { value: "No", label: "Returns policy drama", caption: "We work it out, always" },
+      ],
+    },
+    finalCta: {
+      headline: "Haven't found your next book?",
+      highlight: "Walk in and ask us.",
+      body: "Staff-curated shelves, local zines, honest recommendations. New stock every week.",
+      ctaLabel: "Find us in Portland →",
+      backgroundImage: {
+        url: "/themes/print-block-books/hero.jpg",
+        alt: "Densely packed bookstore shelves seen from a low angle",
+      },
+    },
+  },
 }

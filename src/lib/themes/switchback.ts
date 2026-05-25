@@ -41,4 +41,44 @@ export const switchback: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "08-switchback.html",
   round: 2,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Install in one command",
+          body: "npm install, add the SDK, ship. No agents to provision, no infrastructure to maintain. First traces appear in seconds.",
+        },
+        {
+          title: "Instrument your stack",
+          body: "Auto-instrumentation for Node, Go, Python, and Rust. Manual spans where you need them. The SDK gets out of your way.",
+        },
+        {
+          title: "See everything",
+          body: "Distributed traces, logs, and metrics in one view. Tail-sampled, filtered, searchable — no more grepping across five tools.",
+        },
+        {
+          title: "Debug and ship faster",
+          body: "Click a trace, find the slow span, fix the query. Structured alerts that page only when something actually matters.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "One", label: "Command install", caption: "npm install and ship" },
+        { value: "Auto-", label: "Instrumentation", caption: "Node, Go, Python, Rust" },
+        { value: "Open", label: "Telemetry standard", caption: "No proprietary lock-in" },
+        { value: "Free", label: "Tier to start", caption: "No card required" },
+      ],
+    },
+    finalCta: {
+      headline: "Flying blind in production?",
+      highlight: "Traces in seconds.",
+      body: "One-command install, auto-instrumentation, full distributed tracing. No infra to manage.",
+      ctaLabel: "Start free →",
+      backgroundImage: {
+        url: "/themes/switchback/hero.jpg",
+        alt: "Close-up of green monospaced code on a dark monitor",
+      },
+    },
+  },
 }

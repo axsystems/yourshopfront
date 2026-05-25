@@ -74,4 +74,44 @@ export const sandstonePoolCare: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "12-sandstone-pool-care.html",
   round: 3,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Get your weekly price",
+          body: "Enter your pool size and type — our calculator returns your weekly rate instantly. No waiting for a callback.",
+        },
+        {
+          title: "We set up service",
+          body: "Your tech introduces themselves, learns your system, and sets up a gate code or key hold. One setup, seamless every week after.",
+        },
+        {
+          title: "Weekly care, every visit",
+          body: "Chemistry balanced, filter checked, baskets cleared, surfaces brushed. We leave a service report so you know exactly what was done.",
+        },
+        {
+          title: "Crystal water, guaranteed",
+          body: "If your pool isn't swim-ready after a visit, we come back and fix it at no charge. Clear water is the only standard we keep.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Weekly", label: "Scheduled service", caption: "Same tech every visit" },
+        { value: "Certified", label: "Pool chemistry experts", caption: "CPO licensed" },
+        { value: "Free", label: "Instant online quote", caption: "No callbacks needed" },
+        { value: "Guaranteed", label: "Crystal-clear water", caption: "We come back if not right" },
+      ],
+    },
+    finalCta: {
+      headline: "Pool cloudy again?",
+      highlight: "We keep it crystal every week.",
+      body: "Certified technicians, weekly service, instant online pricing. Clear water or we come back free.",
+      ctaLabel: "Get weekly rate →",
+      backgroundImage: {
+        url: "/themes/sandstone-pool-care/hero.jpg",
+        alt: "Sun-dappled blue pool water with gentle ripples and tile edge",
+      },
+    },
+  },
 }

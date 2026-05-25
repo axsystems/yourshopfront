@@ -41,4 +41,44 @@ export const daylightLounge: Theme = {
   isThemeOption: true,
   sourceHtmlPath: "01-daylight-lounge.html",
   round: 1,
+  content: {
+    howItWorks: {
+      steps: [
+        {
+          title: "Drop in anytime",
+          body: "Machines are open 7am to 10pm. No reservation, no lines — just a calm, well-lit space with actual seating worth sitting in.",
+        },
+        {
+          title: "Load and settle in",
+          body: "Start a wash, grab a coffee from the counter, and sit. We have free wifi, magazines worth reading, and good natural light.",
+        },
+        {
+          title: "We notify you when done",
+          body: "Text alerts when your cycle finishes. No hovering, no checking — you'll know the moment it's ready to move to a dryer.",
+        },
+        {
+          title: "Fold and go — or drop off",
+          body: "Folding tables are generous and never crowded. Or drop your bag at the counter and we'll have it done in two hours.",
+        },
+      ],
+    },
+    trustStrip: {
+      stats: [
+        { value: "Open", label: "7am – 10pm daily", caption: "Early risers and late nights" },
+        { value: "Free", label: "WiFi and coffee refills", caption: "Bring your laptop" },
+        { value: "Text", label: "Alerts when done", caption: "No cycle-watching needed" },
+        { value: "2-hr", label: "Wash-and-fold drop-off", caption: "Leave the bag, pick it up later" },
+      ],
+    },
+    finalCta: {
+      headline: "Laundry day doesn't have to be dreadful.",
+      highlight: "Come in and see.",
+      body: "Good light, good coffee, text alerts when your cycle's done. Open daily, 7am to 10pm.",
+      ctaLabel: "Find us →",
+      backgroundImage: {
+        url: "/themes/daylight-lounge/hero.jpg",
+        alt: "Warm sunlit lounge interior with natural woods and soft textiles",
+      },
+    },
+  },
 }
