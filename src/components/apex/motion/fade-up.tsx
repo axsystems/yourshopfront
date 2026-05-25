@@ -28,6 +28,26 @@ interface FadeUpProps extends React.HTMLAttributes<HTMLDivElement> {
  * This rewrite is functionally equivalent and ships ~0 bytes of vendor
  * code beyond the IntersectionObserver browser API.
  */
+// Subscribe to prefers-reduced-motion via useSyncExternalStore so React 19's
+// set-state-in-effect lint rule is satisfied. The lazy initial value comes from
+// matchMedia at first render; SSR returns false (default = animate).
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)"
+
+function subscribeReducedMotion(cb: () => void): () => void {
+  if (typeof window === "undefined") return () => {}
+  const mq = window.matchMedia(REDUCED_MOTION_QUERY)
+  mq.addEventListener("change", cb)
+  return () => mq.removeEventListener("change", cb)
+}
+
+function getReducedMotionSnapshot(): boolean {
+  return window.matchMedia(REDUCED_MOTION_QUERY).matches
+}
+
+function getReducedMotionServerSnapshot(): boolean {
+  return false
+}
+
 export function FadeUp({
   children,
   delay = 0,
@@ -36,25 +56,21 @@ export function FadeUp({
   ...rest
 }: FadeUpProps) {
   const ref = React.useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = React.useState(false)
-  const [reduce, setReduce] = React.useState(false)
-
-  React.useEffect(() => {
-    if (typeof window === "undefined") return
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
-    setReduce(mq.matches)
-    const handler = (e: MediaQueryListEvent) => setReduce(e.matches)
-    mq.addEventListener("change", handler)
-    return () => mq.removeEventListener("change", handler)
-  }, [])
+  const reduce = React.useSyncExternalStore(
+    subscribeReducedMotion,
+    getReducedMotionSnapshot,
+    getReducedMotionServerSnapshot,
+  )
+  // Lazy initial: if IntersectionObserver is missing (very old browser or
+  // SSR-then-hydrate where the snapshot is computed at mount), start visible.
+  const [visible, setVisible] = React.useState(
+    () => typeof window !== "undefined" && typeof IntersectionObserver === "undefined",
+  )
 
   React.useEffect(() => {
     const el = ref.current
     if (!el) return
-    if (typeof IntersectionObserver === "undefined") {
-      setVisible(true)
-      return
-    }
+    if (typeof IntersectionObserver === "undefined") return
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry?.isIntersecting) {
