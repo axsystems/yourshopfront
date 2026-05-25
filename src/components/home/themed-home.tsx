@@ -46,13 +46,30 @@ export function ThemedHome({ theme, isDemoPreview }: ThemedHomeProps) {
         <FadeUp id="how">
           <HowItWorks theme={theme} />
         </FadeUp>
-        <Pricing theme={theme} demoSlug={isDemoPreview ? theme.slug : undefined} />
-        <Showcase theme={theme} activeSlug={isDemoPreview ? theme.slug : undefined} />
+        {/* Phase B2 — `Pricing`, `Showcase`, and `FAQ` are Apex-meta content.
+            Hiding them on `/demos/[slug]` lets each demo read as the imagined
+            business's own site (per `project_demos_north_star` memory). The
+            global `<DemoSwitcher>` + `<SiteHeader variant="themed">` still
+            expose Apex chrome for navigation. `/portfolio/[slug]` keeps the
+            full meta-aware layout for SEO inspiration. */}
+        {!isDemoPreview && (
+          <>
+            <Pricing theme={theme} />
+            <Showcase theme={theme} />
+            <FadeUp>
+              <FAQ theme={theme} />
+            </FadeUp>
+          </>
+        )}
         <FadeUp>
-          <FAQ theme={theme} />
-        </FadeUp>
-        <FadeUp>
-          <FinalCTA theme={theme} />
+          <FinalCTA
+            theme={theme}
+            ctaPrimaryHref={
+              isDemoPreview
+                ? `/checkout?tier=subscription&demo=${theme.slug}`
+                : "#showcase"
+            }
+          />
         </FadeUp>
       </main>
       <SiteFooter variant="themed" />
