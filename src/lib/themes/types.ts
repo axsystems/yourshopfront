@@ -92,6 +92,65 @@ export interface ThemeHeroImage {
   credit: string
 }
 
+/**
+ * Phase B content overrides. Optional per-theme strings + image paths that
+ * let HowItWorks, TrustStrip, and FinalCTA render industry-relevant copy
+ * and stock photography instead of the generic Apex-templated defaults.
+ *
+ * Every field is optional — when omitted, the section falls back to the
+ * existing hardcoded defaults so Phase B can roll out theme-by-theme
+ * without regressing un-migrated demos.
+ *
+ * Image URLs follow the Phase A convention: same-origin paths under
+ * `public/themes/<slug>/...` (e.g. `/themes/summit-roofing/step-1.jpg`).
+ */
+export interface ThemeStepOverride {
+  /** Step heading. Overrides the default "Pick a style"-style copy. */
+  title: string
+  /** Step body copy. Should be industry-specific to feel custom. */
+  body: string
+  /** Optional photo rendered above the step content. */
+  image?: { url: string; alt: string }
+}
+
+export interface ThemeStatOverride {
+  value: string
+  label: string
+  caption: string
+}
+
+export interface ThemeFinalCtaOverride {
+  /** Headline preceding the highlighted span. */
+  headline?: string
+  /** Highlighted phrase rendered in primary color. */
+  highlight?: string
+  /** Sub-headline body copy under the headline. */
+  body?: string
+  /** Primary CTA button label. */
+  ctaLabel?: string
+  /**
+   * Optional full-bleed background photo. When set, the FinalCTA renders
+   * with the photo behind a dark scrim so the inverted text remains
+   * readable; the chat card preview floats over the photo.
+   */
+  backgroundImage?: { url: string; alt: string }
+}
+
+export interface ThemeContentOverrides {
+  /** Industry-specific copy + photos for the HowItWorks 4-step grid. */
+  howItWorks?: {
+    /** Exactly 4 steps — must mirror the existing step count. */
+    steps: [ThemeStepOverride, ThemeStepOverride, ThemeStepOverride, ThemeStepOverride]
+  }
+  /** Industry-specific stats for the TrustStrip. */
+  trustStrip?: {
+    /** Exactly 4 cells — must mirror the existing cell count. */
+    stats: [ThemeStatOverride, ThemeStatOverride, ThemeStatOverride, ThemeStatOverride]
+  }
+  /** Industry-specific FinalCTA copy + optional full-bleed photo. */
+  finalCta?: ThemeFinalCtaOverride
+}
+
 export interface Theme {
   slug: string
   name: string
@@ -123,4 +182,11 @@ export interface Theme {
   sourceHtmlPath: string
   /** Design round (1 = abstract concepts, 2 = brand personalities, 3 = home-service brands). */
   round: 1 | 2 | 3
+  /**
+   * Phase B: optional per-theme content + imagery overrides for the
+   * HowItWorks, TrustStrip, and FinalCTA sections. When omitted, each
+   * section renders its generic Apex-templated default. Populated per
+   * theme in Phase B1.
+   */
+  content?: ThemeContentOverrides
 }

@@ -1,4 +1,4 @@
-import type { Theme, ThemeVibe } from "@/lib/themes/types"
+import type { Theme, ThemeStatOverride, ThemeVibe } from "@/lib/themes/types"
 import { Container } from "./primitives"
 
 interface TrustStripProps {
@@ -11,15 +11,16 @@ interface TrustStripProps {
  * (master brief §5.6) but renders in theme colors instead of Apex chrome
  * tokens. NO fake metrics.
  */
-const CELLS = [
+const DEFAULT_CELLS: ThemeStatOverride[] = [
   { value: "24h", label: "Live within 24 hours", caption: "From content receipt" },
   { value: "30", label: "Designs ready to ship", caption: "Across home services and adjacent trades" },
   { value: "$0", label: "Setup commitment", caption: "Subscription tier — cancel any time" },
   { value: "30 days", label: "Money-back guarantee", caption: "On the first month" },
-] as const
+]
 
 export function TrustStrip({ theme }: TrustStripProps) {
   const presentation = vibePresentation(theme.vibe)
+  const cells = theme.content?.trustStrip?.stats ?? DEFAULT_CELLS
   return (
     <div
       className="border-y"
@@ -40,7 +41,7 @@ export function TrustStrip({ theme }: TrustStripProps) {
       }}
     >
       <Container className="grid grid-cols-2 gap-6 py-12 md:grid-cols-4 md:py-16">
-        {CELLS.map((cell) => (
+        {cells.map((cell) => (
           <Cell
             key={cell.label}
             value={cell.value}
