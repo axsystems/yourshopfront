@@ -68,7 +68,7 @@ function SingleSiteView({ site }: { site: Site }) {
             href={site.live_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-apx-mute underline-offset-2 hover:text-apx-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-apx-primary focus-visible:ring-offset-1 rounded"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-apx-mute underline-offset-2 hover:text-apx-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-apx-primary focus-visible:ring-offset-2 rounded"
           >
             <ExternalLink className="h-3.5 w-3.5 flex-shrink-0" aria-hidden />
             <span className="truncate">{site.live_url.replace(/^https?:\/\//, "")}</span>
@@ -98,7 +98,7 @@ function SingleSiteView({ site }: { site: Site }) {
           </h2>
           <Link
             href="/app/edit-requests"
-            className="text-sm font-medium text-apx-mute underline-offset-2 hover:text-apx-ink hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-apx-primary focus-visible:ring-offset-1 rounded"
+            className="text-sm font-medium text-apx-mute underline-offset-2 hover:text-apx-ink hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-apx-primary focus-visible:ring-offset-2 rounded"
           >
             View all
           </Link>

@@ -151,7 +151,7 @@ export function DashboardSidebar({ email, isOpen, onClose }: DashboardSidebarPro
             type="button"
             onClick={onClose}
             aria-label="Close navigation"
-            className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-apx-mute transition-colors hover:bg-apx-tint hover:text-apx-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-apx-primary md:hidden"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-apx-mute transition-colors hover:bg-apx-tint hover:text-apx-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-apx-primary focus-visible:ring-offset-2 md:hidden"
           >
             <X className="h-4 w-4" aria-hidden />
           </button>
@@ -192,7 +192,7 @@ export function DashboardSidebar({ email, isOpen, onClose }: DashboardSidebarPro
                     onClick={onClose}
                     aria-current={isActive ? "page" : undefined}
                     className={cn(
-                      "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-apx-primary focus-visible:ring-offset-1",
+                      "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-apx-primary focus-visible:ring-offset-2",
                       isActive
                         ? "bg-apx-primary-soft text-apx-primary-ink"
                         : "text-apx-mute hover:bg-apx-tint hover:text-apx-ink"
@@ -215,7 +215,7 @@ export function DashboardSidebar({ email, isOpen, onClose }: DashboardSidebarPro
           <form action="/auth/signout" method="post" className="mt-2">
             <button
               type="submit"
-              className="inline-flex items-center text-xs font-medium text-apx-mute underline-offset-2 transition-colors hover:text-apx-danger hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-apx-primary focus-visible:ring-offset-1 rounded"
+              className="inline-flex items-center text-xs font-medium text-apx-mute underline-offset-2 transition-colors hover:text-apx-danger hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-apx-primary focus-visible:ring-offset-2 rounded"
             >
               Sign out
             </button>
