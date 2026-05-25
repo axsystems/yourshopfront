@@ -136,9 +136,30 @@ export interface ThemeFinalCtaOverride {
   backgroundImage?: { url: string; alt: string }
 }
 
+/**
+ * Phase B2.1 — overrides for the HowItWorks section header. The default
+ * header copy ("How it works", "Four steps, your site live by the end of
+ * the week") is meta about Your Shopfront's delivery process — fine for
+ * `/portfolio/[slug]` but breaks immersion on `/demos/[slug]` where every
+ * other section reads as the imagined business. Per-theme overrides let
+ * each demo's HowItWorks frame the BUSINESS's own process.
+ */
+export interface ThemeSectionHeaderOverride {
+  /** Pill-shaped eyebrow text above the headline (e.g., "How we work"). */
+  eyebrow?: string
+  /** Plain leading text before the highlighted span (e.g., "Four steps,"). */
+  headline?: string
+  /** Highlighted phrase rendered in primary color (e.g., "and we're at your door."). */
+  highlight?: string
+  /** Sub-paragraph below the headline. */
+  sub?: string
+}
+
 export interface ThemeContentOverrides {
   /** Industry-specific copy + photos for the HowItWorks 4-step grid. */
   howItWorks?: {
+    /** Optional per-theme section header (eyebrow + headline + sub). */
+    header?: ThemeSectionHeaderOverride
     /** Exactly 4 steps — must mirror the existing step count. */
     steps: [ThemeStepOverride, ThemeStepOverride, ThemeStepOverride, ThemeStepOverride]
   }
