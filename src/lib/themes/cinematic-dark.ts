@@ -43,6 +43,12 @@ export const cinematicDark: Theme = {
   round: 1,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "Our process",
+        headline: "Brief to broadcast-ready —",
+        highlight: "nothing improvised on shoot day.",
+        sub: "We find the visual language in the brief, plan every frame in pre-production, then shoot with intention. Delivered in every format you need.",
+      },
       steps: [
         {
           title: "Brief and creative call",

@@ -76,6 +76,12 @@ export const westwoodTree: Theme = {
   round: 3,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How we work",
+        headline: "Estimate to clean yard —",
+        highlight: "no debris left behind.",
+        sub: "A certified arborist walks the property, tells you what the tree actually needs, and puts an ISA-trained crew on it. Everything chipped or hauled same day.",
+      },
       steps: [
         {
           title: "Free on-site estimate",

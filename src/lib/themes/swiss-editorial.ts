@@ -43,6 +43,12 @@ export const swissEditorial: Theme = {
   round: 1,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "The process",
+        headline: "Problem first,",
+        highlight: "then one fully developed direction.",
+        sub: "We map what needs to be communicated before a single mark is made. One concept, presented with reasoning. Two rounds of focused revision, then handoff.",
+      },
       steps: [
         {
           title: "Discovery and framing",

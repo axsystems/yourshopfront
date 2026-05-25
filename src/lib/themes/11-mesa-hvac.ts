@@ -76,6 +76,12 @@ export const mesaHvac: Theme = {
   round: 3,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How we work",
+        headline: "You call, we come —",
+        highlight: "unit back on before we leave.",
+        sub: "Live dispatch any hour, flat-rate quote on site, parts stocked on the truck. Most repairs done same visit.",
+      },
       steps: [
         {
           title: "Call — we answer now",

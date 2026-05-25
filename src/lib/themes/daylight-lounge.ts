@@ -43,6 +43,12 @@ export const daylightLounge: Theme = {
   round: 1,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How it works",
+        headline: "Come in, load a machine,",
+        highlight: "and actually enjoy the wait.",
+        sub: "Good seating, free wifi, coffee at the counter, and text alerts when your cycle's done. Or drop off a bag and pick it up two hours later.",
+      },
       steps: [
         {
           title: "Drop in anytime",

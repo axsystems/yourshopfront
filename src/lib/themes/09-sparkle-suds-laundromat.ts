@@ -76,6 +76,12 @@ export const sparkleSudsLaundromat: Theme = {
   round: 3,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How it works",
+        headline: "Schedule pickup,",
+        highlight: "folded laundry back at your door tomorrow.",
+        sub: "Book in under a minute, we collect from your door, wash and fold, and return it next day. Weekly plans available — no contracts.",
+      },
       steps: [
         {
           title: "Schedule a pickup",

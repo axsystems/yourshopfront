@@ -76,6 +76,12 @@ export const ironsidePlumbing: Theme = {
   round: 3,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How we work",
+        headline: "Four steps,",
+        highlight: "and we're back in your driveway.",
+        sub: "No menu trees. No callback queues. A licensed plumber on the line in under a minute, on your doorstep within 90.",
+      },
       steps: [
         {
           title: "Call us, 24/7",

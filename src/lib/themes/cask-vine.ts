@@ -43,6 +43,12 @@ export const caskVine: Theme = {
   round: 2,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "An evening here",
+        headline: "Reserve a table,",
+        highlight: "and stay as long as you like.",
+        sub: "Twenty-two seats, natural wine only, no table turns. Let us guide the glass — the list is all minimal-intervention producers.",
+      },
       steps: [
         {
           title: "Reserve a table",

@@ -26,25 +26,34 @@ const DEFAULT_STEPS: ThemeStepOverride[] = [
   },
 ]
 
+const DEFAULT_HEADER = {
+  eyebrow: "How it works",
+  headline: "Four steps,",
+  highlight: "your site live by the end of the week.",
+  sub: "We don't disappear into a six-week design process. You see progress every day, and most sites launch in under a week from the day you sign up.",
+}
+
 export function HowItWorks({ theme }: HowItWorksProps) {
   const steps = theme.content?.howItWorks?.steps ?? DEFAULT_STEPS
+  const header = theme.content?.howItWorks?.header
+  const eyebrow = header?.eyebrow ?? DEFAULT_HEADER.eyebrow
+  const headline = header?.headline ?? DEFAULT_HEADER.headline
+  const highlight = header?.highlight ?? DEFAULT_HEADER.highlight
+  const sub = header?.sub ?? DEFAULT_HEADER.sub
   return (
     <Section>
       <Container>
         <div className="max-w-3xl">
-          <Eyebrow>How it works</Eyebrow>
+          <Eyebrow>{eyebrow}</Eyebrow>
           <Display as="h2" className="mt-5 text-4xl sm:text-5xl">
-            Four steps,{" "}
-            <span style={{ color: "var(--apex-primary)" }}>
-              your site live by the end of the week.
-            </span>
+            {headline}{" "}
+            <span style={{ color: "var(--apex-primary)" }}>{highlight}</span>
           </Display>
           <p
             className="mt-5 max-w-xl text-lg leading-relaxed"
             style={{ color: "var(--apex-muted-fg)" }}
           >
-            We don&apos;t disappear into a six-week design process. You see progress every day,
-            and most sites launch in under a week from the day you sign up.
+            {sub}
           </p>
         </div>
         <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">

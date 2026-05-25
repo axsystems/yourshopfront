@@ -43,6 +43,12 @@ export const brutalist: Theme = {
   round: 1,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How we work",
+        headline: "Audit to launch —",
+        highlight: "one bold direction, no option paralysis.",
+        sub: "We tear apart what's failing, build one decisive concept, and execute it loud. Fast, blunt, built to get noticed.",
+      },
       steps: [
         {
           title: "We audit your brand",

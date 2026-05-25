@@ -43,6 +43,12 @@ export const maraLin: Theme = {
   round: 2,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "The process",
+        headline: "Brief to final selects —",
+        highlight: "every frame deliberate.",
+        sub: "Concept developed in writing before a camera moves, shoot directed with intention, retouched selects delivered with usage rights clarified upfront.",
+      },
       steps: [
         {
           title: "Send a brief",

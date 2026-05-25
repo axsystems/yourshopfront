@@ -76,6 +76,12 @@ export const brightsideCleaning: Theme = {
   round: 3,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How it works",
+        headline: "Book in 60 seconds,",
+        highlight: "same cleaner every time.",
+        sub: "Instant flat-rate price, background-checked cleaner, checklist-driven clean. Love it or we come back within 24 hours at no charge.",
+      },
       steps: [
         {
           title: "Book in 60 seconds",

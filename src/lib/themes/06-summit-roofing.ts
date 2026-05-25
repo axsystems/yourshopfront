@@ -76,6 +76,12 @@ export const summitRoofing: Theme = {
   round: 3,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How it goes",
+        headline: "Inspection to finished roof —",
+        highlight: "without the runaround.",
+        sub: "We get on your roof, document the damage, walk the insurance claim with you, and put a certified crew up there. You don't chase paperwork.",
+      },
       steps: [
         {
           title: "Free storm inspection",

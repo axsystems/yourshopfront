@@ -76,6 +76,12 @@ export const sandstonePoolCare: Theme = {
   round: 3,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How it works",
+        headline: "Weekly service,",
+        highlight: "crystal water or we come back free.",
+        sub: "Instant online pricing, same tech every visit, service report after every call. You don't watch the chemistry — we do.",
+      },
       steps: [
         {
           title: "Get your weekly price",

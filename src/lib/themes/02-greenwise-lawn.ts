@@ -76,6 +76,12 @@ export const greenwiseLawn: Theme = {
   round: 3,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How we work",
+        headline: "Quote to consistent lawn —",
+        highlight: "same crew, every single visit.",
+        sub: "Instant online price, you pick the schedule, we show up on the same day each week. Organic treatments, sharp blades, no shortcuts.",
+      },
       steps: [
         {
           title: "Get an instant quote",

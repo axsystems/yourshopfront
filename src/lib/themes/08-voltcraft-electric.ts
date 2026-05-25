@@ -76,6 +76,12 @@ export const voltcraftElectric: Theme = {
   round: 3,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How we work",
+        headline: "Call to close —",
+        highlight: "permitted, passed, and signed off.",
+        sub: "A master electrician answers, diagnoses the fault in plain language, and pulls every permit the job needs. No shortcuts, no second trips.",
+      },
       steps: [
         {
           title: "Call — we pick up",

@@ -43,6 +43,12 @@ export const printBlockBooks: Theme = {
   round: 2,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How to find us",
+        headline: "Walk in without a list —",
+        highlight: "leave with three books you didn't know you needed.",
+        sub: "Shelves organized by mood, staff who actually read, and local zines you won't find on any algorithm. New stock every week.",
+      },
       steps: [
         {
           title: "Browse without a plan",
