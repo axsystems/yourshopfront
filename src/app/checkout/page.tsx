@@ -48,8 +48,16 @@ export default async function CheckoutPage({ searchParams }: PageProps) {
   }
 
   const cancelled = params.cancelled === "1"
-  // Only "launch" is a valid promo. Anything else is treated as absent.
-  const promo = params.promo === "launch" ? "launch" : undefined
+  // While the launch promo is active, subscription tier defaults to the promo
+  // price so customers who browse demos/portfolio before checkout still get
+  // the discount even when those CTAs don't forward `promo=launch` in the URL.
+  // Pass `?promo=none` to explicitly opt out (testing / non-promo links).
+  const promo =
+    params.promo === "none"
+      ? undefined
+      : tier === "subscription"
+        ? "launch"
+        : undefined
   const isPromoSubscription = promo === "launch" && tier === "subscription"
 
   return (
