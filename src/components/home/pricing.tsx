@@ -57,9 +57,11 @@ export function Pricing({ theme, demoSlug }: PricingProps) {
               tagline="LAUNCH PROMO · CANCEL ANYTIME"
               title="Subscription"
               price="$99"
+              originalPrice="$299"
               priceDetail="setup"
               recurring="+ $99/mo"
-              sub="$99/mo for 3 months, then $149/mo · cancel anytime."
+              originalRecurring="$149/mo"
+              sub="$99/mo for 3 months, then $149/mo standard · cancel anytime."
               features={SUB_FEATURES}
               ctaLabel="Start subscription →"
               ctaHref={subHref}
@@ -97,8 +99,12 @@ interface PriceCardProps {
   tagline: string
   title: string
   price: string
+  /** Pre-sale price — renders strikethrough above the sale price. */
+  originalPrice?: string
   priceDetail: string
   recurring?: string
+  /** Pre-sale recurring — strikethrough next to the discounted recurring. */
+  originalRecurring?: string
   sub: string
   features: string[]
   ctaLabel: string
@@ -106,7 +112,7 @@ interface PriceCardProps {
 }
 
 function PriceCard(props: PriceCardProps) {
-  const { theme, variant, tagline, title, price, priceDetail, recurring, sub, features, ctaLabel, ctaHref } = props
+  const { theme, variant, tagline, title, price, originalPrice, priceDetail, recurring, originalRecurring, sub, features, ctaLabel, ctaHref } = props
   const featured = variant === "featured"
   return (
     <div
@@ -141,7 +147,19 @@ function PriceCard(props: PriceCardProps) {
       >
         {title}
       </h3>
-      <div className="mt-4 flex items-baseline gap-2">
+      <div className="mt-4 flex flex-wrap items-baseline gap-2">
+        {originalPrice && (
+          <p
+            className="text-2xl line-through"
+            style={{
+              fontFamily: "var(--apex-font-display)",
+              fontWeight: 600,
+              opacity: 0.55,
+            }}
+          >
+            {originalPrice}
+          </p>
+        )}
         <p
           className="text-5xl"
           style={{
@@ -164,6 +182,11 @@ function PriceCard(props: PriceCardProps) {
               fontWeight: 600,
             }}
           >
+            {originalRecurring && (
+              <span className="mr-1.5 line-through" style={{ opacity: 0.55, fontWeight: 500 }}>
+                {originalRecurring}
+              </span>
+            )}
             {recurring}
           </p>
         )}

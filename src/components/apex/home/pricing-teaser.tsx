@@ -10,6 +10,8 @@ interface TierCardProps {
   tagline: string
   title: string
   price: string
+  /** Pre-sale price — renders strikethrough next to the sale price. */
+  originalPrice?: string
   period: string
   sub: string
   features: string[]
@@ -50,9 +52,10 @@ export function HomePricingTeaser() {
           <FadeUp>
             <TierCard
               recommended
-              tagline="Most popular · Cancel anytime"
+              tagline="Launch promo · Cancel anytime"
               title="Subscription"
               price="$99"
+              originalPrice="$299"
               period="setup, then $99/mo for 3 months ($149/mo after)"
               sub="We host it. Unlimited edits."
               features={SUB_FEATURES}
@@ -89,6 +92,7 @@ function TierCard({
   tagline,
   title,
   price,
+  originalPrice,
   period,
   sub,
   features,
@@ -115,7 +119,7 @@ function TierCard({
           {title}
         </h3>
         <div className="mt-4 flex items-baseline gap-3">
-          <PriceTag value={price} period={period} large />
+          <PriceTag value={price} originalValue={originalPrice} period={period} large />
         </div>
         <p className="mt-2 text-[14px] text-apx-mute">{sub}</p>
       </div>
