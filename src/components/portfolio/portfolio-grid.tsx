@@ -149,8 +149,14 @@ function PortfolioCard({ theme }: { theme: Theme }) {
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.02]"
           loading="lazy"
         />
-        <span className="absolute right-3 top-3 rounded-full bg-emerald-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white">
-          Available →
+        {/* Launch-promo badge — sunshine highlight color signals "deal" more
+            urgently than the prior generic emerald "Available →" badge.
+            $99 across all 30 cards = price visible at-a-glance on the
+            browse surface; matches the launch-promo language in the mobile
+            sticky bar + Hero so prospects see consistent pricing wherever
+            they enter the funnel. */}
+        <span className="absolute right-3 top-3 rounded-full bg-apx-highlight px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-apx-highlight-ink">
+          $99 launch
         </span>
       </div>
       <div className="space-y-3 p-5">
