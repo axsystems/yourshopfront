@@ -62,6 +62,12 @@ export const mesaHvac: Theme = {
   fonts: { display: "oswald", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "4px", md: "6px", lg: "10px", pill: "100px" },
   button: { shape: "sharp", shadow: "hard-offset", weight: "heavy", uppercase: true },
+  heroImage: {
+    url: "/themes/mesa-hvac/hero.jpg",
+    alt: "Outdoor air conditioning condenser unit beside a residential wall",
+    credit: "Photo by Pixabay on Pexels",
+  },
+
   seoTitle: "Apex Sites — Emergency HVAC & 24/7 Trade Style",
   seoDescription:
     "The Mesa HVAC demo. Navy + sunset orange, condensed Oswald headlines, phone-first hero. For HVAC, A/C repair, garage-door, and any 24/7 emergency trade.",

@@ -62,6 +62,12 @@ export const tidyProsJunk: Theme = {
   fonts: { display: "plus-jakarta-sans", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "10px", md: "16px", lg: "24px", pill: "100px" },
   button: { shape: "pill", shadow: "soft", weight: "heavy", uppercase: false },
+  heroImage: {
+    url: "/themes/tidy-pros-junk/hero.jpg",
+    alt: "Pickup truck loaded with materials parked in front of a home",
+    credit: "Photo by Erik Mclean on Unsplash",
+  },
+
   seoTitle: "Apex Sites — Bold Friendly Style for Junk, Hauling & Project Trades",
   seoDescription:
     "The Tidy Pros demo. High-contrast black + coral, confident headlines, photo-quote form hero. For junk removal, hauling, demolition, and any photo-quote service brand.",

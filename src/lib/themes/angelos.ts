@@ -29,6 +29,12 @@ export const angelos: Theme = {
   fonts: { display: "playfair-display", body: "playfair-display", mono: "jetbrains-mono" },
   radius: { sm: "0", md: "0", lg: "2px", pill: "999px" },
   button: { shape: "sharp", shadow: "hard-offset", weight: "bold", uppercase: true },
+  heroImage: {
+    url: "/themes/angelos/hero.jpg",
+    alt: "Overhead shot of a freshly baked pizza on a rustic wooden table",
+    credit: "Photo by Ivan Torres on Unsplash",
+  },
+
   seoTitle: "Angelo's — Brooklyn Pizza Since 1956 · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a heritage Brooklyn pizza joint. Parchment + tomato + mustard, Playfair Display, double-rule newspaper masthead. Built for restaurants and food brands with history.",

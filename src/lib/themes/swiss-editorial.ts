@@ -29,6 +29,12 @@ export const swissEditorial: Theme = {
   fonts: { display: "playfair-display", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "0", md: "2px", lg: "4px", pill: "999px" },
   button: { shape: "sharp", shadow: "none", weight: "regular", uppercase: false },
+  heroImage: {
+    url: "/themes/swiss-editorial/hero.jpg",
+    alt: "Black ink type on cream paper in a tight editorial composition",
+    credit: "Photo by Annie Spratt on Unsplash",
+  },
+
   seoTitle: "Swiss Editorial — Independent Design Practice · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a Swiss-style design studio. Cream + ink + oxblood, italic display, tabular project index. Built for studios and agencies.",

@@ -29,6 +29,12 @@ export const documentaryB2b: Theme = {
   fonts: { display: "inter", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "6px", md: "10px", lg: "14px", pill: "999px" },
   button: { shape: "rounded", shadow: "soft", weight: "bold", uppercase: false },
+  heroImage: {
+    url: "/themes/documentary-b2b/hero.jpg",
+    alt: "Professionals reviewing documents around a conference table",
+    credit: "Photo by Austin Distel on Unsplash",
+  },
+
   seoTitle: "Documentary B2B — Healthcare & Commercial Linen · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a B2B commercial laundry brand. Navy + yellow + red, credentialed strip, JetBrains Mono utility type. Built for healthcare contracts and commercial services.",

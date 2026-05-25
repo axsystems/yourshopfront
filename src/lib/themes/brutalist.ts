@@ -29,6 +29,12 @@ export const brutalist: Theme = {
   fonts: { display: "bricolage-grotesque", body: "bricolage-grotesque", mono: "jetbrains-mono" },
   radius: { sm: "0", md: "0", lg: "0", pill: "999px" },
   button: { shape: "rounded", shadow: "hard-offset", weight: "heavy", uppercase: true },
+  heroImage: {
+    url: "/themes/brutalist/hero.jpg",
+    alt: "Stark concrete architectural geometry with strong shadows",
+    credit: "Photo by Joel Filipe on Unsplash",
+  },
+
   seoTitle: "Neo-Brutalist — LOUD Agency Style · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a neo-brutalist agency brand. Yellow + black + pink + blue, Bricolage Grotesque, hard-shadow buttons, mega type. Built for agencies and brands that want to be loud.",

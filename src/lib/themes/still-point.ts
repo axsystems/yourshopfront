@@ -29,6 +29,12 @@ export const stillPoint: Theme = {
   fonts: { display: "playfair-display", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "0", md: "0", lg: "0", pill: "999px" },
   button: { shape: "pill", shadow: "none", weight: "regular", uppercase: false },
+  heroImage: {
+    url: "/themes/still-point/hero.jpg",
+    alt: "Empty yoga studio with morning light across a wooden floor",
+    credit: "Photo by Anupam Mahapatra on Unsplash",
+  },
+
   seoTitle: "Still Point — Yoga & Meditation · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a wabi-sabi yoga studio. Bone + terracotta + sage, Cormorant italic, morphing organic shape. Built for yoga, meditation, and wellness brands.",

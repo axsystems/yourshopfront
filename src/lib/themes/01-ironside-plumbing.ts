@@ -62,6 +62,12 @@ export const ironsidePlumbing: Theme = {
   fonts: { display: "archivo-black", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "0", md: "0", lg: "0", pill: "0" },
   button: { shape: "sharp", shadow: "hard-offset", weight: "heavy", uppercase: true },
+  heroImage: {
+    url: "/themes/ironside-plumbing/hero.jpg",
+    alt: "Plumber's hand tightening a brass fitting on copper pipework",
+    credit: "Photo by Sigmund on Unsplash",
+  },
+
   seoTitle: "Apex Sites — Bold Industrial Style for Emergency Service Brands",
   seoDescription:
     "The Ironside Plumbing demo. A heavy, urgency-led design for plumbers, HVAC, and 24/7 trades. Phone-first hero, hazard-stripe accents, hard-edged buttons.",

@@ -29,6 +29,12 @@ export const switchback: Theme = {
   fonts: { display: "inter", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "6px", md: "8px", lg: "12px", pill: "999px" },
   button: { shape: "rounded", shadow: "glow", weight: "bold", uppercase: false },
+  heroImage: {
+    url: "/themes/switchback/hero.jpg",
+    alt: "Close-up of green monospaced code on a dark monitor",
+    credit: "Photo by Markus Spiske on Unsplash",
+  },
+
   seoTitle: "Switchback — Observability SaaS · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a developer-tools observability brand. Near-black + emerald glow, JetBrains Mono, code-card hero. Built for SaaS, devtools, and B2B subscription products.",

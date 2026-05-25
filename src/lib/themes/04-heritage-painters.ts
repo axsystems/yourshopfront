@@ -62,6 +62,12 @@ export const heritagePainters: Theme = {
   fonts: { display: "fraunces", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "4px", md: "6px", lg: "8px", pill: "100px" },
   button: { shape: "sharp", shadow: "none", weight: "bold", uppercase: false },
+  heroImage: {
+    url: "/themes/heritage-painters/hero.jpg",
+    alt: "Painter using a roller on an interior wall in warm afternoon light",
+    credit: "Photo by Theme Photos on Unsplash",
+  },
+
   seoTitle: "Apex Sites — Warm Premium Editorial Style for Craft Brands",
   seoDescription:
     "The Heritage Painters demo. Editorial serif, ivory + terracotta + gold palette, gallery hero. For painters, restorers, and high-craft trades.",

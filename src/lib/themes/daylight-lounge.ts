@@ -29,6 +29,12 @@ export const daylightLounge: Theme = {
   fonts: { display: "fraunces", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "8px", md: "12px", lg: "16px", pill: "999px" },
   button: { shape: "pill", shadow: "soft", weight: "bold", uppercase: false },
+  heroImage: {
+    url: "/themes/daylight-lounge/hero.jpg",
+    alt: "Warm sunlit lounge interior with natural woods and soft textiles",
+    credit: "Photo by Spacejoy on Unsplash",
+  },
+
   seoTitle: "Daylight Lounge — Laundry-as-Lounge Concept · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: an indie laundromat lounge concept. Cream + terracotta + sage palette, Fraunces serif, photo-collage hero.",

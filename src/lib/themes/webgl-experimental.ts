@@ -29,6 +29,12 @@ export const webglExperimental: Theme = {
   fonts: { display: "inter", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "6px", md: "8px", lg: "12px", pill: "999px" },
   button: { shape: "rounded", shadow: "glow", weight: "bold", uppercase: false },
+  heroImage: {
+    url: "/themes/webgl-experimental/hero.jpg",
+    alt: "Abstract blue and violet generative gradient texture",
+    credit: "Photo by Solen Feyissa on Unsplash",
+  },
+
   seoTitle: "Acid Tech — Experimental Devtools Style · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a hyper-tech devtools brand. Charcoal + acid green + electric blue, Inter Tight, custom cursor. Built for AI tools, devtools, and frontier-tech products.",

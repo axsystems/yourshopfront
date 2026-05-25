@@ -62,6 +62,12 @@ export const greenwiseLawn: Theme = {
   fonts: { display: "fraunces", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "8px", md: "14px", lg: "22px", pill: "100px" },
   button: { shape: "pill", shadow: "soft", weight: "bold", uppercase: false },
+  heroImage: {
+    url: "/themes/greenwise-lawn/hero.jpg",
+    alt: "Freshly cut green lawn in strong daylight",
+    credit: "Photo by Petar Tonchev on Unsplash",
+  },
+
   seoTitle: "Apex Sites — Naturalist Style for Lawn & Garden Brands",
   seoDescription:
     "The Greenwise Lawn demo. Soft serif, moss + cream palette, booking-card hero. For lawn care, landscaping, and organic-leaning recurring services.",

@@ -62,6 +62,12 @@ export const summitRoofing: Theme = {
   fonts: { display: "oswald", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "0", md: "2px", lg: "4px", pill: "0" },
   button: { shape: "sharp", shadow: "glow", weight: "heavy", uppercase: true },
+  heroImage: {
+    url: "/themes/summit-roofing/hero.jpg",
+    alt: "Roofer installing dark asphalt shingles on a residential rooftop",
+    credit: "Photo by Pixabay on Pexels",
+  },
+
   seoTitle: "Apex Sites — Industrial Dark Style for Roofing & Exterior Brands",
   seoDescription:
     "The Summit Roofing demo. Black + orange glow, Oswald display, form-card hero. For roofers, exterior contractors, and storm-restoration brands.",

@@ -74,6 +74,24 @@ export interface ThemeButton {
   uppercase: boolean
 }
 
+/**
+ * Themed hero photo. Lives in `public/themes/<slug>/hero.jpg` (served
+ * same-origin, so it works with the strict img-src CSP without remote
+ * patterns). `alt` describes the literal image content only — never
+ * fabricates business claims. `credit` is for the audit trail in
+ * `docs/demos-photo-credits.md`; not rendered on the customer surface.
+ *
+ * Required for the 30 marketing themes shipped in Phase A.
+ */
+export interface ThemeHeroImage {
+  /** Public-folder URL, e.g. "/themes/summit-roofing/hero.jpg". */
+  url: string
+  /** Literal image description. Never a business claim. */
+  alt: string
+  /** Photographer + source for the credits file. */
+  credit: string
+}
+
 export interface Theme {
   slug: string
   name: string
@@ -95,6 +113,8 @@ export interface Theme {
   fonts: ThemeFonts
   radius: ThemeRadius
   button: ThemeButton
+  /** Phase A hero photo. Required for the 30 marketing themes. */
+  heroImage: ThemeHeroImage
   seoTitle: string
   seoDescription: string
   /** True = offered as a switchable theme option (currently every theme is `true`). The homepage curated grid is gated separately on `featuredThemeSlugs` (10 picks); non-featured themes are reachable at `/demos/[slug]` and `/portfolio/[slug]`. */

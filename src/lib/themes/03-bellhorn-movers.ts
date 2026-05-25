@@ -62,6 +62,12 @@ export const bellhornMovers: Theme = {
   fonts: { display: "bricolage-grotesque", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "8px", md: "14px", lg: "24px", pill: "100px" },
   button: { shape: "rounded", shadow: "hard-offset", weight: "heavy", uppercase: false },
+  heroImage: {
+    url: "/themes/bellhorn-movers/hero.jpg",
+    alt: "Stack of brown cardboard moving boxes in an empty sunlit room",
+    credit: "Photo by HiveBoxx on Unsplash",
+  },
+
   seoTitle: "Apex Sites — Friendly Modern Style with Live Quote Calculator",
   seoDescription:
     "The Bellhorn Movers demo. Playful, navy + orange, calculator-led hero. For movers, junk removal, and any project-based service that prices by the hour.",

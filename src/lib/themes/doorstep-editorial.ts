@@ -32,6 +32,12 @@ export const doorstepEditorial: Theme = {
   fonts: { display: "playfair-display", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "8px", md: "10px", lg: "14px", pill: "999px" },
   button: { shape: "rounded", shadow: "soft", weight: "bold", uppercase: false },
+  heroImage: {
+    url: "/themes/doorstep-editorial/hero.jpg",
+    alt: "Brown cardboard parcel sitting on a clean residential doorstep",
+    credit: "Photo by Claudio Schwarz on Unsplash",
+  },
+
   seoTitle: "Apex Sites — Editorial Pickup-and-Delivery Style",
   seoDescription:
     "The Doorstep Editorial demo. Cream + forest + butter palette, address-bar booking hero, italic editorial display. Built for laundry pickup, dog walking, oil delivery, and recurring delivery brands.",
