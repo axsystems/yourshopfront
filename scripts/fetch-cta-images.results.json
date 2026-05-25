@@ -1,0 +1,276 @@
+{
+  "generatedAt": "2026-05-25T03:41:07.915Z",
+  "target_bytes": 184320,
+  "ctaBackgrounds": {
+    "ironside-plumbing": {
+      "source": "unsplash",
+      "id": "1626713748868-58643bf60860",
+      "photographer": "Rhodi Lopez",
+      "sourceUrl": "https://unsplash.com/photos/black-and-white-truck-on-road-during-daytime-yb8Z-IaxemM",
+      "alt": "Black and white work truck on a road during daytime",
+      "ok": true,
+      "bytes": 148258
+    },
+    "greenwise-lawn": {
+      "source": "unsplash",
+      "id": "1458245201577-fc8a130b8829",
+      "photographer": "Daniel Watson",
+      "sourceUrl": "https://unsplash.com/photos/green-and-black-lawnmower-on-green-grass-8vBpYpTGo90",
+      "alt": "Green and black lawn mower sitting on freshly cut grass",
+      "ok": true,
+      "bytes": 173978
+    },
+    "bellhorn-movers": {
+      "source": "unsplash",
+      "id": "1616432043562-3671ea2e5242",
+      "photographer": "Caleb Ruiter",
+      "sourceUrl": "https://unsplash.com/photos/white-freight-truck-on-road-during-daytime-EmEQ6kK_5P0",
+      "alt": "White freight truck travelling along an open road during daytime",
+      "ok": true,
+      "bytes": 179636
+    },
+    "heritage-painters": {
+      "source": "unsplash",
+      "id": "1638179552078-18c1f6db7409",
+      "photographer": "Marina Yalanska",
+      "sourceUrl": "https://unsplash.com/photos/a-box-filled-with-lots-of-different-colors-of-paint-fyylThhBTxI",
+      "alt": "Open box filled with rows of paint tubes in many colours",
+      "ok": true,
+      "bytes": 105172
+    },
+    "brightside-cleaning": {
+      "source": "unsplash",
+      "id": "1556912167-f556f1f39fdf",
+      "photographer": "Roam In Color",
+      "sourceUrl": "https://unsplash.com/photos/four-brown-stools-RryFk4n-vOs",
+      "alt": "Four brown wooden stools lined up at a clean kitchen island",
+      "ok": true,
+      "bytes": 128059
+    },
+    "summit-roofing": {
+      "source": "unsplash",
+      "id": "1524813686514-a57563d77965",
+      "photographer": "Tom Rumble",
+      "sourceUrl": "https://unsplash.com/photos/top-view-photography-of-houses-at-daytime-7lvzopTxjOU",
+      "alt": "Top-down aerial view of a suburban neighborhood of pitched-roof houses",
+      "ok": true,
+      "bytes": 161792
+    },
+    "westwood-tree": {
+      "source": "unsplash",
+      "id": "1684332666088-f35b252b5aca",
+      "photographer": "Kasia",
+      "sourceUrl": "https://unsplash.com/photos/a-man-cutting-a-tree-with-a-chainsaw-9wZCTO4SiMU",
+      "alt": "Arborist using a chainsaw to cut into a tree trunk",
+      "ok": true,
+      "bytes": 173208
+    },
+    "voltcraft-electric": {
+      "source": "unsplash",
+      "id": "1576446470246-499c738d1c8e",
+      "photographer": "Mark Kats",
+      "sourceUrl": "https://unsplash.com/photos/white-circuit-breakers-oj1zW_PNI4k",
+      "alt": "Row of white circuit breakers inside an electrical panel",
+      "ok": true,
+      "bytes": 119660
+    },
+    "sparkle-suds-laundromat": {
+      "source": "unsplash",
+      "id": "1635274605638-d44babc08a4f",
+      "photographer": "Dan LeFebvre",
+      "sourceUrl": "https://unsplash.com/photos/a-stack-of-folded-shirts-sitting-on-top-of-a-blue-table-APUvZYCjPJ0",
+      "alt": "Tall stack of freshly folded shirts resting on a blue surface",
+      "ok": true,
+      "bytes": 106160
+    },
+    "crystalline-window-co": {
+      "source": "unsplash",
+      "id": "1629419566667-1a7b044b7deb",
+      "photographer": "Masrur Rahman",
+      "sourceUrl": "https://unsplash.com/photos/black-and-gray-high-rise-building-under-blue-sky-during-daytime-Q0oO-6KKEcY",
+      "alt": "Tall black and gray glass high-rise building under a bright daytime sky",
+      "ok": true,
+      "bytes": 115184
+    },
+    "mesa-hvac": {
+      "source": "unsplash",
+      "id": "1774876549246-dfa8eae5d9f5",
+      "photographer": "HUUM",
+      "sourceUrl": "https://unsplash.com/photos/finger-pressing-button-on-digital-thermostat-display-Ymp_8DatASs",
+      "alt": "Finger pressing a button on a digital thermostat display",
+      "ok": true,
+      "bytes": 26759
+    },
+    "sandstone-pool-care": {
+      "source": "unsplash",
+      "id": "1687160954681-230591e7b494",
+      "photographer": "Tim Mossholder",
+      "sourceUrl": "https://unsplash.com/photos/a-blue-tiled-swimming-pool-with-blue-tiles-AseZhJU-PSQ",
+      "alt": "Blue tiled swimming pool with sunlight reflecting off the tile edge",
+      "ok": true,
+      "bytes": 158366
+    },
+    "tidy-pros-junk": {
+      "source": "unsplash",
+      "id": "1635108198854-26645ffe6714",
+      "photographer": "Point3D Commercial Imaging Ltd.",
+      "sourceUrl": "https://unsplash.com/photos/a-garage-filled-with-lots-of-clutter-and-tools-SP4oH94qOCU",
+      "alt": "Residential garage filled with stacked clutter and stored tools",
+      "ok": true,
+      "bytes": 177277
+    },
+    "aurora-pressure-wash": {
+      "source": "unsplash",
+      "id": "1777713174772-5b2e4886b62d",
+      "photographer": "Jonathan Cosens Photography",
+      "sourceUrl": "https://unsplash.com/photos/a-blue-hose-lies-on-a-paved-walkway-gprPe4PFGOw",
+      "alt": "Blue hose coiled across a freshly washed paved walkway",
+      "ok": true,
+      "bytes": 133955
+    },
+    "angelos": {
+      "source": "unsplash",
+      "id": "1606152196365-d1ce5ea838b5",
+      "photographer": "Klara Kulikova",
+      "sourceUrl": "https://unsplash.com/photos/fire-in-brown-wooden-round-tray-RsiNFKMvqtg",
+      "alt": "Open flames burning inside a round wood-fired oven",
+      "ok": true,
+      "bytes": 160240
+    },
+    "brutalist": {
+      "source": "unsplash",
+      "id": "1546414701-81cc6963c67f",
+      "photographer": "Simone Hutsch",
+      "sourceUrl": "https://unsplash.com/photos/landscape-photography-of-gray-concrete-building-XK0faa4_mCQ",
+      "alt": "Landscape view of a grey concrete brutalist building facade",
+      "ok": true,
+      "bytes": 48518
+    },
+    "cask-vine": {
+      "source": "unsplash",
+      "id": "1561906814-23da9a8bfee0",
+      "photographer": "Eric Cook",
+      "sourceUrl": "https://unsplash.com/photos/barrels-of-liquor-in-a-basement-D9WH_vlxicA",
+      "alt": "Stacked oak barrels of wine and liquor inside a low-lit cellar",
+      "ok": true,
+      "bytes": 161177
+    },
+    "cinematic-dark": {
+      "source": "unsplash",
+      "id": "1655575900119-2f19ba5718d0",
+      "photographer": "Abhijeet Gaikwad",
+      "sourceUrl": "https://unsplash.com/photos/a-large-building-with-a-large-roof-7_jgLKBxQ8I",
+      "alt": "Large dimly lit industrial building interior with sweeping roof",
+      "ok": true,
+      "bytes": 41722
+    },
+    "daylight-lounge": {
+      "source": "unsplash",
+      "id": "1656122381069-9ec666d95cf1",
+      "photographer": "Jake Goossen",
+      "sourceUrl": "https://unsplash.com/photos/a-living-room-with-a-large-window-MM7nD2FjI3U",
+      "alt": "Calm living room interior flooded with light from a large window",
+      "ok": true,
+      "bytes": 171524
+    },
+    "documentary-b2b": {
+      "source": "unsplash",
+      "id": "1431540015161-0bf868a2d407",
+      "photographer": "Benjamin Child",
+      "sourceUrl": "https://unsplash.com/photos/oval-brown-wooden-conference-table-and-chairs-inside-conference-room-GWe0dlVD9e0",
+      "alt": "Empty oval brown wooden conference table and chairs inside a conference room",
+      "ok": true,
+      "bytes": 114643
+    },
+    "doorstep-editorial": {
+      "source": "unsplash",
+      "id": "1641199788912-9a7385a35c82",
+      "photographer": "Mathias Reding",
+      "sourceUrl": "https://unsplash.com/photos/a-white-van-parked-on-the-side-of-the-road-OL84QWu3Ong",
+      "alt": "White delivery van parked along the side of a quiet street",
+      "ok": true,
+      "bytes": 123093
+    },
+    "mara-lin": {
+      "source": "unsplash",
+      "id": "1542992933-ce75d0187ec1",
+      "photographer": "Szabo Viktor",
+      "sourceUrl": "https://unsplash.com/photos/woman-taking-photo-6zEfniBMs6c",
+      "alt": "Photographer working in a studio, framing a shot with a camera",
+      "ok": true,
+      "bytes": 42520
+    },
+    "north-fork": {
+      "source": "unsplash",
+      "id": "1545287072-469f3761413c",
+      "photographer": "Toby Stodart",
+      "sourceUrl": "https://unsplash.com/photos/gray-storage-tank-VXj9SizkreE",
+      "alt": "Tall gray stainless-steel brewery fermentation tank",
+      "ok": true,
+      "bytes": 169523
+    },
+    "premium-trade": {
+      "source": "unsplash",
+      "id": "1426927308491-6380b6a9936f",
+      "photographer": "Barn Images",
+      "sourceUrl": "https://unsplash.com/photos/assorted-handheld-tools-in-tool-rack-t5YUoHW6zRo",
+      "alt": "Assorted hand tools neatly arranged in a workshop tool rack",
+      "ok": true,
+      "bytes": 177450
+    },
+    "print-block-books": {
+      "source": "unsplash",
+      "id": "1776112645860-189997694f49",
+      "photographer": "Will Grobbelaar",
+      "sourceUrl": "https://unsplash.com/photos/a-library-aisle-with-tall-bookshelves-filled-with-books-B69nkOr8zv8",
+      "alt": "Library aisle lined with tall bookshelves filled with books",
+      "ok": true,
+      "bytes": 135109
+    },
+    "still-point": {
+      "source": "unsplash",
+      "id": "1604938814491-c696899ec59b",
+      "photographer": "Brad Switzer",
+      "sourceUrl": "https://unsplash.com/photos/brown-stone-stack-on-brown-wooden-log-SHDCQ1l2WD0",
+      "alt": "Quiet stack of smooth brown stones balanced on a wooden log",
+      "ok": true,
+      "bytes": 134395
+    },
+    "swiss-editorial": {
+      "source": "unsplash",
+      "id": "1543487945-139a97f387d5",
+      "photographer": "Martin Péchy",
+      "sourceUrl": "https://unsplash.com/photos/wall-mounted-helvetica-alphabet-poster-above-sofa-iXHdGk8JVYU",
+      "alt": "Wall-mounted Helvetica alphabet poster hung above a sofa",
+      "ok": true,
+      "bytes": 158276
+    },
+    "switchback": {
+      "source": "unsplash",
+      "id": "1534972195531-d756b9bfa9f2",
+      "photographer": "Fotis Fotopoulos",
+      "sourceUrl": "https://unsplash.com/photos/two-black-flat-screen-computer-monitors-LJ9KY8pIH3E",
+      "alt": "Two black flat-screen developer monitors glowing in a dark room",
+      "ok": true,
+      "bytes": 98865
+    },
+    "webgl-experimental": {
+      "source": "unsplash",
+      "id": "1579546929518-9e396f3cc809",
+      "photographer": "Codioful",
+      "sourceUrl": "https://unsplash.com/photos/blue-and-pink-light-illustration-LeG68PrXA6Y",
+      "alt": "Smooth blue and pink gradient light illustration",
+      "ok": true,
+      "bytes": 18345
+    },
+    "wildflower-stone": {
+      "source": "unsplash",
+      "id": "1531120364508-a6b656c3e78d",
+      "photographer": "Niklas Ohlrogge",
+      "sourceUrl": "https://unsplash.com/photos/assorted-color-flowers-on-brown-wood-74QmIJDTD-c",
+      "alt": "Assorted wildflowers gathered on a brown wood surface",
+      "ok": true,
+      "bytes": 184005
+    }
+  }
+}

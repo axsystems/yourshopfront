@@ -109,8 +109,8 @@ export const heritagePainters: Theme = {
       body: "On-site consultation, itemized quote, premium materials, 2-year warranty. Craft you can actually see.",
       ctaLabel: "Schedule consultation →",
       backgroundImage: {
-        url: "/themes/heritage-painters/hero.jpg",
-        alt: "Painter using a roller on an interior wall in warm afternoon light",
+        url: "/themes/heritage-painters/cta-bg.jpg",
+        alt: "Open box filled with rows of paint tubes in many colours",
       },
     },
   },

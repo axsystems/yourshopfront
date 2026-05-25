@@ -109,8 +109,8 @@ export const auroraPressureWash: Theme = {
       body: "Free photo quote, insured crew, soft wash safe. Driveways, patios, siding — done in one afternoon.",
       ctaLabel: "Get a free quote →",
       backgroundImage: {
-        url: "/themes/aurora-pressure-wash/hero.jpg",
-        alt: "High-pressure water spray restoring a grey concrete surface",
+        url: "/themes/aurora-pressure-wash/cta-bg.jpg",
+        alt: "Blue hose coiled across a freshly washed paved walkway",
       },
     },
   },

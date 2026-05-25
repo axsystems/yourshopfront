@@ -76,8 +76,8 @@ export const webglExperimental: Theme = {
       body: "Browser-native runtime, no-config deploys, usage-based pricing. Early access open now.",
       ctaLabel: "Get beta access →",
       backgroundImage: {
-        url: "/themes/webgl-experimental/hero.jpg",
-        alt: "Abstract blue and violet generative gradient texture",
+        url: "/themes/webgl-experimental/cta-bg.jpg",
+        alt: "Smooth blue and pink gradient light illustration",
       },
     },
   },

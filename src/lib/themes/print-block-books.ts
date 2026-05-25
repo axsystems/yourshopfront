@@ -76,8 +76,8 @@ export const printBlockBooks: Theme = {
       body: "Staff-curated shelves, local zines, honest recommendations. New stock every week.",
       ctaLabel: "Find us in Portland →",
       backgroundImage: {
-        url: "/themes/print-block-books/hero.jpg",
-        alt: "Densely packed bookstore shelves seen from a low angle",
+        url: "/themes/print-block-books/cta-bg.jpg",
+        alt: "Library aisle lined with tall bookshelves filled with books",
       },
     },
   },

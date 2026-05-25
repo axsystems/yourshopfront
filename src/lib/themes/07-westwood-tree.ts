@@ -109,8 +109,8 @@ export const westwoodTree: Theme = {
       body: "ISA-certified arborists, full insurance, same-day debris removal. Free estimate, no pressure.",
       ctaLabel: "Schedule free estimate →",
       backgroundImage: {
-        url: "/themes/westwood-tree/hero.jpg",
-        alt: "Tall trees seen from below against a bright canopy of leaves",
+        url: "/themes/westwood-tree/cta-bg.jpg",
+        alt: "Arborist using a chainsaw to cut into a tree trunk",
       },
     },
   },

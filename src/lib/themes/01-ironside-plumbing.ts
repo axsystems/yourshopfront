@@ -109,8 +109,8 @@ export const ironsidePlumbing: Theme = {
       body: "24/7 emergency dispatch, flat-rate quotes, 1-year warranty. Call now — a real plumber answers.",
       ctaLabel: "Get a plumber now →",
       backgroundImage: {
-        url: "/themes/ironside-plumbing/hero.jpg",
-        alt: "Plumber's hand tightening a brass fitting on copper pipework",
+        url: "/themes/ironside-plumbing/cta-bg.jpg",
+        alt: "Black and white work truck on a road during daytime",
       },
     },
   },

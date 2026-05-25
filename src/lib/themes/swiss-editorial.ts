@@ -76,8 +76,8 @@ export const swissEditorial: Theme = {
       body: "Independent practice, decisive process, documented systems. Identity, editorial, and digital from 2017.",
       ctaLabel: "Start a project →",
       backgroundImage: {
-        url: "/themes/swiss-editorial/hero.jpg",
-        alt: "Black ink type on cream paper in a tight editorial composition",
+        url: "/themes/swiss-editorial/cta-bg.jpg",
+        alt: "Wall-mounted Helvetica alphabet poster hung above a sofa",
       },
     },
   },

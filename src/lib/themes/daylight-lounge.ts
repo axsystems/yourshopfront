@@ -76,8 +76,8 @@ export const daylightLounge: Theme = {
       body: "Good light, good coffee, text alerts when your cycle's done. Open daily, 7am to 10pm.",
       ctaLabel: "Find us →",
       backgroundImage: {
-        url: "/themes/daylight-lounge/hero.jpg",
-        alt: "Warm sunlit lounge interior with natural woods and soft textiles",
+        url: "/themes/daylight-lounge/cta-bg.jpg",
+        alt: "Calm living room interior flooded with light from a large window",
       },
     },
   },

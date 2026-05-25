@@ -76,8 +76,8 @@ export const documentaryB2b: Theme = {
       body: "Healthcare and hospitality linen partnerships. HIPAA-compliant, ISO-certified, audit-ready. Schedule an assessment.",
       ctaLabel: "Request assessment →",
       backgroundImage: {
-        url: "/themes/documentary-b2b/hero.jpg",
-        alt: "Professionals reviewing documents around a conference table",
+        url: "/themes/documentary-b2b/cta-bg.jpg",
+        alt: "Empty oval brown wooden conference table and chairs inside a conference room",
       },
     },
   },

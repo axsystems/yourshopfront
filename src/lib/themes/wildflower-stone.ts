@@ -76,8 +76,8 @@ export const wildflowerStone: Theme = {
       body: "Wildflowers, dried botanicals, and slow goods from the Hudson Valley. Custom arrangements available.",
       ctaLabel: "See what's in season →",
       backgroundImage: {
-        url: "/themes/wildflower-stone/hero.jpg",
-        alt: "Wildflowers and dried botanicals arranged on a weathered stone surface",
+        url: "/themes/wildflower-stone/cta-bg.jpg",
+        alt: "Assorted wildflowers gathered on a brown wood surface",
       },
     },
   },

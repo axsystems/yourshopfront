@@ -109,8 +109,8 @@ export const greenwiseLawn: Theme = {
       body: "Organic treatments, consistent crew, no contracts. Book online — first cut as soon as this week.",
       ctaLabel: "Get instant quote →",
       backgroundImage: {
-        url: "/themes/greenwise-lawn/hero.jpg",
-        alt: "Freshly cut green lawn in strong daylight",
+        url: "/themes/greenwise-lawn/cta-bg.jpg",
+        alt: "Green and black lawn mower sitting on freshly cut grass",
       },
     },
   },

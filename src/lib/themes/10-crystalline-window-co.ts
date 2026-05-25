@@ -109,8 +109,8 @@ export const crystallineWindowCo: Theme = {
       body: "Insured crew, pure-water system, inside and out. Book in 2 minutes — satisfaction guaranteed.",
       ctaLabel: "Book window cleaning →",
       backgroundImage: {
-        url: "/themes/crystalline-window-co/hero.jpg",
-        alt: "Modern building facade with rows of clean glass windows",
+        url: "/themes/crystalline-window-co/cta-bg.jpg",
+        alt: "Tall black and gray glass high-rise building under a bright daytime sky",
       },
     },
   },

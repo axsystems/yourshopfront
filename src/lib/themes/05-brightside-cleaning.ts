@@ -109,8 +109,8 @@ export const brightsideCleaning: Theme = {
       body: "Flat-rate pricing, background-checked cleaners, same cleaner every time. Love it or it's free.",
       ctaLabel: "Get instant price →",
       backgroundImage: {
-        url: "/themes/brightside-cleaning/hero.jpg",
-        alt: "Bright clean living room with neutral textiles and natural light",
+        url: "/themes/brightside-cleaning/cta-bg.jpg",
+        alt: "Four brown wooden stools lined up at a clean kitchen island",
       },
     },
   },

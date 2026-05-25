@@ -109,8 +109,8 @@ export const bellhornMovers: Theme = {
       body: "Flat-rate moves, licensed and insured crew, same-day available. Book online — we do the rest.",
       ctaLabel: "Get move estimate →",
       backgroundImage: {
-        url: "/themes/bellhorn-movers/hero.jpg",
-        alt: "Stack of brown cardboard moving boxes in an empty sunlit room",
+        url: "/themes/bellhorn-movers/cta-bg.jpg",
+        alt: "White freight truck travelling along an open road during daytime",
       },
     },
   },
