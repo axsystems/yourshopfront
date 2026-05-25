@@ -4,7 +4,7 @@ Productized website design + hosting for small businesses. Pick one of 30 themes
 
 **Two tiers**, both available against any of the 30 designs:
 
-- **Subscription** — $299 setup + $149/mo. Hosted, unlimited edits, Google Business profile management. Cancel anytime.
+- **Subscription** — standard $299 setup + $149/mo. **Launch promo (current):** $99 setup + $99/mo for the first 3 months, then $149/mo standard. Hosted, unlimited edits, Google Business profile management. Cancel anytime.
 - **One-time** — $997 once. Full source code delivered. Optional $49/mo hosting & maintenance (unlimited small edits + monthly SEO check).
 
 ---
@@ -18,9 +18,9 @@ The redesign loop (Phases 1–7) ships in commits prefixed `feat(redesign):`. Hi
 | Your Shopfront marketing chrome | `src/components/apex/` | 19 primitives + `home/`, `portfolio/` sections, `motion/` wrappers, `marks/` signature SVG, `legal-page.tsx`. Your Shopfront tokens namespaced as `--apx-*`. |
 | `/` (home) | `src/app/page.tsx` | Your Shopfront–branded — no longer renders Heritage Painters as the default theme. Hero with rotating preview, truthful stat strip, gallery, pricing teaser, FAQ, CTA. |
 | `/pricing` | `src/app/pricing/page.tsx` | Two-tier cards (cobalt-outlined "Recommended"), comparison table (desktop), FAQ, primary-soft final CTA. |
-| `/portfolio` | `src/app/portfolio/page.tsx` | All 30 designs in `<DemoCard>` grid. First 6 above-fold mount eagerly; remaining 24 lazy via IntersectionObserver. |
-| `/portfolio/[slug]` | `src/app/portfolio/[slug]/page.tsx` | Sticky `<PortfolioBanner>` (chrome-styled, prev/next nav) + themed `<ThemedHome isDemoPreview>` body + `<AboutThisDesign>` block. |
-| `/demos/[slug]` | `src/app/demos/[slug]/page.tsx` | Themed `<ThemedHome>` for all 30 themes. Sticky `<DemoSwitcher>` for hopping between featured 10. |
+| `/portfolio` | `src/app/portfolio/page.tsx` | All 30 designs in `<PortfolioGrid>`. Each card renders a theme-distinct OG preview (`/api/og/<slug>`) instead of an iframe (post Phase B). Top-right corner of each card carries a sunshine "$99 launch" badge. |
+| `/portfolio/[slug]` | `src/app/portfolio/[slug]/page.tsx` | Sticky `<PortfolioBanner>` (chrome-styled, prev/next nav) + themed `<ThemedHome>` body (no `isDemoPreview` flag — keeps the full layout incl. `<Pricing>`, `<Showcase>`, `<FAQ>`) + `<AboutThisDesign>` block. |
+| `/demos/[slug]` | `src/app/demos/[slug]/page.tsx` | Themed `<ThemedHome isDemoPreview>` — Phase B immersion: hides `<Pricing>` + `<Showcase>` + `<FAQ>` (Your Shopfront-meta content); adds chrome `<DemoBuyGuarantees>` strip before footer; adds fixed-bottom `<MobileStickyCta>` (emergency-theme variant gets a phone icon + "24/7 ready · from $99"). Sticky `<DemoSwitcher>` at top for hopping between featured 10. |
 | `/contact` | `src/app/contact/page.tsx` | Two-column. Form rebuilt on chrome `<TextField>` and `<Button>`. `?ref=`/`?piece=` prefill behavior preserved. |
 | `/checkout` | `src/app/checkout/page.tsx` | Themed (so the buyer sees the design they're buying). Minimal Your Shopfront header. RHF + Zod form. Stripe Checkout in 3 modes. |
 | `/onboarding` | `src/app/onboarding/page.tsx` | Themed. 3-step checklist. ContentStep + AssetsStep are derived from `site_content` (no manual toggles); DomainStep saves explicit choice. Bearer-token via Stripe `session_id`. |
@@ -32,7 +32,7 @@ The redesign loop (Phases 1–7) ships in commits prefixed `feat(redesign):`. Hi
 | Sitemap | `src/app/sitemap.ts` | 38 canonical URLs (1 home + 10 featured demos + portfolio index + 20 portfolio details + 6 static). |
 | Smoke tests | `tests/e2e/smoke.spec.ts` | 5 Playwright tests against marketing surfaces. Worksheet/upload flows aren't smoke-covered — manual gate per `LAUNCH-CHECKLIST.md`. |
 
-**68 routes** building (was 66 — added `/onboarding/worksheet` + `/api/upload/sign`). Lint + typecheck + build + smoke all clean.
+**90 routes** building (30 demos + 30 portfolio details + the rest). Lint + typecheck + build + smoke all clean. CI `build-and-smoke` job runs the 5 Playwright smoke tests on every PR.
 
 ---
 
@@ -41,7 +41,7 @@ The redesign loop (Phases 1–7) ships in commits prefixed `feat(redesign):`. Hi
 ### Token namespaces — two co-existing systems
 
 - **Your Shopfront chrome (`--apx-*`)** — defined in `src/app/globals.css :root`. Stable across every chrome page. Owned by `/`, `/pricing`, `/portfolio`, `/contact`, `/about`, legal pages, and the unified header/footer.
-- **Per-theme (`--apex-*`)** — set by `<ThemeProvider>` on a wrapper `<div>` when rendering one of the 24 themed surfaces (`/demos/[slug]`, `/portfolio/[slug]` body). Defined per-theme in `src/lib/themes/<theme>.ts` via `themeToCssVars()`.
+- **Per-theme (`--apex-*`)** — set by `<ThemeProvider>` on a wrapper `<div>` when rendering one of the 30 themed surfaces (`/demos/[slug]`, `/portfolio/[slug]` body). Defined per-theme in `src/lib/themes/<theme>.ts` via `themeToCssVars()`.
 
 The shadcn token names (`--background`, `--foreground`, `--primary`, etc.) are remapped to Your Shopfront equivalents in `:root` (e.g. `--primary: #2438FF` is cobalt) so surviving shadcn primitives (Accordion, Form, Input, Label) render in Your Shopfront colors automatically.
 
@@ -90,7 +90,8 @@ public/
 │   ├── apex-wordmark.svg       mark + "Your Shopfront" text
 │   ├── apex-logo-square.svg    1024×1024 logo source
 │   └── og-default.svg          1200×630 OG composition source
-└── portfolio-demos/            24 standalone HTML files (the demo bodies)
+├── portfolio-demos/            30 standalone HTML files (the demo bodies; legacy — no longer rendered by `<PortfolioCard>` since it switched to OG image previews)
+└── themes/                     30 subfolders (one per slug). Each has `hero.jpg` (Phase A) + `cta-bg.jpg` (Phase B1.5). Both served same-origin.
 ```
 
 PNG variants are exported from the SVG masters via `pnpm brand:export` (uses `sharp`). Reproducible: edit a master SVG, re-run, all PNGs regenerate at the spec sizes.
@@ -149,7 +150,7 @@ cp .env.example .env.local
 pnpm dev          # http://localhost:3000
 pnpm typecheck    # tsc --noEmit
 pnpm lint         # eslint src/
-pnpm build        # next build (verifies all 66 routes)
+pnpm build        # next build (verifies all 90 routes)
 pnpm test:e2e     # Playwright smoke (auto-builds first)
 pnpm brand:export # regenerate PNG brand assets from SVG masters
 ```
@@ -157,7 +158,7 @@ pnpm brand:export # regenerate PNG brand assets from SVG masters
 ### Useful URLs in dev
 
 - `http://localhost:3000/` — Your Shopfront marketing home
-- `http://localhost:3000/portfolio` — gallery of all 24
+- `http://localhost:3000/portfolio` — gallery of all 30
 - `http://localhost:3000/demos/heritage-painters` — themed demo
 - `http://localhost:3000/dev/themes` — visual audit grid (gated to non-prod)
 - `http://localhost:3000/api/og/voltcraft-electric` — generated OG image
