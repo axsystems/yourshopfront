@@ -47,7 +47,7 @@ export function serviceSchema() {
           billingDuration: "P1M",
         },
         description:
-          "$299 setup + $149/mo. Includes hosting, unlimited edits, Google Business profile management.",
+          "$299 setup + $149/mo. Includes hosting, unlimited edits, SSL, backups, and security patches.",
       },
       {
         "@type": "Offer",
