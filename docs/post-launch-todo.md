@@ -39,7 +39,7 @@ Pre-Phase-5 (no provisioning): just flip status to `'refunded'`, manually take t
 
 - **Stripe Customer Portal link in /onboarding** — give subscription customers a self-service way to update payment method, change billing email, view invoices. Spec: `stripe.billingPortal.sessions.create({ customer, return_url })`, render link inline on the onboarding page once site is `live`.
 - **Site-level rate-limit on `/api/contact`** — currently anyone can spam the form. Add an IP-based limiter once spam shows up (Vercel KV or Upstash, ~20 submissions per IP per hour).
-- **OG image caching** — `/api/og/[slug]` re-fetches the Fontsource font on every cold edge invocation. Vercel CDN caches the response by URL, so this is fine for steady-state, but a deployment churn could wipe the cache and hit us with 24× cold loads. Pre-warm by curl-ing each `/api/og/{slug}` after deploy.
+- **OG image caching** — `/api/og/[slug]` re-fetches the Fontsource font on every cold edge invocation. Vercel CDN caches the response by URL, so this is fine for steady-state, but a deployment churn could wipe the cache and hit us with 30× cold loads (1 per theme). Pre-warm by curl-ing each `/api/og/{slug}` after deploy. NOTE: also matters now because `<PortfolioCard>` uses these images directly (PR #46), so first portfolio render after a deploy may flash skeletons until edge cache warms.
 - **Real Lighthouse audit** — Phase 3 hit 95+ targets in theory but I never measured against a deployed preview. Run before launch.
 
 ## Notes for whoever picks this up
