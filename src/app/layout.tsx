@@ -6,6 +6,7 @@ import "./globals.css"
 import { SalesAgent } from "@/components/apex/sales-agent"
 import { DemoPalettePicker } from "@/components/home/demo-palette-picker"
 import { DemoSwitcher } from "@/components/home/demo-switcher"
+import { GoogleTag } from "@/components/google-tag"
 import { PlausibleAnalytics } from "@/components/plausible"
 import { baseFontClassName } from "@/lib/fonts"
 
@@ -75,6 +76,11 @@ export default function RootLayout({
             env var or config required; reads NEXT_PUBLIC_VERCEL_* injected
             by Vercel at build time. */}
         <Analytics />
+        {/* Google Tag (gtag.js) — GA4 + Google Ads conversion tracking.
+            No-op unless NEXT_PUBLIC_GA4_ID or NEXT_PUBLIC_GOOGLE_ADS_ID is
+            set. Conversion event fires from /onboarding via
+            <GoogleConversionEvent />. */}
+        <GoogleTag />
       </body>
     </html>
   )

@@ -11,6 +11,8 @@ import { Button, SiteFooter, SiteHeader } from "@/components/apex"
 import { ThemeProvider } from "@/components/theme-provider"
 import { allThemes, defaultTheme } from "@/lib/themes"
 import { getSiteByStripeSessionId, type Site, type SiteStatus } from "@/lib/supabase"
+import { GoogleConversionEvent } from "@/components/google-conversion-event"
+import { conversionValueUsd } from "@/lib/analytics-config"
 import { SITE_URL } from "@/lib/seo"
 
 const COPY_ACTIVE_STATUSES: SiteStatus[] = [
@@ -131,6 +133,18 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
 
   return (
     <ThemeProvider theme={theme}>
+      {/* Fire GA4 purchase + Google Ads conversion exactly once per page
+          render. Idempotent on refresh — Google dedups by transaction_id.
+          No-op when env vars aren't configured. */}
+      <GoogleConversionEvent
+        transactionId={session_id}
+        valueUsd={conversionValueUsd({
+          tier: site.tier,
+          copyAddon: site.copy_addon,
+          hostingAddon: site.hosting_addon,
+        })}
+        tier={site.tier}
+      />
       <SiteHeader variant="minimal" backHref="/" backLabel="Back to home" />
       <main id="main" className="min-h-screen flex-1">
         <div className="mx-auto max-w-[820px] px-6 py-12 md:px-10 md:py-16">
