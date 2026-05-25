@@ -109,8 +109,8 @@ export const sandstonePoolCare: Theme = {
       body: "Certified technicians, weekly service, instant online pricing. Clear water or we come back free.",
       ctaLabel: "Get weekly rate →",
       backgroundImage: {
-        url: "/themes/sandstone-pool-care/hero.jpg",
-        alt: "Sun-dappled blue pool water with gentle ripples and tile edge",
+        url: "/themes/sandstone-pool-care/cta-bg.jpg",
+        alt: "Blue tiled swimming pool with sunlight reflecting off the tile edge",
       },
     },
   },

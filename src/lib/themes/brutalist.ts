@@ -76,8 +76,8 @@ export const brutalist: Theme = {
       body: "Bold concept, fast turnaround, zero safe choices. If you want loud, we're already talking.",
       ctaLabel: "Start the conversation →",
       backgroundImage: {
-        url: "/themes/brutalist/hero.jpg",
-        alt: "Stark concrete architectural geometry with strong shadows",
+        url: "/themes/brutalist/cta-bg.jpg",
+        alt: "Landscape view of a grey concrete brutalist building facade",
       },
     },
   },

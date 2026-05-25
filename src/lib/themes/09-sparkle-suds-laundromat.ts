@@ -109,8 +109,8 @@ export const sparkleSudsLaundromat: Theme = {
       body: "Free door pickup, 24-hour turnaround, folded and delivered. Weekly plans available — no contracts.",
       ctaLabel: "Schedule pickup →",
       backgroundImage: {
-        url: "/themes/sparkle-suds-laundromat/hero.jpg",
-        alt: "Row of front-load washing machines in a clean laundromat",
+        url: "/themes/sparkle-suds-laundromat/cta-bg.jpg",
+        alt: "Tall stack of freshly folded shirts resting on a blue surface",
       },
     },
   },

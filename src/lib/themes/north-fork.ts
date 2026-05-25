@@ -76,8 +76,8 @@ export const northFork: Theme = {
       body: "Independent brewery, rotating taps, dog-friendly patio. Taproom open Tuesday through Sunday.",
       ctaLabel: "See what's on tap →",
       backgroundImage: {
-        url: "/themes/north-fork/hero.jpg",
-        alt: "Pint glass of amber beer on a wooden bar in a warm taproom",
+        url: "/themes/north-fork/cta-bg.jpg",
+        alt: "Tall gray stainless-steel brewery fermentation tank",
       },
     },
   },

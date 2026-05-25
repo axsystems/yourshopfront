@@ -76,8 +76,8 @@ export const caskVine: Theme = {
       body: "Natural wine, no table turns, intimate seating. Cobble Hill, nightly from five.",
       ctaLabel: "Reserve a table →",
       backgroundImage: {
-        url: "/themes/cask-vine/hero.jpg",
-        alt: "Glasses of red wine on a dark wooden bar in warm low light",
+        url: "/themes/cask-vine/cta-bg.jpg",
+        alt: "Stacked oak barrels of wine and liquor inside a low-lit cellar",
       },
     },
   },

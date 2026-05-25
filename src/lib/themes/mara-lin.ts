@@ -76,8 +76,8 @@ export const maraLin: Theme = {
       body: "Editorial direction, intentional frames, high-res delivery. NYC and LA based — available to travel.",
       ctaLabel: "Get in touch →",
       backgroundImage: {
-        url: "/themes/mara-lin/hero.jpg",
-        alt: "Editorial portrait against a dark backdrop with soft directional light",
+        url: "/themes/mara-lin/cta-bg.jpg",
+        alt: "Photographer working in a studio, framing a shot with a camera",
       },
     },
   },

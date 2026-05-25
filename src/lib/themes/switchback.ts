@@ -76,8 +76,8 @@ export const switchback: Theme = {
       body: "One-command install, auto-instrumentation, full distributed tracing. No infra to manage.",
       ctaLabel: "Start free →",
       backgroundImage: {
-        url: "/themes/switchback/hero.jpg",
-        alt: "Close-up of green monospaced code on a dark monitor",
+        url: "/themes/switchback/cta-bg.jpg",
+        alt: "Two black flat-screen developer monitors glowing in a dark room",
       },
     },
   },

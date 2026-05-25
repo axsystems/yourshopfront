@@ -79,8 +79,8 @@ export const doorstepEditorial: Theme = {
       body: "Free pickup, no contracts, same driver each week. Enter your address — we'll tell you if we cover your zip.",
       ctaLabel: "Check your zip →",
       backgroundImage: {
-        url: "/themes/doorstep-editorial/hero.jpg",
-        alt: "Brown cardboard parcel sitting on a clean residential doorstep",
+        url: "/themes/doorstep-editorial/cta-bg.jpg",
+        alt: "White delivery van parked along the side of a quiet street",
       },
     },
   },

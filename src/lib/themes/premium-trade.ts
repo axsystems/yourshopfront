@@ -79,8 +79,8 @@ export const premiumTrade: Theme = {
       body: "Licensed technicians, written quotes, permit-ready work, documented warranty. Properly done from the start.",
       ctaLabel: "Schedule a consultation →",
       backgroundImage: {
-        url: "/themes/premium-trade/hero.jpg",
-        alt: "Tradesperson's tools laid out on a clean workbench",
+        url: "/themes/premium-trade/cta-bg.jpg",
+        alt: "Assorted hand tools neatly arranged in a workshop tool rack",
       },
     },
   },

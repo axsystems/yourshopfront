@@ -76,8 +76,8 @@ export const angelos: Theme = {
       body: "Hand-stretched dough, old-recipe sauce, ready in 20 minutes. Walk in or call ahead.",
       ctaLabel: "See our menu →",
       backgroundImage: {
-        url: "/themes/angelos/hero.jpg",
-        alt: "Overhead shot of a freshly baked pizza on a rustic wooden table",
+        url: "/themes/angelos/cta-bg.jpg",
+        alt: "Open flames burning inside a round wood-fired oven",
       },
     },
   },

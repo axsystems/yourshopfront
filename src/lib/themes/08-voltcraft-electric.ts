@@ -109,8 +109,8 @@ export const voltcraftElectric: Theme = {
       body: "24/7 emergency response, master electricians, flat-rate quotes. Licensed, bonded, and permit-ready.",
       ctaLabel: "Call an electrician now →",
       backgroundImage: {
-        url: "/themes/voltcraft-electric/hero.jpg",
-        alt: "Electrical service panel with neatly run wiring",
+        url: "/themes/voltcraft-electric/cta-bg.jpg",
+        alt: "Row of white circuit breakers inside an electrical panel",
       },
     },
   },

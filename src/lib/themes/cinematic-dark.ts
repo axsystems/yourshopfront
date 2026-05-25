@@ -76,8 +76,8 @@ export const cinematicDark: Theme = {
       body: "Cinema-grade production, full pre-to-post, broadcast-ready delivery. Let's talk about your vision.",
       ctaLabel: "Start with a brief →",
       backgroundImage: {
-        url: "/themes/cinematic-dark/hero.jpg",
-        alt: "Cinematic low-key portrait silhouette in deep amber and shadow",
+        url: "/themes/cinematic-dark/cta-bg.jpg",
+        alt: "Large dimly lit industrial building interior with sweeping roof",
       },
     },
   },

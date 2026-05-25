@@ -109,8 +109,8 @@ export const summitRoofing: Theme = {
       body: "Licensed crew, full insurance support, same-day debris haul. No cost to get on the roof and find out.",
       ctaLabel: "Schedule free inspection →",
       backgroundImage: {
-        url: "/themes/summit-roofing/hero.jpg",
-        alt: "Roofer installing dark asphalt shingles on a residential rooftop",
+        url: "/themes/summit-roofing/cta-bg.jpg",
+        alt: "Top-down aerial view of a suburban neighborhood of pitched-roof houses",
       },
     },
   },

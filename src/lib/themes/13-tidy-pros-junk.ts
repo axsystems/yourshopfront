@@ -109,8 +109,8 @@ export const tidyProsJunk: Theme = {
       body: "Text a photo, get a flat-rate price, pick a window. Two-person crew, fully insured, same-day available.",
       ctaLabel: "Get a photo quote →",
       backgroundImage: {
-        url: "/themes/tidy-pros-junk/hero.jpg",
-        alt: "Pickup truck loaded with materials parked in front of a home",
+        url: "/themes/tidy-pros-junk/cta-bg.jpg",
+        alt: "Residential garage filled with stacked clutter and stored tools",
       },
     },
   },

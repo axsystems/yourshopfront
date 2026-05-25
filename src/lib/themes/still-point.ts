@@ -76,8 +76,8 @@ export const stillPoint: Theme = {
       body: "Morning and evening classes, drop-in welcome, all levels. A practice built for consistency, not performance.",
       ctaLabel: "See the schedule →",
       backgroundImage: {
-        url: "/themes/still-point/hero.jpg",
-        alt: "Empty yoga studio with morning light across a wooden floor",
+        url: "/themes/still-point/cta-bg.jpg",
+        alt: "Quiet stack of smooth brown stones balanced on a wooden log",
       },
     },
   },

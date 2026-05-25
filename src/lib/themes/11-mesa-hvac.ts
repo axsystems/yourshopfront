@@ -109,8 +109,8 @@ export const mesaHvac: Theme = {
       body: "24/7 dispatch, same-visit repairs, flat-rate pricing. Call now — a licensed tech answers.",
       ctaLabel: "Get a tech out today →",
       backgroundImage: {
-        url: "/themes/mesa-hvac/hero.jpg",
-        alt: "Outdoor air conditioning condenser unit beside a residential wall",
+        url: "/themes/mesa-hvac/cta-bg.jpg",
+        alt: "Finger pressing a button on a digital thermostat display",
       },
     },
   },
