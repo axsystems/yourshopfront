@@ -28,7 +28,7 @@ export function HomeHero() {
               </Button>
             </div>
             <p className="mt-7 max-w-md font-mono text-[12px] uppercase tracking-[0.12em] text-apx-mute">
-              $299 + $149/mo, or $997 once · 30-day money-back · live in 24h
+              $99 + $99/mo for 3 months ($149/mo after) · launch promo · live in 24h
             </p>
           </div>
           <div className="flex justify-center lg:justify-end">

@@ -54,12 +54,12 @@ export function Pricing({ theme, demoSlug }: PricingProps) {
             <PriceCard
               theme={theme}
               variant="featured"
-              tagline="MOST POPULAR · CANCEL ANYTIME"
+              tagline="LAUNCH PROMO · CANCEL ANYTIME"
               title="Subscription"
-              price="$299"
+              price="$99"
               priceDetail="setup"
-              recurring="+ $149/mo"
-              sub="We host it. Unlimited edits."
+              recurring="+ $99/mo"
+              sub="$99/mo for 3 months, then $149/mo · cancel anytime."
               features={SUB_FEATURES}
               ctaLabel="Start subscription →"
               ctaHref={subHref}
