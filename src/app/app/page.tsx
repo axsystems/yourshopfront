@@ -159,7 +159,7 @@ function NoSiteState() {
     <div className="flex flex-col items-center justify-center py-24 text-center">
       <h1 className="text-xl font-bold text-apx-ink">No site found</h1>
       <p className="mt-2 max-w-xs text-sm text-apx-mute">
-        We couldn't find a site linked to your account. If you just purchased,
+        We couldn&apos;t find a site linked to your account. If you just purchased,
         your account may still be setting up — check back in a moment.
       </p>
       <div className="mt-6">
@@ -176,7 +176,7 @@ function ErrorState() {
     <div className="flex flex-col items-center justify-center py-24 text-center">
       <h1 className="text-xl font-bold text-apx-ink">Something went wrong</h1>
       <p className="mt-2 max-w-xs text-sm text-apx-mute">
-        We couldn't load your site data. Your account is safe — this is a
+        We couldn&apos;t load your site data. Your account is safe — this is a
         display issue. Refresh in a moment, or contact us if it persists.
       </p>
       <div className="mt-6">
