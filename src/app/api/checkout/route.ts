@@ -147,16 +147,17 @@ async function createSession(
       // session-level `discounts` is the only valid place for coupons
       // in Checkout subscription mode. The coupon applies $50/mo off
       // for 3 months per its own configuration.
+      // Stripe REJECTS specifying both `discounts` and `allow_promotion_codes`
+      // (even `allow_promotion_codes: false`). Mutually exclusive params.
+      // When the launch promo is auto-applied, omit `allow_promotion_codes`
+      // entirely. When no promo, allow customers to enter manual codes.
       ...(isPromo && promoCoupon
         ? { discounts: [{ coupon: promoCoupon }] }
-        : {}),
+        : { allow_promotion_codes: true }),
       customer_email: data.email,
       success_url: successUrl,
       cancel_url: cancelUrl,
       metadata: sessionMetadata,
-      // When the launch promo is auto-applied, disable manual promo codes
-      // so customers can't stack discounts.
-      allow_promotion_codes: !isPromo,
     })
   }
 
