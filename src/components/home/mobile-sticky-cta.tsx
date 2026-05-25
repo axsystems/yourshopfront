@@ -20,11 +20,12 @@ interface MobileStickyCtaProps {
  * scrolling far. Mobile-first because that's where ad traffic lands.
  *
  * Variants:
- *   - default — "Like this design?" + buy CTA. For recurring/project themes.
- *   - emergency — phone icon + "Built for 24/7 emergency calls" + buy CTA.
- *     Picked when `theme.mode === "emergency"` (currently plumbing/HVAC/
- *     electric). The visual phone language sells the prospect on how their
- *     site's call-conversion mechanic would feel to a 3am caller; the
+ *   - default — "From $99 · cancel anytime" + buy CTA. For recurring/project
+ *     themes. Price is the #1 conversion lever; surfacing the launch promo
+ *     here means prospects see it without clicking through to /checkout.
+ *   - emergency — phone icon + "24/7 ready · $99 launch" + buy CTA. Picked
+ *     when `theme.mode === "emergency"` (currently plumbing/HVAC/electric).
+ *     Bundles the call-conversion mechanic with price prominence; the
  *     button still routes to /checkout so the actual conversion target is
  *     unchanged.
  *
@@ -56,19 +57,15 @@ export function MobileStickyCta({ theme, ctaHref }: MobileStickyCtaProps) {
             >
               <Phone className="h-3.5 w-3.5" strokeWidth={2.5} />
             </span>
-            <p
-              className="min-w-0 flex-1 truncate text-sm font-semibold"
-              style={{ color: "var(--apex-fg)" }}
-            >
-              Built for 24/7 calls
+            <p className="min-w-0 flex-1 truncate text-sm font-semibold leading-tight">
+              <span style={{ color: "var(--apex-fg)" }}>24/7 ready</span>{" "}
+              <span style={{ color: "var(--apex-muted-fg)" }}>· from $99</span>
             </p>
           </div>
         ) : (
-          <p
-            className="min-w-0 flex-1 truncate text-sm font-semibold"
-            style={{ color: "var(--apex-fg)" }}
-          >
-            Like this design?
+          <p className="min-w-0 flex-1 truncate text-sm font-semibold leading-tight">
+            <span style={{ color: "var(--apex-fg)" }}>From $99</span>{" "}
+            <span style={{ color: "var(--apex-muted-fg)" }}>· cancel anytime</span>
           </p>
         )}
         <ApexButton
