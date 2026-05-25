@@ -3,6 +3,7 @@ import type Stripe from "stripe"
 
 import { sendEmail } from "@/lib/email"
 import { notifySlack } from "@/lib/notify"
+import { sendOperatorSms } from "@/lib/sms-quo"
 import { unprovisionSite } from "@/lib/provisioning/orchestrator"
 import { stripe } from "@/lib/stripe"
 import {
@@ -192,6 +193,13 @@ async function handleSessionCompleted(session: Stripe.Checkout.Session) {
         `session \`${session.id.slice(-12)}\``,
       ].join("\n")
     ),
+    sendOperatorSms(
+      [
+        `🎉 NEW ${site.tier.toUpperCase()} SALE — Your Shopfront`,
+        `${site.business_name} (${site.demo_slug})${copyAddon ? " + Copy" : ""}`,
+        customer.email,
+      ].join("\n")
+    ),
   ])
 }
 
@@ -254,9 +262,14 @@ async function handleCopyAddonUpgrade(
     throw error
   }
 
-  await notifySlack(
-    `💰 *Copy upgrade purchased* — ${site.business_name} · session \`${session.id.slice(-12)}\``
-  )
+  await Promise.allSettled([
+    notifySlack(
+      `💰 *Copy upgrade purchased* — ${site.business_name} · session \`${session.id.slice(-12)}\``
+    ),
+    sendOperatorSms(
+      `💰 COPY ADDON ($199) — Your Shopfront\n${site.business_name}`
+    ),
+  ])
 }
 
 async function handleSubscriptionDeleted(sub: Stripe.Subscription) {
