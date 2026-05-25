@@ -13,7 +13,6 @@ const SUB_FEATURES = [
   "Unlimited edits, forever",
   "We host it (fast Vercel + Cloudflare)",
   "SSL, backups, security updates",
-  "Google Business profile management",
   "Cancel anytime — site stays online for 30 days",
 ]
 

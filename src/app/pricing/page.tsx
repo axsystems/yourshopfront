@@ -49,7 +49,6 @@ const COMPARISON: ComparisonRow[] = [
   { label: "Source code delivered", subscription: "On request", onetime: true },
   { label: "Cancel anytime", subscription: true, onetime: "n/a — paid once" },
   { label: "30-day money-back", subscription: true, onetime: true },
-  { label: "GBP profile management", subscription: true, onetime: "Add-on" },
 ]
 
 const FAQ = [
@@ -89,7 +88,7 @@ export default function PricingPage() {
                 Two ways to buy. Pick the one that fits.
               </Display>
               <Lede className="mx-auto mt-6">
-                Designed to capture inquiries from day one — lead form, click-to-call, and Google Business hooks built in.
+                Designed to capture inquiries from day one — lead form and click-to-call built in.
               </Lede>
             </div>
           </Container>
@@ -112,7 +111,6 @@ export default function PricingPage() {
                     "Unlimited edits, forever",
                     "We host it (fast Vercel + Cloudflare)",
                     "SSL, backups, security updates",
-                    "Google Business profile management",
                     "Cancel anytime — site stays online for 30 days",
                   ]}
                   ctaLabel="Start subscription →"
