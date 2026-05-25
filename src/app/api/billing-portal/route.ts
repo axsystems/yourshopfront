@@ -4,7 +4,10 @@ import { z } from "zod"
 import { checkRateLimit } from "@/lib/chat/rate-limit"
 import { getClientIp } from "@/lib/get-client-ip"
 import { stripe } from "@/lib/stripe"
-import { getSiteByStripeSessionId, supabase } from "@/lib/supabase"
+import {
+  getCustomerById,
+  getSiteByStripeSessionId,
+} from "@/lib/supabase"
 import type { Customer, Site } from "@/lib/supabase"
 
 // =============================================================================
@@ -95,25 +98,17 @@ export async function POST(req: Request) {
       )
     }
 
-    // --- Look up customer (inline pattern, matches /api/refund-request) ---
-    const { data: customerRow, error: customerError } = await supabase()
-      .from("customers")
-      .select("*")
-      .eq("id", site.customer_id)
-      .maybeSingle()
-
-    if (customerError) {
-      console.error(
-        "[billing-portal] supabase customer lookup failed",
-        customerError
-      )
+    // --- Look up customer ---
+    let customer: Customer | null = null
+    try {
+      customer = await getCustomerById(site.customer_id)
+    } catch (err) {
+      console.error("[billing-portal] supabase customer lookup failed", err)
       return NextResponse.json(
         { ok: false, error: "internal" },
         { status: 500 }
       )
     }
-
-    const customer = (customerRow as Customer | null) ?? null
     if (!customer) {
       // Data integrity issue — site row exists but customer is gone.
       console.error(

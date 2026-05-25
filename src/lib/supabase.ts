@@ -226,6 +226,23 @@ export async function getCustomerByStripeId(
   return (data as Customer | null) ?? null
 }
 
+/**
+ * Fetch a customer by primary key. Returns null when not found (no throw
+ * so callers don't need a try/catch for the common miss case).
+ *
+ * Threw before this helper existed: /api/refund-request, /api/billing-portal,
+ * /api/provisioning/approve all inlined the same select+eq+maybeSingle.
+ */
+export async function getCustomerById(id: string): Promise<Customer | null> {
+  const { data, error } = await supabase()
+    .from("customers")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle()
+  if (error) throw error
+  return (data as Customer | null) ?? null
+}
+
 export async function createCustomer(input: NewCustomer): Promise<Customer> {
   const { data, error } = await supabase()
     .from("customers")

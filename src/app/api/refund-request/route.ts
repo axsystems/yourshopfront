@@ -3,7 +3,7 @@ import { z } from "zod"
 
 import { checkRateLimit } from "@/lib/chat/rate-limit"
 import { getClientIp } from "@/lib/get-client-ip"
-import { getSiteByStripeSessionId, supabase } from "@/lib/supabase"
+import { getCustomerById, getSiteByStripeSessionId } from "@/lib/supabase"
 import { notifySlack } from "@/lib/notify"
 import type { Customer, Site } from "@/lib/supabase"
 
@@ -226,7 +226,7 @@ export async function POST(req: Request) {
     const { ok, retryAfterSeconds } = checkRateLimit(`refund-request:${ip}`, 3)
     if (!ok) {
       return NextResponse.json(
-        { error: "rate_limited" },
+        { ok: false, error: "rate_limited" },
         { status: 429, headers: { "Retry-After": String(retryAfterSeconds) } }
       )
     }
@@ -236,13 +236,19 @@ export async function POST(req: Request) {
     try {
       json = await req.json()
     } catch {
-      return NextResponse.json({ error: "Invalid JSON body." }, { status: 400 })
+      return NextResponse.json(
+        { ok: false, error: "Invalid JSON body." },
+        { status: 400 }
+      )
     }
 
     const parsed = Schema.safeParse(json)
     if (!parsed.success) {
       return NextResponse.json(
-        { error: parsed.error.issues[0]?.message ?? "Invalid input." },
+        {
+          ok: false,
+          error: parsed.error.issues[0]?.message ?? "Invalid input.",
+        },
         { status: 400 }
       )
     }
@@ -255,32 +261,38 @@ export async function POST(req: Request) {
       site = await getSiteByStripeSessionId(sessionId)
     } catch (err) {
       console.error("[refund-request] supabase site lookup failed", err)
-      return NextResponse.json({ error: "Lookup failed." }, { status: 500 })
+      return NextResponse.json(
+        { ok: false, error: "Lookup failed." },
+        { status: 500 }
+      )
     }
 
     if (!site) {
-      return NextResponse.json({ error: "session_not_found" }, { status: 404 })
+      return NextResponse.json(
+        { ok: false, error: "session_not_found" },
+        { status: 404 }
+      )
     }
 
     // --- Look up customer ---
-    const { data: customerRow, error: customerError } = await supabase()
-      .from("customers")
-      .select("*")
-      .eq("id", site.customer_id)
-      .maybeSingle()
-
-    if (customerError) {
-      console.error("[refund-request] supabase customer lookup failed", customerError)
-      return NextResponse.json({ error: "internal" }, { status: 500 })
+    let customer: Customer | null = null
+    try {
+      customer = await getCustomerById(site.customer_id)
+    } catch (err) {
+      console.error("[refund-request] supabase customer lookup failed", err)
+      return NextResponse.json(
+        { ok: false, error: "internal" },
+        { status: 500 }
+      )
     }
-
-    if (!customerRow) {
+    if (!customer) {
       // Data integrity issue — site row exists but customer is gone.
       console.error("[refund-request] customer row missing for site", site.id)
-      return NextResponse.json({ error: "internal" }, { status: 500 })
+      return NextResponse.json(
+        { ok: false, error: "internal" },
+        { status: 500 }
+      )
     }
-
-    const customer = customerRow as Customer
 
     // --- Email confirmation check ---
     const normalizedConfirm = confirmEmail.toLowerCase().trim()
@@ -289,6 +301,7 @@ export async function POST(req: Request) {
     if (normalizedConfirm !== normalizedStored) {
       return NextResponse.json(
         {
+          ok: false,
           error: "email_mismatch",
           message: "The confirmation email doesn't match the email on the purchase.",
         },
@@ -331,6 +344,9 @@ export async function POST(req: Request) {
       sessionIdSuffix: sessionId.slice(-12),
       error,
     })
-    return NextResponse.json({ error: "internal" }, { status: 500 })
+    return NextResponse.json(
+      { ok: false, error: "internal" },
+      { status: 500 }
+    )
   }
 }
