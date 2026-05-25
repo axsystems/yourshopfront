@@ -126,12 +126,12 @@ The Customer Portal must be configured ONCE in the Stripe Dashboard:
 
 Without this, `POST /api/billing-portal` returns a Stripe error and the "Manage billing" button on the onboarding page errors out.
 
-- [ ] Operator confirms portal configured
+- [x] Operator confirms portal configured (2026-05-24)
 
 ## 6. Email / Resend
 
-- [ ] Production Resend account exists.
-- [ ] **Domain verification**: in Resend → Domains → Add `yourshopfront.com`. Add the SPF + DKIM DNS records to Cloudflare (or your DNS host). Wait for both to validate (usually <10 min). Once green, switch `RESEND_FROM_EMAIL` from `onboarding@resend.dev` to `hello@yourshopfront.com`.
+- [x] Production Resend account exists. **Pro plan ($20/mo) upgrade 2026-05-24** — free tier 100/day would silently drop magic-link emails on busy days.
+- [x] **Domain verification**: complete 2026-05-24. SMTP-on-Resend wired into Supabase Auth (Email provider + Magic Link template).
 - [ ] Send test welcome email by running Stripe test 1 against the staging deploy and confirming delivery to a real inbox.
 - [ ] Reply path works: replies to the welcome email land in `hello@yourshopfront.com` (forwards configured in your email host).
 
