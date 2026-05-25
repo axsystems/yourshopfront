@@ -12,6 +12,7 @@ import { Pricing } from "./pricing"
 import { Showcase } from "./showcase"
 import { FAQ } from "./faq"
 import { FinalCTA } from "./final-cta"
+import { MobileStickyCta } from "./mobile-sticky-cta"
 
 interface ThemedHomeProps {
   theme: Theme
@@ -29,17 +30,18 @@ interface ThemedHomeProps {
  * the header and Hero.
  */
 export function ThemedHome({ theme, isDemoPreview }: ThemedHomeProps) {
+  const demoCheckoutHref = `/checkout?tier=subscription&demo=${theme.slug}`
   return (
     <ThemeProvider theme={theme}>
       <SiteHeader variant="themed" />
-      <main id="main" className="flex-1">
+      {/* `pb-20` on mobile only — clears the fixed `<MobileStickyCta>` so the
+          last bit of FinalCTA doesn't sit behind it. Desktop unaffected. */}
+      <main id="main" className={isDemoPreview ? "flex-1 pb-20 md:pb-0" : "flex-1"}>
         <Hero
           theme={theme}
           isDemoPreview={isDemoPreview}
           ctaPrimaryHref={
-            isDemoPreview
-              ? `/checkout?tier=subscription&demo=${theme.slug}`
-              : "/checkout?tier=subscription"
+            isDemoPreview ? demoCheckoutHref : "/checkout?tier=subscription"
           }
         />
         <TrustStrip theme={theme} />
@@ -64,15 +66,14 @@ export function ThemedHome({ theme, isDemoPreview }: ThemedHomeProps) {
         <FadeUp>
           <FinalCTA
             theme={theme}
-            ctaPrimaryHref={
-              isDemoPreview
-                ? `/checkout?tier=subscription&demo=${theme.slug}`
-                : "#showcase"
-            }
+            ctaPrimaryHref={isDemoPreview ? demoCheckoutHref : "#showcase"}
           />
         </FadeUp>
       </main>
       <SiteFooter variant="themed" />
+      {isDemoPreview && (
+        <MobileStickyCta theme={theme} ctaHref={demoCheckoutHref} />
+      )}
     </ThemeProvider>
   )
 }
