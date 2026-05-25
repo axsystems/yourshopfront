@@ -52,8 +52,8 @@ export function HomePricingTeaser() {
               recommended
               tagline="Most popular · Cancel anytime"
               title="Subscription"
-              price="$299"
-              period="setup, then $149/mo"
+              price="$99"
+              period="setup, then $99/mo for 3 months ($149/mo after)"
               sub="We host it. Unlimited edits."
               features={SUB_FEATURES}
               ctaLabel="Start subscription →"

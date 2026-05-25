@@ -108,7 +108,7 @@ export function Hero({
               textTransform: "uppercase",
             }}
           >
-            $299 setup + $149/mo · or $997 one-time · live in 24h
+            $99 setup + $99/mo for 3 months, then $149 · launch promo · live in 24h
           </p>
         </div>
         <div className={isStacked ? "" : "lg:justify-self-end lg:self-center"}>
