@@ -1,6 +1,6 @@
 # Your Shopfront — CLAUDE.md
 
-> Productized website design + hosting for home-service businesses. 24 themes, $299 setup + $149/mo OR $997 one-time. **Wedge product for the axon-growth marketing OS.**
+> Productized website design + hosting for home-service businesses. **30 themes**, standard pricing $299 setup + $149/mo OR $997 one-time. **Currently running a launch promo: $99 setup + $99/mo for first 3 months, then $149/mo standard.** **Wedge product for the axon-growth marketing OS.**
 
 ## Strategic Role (read FIRST)
 
@@ -32,7 +32,7 @@ pnpm install
 pnpm dev          # http://localhost:3000
 pnpm typecheck    # tsc --noEmit — MUST pass before commit
 pnpm lint         # eslint src/
-pnpm build        # next build — verifies all 61 routes
+pnpm build        # next build — verifies all 90 routes
 pnpm stripe:setup # idempotent — creates Stripe products + prices
 ```
 
@@ -81,16 +81,18 @@ Both repos must enforce same email normalization (lowercase, trim, validate). Do
 - Tailwind v4 config lives in `src/app/globals.css` via `@theme {}` — no `tailwind.config.ts`.
 
 ## Gotchas
-- 24 themes total. Featured 10 canonical to `/demos`, other 14 canonical to `/portfolio` (SEO).
+- **30 themes total** (14 industry + 16 design-vibe). Featured 10 canonical to `/demos`, other 20 canonical to `/portfolio` (SEO).
 - `<ThemeProvider>` applies only the active theme's font className — don't load all 9 fonts everywhere.
 - Stripe checkout has 3 modes (subscription / onetime+hosting / onetime-only) — see `src/lib/stripe.ts` comments.
 - Custom-build tier was REMOVED in Phase 2.5 — don't re-introduce.
 - Supabase RLS is locked-by-default (no policies). Use service-role key from server components only.
+- **`/demos/[slug]` vs `/portfolio/[slug]` differ in chrome**: demos hide Pricing/Showcase/FAQ + add `<MobileStickyCta>` + `<DemoBuyGuarantees>` for ad-traffic immersion + conversion; portfolio keeps the full meta-aware layout for SEO inspiration. Gated on `isDemoPreview` in `themed-home.tsx` — DON'T break this distinction when editing.
+- Hardcoded launch promo price (`$99`) lives in 3 places: `src/components/apex/home/hero.tsx`, `src/components/home/pricing.tsx`, `src/components/home/mobile-sticky-cta.tsx`. Update all three when the promo ends, or extract a `pricing-constants.ts` module.
 
 ## Do Not Build
 - `middleware.ts` (use `proxy.ts`)
 - `tailwind.config.ts` (use `@theme` in `globals.css`)
-- Custom-build tier — killed Phase 2.5 (all 24 unified as themes)
+- Custom-build tier — killed Phase 2.5 (all 30 unified as themes)
 - Client-side Stripe session creation — server-only
 - Direct commits to `main` — branch is `master`
 - ❌ **DO NOT bundle with axon-growth before Your Shopfront Phase 5 launches solo + validates standalone funnel.** Stage 4 is months away. Don't add bundle pricing or cross-product upsell flows yet.
@@ -103,18 +105,29 @@ Current webhook only handles `checkout.session.completed` + `customer.subscripti
 - `charge.refunded` (refund lifecycle)
 
 ## Key Files
-- `src/lib/themes/` — 24 theme configs + featured slugs index
+- `src/lib/themes/` — 30 theme configs + featured slugs index
+- `src/lib/themes/types.ts` — Theme interface incl. `heroImage` (Phase A) and `content?: ThemeContentOverrides` (Phase B0 plumbing)
 - `src/lib/stripe.ts` — pinned-version Stripe client + 3-mode checkout
-- `src/lib/supabase.ts` — server-only typed helpers
+- `src/lib/supabase.ts` — server-only service-role typed helpers
+- `src/lib/supabase-server.ts` — anon-key SSR client (cookies-backed) for auth
+- `src/proxy.ts` — Next 16 proxy (auth cookie refresh + subdomain routing). Gracefully skips Supabase block when env vars are unset (CI/dev clones without `.env.local`)
 - `src/lib/checkout-schema.ts` — Zod schemas (form + API)
 - `src/app/api/checkout/route.ts` — Stripe session creation (Hook 1 lives here in future)
 - `src/app/api/stripe/webhook/route.ts` — signature-verified, idempotent
-- `src/app/dev/themes/page.tsx` — dev-only audit of all 24 themes
+- `src/app/api/og/[slug]/route.tsx` — per-theme OG PNG generator (also used as portfolio card previews)
+- `src/app/dev/themes/page.tsx` — dev-only audit of all 30 themes
+- `src/components/home/themed-home.tsx` — composition for `/demos/[slug]` + `/portfolio/[slug]` (gated on `isDemoPreview`)
+- `src/components/home/mobile-sticky-cta.tsx` — fixed-bottom mobile CTA (default + emergency variants)
+- `src/components/home/demo-buy-guarantees.tsx` — chrome trust strip before SiteFooter on demos
 - `supabase/migrations/0001_initial.sql` — `customers` + `sites` tables, RLS, triggers
 - `scripts/create-stripe-products.ts` — Phase 4a setup script
+- `scripts/fetch-hero-images.mjs` — Phase A hero photo fetcher
+- `scripts/fetch-cta-images.mjs` — Phase B1.5 dedicated CTA bg photo fetcher
+- `docs/demos-photo-credits.md` — Phase A + B1.5 photo attribution
 - `README.md` — full architecture deep-dive + manual setup
 - `docs/BUNDLE-PLAN.md` — Stage 4 integration spec (Your Shopfront ↔ axon-growth)
 
 ## Status pointers
 - Phases 0-4d shipped. 4e (onboarding) + 4f (test plan) pending. 5+ (provisioning, admin, portal, static pages, launch) pending.
-- Detailed phase history: `~/.claude/projects/-Users-parker-code/memory/yourshopfront-status.md`
+- **Phase A + Phase B (demo redesign) shipped 2026-05-25** — see `project_phase_b_complete` memory entry. 12 PRs merged in a single session: hero photos for all 30 themes; per-theme content/imagery for HowItWorks/TrustStrip/FinalCTA; immersion pass (hid Pricing/Showcase/FAQ on demos); per-theme HowItWorks headers; rebrand Apex Sites → Your Shopfront; mobile sticky CTA bar (with emergency-theme phone variant); portfolio cards switched to OG previews + $99 launch badge; chrome buyer-guarantees strip; CI fix (proxy gracefully skips Supabase block without env). Master HEAD `6ec3763`.
+- CI `build-and-smoke` job is now green (was failing on every merge for weeks before 2026-05-25's #45 fix).
