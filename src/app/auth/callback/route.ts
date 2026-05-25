@@ -15,10 +15,40 @@ import { supabaseServer } from "@/lib/supabase-server"
 
 const ALLOWED_NEXT_PREFIXES = ["/app", "/login"]
 
+/**
+ * Validates the `?next=` redirect target.
+ *
+ * Open-redirect hardening:
+ *   - Reject protocol-relative paths (`//evil.com`) — browsers treat them as
+ *     scheme-inheriting, so `//evil.com` becomes `https://evil.com`.
+ *   - Reject Windows-style paths (`\\evil.com`, `/\evil.com`) — some
+ *     proxies / browsers normalize backslashes to forward slashes before
+ *     parsing, turning `\\evil.com` into the protocol-relative case above.
+ *   - Require a known route prefix from the allowlist.
+ *
+ * Anything that doesn't pass falls back to `/app`.
+ */
 function safeNext(raw: string | null): string {
   if (!raw) return "/app"
-  const decoded = decodeURIComponent(raw)
-  // Only allow relative paths that start with a known prefix.
+  let decoded: string
+  try {
+    decoded = decodeURIComponent(raw)
+  } catch {
+    return "/app"
+  }
+
+  // Protocol-relative or Windows-path-style starts. Check BEFORE the prefix
+  // test — `//app.evil.com` would otherwise sneak past a `startsWith("/app")`
+  // matcher.
+  if (
+    decoded.startsWith("//") ||
+    decoded.startsWith("\\\\") ||
+    decoded.startsWith("/\\") ||
+    decoded.startsWith("\\/")
+  ) {
+    return "/app"
+  }
+
   if (
     decoded.startsWith("/") &&
     ALLOWED_NEXT_PREFIXES.some((prefix) => decoded.startsWith(prefix))

@@ -13,7 +13,7 @@ import {
   getEditRequestById,
 } from "@/lib/edit-requests"
 import { requireAuth } from "@/lib/auth"
-import { notifySlack } from "@/lib/notify"
+import { escapeSlackText, notifySlack } from "@/lib/notify"
 import { getSiteById } from "@/lib/supabase"
 
 // =============================================================================
@@ -85,15 +85,20 @@ export async function createEditRequest(
     return { ok: false, error: "Could not save your request. Try again." }
   }
 
+  // Escape every customer-supplied segment — email, name, and description
+  // can all contain `<`, `>`, or `|`, which Slack mrkdwn would otherwise
+  // interpret (potentially injecting a fake link into the operator's view).
+  const descriptionExcerpt = data.description.slice(0, 280)
+  const descriptionEllipsis = data.description.length > 280 ? "…" : ""
   await notifySlack(
     [
       `*New edit request* (${data.priority})`,
-      `Customer: ${customer.email} (${customer.name})`,
+      `Customer: ${escapeSlackText(customer.email)} (${escapeSlackText(customer.name)})`,
       `Site: ${data.siteId}`,
       `Section: ${data.section}`,
       `Attachments: ${data.attachmentUrls.length}`,
       "",
-      `> ${data.description.slice(0, 280)}${data.description.length > 280 ? "…" : ""}`,
+      `> ${escapeSlackText(descriptionExcerpt)}${descriptionEllipsis}`,
     ].join("\n")
   )
 
@@ -152,13 +157,15 @@ export async function addComment(
     return { ok: false, error: "Could not post comment. Try again." }
   }
 
+  const bodyExcerpt = data.body.slice(0, 280)
+  const bodyEllipsis = data.body.length > 280 ? "…" : ""
   await notifySlack(
     [
       `*New edit-request comment*`,
-      `From: ${customer.email}`,
+      `From: ${escapeSlackText(customer.email)}`,
       `Request: ${data.editRequestId}`,
       "",
-      `> ${data.body.slice(0, 280)}${data.body.length > 280 ? "…" : ""}`,
+      `> ${escapeSlackText(bodyExcerpt)}${bodyEllipsis}`,
     ].join("\n")
   )
 

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { z } from "zod"
 
 import { requireAuth } from "@/lib/auth"
+import { checkRateLimit } from "@/lib/chat/rate-limit"
 import { getSiteById, getSiteByStripeSessionId } from "@/lib/supabase"
 import {
   StorageInputError,
@@ -69,6 +70,22 @@ export async function POST(req: Request) {
   let siteId: string
   if (input.kind === "edit-request") {
     const { customer } = await requireAuth()
+
+    // Rate-limit per authed customer — prevents a compromised/buggy client
+    // from minting unlimited signed URLs (each one consumes Supabase
+    // storage operations). 20/min is well above any legitimate flow
+    // (the form caps at 10 attachments per request).
+    const rl = checkRateLimit(`upload-sign:${customer.id}`, 20)
+    if (!rl.ok) {
+      return NextResponse.json(
+        { error: "rate_limited" },
+        {
+          status: 429,
+          headers: { "Retry-After": String(rl.retryAfterSeconds) },
+        }
+      )
+    }
+
     let site
     try {
       site = await getSiteById(input.siteId)
