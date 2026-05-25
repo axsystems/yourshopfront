@@ -1,3 +1,5 @@
+import { Phone } from "lucide-react"
+
 import type { Theme } from "@/lib/themes/types"
 import { ApexButton } from "./primitives"
 
@@ -17,10 +19,20 @@ interface MobileStickyCtaProps {
  * `md+` because desktop viewers see the Hero + FinalCTA CTAs without
  * scrolling far. Mobile-first because that's where ad traffic lands.
  *
+ * Variants:
+ *   - default — "Like this design?" + buy CTA. For recurring/project themes.
+ *   - emergency — phone icon + "Built for 24/7 emergency calls" + buy CTA.
+ *     Picked when `theme.mode === "emergency"` (currently plumbing/HVAC/
+ *     electric). The visual phone language sells the prospect on how their
+ *     site's call-conversion mechanic would feel to a 3am caller; the
+ *     button still routes to /checkout so the actual conversion target is
+ *     unchanged.
+ *
  * Bottom inset uses `env(safe-area-inset-bottom)` so the button clears the
  * iOS home indicator on notched devices.
  */
 export function MobileStickyCta({ theme, ctaHref }: MobileStickyCtaProps) {
+  const isEmergency = theme.mode === "emergency"
   return (
     <div
       className="fixed inset-x-0 bottom-0 z-40 border-t md:hidden"
@@ -31,17 +43,34 @@ export function MobileStickyCta({ theme, ctaHref }: MobileStickyCtaProps) {
         boxShadow: "0 -8px 24px -12px color-mix(in oklab, var(--apex-fg) 25%, transparent)",
       }}
     >
-      {/* Single-line layout (was 2-line "Like this design? + Cancel anytime"
-          but the reassurance line pushed total bar height past iPhone home-
-          indicator clearance on some themes — content overlapped the bar.
-          Reassurance copy lives on the destination /checkout page now. */}
       <div className="flex items-center justify-between gap-3 px-4 py-2.5">
-        <p
-          className="min-w-0 flex-1 truncate text-sm font-semibold"
-          style={{ color: "var(--apex-fg)" }}
-        >
-          Like this design?
-        </p>
+        {isEmergency ? (
+          <div className="flex min-w-0 flex-1 items-center gap-2">
+            <span
+              aria-hidden
+              className="flex h-7 w-7 flex-none items-center justify-center rounded-full"
+              style={{
+                background: "var(--apex-primary)",
+                color: "var(--apex-primary-fg)",
+              }}
+            >
+              <Phone className="h-3.5 w-3.5" strokeWidth={2.5} />
+            </span>
+            <p
+              className="min-w-0 flex-1 truncate text-sm font-semibold"
+              style={{ color: "var(--apex-fg)" }}
+            >
+              Built for 24/7 calls
+            </p>
+          </div>
+        ) : (
+          <p
+            className="min-w-0 flex-1 truncate text-sm font-semibold"
+            style={{ color: "var(--apex-fg)" }}
+          >
+            Like this design?
+          </p>
+        )}
         <ApexButton
           theme={theme}
           variant="primary"
