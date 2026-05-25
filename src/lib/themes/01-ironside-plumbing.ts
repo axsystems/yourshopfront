@@ -7,11 +7,11 @@ export const ironsidePlumbing: Theme = {
   city: "Denver",
   tagline: "Same-Day Service. 24/7. Or It's Free.",
   description:
-    "Bold, industrial, urgency-first. Built for emergency service businesses where the phone needs to ring now.",
+    "Bold, industrial, urgency-first. Built for emergency service businesses where a job needs booking now.",
   mode: "emergency",
   vibe: "bold-industrial",
-  hero: "phone-first",
-  heroEyebrow: "24/7 EMERGENCY DISPATCH",
+  hero: "form-card",
+  heroEyebrow: "24/7 ONLINE BOOKING",
   colors: {
     bg: "#F4F4F5",
     fg: "#0A0A0A",
@@ -70,7 +70,7 @@ export const ironsidePlumbing: Theme = {
 
   seoTitle: "Your Shopfront — Bold Industrial Style for Emergency Service Brands",
   seoDescription:
-    "The Ironside Plumbing demo. A heavy, urgency-led design for plumbers, HVAC, and 24/7 trades. Phone-first hero, hazard-stripe accents, hard-edged buttons.",
+    "The Ironside Plumbing demo. A heavy, urgency-led design for plumbers, HVAC, and 24/7 trades. Online quote-form hero, hazard-stripe accents, hard-edged buttons.",
   isThemeOption: true,
   sourceHtmlPath: "01-ironside-plumbing.html",
   round: 3,
@@ -79,13 +79,13 @@ export const ironsidePlumbing: Theme = {
       header: {
         eyebrow: "How we work",
         headline: "Four steps,",
-        highlight: "and we're back in your driveway.",
-        sub: "No menu trees. No callback queues. A licensed plumber on the line in under a minute, on your doorstep within 90.",
+        highlight: "and we're at your driveway.",
+        sub: "Book online any hour. A licensed plumber confirms within minutes and is on your doorstep within 90.",
       },
       steps: [
         {
-          title: "Call us, 24/7",
-          body: "Burst pipe? Slow drain? Call any hour — a real plumber answers, never a menu tree or callback queue.",
+          title: "Book online, 24/7",
+          body: "Burst pipe? Slow drain? Submit a job any hour — instant booking, no callback queues, no menu trees.",
         },
         {
           title: "We diagnose on site",
@@ -103,7 +103,7 @@ export const ironsidePlumbing: Theme = {
     },
     trustStrip: {
       stats: [
-        { value: "24/7", label: "Emergency service", caption: "Live answer, never a machine" },
+        { value: "24/7", label: "Online booking", caption: "Always available, never a machine" },
         { value: "Licensed", label: "ROC certified", caption: "Bonded and insured" },
         { value: "Flat-rate", label: "Quoted before we start", caption: "No surprise add-ons" },
         { value: "1-year", label: "Parts + labor warranty", caption: "Every repair, no exceptions" },
@@ -111,9 +111,9 @@ export const ironsidePlumbing: Theme = {
     },
     finalCta: {
       headline: "Pipe burst?",
-      highlight: "We're already on the truck.",
-      body: "24/7 emergency dispatch, flat-rate quotes, 1-year warranty. Call now — a real plumber answers.",
-      ctaLabel: "Get a plumber now →",
+      highlight: "Book online, we're on the truck.",
+      body: "24/7 online booking, flat-rate quotes, 1-year warranty. Submit a job — a real plumber confirms in minutes.",
+      ctaLabel: "Book a plumber now →",
       backgroundImage: {
         url: "/themes/ironside-plumbing/cta-bg.jpg",
         alt: "Black and white work truck on a road during daytime",

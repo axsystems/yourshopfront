@@ -5,13 +5,13 @@ export const voltcraftElectric: Theme = {
   name: "Voltcraft Electric",
   industry: "Electrical",
   city: "Phoenix",
-  tagline: "Master electricians. EV chargers, panels, 24/7 service.",
+  tagline: "Master electricians. EV chargers, panels, 24/7 online booking.",
   description:
-    "High-voltage industrial. Black + electric yellow, Inter heavy + JetBrains Mono. Phone-first hero.",
+    "High-voltage industrial. Black + electric yellow, Inter heavy + JetBrains Mono. Online quote-form hero.",
   mode: "emergency",
   vibe: "bold-industrial",
-  hero: "phone-first",
-  heroEyebrow: "LICENSED & BONDED — 24/7",
+  hero: "form-card",
+  heroEyebrow: "LICENSED & BONDED — 24/7 ONLINE",
   colors: {
     bg: "#F4F4F5",
     fg: "#0A0A0A",
@@ -70,7 +70,7 @@ export const voltcraftElectric: Theme = {
 
   seoTitle: "Your Shopfront — Electric-Yellow Industrial Style for Trades",
   seoDescription:
-    "The Voltcraft Electric demo. Black + voltage-yellow, mono accents, phone-first hero. For electricians, HVAC, and any 24/7 licensed trade.",
+    "The Voltcraft Electric demo. Black + voltage-yellow, mono accents, online quote-form hero. For electricians, HVAC, and any 24/7 licensed trade.",
   isThemeOption: true,
   sourceHtmlPath: "08-voltcraft-electric.html",
   round: 3,
@@ -78,14 +78,14 @@ export const voltcraftElectric: Theme = {
     howItWorks: {
       header: {
         eyebrow: "How we work",
-        headline: "Call to close —",
+        headline: "Book to close —",
         highlight: "permitted, passed, and signed off.",
-        sub: "A master electrician answers, diagnoses the fault in plain language, and pulls every permit the job needs. No shortcuts, no second trips.",
+        sub: "Submit your job online, a master electrician confirms in plain language, and pulls every permit the job needs. No shortcuts, no second trips.",
       },
       steps: [
         {
-          title: "Call — we pick up",
-          body: "Tripped breaker, dead outlet, sparking panel — call any hour. A master electrician answers, not an answering service.",
+          title: "Book online, 24/7",
+          body: "Tripped breaker, dead outlet, sparking panel — submit a job any hour. Real master electrician confirms, not an answering service.",
         },
         {
           title: "Diagnose and quote",
@@ -103,7 +103,7 @@ export const voltcraftElectric: Theme = {
     },
     trustStrip: {
       stats: [
-        { value: "24/7", label: "Emergency dispatch", caption: "Master electrician answers" },
+        { value: "24/7", label: "Online dispatch", caption: "Instant confirm, no queues" },
         { value: "Licensed", label: "Master electricians", caption: "Bonded and insured" },
         { value: "Flat-rate", label: "No hourly surprises", caption: "Quoted before we start" },
         { value: "Guaranteed", label: "Workmanship warranty", caption: "We come back if needed" },
@@ -111,9 +111,9 @@ export const voltcraftElectric: Theme = {
     },
     finalCta: {
       headline: "Panel sparking?",
-      highlight: "Don't wait — call now.",
-      body: "24/7 emergency response, master electricians, flat-rate quotes. Licensed, bonded, and permit-ready.",
-      ctaLabel: "Call an electrician now →",
+      highlight: "Don't wait — book online now.",
+      body: "24/7 online dispatch, master electricians, flat-rate quotes. Licensed, bonded, and permit-ready.",
+      ctaLabel: "Book an electrician now →",
       backgroundImage: {
         url: "/themes/voltcraft-electric/cta-bg.jpg",
         alt: "Row of white circuit breakers inside an electrical panel",
