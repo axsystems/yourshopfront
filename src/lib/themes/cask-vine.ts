@@ -29,6 +29,12 @@ export const caskVine: Theme = {
   fonts: { display: "playfair-display", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "0", md: "0", lg: "2px", pill: "999px" },
   button: { shape: "sharp", shadow: "none", weight: "regular", uppercase: true },
+  heroImage: {
+    url: "/themes/cask-vine/hero.jpg",
+    alt: "Glasses of red wine on a dark wooden bar in warm low light",
+    credit: "Photo by Kelsey Knight on Unsplash",
+  },
+
   seoTitle: "Cask & Vine — Natural Wine Bar · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a natural wine bar. Wine + gold + cream, Playfair Display, sommelier elegance. Built for wine bars, fine dining, and reservation-led restaurants.",

@@ -29,6 +29,12 @@ export const northFork: Theme = {
   fonts: { display: "archivo-black", body: "fraunces", mono: "jetbrains-mono" },
   radius: { sm: "0", md: "0", lg: "0", pill: "999px" },
   button: { shape: "sharp", shadow: "hard-offset", weight: "heavy", uppercase: true },
+  heroImage: {
+    url: "/themes/north-fork/hero.jpg",
+    alt: "Pint glass of amber beer on a wooden bar in a warm taproom",
+    credit: "Photo by Adam Wilson on Unsplash",
+  },
+
   seoTitle: "North Fork — Independent Brewery · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: an independent brewery and taproom. Forest + cream + mustard + oxblood, Archivo Black masthead, heritage badge. Built for breweries, distilleries, and taprooms.",

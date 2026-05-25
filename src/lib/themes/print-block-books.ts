@@ -29,6 +29,12 @@ export const printBlockBooks: Theme = {
   fonts: { display: "playfair-display", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "2px", md: "4px", lg: "6px", pill: "999px" },
   button: { shape: "sharp", shadow: "hard-offset", weight: "bold", uppercase: true },
+  heroImage: {
+    url: "/themes/print-block-books/hero.jpg",
+    alt: "Densely packed bookstore shelves seen from a low angle",
+    credit: "Photo by Patrick Tomasso on Unsplash",
+  },
+
   seoTitle: "Print Block — Indie Bookstore & Zine Press · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: an indie bookstore + zine press. Paper + navy + pink + green, halftone overlays, DM Serif Display. Built for bookstores, presses, and creative retail.",

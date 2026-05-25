@@ -1,8 +1,25 @@
 import * as React from "react"
+import Image from "next/image"
 
 import { previewHeadline } from "@/lib/seo-headlines"
 import type { Theme } from "@/lib/themes/types"
 import { ApexButton, Container, Display } from "./primitives"
+
+/**
+ * Phase A: dark themes need a light scrim, light themes need a dark
+ * scrim so the heading stays high-contrast. We sniff the bg color hex
+ * luma to decide; works for every theme's `colors.bg` regardless of vibe.
+ */
+function isDarkBg(hex: string): boolean {
+  const v = hex.replace("#", "")
+  if (v.length !== 6 && v.length !== 8) return false
+  const r = parseInt(v.slice(0, 2), 16)
+  const g = parseInt(v.slice(2, 4), 16)
+  const b = parseInt(v.slice(4, 6), 16)
+  // Rec. 709 luma.
+  const luma = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255
+  return luma < 0.5
+}
 
 interface HeroProps {
   theme: Theme
@@ -30,6 +47,15 @@ export function Hero({
   // The other 4 patterns use a 2-col grid with the visual on the right.
   const isStacked = theme.hero === "gallery"
 
+  const dark = isDarkBg(theme.colors.bg)
+  // Scrim gradient: stronger over the headline column, fading toward the
+  // widget side so it doesn't dull the card. Direction flips when the
+  // hero is stacked (image becomes a top band; scrim runs vertically).
+  const scrimRgb = dark ? "0,0,0" : "255,255,255"
+  const scrimGradient = isStacked
+    ? `linear-gradient(180deg, rgba(${scrimRgb},0.88) 0%, rgba(${scrimRgb},0.78) 40%, rgba(${scrimRgb},0.55) 100%)`
+    : `linear-gradient(${dark ? "100deg" : "95deg"}, rgba(${scrimRgb},0.92) 0%, rgba(${scrimRgb},0.82) 45%, rgba(${scrimRgb},0.45) 100%)`
+
   return (
     <section
       className="relative overflow-hidden"
@@ -40,12 +66,34 @@ export function Hero({
         paddingBottom: "100px",
       }}
     >
+      {/*
+        Phase A: themed hero photo. Lives in public/themes/<slug>/hero.jpg
+        so it's served same-origin (no need to allowlist a remote CDN in
+        next.config or the strict img-src CSP). Rendered with priority so
+        it's the LCP element. A theme-coloured scrim sits on top to keep
+        the heading contrast high.
+      */}
+      <Image
+        src={theme.heroImage.url}
+        alt={theme.heroImage.alt}
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
+        style={{ zIndex: 0 }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{ background: scrimGradient, zIndex: 1 }}
+      />
       {theme.vibe === "bold-industrial" && (
         <>
           <div
             aria-hidden
             className="pointer-events-none absolute left-0 right-0 top-0 h-2"
             style={{
+              zIndex: 2,
               backgroundImage:
                 "repeating-linear-gradient(45deg, var(--apex-primary) 0 16px, var(--apex-fg) 16px 32px)",
             }}
@@ -54,6 +102,7 @@ export function Hero({
             aria-hidden
             className="pointer-events-none absolute left-0 right-0 bottom-0 h-2"
             style={{
+              zIndex: 2,
               backgroundImage:
                 "repeating-linear-gradient(45deg, var(--apex-primary) 0 16px, var(--apex-fg) 16px 32px)",
             }}
@@ -61,6 +110,7 @@ export function Hero({
         </>
       )}
       <Container
+        style={{ position: "relative", zIndex: 3 }}
         className={
           isStacked
             ? "relative flex flex-col gap-12"

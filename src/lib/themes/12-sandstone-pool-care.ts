@@ -62,6 +62,12 @@ export const sandstonePoolCare: Theme = {
   fonts: { display: "fraunces", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "8px", md: "12px", lg: "24px", pill: "100px" },
   button: { shape: "pill", shadow: "soft", weight: "bold", uppercase: false },
+  heroImage: {
+    url: "/themes/sandstone-pool-care/hero.jpg",
+    alt: "Sun-dappled blue pool water with gentle ripples and tile edge",
+    credit: "Photo by Tim Hüfner on Unsplash",
+  },
+
   seoTitle: "Apex Sites — Warm Premium Style for Pool & Outdoor Service Brands",
   seoDescription:
     "The Sandstone Pool Care demo. Sandstone cream + pool-aqua, editorial Fraunces headlines, instant-quote calculator. For pool service, lawn care, and recurring outdoor brands.",

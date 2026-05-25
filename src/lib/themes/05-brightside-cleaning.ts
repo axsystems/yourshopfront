@@ -62,6 +62,12 @@ export const brightsideCleaning: Theme = {
   fonts: { display: "plus-jakarta-sans", body: "plus-jakarta-sans", mono: "jetbrains-mono" },
   radius: { sm: "10px", md: "14px", lg: "28px", pill: "100px" },
   button: { shape: "pill", shadow: "soft", weight: "bold", uppercase: false },
+  heroImage: {
+    url: "/themes/brightside-cleaning/hero.jpg",
+    alt: "Bright clean living room with neutral textiles and natural light",
+    credit: "Photo by Roam In Color on Unsplash",
+  },
+
   seoTitle: "Apex Sites — Friendly Modern Booking-Card Style",
   seoDescription:
     "The Brightside Cleaning demo. Sky + mint gradient, soft pillowy cards, instant-book hero. For cleaners, dog walkers, and recurring home services.",

@@ -62,6 +62,12 @@ export const crystallineWindowCo: Theme = {
   fonts: { display: "bricolage-grotesque", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "8px", md: "12px", lg: "20px", pill: "100px" },
   button: { shape: "rounded", shadow: "glow", weight: "bold", uppercase: false },
+  heroImage: {
+    url: "/themes/crystalline-window-co/hero.jpg",
+    alt: "Modern building facade with rows of clean glass windows",
+    credit: "Photo by Joel Filipe on Unsplash",
+  },
+
   seoTitle: "Apex Sites — Dark Premium Style for Window & Exterior Brands",
   seoDescription:
     "The Crystalline Window Co. demo. Deep navy with cyan glow, glass-card sections, before/after gallery. For window cleaners, exterior detailers, and premium home-service brands.",

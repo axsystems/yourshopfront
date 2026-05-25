@@ -29,6 +29,12 @@ export const wildflowerStone: Theme = {
   fonts: { display: "playfair-display", body: "fraunces", mono: "jetbrains-mono" },
   radius: { sm: "0", md: "2px", lg: "4px", pill: "999px" },
   button: { shape: "sharp", shadow: "none", weight: "regular", uppercase: false },
+  heroImage: {
+    url: "/themes/wildflower-stone/hero.jpg",
+    alt: "Wildflowers and dried botanicals arranged on a weathered stone surface",
+    credit: "Photo by Annie Spratt on Unsplash",
+  },
+
   seoTitle: "Wildflower & Stone — Florist & Apothecary · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a slow-goods florist and apothecary. Cream + sage + rose + gold, Cormorant Garamond, hand-drawn dividers. Built for florists, apothecaries, and craft retail.",

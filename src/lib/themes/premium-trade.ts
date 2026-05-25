@@ -32,6 +32,12 @@ export const premiumTrade: Theme = {
   fonts: { display: "fraunces", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "8px", md: "12px", lg: "18px", pill: "999px" },
   button: { shape: "pill", shadow: "soft", weight: "bold", uppercase: false },
+  heroImage: {
+    url: "/themes/premium-trade/hero.jpg",
+    alt: "Tradesperson's tools laid out on a clean workbench",
+    credit: "Photo by Theme Photos on Unsplash",
+  },
+
   seoTitle: "Apex Sites — Editorial Trade Style for Premium Contractors",
   seoDescription:
     "The Premium Trade demo. Bone + copper + pipe-blue palette, Fraunces serif display, form-card hero with stat tiles. Built for plumbers, HVAC techs, electricians, and trades that want to feel premium.",

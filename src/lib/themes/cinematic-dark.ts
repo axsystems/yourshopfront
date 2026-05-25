@@ -29,6 +29,12 @@ export const cinematicDark: Theme = {
   fonts: { display: "fraunces", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "0", md: "2px", lg: "4px", pill: "999px" },
   button: { shape: "sharp", shadow: "none", weight: "regular", uppercase: true },
+  heroImage: {
+    url: "/themes/cinematic-dark/hero.jpg",
+    alt: "Cinematic low-key portrait silhouette in deep amber and shadow",
+    credit: "Photo by Jakob Owens on Unsplash",
+  },
+
   seoTitle: "Cinematic Dark — Film Studio Style · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a cinematic film-studio brand. Deep black + copper + teal, Fraunces italic, custom cursor. Built for production companies and luxury creative.",

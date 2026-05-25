@@ -62,6 +62,12 @@ export const westwoodTree: Theme = {
   fonts: { display: "fraunces", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "0", md: "2px", lg: "4px", pill: "0" },
   button: { shape: "sharp", shadow: "hard-offset", weight: "heavy", uppercase: true },
+  heroImage: {
+    url: "/themes/westwood-tree/hero.jpg",
+    alt: "Tall trees seen from below against a bright canopy of leaves",
+    credit: "Photo by Sergei Akulich on Unsplash",
+  },
+
   seoTitle: "Apex Sites — Naturalist Style with Safety-Orange Accents",
   seoDescription:
     "The Westwood Tree Care demo. Forest greens, safety orange, gallery hero. For arborists, landscapers, and rugged outdoor trades.",

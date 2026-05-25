@@ -62,6 +62,12 @@ export const auroraPressureWash: Theme = {
   fonts: { display: "bricolage-grotesque", body: "plus-jakarta-sans", mono: "jetbrains-mono" },
   radius: { sm: "10px", md: "14px", lg: "24px", pill: "100px" },
   button: { shape: "pill", shadow: "soft", weight: "bold", uppercase: false },
+  heroImage: {
+    url: "/themes/aurora-pressure-wash/hero.jpg",
+    alt: "High-pressure water spray restoring a grey concrete surface",
+    credit: "Photo by Pixabay on Pexels",
+  },
+
   seoTitle: "Apex Sites — Bright Friendly Style for Exterior Restoration Brands",
   seoDescription:
     "The Aurora Pressure Washing demo. Sky blue + sunny gold, bricolage-grotesque headlines, before/after gallery hero. For pressure washing, soft wash, paver sealing, and curb-appeal brands.",

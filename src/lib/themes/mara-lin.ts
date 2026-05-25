@@ -29,6 +29,12 @@ export const maraLin: Theme = {
   fonts: { display: "inter", body: "inter", mono: "jetbrains-mono" },
   radius: { sm: "0", md: "0", lg: "0", pill: "999px" },
   button: { shape: "sharp", shadow: "none", weight: "regular", uppercase: true },
+  heroImage: {
+    url: "/themes/mara-lin/hero.jpg",
+    alt: "Editorial portrait against a dark backdrop with soft directional light",
+    credit: "Photo by Ali Pazani on Unsplash",
+  },
+
   seoTitle: "Mara Lin — Photographer & Director · Apex Sites Portfolio",
   seoDescription:
     "Apex Sites portfolio: a fashion photographer and director. Near-black + warm-white + tan, Tenor Sans, full-bleed editorial. Built for photographers, directors, and fashion talent.",
