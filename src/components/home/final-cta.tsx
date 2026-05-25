@@ -6,6 +6,13 @@ import { ApexButton, Container, Display } from "./primitives"
 
 interface FinalCTAProps {
   theme: Theme
+  /**
+   * Where the primary CTA button links. On `/demos/[slug]` this should go to
+   * `/checkout?tier=subscription&demo=<slug>` (the Apex Sites buy flow); on
+   * `/portfolio/[slug]` it falls back to the `#showcase` anchor on the same
+   * page since `<Showcase>` still renders there.
+   */
+  ctaPrimaryHref?: string
 }
 
 const DEFAULT_COPY = {
@@ -15,7 +22,7 @@ const DEFAULT_COPY = {
   ctaLabel: "Pick your style →",
 }
 
-export function FinalCTA({ theme }: FinalCTAProps) {
+export function FinalCTA({ theme, ctaPrimaryHref = "#showcase" }: FinalCTAProps) {
   const cta = theme.content?.finalCta
   const headline = cta?.headline ?? DEFAULT_COPY.headline
   const highlight = cta?.highlight ?? DEFAULT_COPY.highlight
@@ -64,7 +71,7 @@ export function FinalCTA({ theme }: FinalCTAProps) {
             {body}
           </p>
           <div className="mt-8">
-            <ApexButton theme={theme} variant="primary" size="lg" asChildHref="#showcase">
+            <ApexButton theme={theme} variant="primary" size="lg" asChildHref={ctaPrimaryHref}>
               {ctaLabel}
             </ApexButton>
           </div>
