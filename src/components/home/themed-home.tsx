@@ -13,6 +13,7 @@ import { Showcase } from "./showcase"
 import { FAQ } from "./faq"
 import { FinalCTA } from "./final-cta"
 import { MobileStickyCta } from "./mobile-sticky-cta"
+import { DemoBuyGuarantees } from "./demo-buy-guarantees"
 
 interface ThemedHomeProps {
   theme: Theme
@@ -72,6 +73,13 @@ export function ThemedHome({ theme, isDemoPreview }: ThemedHomeProps) {
             ctaPrimaryHref={isDemoPreview ? demoCheckoutHref : "#showcase"}
           />
         </FadeUp>
+        {/* Chrome trust strip — only on demos. Catches prospects who
+            scrolled past the immersive FinalCTA without clicking; the
+            "what if I don't like it?" hesitators see Your Shopfront's
+            buyer-safety guarantees right before the footer. Portfolio
+            keeps the existing flow (Pricing section already covers this
+            for portfolio surfaces). */}
+        {isDemoPreview && <DemoBuyGuarantees />}
       </main>
       <SiteFooter variant="themed" />
       {isDemoPreview && (
