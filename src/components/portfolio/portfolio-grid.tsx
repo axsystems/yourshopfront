@@ -132,19 +132,22 @@ function PortfolioCard({ theme }: { theme: Theme }) {
       href={`/portfolio/${theme.slug}`}
       className="group block overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100">
-        <iframe
-          src={`/portfolio-demos/${theme.sourceHtmlPath}`}
-          title={`${theme.name} preview`}
-          aria-hidden="true"
-          tabIndex={-1}
+      {/* Visual preview — uses /api/og/<slug> PNG instead of the old
+          /portfolio-demos/<sourceHtmlPath> iframe. The OG generator renders
+          each theme's bg color, primary accent, display font, eyebrow pill,
+          and per-theme headline — so the 30 cards now read as 30 distinct
+          designs at glance instead of 30 similarly-cropped iframes. Also a
+          perf win: a single PNG vs 30 hidden iframes scaled to 238%. */}
+      <div
+        className="relative aspect-[4/3] overflow-hidden"
+        style={{ background: theme.colors.bg }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`/api/og/${theme.slug}`}
+          alt={`${theme.name} — ${theme.industry} preview`}
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.02]"
           loading="lazy"
-          className="pointer-events-none absolute left-0 top-0 origin-top-left border-0"
-          style={{
-            width: "238%",
-            height: "238%",
-            transform: "scale(0.42)",
-          }}
         />
         <span className="absolute right-3 top-3 rounded-full bg-emerald-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white">
           Available →
