@@ -1,6 +1,6 @@
 # Apex Sites — CLAUDE.md
 
-> Productized website design + hosting for home-service businesses. 24 themes, $299 setup + $149/mo OR $997 one-time. **Wedge product for the axon-growth marketing OS.**
+> Productized website design + hosting for home-service businesses. 30 themes, **launch promo $99 setup + $149/mo** (was $299) OR $997 one-time. **Wedge product for the axon-growth marketing OS.**
 
 ## Strategic Role (read FIRST)
 
@@ -20,9 +20,11 @@ See `docs/BUNDLE-PLAN.md` for full Stage 4 spec. See `axon-growth/CLAUDE.md` for
 - **Web:** Next.js 16.2.4 (App Router), React 19.2.4, TypeScript strict
 - **Styling:** Tailwind v4 (`@theme` in `globals.css` — NO `tailwind.config.ts`), shadcn/ui
 - **Payments:** Stripe 22.1.0 (API version `2024-11-20.acacia` PINNED in `src/lib/stripe.ts`)
+- **Auth:** Supabase Auth (magic link via SMTP-on-Resend; customer dashboard at `/app/*`)
 - **DB:** Supabase (RLS enabled, no policies = locked-by-default; service-role key server-only)
-- **Email:** Resend 6.12.2 · **Forms:** React Hook Form 7.74 + Zod 4.3 · **Animations:** Framer Motion 12.38
-- **Deploy:** Vercel (paused until end of Phase 4) · **Package manager:** pnpm
+- **Email:** Resend 6.12.2 (Pro plan) · **SMS:** Quo (operator alerts on Stripe webhook) · **Forms:** React Hook Form 7.74 + Zod 4.3 · **Animations:** Framer Motion 12.38
+- **Analytics:** `@vercel/analytics` + GA4 (`G-W1VNYD94V9`) + Google Ads conversion scaffold (env-gated)
+- **Deploy:** Vercel auto-deploy on push to master · **Package manager:** pnpm
 
 ⚠️ **Stripe API version cross-repo:** axon-growth uses `2024-06-20`. If sharing metadata between repos in Stage 4, verify payload schemas match across both versions.
 
@@ -81,7 +83,8 @@ Both repos must enforce same email normalization (lowercase, trim, validate). Do
 - Tailwind v4 config lives in `src/app/globals.css` via `@theme {}` — no `tailwind.config.ts`.
 
 ## Gotchas
-- 24 themes total. Featured 10 canonical to `/demos`, other 14 canonical to `/portfolio` (SEO).
+- 30 themes total. Featured 10 canonical to `/demos`, others canonical to `/portfolio` (SEO). `Theme.heroImage` field landed in Phase A.
+- Stripe Checkout: when a `discounts` array is set, you MUST omit `allow_promotion_codes` or Stripe returns 400 (fixed in PR #36).
 - `<ThemeProvider>` applies only the active theme's font className — don't load all 9 fonts everywhere.
 - Stripe checkout has 3 modes (subscription / onetime+hosting / onetime-only) — see `src/lib/stripe.ts` comments.
 - Custom-build tier was REMOVED in Phase 2.5 — don't re-introduce.
