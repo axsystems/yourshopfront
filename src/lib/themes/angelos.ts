@@ -43,6 +43,12 @@ export const angelos: Theme = {
   round: 2,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How we do it",
+        headline: "Same corner, same recipe —",
+        highlight: "since 1956.",
+        sub: "Walk in, call ahead, or grab a slice from the window. Hand-stretched dough, old-recipe sauce, ready in 20 minutes.",
+      },
       steps: [
         {
           title: "Order by phone or walk in",

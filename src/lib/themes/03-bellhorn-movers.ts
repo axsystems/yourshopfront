@@ -76,6 +76,12 @@ export const bellhornMovers: Theme = {
   round: 3,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How it works",
+        headline: "Price to settled in —",
+        highlight: "same day, you don't lift a box.",
+        sub: "Instant move estimate, two-person crew wraps and loads everything, places it all in your new space before they leave.",
+      },
       steps: [
         {
           title: "Get your move price",

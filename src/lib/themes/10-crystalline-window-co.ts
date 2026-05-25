@@ -76,6 +76,12 @@ export const crystallineWindowCo: Theme = {
   round: 3,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How we work",
+        headline: "Book today,",
+        highlight: "streak-free by this afternoon.",
+        sub: "Instant booking, uniformed insured crew, pure-water system inside and out. Every panel cleaned — satisfaction guaranteed or we re-do it same day.",
+      },
       steps: [
         {
           title: "Book online in 2 minutes",

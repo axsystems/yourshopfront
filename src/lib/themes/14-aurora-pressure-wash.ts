@@ -76,6 +76,12 @@ export const auroraPressureWash: Theme = {
   round: 3,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How it works",
+        headline: "Photo to finished —",
+        highlight: "most jobs done in one afternoon.",
+        sub: "Send us a photo, get a quote back fast, and we show up with the right equipment. No site visit required to price the job.",
+      },
       steps: [
         {
           title: "Get a free quote",

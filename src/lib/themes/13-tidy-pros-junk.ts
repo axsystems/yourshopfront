@@ -76,6 +76,12 @@ export const tidyProsJunk: Theme = {
   round: 3,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How it works",
+        headline: "Text a photo,",
+        highlight: "and it's gone by tonight.",
+        sub: "Flat-rate quote from your phone, two-hour pickup window, two-person crew does all the lifting. You don't move a thing.",
+      },
       steps: [
         {
           title: "Text us a photo",

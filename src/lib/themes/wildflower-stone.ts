@@ -43,6 +43,12 @@ export const wildflowerStone: Theme = {
   round: 2,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How we work",
+        headline: "Seasonal, local,",
+        highlight: "arranged by hand with no shortcuts.",
+        sub: "Weekly drops of what's in bloom, custom arrangements on request, no floral foam, no dyed filler. Pickup from the studio or ship-ready for dried goods.",
+      },
       steps: [
         {
           title: "Browse what's in season",

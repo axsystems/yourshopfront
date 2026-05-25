@@ -46,6 +46,12 @@ export const doorstepEditorial: Theme = {
   round: 1,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How it works",
+        headline: "Leave it at the door —",
+        highlight: "we handle everything after that.",
+        sub: "Enter your zip, schedule a pickup, and leave the bag. Same driver each week, photo confirmation every time, no contract required.",
+      },
       steps: [
         {
           title: "Enter your address",

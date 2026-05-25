@@ -76,6 +76,12 @@ export const heritagePainters: Theme = {
   round: 3,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "Our process",
+        headline: "Consultation to final coat —",
+        highlight: "nothing skipped, nothing rushed.",
+        sub: "On-site visit, itemized written quote, meticulous prep work. Every job backed by a 2-year workmanship warranty.",
+      },
       steps: [
         {
           title: "On-site consultation",

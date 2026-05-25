@@ -43,6 +43,12 @@ export const documentaryB2b: Theme = {
   round: 1,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "Our process",
+        headline: "Assessment to audit-ready program —",
+        highlight: "designed around your facility's requirements.",
+        sub: "We review your volume and compliance environment, build a custom program, and deliver clean linen on schedule with full chain-of-custody documentation.",
+      },
       steps: [
         {
           title: "Request a service assessment",

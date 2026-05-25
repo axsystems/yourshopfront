@@ -43,6 +43,12 @@ export const northFork: Theme = {
   round: 2,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How we pour",
+        headline: "Show up, pick from the board,",
+        highlight: "and stay as long as you want.",
+        sub: "Rotating taps, dog-friendly patio, no reservation required. Cans and crowlers to go if you'd rather take it home.",
+      },
       steps: [
         {
           title: "Come in Tuesday through Sunday",

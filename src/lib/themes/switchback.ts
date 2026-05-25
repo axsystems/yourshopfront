@@ -43,6 +43,12 @@ export const switchback: Theme = {
   round: 2,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How it works",
+        headline: "One command,",
+        highlight: "traces in seconds — no infra to manage.",
+        sub: "Install the SDK, ship your code, and your first distributed traces appear immediately. Auto-instrumentation handles the rest.",
+      },
       steps: [
         {
           title: "Install in one command",

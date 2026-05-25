@@ -43,6 +43,12 @@ export const webglExperimental: Theme = {
   round: 1,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "How it works",
+        headline: "Sign up, connect your stack,",
+        highlight: "and ship without rebuilding.",
+        sub: "No waitlist, no pitch call. Create an account, hit the dashboard, and start building inside the browser. Deploy in one click, roll back if it breaks.",
+      },
       steps: [
         {
           title: "Sign up in beta",

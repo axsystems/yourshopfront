@@ -43,6 +43,12 @@ export const stillPoint: Theme = {
   round: 2,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "A practice here",
+        headline: "Show up as you are —",
+        highlight: "the floor holds everyone the same.",
+        sub: "Morning and evening classes, drop-in welcome, all levels genuinely. A room built to settle the nervous system, not perform in.",
+      },
       steps: [
         {
           title: "Drop in or book ahead",

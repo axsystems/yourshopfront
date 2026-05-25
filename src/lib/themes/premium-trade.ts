@@ -46,6 +46,12 @@ export const premiumTrade: Theme = {
   round: 1,
   content: {
     howItWorks: {
+      header: {
+        eyebrow: "Our process",
+        headline: "Properly diagnosed,",
+        highlight: "properly engineered, documented at completion.",
+        sub: "No guesswork, no band-aids. Licensed technician inspects the full system, quotes in writing, then does the work to code with a warranty.",
+      },
       steps: [
         {
           title: "Request a consultation",
