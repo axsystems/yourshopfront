@@ -22,7 +22,9 @@ test("home loads with chrome + hero", async ({ page }) => {
   // "See the \d+ designs" copy that was changed without updating the test,
   // and the regression was hidden because the build-and-smoke job was
   // failing for an unrelated reason (see fix in src/proxy.ts).
-  await expect(page.locator('main a[href="/portfolio"]')).toBeVisible()
+  // .first() because the home page has multiple /portfolio links (hero CTA,
+  // theme-gallery overflow link, etc.); the assertion is "at least one exists".
+  await expect(page.locator('main a[href="/portfolio"]').first()).toBeVisible()
 })
 
 test("/pricing loads with both tier cards", async ({ page }) => {

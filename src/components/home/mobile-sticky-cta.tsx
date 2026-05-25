@@ -31,21 +31,17 @@ export function MobileStickyCta({ theme, ctaHref }: MobileStickyCtaProps) {
         boxShadow: "0 -8px 24px -12px color-mix(in oklab, var(--apex-fg) 25%, transparent)",
       }}
     >
-      <div className="flex items-center justify-between gap-3 px-4 py-3">
-        <div className="min-w-0 flex-1">
-          <p
-            className="text-xs font-semibold leading-tight"
-            style={{ color: "var(--apex-fg)" }}
-          >
-            Like this design?
-          </p>
-          <p
-            className="text-[11px] leading-tight"
-            style={{ color: "var(--apex-muted-fg)" }}
-          >
-            Cancel anytime · 30-day money-back
-          </p>
-        </div>
+      {/* Single-line layout (was 2-line "Like this design? + Cancel anytime"
+          but the reassurance line pushed total bar height past iPhone home-
+          indicator clearance on some themes — content overlapped the bar.
+          Reassurance copy lives on the destination /checkout page now. */}
+      <div className="flex items-center justify-between gap-3 px-4 py-2.5">
+        <p
+          className="min-w-0 flex-1 truncate text-sm font-semibold"
+          style={{ color: "var(--apex-fg)" }}
+        >
+          Like this design?
+        </p>
         <ApexButton
           theme={theme}
           variant="primary"
