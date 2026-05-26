@@ -117,7 +117,7 @@ Current webhook only handles `checkout.session.completed` + `customer.subscripti
 - `src/app/api/og/[slug]/route.tsx` — per-theme OG PNG generator (also used as portfolio card previews)
 - `src/app/dev/themes/page.tsx` — dev-only audit of all 30 themes
 - `src/components/home/themed-home.tsx` — composition for `/demos/[slug]` + `/portfolio/[slug]` (gated on `isDemoPreview`)
-- `src/components/home/mobile-sticky-cta.tsx` — fixed-bottom mobile CTA (default + emergency variants)
+- `src/components/home/mobile-sticky-cta.tsx` — fixed-bottom mobile CTA (single variant: "From $99 · cancel anytime". The prior emergency-theme phone-icon variant was removed in PR #53 — Your Shopfront is online-only, phone CTAs implied off-message infrastructure requirements.)
 - `src/components/home/demo-buy-guarantees.tsx` — chrome trust strip before SiteFooter on demos
 - `supabase/migrations/0001_initial.sql` — `customers` + `sites` tables, RLS, triggers
 - `scripts/create-stripe-products.ts` — Phase 4a setup script
@@ -129,5 +129,7 @@ Current webhook only handles `checkout.session.completed` + `customer.subscripti
 
 ## Status pointers
 - Phases 0-4d shipped. 4e (onboarding) + 4f (test plan) pending. 5+ (provisioning, admin, portal, static pages, launch) pending.
-- **Phase A + Phase B (demo redesign) shipped 2026-05-25** — see `project_phase_b_complete` memory entry. 12 PRs merged in a single session: hero photos for all 30 themes; per-theme content/imagery for HowItWorks/TrustStrip/FinalCTA; immersion pass (hid Pricing/Showcase/FAQ on demos); per-theme HowItWorks headers; rebrand Apex Sites → Your Shopfront; mobile sticky CTA bar (with emergency-theme phone variant); portfolio cards switched to OG previews + $99 launch badge; chrome buyer-guarantees strip; CI fix (proxy gracefully skips Supabase block without env). Master HEAD `6ec3763`.
+- **Phase A + Phase B (demo redesign) shipped 2026-05-25** — see `project_phase_b_complete` memory entry. 12 PRs merged in the initial sprint, then 3 follow-up PRs (docs refresh #51, launch playbook PDF #52, call-CTA removal #53). Master HEAD `2c71aa4`.
+- Online-only positioning: PR #53 removed phone-call CTAs from the 3 emergency-mode demos + the mobile sticky bar. Hero patterns for plumbing/electrical flipped to `form-card`; HVAC to `booking-card`. `HeroPhoneFirst` is now dead code (no theme references `hero: "phone-first"`) — kept in place pending wider `HeroPattern` type cleanup.
+- Day-1 launch playbook lives at `docs/marketing-launch-playbook.md`; PDF generated via `scripts/build-launch-playbook-pdf.py`.
 - CI `build-and-smoke` job is now green (was failing on every merge for weeks before 2026-05-25's #45 fix).
