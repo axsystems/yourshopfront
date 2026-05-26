@@ -7,11 +7,11 @@ export const mesaHvac: Theme = {
   city: "Mesa",
   tagline: "A/C down? We'll be there today — guaranteed.",
   description:
-    "Desert-emergency palette. Deep navy + sunset orange, condensed display type, phone-first hero. For HVAC, A/C repair, and 24/7 climate trades in hot markets.",
+    "Desert-emergency palette. Deep navy + sunset orange, condensed display type, online booking-card hero. For HVAC, A/C repair, and 24/7 climate trades in hot markets.",
   mode: "emergency",
   vibe: "bold-industrial",
-  hero: "phone-first",
-  heroEyebrow: "SAME-DAY A/C REPAIR — 24/7",
+  hero: "booking-card",
+  heroEyebrow: "SAME-DAY A/C REPAIR — BOOK 24/7",
   colors: {
     bg: "#0F1B2D",
     fg: "#F8FAFC",
@@ -70,7 +70,7 @@ export const mesaHvac: Theme = {
 
   seoTitle: "Your Shopfront — Emergency HVAC & 24/7 Trade Style",
   seoDescription:
-    "The Mesa HVAC demo. Navy + sunset orange, condensed Oswald headlines, phone-first hero. For HVAC, A/C repair, garage-door, and any 24/7 emergency trade.",
+    "The Mesa HVAC demo. Navy + sunset orange, condensed Oswald headlines, online booking-card hero. For HVAC, A/C repair, garage-door, and any 24/7 emergency trade.",
   isThemeOption: true,
   sourceHtmlPath: "11-mesa-hvac.html",
   round: 3,
@@ -78,14 +78,14 @@ export const mesaHvac: Theme = {
     howItWorks: {
       header: {
         eyebrow: "How we work",
-        headline: "You call, we come —",
+        headline: "You book, we come —",
         highlight: "unit back on before we leave.",
-        sub: "Live dispatch any hour, flat-rate quote on site, parts stocked on the truck. Most repairs done same visit.",
+        sub: "Online dispatch any hour, flat-rate quote on site, parts stocked on the truck. Most repairs done same visit.",
       },
       steps: [
         {
-          title: "Call — we answer now",
-          body: "A/C out at 2am in July? We pick up. Real dispatcher, real tech, on the way — not a voicemail that calls back tomorrow.",
+          title: "Book online, 24/7",
+          body: "A/C out at 2am in July? Submit a job. Real dispatcher, real tech, on the way — not a voicemail that gets back tomorrow.",
         },
         {
           title: "Flat-rate quote on site",
@@ -103,7 +103,7 @@ export const mesaHvac: Theme = {
     },
     trustStrip: {
       stats: [
-        { value: "24/7", label: "Same-day dispatch", caption: "Live answer, not a queue" },
+        { value: "24/7", label: "Same-day dispatch", caption: "Book online, instant confirm" },
         { value: "Licensed", label: "Certified technicians", caption: "Bonded and insured" },
         { value: "Flat-rate", label: "No surprise billing", caption: "Quoted before we start" },
         { value: "1-year", label: "Repair warranty", caption: "Parts and labor covered" },
@@ -111,9 +111,9 @@ export const mesaHvac: Theme = {
     },
     finalCta: {
       headline: "A/C down in the desert?",
-      highlight: "We'll be there today.",
-      body: "24/7 dispatch, same-visit repairs, flat-rate pricing. Call now — a licensed tech answers.",
-      ctaLabel: "Get a tech out today →",
+      highlight: "Book — we'll be there today.",
+      body: "24/7 online dispatch, same-visit repairs, flat-rate pricing. Submit a job — a licensed tech is on the way.",
+      ctaLabel: "Book a tech today →",
       backgroundImage: {
         url: "/themes/mesa-hvac/cta-bg.jpg",
         alt: "Finger pressing a button on a digital thermostat display",
