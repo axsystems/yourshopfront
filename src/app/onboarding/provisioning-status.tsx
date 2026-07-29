@@ -190,7 +190,7 @@ function Live({ liveUrl }: { liveUrl: string | null }) {
       iconBg="primary"
       icon={<Check className="h-8 w-8" strokeWidth={3} />}
       title="Your site is live."
-      body="It's officially out there. Share the URL with your customers, and reply to any of our emails to push edits."
+      body="It's officially out there. Share the URL with your customers. Want something changed? Sign in to your account and submit a request — that's the fastest way to reach us."
     >
       {liveUrl && (
         <div className="mt-8">
@@ -208,6 +208,20 @@ function Live({ liveUrl }: { liveUrl: string | null }) {
           </a>
         </div>
       )}
+      <p
+        className="mx-auto mt-6 max-w-md text-sm"
+        style={{ color: "var(--apex-muted-fg)" }}
+      >
+        <a
+          href="/login"
+          className="font-semibold underline-offset-2 hover:underline"
+          style={{ color: "var(--apex-fg)" }}
+        >
+          Sign in to your account
+        </a>{" "}
+        any time to request edits, check your billing, or see what&apos;s
+        changed. We just email you a link — no password to remember.
+      </p>
     </StateShell>
   )
 }

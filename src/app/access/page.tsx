@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Link from "next/link"
 
 import { AccessForm } from "./access-form"
 import {
@@ -37,6 +38,17 @@ export default function AccessPage() {
               <div className="mt-8">
                 <AccessForm />
               </div>
+              <p className="mt-6 text-[14px] text-apx-mute">
+                Already got your onboarding link and just need to sign in to
+                your account?{" "}
+                <Link
+                  href="/login"
+                  className="font-semibold text-apx-ink underline underline-offset-2 hover:text-apx-primary"
+                >
+                  Go to sign in
+                </Link>{" "}
+                instead — this page is only for a lost onboarding link.
+              </p>
             </div>
           </Container>
         </Section>

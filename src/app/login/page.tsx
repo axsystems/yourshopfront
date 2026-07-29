@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Link from "next/link"
 import { redirect } from "next/navigation"
 import { z } from "zod"
 
@@ -144,6 +145,18 @@ export default async function LoginPage({ searchParams }: Props) {
           >
             View plans
           </a>
+        </p>
+
+        <p className="text-center text-xs text-muted-foreground">
+          Just bought and haven&apos;t finished setting up your site yet, or
+          lost that email?{" "}
+          <Link
+            href="/access"
+            className="underline underline-offset-2 hover:opacity-80"
+          >
+            Recover your onboarding link
+          </Link>{" "}
+          instead.
         </p>
       </div>
     </main>
