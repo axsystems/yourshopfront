@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import type { Theme, ThemeMode } from "@/lib/themes/types"
+import { PROMO_SETUP } from "@/lib/pricing-constants"
 
 type RoundFilter = "all" | 1 | 2 | 3
 type ModeFilter = "all" | ThemeMode
@@ -156,7 +157,7 @@ function PortfolioCard({ theme }: { theme: Theme }) {
             sticky bar + Hero so prospects see consistent pricing wherever
             they enter the funnel. */}
         <span className="absolute right-3 top-3 rounded-full bg-apx-highlight px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-apx-highlight-ink">
-          $99 launch
+          {PROMO_SETUP} launch
         </span>
       </div>
       <div className="space-y-3 p-5">
