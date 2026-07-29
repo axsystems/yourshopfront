@@ -15,7 +15,14 @@
 
 ## Your unfair advantage
 
-You have **30 industry-specific demos**. Don't pitch "I'll build you a website." Pitch **"I already built a demo of YOUR business — here's the link, $99 to make it yours."** Demo-first pitches convert 3–5× higher than generic pitches.
+You have **30 industry-specific demos already built and live**. Don't pitch "I'll build you a website." Pitch **"here's what a [trade] site looks like in our system — $99 to get yours."** Demo-first pitches convert 3–5× higher than generic pitches.
+
+**Framing rule — do not break this.** Never imply a demo was built *for the prospect*. The demos are a standing library; nobody gets custom pre-sale work. Two reasons: it costs zero labor per prospect, and there is nothing to walk back when they ask "you built that for me?"
+
+- ❌ "I built a demo of YOUR business"
+- ❌ "Happy to send you a custom demo"
+- ✅ "Here's what a [trade] site looks like in our system"
+- ✅ "That's one of 30 designs — yours gets your name, photos, and services in the same layout"
 
 ## Channel priority (ranked by ROI for one day)
 
@@ -43,8 +50,8 @@ Pull 100 local plumbers / electricians / HVAC / painters / cleaners / roofers fr
 **Script:**
 ```
 Hi [Name] — saw [Business Name] and noticed you don't have a site
-(or your current one is dated). I run Your Shopfront and built a
-demo of what a [industry] site looks like in our system:
+(or your current one is dated). I run Your Shopfront. Here's a
+[industry] site from our design library so you can see the quality:
 
 yourshopfront.com/demos/ironside-plumbing
 
@@ -87,8 +94,8 @@ yourshopfront.com/demos/ironside-plumbing
 Or a tree-care service:
 yourshopfront.com/demos/westwood-tree
 
-Happy to send you a custom demo for your specific trade — drop your
-industry in the comments and I'll DM you the relevant one.
+We've got a design for most trades — drop your industry in the
+comments and I'll DM you the closest one.
 ```
 
 The "drop your industry" line creates engagement (algorithm boost) + qualifies prospects + earns you DM permission.
@@ -138,7 +145,7 @@ r/smallbusiness allows self-promo only in pinned "Self-Promotion Saturday" threa
 ### Hour 10–18 — Follow up + close
 - Respond to every DM/comment FAST (speed-to-lead = 5× conversion)
 - Warm leads: "Promo ends [tomorrow] — want me to start your build tonight?"
-- Undecided: send a 2nd personalized demo
+- Undecided: send a 2nd demo from the library in a different style
 
 ### Hour 18–24 — Last push
 - Cold-call 20 unresponded high-priority targets (your AZ Window Shine phone experience transfers — same vibe works for SMB owners)
