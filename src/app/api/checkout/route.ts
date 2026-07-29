@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server"
 
+import { checkRateLimit } from "@/lib/chat/rate-limit"
 import { CheckoutRequestSchema, type CheckoutRequest } from "@/lib/checkout-schema"
+import { getClientIp } from "@/lib/get-client-ip"
 import { stripe } from "@/lib/stripe"
 
 export const runtime = "nodejs"
@@ -46,6 +48,25 @@ function readLaunchPromoCoupon(): string | null {
 }
 
 export async function POST(req: Request) {
+  // Unauthenticated endpoint that mints real Stripe Checkout sessions, so an
+  // unbounded caller burns Stripe API quota and litters the dashboard. Every
+  // sibling route already does this; checkout was the one that got missed.
+  // 10/min/IP leaves room for a buyer retrying a declined card.
+  const ip = getClientIp(req)
+  const limit = checkRateLimit(`checkout:${ip}`, 10)
+  if (!limit.ok) {
+    return NextResponse.json(
+      {
+        error: "Too many requests. Try again in a moment.",
+        retryAfterSeconds: limit.retryAfterSeconds,
+      },
+      {
+        status: 429,
+        headers: { "Retry-After": String(limit.retryAfterSeconds) },
+      }
+    )
+  }
+
   let body: unknown
   try {
     body = await req.json()

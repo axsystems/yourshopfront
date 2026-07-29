@@ -285,13 +285,25 @@ async function handleSubscriptionDeleted(sub: Stripe.Subscription) {
     return
   }
 
+  // Idempotency guard. Stripe retries on any non-2xx, and nothing below this
+  // point is naturally idempotent — a throw after updateSiteStatus (e.g. the
+  // Resend or Slack call failing) returns 500, Stripe redelivers, and the
+  // customer gets a second goodbye email. Mirrors the guards in
+  // handleSessionCompleted and handleChargeRefunded.
+  const site = await getSiteById(siteId)
+  if (site?.status === "cancelled") {
+    console.log(
+      `[webhook] subscription.deleted already processed for site ${siteId}`
+    )
+    return
+  }
+
   await updateSiteStatus(siteId, "cancelled")
 
   // A1: clean up Cloudflare DNS + Vercel domain attach. Best-effort —
   // log + continue on failure so the goodbye email still sends and the
   // operator gets the Slack ping.
   try {
-    const site = await getSiteById(siteId)
     if (site) {
       await unprovisionSite(site)
     }
