@@ -1,5 +1,14 @@
 # Apex Sites — Redesign Report
 
+> **HISTORICAL — final sign-off report for the 7-phase Apex Sites redesign, 2026-05-04/05.
+> Superseded by `PROJECT-STATE.md`. Kept as the audit trail; do not read as current state.**
+>
+> Known to be false today (2026-07-29): **24 themes** is now 30 and the brand is Your
+> Shopfront. §5.4 item 8 tells the operator to run migrations `0001` + `0002` — there are now
+> **12** (`0001`-`0012`), and running only the first two yields a broken schema. Most of the
+> §5.4 launch-blocker list has since shipped (Stripe live mode, Resend, Plausible, DNS,
+> deploy); the items that are genuinely still open are listed in `docs/history/README.md`.
+
 Final handoff document. Read with `REDESIGN-LOG.md` (the audit trail) and `LAUNCH-CHECKLIST.md` (the runbook for actually going live).
 
 Branch: `redesign` (cut from `master @ 3ad2571`). 11+ commits ahead.

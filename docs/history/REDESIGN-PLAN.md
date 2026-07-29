@@ -1,5 +1,14 @@
 # APEX SITES — Redesign Plan
 
+> **HISTORICAL — the plan for the 7-phase Apex Sites redesign, written 2026-05-04 before any
+> of it shipped. Superseded by `PROJECT-STATE.md`. Kept as the audit trail; do not read as
+> current state.** What actually shipped is recorded in `REDESIGN-LOG.md` and
+> `REDESIGN-REPORT.md` in this same folder.
+>
+> Known to be false today (2026-07-29): it plans against **24 themes** (now 30) under the
+> "Apex Sites" brand (rebranded to Your Shopfront on 2026-05-24) and treats the site as
+> pre-launch — it is **LIVE**.
+
 Plan-first artifact. Read before executing Phase 1. Updated as phases ship.
 
 Cross-references: see `APEX-AUDIT.md` (current-state) and the redesign brief from

@@ -1,5 +1,14 @@
 # APEX SITES — Discovery & Audit
 
+> **HISTORICAL — pre-redesign discovery/baseline read of the codebase, written 2026-05-04
+> (last touched 2026-05-24 by the Apex Sites to Your Shopfront rebrand). Superseded by
+> `PROJECT-STATE.md`. Kept as the audit trail; do not read as current state.**
+>
+> Known to be false today (2026-07-29): it inventories **24 themes** (now 30), **13 route
+> files** (now 27 pages + 15 API routes), **2 migrations** (now 12), and "no tests, no CI"
+> (Playwright smoke + GitHub Actions both exist now). It also states the site has not
+> deployed — yourshopfront.com is **LIVE** with Stripe in live mode.
+
 Read-only baseline pass before redesign. No code changes were made.
 Date of audit: 2026-05-04. Auditor: Claude (Opus 4.7).
 Working directory: `C:/Users/admin/Documents/GitHub/apex-sites/`.

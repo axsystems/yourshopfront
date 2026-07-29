@@ -1,5 +1,15 @@
 # Apex Sites — Redesign Log
 
+> **HISTORICAL — append-only execution log of the 7-phase redesign, completed 2026-05-05.
+> Superseded by `PROJECT-STATE.md`. Kept as the audit trail; do not read as current state.**
+>
+> Known to be false today (2026-07-29): the brand is **Your Shopfront**, not Apex Sites;
+> there are **30 themes**, not 24; the route and bundle counts predate the entire `/app/*`
+> customer portal, `/login*`, `/access`, `/onboarding/discovery`, `/onboarding/copy-review`
+> and `/admin/copy-review` surfaces; `supabase/migrations/` now holds **12** files, not 2;
+> and the "drafting in progress" banner it describes on the legal pages has since been
+> removed. The site is **LIVE**.
+
 Append-only audit trail of the phased redesign loop. One section per phase. Quote real errors, real measurements.
 
 Loop authorization: APEX-REDESIGN-PROMPT.md + the Phase 1–7 Loop Authorization document. Plan ratified: REDESIGN-PLAN.md. Audit baseline: APEX-AUDIT.md.

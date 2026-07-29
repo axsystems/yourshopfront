@@ -1,14 +1,25 @@
 # Apex Sites — Launch Readiness Audit
 
+> **HISTORICAL — top-level verdict of the 2026-05-21 four-part pre-launch audit (branch
+> `redesign`, brand "Apex Sites"). Superseded by `PROJECT-STATE.md`. Kept as the audit trail;
+> do not read as current state.**
+>
+> Known to be false today (2026-07-29): all **4 BLOCKERs listed here were fixed before
+> launch** — security headers now exist in `next.config.ts`, both secret comparisons use
+> `crypto.timingSafeEqual`, `MediaSchema` pins media URLs to the Supabase Storage host, and
+> the chat link renderer allowlists schemes and hosts. The NO-GO verdict is stale: the site is
+> **LIVE**. Migrations went 5 to **12**, and `charge.refunded` has since **shipped**.
+> Findings from this audit that are still open are tracked in `docs/history/README.md`.
+
 **Date:** 2026-05-21
 **Branch:** `redesign` (head 2f34b87 + Axon Growth removal)
 **Target:** apexsites.com production launch on Vercel
 **Audit scope:** build gates, env hygiene, Stripe, Supabase RLS, provisioning, AI surface, security headers, observability
 
 Three specialist agents ran in parallel. Sub-reports:
-- `docs/launch-audit-2026-05-21-launch-readiness.md` — build, env, Stripe, provisioning, customer surface
-- `docs/launch-audit-2026-05-21-ai-automation.md` — chat agent, prompt cache, cost caps, automation idempotency
-- `docs/launch-audit-2026-05-21-security.md` — RLS, headers, timing-safe compare, input validation
+- `docs/history/launch-audit-2026-05-21-launch-readiness.md` — build, env, Stripe, provisioning, customer surface
+- `docs/history/launch-audit-2026-05-21-ai-automation.md` — chat agent, prompt cache, cost caps, automation idempotency
+- `docs/history/launch-audit-2026-05-21-security.md` — RLS, headers, timing-safe compare, input validation
 
 ---
 

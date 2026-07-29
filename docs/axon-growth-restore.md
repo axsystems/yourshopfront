@@ -1,5 +1,13 @@
 # Axon Growth — Restore Guide
 
+> **Live reference — deliberately NOT archived to `docs/history/`.** Reviewed 2026-07-29: the
+> un-mount described below is still the current state. `src/components/apex/home/partner-axon-growth.tsx`
+> exists with zero importers, and `axongrowth` appears nowhere else in `src/`. All four anchors
+> in the diffs below still exist. Two things drifted since 2026-05-21 and need adjusting when
+> the restore is applied: (1) the brand is now **Your Shopfront**, so the `Apex Sites customers`
+> copy and the `?ref=apexsites` params should be updated; (2) the footer `COMPANY` array now
+> holds three entries and uses `mailto:hello@yourshopfront.com`, not `hello@apexsites.com`.
+
 Status: **un-mounted for launch 2026-05-21** per operator decision. Launch without sister-company ties; re-enable later once the cross-sell is ready.
 
 The component file `src/components/apex/home/partner-axon-growth.tsx` is **preserved as-is** in the repo. Only its references and supporting copy were removed. To restore, apply the four edits below.
