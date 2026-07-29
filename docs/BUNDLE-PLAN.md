@@ -1,7 +1,21 @@
 # apex-sites ↔ axon-growth Bundle Plan (Stage 4)
 
-> **Status:** Spec only. Implementation deferred until apex-sites Phase 5 launches solo + validates standalone funnel.
-> Locks the integration story so we don't drift during Phases 4e / 4f / 5.
+> **Status:** Spec only. Implementation deferred until Your Shopfront launches solo + validates
+> the standalone funnel. Locks the integration story so we don't drift.
+>
+> **Verified against this repo 2026-07-29.** The Stage 4 plan itself still stands — nothing in
+> it has been contradicted by the code. Two things needed correcting, both about *this repo's
+> current state* rather than the plan: the Hook status at the bottom, and the fact that Stage 3
+> is already underway (see below). Naming note: "apex-sites" throughout this document means
+> **Your Shopfront** — the product was renamed 2026-05-25 and the Hook 2 metadata value
+> `product: 'apex-sites'` is deliberately kept as-is so the cross-repo contract doesn't move.
+
+> ⚠️ **Stage 3 has effectively already started.** This doc describes Stage 3 as a future step,
+> but as of 2026-07-29 Your Shopfront is live at https://yourshopfront.com in Stripe **live
+> mode**. It is taking real money **before** Hooks 1–3 shipped (see the corrected Hook status at
+> the bottom of this file). Per `CLAUDE.md`, those hooks were supposed to land before paid GA.
+> Every live sale from here on creates a Stripe customer with no bundle-compatible metadata,
+> which means a backfill later. Not a launch-blocker; do not let it drift silently.
 
 ## The bundle play
 
@@ -36,8 +50,14 @@ apex-sites = wedge. axon-growth = lift.
 - Phase 5: Provisioning pipeline (Vercel API + Cloudflare DNS)
 - **Bake in Hook 1 + Hook 2 + Hook 3** during this work (see apex-sites/CLAUDE.md)
 
-### Stage 3 — apex-sites solo launch
-- Launch with standalone pricing only ($149/mo or $997 once)
+### Stage 3 — apex-sites solo launch — **IN PROGRESS as of 2026-07-29**
+- Launch with standalone pricing only ($299 setup + $149/mo, or $997 once)
+- ⚠️ A **launch promo is live** on `/start`: $99 setup + $99/mo for 3 months, then $149/mo.
+  It is standalone pricing (no bundle), so it does not violate this stage — but the conversion
+  math this stage is meant to validate will be measured against promo pricing, not list price.
+- There is also a **$199 copy-writing add-on** sold at checkout and via
+  `/api/checkout/copy-upgrade`, which post-dates this plan and is not reflected in the bundle
+  pricing table above.
 - Get 5-10 customers through standalone funnel
 - Validate the conversion math before adding bundle complexity
 
@@ -121,16 +141,32 @@ All of the above wait until apex-sites is GA standalone AND has 5-10 customers t
 
 ## What we DO need before Stage 3 (Hooks 1, 2, 3)
 
-These bake into the standalone work, NOT bundle-specific:
-- ✅ Hook 1 — Shared Stripe customer logic (both repos)
-- ✅ Hook 2 — Stripe metadata convention (both repos)
-- ✅ Hook 3 — Email canonical-key policy (both repos)
+These bake into the standalone work, NOT bundle-specific.
 
-See `apex-sites/CLAUDE.md` and `axon-growth/CLAUDE.md` for hook specs.
+⚠️ **Status corrected 2026-07-29.** The ✅ marks here previously read as "done". **None of the
+three is implemented in this repo.** Verified by reading `src/app/api/checkout/route.ts` and
+`src/lib/checkout-schema.ts`:
+
+| Hook | Spec | Actual state in this repo (2026-07-29) |
+| --- | --- | --- |
+| Hook 1 — shared Stripe customer | Call `stripe.customers.list({ email, limit: 1 })` before `checkout.sessions.create()` and reuse an existing customer | ❌ **Not implemented.** No `stripe.customers.list` call anywhere. Subscription modes rely on `customer_email`; the one-time mode uses `customer_creation: "always"`, which mints a **new** Stripe customer on every purchase. |
+| Hook 2 — metadata convention | Session metadata must carry `product` and `axon_product` | ❌ **Not implemented.** Metadata carries `site_id`, `tier`, `demo_slug`, `business_name`, `contact_name`, `email`, `phone`, `industry`, `current_website_url`, `hosting_addon`, `copy_addon` — and `promo` on the launch path. Neither `product` nor `axon_product` appears in the codebase. |
+| Hook 3 — email canonical key | Lowercase + trim + validate on both repos | ⚠️ **Partial.** `CheckoutRequestSchema` validates the email and caps its length, but does **not** `.toLowerCase()` or `.trim()` it. `get_customer_by_email()` (migration `0009`) does compare case-insensitively, so the DB-side lookup is safe; the stored value is whatever the customer typed. |
+
+Consequence if left as-is: the same person buying both products fragments into two Stripe
+customers and, with mixed-case emails, potentially two `customers` rows. That is the exact
+"duplicate-customer hell" this section exists to prevent. Adding the hooks later means
+backfilling every record created in the meantime.
+
+Not a launch-blocker for standalone operation — but it should be fixed before bundle work
+starts, and the longer live sales run, the larger the backfill.
+
+See `CLAUDE.md` (this repo) and `axon-growth/CLAUDE.md` for the hook specs.
 
 ## References
 
-- apex-sites/CLAUDE.md — strategic role + 3 hooks
+- `PROJECT-STATE.md` (this repo) — current live status, blockers, next actions
+- `CLAUDE.md` (this repo) — strategic role + 3 hooks
 - axon-growth/CLAUDE.md — Cross-Product Integration section (Stage 4)
 - `~/.claude/projects/.../memory/apex-sites-status.md` — phase history
 - `~/.claude/projects/.../memory/axon-growth-status.md` — launch readiness

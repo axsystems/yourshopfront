@@ -1,21 +1,39 @@
 # Phase 4 — End-to-End Test Plan
 
-Manual runbook to verify the full payment flow before any live deployment. Designed to run start-to-finish in **about 30 minutes** once setup is done.
+Manual runbook to verify the full payment flow in **Stripe test mode**. Designed to run
+start-to-finish in **about 30 minutes** once setup is done.
 
-Everything happens in **Stripe test mode**. Real money is never touched. The Supabase project, Resend account, and Slack webhook can be the same instances you'll use in production — all the test data is identifiable (cleanup section at the bottom).
+**Reviewed and updated 2026-07-29.** Sections that had drifted from the shipped code are marked
+inline. The three original checkout modes are unchanged and still correct; what changed since
+this was first written is the **$199 copy add-on** (a fourth line-item variation plus a separate
+upgrade endpoint), the **`/start` launch promo** path, and the **`charge.refunded`** webhook
+handler.
+
+> **This document does NOT cover the production gate.** Test mode proves the code; it does not
+> prove that live-mode keys, the live webhook secret, the production Supabase schema, and a
+> verified Resend sender are all wired correctly. That is `LAUNCH-CHECKLIST.md` **§0**, and it
+> has not been run. Passing everything here still leaves that gap open.
+
+Real money is never touched here. The Supabase project, Resend account, and Slack webhook can
+be the same instances you'll use in production — all the test data is identifiable (cleanup
+section at the bottom).
 
 ---
 
 ## What you're verifying
 
 - [ ] `/api/checkout` creates a valid Stripe Checkout session for all 3 modes (subscription, one-time, one-time + hosting)
+- [ ] The `/start` **launch-promo** path (`promo=launch`) swaps in the $99 setup price and applies the coupon
+- [ ] The **$199 copy add-on** rides along as an extra line item in every mode, and parks the site in `awaiting_copy_draft`
+- [ ] `/api/checkout/copy-upgrade` sells the add-on **after** the original purchase
 - [ ] `/api/stripe/webhook` verifies signatures and rejects bad ones
 - [ ] `checkout.session.completed` creates a customer + site row in Supabase
 - [ ] Webhook is **idempotent** — replaying the same event creates exactly one site row
-- [ ] Welcome email lands (Resend) and Slack ping fires
+- [ ] Welcome email lands (Resend), Slack ping fires, operator SMS fires (Quo/OpenPhone)
 - [ ] `/onboarding` finds the new site row and renders the checklist
-- [ ] Marking all 3 steps complete flips `sites.status` from `pending_content` to `ready_to_build`
+- [ ] Completing the worksheet + assets + domain steps flips `sites.status` to `ready_to_build`
 - [ ] Cancelling a subscription fires `customer.subscription.deleted` and flips status to `cancelled`
+- [ ] Refunding a charge fires `charge.refunded` and flips status to `refunded`
 
 ---
 
@@ -23,12 +41,17 @@ Everything happens in **Stripe test mode**. Real money is never touched. The Sup
 
 You need:
 
-- Node 20+, pnpm
+- Node 20+, pnpm (`packageManager: pnpm@10.28.0` — do not override the version)
 - A **Stripe test-mode** account (dashboard.stripe.com, toggled to "Test mode")
 - The Stripe CLI installed: <https://docs.stripe.com/stripe-cli>
-- The Supabase project from Phase 4b with both migrations run (`0001_initial.sql`, `0002_onboarding.sql`)
+- A Supabase project with **all twelve migrations run** (`0001_initial.sql` → `0012_edit_request_append_comment.sql`).
+  ⚠️ **Corrected 2026-07-29** — this used to say "both migrations (`0001`, `0002`)". Running
+  fewer than twelve gives a schema where the copy-addon tests fail the `sites_status_check`
+  constraint after the charge succeeds. The authoritative list and verification SQL live in
+  `LAUNCH-CHECKLIST.md` §4.
 - A Resend account with at least one verified sender — or skip Resend (welcome emails will `console.log` instead of send)
 - Optional: a Slack incoming-webhook URL — or skip (Slack pings will silently no-op)
+- Optional: Quo/OpenPhone credentials (`QUO_API_KEY`, `QUO_FROM_NUMBER`, `QUO_OPERATOR_PHONE`) — or skip (operator SMS silently no-ops)
 
 ---
 
@@ -39,11 +62,13 @@ You need:
 ```bash
 # Real test-mode Stripe key (sk_test_*), NOT the placeholder
 STRIPE_SECRET_KEY=sk_test_<paste-from-stripe-dashboard>
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_<paste-from-stripe-dashboard>
+# NOTE (2026-07-29): NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is NOT needed. It appears
+# in the .env examples but in no source file — checkout is entirely server-side.
 
-# Real Supabase (you've already done this from Phase 4b)
+# Real Supabase
 SUPABASE_URL=https://<project>.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=<service-role-key>
+NEXT_PUBLIC_SUPABASE_URL=https://<project>.supabase.co   # browser-visible, needed for /login + /app/*
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-key>
 
 # Optional but recommended for the email/Slack verification steps
@@ -56,13 +81,31 @@ SLACK_WEBHOOK_URL=<your-slack-webhook-or-omit>
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
-### 2. Create the 4 Stripe products + prices
+### 2. Create the 6 Stripe products + prices
 
 ```bash
 pnpm stripe:setup
 ```
 
-The script is idempotent — safe to re-run if it half-ran. Copy the 4 `STRIPE_PRICE_*=price_...` lines from stdout into `.env.local`.
+**Corrected 2026-07-29 — this said "4 products".** `scripts/create-stripe-products.ts` defines
+six: subscription setup ($299), subscription setup launch-promo ($99), subscription monthly
+($149/mo), one-time build ($997), hosting add-on ($49/mo), and copy-writing service ($199).
+
+The script is idempotent — safe to re-run if it half-ran. Copy **all six**
+`STRIPE_PRICE_*=price_...` lines from stdout into `.env.local`.
+
+⚠️ **`STRIPE_PRICE_COPY_ADDON` is mandatory even if you never test the add-on.**
+`readPriceIds()` in `src/app/api/checkout/route.ts` returns `null` when any of the five core
+price IDs (setup, monthly, onetime, hosting, copyAddon) is missing, which makes **every**
+checkout 500 with "Checkout is not yet configured." `STRIPE_PRICE_SUBSCRIPTION_SETUP_PROMO` is
+the one exception — it is optional, and the promo path silently falls back to the $299 setup
+price when it is unset.
+
+### 2b. Create the launch-promo coupon (only if testing the `/start` promo)
+
+Stripe Dashboard (Test mode) → Coupons → New: **$50 off, repeating, 3 months**. Put its
+**Coupon ID** (not a promotion code) in `STRIPE_COUPON_LAUNCH_PROMO`. If either the promo price
+or the coupon is unset, `promo=launch` is ignored and you get standard pricing.
 
 ### 3. Authenticate the Stripe CLI
 
@@ -207,7 +250,9 @@ limit 1;
 - [ ] `industry = 'Plumbing'`
 - [ ] `headline_pref = 'Plumbing & HVAC, properly engineered.'`
 - [ ] `hosting_addon = false`
-- [ ] `status = 'pending_content'`
+- [ ] `copy_addon = false`
+- [ ] `status = 'pending_content'` (with the copy add-on checked this would be
+      `'awaiting_copy_draft'` instead — see Test 4)
 - [ ] `stripe_session_id = 'cs_test_...'` matches the URL `?session_id=` on `/onboarding`
 - [ ] `onboarding_state = {}`
 - [ ] `customer_id` matches `customers.id` from the previous query
@@ -227,6 +272,37 @@ If you skipped Resend setup, the dev server log shows `[email] skipped — RESEN
 - [ ] Includes business name, demo slug, customer email
 
 If skipped: silent no-op, no log entry expected.
+
+---
+
+## Test 1b — Subscription via the `/start` launch promo
+
+**Added 2026-07-29.** The `/start` landing page sells $99 setup + $99/mo for 3 months. This path
+did not exist when the plan was written.
+
+Open: `http://localhost:3000/checkout?tier=subscription&promo=launch&demo=premium-trade`
+
+- [ ] Order summary shows the promo pricing, not $448
+
+Fill the form with a fresh email, pay with `4242 4242 4242 4242`.
+
+### Verify
+
+- [ ] Stripe Checkout charges **$198.00 today** ($99 promo setup + $99 first month after the
+      $50/mo coupon)
+- [ ] Stripe Dashboard → the new subscription shows the `launch_promo_3mo` coupon applied,
+      **3 months, repeating**
+- [ ] Upcoming invoices: 2 more at `$99.00`, then `$149.00/mo` once the coupon expires
+- [ ] Supabase `sites`: `tier = 'subscription'`; session metadata carries `promo = 'launch'`
+- [ ] ⚠️ If the charge is **$448**, either `STRIPE_PRICE_SUBSCRIPTION_SETUP_PROMO` or
+      `STRIPE_COUPON_LAUNCH_PROMO` is unset — `/api/checkout` falls back to standard pricing
+      **silently**, with no error. Check both env vars, not the code.
+
+> Implementation note: Stripe rejects a Checkout session that specifies both `discounts` and
+> `allow_promotion_codes` (even when the latter is `false`). On the promo path the code sends
+> `discounts` and omits `allow_promotion_codes`; on every other path it sends
+> `allow_promotion_codes: true`. If you see "you may only specify one of these parameters",
+> that mutual exclusion has been broken.
 
 ---
 
@@ -283,6 +359,48 @@ Submit → pay with `4242 4242 4242 4242`.
 - [ ] Welcome email arrived
 
 This is the trickiest mode — both a one-time charge and a recurring subscription in a single Checkout session. The dollar amounts are the proof it worked.
+
+---
+
+## Test 4 — Copy add-on ($199) attached at checkout
+
+**Added 2026-07-29.** The copy-writing add-on is a `copy_addon: boolean` on the checkout request
+(`src/lib/checkout-schema.ts`) and rides along as an extra `line_items` entry in **all three**
+modes.
+
+Run any of Tests 1–3 again with the copy add-on selected.
+
+### Verify
+
+- [ ] Stripe charge is the base amount **+ $199.00**
+- [ ] Supabase `sites`: `copy_addon = true`
+- [ ] Supabase `sites`: `status = 'awaiting_copy_draft'` — **not** `pending_content`. This is
+      deliberate: the site must not reach the provisioning cron until copy exists.
+- [ ] Slack ping includes `+ Copy service`; operator SMS includes `+ Copy`
+- [ ] ⚠️ If the insert fails with a check-constraint violation on `sites_status_check`, the
+      Supabase project is missing migration `0008_ai_copy_state.sql`. **The customer has
+      already been charged at this point** — fix the schema, then create the site row by hand.
+
+---
+
+## Test 5 — Copy add-on upgrade after purchase
+
+**Added 2026-07-29.** `/api/checkout/copy-upgrade` sells the add-on to a customer who already
+bought. It creates a `mode: 'payment'` session for the $199 price with
+`metadata.upgrade = 'copy_addon'` and `metadata.site_id`.
+
+Using a `site_id` from any earlier test, drive the upgrade endpoint and pay with `4242`.
+
+### Verify
+
+- [ ] `checkout.session.completed` arrives `[200]`
+- [ ] Dev log shows the copy-addon-upgrade branch, **not** new-site creation
+- [ ] Supabase: **no new `sites` row** — the existing row is updated in place
+- [ ] `sites.copy_addon` flips to `true`
+- [ ] If the site was `pending_content` or `ready_to_build`, `status` becomes
+      `awaiting_copy_draft`; any other status is left alone
+- [ ] Replaying the same event is a no-op (the handler returns early when `copy_addon` is
+      already true)
 
 ---
 
@@ -347,6 +465,30 @@ order by updated_at desc;
 
 ---
 
+## Refund test
+
+**Added 2026-07-29 — `charge.refunded` shipped and was never in this plan.**
+
+```bash
+stripe charges list --limit 1
+stripe refunds create --charge ch_<id>
+```
+
+### Verify
+
+- [ ] Terminal 1: `charge.refunded` arrives `[200]`
+- [ ] Supabase: the customer's **most recent** `sites` row flips to `status = 'refunded'`
+- [ ] If that site was `live`, DNS + the Vercel domain attach are torn down
+- [ ] Slack ping: `💸 Refund processed` with business name, email, and refunded amount
+- [ ] Replaying the event is a no-op (guard: already `refunded`)
+- [ ] ⚠️ Known behaviour, not a bug to chase here: the handler resolves the site by "most
+      recent site for this Stripe customer" because `charge.refunded` carries no `session_id`.
+      A customer with two sites refunded on the older one would have the **newer** site marked.
+      Also, a **partial** refund is treated as a full refund. Both are logged in
+      `docs/post-launch-todo.md`.
+
+---
+
 ## Onboarding flow test
 
 Open `/onboarding?session_id=cs_test_...` (use the session_id from any of the above tests where the subscription is **still active**, so status is `pending_content`).
@@ -357,22 +499,36 @@ Open `/onboarding?session_id=cs_test_...` (use the session_id from any of the ab
 - [ ] Step 1 (purchase confirmed) shows green check
 - [ ] Steps 2, 3, 4 show numbered circles
 
-### Step 2 — content
+### Step 2 — content (worksheet)
 
-Click **Mark as sent**. Spinner briefly, then green check.
+⚠️ **Corrected 2026-07-29 — this step no longer has a "Mark as sent" button.** The manual
+self-attestation was replaced by a real worksheet. `ContentStep` renders an **Open worksheet**
+link to `/onboarding/worksheet?session_id=...`, and completion is derived from the content the
+customer actually saved, not from a toggle.
 
-```sql
-select onboarding_state from sites where stripe_session_id = 'cs_test_...';
--- Expect: { "content_sent": { "complete": true, "completed_at": "..." } }
-```
-
-### Step 3 — assets
-
-Click **Mark as sent** on the assets step.
+Click **Open worksheet**, then fill and save all **five required** sections: hero, contact,
+services, about, and service area. (Reviews and media are optional.)
 
 ```sql
--- Expect both content_sent and assets_sent now in the JSONB
+select site_content, onboarding_state from sites where stripe_session_id = 'cs_test_...';
+-- Expect site_content populated with hero/contact/services/about/serviceArea
+-- and the content step showing complete on the checklist.
 ```
+
+- [ ] The checklist's content step auto-flips to complete once the fifth required section saves
+
+### Step 3 — assets (upload)
+
+Upload a logo (any image ≤ 10 MB) plus a few photos on the assets step.
+
+```sql
+select site_content -> 'media' from sites where stripe_session_id = 'cs_test_...';
+-- Expect logoUrl and a gallery array of Supabase Storage URLs.
+```
+
+- [ ] ⚠️ SVG uploads must be **rejected**. Migration `0006_drop_svg_mime.sql` removed
+      `image/svg+xml` from the bucket allowlist because a public-read SVG is a stored-XSS
+      vector. If an SVG uploads successfully, 0006 was not applied to this project.
 
 ### Step 4 — domain
 
@@ -426,10 +582,26 @@ In dashboard → Test mode → Customers, you can bulk-delete test customers. Th
 ### Supabase
 
 ```sql
--- Delete all test data (test mode is identifiable by stripe_customer_id starting with 'cus_test_')
-delete from customers where stripe_customer_id like 'cus_test_%';
--- sites cascade-deletes via the FK
+-- CORRECTED 2026-07-29. The previous query was
+--   delete from customers where stripe_customer_id like 'cus_test_%';
+-- which matched NOTHING: Stripe test-mode CUSTOMER ids are plain `cus_*` with no
+-- `test` marker. Only sessions (`cs_test_*`) and API keys (`sk_test_*`) carry one.
+-- Key the cleanup off the session id instead, which is unambiguous.
+delete from customers
+where id in (
+  select customer_id from sites where stripe_session_id like 'cs_test_%'
+);
+-- sites cascade-delete via the FK.
+
+-- Sanity-check FIRST, before deleting anything:
+select c.id, c.email, s.stripe_session_id
+from customers c join sites s on s.customer_id = c.id
+where s.stripe_session_id like 'cs_test_%';
 ```
+
+⚠️ **Never run this against the production project without the sanity-check select first.** A
+customer whose row predates their session id, or any hand-created row, will not be matched —
+and a broadened `like` pattern would delete live data.
 
 ### Stripe products
 
@@ -487,11 +659,17 @@ If `site_id` is missing from `sub.metadata`, Stripe didn't propagate it — like
 
 When all of the above passes, Phase 4 is verified end-to-end. Sign off:
 
-- [ ] All 3 checkout modes (subscription, onetime, onetime+addon) create correct Stripe charges + Supabase rows
+- [ ] All 3 checkout modes (subscription, onetime, onetime+hosting) create correct Stripe charges + Supabase rows
+- [ ] `/start` launch promo charges $198 today with a 3-month coupon (Test 1b)
+- [ ] Copy add-on at checkout adds $199 and parks the site in `awaiting_copy_draft` (Test 4)
+- [ ] Copy add-on upgrade updates the existing site row without creating a new one (Test 5)
 - [ ] Webhook idempotency confirmed via replay
-- [ ] Cancellation flow flips status and sends goodbye email
-- [ ] Onboarding flow flips status to `ready_to_build` after all 3 user steps
-- [ ] Resend + Slack side effects fire (or skip cleanly if unconfigured)
+- [ ] Cancellation flow flips status to `cancelled` and sends goodbye email
+- [ ] Refund flow flips status to `refunded` and unprovisions a live site
+- [ ] Onboarding worksheet + uploads + domain flip status to `ready_to_build`
+- [ ] Resend + Slack + operator SMS side effects fire (or skip cleanly if unconfigured)
 - [ ] Test data cleaned up
 
-Then move on to Phase 5+ — provisioning pipeline, admin dashboard, customer portal.
+Passing all of the above verifies the code in **test mode only**. It does **not** clear the
+production gate — see `LAUNCH-CHECKLIST.md` §0, which requires one real-card purchase against
+production before any outreach.
