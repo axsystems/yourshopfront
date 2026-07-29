@@ -2,7 +2,54 @@
 
 Things deliberately deferred from Phase 4 because they only matter at scale we don't have yet. Listed here so they don't drift out of memory.
 
-## Stripe webhook handlers to add (in priority order)
+**Last reconciled against the code: 2026-07-29.**
+
+## Already shipped (do not re-list as deferred)
+
+### `charge.refunded` — SHIPPED
+
+Verified 2026-07-29 by reading `src/app/api/stripe/webhook/route.ts`. The webhook registers
+**three** event types: `checkout.session.completed`, `customer.subscription.deleted`, and
+`charge.refunded`.
+
+What `handleChargeRefunded` actually does:
+
+1. Resolves the Stripe customer id off the charge. `charge.refunded` carries **no**
+   `session_id`, so the site is found via `getCustomerByStripeId()` → the customer's most
+   recent `sites` row (`order by created_at desc limit 1`), rather than by session lookup.
+   This handles subscription and one-time refunds uniformly.
+2. Idempotent: if the site is already `status='refunded'`, it logs and returns.
+3. Flips `sites.status` to `'refunded'`.
+4. If the site **was** `live`, calls `unprovisionSite()` to tear down Cloudflare DNS + the
+   Vercel domain attach. Failure there is caught and logged so the Slack alert still fires.
+5. Pings Slack with the business name, customer email, refunded amount, and whether the site
+   had been live.
+
+Known gaps in the shipped handler, if they ever matter:
+
+- **No customer-facing refund confirmation email.** The original spec called for one; only the
+  Slack operator ping was implemented. Stripe sends its own refund receipt, so this is a
+  nice-to-have, not a correctness bug.
+- **"Most recent site" is a heuristic.** A customer with more than one site who is refunded for
+  an older purchase gets their *newest* site marked refunded. Fine at current volume (no
+  customer has two sites); revisit before any repeat-purchase motion.
+- **Partial refunds are treated as full refunds.** The handler reads `amount_refunded` for the
+  Slack message but does not compare it to `charge.amount`, so a partial refund still flips the
+  site to `'refunded'` and unprovisions a live site.
+
+### Stripe Customer Portal link in `/onboarding` — SHIPPED
+
+Verified 2026-07-29. `src/app/api/billing-portal/route.ts` and
+`src/app/api/billing-portal-deep-link/route.ts` exist, and
+`src/app/onboarding/billing-button.tsx` is rendered from `src/app/onboarding/page.tsx:224`.
+The welcome email also links to `/onboarding?session_id=...#billing` for customers with
+recurring billing (subscription tier, or one-time + hosting add-on).
+
+⚠️ Still requires the **one-time Stripe Dashboard portal configuration** described in
+`LAUNCH-CHECKLIST.md` §5c. Without it, `POST /api/billing-portal` returns a Stripe error and
+the button fails at click time. That config is dashboard-only and has **not** been verified.
+
+## Stripe webhook handlers still to add (in priority order)
 
 ### `invoice.payment_failed`
 
@@ -17,27 +64,18 @@ Things deliberately deferred from Phase 4 because they only matter at scale we d
 3. After 3 consecutive failures (use a counter in `sites` or read `subscription.attempt_count`), pings Slack and adds a soft-warning banner on the customer's onboarding page
 4. Don't touch `sites.status` — Stripe's dunning handles the eventual cancellation, which fires `customer.subscription.deleted` (already handled)
 
-Add a `customer.subscription.updated` handler at the same time so we catch the brief `past_due` → `active` transitions and clear any warning state.
+### `customer.subscription.updated`
 
-### `charge.refunded`
+**When to add:** at the same time as `invoice.payment_failed`.
 
-**When to add:** when refund volume justifies, probably ~5+ refunds/month.
+Catches the brief `past_due` → `active` transitions so any warning state gets cleared, and
+picks up payment-method changes and unpauses.
 
-**Why:** today, a refund is a manual operation in the Stripe dashboard. The webhook fires but we ignore it. Result: the `sites` row stays at whatever status it was (often `live`), the customer keeps using their site after a refund, and admin reporting is wrong.
-
-**What to do:** add a handler that:
-
-1. Reads `charge.payment_intent` to get the PaymentIntent → look up the Checkout session that created it
-2. Updates the matching `sites.status` to `'refunded'`
-3. If the site is currently `live`, kick off de-provisioning (DNS removal, project deletion) — this needs Phase 5 provisioning to exist first
-4. Resend email to customer confirming the refund
-5. Slack ping
-
-Pre-Phase-5 (no provisioning): just flip status to `'refunded'`, manually take the site down via Vercel dashboard.
+Together with `invoice.payment_failed`, these are the **only two** Stripe events still
+deferred as of 2026-07-29.
 
 ## Other deferred items (not webhook-related)
 
-- **Stripe Customer Portal link in /onboarding** — give subscription customers a self-service way to update payment method, change billing email, view invoices. Spec: `stripe.billingPortal.sessions.create({ customer, return_url })`, render link inline on the onboarding page once site is `live`.
 - **Site-level rate-limit on `/api/contact`** — currently anyone can spam the form. Add an IP-based limiter once spam shows up (Vercel KV or Upstash, ~20 submissions per IP per hour).
 - **OG image caching** — `/api/og/[slug]` re-fetches the Fontsource font on every cold edge invocation. Vercel CDN caches the response by URL, so this is fine for steady-state, but a deployment churn could wipe the cache and hit us with 30× cold loads (1 per theme). Pre-warm by curl-ing each `/api/og/{slug}` after deploy. NOTE: also matters now because `<PortfolioCard>` uses these images directly (PR #46), so first portfolio render after a deploy may flash skeletons until edge cache warms.
 - **Real Lighthouse audit** — Phase 3 hit 95+ targets in theory but I never measured against a deployed preview. Run before launch.
