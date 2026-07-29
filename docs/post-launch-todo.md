@@ -79,6 +79,14 @@ deferred as of 2026-07-29.
 - **Site-level rate-limit on `/api/contact`** — currently anyone can spam the form. Add an IP-based limiter once spam shows up (Vercel KV or Upstash, ~20 submissions per IP per hour).
 - **OG image caching** — `/api/og/[slug]` re-fetches the Fontsource font on every cold edge invocation. Vercel CDN caches the response by URL, so this is fine for steady-state, but a deployment churn could wipe the cache and hit us with 30× cold loads (1 per theme). Pre-warm by curl-ing each `/api/og/{slug}` after deploy. NOTE: also matters now because `<PortfolioCard>` uses these images directly (PR #46), so first portfolio render after a deploy may flash skeletons until edge cache warms.
 - **Real Lighthouse audit** — Phase 3 hit 95+ targets in theory but I never measured against a deployed preview. Run before launch.
+- **Retire `HeroPhoneFirst` dead code** — PR #53 removed every `hero: "phone-first"` theme
+  assignment when Your Shopfront went online-only (the 3 emergency demos moved to
+  `form-card`/`booking-card`). Verified 2026-07-29: no theme sets `"phone-first"`, but
+  `src/components/home/hero.tsx:175` still dispatches to it and `HeroPhoneFirst` is still
+  defined at :228 — unreachable. Cleaning it up means deleting the function AND pruning
+  `"phone-first"` from the `HeroPattern` union in `src/lib/themes/types.ts:11`, so it's a
+  two-file change, not a one-liner. Carried forward from PR #54, which was closed as
+  stale-based rather than merged.
 
 ## Notes for whoever picks this up
 
