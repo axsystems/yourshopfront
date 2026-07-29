@@ -89,5 +89,9 @@ export const premiumTrade: Theme = {
         alt: "Assorted hand tools neatly arranged in a workshop tool rack",
       },
     },
+    heroFormCard: {
+      heading: "Request a diagnostic — no rush pricing",
+      body: "We'll inspect the full system and email you a written quote within 24 hours.",
+    },
   },
 }

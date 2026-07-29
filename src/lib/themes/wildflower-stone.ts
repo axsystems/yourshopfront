@@ -86,5 +86,13 @@ export const wildflowerStone: Theme = {
         alt: "Assorted wildflowers gathered on a brown wood surface",
       },
     },
+    heroGallery: {
+      tiles: [
+        { tag: "Bouquets", swatch: ["#C4A097", "#6B7C5F", "#F5EFE0"] },
+        { tag: "Dried botanicals", swatch: ["#ECE3CD", "#C4A097", "#2A2520"] },
+        { tag: "Wedding florals", swatch: ["#2A2520", "#C4A097", "#ECE3CD"] },
+        { tag: "Apothecary", swatch: ["#6B7C5F", "#2A2520", "#F5EFE0"] },
+      ],
+    },
   },
 }

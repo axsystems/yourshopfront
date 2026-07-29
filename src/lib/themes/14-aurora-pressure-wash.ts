@@ -119,5 +119,13 @@ export const auroraPressureWash: Theme = {
         alt: "Blue hose coiled across a freshly washed paved walkway",
       },
     },
+    heroGallery: {
+      tiles: [
+        { tag: "Driveways", swatch: ["#1E88E5", "#F9B408", "#F4FAFE"] },
+        { tag: "Siding", swatch: ["#0E2640", "#1E88E5", "#D9EAF7"] },
+        { tag: "Patios", swatch: ["#F9B408", "#0E2640", "#1E88E5"] },
+        { tag: "Roof washing", swatch: ["#1E88E5", "#0E2640", "#F9B408"] },
+      ],
+    },
   },
 }

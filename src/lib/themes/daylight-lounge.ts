@@ -86,5 +86,13 @@ export const daylightLounge: Theme = {
         alt: "Calm living room interior flooded with light from a large window",
       },
     },
+    heroGallery: {
+      tiles: [
+        { tag: "The lounge", swatch: ["#D26A3F", "#8AA47A", "#F4ECDC"] },
+        { tag: "Wash & fold", swatch: ["#8AA47A", "#1E1B16", "#EFE5D2"] },
+        { tag: "Coffee bar", swatch: ["#1E1B16", "#D26A3F", "#8AA47A"] },
+        { tag: "Self-serve", swatch: ["#D26A3F", "#EFE5D2", "#8AA47A"] },
+      ],
+    },
   },
 }

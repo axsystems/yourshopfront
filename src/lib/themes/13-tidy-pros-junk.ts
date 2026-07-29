@@ -119,5 +119,9 @@ export const tidyProsJunk: Theme = {
         alt: "Residential garage filled with stacked clutter and stored tools",
       },
     },
+    heroFormCard: {
+      heading: "Free photo quote — no pressure",
+      body: "Text us a photo of what needs to go and we'll email a flat-rate price within the hour.",
+    },
   },
 }

@@ -86,5 +86,9 @@ export const documentaryB2b: Theme = {
         alt: "Empty oval brown wooden conference table and chairs inside a conference room",
       },
     },
+    heroFormCard: {
+      heading: "Free service assessment — no obligation",
+      body: "We'll review your facility's volume and compliance needs and email a custom program within 24 hours.",
+    },
   },
 }

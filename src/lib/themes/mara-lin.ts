@@ -86,5 +86,13 @@ export const maraLin: Theme = {
         alt: "Photographer working in a studio, framing a shot with a camera",
       },
     },
+    heroGallery: {
+      tiles: [
+        { tag: "Editorial", swatch: ["#0A0A0A", "#C8B8A0", "#F5F2EC"] },
+        { tag: "Campaign", swatch: ["#141414", "#8A7A63", "#C8B8A0"] },
+        { tag: "Motion", swatch: ["#1C1C1C", "#C8B8A0", "#141414"] },
+        { tag: "Portrait", swatch: ["#0A0A0A", "#F5F2EC", "#C8B8A0"] },
+      ],
+    },
   },
 }

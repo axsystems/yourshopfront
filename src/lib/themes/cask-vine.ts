@@ -86,5 +86,13 @@ export const caskVine: Theme = {
         alt: "Stacked oak barrels of wine and liquor inside a low-lit cellar",
       },
     },
+    heroGallery: {
+      tiles: [
+        { tag: "Reds", swatch: ["#3D0F14", "#C5A572", "#F0E6D2"] },
+        { tag: "Whites", swatch: ["#C5A572", "#14060A", "#E8DCC4"] },
+        { tag: "Small plates", swatch: ["#14060A", "#3D0F14", "#C5A572"] },
+        { tag: "The cellar", swatch: ["#3D0F14", "#14060A", "#C5A572"] },
+      ],
+    },
   },
 }

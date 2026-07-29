@@ -119,5 +119,13 @@ export const westwoodTree: Theme = {
         alt: "Arborist using a chainsaw to cut into a tree trunk",
       },
     },
+    heroGallery: {
+      tiles: [
+        { tag: "Pruning", swatch: ["#1F3528", "#FF6A1A", "#ECE5D2"] },
+        { tag: "Removal", swatch: ["#FF6A1A", "#1F3528", "#F5F1E6"] },
+        { tag: "Storm cleanup", swatch: ["#1A1612", "#FF6A1A", "#1F3528"] },
+        { tag: "Stump grinding", swatch: ["#1F3528", "#ECE5D2", "#FF6A1A"] },
+      ],
+    },
   },
 }

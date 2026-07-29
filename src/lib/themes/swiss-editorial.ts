@@ -86,5 +86,13 @@ export const swissEditorial: Theme = {
         alt: "Wall-mounted Helvetica alphabet poster hung above a sofa",
       },
     },
+    heroGallery: {
+      tiles: [
+        { tag: "Identity", swatch: ["#111111", "#D14836", "#F0EEE9"] },
+        { tag: "Editorial", swatch: ["#D14836", "#111111", "#E8E5DC"] },
+        { tag: "Digital", swatch: ["#E8E5DC", "#111111", "#D14836"] },
+        { tag: "Wayfinding", swatch: ["#111111", "#E8E5DC", "#D14836"] },
+      ],
+    },
   },
 }

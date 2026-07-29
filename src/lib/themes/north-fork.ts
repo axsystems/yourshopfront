@@ -86,5 +86,13 @@ export const northFork: Theme = {
         alt: "Tall gray stainless-steel brewery fermentation tank",
       },
     },
+    heroGallery: {
+      tiles: [
+        { tag: "Rotating taps", swatch: ["#2A4530", "#D9A934", "#EDE3CD"] },
+        { tag: "Seasonals", swatch: ["#D9A934", "#2A4530", "#DDD0B0"] },
+        { tag: "Cans to go", swatch: ["#1A1A1A", "#D9A934", "#2A4530"] },
+        { tag: "The patio", swatch: ["#2A4530", "#DDD0B0", "#D9A934"] },
+      ],
+    },
   },
 }

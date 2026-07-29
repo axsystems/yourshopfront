@@ -86,5 +86,13 @@ export const stillPoint: Theme = {
         alt: "Quiet stack of smooth brown stones balanced on a wooden log",
       },
     },
+    heroGallery: {
+      tiles: [
+        { tag: "Morning flow", swatch: ["#C8744A", "#8B9678", "#F1ECE3"] },
+        { tag: "Restorative", swatch: ["#8B9678", "#E5DECF", "#232323"] },
+        { tag: "Meditation", swatch: ["#232323", "#C8744A", "#8B9678"] },
+        { tag: "Breathwork", swatch: ["#E5DECF", "#8B9678", "#C8744A"] },
+      ],
+    },
   },
 }

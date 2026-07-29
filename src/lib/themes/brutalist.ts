@@ -86,5 +86,13 @@ export const brutalist: Theme = {
         alt: "Landscape view of a grey concrete brutalist building facade",
       },
     },
+    heroGallery: {
+      tiles: [
+        { tag: "Brand", swatch: ["#000000", "#FF1493", "#FFE600"] },
+        { tag: "Campaign", swatch: ["#FF1493", "#000000", "#FFF8DC"] },
+        { tag: "Digital", swatch: ["#FFE600", "#000000", "#FF1493"] },
+        { tag: "Print", swatch: ["#000000", "#FFE600", "#FF1493"] },
+      ],
+    },
   },
 }

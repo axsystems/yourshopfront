@@ -86,5 +86,13 @@ export const webglExperimental: Theme = {
         alt: "Smooth blue and pink gradient light illustration",
       },
     },
+    heroGallery: {
+      tiles: [
+        { tag: "Runtime", swatch: ["#09090B", "#C5FF00", "#2D5BFF"] },
+        { tag: "SDK", swatch: ["#1A1A1F", "#2D5BFF", "#C5FF00"] },
+        { tag: "Dashboard", swatch: ["#2D5BFF", "#09090B", "#C5FF00"] },
+        { tag: "Pipeline", swatch: ["#09090B", "#2D5BFF", "#F4F4F5"] },
+      ],
+    },
   },
 }

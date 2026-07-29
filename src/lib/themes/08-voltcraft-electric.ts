@@ -119,5 +119,9 @@ export const voltcraftElectric: Theme = {
         alt: "Row of white circuit breakers inside an electrical panel",
       },
     },
+    heroFormCard: {
+      heading: "Free electrical diagnosis — no pressure",
+      body: "We'll troubleshoot the panel or circuit and email you a flat-rate quote within 24 hours.",
+    },
   },
 }

@@ -119,5 +119,9 @@ export const ironsidePlumbing: Theme = {
         alt: "Black and white work truck on a road during daytime",
       },
     },
+    heroFormCard: {
+      heading: "Free plumbing diagnosis — no pressure",
+      body: "We'll walk the leak or the clog with you and email a flat-rate quote within 24 hours.",
+    },
   },
 }

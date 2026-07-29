@@ -119,5 +119,13 @@ export const crystallineWindowCo: Theme = {
         alt: "Tall black and gray glass high-rise building under a bright daytime sky",
       },
     },
+    heroGallery: {
+      tiles: [
+        { tag: "Before / after", swatch: ["#0A1628", "#22D3EE", "#F5F9FF"] },
+        { tag: "High-rise", swatch: ["#152238", "#22D3EE", "#1E3A5F"] },
+        { tag: "Residential", swatch: ["#1E3A5F", "#E2E8F0", "#22D3EE"] },
+        { tag: "Solar panels", swatch: ["#0A1628", "#E2E8F0", "#22D3EE"] },
+      ],
+    },
   },
 }
