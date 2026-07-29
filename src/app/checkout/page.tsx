@@ -9,6 +9,17 @@ import { JsonLd } from "@/components/json-ld"
 import { allThemes } from "@/lib/themes"
 import type { Tier } from "@/lib/checkout-schema"
 import { SITE_URL, organizationSchema } from "@/lib/seo"
+import {
+  HOSTING_ADDON,
+  ONE_TIME,
+  PROMO_MONTHLY,
+  PROMO_SETUP,
+  PROMO_TODAY_CHARGE,
+  STANDARD_MONTHLY,
+  STANDARD_MONTHLY_PRICE,
+  STANDARD_SETUP,
+  STANDARD_TODAY_CHARGE,
+} from "@/lib/pricing-constants"
 
 interface PageProps {
   searchParams: Promise<{
@@ -188,17 +199,17 @@ function OrderSummary({
             {tier === "subscription" ? (
               promo ? (
                 <>
-                  <PriceLine label="Setup fee (today)" amount="$99" />
-                  <PriceLine label="First month" amount="$99" />
+                  <PriceLine label="Setup fee (today)" amount={PROMO_SETUP} />
+                  <PriceLine label="First month" amount={PROMO_SETUP} />
                   <PriceLine
                     label="Months 2 + 3"
-                    amount="$99/mo"
+                    amount={PROMO_MONTHLY}
                     muted
                     detail="Promo rate"
                   />
                   <PriceLine
                     label="Month 4 onward"
-                    amount="$149/mo"
+                    amount={STANDARD_MONTHLY}
                     muted
                     detail="Standard rate · cancel anytime"
                   />
@@ -211,18 +222,18 @@ function OrderSummary({
                       className="text-2xl font-extrabold"
                       style={{ fontFamily: "var(--apex-font-display)" }}
                     >
-                      $198
+                      ${PROMO_TODAY_CHARGE}
                     </span>
                   </div>
                   <CopyAddonHint />
                 </>
               ) : (
                 <>
-                  <PriceLine label="Setup fee (today)" amount="$299" />
-                  <PriceLine label="First month" amount="$149" />
+                  <PriceLine label="Setup fee (today)" amount={STANDARD_SETUP} />
+                  <PriceLine label="First month" amount={`${STANDARD_MONTHLY_PRICE}`} />
                   <PriceLine
                     label="Ongoing"
-                    amount="$149/mo"
+                    amount={STANDARD_MONTHLY}
                     muted
                     detail="Cancel anytime"
                   />
@@ -235,7 +246,7 @@ function OrderSummary({
                       className="text-2xl font-extrabold"
                       style={{ fontFamily: "var(--apex-font-display)" }}
                     >
-                      $448
+                      ${STANDARD_TODAY_CHARGE}
                     </span>
                   </div>
                   <CopyAddonHint />
@@ -243,10 +254,10 @@ function OrderSummary({
               )
             ) : (
               <>
-                <PriceLine label="One-time build" amount="$997" />
+                <PriceLine label="One-time build" amount={ONE_TIME} />
                 <PriceLine
                   label="Optional hosting (selectable below)"
-                  amount="+ $49/mo"
+                  amount={`+ ${HOSTING_ADDON}`}
                   muted
                 />
                 <div
@@ -258,7 +269,7 @@ function OrderSummary({
                     className="text-2xl font-extrabold"
                     style={{ fontFamily: "var(--apex-font-display)" }}
                   >
-                    $997
+                    {ONE_TIME}
                   </span>
                 </div>
                 <CopyAddonHint />

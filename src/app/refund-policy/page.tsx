@@ -2,6 +2,14 @@ import type { Metadata } from "next"
 
 import { LegalPage } from "@/components/apex/legal-page"
 import { SITE_URL } from "@/lib/seo"
+import {
+  ONE_TIME,
+  PROMO_MONTHLY,
+  PROMO_MONTHS,
+  PROMO_SETUP,
+  STANDARD_MONTHLY,
+  STANDARD_SETUP,
+} from "@/lib/pricing-constants"
 
 const URL = `${SITE_URL}/refund-policy`
 
@@ -23,14 +31,14 @@ export default function RefundPolicyPage() {
 
       <h2>Subscription tier</h2>
       <p>
-        <strong>Setup fee ($299, or $99 during our launch promo).</strong>{" "}
+        <strong>Setup fee ({STANDARD_SETUP}, or {PROMO_SETUP} during our launch promo).</strong>{" "}
         Fully refundable <em>before</em> you submit your content worksheet.
         Once you submit the worksheet, our team starts building, and the
         setup fee covers that work, and from that point it becomes
         non-refundable.
       </p>
       <p>
-        <strong>Monthly subscription ($149/mo, or $99/mo for your first 3 months during the launch promo).</strong>{" "}
+        <strong>Monthly subscription ({STANDARD_MONTHLY}, or {PROMO_MONTHLY} for your first {PROMO_MONTHS} months during the launch promo).</strong>{" "}
         Your first month is fully refundable within 30 days of the first
         charge. After your first month, monthly payments are non-refundable,
         but you can cancel any time from your customer portal. You&apos;ll
@@ -40,7 +48,7 @@ export default function RefundPolicyPage() {
 
       <h2>One-time build</h2>
       <p>
-        The $997 one-time payment is fully refundable for 30 days from
+        The {ONE_TIME} one-time payment is fully refundable for 30 days from
         launch, with one critical cutoff:{" "}
         <strong>
           once you&apos;ve received the source code or pointed your own

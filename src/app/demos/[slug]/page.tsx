@@ -12,6 +12,7 @@ import {
   organizationSchema,
 } from "@/lib/seo"
 import { allThemes, getTheme, isFeatured } from "@/lib/themes"
+import { PROMO_SETUP } from "@/lib/pricing-constants"
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -85,7 +86,7 @@ export default async function DemoPage({ params }: PageProps) {
       <MobileStickySpacer />
       <MobileStickyCTA
         href={`/checkout?tier=subscription&promo=launch&demo=${theme.slug}`}
-        label="Get this site for $99 →"
+        label={`Get this site for ${PROMO_SETUP} →`}
         subLabel="30-day money-back"
       />
     </>

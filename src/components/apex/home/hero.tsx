@@ -2,6 +2,7 @@ import * as React from "react"
 
 import { Button, Container, Eyebrow, HeroFrame, HighlightStroke, Lede } from "@/components/apex"
 import { RotatingPreview } from "./rotating-preview"
+import { PROMO_PERIOD_LABEL, PROMO_SETUP } from "@/lib/pricing-constants"
 
 const PREVIEW_SLUGS = ["heritage-painters", "ironside-plumbing", "voltcraft-electric"]
 
@@ -28,7 +29,7 @@ export function HomeHero() {
               </Button>
             </div>
             <p className="mt-7 max-w-md font-mono text-[12px] uppercase tracking-[0.12em] text-apx-mute">
-              $99 + $99/mo for 3 months ($149/mo after) · launch promo · live in 24h
+              {PROMO_SETUP} {PROMO_PERIOD_LABEL} · launch promo · live in 24h
             </p>
           </div>
           <div className="flex justify-center lg:justify-end">

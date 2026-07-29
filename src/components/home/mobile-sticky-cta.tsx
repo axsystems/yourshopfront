@@ -1,5 +1,6 @@
 import type { Theme } from "@/lib/themes/types"
 import { ApexButton } from "./primitives"
+import { PROMO_SETUP } from "@/lib/pricing-constants"
 
 interface MobileStickyCtaProps {
   theme: Theme
@@ -35,7 +36,7 @@ export function MobileStickyCta({ theme, ctaHref }: MobileStickyCtaProps) {
     >
       <div className="flex items-center justify-between gap-3 px-4 py-2.5">
         <p className="min-w-0 flex-1 truncate text-sm font-semibold leading-tight">
-          <span style={{ color: "var(--apex-fg)" }}>From $99</span>{" "}
+          <span style={{ color: "var(--apex-fg)" }}>From {PROMO_SETUP}</span>{" "}
           <span style={{ color: "var(--apex-muted-fg)" }}>· cancel anytime</span>
         </p>
         <ApexButton

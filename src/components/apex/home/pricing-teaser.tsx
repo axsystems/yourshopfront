@@ -4,6 +4,12 @@ import { Check } from "lucide-react"
 import { Button, Card, Container, Display, Eyebrow, Lede, PriceTag, Section } from "@/components/apex"
 import { FadeUp } from "@/components/apex/motion/fade-up"
 import { cn } from "@/lib/utils"
+import {
+  ONE_TIME,
+  PROMO_PERIOD_LABEL,
+  PROMO_SETUP,
+  STANDARD_SETUP,
+} from "@/lib/pricing-constants"
 
 interface TierCardProps {
   recommended?: boolean
@@ -54,9 +60,9 @@ export function HomePricingTeaser() {
               recommended
               tagline="Launch promo · Cancel anytime"
               title="Subscription"
-              price="$99"
-              originalPrice="$299"
-              period="setup, then $99/mo for 3 months ($149/mo after)"
+              price={PROMO_SETUP}
+              originalPrice={STANDARD_SETUP}
+              period={PROMO_PERIOD_LABEL}
               sub="We host it. Unlimited edits."
               features={SUB_FEATURES}
               ctaLabel="Start subscription →"
@@ -67,7 +73,7 @@ export function HomePricingTeaser() {
             <TierCard
               tagline="Yours forever · No recurring"
               title="One-time build"
-              price="$997"
+              price={ONE_TIME}
               period="once"
               sub="Full source code. Self-host or +$49/mo."
               features={ONE_FEATURES}

@@ -1,6 +1,14 @@
 import type { Theme } from "@/lib/themes/types"
 import { FadeUp } from "@/components/apex/motion/fade-up"
 import { ApexButton, Container, Display, Eyebrow, Section } from "./primitives"
+import {
+  ONE_TIME,
+  PROMO_MONTHLY,
+  PROMO_MONTHS,
+  PROMO_SETUP,
+  STANDARD_MONTHLY,
+  STANDARD_SETUP,
+} from "@/lib/pricing-constants"
 
 interface PricingProps {
   theme: Theme
@@ -56,12 +64,12 @@ export function Pricing({ theme, demoSlug }: PricingProps) {
               variant="featured"
               tagline="LAUNCH PROMO · CANCEL ANYTIME"
               title="Subscription"
-              price="$99"
-              originalPrice="$299"
+              price={PROMO_SETUP}
+              originalPrice={STANDARD_SETUP}
               priceDetail="setup"
-              recurring="+ $99/mo"
-              originalRecurring="$149/mo"
-              sub="$99/mo for 3 months, then $149/mo standard · cancel anytime."
+              recurring={`+ ${PROMO_MONTHLY}`}
+              originalRecurring={STANDARD_MONTHLY}
+              sub={`${PROMO_MONTHLY} for ${PROMO_MONTHS} months, then ${STANDARD_MONTHLY} standard · cancel anytime.`}
               features={SUB_FEATURES}
               ctaLabel="Start subscription →"
               ctaHref={subHref}
@@ -73,7 +81,7 @@ export function Pricing({ theme, demoSlug }: PricingProps) {
               variant="default"
               tagline="YOURS FOREVER · NO RECURRING"
               title="One-time build"
-              price="$997"
+              price={ONE_TIME}
               priceDetail="once"
               sub="Full source code. Self-host or +$49/mo."
               features={ONETIME_FEATURES}
