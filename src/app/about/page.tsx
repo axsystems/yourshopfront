@@ -15,6 +15,13 @@ import { FadeUp } from "@/components/apex/motion/fade-up"
 import { OpenChatButton } from "@/components/apex/open-chat-button"
 import { JsonLd } from "@/components/json-ld"
 import { SITE_URL, organizationSchema } from "@/lib/seo"
+import {
+  ONE_TIME,
+  PROMO_MONTHLY,
+  PROMO_MONTHS,
+  PROMO_SETUP,
+  STANDARD_MONTHLY,
+} from "@/lib/pricing-constants"
 
 const ABOUT_URL = `${SITE_URL}/about`
 
@@ -70,7 +77,7 @@ export default function AboutPage() {
               </FadeUp>
               <FadeUp delay={60}>
                 <p>
-                  We don&apos;t hand you a blank canvas. We hand you a finished site that already works for your category, with your content swapped in. The whole transaction is built around speed: $299 and a half-hour worksheet on Monday morning, your site live by Tuesday afternoon, indexed by Friday.
+                  We don&apos;t hand you a blank canvas. We hand you a finished site that already works for your category, with your content swapped in. The whole transaction is built around speed: {PROMO_SETUP} and a half-hour worksheet on Monday morning, your site live by Tuesday afternoon, indexed by Friday.
                 </p>
               </FadeUp>
               <FadeUp delay={120}>
@@ -101,7 +108,7 @@ export default function AboutPage() {
                 <FadeUp delay={120}>
                   <li>
                     <strong className="font-semibold">We won&apos;t hide the price.</strong>{" "}
-                    $299 setup + $149/mo subscription, or $997 one-time. That&apos;s on the homepage, the pricing page, the checkout, the footer. No discovery call required to find out the number.
+                    {PROMO_SETUP} setup + {PROMO_MONTHLY} for your first {PROMO_MONTHS} months (then {STANDARD_MONTHLY} standard), or {ONE_TIME}{" "}one-time. That&apos;s on the homepage, the pricing page, the checkout, the footer. No discovery call required to find out the number.
                   </li>
                 </FadeUp>
                 <FadeUp delay={180}>
