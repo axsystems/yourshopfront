@@ -1,5 +1,17 @@
 # Launch audit — AI + automation surface
 
+> **HISTORICAL — AI and automation sub-report of the 2026-05-21 pre-launch audit (branch
+> `redesign`, brand "Apex Sites"). Superseded by `PROJECT-STATE.md`. Kept as the audit trail;
+> do not read as current state.**
+>
+> Known to be false today (2026-07-29): **H2** (chat link renderer accepted any URL scheme)
+> is **fixed** — `sales-agent.tsx` now allowlists internal, `mailto:` and yourshopfront.com
+> links; **M1** (`/api/contact` unrate-limited) is **fixed**; **L3** (`/api/chat/health`
+> leaking the Anthropic key prefix) is **fixed**. The automation inventory table predates the
+> `/app/*` customer portal, `/api/refund-request`, `/api/billing-portal*`,
+> `/api/checkout/copy-upgrade` and `/api/access`. The site is **LIVE**. Findings still open
+> are tracked in `docs/history/README.md`.
+
 Branch: `redesign`. Date: 2026-05-21. Read-only audit, no code changes.
 
 ## 1. AI surface inventory

@@ -1,5 +1,18 @@
 # Launch Readiness: Apex Sites (apexsites.com)
 
+> **HISTORICAL — launch-readiness sub-report of the 2026-05-21 pre-launch audit (branch
+> `redesign`, brand "Apex Sites"). Superseded by `PROJECT-STATE.md`. Kept as the audit trail;
+> do not read as current state.**
+>
+> Known to be false today (2026-07-29): the build, route and sitemap counts are stale (79
+> pages, 32 sitemap URLs — the live `sitemap.xml` now has **38** entries and the route surface
+> grew by the whole `/app/*` customer portal); `charge.refunded` has since **shipped**, so L2
+> is half-done; H1 and H2 (Stripe live prices, Resend domain) are done and the site is
+> **LIVE**, with checkout returning `cs_live_` sessions. The M2 recommendation to
+> `git rm partner-axon-growth.tsx` was explicitly **overridden** by the operator; see
+> `docs/axon-growth-restore.md`. Findings still open are tracked in
+> `docs/history/README.md`.
+
 **Audit date:** 2026-05-21
 **Branch:** `redesign` (HEAD `2f34b87`)
 **Scope:** build gates, env hygiene, Stripe correctness, provisioning, customer surface, observability. Excludes RLS/webhook-sig deep-dive and chat/cron internals (delegated to other agents).

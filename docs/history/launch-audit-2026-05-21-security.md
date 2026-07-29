@@ -1,5 +1,16 @@
 # Security Audit — apex-sites (branch: redesign)
 
+> **HISTORICAL — security sub-report of the 2026-05-21 pre-launch audit (branch `redesign`,
+> brand "Apex Sites"). Superseded by `PROJECT-STATE.md`. Kept as the audit trail; do not read
+> as current state.**
+>
+> Known to be false today (2026-07-29): **VULN-001** (no security headers), **VULN-002**
+> (timing-unsafe secret compare) and **VULN-004** (unconstrained media URL host) are all
+> **fixed**; VULN-003 is partly fixed (most routes now rate-limit) and the VULN-014 key-prefix
+> leak at `/api/chat/health` is gone. The site is **LIVE**, so the "Deploy Ready:
+> CONDITIONAL" verdict is stale. Findings from this report that are still open are tracked in
+> `docs/history/README.md`.
+
 Date: 2026-05-21 · Scope: production launch on apexsites.com · Read-only
 
 Legend: **[P]** = proven (rule violation, contradiction, verifiable vuln). **[I]** = inferred (best-practice / defense-in-depth).
