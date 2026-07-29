@@ -5,6 +5,11 @@ import { allThemesList, allThemeSlugs } from "@/lib/themes"
 export const TierEnum = z.enum(["subscription", "onetime"])
 export type Tier = z.infer<typeof TierEnum>
 
+// Referral attribution codes (`ref` = payout key, `src` = channel). Shared
+// between this schema and the client-side cookie helpers in
+// src/lib/referral.ts so a value is only ever accepted once, in one place.
+export const REFERRAL_CODE_REGEX = /^[a-z0-9][a-z0-9_-]{0,31}$/i
+
 /**
  * The user-facing form fields. Tier and demo come from URL params and
  * are added by CheckoutRequestSchema below.
@@ -62,6 +67,13 @@ export const CheckoutRequestSchema = CheckoutFormSchema.extend({
   // up the checkbox without form-level type changes until ready.
   // Defaults to false so existing clients that don't send the field keep working.
   copy_addon: z.boolean().default(false),
+  // Referral attribution — both optional, both absent for every checkout
+  // today. `ref` is WHO gets paid (a promoter's payout key, e.g. "payton");
+  // `src` is WHICH channel drove the sale (e.g. "tiktok", "ig", "fb").
+  // Captured client-side from ?ref=&src= into a 30-day cookie by
+  // <ReferralCapture> (first-touch wins), read back by the checkout form.
+  ref: z.string().regex(REFERRAL_CODE_REGEX, "Invalid referral code").optional(),
+  src: z.string().regex(REFERRAL_CODE_REGEX, "Invalid referral source").optional(),
 })
 
 export type CheckoutRequest = z.infer<typeof CheckoutRequestSchema>

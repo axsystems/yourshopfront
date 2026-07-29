@@ -12,6 +12,7 @@ import {
   type CheckoutFormData,
   type Tier,
 } from "@/lib/checkout-schema"
+import { readReferralCookies } from "@/lib/referral"
 
 // copy_addon is intentionally absent from CheckoutFormSchema (Stream A comment).
 // Stream B extends the schema locally for the form resolver so the field is
@@ -50,6 +51,10 @@ export function CheckoutForm({ tier, demo, cancelled, promo, defaultIndustry }: 
 
   const onSubmit = async (data: CheckoutFormDataWithCopy) => {
     setServerError(null)
+    // Referral attribution — captured earlier by <ReferralCapture> into a
+    // 30-day cookie. Both keys are omitted entirely when absent/invalid, so
+    // a customer with no referral link sends the exact same body as before.
+    const referral = readReferralCookies()
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
@@ -59,6 +64,7 @@ export function CheckoutForm({ tier, demo, cancelled, promo, defaultIndustry }: 
           tier,
           demo,
           ...(promo ? { promo } : {}),
+          ...referral,
         }),
       })
       if (!res.ok) {

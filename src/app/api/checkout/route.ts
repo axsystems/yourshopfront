@@ -91,6 +91,13 @@ export async function POST(req: Request) {
     current_website_url: data.current_website_url || "",
     hosting_addon: data.hosting_addon ? "true" : "false",
     copy_addon: data.copy_addon ? "true" : "false",
+    // Referral attribution — empty string when absent, same convention as
+    // phone/current_website_url above. `ref` = promoter payout key,
+    // `src` = channel (tiktok/ig/fb/...). Flows into Stripe Checkout
+    // session metadata for every mode below (subscription, onetime,
+    // onetime+hosting) since they all spread this same `metadata` object.
+    ref: data.ref ?? "",
+    src: data.src ?? "",
   }
 
   const successUrl = `${SITE_URL}/onboarding?session_id={CHECKOUT_SESSION_ID}`

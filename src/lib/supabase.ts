@@ -144,6 +144,13 @@ export interface Site {
   current_website_url: string | null
   hosting_addon: boolean
   copy_addon: boolean
+  /** Promoter payout key from a referral link's `?ref=` param. Null when
+   * the sale had no referral (every sale before migration 0013, and any
+   * direct/organic sale after). */
+  referral_code: string | null
+  /** Marketing channel from a referral link's `?src=` param, e.g.
+   * "tiktok"/"ig"/"fb". Null when absent. */
+  referral_source: string | null
   status: SiteStatus
   live_url: string | null
   onboarding_state: OnboardingState
@@ -184,6 +191,8 @@ export interface NewSite {
   current_website_url?: string | null
   hosting_addon?: boolean
   copy_addon?: boolean
+  referral_code?: string | null
+  referral_source?: string | null
   status?: SiteStatus
   live_url?: string | null
 }
