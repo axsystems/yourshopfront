@@ -18,17 +18,26 @@ import { OpenChatButton } from "@/components/apex/open-chat-button"
 import { JsonLd } from "@/components/json-ld"
 import { SITE_URL, organizationSchema, serviceSchema } from "@/lib/seo"
 import { cn } from "@/lib/utils"
+import {
+  ONE_TIME,
+  PROMO_MONTHLY,
+  PROMO_MONTHS,
+  PROMO_PERIOD_LABEL,
+  PROMO_SETUP,
+  STANDARD_MONTHLY,
+  STANDARD_SETUP,
+} from "@/lib/pricing-constants"
 
 const PRICING_URL = `${SITE_URL}/pricing`
 
 export const metadata: Metadata = {
   title: "Pricing — Subscription or one-time",
   description:
-    "Two ways to buy Your Shopfront: $299 setup + $149/mo subscription with unlimited edits, or $997 one-time build with full source code. 30-day money-back guarantee.",
+    `Launch promo: ${PROMO_SETUP} setup + ${PROMO_MONTHLY} for your first ${PROMO_MONTHS} months (then ${STANDARD_MONTHLY} standard), or ${ONE_TIME} one-time build with full source code. 30-day money-back guarantee.`,
   alternates: { canonical: PRICING_URL },
   openGraph: {
     title: "Pricing — Your Shopfront",
-    description: "Subscription ($299 + $149/mo) or one-time ($997). Pick what fits.",
+    description: `Launch promo: ${PROMO_SETUP} setup + ${PROMO_MONTHLY} for ${PROMO_MONTHS} months, then ${STANDARD_MONTHLY} — or ${ONE_TIME} one-time. Pick what fits.`,
     url: PRICING_URL,
     type: "website",
     siteName: "Your Shopfront",
@@ -42,8 +51,8 @@ interface ComparisonRow {
 }
 
 const COMPARISON: ComparisonRow[] = [
-  { label: "Setup fee", subscription: "$299", onetime: "Included" },
-  { label: "Recurring", subscription: "$149/mo", onetime: "$0 (or +$49/mo hosting)" },
+  { label: "Setup fee", subscription: `${PROMO_SETUP} (launch promo)`, onetime: "Included" },
+  { label: "Recurring", subscription: `${PROMO_MONTHLY} for ${PROMO_MONTHS} months, then ${STANDARD_MONTHLY}`, onetime: "$0 (or +$49/mo hosting)" },
   { label: "Hosting included", subscription: true, onetime: "Optional" },
   { label: "Unlimited edits", subscription: true, onetime: "30 days, then read-only" },
   { label: "Source code delivered", subscription: "On request", onetime: true },
@@ -58,7 +67,7 @@ const FAQ = [
   },
   {
     q: "Can I switch from subscription to one-time later?",
-    a: "Yes — your $299 setup credits toward a one-time license at any point in the first year. After that, switching costs the full $997 one-time price.",
+    a: `Yes — your setup fee credits toward a one-time license at any point in the first year. After that, switching costs the full ${ONE_TIME} one-time price.`,
   },
   {
     q: "What does the $49/mo hosting addon include?",
@@ -100,10 +109,11 @@ export default function PricingPage() {
               <FadeUp>
                 <TierCard
                   recommended
-                  tagline="Most popular · Cancel anytime"
+                  tagline="Launch promo · Cancel anytime"
                   title="Subscription"
-                  price="$299"
-                  period="setup, then $149/mo"
+                  price={PROMO_SETUP}
+                  originalPrice={STANDARD_SETUP}
+                  period={PROMO_PERIOD_LABEL}
                   sub="We host it. Unlimited edits."
                   features={[
                     "Pick from any of our 30 theme designs",
@@ -121,7 +131,7 @@ export default function PricingPage() {
                 <TierCard
                   tagline="Yours forever · No recurring"
                   title="One-time build"
-                  price="$997"
+                  price={ONE_TIME}
                   period="once"
                   sub="Full source code. Self-host or +$49/mo."
                   features={[
@@ -249,6 +259,8 @@ interface TierCardProps {
   tagline: string
   title: string
   price: string
+  /** Pre-sale price — renders strikethrough next to the sale price. */
+  originalPrice?: string
   period: string
   sub: string
   features: string[]
@@ -261,6 +273,7 @@ function TierCard({
   tagline,
   title,
   price,
+  originalPrice,
   period,
   sub,
   features,
@@ -287,7 +300,7 @@ function TierCard({
           {title}
         </h2>
         <div className="mt-4 flex items-baseline gap-3">
-          <PriceTag value={price} period={period} large />
+          <PriceTag value={price} originalValue={originalPrice} period={period} large />
         </div>
         <p className="mt-2 text-[14px] text-apx-mute">{sub}</p>
       </div>
