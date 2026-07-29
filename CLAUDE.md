@@ -2,62 +2,113 @@
 
 > Productized website design + hosting for home-service businesses. **30 themes**, standard pricing $299 setup + $149/mo OR $997 one-time. **Currently running a launch promo: $99 setup + $99/mo for first 3 months, then $149/mo standard.** **Wedge product for the axon-growth marketing OS.**
 
-## Strategic Role (read FIRST)
+## Status — read `PROJECT-STATE.md` FIRST
 
-Your Shopfront is **NOT a standalone product** in the long term. It's the **wedge** for `axon-growth` (Path A secondary breakout — LIVE B2B SaaS at axongrowth.ai).
+The site is **LIVE at https://yourshopfront.com and taking live-mode Stripe payments.** Do not
+treat this repo as pre-launch. `PROJECT-STATE.md` is the single current-status doc (what's live,
+what's blocked, next actions) — **don't duplicate it here, update it there.** Standing caveat:
+the **post-payment path has never been exercised against production** (welcome email, worksheet,
+provisioning). Checkout is proven live; everything after it is not.
 
-**ICP is identical for both:** home-service SMBs (painters, electricians, HVAC, plumbers, handymen). Same customers buy a website (Your Shopfront), realize they need leads, then upsell into Google Ads + GBP + SEO management (axon-growth).
+Doc map: `PROJECT-STATE.md` (status) · `README.md` (architecture + local setup) ·
+`LAUNCH-CHECKLIST.md` (go-live gate) · `docs/post-launch-todo.md` (deferred) ·
+`docs/marketing-launch-playbook.md` (sales) · `docs/BUNDLE-PLAN.md` (Stage 4) ·
+`docs/phase-4-test-plan.md` (manual Stripe plan) · `docs/launch-audit-2026-05-21*.md`
+(dated snapshots — historical, not current state).
+
+## Strategic Role
+
+Your Shopfront is **NOT a standalone product** long-term. It's the **wedge** for `axon-growth`
+(LIVE B2B SaaS at axongrowth.ai). **ICP is identical:** home-service SMBs (painters,
+electricians, HVAC, plumbers, handymen). They buy a website here, realize they need leads, then
+upsell into Google Ads + GBP + SEO management there.
 
 **4-Stage launch sequence:**
-1. ✅ axon-growth launches solo (code-ready, brand-assets blocker)
-2. ⏳ Your Shopfront finishes Phase 4e+4f+5 (this repo's work)
-3. ⏳ Your Shopfront launches solo (validate funnel)
-4. ⏳ Bundle launch — upsell modal, shared Clerk, cross-product webhooks
+1. ✅ axon-growth launches solo
+2. ✅ Your Shopfront ships the full funnel (checkout, onboarding, provisioning, portal)
+3. ⏳ Your Shopfront validates the funnel solo — site is live, but no end-to-end prod sale yet
+4. ⏳ Bundle launch — upsell modal, shared identity, cross-product webhooks
 
-See `docs/BUNDLE-PLAN.md` for full Stage 4 spec. See `axon-growth/CLAUDE.md` for the upstream side.
+See `docs/BUNDLE-PLAN.md` for the Stage 4 spec. See `axon-growth/CLAUDE.md` for the upstream side.
 
 ## Tech Stack
 - **Web:** Next.js 16.2.4 (App Router), React 19.2.4, TypeScript strict
 - **Styling:** Tailwind v4 (`@theme` in `globals.css` — NO `tailwind.config.ts`), shadcn/ui
 - **Payments:** Stripe 22.1.0 (API version `2024-11-20.acacia` PINNED in `src/lib/stripe.ts`)
-- **DB:** Supabase (RLS enabled, no policies = locked-by-default; service-role key server-only)
-- **Email:** Resend 6.12.2 · **Forms:** React Hook Form 7.74 + Zod 4.3 · **Animations:** Framer Motion 12.38
-- **Deploy:** Vercel (paused until end of Phase 4) · **Package manager:** pnpm
+- **DB/Auth:** Supabase — Postgres + RLS, and Supabase **magic-link auth** for the `/app` portal
+- **AI:** `@anthropic-ai/sdk` — `claude-haiku-4-5-20251001` for both sales chat and copy drafting
+- **Email:** Resend 6.12.2 · **SMS:** Quo (operator alerts) · **Forms:** RHF 7.74 + Zod 4.3
+- **Deploy:** Vercel, **LIVE on `master`** · **pnpm** (`packageManager: pnpm@10.28.0`)
 
-⚠️ **Stripe API version cross-repo:** axon-growth uses `2024-06-20`. If sharing metadata between repos in Stage 4, verify payload schemas match across both versions.
+⚠️ **CI:** `.github/workflows/ci.yml` must NOT pass `version:` to `pnpm/action-setup` —
+`package.json`'s `packageManager` is the only source of truth. Two sources means the action
+hard-errors and every job dies in ~5s (this happened; fixed in PR #57). CI runs Node 20.
+
+⚠️ **Stripe API version cross-repo:** axon-growth uses `2024-06-20`. If sharing metadata between
+repos in Stage 4, verify payload schemas match across both versions.
 
 ## Commands
 ```bash
-pnpm install
 pnpm dev          # http://localhost:3000
 pnpm typecheck    # tsc --noEmit — MUST pass before commit
 pnpm lint         # eslint src/
-pnpm build        # next build — verifies all 90 routes
+pnpm build        # next build
+pnpm test:e2e     # Playwright — 5 smoke tests (tests/e2e/smoke.spec.ts)
 pnpm stripe:setup # idempotent — creates Stripe products + prices
+pnpm brand:export # regenerate PNG brand assets from SVG masters
 ```
 
 ## IMPORTANT Rules
 - Default branch is **`master`**, not `main`. Use upstream-tracking push.
 - All API routes: Zod validation at boundary; never trust client input.
-- Stripe webhook (`/api/stripe/webhook`): signature verify FIRST, then idempotency check via `getSiteByStripeSessionId` — bail if row exists.
-- Stripe API version `2024-11-20.acacia` is PINNED — do NOT bump without re-testing webhook payload shapes AND cross-checking against axon-growth's `2024-06-20`.
+- Stripe webhook (`/api/stripe/webhook`): signature verify FIRST, then idempotency check via
+  `getSiteByStripeSessionId` — bail if row exists.
+- Stripe API version `2024-11-20.acacia` is PINNED — do NOT bump without re-testing webhook
+  payload shapes AND cross-checking against axon-growth's `2024-06-20`.
 - Service-role Supabase key is server-only — never import in client components.
-- Email failures (Resend) are best-effort — log + continue, do NOT block checkout success.
+- Auth gates are `requireAuth()` / `getCurrentUser()` (`src/lib/auth.ts`), which call
+  `supabase.auth.getUser()`. **Never `getSession()` for authorization** — it reads the cookie
+  without server verification. The proxy's `getUser()` call refreshes cookies only; its result
+  is deliberately discarded.
+- Email/SMS/Slack failures are best-effort — log + continue, do NOT block checkout success.
 
-## Authentication (current vs future)
+## Route surface
 
-**Current (Phase 4):** Public + anonymous. No Clerk. Customer email captured at Stripe Checkout only. Deliberate for conversion.
+**Pages (27)** — `/` `/about` `/pricing` `/portfolio` `/portfolio/[slug]` `/demos/[slug]` `/start` (promo landing) `/contact` `/checkout` `/privacy` `/terms` `/refund-policy` `/dev/themes` `/tenant` (subdomain render target) · **onboarding:** `/onboarding` `/onboarding/worksheet` `/onboarding/discovery` `/onboarding/copy-review` · **portal:** `/login` `/login/check-email` `/access` `/app` `/app/billing` `/app/edit-requests` `/app/edit-requests/new` `/app/edit-requests/[id]` · **admin:** `/admin/copy-review/[siteId]`
 
-**Phase 5.5 (planned):** Optional Clerk sign-up post-purchase for self-service portal (check onboarding status, update content, view invoices). Not required for basic flow.
+**Route handlers (17)** — `/api/checkout` `/api/checkout/copy-upgrade` `/api/stripe/webhook` `/api/billing-portal` `/api/billing-portal-deep-link` `/api/refund-request` `/api/access` `/api/contact` `/api/chat` `/api/chat/health` `/api/onboarding/status` `/api/upload/sign` `/api/og/[slug]` `/api/cron/provision` `/api/provisioning/approve` · **plus, NOT under `/api`:** `/auth/callback` (magic-link PKCE exchange) and `/auth/signout` (POST, Origin-checked).
 
-**Stage 4 / Bundle goal:** **SHARED Clerk org** with axon-growth. Customer signs in once via Clerk, accesses both dashboards. Stripe `customer_id` shared across both products (no duplicate customer objects).
+⚠️ **`/demos` (index, no slug) is a 404** — `src/app/demos/` has only `[slug]/`, no `page.tsx`.
+Don't link to it or describe it as a page.
 
-## Critical Stage 4 Integration Hooks (MUST ship before paid GA)
+## Authentication
 
-These must be baked in BEFORE Your Shopfront reaches paid general availability, or bundle launch will hit duplicate-customer hell:
+**Public/anonymous path (unchanged):** browse, `/checkout`, Stripe. No account needed to buy.
+Post-purchase the Stripe `session_id` is a **bearer token** for `/onboarding*` and
+`/api/refund-request`; the site row resolves via `getSiteByStripeSessionId`.
+
+**Customer portal (`/app/*`) — SHIPPED, on Supabase Auth, NOT Clerk.** Magic link via
+`signInWithOtp` at `/login`, `/auth/callback` exchanges the PKCE code, `requireAuth()` gates every
+portal page and Server Action. It also requires a matching `customers` row (via the
+`get_customer_by_email` SECURITY DEFINER RPC), so authenticating without a purchase redirects to
+`/login?error=no_customer`. `/access` is the lost-welcome-email recovery flow (rate-limited,
+enumeration-safe — always returns the same body).
+
+**Admin (`/admin/copy-review/[siteId]`, `/api/provisioning/approve`):** `ADMIN_PASSWORD` bearer
+token (`Authorization` header or `?token=`), compared with `timingSafeEqual`. A launch shortcut,
+not a long-term pattern — rotate the secret, replace with real sessions.
+
+⚠️ **Conflict to resolve before Stage 4:** the bundle plan assumes a *shared Clerk org*, but this
+repo shipped Supabase Auth. Reconcile the identity story before building the bundle.
+
+## Critical Stage 4 Integration Hooks (MUST ship before bundle launch)
+
+These must be baked in BEFORE bundling, or bundle launch will hit duplicate-customer hell:
 
 ### Hook 1 — Shared Stripe customer logic
-Before `stripe.checkout.sessions.create()`, call `stripe.customers.list({ email, limit: 1 })`. If found, pass existing `customer` param. If not, let Checkout create. Both Your Shopfront and axon-growth must do this — prevents 2-customer-per-bundle problem.
+Before `stripe.checkout.sessions.create()`, call `stripe.customers.list({ email, limit: 1 })`.
+If found, pass existing `customer` param. If not, let Checkout create. Both Your Shopfront and
+axon-growth must do this — prevents the 2-customer-per-bundle problem.
 
 ### Hook 2 — Stripe metadata convention
 Every Checkout session metadata must include:
@@ -72,62 +123,57 @@ metadata: {
 Future bundle webhook handlers depend on this. Adding later means backfilling old records.
 
 ### Hook 3 — Email canonical-key policy
-Both repos must enforce same email normalization (lowercase, trim, validate). Don't let bundle customers fragment with personal vs business email variants.
+Both repos must enforce the same email normalization (lowercase, trim, validate). Don't let
+bundle customers fragment across personal vs business email variants.
 
 ## Next.js 16 critical rules
-- `params` is a Promise — must `await params` in dynamic routes.
+- `params` is a Promise — must `await params` in dynamic routes. Same for `searchParams`.
 - `useSearchParams` must be wrapped in `<Suspense>`.
-- File is `proxy.ts`, NOT `middleware.ts`.
+- File is `src/proxy.ts`, NOT `middleware.ts`.
 - Tailwind v4 config lives in `src/app/globals.css` via `@theme {}` — no `tailwind.config.ts`.
 
 ## Gotchas
-- **30 themes total** (14 industry + 16 design-vibe). Featured 10 canonical to `/demos`, other 20 canonical to `/portfolio` (SEO).
-- `<ThemeProvider>` applies only the active theme's font className — don't load all 9 fonts everywhere.
-- Stripe checkout has 3 modes (subscription / onetime+hosting / onetime-only) — see `src/lib/stripe.ts` comments.
+- **30 themes total** (14 home-service + 8 abstract + 8 brand-personality) in the `all` array of `src/lib/themes/index.ts`. The dir has 32 `.ts` files — `css-vars.ts` and `with-overrides.ts` are helpers, not themes. Featured 10 canonical to `/demos`, other 20 to `/portfolio` (SEO).
+- `<ThemeProvider>` applies only the active theme's font className — don't load all fonts everywhere.
+- Stripe checkout has 3 modes (subscription / onetime+hosting / onetime-only) — see `src/lib/stripe.ts`.
 - Custom-build tier was REMOVED in Phase 2.5 — don't re-introduce.
-- Supabase RLS is locked-by-default (no policies). Use service-role key from server components only.
-- **`/demos/[slug]` vs `/portfolio/[slug]` differ in chrome**: demos hide Pricing/Showcase/FAQ + add `<MobileStickyCta>` + `<DemoBuyGuarantees>` for ad-traffic immersion + conversion; portfolio keeps the full meta-aware layout for SEO inspiration. Gated on `isDemoPreview` in `themed-home.tsx` — DON'T break this distinction when editing.
-- Hardcoded launch promo price (`$99`) lives in 3 places: `src/components/apex/home/hero.tsx`, `src/components/home/pricing.tsx`, `src/components/home/mobile-sticky-cta.tsx`. Update all three when the promo ends, or extract a `pricing-constants.ts` module.
+- Supabase RLS is locked-by-default. Portal reads go through service-role helpers, not anon RLS.
+- **`/demos/[slug]` vs `/portfolio/[slug]` differ in chrome**: demos hide Pricing/Showcase/FAQ and add `<MobileStickyCta>` + `<DemoBuyGuarantees>` for ad-traffic immersion; portfolio keeps the full meta-aware layout for SEO. Gated on `isDemoPreview` in `themed-home.tsx` — don't break it.
+- **The `$99` promo price is hardcoded in 10 files** — changing the promo means editing all of them (paths relative to `src/`): `app/start/page.tsx` (the most), `app/checkout/page.tsx`, `app/refund-policy/page.tsx`, `app/demos/[slug]/page.tsx`, `components/apex/home/hero.tsx`, `components/apex/home/pricing-teaser.tsx`, `components/home/hero.tsx`, `components/home/pricing.tsx`, `components/home/mobile-sticky-cta.tsx`, `components/portfolio/portfolio-grid.tsx`. (`lib/checkout-schema.ts` and `app/api/refund-request/route.ts` mention it in comments only.) Extract a `pricing-constants.ts` rather than growing the list.
+- **The sales chatbot quotes standard pricing, not the promo.** `src/lib/chat/system-prompt.ts` says "$299 setup + $149/mo" with no mention of the $99 launch promo the pages advertise.
+- **`supabase/migrations/` holds 12 files (`0001`–`0012`).** A fresh project needs all 12 — `0007_copy_addon`, `0008_ai_copy_state`, `0009_auth_customer_link`, `0010_edit_requests`, and `0012_edit_request_append_comment` are load-bearing, not cosmetic.
+- `vercel.json` runs `/api/cron/provision` **every minute**, batch-capped at 5 sites/tick.
 
 ## Do Not Build
-- `middleware.ts` (use `proxy.ts`)
-- `tailwind.config.ts` (use `@theme` in `globals.css`)
+- `middleware.ts` (use `proxy.ts`) · `tailwind.config.ts` (use `@theme` in `globals.css`)
 - Custom-build tier — killed Phase 2.5 (all 30 unified as themes)
 - Client-side Stripe session creation — server-only
 - Direct commits to `main` — branch is `master`
-- ❌ **DO NOT bundle with axon-growth before Your Shopfront Phase 5 launches solo + validates standalone funnel.** Stage 4 is months away. Don't add bundle pricing or cross-product upsell flows yet.
+- ❌ **DO NOT bundle with axon-growth before the standalone funnel is validated in production.** Don't add bundle pricing or cross-product upsell flows yet.
 
-## Deferred Webhook Handlers (post-launch-todo.md:7-40)
+## Stripe webhook events
 
-Current webhook only handles `checkout.session.completed` + `customer.subscription.deleted`. Pre-Stage 4, must add:
-- `invoice.payment_failed` (dunning emails)
-- `customer.subscription.updated` (payment method changes, unpause)
-- `charge.refunded` (refund lifecycle)
+`/api/stripe/webhook` handles **three** events; everything else is ignored:
+- **`checkout.session.completed`** — two paths. If `metadata.upgrade === 'copy_addon'`, applies the $199 copy add-on to an existing site. Otherwise: idempotency guard, `getOrCreateCustomer`, `createSite` (status `awaiting_copy_draft` when `copy_addon`, else `pending_content`), then welcome email + Slack + operator SMS via `Promise.allSettled`. Missing email/name alerts Slack and skips site creation rather than failing silently.
+- **`customer.subscription.deleted`** — status to `cancelled`, `unprovisionSite` (best-effort Cloudflare + Vercel teardown), goodbye email, Slack.
+- **`charge.refunded`** — status to `refunded`, unprovision if it was `live`, Slack alert. Resolves the site via the Stripe **customer id** (most recent site row) because `charge.refunded` carries no `session_id`.
+
+**Still deferred** (`docs/post-launch-todo.md`): `invoice.payment_failed` (dunning) and
+`customer.subscription.updated` (payment-method changes, unpause). Matters past ~50 subscriptions.
 
 ## Key Files
-- `src/lib/themes/` — 30 theme configs + featured slugs index
-- `src/lib/themes/types.ts` — Theme interface incl. `heroImage` (Phase A) and `content?: ThemeContentOverrides` (Phase B0 plumbing)
-- `src/lib/stripe.ts` — pinned-version Stripe client + 3-mode checkout
-- `src/lib/supabase.ts` — server-only service-role typed helpers
-- `src/lib/supabase-server.ts` — anon-key SSR client (cookies-backed) for auth
-- `src/proxy.ts` — Next 16 proxy (auth cookie refresh + subdomain routing). Gracefully skips Supabase block when env vars are unset (CI/dev clones without `.env.local`)
-- `src/lib/checkout-schema.ts` — Zod schemas (form + API)
-- `src/app/api/checkout/route.ts` — Stripe session creation (Hook 1 lives here in future)
-- `src/app/api/stripe/webhook/route.ts` — signature-verified, idempotent
-- `src/app/api/og/[slug]/route.tsx` — per-theme OG PNG generator (also used as portfolio card previews)
-- `src/app/dev/themes/page.tsx` — dev-only audit of all 30 themes
-- `src/components/home/themed-home.tsx` — composition for `/demos/[slug]` + `/portfolio/[slug]` (gated on `isDemoPreview`)
-- `src/components/home/mobile-sticky-cta.tsx` — fixed-bottom mobile CTA (default + emergency variants)
-- `src/components/home/demo-buy-guarantees.tsx` — chrome trust strip before SiteFooter on demos
-- `supabase/migrations/0001_initial.sql` — `customers` + `sites` tables, RLS, triggers
-- `scripts/create-stripe-products.ts` — Phase 4a setup script
-- `scripts/fetch-hero-images.mjs` — Phase A hero photo fetcher
-- `scripts/fetch-cta-images.mjs` — Phase B1.5 dedicated CTA bg photo fetcher
-- `docs/demos-photo-credits.md` — Phase A + B1.5 photo attribution
-- `README.md` — full architecture deep-dive + manual setup
-- `docs/BUNDLE-PLAN.md` — Stage 4 integration spec (Your Shopfront ↔ axon-growth)
-
-## Status pointers
-- Phases 0-4d shipped. 4e (onboarding) + 4f (test plan) pending. 5+ (provisioning, admin, portal, static pages, launch) pending.
-- **Phase A + Phase B (demo redesign) shipped 2026-05-25** — see `project_phase_b_complete` memory entry. 12 PRs merged in a single session: hero photos for all 30 themes; per-theme content/imagery for HowItWorks/TrustStrip/FinalCTA; immersion pass (hid Pricing/Showcase/FAQ on demos); per-theme HowItWorks headers; rebrand Apex Sites → Your Shopfront; mobile sticky CTA bar (with emergency-theme phone variant); portfolio cards switched to OG previews + $99 launch badge; chrome buyer-guarantees strip; CI fix (proxy gracefully skips Supabase block without env). Master HEAD `6ec3763`.
-- CI `build-and-smoke` job is now green (was failing on every merge for weeks before 2026-05-25's #45 fix).
+- `src/lib/themes/` — 30 configs + `index.ts` (`all`, `featuredThemeSlugs`, `defaultThemeSlug`); `types.ts` has the `Theme` interface incl. `heroImage` + `content?: ThemeContentOverrides`
+- `src/lib/stripe.ts` — pinned-version client + 3-mode checkout · `src/lib/checkout-schema.ts` — Zod schemas (form + API) incl. the `promo=launch` branch
+- `src/lib/supabase.ts` — service-role helpers, server-only; the `SiteStatus` union is the site lifecycle · `src/lib/supabase-server.ts` — anon-key SSR (cookie-backed) client used by auth
+- `src/lib/auth.ts` — `getCurrentUser()` / `requireAuth()`; the only sanctioned auth gate
+- `src/proxy.ts` — Next 16 proxy: auth cookie refresh + `*.yourshopfront.com` rewrite to `/tenant`. Skips the Supabase block when env vars are unset (CI / clones without `.env.local`)
+- `src/lib/provisioning/` — `orchestrator.ts` (provision + unprovision), `cloudflare.ts`, `vercel.ts`, `slug.ts`
+- `src/lib/ai-copy/draft.ts` — Haiku copy drafting · `src/lib/site-content/schema.ts` — worksheet Zod schema · `src/lib/chat/` — `system-prompt.ts` + in-memory `rate-limit.ts` (also used by `/api/access`, `/api/contact`)
+- `src/lib/edit-requests.ts` · `src/lib/email.ts` · `src/lib/sms-quo.ts` · `src/lib/notify.ts` (Slack)
+- `src/app/api/checkout/route.ts` — Stripe session creation (Hook 1 lands here) · `src/app/api/stripe/webhook/route.ts` — signature-verified, idempotent, 3 events
+- `src/app/api/cron/provision/route.ts` — CRON_SECRET-gated tick, `timingSafeEqual` bearer check · `src/app/api/og/[slug]/route.tsx` — per-theme OG PNG (also portfolio card previews)
+- `src/app/app/` — authed customer portal (dashboard, billing, edit requests + Server Actions) · `src/app/dev/themes/page.tsx` — dev-only audit of all 30 themes
+- `src/components/home/themed-home.tsx` — composition for `/demos/[slug]` + `/portfolio/[slug]` · `src/components/apex/` — chrome primitives (full tree in `README.md`)
+- `supabase/migrations/0001_initial.sql` through `0012_edit_request_append_comment.sql` — all 12 required
+- `next.config.ts` — CSP + security headers (`frame-ancestors 'self'` for same-origin preview iframes)
+- `scripts/create-stripe-products.ts` · `scripts/fetch-hero-images.mjs` · `scripts/fetch-cta-images.mjs`
