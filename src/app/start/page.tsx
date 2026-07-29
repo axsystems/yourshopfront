@@ -16,18 +16,33 @@ import { RotatingPreview } from "@/components/apex/home/rotating-preview"
 import { JsonLd } from "@/components/json-ld"
 import { SITE_URL, organizationSchema } from "@/lib/seo"
 import { featuredThemeSlugs } from "@/lib/themes"
+import {
+  FIRST_PERIOD_SAVINGS,
+  MONTHLY_SAVINGS,
+  ONE_TIME,
+  PROMO_FIRST_PERIOD_TOTAL,
+  PROMO_MONTHLY,
+  PROMO_MONTHLY_PRICE,
+  PROMO_MONTHS,
+  PROMO_SETUP,
+  SETUP_SAVINGS,
+  STANDARD_FIRST_PERIOD_TOTAL,
+  STANDARD_MONTHLY,
+  STANDARD_MONTHLY_PRICE,
+  STANDARD_SETUP,
+} from "@/lib/pricing-constants"
 
 const URL = `${SITE_URL}/start`
 
 export const metadata: Metadata = {
-  title: "Launch Special: $99 to Start, $99/mo for 3 Months",
+  title: `Launch Special: ${PROMO_SETUP} to Start, ${PROMO_MONTHLY} for ${PROMO_MONTHS} Months`,
   description:
-    "Launch promo: $99 setup + $99/mo for your first 3 months on Your Shopfront. After that, $149/mo. Cancel anytime. Site live in 24 hours.",
+    `Launch promo: ${PROMO_SETUP} setup + ${PROMO_MONTHLY} for your first ${PROMO_MONTHS} months on Your Shopfront. After that, ${STANDARD_MONTHLY}. Cancel anytime. Site live in 24 hours.`,
   alternates: { canonical: URL },
   openGraph: {
     title: "Your Shopfront: Launch Special",
     description:
-      "$99 setup + $99/mo for the first 3 months. Pick from 30 designs. Site live in 24 hours.",
+      `${PROMO_SETUP} setup + ${PROMO_MONTHLY} for the first ${PROMO_MONTHS} months. Pick from 30 designs. Site live in 24 hours.`,
     url: URL,
     type: "website",
     siteName: "Your Shopfront",
@@ -42,7 +57,13 @@ export const metadata: Metadata = {
   },
 }
 
-const PROMO_CHECKOUT_HREF = "/checkout?tier=subscription&promo=launch&demo=premium-trade"
+// This page is the shared promo landing for every trade (painters,
+// electricians, roofers, ...). Attaching a single fixed theme (e.g. a
+// plumbing brand) to the CTA mis-branded checkout for everyone outside that
+// trade. /checkout requires a `demo` theme slug and already redirects to
+// /portfolio when one isn't supplied, so send the primary CTA straight to
+// the design picker instead of faking a demo.
+const START_CTA_HREF = "/portfolio"
 
 export default function StartPage() {
   return (
@@ -61,8 +82,8 @@ export default function StartPage() {
       </main>
       <SiteFooter variant="default" />
       <MobileStickyCTA
-        href={PROMO_CHECKOUT_HREF}
-        label="Start my site for $99 →"
+        href={START_CTA_HREF}
+        label={`Start my site for ${PROMO_SETUP} →`}
         subLabel="30-day money-back · cancel anytime"
       />
     </>
@@ -78,27 +99,27 @@ function PromoHero() {
             <Eyebrow tone="cobalt">Launch special</Eyebrow>
             <Display level="display-xl" className="mt-5">
               Your shopfront, live in 24 hours.{" "}
-              <span className="text-apx-primary">Starting at $99.</span>
+              <span className="text-apx-primary">Starting at {PROMO_SETUP}.</span>
             </Display>
             <Lede className="mt-6">
-              For your first 3 months, pay $99 setup and $99/month. After
-              that, you&apos;re on our standard $149/month plan. Cancel any
+              For your first {PROMO_MONTHS} months, pay {PROMO_SETUP} setup and ${PROMO_MONTHLY_PRICE}/month. After
+              that, you&apos;re on our standard ${STANDARD_MONTHLY_PRICE}/month plan. Cancel any
               time, no contract.
             </Lede>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Button
-                href={PROMO_CHECKOUT_HREF}
+                href={START_CTA_HREF}
                 variant="primary"
                 size="lg"
               >
-                Start my site for $99 →
+                Start my site for {PROMO_SETUP} →
               </Button>
               <Button href="#designs" variant="ghost" size="lg">
                 Browse the 30 designs
               </Button>
             </div>
             <p className="mt-6 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-apx-mute">
-              $99 setup + $99/mo × 3 months · then $149/mo · cancel anytime · 30-day money-back
+              {PROMO_SETUP} setup + {PROMO_MONTHLY} × {PROMO_MONTHS} months · then {STANDARD_MONTHLY} · cancel anytime · 30-day money-back
             </p>
           </div>
         </FadeUp>
@@ -123,19 +144,19 @@ function PricingBreakdown() {
           <div className="mx-auto mt-10 max-w-2xl rounded-2xl border border-apx-line bg-apx-paper p-8">
             <PriceRow
               label="Setup (one-time)"
-              value="$99"
-              note="Standard rate is $299. Save $200 today."
+              value={PROMO_SETUP}
+              note={`Standard rate is ${STANDARD_SETUP}. Save ${SETUP_SAVINGS} today.`}
             />
             <Divider />
             <PriceRow
               label="Months 1, 2, 3"
-              value="$99/mo"
-              note="Standard rate is $149/mo. Save $50/mo for 3 months."
+              value={PROMO_MONTHLY}
+              note={`Standard rate is ${STANDARD_MONTHLY}. Save ${MONTHLY_SAVINGS}/mo for ${PROMO_MONTHS} months.`}
             />
             <Divider />
             <PriceRow
               label="Month 4 onward"
-              value="$149/mo"
+              value={STANDARD_MONTHLY}
               note="Standard subscription rate. Cancel any time."
             />
             <hr className="my-6 border-apx-line" />
@@ -144,11 +165,11 @@ function PricingBreakdown() {
                 First-3-months total
               </span>
               <strong className="font-mono text-[20px] text-apx-ink">
-                $396
+                ${PROMO_FIRST_PERIOD_TOTAL}
               </strong>
             </div>
             <p className="mt-2 text-[12px] text-apx-mute">
-              vs. $746 at standard rates · you save $350 over the first 3
+              vs. ${STANDARD_FIRST_PERIOD_TOTAL} at standard rates · you save ${FIRST_PERIOD_SAVINGS} over the first {PROMO_MONTHS}
               months.
             </p>
           </div>
@@ -185,7 +206,7 @@ function ComparisonStrip() {
             />
             <CompareCard
               label="Your Shopfront"
-              cost="$99 + 30 minutes"
+              cost={`${PROMO_SETUP} + 30 minutes`}
               note="We build it. You launch tomorrow. Unlimited edits included."
               highlight
             />
@@ -325,19 +346,19 @@ function PromoFaq() {
           <dl className="mt-10 max-w-3xl space-y-8">
             <FaqRow
               q="What happens after the first 3 months?"
-              a="Your monthly rate steps up to our standard $149/mo. You can cancel any time from your portal, or stay on for unlimited edits, hosting, and ongoing support."
+              a={`Your monthly rate steps up to our standard ${STANDARD_MONTHLY}. You can cancel any time from your portal, or stay on for unlimited edits, hosting, and ongoing support.`}
             />
             <FaqRow
-              q="Is the $99 setup refundable?"
-              a="Yes. Before you submit your content worksheet. Once you submit and our team starts building, the setup fee covers that work and becomes non-refundable. Same rules as our standard $299 setup."
+              q={`Is the ${PROMO_SETUP} setup refundable?`}
+              a={`Yes. Before you submit your content worksheet. Once you submit and our team starts building, the setup fee covers that work and becomes non-refundable. Same rules as our standard ${STANDARD_SETUP} setup.`}
             />
             <FaqRow
-              q="Can I cancel during the 3-month promo?"
+              q={`Can I cancel during the ${PROMO_MONTHS}-month promo?`}
               a="Yes. Your first month is fully refundable within 30 days. After that, you can cancel any time. You just won't be charged again. Your site stays online for a 30-day grace period."
             />
             <FaqRow
               q="Do I own the site?"
-              a="On the subscription tier, you can export your content + design at any time. If you want full source-code ownership, our one-time build ($997, separate offer) ships you the code on launch."
+              a={`On the subscription tier, you can export your content + design at any time. If you want full source-code ownership, our one-time build (${ONE_TIME}, separate offer) ships you the code on launch.`}
             />
             <FaqRow
               q="What if I don't see a design I like?"
@@ -364,15 +385,15 @@ function FinalCta() {
               Your site can be live tomorrow.
             </Display>
             <Lede className="mt-6">
-              $99 to start. Live by tomorrow morning. Cancel any time.
+              {PROMO_SETUP} to start. Live by tomorrow morning. Cancel any time.
             </Lede>
             <div className="mt-8 flex flex-col items-center gap-3">
               <Button
-                href={PROMO_CHECKOUT_HREF}
+                href={START_CTA_HREF}
                 variant="primary"
                 size="lg"
               >
-                Start my site for $99 →
+                Start my site for {PROMO_SETUP} →
               </Button>
               <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-apx-mute">
                 30-day money-back · cancel anytime
