@@ -64,8 +64,8 @@ export const auroraPressureWash: Theme = {
   button: { shape: "pill", shadow: "soft", weight: "bold", uppercase: false },
   heroImage: {
     url: "/themes/aurora-pressure-wash/hero.jpg",
-    alt: "High-pressure water spray restoring a grey concrete surface",
-    credit: "Photo by Pixabay on Pexels",
+    alt: "Technician in a high-vis vest running a surface cleaner attachment across wet concrete pavement, hose trailing to a pressure-washing rig",
+    credit: "Photo by The Graphic Space on Unsplash",
   },
 
   seoTitle: "Your Shopfront — Bright Friendly Style for Exterior Restoration Brands",

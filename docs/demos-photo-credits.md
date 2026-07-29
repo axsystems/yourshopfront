@@ -22,7 +22,7 @@ All hero images for the 30 marketing themes are sourced from free-for-commercial
 | `bellhorn-movers` | Stack of brown cardboard moving boxes in an empty sunlit room | HiveBoxx | [Unsplash](https://unsplash.com/photos/tBzzwYsAWQQ) | Unsplash |
 | `heritage-painters` | Painter using a roller on an interior wall in warm afternoon light | Theme Photos | [Unsplash](https://unsplash.com/photos/_jl8FQ4ROnE) | Unsplash |
 | `brightside-cleaning` | Bright clean living room with neutral textiles and natural light | Roam In Color | [Unsplash](https://unsplash.com/photos/Hr3LGSA39Nw) | Unsplash |
-| `summit-roofing` | Roofer installing dark asphalt shingles on a residential rooftop | Pixabay | [Pexels](https://www.pexels.com/photo/8092382/) | Pexels |
+| `summit-roofing` | Roofer in a safety harness kneeling on a dark asphalt shingle roof, using a pneumatic nail gun to install shingles | Raze Solar | [Unsplash](https://unsplash.com/photos/a-man-working-on-a-roof-with-a-power-drill-Scaj0T40nFI) | Unsplash |
 | `westwood-tree` | Tall trees seen from below against a bright canopy of leaves | Sergei Akulich | [Unsplash](https://unsplash.com/photos/eqRfDHE_ZNY) | Unsplash |
 | `voltcraft-electric` | Electrical service panel with neatly run wiring | Pixabay | [Pexels](https://www.pexels.com/photo/257736/) | Pexels |
 | `sparkle-suds-laundromat` | Row of front-load washing machines in a clean laundromat | Raychan | [Unsplash](https://unsplash.com/photos/7BHA4plJ8tk) | Unsplash |
@@ -30,7 +30,7 @@ All hero images for the 30 marketing themes are sourced from free-for-commercial
 | `mesa-hvac` | Outdoor air conditioning condenser unit beside a residential wall | Pixabay | [Pexels](https://www.pexels.com/photo/210881/) | Pexels |
 | `sandstone-pool-care` | Sun-dappled blue pool water with gentle ripples and tile edge | Tim Hüfner | [Unsplash](https://unsplash.com/photos/jWnByvJBZ7E) | Unsplash |
 | `tidy-pros-junk` | Pickup truck loaded with materials parked in front of a home | Erik Mclean | [Unsplash](https://unsplash.com/photos/vTL_qy03D1I) | Unsplash |
-| `aurora-pressure-wash` | High-pressure water spray restoring a grey concrete surface | Pixabay | [Pexels](https://www.pexels.com/photo/4108725/) | Pexels |
+| `aurora-pressure-wash` | Technician in a high-vis vest running a surface cleaner attachment across wet concrete pavement, hose trailing to a pressure-washing rig | The Graphic Space | [Unsplash](https://unsplash.com/photos/a-man-in-a-yellow-vest-is-cleaning-the-street-PkkT4fOlh94) | Unsplash |
 
 ### Design-vibe (16)
 
@@ -50,7 +50,7 @@ All hero images for the 30 marketing themes are sourced from free-for-commercial
 | `still-point` | Empty yoga studio with morning light across a wooden floor | Anupam Mahapatra | [Unsplash](https://unsplash.com/photos/Vz0RbclzG_w) | Unsplash |
 | `swiss-editorial` | Black ink type on cream paper in a tight editorial composition | Annie Spratt | [Unsplash](https://unsplash.com/photos/Wf2GfaIpa5k) | Unsplash |
 | `switchback` | Close-up of green monospaced code on a dark monitor | Markus Spiske | [Unsplash](https://unsplash.com/photos/FXFz-sW0uwo) | Unsplash |
-| `webgl-experimental` | Abstract blue and violet generative gradient texture | Solen Feyissa | [Unsplash](https://unsplash.com/photos/TaOGbz_S-Qw) | Unsplash |
+| `webgl-experimental` | Abstract indigo and violet gradient wave, generative-looking soft light curve on a dark background | Milad Fakurian | [Unsplash](https://unsplash.com/photos/abstract-purple-wave-gradient-background-seA-FPPXL-M) | Unsplash |
 | `wildflower-stone` | Wildflowers and dried botanicals arranged on a weathered stone surface | Annie Spratt | [Unsplash](https://unsplash.com/photos/9HI8UJMSdZA) | Unsplash |
 
 ## Notes
