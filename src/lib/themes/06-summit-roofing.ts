@@ -119,5 +119,9 @@ export const summitRoofing: Theme = {
         alt: "Top-down aerial view of a suburban neighborhood of pitched-roof houses",
       },
     },
+    heroFormCard: {
+      heading: "Free roof inspection — no pressure",
+      body: "We'll walk your roof and email you a written quote within 24 hours.",
+    },
   },
 }

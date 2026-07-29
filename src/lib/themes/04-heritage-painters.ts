@@ -119,5 +119,13 @@ export const heritagePainters: Theme = {
         alt: "Open box filled with rows of paint tubes in many colours",
       },
     },
+    heroGallery: {
+      tiles: [
+        { tag: "Interiors", swatch: ["#1A1614", "#C8634A", "#E8DFC8"] },
+        { tag: "Exteriors", swatch: ["#C8634A", "#1A1614", "#FAF6EE"] },
+        { tag: "Cabinetry", swatch: ["#E8DFC8", "#C8634A", "#1A1614"] },
+        { tag: "Restoration", swatch: ["#1A1614", "#E8DFC8", "#C8634A"] },
+      ],
+    },
   },
 }

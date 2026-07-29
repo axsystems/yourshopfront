@@ -86,5 +86,13 @@ export const printBlockBooks: Theme = {
         alt: "Library aisle lined with tall bookshelves filled with books",
       },
     },
+    heroGallery: {
+      tiles: [
+        { tag: "New arrivals", swatch: ["#15203F", "#FF4081", "#F4EFE3"] },
+        { tag: "Staff picks", swatch: ["#4A8F3D", "#15203F", "#ECE3D0"] },
+        { tag: "Zines", swatch: ["#FF4081", "#4A8F3D", "#15203F"] },
+        { tag: "Local press", swatch: ["#15203F", "#ECE3D0", "#4A8F3D"] },
+      ],
+    },
   },
 }

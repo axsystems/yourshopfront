@@ -86,5 +86,13 @@ export const cinematicDark: Theme = {
         alt: "Large dimly lit industrial building interior with sweeping roof",
       },
     },
+    heroGallery: {
+      tiles: [
+        { tag: "Commercial", swatch: ["#0E0C0A", "#B87333", "#0E3A3A"] },
+        { tag: "Narrative", swatch: ["#0E3A3A", "#B87333", "#E8E4DC"] },
+        { tag: "Music video", swatch: ["#1A1714", "#0E3A3A", "#B87333"] },
+        { tag: "Brand film", swatch: ["#B87333", "#0E0C0A", "#E8E4DC"] },
+      ],
+    },
   },
 }

@@ -86,5 +86,13 @@ export const angelos: Theme = {
         alt: "Open flames burning inside a round wood-fired oven",
       },
     },
+    heroGallery: {
+      tiles: [
+        { tag: "Margherita", swatch: ["#C8332A", "#D9A441", "#F4ECDA"] },
+        { tag: "Sicilian slice", swatch: ["#1A1A1A", "#C8332A", "#D9A441"] },
+        { tag: "Fresh dough", swatch: ["#D9A441", "#1A1A1A", "#E9DEC2"] },
+        { tag: "Wood-fired", swatch: ["#C8332A", "#1A1A1A", "#D9A441"] },
+      ],
+    },
   },
 }

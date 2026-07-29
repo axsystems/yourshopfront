@@ -86,5 +86,9 @@ export const switchback: Theme = {
         alt: "Two black flat-screen developer monitors glowing in a dark room",
       },
     },
+    heroFormCard: {
+      heading: "Get early access — no waitlist",
+      body: "Tell us about your stack and we'll spin up a workspace with your first traces waiting.",
+    },
   },
 }

@@ -370,14 +370,19 @@ function HeroCalculator({ theme }: { theme: Theme }) {
   )
 }
 
+const DEFAULT_GALLERY_TAGS = ["Featured work", "Recent project", "Client favorite", "This week"]
+
 function HeroGallery({ theme }: { theme: Theme }) {
-  void theme
-  const tiles = [
-    { tag: "Restoration", swatch: ["#A04D38", "#C8634A", "#6B7C5F"] },
-    { tag: "Exterior", swatch: ["#1A1614", "#6B5544", "#B8985F"] },
-    { tag: "Cabinetry", swatch: ["#5C3A4A", "#C4978A", "#E8DFC8"] },
-    { tag: "Heritage", swatch: ["#3F5965", "#6B7C5F", "#FAF6EE"] },
+  // Falls back to a neutral, theme-tinted set when a theme has not been
+  // migrated to `content.heroGallery` yet — never another trade's words.
+  const fallbackSwatch: [string, string, string] = [
+    theme.colors.primary,
+    theme.colors.accent,
+    theme.colors.muted,
   ]
+  const tiles =
+    theme.content?.heroGallery?.tiles ??
+    DEFAULT_GALLERY_TAGS.map((tag) => ({ tag, swatch: fallbackSwatch }))
   return (
     <div className="w-full">
       <div className="grid w-full grid-cols-2 gap-4 sm:grid-cols-4">
@@ -478,7 +483,13 @@ function HeroBookingCard({ theme }: { theme: Theme }) {
   )
 }
 
+const DEFAULT_FORM_HEADING = "Get a custom quote"
+const DEFAULT_FORM_BODY =
+  "Tell us a bit about the job and we'll email you a quote — no pressure, no spam."
+
 function HeroFormCard({ theme }: { theme: Theme }) {
+  const heading = theme.content?.heroFormCard?.heading ?? DEFAULT_FORM_HEADING
+  const body = theme.content?.heroFormCard?.body ?? DEFAULT_FORM_BODY
   const fields = [
     { label: "Name", value: "Sarah Whitman" },
     { label: "Address", value: "1428 Oak St, Dallas TX" },
@@ -494,7 +505,7 @@ function HeroFormCard({ theme }: { theme: Theme }) {
             className="text-2xl font-bold"
             style={{ fontFamily: "var(--apex-font-display)" }}
           >
-            Free inspection — no pressure
+            {heading}
           </h3>
           <div className="flex gap-1.5">
             {Array.from({ length: totalSteps }).map((_, i) => (
@@ -511,7 +522,7 @@ function HeroFormCard({ theme }: { theme: Theme }) {
           </div>
         </div>
         <p className="mt-1 text-sm" style={{ color: "var(--apex-muted-fg)" }}>
-          We&apos;ll walk your roof and email you a written quote within 24 hours.
+          {body}
         </p>
         {fields.map((f) => (
           <div key={f.label} className="mt-3">
