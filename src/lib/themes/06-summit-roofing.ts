@@ -64,8 +64,8 @@ export const summitRoofing: Theme = {
   button: { shape: "sharp", shadow: "glow", weight: "heavy", uppercase: true },
   heroImage: {
     url: "/themes/summit-roofing/hero.jpg",
-    alt: "Roofer installing dark asphalt shingles on a residential rooftop",
-    credit: "Photo by Pixabay on Pexels",
+    alt: "Roofer in a safety harness kneeling on a dark asphalt shingle roof, using a pneumatic nail gun to install shingles",
+    credit: "Photo by Raze Solar on Unsplash",
   },
 
   seoTitle: "Your Shopfront — Industrial Dark Style for Roofing & Exterior Brands",

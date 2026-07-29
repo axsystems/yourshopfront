@@ -31,8 +31,8 @@ export const webglExperimental: Theme = {
   button: { shape: "rounded", shadow: "glow", weight: "bold", uppercase: false },
   heroImage: {
     url: "/themes/webgl-experimental/hero.jpg",
-    alt: "Abstract blue and violet generative gradient texture",
-    credit: "Photo by Solen Feyissa on Unsplash",
+    alt: "Abstract indigo and violet gradient wave, generative-looking soft light curve on a dark background",
+    credit: "Photo by Milad Fakurian on Unsplash",
   },
 
   seoTitle: "Acid Tech — Experimental Devtools Style · Your Shopfront Portfolio",

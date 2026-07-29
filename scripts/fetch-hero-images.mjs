@@ -72,11 +72,11 @@ const HEROES = {
     alt: "Bright clean living room with neutral textiles and natural light",
   },
   "summit-roofing": {
-    source: "pexels",
-    id: "8092382", // placeholder; verified below
-    photographer: "Pixabay",
-    sourceUrl: "https://www.pexels.com/photo/8092382/",
-    alt: "Roofer installing dark asphalt shingles on a residential rooftop",
+    source: "unsplash",
+    id: "1635424824849-1b09bdcc55b1",
+    photographer: "Raze Solar",
+    sourceUrl: "https://unsplash.com/photos/a-man-working-on-a-roof-with-a-power-drill-Scaj0T40nFI",
+    alt: "Roofer in a safety harness kneeling on a dark asphalt shingle roof, using a pneumatic nail gun to install shingles",
   },
   "westwood-tree": {
     source: "unsplash",
@@ -128,11 +128,15 @@ const HEROES = {
     alt: "Pickup truck loaded with materials parked in front of a home",
   },
   "aurora-pressure-wash": {
-    source: "pexels",
-    id: "4108725", // water spray on concrete (verified above)
-    photographer: "Pixabay",
-    sourceUrl: "https://www.pexels.com/photo/4108725/",
-    alt: "High-pressure water spray restoring a grey concrete surface",
+    source: "unsplash",
+    id: "1718152521147-817b3a991291",
+    photographer: "The Graphic Space",
+    sourceUrl: "https://unsplash.com/photos/a-man-in-a-yellow-vest-is-cleaning-the-street-PkkT4fOlh94",
+    alt: "Technician in a high-vis vest running a surface cleaner attachment across wet concrete pavement, hose trailing to a pressure-washing rig",
+    // Source photo is portrait (1400x2099). A plain center-crop into the
+    // hero's landscape box loses either his head or the surface-cleaner
+    // disc, so pin a square-ish window that keeps both in frame.
+    crop: { top: 250, height: 1400 },
   },
 
   // ───── Design-vibe themes (16) — match the aesthetic, not a literal industry.
@@ -237,10 +241,10 @@ const HEROES = {
   },
   "webgl-experimental": {
     source: "unsplash",
-    id: "1517433670267-08bbd4be890f",
-    photographer: "Solen Feyissa",
-    sourceUrl: "https://unsplash.com/photos/TaOGbz_S-Qw",
-    alt: "Abstract blue and violet generative gradient texture",
+    id: "1637825891028-564f672aa42c",
+    photographer: "Milad Fakurian",
+    sourceUrl: "https://unsplash.com/photos/abstract-purple-wave-gradient-background-seA-FPPXL-M",
+    alt: "Abstract indigo and violet gradient wave, generative-looking soft light curve on a dark background",
   },
   "wildflower-stone": {
     source: "unsplash",
@@ -270,13 +274,21 @@ async function fetchBuffer(url) {
 /**
  * Re-encode buffer with sharp until under TARGET_BYTES.
  * Walks quality down from 78 → 35 in steps of 7.
+ * `crop`, when set on a HEROES entry, pins a { top, height } window
+ * (full width) before resizing — for portrait source photos that would
+ * otherwise lose their subject to a blind center-crop.
  */
-async function compress(buf) {
-  let img = sharp(buf).resize({ width: WIDTH, withoutEnlargement: true })
+async function compress(buf, crop) {
+  const base = async () => {
+    let s = sharp(buf)
+    if (crop) s = s.extract({ left: 0, top: crop.top, width: WIDTH, height: crop.height })
+    return s.resize({ width: WIDTH, withoutEnlargement: true })
+  }
+  let img = await base()
   let lastOut = await img.jpeg({ quality: 78, mozjpeg: true }).toBuffer()
   if (lastOut.length <= TARGET_BYTES) return lastOut
   for (const q of [71, 64, 57, 50, 43, 36]) {
-    img = sharp(buf).resize({ width: WIDTH, withoutEnlargement: true })
+    img = await base()
     lastOut = await img.jpeg({ quality: q, mozjpeg: true }).toBuffer()
     if (lastOut.length <= TARGET_BYTES) return lastOut
   }
@@ -307,7 +319,7 @@ for (const slug of slugs) {
       continue
     }
     const raw = await fetchBuffer(url)
-    const out = await compress(raw)
+    const out = await compress(raw, entry.crop)
     await mkdir(dirname(dest), { recursive: true })
     await writeFile(dest, out)
     const kb = Math.round(out.length / 1024)
