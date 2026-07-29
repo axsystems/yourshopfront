@@ -8,6 +8,7 @@ import { DemoPalettePicker } from "@/components/home/demo-palette-picker"
 import { DemoSwitcher } from "@/components/home/demo-switcher"
 import { GoogleTag } from "@/components/google-tag"
 import { PlausibleAnalytics } from "@/components/plausible"
+import { ReferralCapture } from "@/components/referral-capture"
 import { baseFontClassName } from "@/lib/fonts"
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://yourshopfront.com"
@@ -61,6 +62,12 @@ export default function RootLayout({
     <html lang="en" className={`${baseFontClassName} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         <PlausibleAnalytics />
+        {/* Referral attribution (?ref=&src=) — invisible, app-wide capture
+            into a 30-day cookie. useSearchParams requires a Suspense
+            boundary in Next 16. */}
+        <Suspense fallback={null}>
+          <ReferralCapture />
+        </Suspense>
         <Suspense fallback={null}>
           <DemoSwitcher />
         </Suspense>

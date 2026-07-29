@@ -170,6 +170,8 @@ async function handleSessionCompleted(session: Stripe.Checkout.Session) {
     current_website_url: metadata.current_website_url || null,
     hosting_addon: metadata.hosting_addon === "true",
     copy_addon: copyAddon,
+    referral_code: metadata.ref || null,
+    referral_source: metadata.src || null,
     status: initialStatus,
   })
 
