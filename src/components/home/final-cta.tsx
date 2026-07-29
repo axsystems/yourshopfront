@@ -22,6 +22,47 @@ const DEFAULT_COPY = {
   ctaLabel: "Pick your style →",
 }
 
+function hexToRgb(hex: string): [number, number, number] {
+  const clean = hex.replace("#", "")
+  const full = clean.length === 3 ? clean.split("").map((c) => c + c).join("") : clean.slice(0, 6)
+  const r = parseInt(full.slice(0, 2), 16)
+  const g = parseInt(full.slice(2, 4), 16)
+  const b = parseInt(full.slice(4, 6), 16)
+  return [r, g, b]
+}
+
+function relativeLuminance(rgb: [number, number, number]): number {
+  const [rs, gs, bs] = rgb.map((v) => {
+    const c = v / 255
+    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)
+  })
+  return 0.2126 * rs! + 0.7152 * gs! + 0.0722 * bs!
+}
+
+function contrastRatio(hexA: string, hexB: string): number {
+  const lumA = relativeLuminance(hexToRgb(hexA))
+  const lumB = relativeLuminance(hexToRgb(hexB))
+  const lighter = Math.max(lumA, lumB)
+  const darker = Math.min(lumA, lumB)
+  return (lighter + 0.05) / (darker + 0.05)
+}
+
+/**
+ * `primary` is designed as a button-BACKGROUND color, not text-on-dark. This
+ * section inverts colors (`--apex-fg` as the fill, `--apex-bg` as the default
+ * text), so on themes where `primary` is itself a dark ink — Heritage
+ * Painters, Greenwise Lawn — the highlight nearly disappears against the
+ * scrim. Walk primary -> accent -> bg and use the first that clears WCAG AA
+ * (4.5:1) against `fg`; `bg` always clears it, since it's already this
+ * section's default text color.
+ */
+function pickHighlightColor(theme: Theme): string {
+  const { fg, primary, accent } = theme.colors
+  if (contrastRatio(primary, fg) >= 4.5) return "var(--apex-primary)"
+  if (contrastRatio(accent, fg) >= 4.5) return "var(--apex-accent)"
+  return "var(--apex-bg)"
+}
+
 export function FinalCTA({ theme, ctaPrimaryHref = "#showcase" }: FinalCTAProps) {
   const cta = theme.content?.finalCta
   const headline = cta?.headline ?? DEFAULT_COPY.headline
@@ -29,6 +70,7 @@ export function FinalCTA({ theme, ctaPrimaryHref = "#showcase" }: FinalCTAProps)
   const body = cta?.body ?? DEFAULT_COPY.body
   const ctaLabel = cta?.ctaLabel ?? DEFAULT_COPY.ctaLabel
   const bg = cta?.backgroundImage
+  const highlightColor = pickHighlightColor(theme)
 
   return (
     <section
@@ -65,7 +107,7 @@ export function FinalCTA({ theme, ctaPrimaryHref = "#showcase" }: FinalCTAProps)
         <div>
           <Display as="h2" className="text-4xl sm:text-5xl lg:text-6xl">
             {headline}{" "}
-            <span style={{ color: "var(--apex-primary)" }}>{highlight}</span>
+            <span style={{ color: highlightColor }}>{highlight}</span>
           </Display>
           <p className="mt-5 max-w-xl text-lg leading-relaxed opacity-80">
             {body}
