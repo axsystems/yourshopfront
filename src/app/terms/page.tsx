@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <LegalPage title="Terms of Service" lastUpdated="2026-05-04">
+    <LegalPage title="Terms of Service" lastUpdated="2026-07-29">
       <p>
         These terms govern your use of Your Shopfront (yourshopfront.com) and any websites we build, host, or maintain on your behalf. By buying our service or using the site, you agree to these terms.
       </p>
@@ -62,7 +62,7 @@ export default function TermsPage() {
 
       <h2>Governing law</h2>
       <p>
-        These terms are governed by the laws of the state in which Axon Labs LLC is registered. Disputes are resolved in the courts located there.
+        These terms are governed by the laws of the State of Arizona, where Axon Labs LLC is registered. Disputes are resolved in the state or federal courts located in Maricopa County, Arizona.
       </p>
 
       <h2>Changes</h2>
