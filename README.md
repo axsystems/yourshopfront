@@ -15,7 +15,7 @@ Productized website design + hosting for small businesses. Pick one of 30 themes
 
 **The site is live at https://yourshopfront.com and takes live-mode Stripe payments.**
 
-`PROJECT-STATE.md` is the canonical current-status doc — what's live, what's blocked, what's next. This README is the architecture reference; it deliberately does not restate status. `CLAUDE.md` is the agent-facing cold-start hub and hard rules. `LAUNCH-CHECKLIST.md` is the go-live gate. `REDESIGN-REPORT.md` / `REDESIGN-LOG.md` / `APEX-AUDIT.md` are historical records of the Phase 1–7 redesign, not current state.
+`PROJECT-STATE.md` is the canonical current-status doc — what's live, what's blocked, what's next. This README is the architecture reference; it deliberately does not restate status. `CLAUDE.md` is the agent-facing cold-start hub and hard rules. `LAUNCH-CHECKLIST.md` is the go-live gate. `docs/history/` holds the archived record of the Phase 1–7 redesign (`docs/history/REDESIGN-REPORT.md`, `docs/history/REDESIGN-LOG.md`, `docs/history/APEX-AUDIT.md`, and the 2026-05-21 launch audits) — historical, not current state.
 
 ### Surface map
 
