@@ -14,7 +14,7 @@ canonical status doc. Do not duplicate it here; this file is the operator runboo
 
 Sister docs: `PROJECT-STATE.md` (current status) · `docs/phase-4-test-plan.md` (manual Stripe
 runbook) · `docs/post-launch-todo.md` (deferred work) · `README.md` (architecture) ·
-`REDESIGN-PLAN.md` / `REDESIGN-LOG.md` / `REDESIGN-REPORT.md` (historical redesign record).
+`docs/history/REDESIGN-PLAN.md` / `docs/history/REDESIGN-LOG.md` / `docs/history/REDESIGN-REPORT.md` (archived redesign record).
 
 ---
 

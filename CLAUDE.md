@@ -13,8 +13,8 @@ provisioning). Checkout is proven live; everything after it is not.
 Doc map: `PROJECT-STATE.md` (status) · `README.md` (architecture + local setup) ·
 `LAUNCH-CHECKLIST.md` (go-live gate) · `docs/post-launch-todo.md` (deferred) ·
 `docs/marketing-launch-playbook.md` (sales) · `docs/BUNDLE-PLAN.md` (Stage 4) ·
-`docs/phase-4-test-plan.md` (manual Stripe plan) · `docs/launch-audit-2026-05-21*.md`
-(dated snapshots — historical, not current state).
+`docs/phase-4-test-plan.md` (manual Stripe plan) · `docs/history/` (archived redesign +
+launch-audit records — historical snapshots, not current state).
 
 ## Strategic Role
 
