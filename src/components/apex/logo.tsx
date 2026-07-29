@@ -34,7 +34,7 @@ export function Logo({
   const inner = (
     <span
       className={cn(
-        "inline-flex items-center font-sans font-bold tracking-[-0.02em] text-apx-ink transition-colors group-hover:text-apx-primary",
+        "inline-flex items-center font-sans font-bold tracking-[-0.02em] text-current transition-colors group-hover:text-[color:var(--apex-primary,var(--apx-primary))]",
         TEXT_SIZE[size],
         className
       )}
