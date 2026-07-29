@@ -427,6 +427,24 @@ export function SalesAgent() {
     ? "onboarding"
     : "sales"
 
+  // The bubble's resting position needs to be route-aware so it never sits
+  // on top of content the customer actually needs to read:
+  //  - /checkout: the order-summary price panel (incl. "Today's charge")
+  //    sits directly under the bubble's default bottom-right spot, and its
+  //    height varies per theme/tier/promo, so no single fixed offset is
+  //    reliably safe. Hidden here rather than repositioned — checkout is
+  //    the one page where covering the wrong thing is costliest, and no
+  //    other UI on this route opens the chat, so nothing regresses.
+  //  - Legal pages (/privacy, /terms, /refund-policy): share one layout
+  //    with a fixed-height title band right below the header that never
+  //    contains body copy, so the bubble is repositioned up there instead
+  //    of overlapping the article text below on mobile.
+  const isCheckoutRoute = pathname === "/checkout"
+  const isLegalRoute =
+    pathname === "/privacy" ||
+    pathname === "/terms" ||
+    pathname === "/refund-policy"
+
   // session_id is present in the URL on all onboarding pages.
   const sessionId = mode === "onboarding"
     ? (searchParams.get("session_id") ?? null)
@@ -622,12 +640,18 @@ export function SalesAgent() {
 
   return (
     <>
-      {/* Bubble trigger */}
-      {!open && (
+      {/* Bubble trigger — hidden on /checkout, repositioned on legal pages
+          (see the isCheckoutRoute / isLegalRoute comment above). */}
+      {!open && !isCheckoutRoute && (
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="fixed bottom-24 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-apx-ink text-apx-paper shadow-[0_8px_24px_rgba(0,0,0,0.15)] transition-transform hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(0,0,0,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-apx-primary focus-visible:ring-offset-2 md:bottom-6 md:right-6"
+          className={cn(
+            "fixed z-50 flex h-14 w-14 items-center justify-center rounded-full bg-apx-ink text-apx-paper shadow-[0_8px_24px_rgba(0,0,0,0.15)] transition-transform hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(0,0,0,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-apx-primary focus-visible:ring-offset-2",
+            isLegalRoute
+              ? "top-24 right-5 md:top-auto md:bottom-6 md:right-6"
+              : "bottom-24 right-5 md:bottom-6 md:right-6"
+          )}
           aria-label={`Open chat with the ${headerLabel}`}
         >
           <MessageCircle className="h-6 w-6" />

@@ -82,9 +82,19 @@ function Cell({
   presentation: "stark" | "serif" | "pill" | "default"
 }) {
   const isStark = presentation === "stark"
+  // Display values are free-text (e.g. "Fragrance-free", "Permit-") and can
+  // run well past 8 characters, so the size has to step down on narrow
+  // viewports and the box has to be allowed to break mid-word — otherwise a
+  // long value collides with its neighbour in the 2-col mobile grid or
+  // overflows the card edge. `min-w-0` overrides the grid item's implicit
+  // `min-width: auto`, which is what actually causes the overflow.
+  const valueSizeClass =
+    presentation === "serif"
+      ? "text-[28px] sm:text-[36px] md:text-[48px]"
+      : "text-[24px] sm:text-[30px] md:text-[40px]"
   return (
     <div
-      className="flex flex-col gap-1.5"
+      className="flex min-w-0 flex-col gap-1.5"
       style={
         isStark
           ? { borderLeft: "3px solid var(--apex-primary)", paddingLeft: 16 }
@@ -92,11 +102,10 @@ function Cell({
       }
     >
       <p
-        className="leading-none"
+        className={`leading-none break-words ${valueSizeClass}`}
         style={{
           fontFamily: "var(--apex-font-display)",
           color: "var(--apex-primary)",
-          fontSize: presentation === "serif" ? 48 : 40,
           fontWeight: presentation === "serif" ? 600 : 700,
           letterSpacing: "-0.02em",
         }}
