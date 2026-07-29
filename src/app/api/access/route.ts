@@ -6,7 +6,7 @@ import { z } from "zod"
 import { checkRateLimit, pruneExpired } from "@/lib/chat/rate-limit"
 import { sendAccessLinkEmail } from "@/lib/email"
 import { getClientIp } from "@/lib/get-client-ip"
-import { supabase } from "@/lib/supabase"
+import { supabase, type Customer } from "@/lib/supabase"
 
 // =============================================================================
 // POST /api/access
@@ -20,6 +20,11 @@ import { supabase } from "@/lib/supabase"
 export const runtime = "nodejs"
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://yourshopfront.com"
+
+// Never matches a real row (customer_id is a uuid FK) — used to give the
+// no-customer branch a second query of the same shape/cost as the found
+// branch. See the round-trip comment below.
+const NO_MATCH_CUSTOMER_ID = "00000000-0000-0000-0000-000000000000"
 
 const Schema = z.object({
   email: z.string().email().max(254),
@@ -68,49 +73,59 @@ export async function POST(req: Request) {
 
   const normalizedEmail = parsed.data.email.toLowerCase().trim()
 
-  // Single JOIN — one DB round-trip whether or not the email is registered,
-  // closing the timing side-channel that two sequential lookups would open.
-  // Found path still has the extra Resend latency, but that's a much weaker
-  // signal than a deterministic 2x DB query count.
+  // Two DB round-trips on EVERY request, hit or miss — that's what keeps this
+  // side-channel-free now that lookup is case-insensitive:
+  //   1. get_customer_by_email — the same SECURITY DEFINER RPC auth.ts uses
+  //      for portal sign-in, matching on lower(email) so a mixed-case stored
+  //      row (e.g. "Jane@AcmePainting.com") still matches a lowercase input.
+  //      A raw `.eq()` on the join used here previously was case-sensitive
+  //      and silently failed to match those rows.
+  //   2. A sites lookup by customer_id — always executed, even when step 1
+  //      found nothing, by falling back to NO_MATCH_CUSTOMER_ID (a uuid that
+  //      matches no row). That keeps the query count and rough index-lookup
+  //      cost identical on hit vs miss, closing the timing side-channel a
+  //      "skip step 2 on miss" shortcut would open.
   try {
-    const { data: row, error: lookupErr } = await supabase()
+    const { data: customerRow, error: customerErr } = await supabase().rpc(
+      "get_customer_by_email",
+      { p_email: normalizedEmail }
+    )
+
+    if (customerErr) {
+      console.error("[access] customer lookup failed", customerErr)
+      return NextResponse.json(GENERIC_OK_BODY)
+    }
+
+    const customer = customerRow as Customer | null
+
+    const { data: site, error: siteErr } = await supabase()
       .from("sites")
-      .select(
-        "id, stripe_session_id, created_at, customers!inner(id, email, name)"
-      )
-      .eq("customers.email", normalizedEmail)
+      .select("id, stripe_session_id, created_at")
+      .eq("customer_id", customer?.id ?? NO_MATCH_CUSTOMER_ID)
       .order("created_at", { ascending: false })
       .limit(1)
       .maybeSingle()
 
-    if (lookupErr) {
-      console.error("[access] lookup failed", lookupErr)
+    if (siteErr) {
+      console.error("[access] site lookup failed", siteErr)
       return NextResponse.json(GENERIC_OK_BODY)
     }
 
-    if (!row) {
+    if (!customer || !site) {
       return NextResponse.json(GENERIC_OK_BODY)
     }
 
-    // supabase-js types !inner joins loosely; narrow here. The selected
-    // customers projection is the joined row, not the full Customer.
-    const joined = row as unknown as {
-      id: string
-      stripe_session_id: string
-      customers: { id: string; email: string; name: string | null }
-    }
-
-    const firstName = joined.customers.name?.split(" ")[0] ?? "there"
-    const onboardingUrl = `${SITE_URL}/onboarding?session_id=${joined.stripe_session_id}`
+    const firstName = customer.name?.split(" ")[0] ?? "there"
+    const onboardingUrl = `${SITE_URL}/onboarding?session_id=${site.stripe_session_id}`
 
     // Fire-and-forget the email so registered vs unregistered code paths have
     // the same response latency. Awaiting Resend introduces a 200-800ms
     // timing oracle: an attacker can enumerate emails by measuring response
     // time even though we always return GENERIC_OK_BODY. The .catch keeps the
     // promise from becoming an unhandled rejection if Resend is down.
-    const siteIdTrace = joined.id.slice(-12)
+    const siteIdTrace = site.id.slice(-12)
     void sendAccessLinkEmail({
-      to: joined.customers.email,
+      to: customer.email,
       firstName,
       onboardingUrl,
     })
