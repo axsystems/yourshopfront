@@ -155,6 +155,27 @@ export interface ThemeSectionHeaderOverride {
   sub?: string
 }
 
+/** A single tile in the Hero `gallery` variant — label + a 3-stop gradient swatch. */
+export interface ThemeHeroGalleryTile {
+  /** Short label shown on the tile overlay (e.g. "Cabinetry", "Bouquets"). */
+  tag: string
+  /** Three-stop gradient, coherent with the theme's own palette. */
+  swatch: [string, string, string]
+}
+
+export interface ThemeHeroGalleryOverride {
+  /** Exactly 4 tiles — must mirror the existing tile count. */
+  tiles: [ThemeHeroGalleryTile, ThemeHeroGalleryTile, ThemeHeroGalleryTile, ThemeHeroGalleryTile]
+}
+
+/** Copy for the Hero `form-card` variant's heading + sub-line. */
+export interface ThemeHeroFormCardOverride {
+  /** Card heading, replacing the generic "Free inspection — no pressure". */
+  heading: string
+  /** Sub-line under the heading, describing what the lead should expect. */
+  body: string
+}
+
 export interface ThemeContentOverrides {
   /** Industry-specific copy + photos for the HowItWorks 4-step grid. */
   howItWorks?: {
@@ -170,6 +191,10 @@ export interface ThemeContentOverrides {
   }
   /** Industry-specific FinalCTA copy + optional full-bleed photo. */
   finalCta?: ThemeFinalCtaOverride
+  /** Industry-specific tile tags + swatch for the Hero `gallery` variant. Only read when `hero: "gallery"`. */
+  heroGallery?: ThemeHeroGalleryOverride
+  /** Industry-specific heading + body for the Hero `form-card` variant. Only read when `hero: "form-card"`. */
+  heroFormCard?: ThemeHeroFormCardOverride
 }
 
 export interface Theme {
