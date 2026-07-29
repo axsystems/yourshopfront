@@ -23,8 +23,14 @@ export const CheckoutFormSchema = z.object({
     .string()
     .min(1, "Your name is required")
     .max(120, "Name too long"),
+  // Stage 4 Hook 3 (email canonical-key policy): normalize at the boundary
+  // so every stored email is lowercase + trimmed, matching the case-insensitive
+  // lookups in src/lib/auth.ts and src/app/api/access/route.ts. Does NOT
+  // retroactively fix rows written before this normalization existed.
   email: z
     .string()
+    .trim()
+    .toLowerCase()
     .email("Valid email required")
     .max(200, "Email too long"),
   phone: z
