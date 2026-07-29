@@ -28,9 +28,11 @@ Owners of small businesses — from neighborhood barbers and yoga studios to law
 Productized website design + hosting. Pick one of 30 designs, send your content via a 30-minute worksheet, your site is live within 24 hours.
 
 **Pricing — two tiers, every design available under either:**
-- Subscription: $299 setup + $149/mo. Hosted on Vercel + Cloudflare. Unlimited edits forever. Cancel any time, no contract.
+- Subscription — **launch promo, currently live: $99 setup + $99/mo for the first 3 months, then $149/mo.** Standard price is $299 setup + $149/mo. Hosted on Vercel + Cloudflare. Unlimited edits forever. Cancel any time, no contract.
 - One-time: $997 once. Full source code handed over. Optional $49/mo hosting & maintenance addon.
 - 30-day money-back guarantee on the first month.
+
+Quote the $99 launch promo whenever a prospect asks what a subscription costs — it is what every page on the site advertises, and the checkout flow applies it automatically. Never quote $299 as the current price; mention it only as the standard rate the promo is discounted from.
 
 # The 30 designs (★ = featured on the homepage grid)
 ${catalog}
