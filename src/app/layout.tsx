@@ -8,6 +8,7 @@ import { DemoPalettePicker } from "@/components/home/demo-palette-picker"
 import { DemoSwitcher } from "@/components/home/demo-switcher"
 import { GoogleTag } from "@/components/google-tag"
 import { PlausibleAnalytics } from "@/components/plausible"
+import { PostHogAnalytics } from "@/components/posthog"
 import { ReferralCapture } from "@/components/referral-capture"
 import { baseFontClassName } from "@/lib/fonts"
 
@@ -62,6 +63,10 @@ export default function RootLayout({
     <html lang="en" className={`${baseFontClassName} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         <PlausibleAnalytics />
+        {/* PostHog session replay. No-op unless NEXT_PUBLIC_POSTHOG_KEY
+            is set — see src/components/posthog.tsx for the privacy
+            config (input masking, /app/* excluded). */}
+        <PostHogAnalytics />
         {/* Referral attribution (?ref=&src=) — invisible, app-wide capture
             into a 30-day cookie. useSearchParams requires a Suspense
             boundary in Next 16. */}
