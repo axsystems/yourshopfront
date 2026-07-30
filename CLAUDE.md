@@ -24,6 +24,7 @@ electricians, HVAC, plumbers, handymen). They buy a website here, realize they n
 upsell into Google Ads + GBP + SEO management there.
 
 **4-Stage launch sequence:**
+
 1. ✅ axon-growth launches solo
 2. ✅ Your Shopfront ships the full funnel (checkout, onboarding, provisioning, portal)
 3. ⏳ Your Shopfront validates the funnel solo — site is live, but no end-to-end prod sale yet
@@ -32,6 +33,7 @@ upsell into Google Ads + GBP + SEO management there.
 See `docs/BUNDLE-PLAN.md` for the Stage 4 spec. See `axon-growth/CLAUDE.md` for the upstream side.
 
 ## Tech Stack
+
 - **Web:** Next.js 16.2.4 (App Router), React 19.2.4, TypeScript strict
 - **Styling:** Tailwind v4 (`@theme` in `globals.css` — NO `tailwind.config.ts`), shadcn/ui
 - **Payments:** Stripe 22.1.0 (API version `2024-11-20.acacia` PINNED in `src/lib/stripe.ts`)
@@ -48,6 +50,7 @@ hard-errors and every job dies in ~5s (this happened; fixed in PR #57). CI runs 
 repos in Stage 4, verify payload schemas match across both versions.
 
 ## Commands
+
 ```bash
 pnpm dev          # http://localhost:3000
 pnpm typecheck    # tsc --noEmit — MUST pass before commit
@@ -59,6 +62,7 @@ pnpm brand:export # regenerate PNG brand assets from SVG masters
 ```
 
 ## IMPORTANT Rules
+
 - Default branch is **`master`**, not `main`. Use upstream-tracking push.
 - All API routes: Zod validation at boundary; never trust client input.
 - Stripe webhook (`/api/stripe/webhook`): signature verify FIRST, then idempotency check via
@@ -98,7 +102,7 @@ enumeration-safe — always returns the same body).
 token (`Authorization` header or `?token=`), compared with `timingSafeEqual`. A launch shortcut,
 not a long-term pattern — rotate the secret, replace with real sessions.
 
-⚠️ **Conflict to resolve before Stage 4:** the bundle plan assumes a *shared Clerk org*, but this
+⚠️ **Conflict to resolve before Stage 4:** the bundle plan assumes a _shared Clerk org_, but this
 repo shipped Supabase Auth. Reconcile the identity story before building the bundle.
 
 ## Critical Stage 4 Integration Hooks (MUST ship before bundle launch)
@@ -106,12 +110,15 @@ repo shipped Supabase Auth. Reconcile the identity story before building the bun
 These must be baked in BEFORE bundling, or bundle launch will hit duplicate-customer hell:
 
 ### Hook 1 — Shared Stripe customer logic
+
 Before `stripe.checkout.sessions.create()`, call `stripe.customers.list({ email, limit: 1 })`.
 If found, pass existing `customer` param. If not, let Checkout create. Both Your Shopfront and
 axon-growth must do this — prevents the 2-customer-per-bundle problem.
 
 ### Hook 2 — Stripe metadata convention
+
 Every Checkout session metadata must include:
+
 ```typescript
 metadata: {
   product: 'apex-sites',     // or 'axon-growth' in the other repo
@@ -120,31 +127,37 @@ metadata: {
   axon_product: null,         // null for apex-sites solo; 'JUST_ADS'|'FULL_SUITE' if bundle
 }
 ```
+
 Future bundle webhook handlers depend on this. Adding later means backfilling old records.
 
 ### Hook 3 — Email canonical-key policy
+
 Both repos must enforce the same email normalization (lowercase, trim, validate). Don't let
 bundle customers fragment across personal vs business email variants.
 
 ## Next.js 16 critical rules
+
 - `params` is a Promise — must `await params` in dynamic routes. Same for `searchParams`.
 - `useSearchParams` must be wrapped in `<Suspense>`.
 - File is `src/proxy.ts`, NOT `middleware.ts`.
 - Tailwind v4 config lives in `src/app/globals.css` via `@theme {}` — no `tailwind.config.ts`.
 
 ## Gotchas
+
 - **30 themes total** (14 home-service + 8 abstract + 8 brand-personality) in the `all` array of `src/lib/themes/index.ts`. The dir has 32 `.ts` files — `css-vars.ts` and `with-overrides.ts` are helpers, not themes. Featured 10 canonical to `/demos`, other 20 to `/portfolio` (SEO).
 - `<ThemeProvider>` applies only the active theme's font className — don't load all fonts everywhere.
 - Stripe checkout has 3 modes (subscription / onetime+hosting / onetime-only) — see `src/lib/stripe.ts`.
 - Custom-build tier was REMOVED in Phase 2.5 — don't re-introduce.
 - Supabase RLS is locked-by-default. Portal reads go through service-role helpers, not anon RLS.
 - **`/demos/[slug]` vs `/portfolio/[slug]` differ in chrome**: demos hide Pricing/Showcase/FAQ and add `<MobileStickyCta>` + `<DemoBuyGuarantees>` for ad-traffic immersion; portfolio keeps the full meta-aware layout for SEO. Gated on `isDemoPreview` in `themed-home.tsx` — don't break it.
-- **The `$99` promo price is hardcoded in 10 files** — changing the promo means editing all of them (paths relative to `src/`): `app/start/page.tsx` (the most), `app/checkout/page.tsx`, `app/refund-policy/page.tsx`, `app/demos/[slug]/page.tsx`, `components/apex/home/hero.tsx`, `components/apex/home/pricing-teaser.tsx`, `components/home/hero.tsx`, `components/home/pricing.tsx`, `components/home/mobile-sticky-cta.tsx`, `components/portfolio/portfolio-grid.tsx`. (`lib/checkout-schema.ts` and `app/api/refund-request/route.ts` mention it in comments only.) Extract a `pricing-constants.ts` rather than growing the list.
-- **The sales chatbot quotes standard pricing, not the promo.** `src/lib/chat/system-prompt.ts` says "$299 setup + $149/mo" with no mention of the $99 launch promo the pages advertise.
-- **`supabase/migrations/` holds 12 files (`0001`–`0012`).** A fresh project needs all 12 — `0007_copy_addon`, `0008_ai_copy_state`, `0009_auth_customer_link`, `0010_edit_requests`, and `0012_edit_request_append_comment` are load-bearing, not cosmetic.
+- **All user-visible prices route through `src/lib/pricing-constants.ts`** — import from it, never add a new hardcoded literal. That file is display-only: it does NOT change what Stripe charges (real amounts live in Stripe price IDs, read server-side in `lib/stripe.ts`). Change a number here without updating the Stripe price/coupon and the site quotes one figure and charges another. When auditing for drift, grep `\$[0-9]`, not just the four known numbers — that narrow pattern is exactly how `$49` was missed.
+- **`supabase/migrations/` holds 13 files (`0001`–`0013`).** A fresh project needs all 13 — `0007_copy_addon`, `0008_ai_copy_state`, `0009_auth_customer_link`, `0010_edit_requests`, `0012_edit_request_append_comment`, and `0013_referral_tracking` are load-bearing, not cosmetic. There is **no migration ledger** on the production project (every migration was applied by hand), so `supabase migration list` always reports nothing and nothing prevents a double-apply. `0001`–`0004` are non-idempotent.
+- **The OG preview image is a static PNG generated from `public/brand/og-default.svg` by `pnpm brand:export`.** It is NOT regenerated automatically — source and output silently diverged for months, shipping dead pricing and the retired "Apex Sites" brand on every social share. After editing the SVG, always re-export, **open the PNG and look at it**, and ship it under a NEW filename (currently `og-v3.png`): Facebook caches OG images per URL, so an in-place edit keeps serving the stale asset. Update all five call sites plus the `src/proxy.ts` matcher exclusion.
+- **CSP is a live tripwire for anything third-party.** `next.config.ts` blocked Google Analytics for 66 days without a single visible error — the tag was in the HTML and collected nothing. Any new script, beacon, font, or worker needs its origin added, and must be verified in a real browser console, not inferred from the header. PostHog is routed same-origin through `/ingest` (`src/app/ingest/[...path]/route.ts`) which strips `Cookie`/`Authorization` before forwarding — a plain `rewrites()` would leak Supabase session tokens to a third party.
 - `vercel.json` runs `/api/cron/provision` **every minute**, batch-capped at 5 sites/tick.
 
 ## Do Not Build
+
 - `middleware.ts` (use `proxy.ts`) · `tailwind.config.ts` (use `@theme` in `globals.css`)
 - Custom-build tier — killed Phase 2.5 (all 30 unified as themes)
 - Client-side Stripe session creation — server-only
@@ -154,6 +167,7 @@ bundle customers fragment across personal vs business email variants.
 ## Stripe webhook events
 
 `/api/stripe/webhook` handles **three** events; everything else is ignored:
+
 - **`checkout.session.completed`** — two paths. If `metadata.upgrade === 'copy_addon'`, applies the $199 copy add-on to an existing site. Otherwise: idempotency guard, `getOrCreateCustomer`, `createSite` (status `awaiting_copy_draft` when `copy_addon`, else `pending_content`), then welcome email + Slack + operator SMS via `Promise.allSettled`. Missing email/name alerts Slack and skips site creation rather than failing silently.
 - **`customer.subscription.deleted`** — status to `cancelled`, `unprovisionSite` (best-effort Cloudflare + Vercel teardown), goodbye email, Slack.
 - **`charge.refunded`** — status to `refunded`, unprovision if it was `live`, Slack alert. Resolves the site via the Stripe **customer id** (most recent site row) because `charge.refunded` carries no `session_id`.
@@ -162,6 +176,7 @@ bundle customers fragment across personal vs business email variants.
 `customer.subscription.updated` (payment-method changes, unpause). Matters past ~50 subscriptions.
 
 ## Key Files
+
 - `src/lib/themes/` — 30 configs + `index.ts` (`all`, `featuredThemeSlugs`, `defaultThemeSlug`); `types.ts` has the `Theme` interface incl. `heroImage` + `content?: ThemeContentOverrides`
 - `src/lib/stripe.ts` — pinned-version client + 3-mode checkout · `src/lib/checkout-schema.ts` — Zod schemas (form + API) incl. the `promo=launch` branch
 - `src/lib/supabase.ts` — service-role helpers, server-only; the `SiteStatus` union is the site lifecycle · `src/lib/supabase-server.ts` — anon-key SSR (cookie-backed) client used by auth
@@ -174,6 +189,6 @@ bundle customers fragment across personal vs business email variants.
 - `src/app/api/cron/provision/route.ts` — CRON_SECRET-gated tick, `timingSafeEqual` bearer check · `src/app/api/og/[slug]/route.tsx` — per-theme OG PNG (also portfolio card previews)
 - `src/app/app/` — authed customer portal (dashboard, billing, edit requests + Server Actions) · `src/app/dev/themes/page.tsx` — dev-only audit of all 30 themes
 - `src/components/home/themed-home.tsx` — composition for `/demos/[slug]` + `/portfolio/[slug]` · `src/components/apex/` — chrome primitives (full tree in `README.md`)
-- `supabase/migrations/0001_initial.sql` through `0012_edit_request_append_comment.sql` — all 12 required
+- `supabase/migrations/0001_initial.sql` through `0013_referral_tracking.sql` — all 13 required
 - `next.config.ts` — CSP + security headers (`frame-ancestors 'self'` for same-origin preview iframes)
 - `scripts/create-stripe-products.ts` · `scripts/fetch-hero-images.mjs` · `scripts/fetch-cta-images.mjs`
