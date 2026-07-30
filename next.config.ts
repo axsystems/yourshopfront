@@ -53,6 +53,17 @@ const GOOGLE_TAG_CONNECT_SRC = [
   "https://www.google.com",
 ].join(" ")
 
+// PostHog Cloud is region-locked and the hostnames differ per region.
+// These default to US. If the PostHog project turns out to be EU, set
+// BOTH of these and redeploy -- rewrites are resolved during `next
+// build`, so changing the env var alone does nothing until a rebuild:
+//   POSTHOG_INGEST_HOST=https://eu.i.posthog.com
+//   POSTHOG_ASSETS_HOST=https://eu-assets.i.posthog.com
+const POSTHOG_INGEST_HOST =
+  process.env.POSTHOG_INGEST_HOST ?? "https://us.i.posthog.com"
+const POSTHOG_ASSETS_HOST =
+  process.env.POSTHOG_ASSETS_HOST ?? "https://us-assets.i.posthog.com"
+
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com ${GOOGLE_TAG_SCRIPT_SRC}`,
@@ -60,6 +71,14 @@ const CONTENT_SECURITY_POLICY = [
   `img-src 'self' data: blob: https://*.supabase.co ${GOOGLE_TAG_IMG_SRC}`,
   "font-src 'self' data:",
   `connect-src 'self' https://api.stripe.com ${GOOGLE_TAG_CONNECT_SRC}`,
+  // PostHog session replay builds its compression worker from a Blob
+  // URL. There is no worker-src here otherwise, so it would fall back to
+  // script-src, which has no blob: -- the worker gets refused and replay
+  // silently records nothing. PostHog documents "'self' blob: data:";
+  // data: is omitted because posthog-js builds the worker from a Blob,
+  // not a data URI. PostHog itself needs no script-src/connect-src entry
+  // because it is reverse-proxied same-origin through /ingest below.
+  "worker-src 'self' blob:",
   "frame-src 'self' https://js.stripe.com https://hooks.stripe.com",
   "form-action 'self' https://checkout.stripe.com",
   // Same-origin iframes are intentional: the homepage's rotating preview
@@ -92,6 +111,32 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
+  // Reverse-proxy PostHog through this origin so no *.posthog.com host
+  // has to be added to script-src/connect-src. Point posthog-js at it
+  // with NEXT_PUBLIC_POSTHOG_HOST=/ingest. Shape and ordering are
+  // PostHog's own (posthog.com/docs/advanced/proxy/nextjs): both asset
+  // rules must precede the catch-all, or /ingest/static/* would be sent
+  // to the ingestion host instead of the assets host.
+  async rewrites() {
+    return [
+      {
+        source: "/ingest/static/:path*",
+        destination: `${POSTHOG_ASSETS_HOST}/static/:path*`,
+      },
+      {
+        source: "/ingest/array/:path*",
+        destination: `${POSTHOG_ASSETS_HOST}/array/:path*`,
+      },
+      {
+        source: "/ingest/:path*",
+        destination: `${POSTHOG_INGEST_HOST}/:path*`,
+      },
+    ]
+  },
+  // PostHog's ingestion endpoints are trailing-slash paths (/decide/,
+  // /e/). Without this, Next answers them with a 308 to the slashless
+  // form instead of proxying them.
+  skipTrailingSlashRedirect: true,
   async headers() {
     return [{ source: "/(.*)", headers: SECURITY_HEADERS }]
   },
