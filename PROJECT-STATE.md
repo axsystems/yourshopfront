@@ -14,24 +14,24 @@ Sister docs — do not duplicate these, update them:
 
 ## Status table
 
-| Area                | State           | Evidence (2026-07-30 unless noted)                                                                                                    |
-| ------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| Marketing site      | **LIVE**        | `/`, `/pricing`, `/start`, `/portfolio` all HTTP 200                                                                                  |
-| Demos               | **LIVE**        | all 15 trade demo slugs HTTP 200; 30 registered themes                                                                                |
-| Stripe checkout     | **LIVE MODE**   | `POST /api/checkout` returns a `cs_live_` session on the $99 promo path                                                               |
-| $99 promo           | **CONFIGURED**  | `STRIPE_PRICE_SUBSCRIPTION_SETUP_PROMO` + `STRIPE_COUPON_LAUNCH_PROMO` both present in Vercel production (the two `isPromo` requires) |
-| Referral tracking   | **VERIFIED**    | full end-to-end re-verification 2026-07-30 — see "Referral attribution" below                                                         |
-| Production schema   | **CURRENT**     | all 13 migrations (`0001`–`0013`) re-verified column-by-column against live schema 2026-07-30                                         |
-| Provisioning cron   | **ARMED**       | `/api/cron/provision` returns 401 unauth → `CRON_SECRET` set                                                                          |
-| Sales chat bubble   | **CONFIGURED**  | `/api/chat` returns 400 on empty body (not 503) → `ANTHROPIC_API_KEY` set                                                             |
-| SEO                 | **LIVE**        | `robots.txt` 200; `sitemap.xml` 38 `<loc>` entries                                                                                    |
-| CI                  | **GREEN**       | `lint-and-typecheck` ~35s, `build-and-smoke` ~1m35s                                                                                   |
-| OG preview image    | **FIXED**       | `og-v3.png` 200; every share previewed "Apex Sites / $499 setup" until 2026-07-30                                                     |
-| Google Analytics    | **UNBLOCKED**   | CSP had silently blocked gtag.js for 66 days — zero data collected. Fixed in PR #82                                                   |
-| Vercel Analytics    | **WORKING**     | loads from an obfuscated same-origin path; `'self'` covers it. Was never broken                                                       |
-| PostHog replay      | **NOT WORKING** | deployed and proxy verified, but no capture request is ever sent — under investigation                                                |
-| Transactional email | **PARTIAL**     | Resend delivers everywhere except `hello@` → `hello@`; see "Email deliverability"                                                     |
-| Sales               | **ZERO**        | 40+ visitors, 2 reached `/checkout`, **0 checkout sessions created**, 0 payments                                                      |
+| Area                | State          | Evidence (2026-07-30 unless noted)                                                                                                    |
+| ------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Marketing site      | **LIVE**       | `/`, `/pricing`, `/start`, `/portfolio` all HTTP 200                                                                                  |
+| Demos               | **LIVE**       | all 15 trade demo slugs HTTP 200; 30 registered themes                                                                                |
+| Stripe checkout     | **LIVE MODE**  | `POST /api/checkout` returns a `cs_live_` session on the $99 promo path                                                               |
+| $99 promo           | **CONFIGURED** | `STRIPE_PRICE_SUBSCRIPTION_SETUP_PROMO` + `STRIPE_COUPON_LAUNCH_PROMO` both present in Vercel production (the two `isPromo` requires) |
+| Referral tracking   | **VERIFIED**   | full end-to-end re-verification 2026-07-30 — see "Referral attribution" below                                                         |
+| Production schema   | **CURRENT**    | all 13 migrations (`0001`–`0013`) re-verified column-by-column against live schema 2026-07-30                                         |
+| Provisioning cron   | **ARMED**      | `/api/cron/provision` returns 401 unauth → `CRON_SECRET` set                                                                          |
+| Sales chat bubble   | **CONFIGURED** | `/api/chat` returns 400 on empty body (not 503) → `ANTHROPIC_API_KEY` set                                                             |
+| SEO                 | **LIVE**       | `robots.txt` 200; `sitemap.xml` 38 `<loc>` entries                                                                                    |
+| CI                  | **GREEN**      | `lint-and-typecheck` ~35s, `build-and-smoke` ~1m35s                                                                                   |
+| OG preview image    | **FIXED**      | `og-v3.png` 200; every share previewed "Apex Sites / $499 setup" until 2026-07-30                                                     |
+| Google Analytics    | **WORKING**    | collecting only since PR #84 (`f91ea8b`). #82 unblocked the CSP but the inline script still failed to parse — see below               |
+| Vercel Analytics    | **WORKING**    | loads from an obfuscated same-origin path; `'self'` covers it. Was never broken                                                       |
+| PostHog replay      | **ENABLED**    | project toggle switched on; `config.js` now returns a `sessionRecording` object (`recorderVersion: "v2"`), not `false`                |
+| Transactional email | **PARTIAL**    | Resend delivers everywhere except `hello@` → `hello@`; see "Email deliverability"                                                     |
+| Sales               | **ZERO**       | **1 paid Your Shopfront session ever** — a $10 self-test on 2026-05-22, now `cancelled`. See "Stripe account reality" below           |
 
 ## Production database — verified 2026-07-29
 
@@ -82,7 +82,7 @@ HTTPS-only domain; worth adding.
 
 ## What shipped 2026-07-30
 
-Seven PRs merged to production in one session. Rollback for any: `git revert -m 1 <merge-sha>`.
+Nine PRs merged to production. Rollback for any: `git revert -m 1 <merge-sha>`.
 
 | PR  | Merge     | What                                                                                                                |
 | --- | --------- | ------------------------------------------------------------------------------------------------------------------- |
@@ -93,10 +93,13 @@ Seven PRs merged to production in one session. Rollback for any: `git revert -m 
 | #80 | `f3a4662` | Privacy policy claimed no tracking cookies — false once GA4/replay went live                                        |
 | #81 | `3b5e0de` | PostHog session replay, env-gated, inputs masked, disabled on `/app/*`                                              |
 | #82 | `66ebda8` | CSP unblocked GA4 + credential-safe same-origin PostHog proxy                                                       |
+| #78 | `1e8c648` | Price-string sweep — `seo.ts`, FAQ, `pricing`, `terms`, `refund-policy`, `app/billing`, `hero.tsx`                  |
+| #84 | `f91ea8b` | `.trim()` on the GA4 / Google Ads env vars — the fix that actually made GA4 collect                                 |
 
-**Still open: PR #78** (price-string sweep — `seo.ts`, FAQ, `pricing`, `terms`, `refund-policy`,
-`app/billing`, `hero.tsx`). CI green, awaiting the owner's review of the two legal files.
-The refund FAQ currently promises a refund on "the $299 setup fee" to customers paying $99.
+**No open PRs remain.** #78 and #84 were test-merged together onto `master` before either landed:
+`pnpm typecheck` and `pnpm build` both exit 0, 30 portfolio paths prerendered. Both verified live
+after deploy — `/terms` and `/refund-policy` now state the standard _and_ promo figures, and the
+production inline script reads `gtag('config', 'G-W1VNYD94V9')` with no trailing newline.
 
 ### The OG image was the highest-impact defect
 
@@ -118,16 +121,18 @@ have forwarded `Cookie` and `Authorization` verbatim, and Supabase sets auth coo
 third party. Caught with an echo server before deploy and replaced with a route handler that
 rebuilds requests from a header allowlist.
 
-**PostHog is deployed but NOT recording.** `/ingest` proxies correctly, the token is valid and
-inlined in the client bundle, `POST /ingest/flags/` returns a real 200 — but no capture request
-is ever sent, and `config.js`/`surveys.js` retry six times each with
-`SyntaxError: Failed to execute 'appendChild'`.
+**Session Replay is now ENABLED — resolved 2026-07-30.** For most of the day PostHog was deployed
+but not recording: `/ingest` proxied correctly and `POST /ingest/flags/` returned a real 200, yet
+no capture request was ever sent. The root cause was **a PostHog project setting, not code** —
+`https://us.i.posthog.com/array/<token>/config.js` returned `"sessionRecording": false`, so
+posthog-js took its discard path and never fetched `recorder.js`. No code change could start it
+while that toggle was off.
 
-**Root cause found — and it is a PostHog project setting, not code.**
-`https://us.i.posthog.com/array/<token>/config.js` returns `"sessionRecording": false`, so
-posthog-js takes its discard path and never starts the recorder (`recorder.js` is never even
-fetched). **Enable Session Replay in the PostHog dashboard → Project Settings → Session Replay.**
-No code change can start it while that toggle is off.
+The toggle has since been switched on. Re-verified against production: `config.js` now returns a
+full `sessionRecording` object (`recorderVersion: "v2"`, endpoint `/s/`), and both
+`/ingest/array/<token>/config.js` and `/ingest/static/recorder.js` return 200 through the
+same-origin proxy. **Still unconfirmed:** that sessions actually land in the PostHog dashboard —
+check there before treating replay as a working data source.
 
 The `/ingest` proxy is _required_, not implicated: with `NEXT_PUBLIC_POSTHOG_HOST` pointed
 directly at `us.i.posthog.com`, every `config.js` request is CSP-blocked, because
@@ -148,10 +153,21 @@ The "six retries" were not retries: `src/components/apex/home/rotating-preview.t
 live `/demos/{slug}?embed=1` iframes at a time, each a full page load with its own analytics
 components. Error and request counts multiply per iframe.
 
-Fix on branch **`fix/posthog-remote-config`** — `.trim()` on `GA4_ID`, `GOOGLE_ADS_ID`, and
-`GOOGLE_ADS_CONVERSION_LABEL`. Verified locally: 7 SyntaxErrors → 0, `gtag` becomes a real
-function. **Also trim the stored Vercel value**, so nothing else consuming it raw hits the same
-bug — that needs an env edit plus a redeploy.
+**Fixed and deployed as PR #84 (`f91ea8b`)** — `.trim()` on `GA4_ID`, `GOOGLE_ADS_ID`, and
+`GOOGLE_ADS_CONVERSION_LABEL`. Confirmed against production after the deploy: all three GA4
+references in the live HTML are clean (preload link, RSC payload, inline script), where before
+the fix the loader URL read `gtag/js?id=G-W1VNYD94V9\n` and the inline call
+`gtag('config', 'G-W1VNYD94V9\n')`.
+
+**The important consequence: GA4 has collected nothing at all until now.** PR #82 unblocked the
+CSP on 2026-07-30, but the inline script still failed to parse, so the measurement ID was never
+registered. Collection starts from `f91ea8b`; the preceding ~66 days are permanently lost, and
+**Vercel Analytics is the only visitor data that exists for that period.**
+
+The stored Vercel value still carries the newline. `.trim()` covers every consumer in this app
+(both the loader URL and the inline script read the same constant), so this is now hygiene rather
+than a live bug — but any future consumer reading the raw env var would hit it again. Fixing it
+needs an env edit plus a redeploy.
 
 ## What shipped 2026-07-29
 
@@ -461,32 +477,51 @@ Ordered for the next session (2026-07-31).
    and pay with `4242 4242 4242 4242`. Test mode proves the code, not the live Stripe wiring.
    (`stripe login`'s browser flow was attempted four times on 2026-07-30 and never completed.)
 2. **Rotate the Supabase JWT secret + Resend SMTP password** — BLOCKER 3.
-3. **Review and merge PR #78.** Needs the owner's read of `src/app/terms/page.tsx` and
-   `src/app/refund-policy/page.tsx` only; the rest is ordinary marketing copy.
-4. **Turn on PostHog Session Replay** — PostHog → Settings → Project → Session Replay → enable
-   "Record user sessions". Re-confirmed at the end of 2026-07-30 that
-   `https://us.i.posthog.com/array/<token>/config.js` still returns `"sessionRecording": false`,
-   so nothing records. No deploy needed; the setting is fetched per page load. Everything on the
-   repo side is verified working — token valid, `/ingest` proxy reaching PostHog, CSP allowing
-   it, no cookie leakage. Verify afterwards by loading the site in a browser and confirming a
-   request to `/ingest/static/recorder.js` followed by a capture POST.
-5. Still open under BLOCKER 2: decide whether unreviewed legal copy keeps the `draft` banner.
-6. Work the lead list: `~/leads/az-trade-leads-2026-07-29.csv` — 103 Phoenix-metro trade
+3. Still open under BLOCKER 2: decide whether unreviewed legal copy keeps the `draft` banner.
+4. **Confirm PostHog sessions actually land in the dashboard.** The project toggle is on and the
+   proxy is verified serving `recorder.js`, but no recorded session has been observed yet.
+5. Work the lead list: `~/leads/az-trade-leads-2026-07-29.csv` — 103 Phoenix-metro trade
    businesses, 102 with no real website, demo-matched and ranked. Scripts in
    `~/leads/outreach-scripts.md`. Warm-network text blast first, then cold DMs top-down.
    The demo-catalog defects that previously gated this are fixed.
-7. Send Payton her three links; agree commission and disclosure. Tracking is verified.
-8. Baseline the Supabase migration ledger before the next migration. Safe command:
+6. Send Payton her three links; agree commission and disclosure. Tracking is verified.
+7. Baseline the Supabase migration ledger before the next migration. Safe command:
    `supabase migration repair --status applied 0001 … 0013 --linked` (writes ledger rows without
    re-running SQL). Note `0001`–`0004` are non-idempotent and would hard-fail on a re-run.
-9. Before the `lower(email)` unique index can be created, delete the orphan duplicate
+8. Before the `lower(email)` unique index can be created, delete the orphan duplicate
    `test@axongrowth.ai` customer row (two exist, one with no site and no `auth_user_id`).
+9. **`$199` (copy add-on) is still hardcoded** in `checkout/page.tsx`, `checkout-form.tsx`,
+   `worksheet-form.tsx`, and the webhook's Slack alert — the same class of drift as `$49`, which
+   PR #78 closed. Route it through `pricing-constants.ts`.
+10. **`src/lib/seo.ts` now publishes the promo price** (`price: "99"`) in the schema.org Offer.
+    Accurate today, silently wrong the day the promo ends — structured data is the one surface
+    that won't visibly look stale.
+
+## Stripe account reality — verified 2026-07-30
+
+**This Stripe account is shared with axon-growth.** Of 102 lifetime Checkout sessions, only **26
+belong to Your Shopfront**. The reliable discriminator is metadata shape: a Your Shopfront session
+carries `site_id` + `tier` + `demo_slug`; axon-growth sessions carry a Clerk `userId` instead.
+A glance at the Stripe dashboard therefore **overstates this product's revenue by a wide margin** —
+always filter on `site_id` before drawing any conclusion about the funnel.
+
+Of those 26, exactly **one was ever paid**: `test@axongrowth.ai`, $10.00, 2026-05-22,
+`cs_live_b16FeTImNC8bX3t22tjFOwB4lVCy9th4wPwfhyzrnsJB9n7URLGc2cpQYS` — a self-test, and the
+`sites` table's only row, now `status = cancelled`. **There has never been a real paying customer.**
+
+Every session dated 2026-07-29 and 2026-07-30 was self-generated verification traffic
+(`parkerhenkel@gmail.com` and `payton-verify-test@example.com`), all `unpaid`. This is why
+BLOCKER 1 is unchanged: creating sessions proves checkout, not the post-payment path.
+
+Reproduce with the live secret key:
+`GET /v1/checkout/sessions?limit=100` (paginate), then keep only rows with `metadata.site_id`.
 
 ## What the funnel data says (2026-07-30)
 
-40+ visitors, **2 reached `/checkout`**, **0 checkout sessions created**, 0 payments. Nobody
-abandoned at payment — they left before submitting the form. Production logs show only 200s, so
-this is a conversion problem, not a technical one.
+40+ visitors, **2 reached `/checkout`**, 0 payments. Nobody abandoned at payment — they left
+before submitting the form. Production logs show only 200s, so this is a conversion problem, not
+a technical one. (An earlier revision of this doc said "0 checkout sessions created"; 26 Your
+Shopfront sessions exist lifetime, but every one is self-generated test traffic — see above.)
 
 Two contributing factors were live for most of that traffic and are now fixed: every shared link
 previewed "Apex Sites — $499 setup", and the checkout order-summary rendered its own text
