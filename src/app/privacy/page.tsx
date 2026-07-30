@@ -50,7 +50,7 @@ export default function PrivacyPage() {
         We use Google Analytics to understand how people use yourshopfront.com. Google Analytics sets first-party cookies in your browser (including one named _ga) and assigns your browser a persistent ID so it can recognize repeat visits. We also use Vercel Analytics, which does not use cookies. The same Google tag also supports Google Ads conversion tracking; we have not turned that feature on, but if we do in the future it will run through this same tag and will be covered by this policy.
       </p>
       <p>
-        We use session-recording software to see how visitors move through and interact with our pages — clicks, scrolls, and taps — so we can find and fix problems with the site. It never sees anything you type into a checkout form, because payment details are entered directly on Stripe&apos;s own page, not on ours.
+        We use session-recording software to see how visitors move through and interact with our pages — clicks, scrolls, taps, and the pages you view — so we can find and fix problems with the site. Depending on how it&apos;s configured, this can include what you type into forms on our site, such as the checkout form. It never sees your card number or other payment details, because those are entered directly on Stripe&apos;s own page, not on ours.
       </p>
 
       <h2>Children</h2>
