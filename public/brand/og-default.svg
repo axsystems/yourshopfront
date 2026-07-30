@@ -11,7 +11,7 @@
 
   <!-- top-left wordmark, baseline aligned so its cap-height sits on the same 72px inset
        used by the headline and caption below. -->
-  <text x="72" y="100" fill="#111418" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="32" font-weight="700" letter-spacing="-0.02em">Your Shopfront</text>
+  <text x="72" y="120" fill="#111418" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="52" font-weight="700" letter-spacing="-0.02em">Your Shopfront</text>
 
   <!-- Headline. Two lines. -->
   <text x="72" y="320" fill="#111418" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="92" font-weight="800" letter-spacing="-0.025em">Websites that</text>
