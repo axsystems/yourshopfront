@@ -5,6 +5,7 @@ import { Button, Card, Container, Display, Eyebrow, Lede, PriceTag, Section } fr
 import { FadeUp } from "@/components/apex/motion/fade-up"
 import { cn } from "@/lib/utils"
 import {
+  HOSTING_ADDON,
   ONE_TIME,
   PROMO_PERIOD_LABEL,
   PROMO_SETUP,
@@ -38,7 +39,7 @@ const ONE_FEATURES = [
   "Live within 24 hours of content receipt",
   "30 days of free edits after launch",
   "Full source code handed over",
-  "Optional hosting & maintenance: +$49/mo (unlimited small edits + monthly SEO check)",
+  `Optional hosting & maintenance: +${HOSTING_ADDON} (unlimited small edits + monthly SEO check)`,
 ]
 
 export function HomePricingTeaser() {
@@ -75,7 +76,7 @@ export function HomePricingTeaser() {
               title="One-time build"
               price={ONE_TIME}
               period="once"
-              sub="Full source code. Self-host or +$49/mo."
+              sub={`Full source code. Self-host or +${HOSTING_ADDON}.`}
               features={ONE_FEATURES}
               ctaLabel="Buy one-time →"
               ctaHref="/checkout?tier=onetime"

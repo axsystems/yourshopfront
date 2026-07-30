@@ -8,6 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { HOSTING_ADDON } from "@/lib/pricing-constants"
 
 const QUESTIONS = [
   {
@@ -20,7 +21,7 @@ const QUESTIONS = [
   },
   {
     q: "Can I edit my own content?",
-    a: "Yes. Subscription includes unlimited edits via your customer portal: copy, photos, colors, layout. One-time customers get 30 days of free edits after launch, then read-only unless you add the $49/mo hosting plan.",
+    a: `Yes. Subscription includes unlimited edits via your customer portal: copy, photos, colors, layout. One-time customers get 30 days of free edits after launch, then read-only unless you add the ${HOSTING_ADDON} hosting plan.`,
   },
   {
     q: "Who owns the site?",

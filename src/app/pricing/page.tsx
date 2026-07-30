@@ -19,6 +19,7 @@ import { JsonLd } from "@/components/json-ld"
 import { SITE_URL, organizationSchema, serviceSchema } from "@/lib/seo"
 import { cn } from "@/lib/utils"
 import {
+  HOSTING_ADDON,
   ONE_TIME,
   PROMO_MONTHLY,
   PROMO_MONTHS,
@@ -52,7 +53,7 @@ interface ComparisonRow {
 
 const COMPARISON: ComparisonRow[] = [
   { label: "Setup fee", subscription: `${PROMO_SETUP} (launch promo)`, onetime: "Included" },
-  { label: "Recurring", subscription: `${PROMO_MONTHLY} for ${PROMO_MONTHS} months, then ${STANDARD_MONTHLY}`, onetime: "$0 (or +$49/mo hosting)" },
+  { label: "Recurring", subscription: `${PROMO_MONTHLY} for ${PROMO_MONTHS} months, then ${STANDARD_MONTHLY}`, onetime: `$0 (or +${HOSTING_ADDON} hosting)` },
   { label: "Hosting included", subscription: true, onetime: "Optional" },
   { label: "Unlimited edits", subscription: true, onetime: "30 days, then read-only" },
   { label: "Source code delivered", subscription: "On request", onetime: true },
@@ -70,7 +71,7 @@ const FAQ = [
     a: `Yes — your setup fee credits toward a one-time license at any point in the first year. After that, switching costs the full ${ONE_TIME} one-time price.`,
   },
   {
-    q: "What does the $49/mo hosting addon include?",
+    q: `What does the ${HOSTING_ADDON} hosting addon include?`,
     a: "Vercel + Cloudflare hosting, SSL renewal, weekly backups, security patches, uptime monitoring, unlimited small edits, a monthly SEO check, and a Slack channel for issues — same as what we run for subscription customers.",
   },
   {
@@ -133,14 +134,14 @@ export default function PricingPage() {
                   title="One-time build"
                   price={ONE_TIME}
                   period="once"
-                  sub="Full source code. Self-host or +$49/mo."
+                  sub={`Full source code. Self-host or +${HOSTING_ADDON}.`}
                   features={[
                     "Pick from any of our 30 theme designs",
                     "We swap in your content within 24 hours",
                     "30 days of free edits after launch",
                     "Full source code handed over",
                     "Self-host on your own Vercel / Netlify",
-                    "Optional hosting & maintenance: +$49/mo (unlimited small edits + monthly SEO check)",
+                    `Optional hosting & maintenance: +${HOSTING_ADDON} (unlimited small edits + monthly SEO check)`,
                   ]}
                   ctaLabel="Buy one-time →"
                   ctaHref="/checkout?tier=onetime"

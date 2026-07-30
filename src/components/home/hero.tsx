@@ -4,6 +4,7 @@ import Image from "next/image"
 import { previewHeadline } from "@/lib/seo-headlines"
 import type { Theme } from "@/lib/themes/types"
 import { ApexButton, Container, Display } from "./primitives"
+import { PROMO_MONTHLY, PROMO_MONTHS, PROMO_SETUP, STANDARD_MONTHLY } from "@/lib/pricing-constants"
 
 /**
  * Phase A: dark themes need a light scrim, light themes need a dark
@@ -158,7 +159,7 @@ export function Hero({
               textTransform: "uppercase",
             }}
           >
-            $99 setup + $99/mo for 3 months, then $149 · launch promo · live in 24h
+            {PROMO_SETUP} setup + {PROMO_MONTHLY} for {PROMO_MONTHS} months, then {STANDARD_MONTHLY} · launch promo · live in 24h
           </p>
         </div>
         <div className={isStacked ? "" : "lg:justify-self-end lg:self-center"}>
