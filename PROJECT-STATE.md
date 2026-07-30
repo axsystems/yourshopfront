@@ -463,7 +463,13 @@ Ordered for the next session (2026-07-31).
 2. **Rotate the Supabase JWT secret + Resend SMTP password** — BLOCKER 3.
 3. **Review and merge PR #78.** Needs the owner's read of `src/app/terms/page.tsx` and
    `src/app/refund-policy/page.tsx` only; the rest is ordinary marketing copy.
-4. **Finish PostHog.** Deployed but not recording — see "What shipped 2026-07-30".
+4. **Turn on PostHog Session Replay** — PostHog → Settings → Project → Session Replay → enable
+   "Record user sessions". Re-confirmed at the end of 2026-07-30 that
+   `https://us.i.posthog.com/array/<token>/config.js` still returns `"sessionRecording": false`,
+   so nothing records. No deploy needed; the setting is fetched per page load. Everything on the
+   repo side is verified working — token valid, `/ingest` proxy reaching PostHog, CSP allowing
+   it, no cookie leakage. Verify afterwards by loading the site in a browser and confirming a
+   request to `/ingest/static/recorder.js` followed by a capture POST.
 5. Still open under BLOCKER 2: decide whether unreviewed legal copy keeps the `draft` banner.
 6. Work the lead list: `~/leads/az-trade-leads-2026-07-29.csv` — 103 Phoenix-metro trade
    businesses, 102 with no real website, demo-matched and ranked. Scripts in
