@@ -53,17 +53,6 @@ const GOOGLE_TAG_CONNECT_SRC = [
   "https://www.google.com",
 ].join(" ")
 
-// PostHog Cloud is region-locked and the hostnames differ per region.
-// These default to US. If the PostHog project turns out to be EU, set
-// BOTH of these and redeploy -- rewrites are resolved during `next
-// build`, so changing the env var alone does nothing until a rebuild:
-//   POSTHOG_INGEST_HOST=https://eu.i.posthog.com
-//   POSTHOG_ASSETS_HOST=https://eu-assets.i.posthog.com
-const POSTHOG_INGEST_HOST =
-  process.env.POSTHOG_INGEST_HOST ?? "https://us.i.posthog.com"
-const POSTHOG_ASSETS_HOST =
-  process.env.POSTHOG_ASSETS_HOST ?? "https://us-assets.i.posthog.com"
-
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com ${GOOGLE_TAG_SCRIPT_SRC}`,
@@ -111,31 +100,11 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
-  // Reverse-proxy PostHog through this origin so no *.posthog.com host
-  // has to be added to script-src/connect-src. Point posthog-js at it
-  // with NEXT_PUBLIC_POSTHOG_HOST=/ingest. Shape and ordering are
-  // PostHog's own (posthog.com/docs/advanced/proxy/nextjs): both asset
-  // rules must precede the catch-all, or /ingest/static/* would be sent
-  // to the ingestion host instead of the assets host.
-  async rewrites() {
-    return [
-      {
-        source: "/ingest/static/:path*",
-        destination: `${POSTHOG_ASSETS_HOST}/static/:path*`,
-      },
-      {
-        source: "/ingest/array/:path*",
-        destination: `${POSTHOG_ASSETS_HOST}/array/:path*`,
-      },
-      {
-        source: "/ingest/:path*",
-        destination: `${POSTHOG_INGEST_HOST}/:path*`,
-      },
-    ]
-  },
-  // PostHog's ingestion endpoints are trailing-slash paths (/decide/,
-  // /e/). Without this, Next answers them with a 308 to the slashless
-  // form instead of proxying them.
+  // Next's built-in trailing-slash redirect is disabled so the PostHog
+  // proxy at /ingest can receive posthog-js's trailing-slash endpoints
+  // (/flags/, /e/) directly, instead of a 308 on every batch. The
+  // canonical redirect is reinstated for every other path in src/proxy.ts,
+  // so marketing URLs still resolve to one form for SEO.
   skipTrailingSlashRedirect: true,
   async headers() {
     return [{ source: "/(.*)", headers: SECURITY_HEADERS }]
