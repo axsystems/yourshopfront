@@ -5,6 +5,13 @@ import { sendEmail } from "@/lib/email"
 import { notifySlack } from "@/lib/notify"
 import { sendOperatorSms } from "@/lib/sms-quo"
 import { unprovisionSite } from "@/lib/provisioning/orchestrator"
+import {
+  ONE_TIME,
+  PROMO_PERIOD_LABEL,
+  PROMO_SETUP,
+  STANDARD_MONTHLY,
+  STANDARD_SETUP,
+} from "@/lib/pricing-constants"
 import { stripe } from "@/lib/stripe"
 import {
   createSite,
@@ -184,6 +191,7 @@ async function handleSessionCompleted(session: Stripe.Checkout.Session) {
       demoSlug: site.demo_slug,
       sessionId: session.id,
       hostingAddon: site.hosting_addon,
+      promo: metadata.promo === "launch" ? "launch" : null,
     }),
     notifySlack(
       [
@@ -412,12 +420,21 @@ interface WelcomeEmailOpts {
   demoSlug: string
   sessionId: string
   hostingAddon: boolean
+  // "launch" when this session redeemed the $99 launch promo (checkout
+  // route stamps metadata.promo = "launch" only on the subscription tier —
+  // see src/app/api/checkout/route.ts). Anything else (including the
+  // one-time tier, which has no promo) quotes standard pricing.
+  promo: "launch" | null
 }
 
 async function sendWelcomeEmail(opts: WelcomeEmailOpts): Promise<void> {
   const onboardingUrl = `${SITE_URL}/onboarding?session_id=${opts.sessionId}`
   const tierLabel =
-    opts.tier === "subscription" ? "Subscription ($299 + $149/mo)" : "One-time build ($997)"
+    opts.tier === "subscription"
+      ? opts.promo === "launch"
+        ? `Subscription (${PROMO_SETUP} ${PROMO_PERIOD_LABEL})`
+        : `Subscription (${STANDARD_SETUP} + ${STANDARD_MONTHLY})`
+      : `One-time build (${ONE_TIME})`
   // Show the billing-portal line only for customers with a recurring
   // charge — subscription tier always recurs, and one-time + hosting
   // add-on recurs at $49/mo. Pure one-time has nothing to manage.
