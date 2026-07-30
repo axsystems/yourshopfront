@@ -13,7 +13,7 @@
  *   /public/apple-touch-icon.png      180x180
  *   /public/icon-192.png              192x192 (manifest)
  *   /public/icon-512.png              512x512 (manifest)
- *   /public/og-default.png            1200x630 (OG fallback)
+ *   /public/og-v2.png                  1200x630 (OG fallback)
  *
  * Sources (SVG masters in /public/brand/):
  *   apex-logo-square.svg   — paper bg + centered mark, 1024x1024 viewBox
@@ -50,7 +50,7 @@ const targets = [
   { src: logoSrc, out: join(PUBLIC, "apple-touch-icon.png"), w: 180, h: 180 },
   { src: logoSrc, out: join(PUBLIC, "icon-192.png"), w: 192, h: 192 },
   { src: logoSrc, out: join(PUBLIC, "icon-512.png"), w: 512, h: 512 },
-  { src: ogSrc, out: join(PUBLIC, "og-default.png"), w: 1200, h: 630 },
+  { src: ogSrc, out: join(PUBLIC, "og-v2.png"), w: 1200, h: 630 },
 ]
 
 if (!existsSync(BRAND)) mkdirSync(BRAND, { recursive: true })
