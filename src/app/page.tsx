@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     siteName: "Your Shopfront",
     images: [
       {
-        url: "/og-default.png",
+        url: "/og-v2.png",
         width: 1200,
         height: 630,
         alt: "Your Shopfront — A website your business deserves",

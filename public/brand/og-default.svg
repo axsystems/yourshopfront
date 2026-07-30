@@ -18,15 +18,13 @@
 
   <!-- Headline. Two lines. -->
   <text x="72" y="320" fill="#111418" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="92" font-weight="800" letter-spacing="-0.025em">Websites that</text>
-  <text x="72" y="430" fill="#111418" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="92" font-weight="800" letter-spacing="-0.025em">
-    <tspan>book </tspan><tspan>more jobs.</tspan>
-  </text>
+  <text x="72" y="430" fill="#111418" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="92" font-weight="800" letter-spacing="-0.025em">book more jobs.</text>
 
   <!-- Sunshine underline beneath "book" — hand-drawn-feel slightly wobbly path. -->
   <path d="M 72 446 C 130 438, 200 444, 234 442 L 234 458 C 200 460, 130 454, 72 462 Z" fill="#FFE34D" />
 
   <!-- Coral mono caption -->
-  <text x="72" y="510" fill="#FF5B47" font-family="JetBrains Mono, ui-monospace, monospace" font-size="22" font-weight="600" letter-spacing="0.04em">$299 SETUP + $149/MO  ·  OR $997 ONCE  ·  LIVE IN 24H</text>
+  <text x="72" y="510" fill="#FF5B47" font-family="JetBrains Mono, ui-monospace, monospace" font-size="22" font-weight="600" letter-spacing="0.04em">$99 SETUP + $99/MO &#215; 3 MOS &#183; THEN $149/MO</text>
 
   <!-- Cobalt bottom rule -->
   <rect x="0" y="618" width="1200" height="12" fill="#2438FF" />
