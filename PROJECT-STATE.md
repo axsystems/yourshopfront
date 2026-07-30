@@ -121,7 +121,37 @@ rebuilds requests from a header allowlist.
 **PostHog is deployed but NOT recording.** `/ingest` proxies correctly, the token is valid and
 inlined in the client bundle, `POST /ingest/flags/` returns a real 200 — but no capture request
 is ever sent, and `config.js`/`surveys.js` retry six times each with
-`SyntaxError: Failed to execute 'appendChild'`. Root cause not yet found.
+`SyntaxError: Failed to execute 'appendChild'`.
+
+**Root cause found — and it is a PostHog project setting, not code.**
+`https://us.i.posthog.com/array/<token>/config.js` returns `"sessionRecording": false`, so
+posthog-js takes its discard path and never starts the recorder (`recorder.js` is never even
+fetched). **Enable Session Replay in the PostHog dashboard → Project Settings → Session Replay.**
+No code change can start it while that toggle is off.
+
+The `/ingest` proxy is _required_, not implicated: with `NEXT_PUBLIC_POSTHOG_HOST` pointed
+directly at `us.i.posthog.com`, every `config.js` request is CSP-blocked, because
+`us-assets.i.posthog.com` is deliberately absent from `script-src`.
+
+### The `appendChild` SyntaxError was unrelated to PostHog
+
+`NEXT_PUBLIC_GA4_ID` carries a **trailing newline** in Vercel. `src/lib/analytics-config.ts`
+read it untrimmed and `src/components/google-tag.tsx` interpolates it into an _inline_ script,
+producing `gtag('config', 'G-W1VNYD94V9\n');` — an unescaped line terminator inside a
+single-quoted string, i.e. a parse error. Nothing in that inline script ran, which is also why
+`window.gtag` was `undefined` while `dataLayer` still had entries (those come from the
+separately-loaded external `gtag/js`, which is unaffected). Chromium surfaces it as
+`Failed to execute 'appendChild'` because `next/script` sets the text and appends, and inline
+scripts execute synchronously inside that native call.
+
+The "six retries" were not retries: `src/components/apex/home/rotating-preview.tsx` mounts two
+live `/demos/{slug}?embed=1` iframes at a time, each a full page load with its own analytics
+components. Error and request counts multiply per iframe.
+
+Fix on branch **`fix/posthog-remote-config`** — `.trim()` on `GA4_ID`, `GOOGLE_ADS_ID`, and
+`GOOGLE_ADS_CONVERSION_LABEL`. Verified locally: 7 SyntaxErrors → 0, `gtag` becomes a real
+function. **Also trim the stored Vercel value**, so nothing else consuming it raw hits the same
+bug — that needs an env edit plus a redeploy.
 
 ## What shipped 2026-07-29
 
