@@ -69,9 +69,9 @@ export async function sendCopyReadyForReviewEmail(
       "",
       `Review it here: ${opts.onboardingUrl}`,
       "",
-      "If everything looks good, click \"Build my site\" and we'll have your site live in 24-48 hours. If you'd like changes, just let us know — we read every reply.",
+      "If everything looks good, click \"Build my site\" and we'll have your site live in 24-48 hours. If you'd like changes, just let us know. We read every reply.",
       "",
-      "— Your Shopfront",
+      "Your Shopfront",
     ].join("\n"),
   })
 }
@@ -95,7 +95,7 @@ export async function sendCopyChangeRequestEmail(
   const to = opts.to ?? "hello@yourshopfront.com"
   await sendEmail({
     to,
-    subject: `Copy change request — ${opts.businessName}`,
+    subject: `Copy change request for ${opts.businessName}`,
     text: [
       `Site: ${opts.siteId}`,
       `Business: ${opts.businessName}`,
@@ -131,11 +131,11 @@ export async function sendAccessLinkEmail(
       "",
       opts.onboardingUrl,
       "",
-      "Bookmark that page so you don't lose it again. If you didn't request this email, ignore it — your account is unaffected.",
+      "Bookmark that page so you don't lose it again. If you didn't request this email, ignore it. Your account is unaffected.",
       "",
       "Questions? Just reply to this email.",
       "",
-      "— Your Shopfront",
+      "Your Shopfront",
     ].join("\n"),
   })
 }
