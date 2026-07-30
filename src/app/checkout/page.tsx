@@ -142,14 +142,18 @@ function OrderSummary({
           borderColor: "var(--apex-border)",
         }}
       >
-        <div className="relative aspect-[4/3] w-full overflow-hidden">
+        <div className="relative aspect-[1200/630] w-full overflow-hidden">
           {/* Static OG image instead of a scaled iframe: cuts ~160KB of
               competing document fetch on the checkout critical path
               (form hydration was racing the iframe for bandwidth). */}
-          {/* No explicit width/height: container's aspect-[4/3] reserves
-              layout slot. Setting img dimensions to the OG image's intrinsic
-              1.9:1 ratio (1200x630) would fight the container and cause
-              minor CLS during paint. */}
+          {/* Container ratio matches the OG image's own generated ratio
+              (1200x630) exactly. It used to be aspect-[4/3]: object-cover
+              then had to crop ~30% off the image width to fill a narrower
+              box, and since the OG template left-aligns its title/tagline
+              near the image's left edge, that crop sliced into the text
+              (e.g. "Heritage Painters" rendered as "itage Painters"). No
+              explicit img width/height: the aspect-ratio box reserves the
+              layout slot, so this causes zero CLS. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={`/api/og/${theme.slug}`}
