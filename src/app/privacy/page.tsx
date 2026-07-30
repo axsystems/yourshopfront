@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <LegalPage title="Privacy Policy" lastUpdated="2026-05-04">
+    <LegalPage title="Privacy Policy" lastUpdated="2026-07-30">
       <p>
         Your Shopfront (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) provides website design and hosting services for small businesses. This policy describes what personal information we collect, how we use it, and the choices you have. It applies to yourshopfront.com and any sites we host on your behalf.
       </p>
@@ -42,9 +42,15 @@ export default function PrivacyPage() {
         <a href="mailto:hello@yourshopfront.com">hello@yourshopfront.com</a> with your request and we&apos;ll respond within 30 days.
       </p>
 
-      <h2>Cookies</h2>
+      <h2>Cookies and analytics</h2>
       <p>
-        Your Shopfront uses a single first-party session cookie to maintain your authenticated state during checkout and onboarding. We use a privacy-respecting analytics provider that does not set tracking cookies and does not collect personal information. We do not use third-party advertising cookies.
+        Your Shopfront uses a single first-party session cookie to maintain your authenticated state during checkout and onboarding.
+      </p>
+      <p>
+        We use Google Analytics to understand how people use yourshopfront.com. Google Analytics sets first-party cookies in your browser (including one named _ga) and assigns your browser a persistent ID so it can recognize repeat visits. We also use Vercel Analytics, which does not use cookies. The same Google tag also supports Google Ads conversion tracking; we have not turned that feature on, but if we do in the future it will run through this same tag and will be covered by this policy.
+      </p>
+      <p>
+        We use session-recording software to see how visitors move through and interact with our pages — clicks, scrolls, and taps — so we can find and fix problems with the site. It never sees anything you type into a checkout form, because payment details are entered directly on Stripe&apos;s own page, not on ours.
       </p>
 
       <h2>Children</h2>
