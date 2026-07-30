@@ -38,6 +38,22 @@ export async function proxy(req: NextRequest): Promise<NextResponse> {
     request: { headers: req.headers },
   })
 
+  // ── 1b. Canonical trailing-slash redirect ──
+  // next.config.ts sets skipTrailingSlashRedirect so the PostHog proxy at
+  // /ingest receives posthog-js's trailing-slash endpoints without a 308
+  // on every replay batch. That flag is global, so without this block both
+  // /pricing and /pricing/ would answer 200 and split SEO signals across
+  // the 30 portfolio URLs. /ingest never reaches here -- the matcher below
+  // excludes it.
+  const { pathname } = req.nextUrl
+  if (pathname.length > 1 && pathname.endsWith("/")) {
+    // Plain URL, not req.nextUrl.clone(): NextURL re-applies the
+    // trailing slash on serialization and the redirect would loop.
+    const canonical = new URL(req.url)
+    canonical.pathname = pathname.replace(/\/+$/, "")
+    return NextResponse.redirect(canonical, 308)
+  }
+
   // ── 2. Auth cookie refresh (additive — must happen before any redirects) ──
   // Build a lightweight Supabase client bound to the request/response cookies.
   // The setAll callback writes refreshed tokens back into `response`.
@@ -120,6 +136,10 @@ export const config = {
   matcher: [
     // Run everywhere except non-authed API, Next internals, and static files.
     //
+    // `/ingest` is excluded: it is the PostHog proxy
+    // (src/app/ingest/[...path]/route.ts) and session replay posts to it
+    // every few seconds per visitor. Without this exclusion every replay
+    // batch would trigger the supabase.auth.getUser() round-trip below.
     // We INCLUDE `/api/app/*` in the matcher so the cookie-refresh pass
     // runs on authed API routes (e.g. server actions, dashboard endpoints).
     // Without this, customers hitting `/api/app/...` near the access-token
@@ -127,6 +147,6 @@ export const config = {
     // mid-flight. Public API routes (/api/access, /api/billing-portal, the
     // chat endpoints, etc.) don't need a session, so we keep them out of
     // the matcher to avoid the extra Supabase round-trip per asset hit.
-    "/((?!api/(?!app/)|_next/static|_next/image|_next/data|favicon.ico|robots.txt|sitemap.xml|og-v3.png).*)",
+    "/((?!api/(?!app/)|ingest|_next/static|_next/image|_next/data|favicon.ico|robots.txt|sitemap.xml|og-v3.png).*)",
   ],
 }
