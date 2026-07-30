@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { requireAuth } from "@/lib/auth"
 import { supabase } from "@/lib/supabase"
 import type { Site } from "@/lib/supabase"
+import { HOSTING_ADDON, ONE_TIME } from "@/lib/pricing-constants"
 
 import { BillingActions } from "./billing-actions"
 
@@ -51,18 +52,25 @@ export default async function BillingPage() {
     return <BillingNoSite />
   }
 
-  // Plan label and monthly description
+  // Plan label and monthly description.
+  //
+  // NOTE: the `sites` row doesn't record which price the customer actually
+  // agreed to (standard vs. launch-promo, or which month of a promo they're
+  // in) — that only lives in Stripe. So the subscription label intentionally
+  // omits a dollar figure rather than guess; "View invoices" below opens the
+  // Stripe portal, which has the real number. The one-time price and the
+  // hosting add-on price are NOT promo-affected, so those stay literal.
   const planLine =
     site.tier === "subscription"
-      ? "Subscription — $149/mo"
-      : "One-time build — $997"
+      ? "Subscription plan"
+      : `One-time build — ${ONE_TIME}`
 
   const hostingLine =
-    site.hosting_addon ? " + $49/mo hosting" : null
+    site.hosting_addon ? ` + ${HOSTING_ADDON} hosting` : null
 
   // Show "Cancel subscription" when the customer has a recurring charge:
-  //   - subscription tier always has the $149/mo recurring sub
-  //   - one-time tier with hosting_addon has the $49/mo hosting sub
+  //   - subscription tier always has a recurring sub (rate depends on promo status)
+  //   - one-time tier with hosting_addon has the recurring hosting sub
   // For the default flow the server-side cancel endpoint also does a live
   // Stripe API check and returns 409 if no active sub exists — so this flag
   // is for render-gating only, not security.

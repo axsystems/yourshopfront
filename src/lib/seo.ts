@@ -1,4 +1,15 @@
 import type { Theme } from "./themes/types"
+import {
+  HOSTING_ADDON,
+  ONE_TIME,
+  ONE_TIME_PRICE,
+  PROMO_MONTHLY,
+  PROMO_MONTHLY_PRICE,
+  PROMO_MONTHS,
+  PROMO_SETUP,
+  STANDARD_MONTHLY,
+  STANDARD_SETUP,
+} from "./pricing-constants"
 
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://yourshopfront.com"
@@ -38,24 +49,22 @@ export function serviceSchema() {
       {
         "@type": "Offer",
         name: "Subscription",
-        price: "149",
+        price: String(PROMO_MONTHLY_PRICE),
         priceCurrency: "USD",
         priceSpecification: {
           "@type": "UnitPriceSpecification",
-          price: "149",
+          price: String(PROMO_MONTHLY_PRICE),
           priceCurrency: "USD",
           billingDuration: "P1M",
         },
-        description:
-          "$299 setup + $149/mo. Includes hosting, unlimited edits, SSL, backups, and security patches.",
+        description: `Launch promo: ${PROMO_SETUP} setup + ${PROMO_MONTHLY} for the first ${PROMO_MONTHS} months, then ${STANDARD_MONTHLY} standard (regularly ${STANDARD_SETUP} setup). Includes hosting, unlimited edits, SSL, backups, and security patches.`,
       },
       {
         "@type": "Offer",
         name: "One-time build",
-        price: "997",
+        price: String(ONE_TIME_PRICE),
         priceCurrency: "USD",
-        description:
-          "$997 one-time. Full source code delivered. Optional $49/mo hosting addon.",
+        description: `${ONE_TIME} one-time. Full source code delivered. Optional ${HOSTING_ADDON} hosting addon.`,
       },
     ],
   }

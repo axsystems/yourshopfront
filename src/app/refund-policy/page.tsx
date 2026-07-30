@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { LegalPage } from "@/components/apex/legal-page"
 import { SITE_URL } from "@/lib/seo"
 import {
+  HOSTING_ADDON,
   ONE_TIME,
   PROMO_MONTHLY,
   PROMO_MONTHS,
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function RefundPolicyPage() {
   return (
-    <LegalPage title="Refund Policy" lastUpdated="2026-05-21">
+    <LegalPage title="Refund Policy" lastUpdated="2026-07-30">
       <p>
         Your Shopfront is backed by a 30-day money-back guarantee, with one
         common-sense exception: once we&apos;ve started building your site or
@@ -58,8 +59,8 @@ export default function RefundPolicyPage() {
         undo the delivery.
       </p>
       <p>
-        The optional $49/month managed hosting + edits addon follows the
-        subscription rules above: first month refundable within 30 days,
+        The optional {HOSTING_ADDON} managed hosting + edits addon follows
+        the subscription rules above: first month refundable within 30 days,
         then non-refundable but cancellable any time with a 30-day grace
         period.
       </p>

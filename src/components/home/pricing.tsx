@@ -2,6 +2,7 @@ import type { Theme } from "@/lib/themes/types"
 import { FadeUp } from "@/components/apex/motion/fade-up"
 import { ApexButton, Container, Display, Eyebrow, Section } from "./primitives"
 import {
+  HOSTING_ADDON,
   ONE_TIME,
   PROMO_MONTHLY,
   PROMO_MONTHS,
@@ -30,7 +31,7 @@ const ONETIME_FEATURES = [
   "30 days of free edits after launch",
   "Full source code handed over",
   "Self-host on your own Vercel / Netlify",
-  "Optional hosting & maintenance: +$49/mo (unlimited small edits + monthly SEO check)",
+  `Optional hosting & maintenance: +${HOSTING_ADDON} (unlimited small edits + monthly SEO check)`,
 ]
 
 export function Pricing({ theme, demoSlug }: PricingProps) {
@@ -83,7 +84,7 @@ export function Pricing({ theme, demoSlug }: PricingProps) {
               title="One-time build"
               price={ONE_TIME}
               priceDetail="once"
-              sub="Full source code. Self-host or +$49/mo."
+              sub={`Full source code. Self-host or +${HOSTING_ADDON}.`}
               features={ONETIME_FEATURES}
               ctaLabel="Buy one-time →"
               ctaHref={oneHref}

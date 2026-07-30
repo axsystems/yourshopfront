@@ -6,6 +6,11 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { Container, Display, Eyebrow, Section } from "./primitives"
+import {
+  HOSTING_ADDON,
+  PROMO_SETUP,
+  STANDARD_SETUP,
+} from "@/lib/pricing-constants"
 
 interface FAQProps {
   theme: Theme
@@ -22,7 +27,7 @@ const QUESTIONS = [
   },
   {
     q: "Can I edit my own content?",
-    a: "Yes. Subscription includes unlimited edits via your customer portal — copy, photos, colors, layout. One-time customers get 30 days of free edits after launch, then read-only access unless you add the $49/mo hosting plan, which keeps edits flowing.",
+    a: `Yes. Subscription includes unlimited edits via your customer portal — copy, photos, colors, layout. One-time customers get 30 days of free edits after launch, then read-only access unless you add the ${HOSTING_ADDON} hosting plan, which keeps edits flowing.`,
   },
   {
     q: "Who owns the site?",
@@ -38,7 +43,7 @@ const QUESTIONS = [
   },
   {
     q: "What's the refund policy?",
-    a: "30-day money-back guarantee, no questions asked, on the $299 setup fee. Monthly fees are non-refundable, but you can cancel anytime so you only pay for the months you actually use.",
+    a: `30-day money-back guarantee, no questions asked, on the setup fee (${STANDARD_SETUP}, or ${PROMO_SETUP} during our launch promo). Monthly fees are non-refundable, but you can cancel anytime so you only pay for the months you actually use.`,
   },
   {
     q: "What's different about Your Shopfront vs Wix or Squarespace?",

@@ -2,6 +2,15 @@ import type { Metadata } from "next"
 
 import { LegalPage } from "@/components/apex/legal-page"
 import { SITE_URL } from "@/lib/seo"
+import {
+  HOSTING_ADDON,
+  ONE_TIME,
+  PROMO_MONTHLY,
+  PROMO_MONTHS,
+  PROMO_SETUP,
+  STANDARD_MONTHLY,
+  STANDARD_SETUP,
+} from "@/lib/pricing-constants"
 
 const URL = `${SITE_URL}/terms`
 
@@ -13,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <LegalPage title="Terms of Service" lastUpdated="2026-07-29">
+    <LegalPage title="Terms of Service" lastUpdated="2026-07-30">
       <p>
         These terms govern your use of Your Shopfront (yourshopfront.com) and any websites we build, host, or maintain on your behalf. By buying our service or using the site, you agree to these terms.
       </p>
@@ -23,8 +32,8 @@ export default function TermsPage() {
         Your Shopfront builds and hosts production-grade websites for small businesses of every kind. We offer two tiers:
       </p>
       <ul>
-        <li><strong>Subscription:</strong> $299 setup fee plus $149/month. Includes hosting, unlimited content edits, SSL, backups, and security patches. Cancel any time.</li>
-        <li><strong>One-time build:</strong> $997 paid once. Includes the full source code on launch. Optional $49/month managed hosting addon (includes unlimited small edits + monthly SEO check).</li>
+        <li><strong>Subscription:</strong> {STANDARD_SETUP} setup fee (or {PROMO_SETUP} during our launch promo) plus {STANDARD_MONTHLY} (or {PROMO_MONTHLY} for your first {PROMO_MONTHS} months during the launch promo). Includes hosting, unlimited content edits, SSL, backups, and security patches. Cancel any time.</li>
+        <li><strong>One-time build:</strong> {ONE_TIME} paid once. Includes the full source code on launch. Optional {HOSTING_ADDON} managed hosting addon (includes unlimited small edits + monthly SEO check).</li>
       </ul>
 
       <h2>Delivery and acceptance</h2>
