@@ -13,6 +13,7 @@ import {
   type Tier,
 } from "@/lib/checkout-schema"
 import { readReferralCookies } from "@/lib/referral"
+import { HOSTING_ADDON } from "@/lib/pricing-constants"
 
 // copy_addon is intentionally absent from CheckoutFormSchema (Stream A comment).
 // Stream B extends the schema locally for the form resolver so the field is
@@ -230,7 +231,7 @@ export function CheckoutForm({ tier, demo, cancelled, promo, defaultIndustry }: 
             className="mt-1 h-4 w-4 flex-shrink-0 accent-[var(--apex-primary)]"
           />
           <span>
-            <strong>Add managed hosting + maintenance for $49/mo.</strong>{" "}
+            <strong>Add managed hosting + maintenance for {HOSTING_ADDON}.</strong>{" "}
             Most customers add this — running your own hosting is a part-time
             job. Includes Vercel + Cloudflare hosting, SSL, weekly backups,
             security patches, unlimited small edits, monthly SEO check, and a Slack channel for issues. Cancel anytime.

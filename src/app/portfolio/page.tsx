@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     siteName: "Your Shopfront",
     images: [
       {
-        url: "/og-default.png",
+        url: "/og-v3.png",
         width: 1200,
         height: 630,
         alt: "Your Shopfront Portfolio",

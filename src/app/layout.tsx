@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     url: siteUrl,
     images: [
       {
-        url: "/og-default.png",
+        url: "/og-v3.png",
         width: 1200,
         height: 630,
         alt: "Your Shopfront — A website your business deserves",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    images: ["/og-default.png"],
+    images: ["/og-v3.png"],
   },
   robots: { index: true, follow: true },
 }

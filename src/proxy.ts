@@ -147,6 +147,6 @@ export const config = {
     // mid-flight. Public API routes (/api/access, /api/billing-portal, the
     // chat endpoints, etc.) don't need a session, so we keep them out of
     // the matcher to avoid the extra Supabase round-trip per asset hit.
-    "/((?!api/(?!app/)|ingest|_next/static|_next/image|_next/data|favicon.ico|robots.txt|sitemap.xml|og-default.png).*)",
+    "/((?!api/(?!app/)|ingest|_next/static|_next/image|_next/data|favicon.ico|robots.txt|sitemap.xml|og-v3.png).*)",
   ],
 }
