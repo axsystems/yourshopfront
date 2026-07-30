@@ -46,6 +46,29 @@ This was a deliberate fix (see the comment at `src/app/start/page.tsx:60`) — t
 hard-attach `demo=premium-trade`, mis-branding checkout for every non-plumber. The reasoning
 was sound; the cure lengthened the funnel. Consistent with 40+ → 2 reaching checkout (~5%).
 
+### F1b — 17 of 30 themes render gradient placeholders instead of photos (CRITICAL)
+
+Every theme with `hero: "gallery"` renders its four hero tiles as **CSS gradients with a text
+label**, not photography. Verified by screenshot on `angelos` (Margherita / Sicilian slice /
+Fresh dough / Wood-fired) and `heritage-painters` (Interiors / Exteriors / Cabinetry /
+Restoration).
+
+That is **17 of 30 themes — 57% of the catalog** — including `heritage-painters`, the
+`defaultThemeSlug`, and `angelos`, the new #1 demo:
+
+`aurora-pressure-wash · cask-vine · angelos · still-point · brutalist · cinematic-dark ·
+daylight-lounge · westwood-tree · crystalline-window-co · swiss-editorial · north-fork ·
+heritage-painters · webgl-experimental · mara-lin · wildflower-stone · types ·
+print-block-books`
+
+The caption under the tiles admits it: _"This is a live preview. The actual gallery on your
+site can pull from Instagram, your project CMS, or hand-picked photos."_ For a product whose
+entire pitch is "here is what your site looks like," showing coloured rectangles is the single
+most damaging thing on the page after F1.
+
+Themes using `form-card` (8), `booking-card` (5), and `calculator` (2) are unaffected — which
+is exactly why `ironside-plumbing` looks real and `angelos` does not.
+
 ### F3 — Demo chrome eats the first screen
 
 `/demos/[slug]` stacks four bars before any content: theme switcher, colorway switcher,
@@ -113,13 +136,18 @@ preserving the anti-mis-branding fix (nobody lands on another trade's brand).
 Today's charge is currently **$198** ($99 setup + $99 first month billed together). The goal
 is **$99 today, full stop**, for the first 20 customers.
 
-This is not a copy change. Options, in order of preference:
+**DECIDED by owner 2026-07-30: $99 total today, first month free.** Implement with
+**`subscription_data.trial_period_days: 30`** on the promo path — the setup fee bills today,
+the first recurring charge lands 30 days later. No coupon interaction, and it composes with
+the existing `launch_promo_3mo` coupon so months 2–4 still run at $99 before reverting to $149.
 
-1. **`subscription_data.trial_period_days: 30`** on the promo path — setup fee bills today,
-   first recurring charge lands in 30 days. Cleanest, no coupon interaction, and it composes
-   with the existing `launch_promo_3mo` coupon.
-2. 100%-off-first-interval coupon stacked on the monthly price. Messier: Stripe rejects
-   `discounts` together with `allow_promotion_codes`, which the promo funnel already relies on.
+Rejected alternative: a 100%-off-first-interval coupon. Stripe refuses `discounts` alongside
+`allow_promotion_codes`, which the promo funnel already depends on.
+
+Copy consequence: every surface currently saying "$198 today" or "$99 setup + $99/mo" must be
+restated. The new offer is **"$99 today. First month free. Then $99/mo for 3 months, then
+$149/mo."** Confirm the exact month-2 boundary against a real trial subscription before
+writing the copy — do not infer it.
 
 **The cap is the hard part.** "First 20" needs a real mechanism, not a promise:
 
@@ -156,20 +184,36 @@ infer from the header.
 **Owns:** exactly three theme config files under `src/lib/themes/` and their
 `public/themes/<slug>/` assets. **Must not** touch shared components — WS1 owns those.
 
-Pick three that match Payton's audience and the lead list (103 Phoenix-metro trades, 102 with
-no website). Recommendation, from the screenshot pass:
+**Owner-selected 2026-07-30, in priority order:**
 
-- **`ironside-plumbing`** — already the strongest. Real photo, working quote form, genuine
-  urgency. Needs only WS1's headline to land.
-- **`voltcraft-electric`** or **`summit-roofing`** — high-ticket trades well represented in
-  the lead list.
-- **`heritage-painters`** — currently the weakest of the featured set: its hero gallery renders
-  four **gradient placeholders** rather than real work photos. Either source real painting
-  photography or drop it from the top three.
+1. **`angelos`** — the owner's #1. Confirmed the best typography in the catalog on inspection:
+   Playfair Display editorial serif, parchment/tomato/olive/mustard, newspaper-banner hero,
+   full-bleed pizza photography, an "OPEN UNTIL 11PM TONIGHT" badge, and an Est./Hand-/Open/
+   Dine-in trust strip. **Blocked by F1b** — its four hero tiles are gradient placeholders.
+   Real food photography is the single highest-value asset purchase in this sprint.
+2. **`ironside-plumbing`** — the strongest as-shipped. `form-card` hero, so it is unaffected by
+   F1b: real photo, working quote form, genuine urgency. Needs only WS1's headline.
+3. **`voltcraft-electric`** or **`summit-roofing`** — high-ticket trades, well represented in
+   the 103-lead list. Prefer whichever is not a `gallery` hero.
+
+`heritage-painters` was the earlier suggestion and is **demoted** — it is `gallery`-hero, so
+it shows placeholders, and it is also `defaultThemeSlug`, meaning the placeholder problem is
+what an unparameterised visitor sees first. Fixing it is F1b work, not WS5 work.
+
+**Flagged for the owner, once, not to be re-litigated:** `angelos` is a pizza restaurant, while
+the ICP and the entire 103-business lead list are Phoenix-metro _trades_. Leading with a
+restaurant optimises for Payton's consumer-broad social audience rather than the businesses
+about to be pitched. That may well be the right call for shareable TikTok content — it is the
+owner's decision and this plan follows it. Just do not let `angelos` displace a trade demo in
+the _outreach_ materials.
 
 "Standout" means a prospect would believe it is a real company's live site. Apply the
 `frontend-design-quality` skill; screenshot at 375 + 1440 after scroll and critique before
 claiming done.
+
+Making `angelos` #1 also requires adding it to `featuredThemeSlugs` in `src/lib/themes/index.ts`
+— it is currently not featured. That file is shared; coordinate with WS1 rather than both
+editing it.
 
 ---
 
