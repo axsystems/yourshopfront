@@ -9,19 +9,28 @@
  * operator pastes the real IDs into Vercel.
  */
 
-/** GA4 measurement ID, format: G-XXXXXXXXXX. */
-export const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID ?? ""
+/**
+ * GA4 measurement ID, format: G-XXXXXXXXXX.
+ *
+ * `.trim()` is load-bearing: these render into an inline <script> body in
+ * <GoogleTag> (`gtag('config', '${GA4_ID}')`), and a stray trailing newline
+ * pasted into the Vercel dashboard env var breaks out of the single-quoted
+ * string literal — an embedded raw newline is invalid inside a JS string,
+ * so the whole inline script throws a SyntaxError on every page load.
+ */
+export const GA4_ID = (process.env.NEXT_PUBLIC_GA4_ID ?? "").trim()
 
-/** Google Ads account ID, format: AW-XXXXXXXXXX. */
-export const GOOGLE_ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID ?? ""
+/** Google Ads account ID, format: AW-XXXXXXXXXX. Same trailing-whitespace risk as GA4_ID. */
+export const GOOGLE_ADS_ID = (process.env.NEXT_PUBLIC_GOOGLE_ADS_ID ?? "").trim()
 
 /**
  * Google Ads conversion label for the "Purchase" conversion action.
  * Format: ~10-char hash, looks like `abc123XYZ`. Pair with GOOGLE_ADS_ID
  * to build the send_to value: `${GOOGLE_ADS_ID}/${LABEL}`.
  */
-export const GOOGLE_ADS_CONVERSION_LABEL =
+export const GOOGLE_ADS_CONVERSION_LABEL = (
   process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL ?? ""
+).trim()
 
 /** True when at least one of GA4 or Google Ads is configured. */
 export const ANALYTICS_ENABLED = Boolean(GA4_ID || GOOGLE_ADS_ID)
