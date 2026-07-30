@@ -1,6 +1,6 @@
 # Project State — Your Shopfront
 
-**Last updated:** 2026-07-29 (MST)
+**Last updated:** 2026-07-30 (MST)
 **Live:** https://yourshopfront.com · **Repo:** axsystems/yourshopfront · **Branch:** `master`
 **Vercel project:** `yourshopfront` (axsystems-projects) · **Supabase ref:** `vszlrvczfpgwdenmsfvx`
 (verified 2026-07-29 via `supabase projects list` — project `your-shop-front`, ACTIVE_HEALTHY, us-east-2)
@@ -14,18 +14,24 @@ Sister docs — do not duplicate these, update them:
 
 ## Status table
 
-| Area              | State          | Evidence (2026-07-29)                                                                                                                 |
-| ----------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| Marketing site    | **LIVE**       | `/`, `/pricing`, `/start`, `/portfolio` all HTTP 200                                                                                  |
-| Demos             | **LIVE**       | all 15 trade demo slugs HTTP 200; 30 registered themes                                                                                |
-| Stripe checkout   | **LIVE MODE**  | `POST /api/checkout` returns a `cs_live_` session on the $99 promo path                                                               |
-| $99 promo         | **CONFIGURED** | `STRIPE_PRICE_SUBSCRIPTION_SETUP_PROMO` + `STRIPE_COUPON_LAUNCH_PROMO` both present in Vercel production (the two `isPromo` requires) |
-| Referral tracking | **LIVE**       | `?ref=`/`?src=` validated in prod: invalid ref → 400, `payton` → `cs_live_`                                                           |
-| Production schema | **CURRENT**    | all 12 migrations verified applied + `0013` applied 2026-07-29                                                                        |
-| Provisioning cron | **ARMED**      | `/api/cron/provision` returns 401 unauth → `CRON_SECRET` set                                                                          |
-| Sales chat bubble | **CONFIGURED** | `/api/chat` returns 400 on empty body (not 503) → `ANTHROPIC_API_KEY` set                                                             |
-| SEO               | **LIVE**       | `robots.txt` 200; `sitemap.xml` 38 `<loc>` entries                                                                                    |
-| CI                | **GREEN**      | `lint-and-typecheck` ~35s, `build-and-smoke` ~1m35s                                                                                   |
+| Area                | State           | Evidence (2026-07-30 unless noted)                                                                                                    |
+| ------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Marketing site      | **LIVE**        | `/`, `/pricing`, `/start`, `/portfolio` all HTTP 200                                                                                  |
+| Demos               | **LIVE**        | all 15 trade demo slugs HTTP 200; 30 registered themes                                                                                |
+| Stripe checkout     | **LIVE MODE**   | `POST /api/checkout` returns a `cs_live_` session on the $99 promo path                                                               |
+| $99 promo           | **CONFIGURED**  | `STRIPE_PRICE_SUBSCRIPTION_SETUP_PROMO` + `STRIPE_COUPON_LAUNCH_PROMO` both present in Vercel production (the two `isPromo` requires) |
+| Referral tracking   | **VERIFIED**    | full end-to-end re-verification 2026-07-30 — see "Referral attribution" below                                                         |
+| Production schema   | **CURRENT**     | all 13 migrations (`0001`–`0013`) re-verified column-by-column against live schema 2026-07-30                                         |
+| Provisioning cron   | **ARMED**       | `/api/cron/provision` returns 401 unauth → `CRON_SECRET` set                                                                          |
+| Sales chat bubble   | **CONFIGURED**  | `/api/chat` returns 400 on empty body (not 503) → `ANTHROPIC_API_KEY` set                                                             |
+| SEO                 | **LIVE**        | `robots.txt` 200; `sitemap.xml` 38 `<loc>` entries                                                                                    |
+| CI                  | **GREEN**       | `lint-and-typecheck` ~35s, `build-and-smoke` ~1m35s                                                                                   |
+| OG preview image    | **FIXED**       | `og-v3.png` 200; every share previewed "Apex Sites / $499 setup" until 2026-07-30                                                     |
+| Google Analytics    | **UNBLOCKED**   | CSP had silently blocked gtag.js for 66 days — zero data collected. Fixed in PR #82                                                   |
+| Vercel Analytics    | **WORKING**     | loads from an obfuscated same-origin path; `'self'` covers it. Was never broken                                                       |
+| PostHog replay      | **NOT WORKING** | deployed and proxy verified, but no capture request is ever sent — under investigation                                                |
+| Transactional email | **PARTIAL**     | Resend delivers everywhere except `hello@` → `hello@`; see "Email deliverability"                                                     |
+| Sales               | **ZERO**        | 40+ visitors, 2 reached `/checkout`, **0 checkout sessions created**, 0 payments                                                      |
 
 ## Production database — verified 2026-07-29
 
@@ -60,6 +66,92 @@ Stripe metadata onto `sites.referral_code` / `sites.referral_source`. Fully addi
 Business decisions still open: commission amount (suggested $50/closed sale, paid after the
 30-day refund window) and confirming the promoter discloses the paid relationship on-video (FTC
 liability sits with us, not her).
+
+**Re-verified end to end 2026-07-30** against current master, in a real browser (the cookie is
+written client-side by `src/lib/referral.ts`, so a plain HTTP fetch shows no `Set-Cookie` — that
+is expected, not a fault). Confirmed: `ysf_ref`/`ysf_src` set with 30-day expiry; first-touch
+survives a second visit with a different `ref`; invalid `ref` rejected client-side _and_ by the
+API (`400`); `ref`/`src` reach Stripe session metadata across **all four** checkout paths
+(subscription+promo, one-time+hosting, one-time alone) and all three of Payton's channels.
+
+Still unproven: the webhook's write of `sites.referral_code` has never executed, because no real
+purchase has ever completed. Code path traced and correct, but unobserved — see BLOCKER 1.
+
+P2 nit: `writeCookie()` in `src/lib/referral.ts:40` omits `Secure`. Minimal risk on an
+HTTPS-only domain; worth adding.
+
+## What shipped 2026-07-30
+
+Seven PRs merged to production in one session. Rollback for any: `git revert -m 1 <merge-sha>`.
+
+| PR  | Merge     | What                                                                                                                |
+| --- | --------- | ------------------------------------------------------------------------------------------------------------------- |
+| #75 | `ce45a13` | OG preview image — showed "Apex Sites / $499 setup + $199/mo / $2,997 once" and a missing space in "book more jobs" |
+| #76 | `c218f2d` | Welcome email hardcoded `$299 + $149/mo`, emailed to customers who paid **$99**                                     |
+| #77 | `944596c` | `/checkout` order-summary cropped its own preview text on every viewport                                            |
+| #79 | `f965176` | OG wordmark enlarged 32→52px; leftover Apex "A" mark removed                                                        |
+| #80 | `f3a4662` | Privacy policy claimed no tracking cookies — false once GA4/replay went live                                        |
+| #81 | `3b5e0de` | PostHog session replay, env-gated, inputs masked, disabled on `/app/*`                                              |
+| #82 | `66ebda8` | CSP unblocked GA4 + credential-safe same-origin PostHog proxy                                                       |
+
+**Still open: PR #78** (price-string sweep — `seo.ts`, FAQ, `pricing`, `terms`, `refund-policy`,
+`app/billing`, `hero.tsx`). CI green, awaiting the owner's review of the two legal files.
+The refund FAQ currently promises a refund on "the $299 setup fee" to customers paying $99.
+
+### The OG image was the highest-impact defect
+
+`public/og-default.png` had not been regenerated since the phase-1 brand commit, so it diverged
+from its own SVG source. **Every link shared to Facebook/TikTok/DM previewed dead pricing and the
+retired brand name.** Output is now `og-v3.png` — the filename is rotated on every change because
+Facebook caches OG images per URL and an in-place edit keeps serving the stale asset.
+
+### The analytics finding
+
+`script-src`/`connect-src` never allowed Google's origins, so **GA4 collected nothing for 66
+days** despite being correctly configured. Verified by negative control against production.
+Vercel Analytics was unaffected — it loads from an obfuscated same-origin path, so `'self'`
+covered it, and it is the only source of visitor data for the period.
+
+PostHog is proxied same-origin through `/ingest`. The obvious `rewrites()` implementation would
+have forwarded `Cookie` and `Authorization` verbatim, and Supabase sets auth cookies at `path=/`
+— every replay batch from a logged-in portal user would have carried their session tokens to a
+third party. Caught with an echo server before deploy and replaced with a route handler that
+rebuilds requests from a header allowlist.
+
+**PostHog is deployed but NOT recording.** `/ingest` proxies correctly, the token is valid and
+inlined in the client bundle, `POST /ingest/flags/` returns a real 200 — but no capture request
+is ever sent, and `config.js`/`surveys.js` retry six times each with
+`SyntaxError: Failed to execute 'appendChild'`.
+
+**Root cause found — and it is a PostHog project setting, not code.**
+`https://us.i.posthog.com/array/<token>/config.js` returns `"sessionRecording": false`, so
+posthog-js takes its discard path and never starts the recorder (`recorder.js` is never even
+fetched). **Enable Session Replay in the PostHog dashboard → Project Settings → Session Replay.**
+No code change can start it while that toggle is off.
+
+The `/ingest` proxy is _required_, not implicated: with `NEXT_PUBLIC_POSTHOG_HOST` pointed
+directly at `us.i.posthog.com`, every `config.js` request is CSP-blocked, because
+`us-assets.i.posthog.com` is deliberately absent from `script-src`.
+
+### The `appendChild` SyntaxError was unrelated to PostHog
+
+`NEXT_PUBLIC_GA4_ID` carries a **trailing newline** in Vercel. `src/lib/analytics-config.ts`
+read it untrimmed and `src/components/google-tag.tsx` interpolates it into an _inline_ script,
+producing `gtag('config', 'G-W1VNYD94V9\n');` — an unescaped line terminator inside a
+single-quoted string, i.e. a parse error. Nothing in that inline script ran, which is also why
+`window.gtag` was `undefined` while `dataLayer` still had entries (those come from the
+separately-loaded external `gtag/js`, which is unaffected). Chromium surfaces it as
+`Failed to execute 'appendChild'` because `next/script` sets the text and appends, and inline
+scripts execute synchronously inside that native call.
+
+The "six retries" were not retries: `src/components/apex/home/rotating-preview.tsx` mounts two
+live `/demos/{slug}?embed=1` iframes at a time, each a full page load with its own analytics
+components. Error and request counts multiply per iframe.
+
+Fix on branch **`fix/posthog-remote-config`** — `.trim()` on `GA4_ID`, `GOOGLE_ADS_ID`, and
+`GOOGLE_ADS_CONVERSION_LABEL`. Verified locally: 7 SyntaxErrors → 0, `gtag` becomes a real
+function. **Also trim the stored Vercel value**, so nothing else consuming it raw hits the same
+bug — that needs an env edit plus a redeploy.
 
 ## What shipped 2026-07-29
 
@@ -122,10 +214,45 @@ doc; superseded by `docs/history/`).
    **Still open:** the rest of the legal copy is unreviewed AI drafting with no draft banner.
    Decide whether it stays live as-is or gets the `draft` banner back until a human reviews it.
 
+3. **SECURITY — rotate the Supabase JWT signing secret and the Resend SMTP password.**
+   On 2026-07-30 an audit agent called the Supabase Management API config endpoints
+   (`GET /v1/projects/{ref}/config/auth`), which **return both values in plaintext**. They were
+   printed into a subagent transcript on the workstation. Not published externally, but the
+   standing rule is that a secret read into a transcript needs rotating — and the JWT secret
+   allows forging `authenticated`/`service_role` tokens.
+
+   Rotation invalidates the anon + service_role keys, so it must be done as one change:
+   Dashboard → Settings → API → JWT Settings → Generate new secret → copy new anon +
+   service_role keys → update both in Vercel production → **redeploy** → update `.env.local`.
+   With zero real customers the blast radius is nil; it will never be cheaper to do.
+
+## Email deliverability (2026-07-30)
+
+**Sending is healthy. Receiving at `hello@yourshopfront.com` is not.**
+
+Established: Resend delivers from `hello@yourshopfront.com` to Gmail, to `admin@axsystems.io`,
+and to `support@yourshopfront.com` — all confirmed received. The **only** failing case is
+`hello@` → `hello@`, i.e. sender identical to recipient, which Google Workspace treats as
+spoofing. Three contact-form submissions vanished for exactly this reason.
+
+- `CONTACT_INBOX_EMAIL` moved to **`admin@axsystems.io`** (confirmed receiving). Live from the
+  2026-07-30 deploy.
+- The Resend account is registered under `admin@axsystems.io`.
+- **DMARC added** via the Cloudflare API — `_dmarc.yourshopfront.com TXT "v=DMARC1; p=none;
+rua=mailto:hello@yourshopfront.com"`, verified resolving on four resolvers. `p=none` is
+  monitoring only. Repoint `rua` if `hello@` stays unreliable.
+- SPF/DKIM align correctly. **Do not add `include:amazonses.com` to the root SPF** — Resend
+  evaluates SPF against the `send.` subdomain, so it would be a no-op wasting one of ten lookups.
+- Recommended, not applied: set `RESEND_FROM_EMAIL` to `notifications@yourshopfront.com` so
+  sender never equals recipient on any path. `notifications@` is already proven to send.
+- `src/lib/email.ts` is best-effort and **never throws**, so every delivery failure is invisible.
+  The Resend key is send-only, so `GET /emails/{id}` returns 401 and status cannot be read from
+  code. Worth a full-access key plus a `bounced`/`complained` webhook.
+
 ## Customer-side audit findings (2026-07-29)
 
 > **Most of this is FIXED** — see "Audit fixes — MERGED" below for which PR closed what. Kept
-> here because the reasoning and file:line evidence explain *why* each fix looks the way it does.
+> here because the reasoning and file:line evidence explain _why_ each fix looks the way it does.
 > Anything still open is marked inline.
 
 - **P0 — `/access` recovery silently fails for any email with a capital letter.**
@@ -248,14 +375,14 @@ before merge — typecheck run independently, diff read, scope confirmed — and
 state was test-merged locally and built (`pnpm build` clean, all 30 portfolio paths prerendered)
 before anything touched `master`.
 
-| PR  | Merge     | What                                                                             |
-| --- | --------- | -------------------------------------------------------------------------------- |
-| #68 | `fc34319` | Arizona/Maricopa County named as governing law + venue; `lastUpdated` bumped     |
+| PR  | Merge     | What                                                                              |
+| --- | --------- | --------------------------------------------------------------------------------- |
+| #68 | `fc34319` | Arizona/Maricopa County named as governing law + venue; `lastUpdated` bumped      |
 | #69 | `731f4f4` | `/access` case-insensitive recovery + email normalization (Hook 3) + portal links |
-| #70 | `d1a4d16` | the 3 mismatched hero photos replaced                                            |
-| #71 | `17b4677` | hero gallery + form-card copy driven by theme config across 23 themes            |
-| #72 | `7b88bc2` | final-CTA contrast, dark wordmark, trust-strip overflow, chat-bubble occlusion   |
-| #73 | `d6a4f82` | `/pricing` shows the live promo; `pricing-constants.ts` extracted                |
+| #70 | `d1a4d16` | the 3 mismatched hero photos replaced                                             |
+| #71 | `17b4677` | hero gallery + form-card copy driven by theme config across 23 themes             |
+| #72 | `7b88bc2` | final-CTA contrast, dark wordmark, trust-strip overflow, chat-bubble occlusion    |
+| #73 | `d6a4f82` | `/pricing` shows the live promo; `pricing-constants.ts` extracted                 |
 
 **Rollback, per PR:** `git revert -m 1 <merge-sha>` on a branch, then a PR. Never force-push master.
 
@@ -277,7 +404,11 @@ clears AA on all 30 (tightest: heritage-painters 4.57).
 hero is landscape (summit 1400x933, ironside 1400x1050), so it crops harder in the hero slot.
 The agent reported the render looks fine; that was never independently confirmed.
 
-### Follow-ups queued behind these merges (in order)
+### Follow-ups queued behind these merges (in order) — ALL RESOLVED 2026-07-30
+
+> Items 1 and 3 shipped in PRs #76 and #77 (merged). Items 2 and 4, plus every "other
+> standard-price-only surface" listed below, are in **PR #78** — CI green, awaiting the owner's
+> review of the two legal files. Retained as the record of what was wrong.
 
 1. **P1 — the welcome email quotes standard pricing to promo customers.**
    `src/app/api/stripe/webhook/route.ts:420` hardcodes
@@ -318,17 +449,47 @@ Remove that gotcha from `CLAUDE.md`.
 
 ## Next actions
 
-1. The production smoke test in BLOCKER 1. **Before any outreach.**
-2. ~~Decide the governing-law state~~ — **done, merged.** Still open under BLOCKER 2: decide
-   whether the remaining unreviewed legal copy stays live or gets the `draft` banner back.
-3. ~~Review and merge the five audit-fix branches~~ — **done, all merged 2026-07-29.** Next is
-   the follow-up queue above, starting with the welcome-email pricing bug (it fires on the very
-   first real sale).
+Ordered for the next session (2026-07-31).
 
-4. Work the lead list: `~/leads/az-trade-leads-2026-07-29.csv` — 103 Phoenix-metro trade
+1. **The production smoke test — BLOCKER 1. Still the single most valuable action.** 40+ real
+   visitors have now arrived and nobody has completed a purchase, so the entire post-payment
+   path remains unexercised. If someone buys tomorrow it is unknown whether they receive a
+   welcome email, an onboarding worksheet, or a provisioned site.
+   Two routes: a real $99 checkout through `?ref=payton&src=tiktok` then refund; **or** test
+   mode with no card — get the `sk_test_` key from Dashboard → Developers → API keys (test mode
+   toggle on), then `stripe listen --api-key ... --forward-to localhost:3000/api/stripe/webhook`
+   and pay with `4242 4242 4242 4242`. Test mode proves the code, not the live Stripe wiring.
+   (`stripe login`'s browser flow was attempted four times on 2026-07-30 and never completed.)
+2. **Rotate the Supabase JWT secret + Resend SMTP password** — BLOCKER 3.
+3. **Review and merge PR #78.** Needs the owner's read of `src/app/terms/page.tsx` and
+   `src/app/refund-policy/page.tsx` only; the rest is ordinary marketing copy.
+4. **Turn on PostHog Session Replay** — PostHog → Settings → Project → Session Replay → enable
+   "Record user sessions". Re-confirmed at the end of 2026-07-30 that
+   `https://us.i.posthog.com/array/<token>/config.js` still returns `"sessionRecording": false`,
+   so nothing records. No deploy needed; the setting is fetched per page load. Everything on the
+   repo side is verified working — token valid, `/ingest` proxy reaching PostHog, CSP allowing
+   it, no cookie leakage. Verify afterwards by loading the site in a browser and confirming a
+   request to `/ingest/static/recorder.js` followed by a capture POST.
+5. Still open under BLOCKER 2: decide whether unreviewed legal copy keeps the `draft` banner.
+6. Work the lead list: `~/leads/az-trade-leads-2026-07-29.csv` — 103 Phoenix-metro trade
    businesses, 102 with no real website, demo-matched and ranked. Scripts in
    `~/leads/outreach-scripts.md`. Warm-network text blast first, then cold DMs top-down.
-   **Gated on the demo-catalog fixes above** — 23 of 30 demos currently show another trade's
-   copy, and the featured roofing demo shows a billiards room.
-5. Send Payton her three links; agree commission and disclosure.
-6. Baseline the Supabase migration ledger before the next migration.
+   The demo-catalog defects that previously gated this are fixed.
+7. Send Payton her three links; agree commission and disclosure. Tracking is verified.
+8. Baseline the Supabase migration ledger before the next migration. Safe command:
+   `supabase migration repair --status applied 0001 … 0013 --linked` (writes ledger rows without
+   re-running SQL). Note `0001`–`0004` are non-idempotent and would hard-fail on a re-run.
+9. Before the `lower(email)` unique index can be created, delete the orphan duplicate
+   `test@axongrowth.ai` customer row (two exist, one with no site and no `auth_user_id`).
+
+## What the funnel data says (2026-07-30)
+
+40+ visitors, **2 reached `/checkout`**, **0 checkout sessions created**, 0 payments. Nobody
+abandoned at payment — they left before submitting the form. Production logs show only 200s, so
+this is a conversion problem, not a technical one.
+
+Two contributing factors were live for most of that traffic and are now fixed: every shared link
+previewed "Apex Sites — $499 setup", and the checkout order-summary rendered its own text
+garbled. The remaining known gap is **zero social proof** anywhere in the funnel — no
+testimonials, no customer count. That cannot be fixed by writing some; it needs a real customer,
+i.e. BLOCKER 1.
