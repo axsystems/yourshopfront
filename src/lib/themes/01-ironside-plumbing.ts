@@ -75,6 +75,10 @@ export const ironsidePlumbing: Theme = {
   sourceHtmlPath: "01-ironside-plumbing.html",
   round: 3,
   content: {
+    hero: {
+      headline: "Burst pipe? We're there today.",
+      sub: "24/7 emergency plumbing. Flat-rate quotes before we start, no call-out fee.",
+    },
     howItWorks: {
       header: {
         eyebrow: "How we work",

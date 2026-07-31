@@ -18,6 +18,8 @@ import { DemoBuyGuarantees } from "./demo-buy-guarantees"
 interface ThemedHomeProps {
   theme: Theme
   isDemoPreview?: boolean
+  /** True only on /demos/[slug]; enables each theme's real hero copy. */
+  isDemoRoute?: boolean
 }
 
 /**
@@ -30,7 +32,7 @@ interface ThemedHomeProps {
  * in src/app/layout.tsx for themed paths) sits as a sticky sub-nav between
  * the header and Hero.
  */
-export function ThemedHome({ theme, isDemoPreview }: ThemedHomeProps) {
+export function ThemedHome({ theme, isDemoPreview, isDemoRoute }: ThemedHomeProps) {
   const demoCheckoutHref = `/checkout?tier=subscription&demo=${theme.slug}`
   return (
     <ThemeProvider theme={theme}>
@@ -44,6 +46,7 @@ export function ThemedHome({ theme, isDemoPreview }: ThemedHomeProps) {
         <Hero
           theme={theme}
           isDemoPreview={isDemoPreview}
+          isDemoRoute={isDemoRoute}
           ctaPrimaryHref={
             isDemoPreview ? demoCheckoutHref : "/checkout?tier=subscription"
           }

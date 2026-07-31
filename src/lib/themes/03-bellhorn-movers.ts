@@ -75,6 +75,10 @@ export const bellhornMovers: Theme = {
   sourceHtmlPath: "03-bellhorn-movers.html",
   round: 3,
   content: {
+    hero: {
+      headline: "Moving day, handled.",
+      sub: "Local and long-distance moves with a flat quote up front. Packed, loaded and insured.",
+    },
     howItWorks: {
       header: {
         eyebrow: "How it works",

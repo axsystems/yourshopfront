@@ -75,6 +75,10 @@ export const greenwiseLawn: Theme = {
   sourceHtmlPath: "02-greenwise-lawn.html",
   round: 3,
   content: {
+    hero: {
+      headline: "A lawn worth coming home to.",
+      sub: "Weekly mowing, seasonal cleanups and full-service care. Free estimate within 24 hours.",
+    },
     howItWorks: {
       header: {
         eyebrow: "How we work",

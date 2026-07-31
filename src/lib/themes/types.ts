@@ -177,6 +177,19 @@ export interface ThemeHeroFormCardOverride {
 }
 
 export interface ThemeContentOverrides {
+  /**
+   * Real customer-facing hero copy, used only on `/demos/[slug]`.
+   *
+   * Without this the demo H1 is `previewHeadline(theme)` — "Ironside
+   * Plumbing: a bold, industrial, form-led design for plumbers." — which
+   * reads as a design-catalogue entry rather than the business's own site
+   * and breaks the illusion the demos exist to create. `/portfolio/[slug]`
+   * deliberately keeps the descriptive headline for its SEO value.
+   */
+  hero?: {
+    headline: string
+    sub: string
+  }
   /** Industry-specific copy + photos for the HowItWorks 4-step grid. */
   howItWorks?: {
     /** Optional per-theme section header (eyebrow + headline + sub). */

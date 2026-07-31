@@ -82,7 +82,7 @@ export default async function DemoPage({ params }: PageProps) {
         ]}
       />
       <PortfolioBanner theme={theme} />
-      <ThemedHome theme={theme} isDemoPreview />
+      <ThemedHome theme={theme} isDemoPreview isDemoRoute />
       <MobileStickySpacer />
       <MobileStickyCTA
         href={`/checkout?tier=subscription&promo=launch&demo=${theme.slug}`}
