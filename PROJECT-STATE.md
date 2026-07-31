@@ -1,6 +1,6 @@
 # Project State — Your Shopfront
 
-**Last updated:** 2026-07-30 (MST)
+**Last updated:** 2026-07-31 (MST)
 **Live:** https://yourshopfront.com · **Repo:** axsystems/yourshopfront · **Branch:** `master`
 **Vercel project:** `yourshopfront` (axsystems-projects) · **Supabase ref:** `vszlrvczfpgwdenmsfvx`
 (verified 2026-07-29 via `supabase projects list` — project `your-shop-front`, ACTIVE_HEALTHY, us-east-2)
@@ -19,7 +19,8 @@ Sister docs — do not duplicate these, update them:
 | Marketing site      | **LIVE**       | `/`, `/pricing`, `/start`, `/portfolio` all HTTP 200                                                                                  |
 | Demos               | **LIVE**       | all 15 trade demo slugs HTTP 200; 30 registered themes                                                                                |
 | Stripe checkout     | **LIVE MODE**  | `POST /api/checkout` returns a `cs_live_` session on the $99 promo path                                                               |
-| $99 promo           | **CONFIGURED** | `STRIPE_PRICE_SUBSCRIPTION_SETUP_PROMO` + `STRIPE_COUPON_LAUNCH_PROMO` both present in Vercel production (the two `isPromo` requires) |
+| $99-today offer     | **LIVE**       | live `POST /api/checkout` promo path returns `amount_total: 9900` (2026-07-31). Was $198 until PR #89                                 |
+| Analytics integrity | **FIXED**      | PR #88 — 84% of all pageviews were the homepage's own preview iframes. Re-verified in production: 5 iframes mounted, 0 tracker calls  |
 | Referral tracking   | **VERIFIED**   | full end-to-end re-verification 2026-07-30 — see "Referral attribution" below                                                         |
 | Production schema   | **CURRENT**    | all 13 migrations (`0001`–`0013`) re-verified column-by-column against live schema 2026-07-30                                         |
 | Provisioning cron   | **ARMED**      | `/api/cron/provision` returns 401 unauth → `CRON_SECRET` set                                                                          |
@@ -32,6 +33,7 @@ Sister docs — do not duplicate these, update them:
 | PostHog replay      | **ENABLED**    | project toggle switched on; `config.js` now returns a `sessionRecording` object (`recorderVersion: "v2"`), not `false`                |
 | Transactional email | **PARTIAL**    | Resend delivers everywhere except `hello@` → `hello@`; see "Email deliverability"                                                     |
 | Sales               | **ZERO**       | **1 paid Your Shopfront session ever** — a $10 self-test on 2026-05-22, now `cancelled`. See "Stripe account reality" below           |
+| Real traffic        | **18 people**  | not 72. Every `/demos/*` view on record was an iframe embed — no human has opened a demo page. See "What the funnel data says"        |
 
 ## Production database — verified 2026-07-29
 
@@ -209,7 +211,13 @@ doc; superseded by `docs/history/`).
 ## BLOCKERS
 
 1. **The post-payment path has never been exercised against production.** Checkout is proven
-   live; the welcome email (Resend), onboarding worksheet, and provisioning handoff are not.
+   live — the pay button was re-verified 2026-07-31 and `/api/checkout` returns a valid
+   `cs_live_` session on every path — but the welcome email (Resend), onboarding worksheet, and
+   provisioning handoff are not.
+
+   **Note:** `docs/conversion-sprint-plan.md` opens by claiming this blocker was "closed
+   2026-07-30". That is not supported by Stripe: of 26 lifetime Your Shopfront sessions,
+   exactly one was ever paid (the $10 self-test in May). Treat this blocker as OPEN.
    Now higher stakes — the `sites` insert writes two brand-new referral columns. **Do one real
    $99 checkout through `?ref=payton&src=tiktok`, confirm email + worksheet fire, confirm the row
    has `referral_code='payton'`, then refund.** One test covers promo, email, onboarding, and
@@ -465,37 +473,41 @@ Remove that gotcha from `CLAUDE.md`.
 
 ## Next actions
 
-Ordered for the next session (2026-07-31).
+Ordered for the next session (2026-08-01). Reordered 2026-07-31 against measured traffic
+rather than the original sprint plan.
 
-1. **The production smoke test — BLOCKER 1. Still the single most valuable action.** 40+ real
-   visitors have now arrived and nobody has completed a purchase, so the entire post-payment
-   path remains unexercised. If someone buys tomorrow it is unknown whether they receive a
-   welcome email, an onboarding worksheet, or a provisioned site.
-   Two routes: a real $99 checkout through `?ref=payton&src=tiktok` then refund; **or** test
-   mode with no card — get the `sk_test_` key from Dashboard → Developers → API keys (test mode
-   toggle on), then `stripe listen --api-key ... --forward-to localhost:3000/api/stripe/webhook`
-   and pay with `4242 4242 4242 4242`. Test mode proves the code, not the live Stripe wiring.
-   (`stripe login`'s browser flow was attempted four times on 2026-07-30 and never completed.)
-2. **Rotate the Supabase JWT secret + Resend SMTP password** — BLOCKER 3.
-3. Still open under BLOCKER 2: decide whether unreviewed legal copy keeps the `draft` banner.
-4. **Confirm PostHog sessions actually land in the dashboard.** The project toggle is on and the
-   proxy is verified serving `recorder.js`, but no recorded session has been observed yet.
-5. Work the lead list: `~/leads/az-trade-leads-2026-07-29.csv` — 103 Phoenix-metro trade
-   businesses, 102 with no real website, demo-matched and ranked. Scripts in
-   `~/leads/outreach-scripts.md`. Warm-network text blast first, then cold DMs top-down.
-   The demo-catalog defects that previously gated this are fixed.
-6. Send Payton her three links; agree commission and disclosure. Tracking is verified.
-7. Baseline the Supabase migration ledger before the next migration. Safe command:
-   `supabase migration repair --status applied 0001 … 0013 --linked` (writes ledger rows without
-   re-running SQL). Note `0001`–`0004` are non-idempotent and would hard-fail on a re-run.
-8. Before the `lower(email)` unique index can be created, delete the orphan duplicate
-   `test@axongrowth.ai` customer row (two exist, one with no site and no `auth_user_id`).
-9. **`$199` (copy add-on) is still hardcoded** in `checkout/page.tsx`, `checkout-form.tsx`,
-   `worksheet-form.tsx`, and the webhook's Slack alert — the same class of drift as `$49`, which
-   PR #78 closed. Route it through `pricing-constants.ts`.
-10. **`src/lib/seo.ts` now publishes the promo price** (`price: "99"`) in the schema.org Offer.
-    Accurate today, silently wrong the day the promo ends — structured data is the one surface
-    that won't visibly look stale.
+1. **Add real website imagery to `/start`.** 14 of 18 real visitors land there and the page
+   selling websites shows none. Strongest open appearance finding.
+2. **Send Payton the corrected referral links** (`?ref=payton&src=fb` / `&src=ig` /
+   `&src=tiktok`). 6 of 16 hits currently arrive with `src` missing entirely. Costs one message.
+3. **Watch the funnel for 2-3 days on clean data.** PR #88 means numbers are trustworthy for
+   the first time. Specifically: does the trade picker move `/start` -> `/checkout` off 3/14,
+   and does anyone now reach a demo page?
+4. **The production smoke test — BLOCKER 1.** Still no real completed purchase, so welcome
+   email, worksheet and provisioning remain unexercised. Now cheaper to run: a real checkout is
+   $99 today rather than $198, then refund.
+5. **Rotate the Supabase JWT secret + Resend SMTP password** — BLOCKER 3. Unchanged.
+6. **Re-decide WS1 / WS5** (demo headlines, standout demos) once (3) reports. Both target pages
+   that had zero human traffic as of 2026-07-31; do not build them on the old assumption.
+7. Still open under BLOCKER 2: decide whether unreviewed legal copy keeps the `draft` banner.
+8. **Enable PostHog error tracking.** There are no `$exception` events, which is why the
+   2026-07-30 pay-click could not be positively identified as a bot.
+9. Confirm PostHog sessions actually land in the dashboard (65 recordings exist; most were
+   iframe sessions and will now stop being recorded).
+10. Work the lead list: `~/leads/az-trade-leads-2026-07-29.csv` — 103 Phoenix-metro trade
+    businesses. Scripts in `~/leads/outreach-scripts.md`.
+11. Baseline the Supabase migration ledger before the next migration.
+    `supabase migration repair --status applied 0001 ... 0013 --linked`. `0001`-`0004` are
+    non-idempotent.
+12. **`$199` (copy add-on) is still hardcoded** in `checkout/page.tsx`, `checkout-form.tsx`,
+    `worksheet-form.tsx`, and the webhook's Slack alert. Route it through `pricing-constants.ts`.
+13. **`/api/checkout` does not enforce the promo server-side** — the price still depends on the
+    client sending `promo`. The 503 guard prevents a mis-charge when config is missing, but a
+    caller omitting `promo` still gets standard pricing. Harden when next touching that file.
+14. `src/lib/seo.ts` publishes the promo price (`price: "99"`) in the schema.org Offer —
+    accurate today, silently wrong the day the promo ends.
+15. **`conversionValueUsd()` over-reports.** It returns $299 for a subscription while the
+    customer now pays $99 today. Google Ads Smart Bidding optimises against this figure.
 
 ## Stripe account reality — verified 2026-07-30
 
@@ -516,15 +528,72 @@ BLOCKER 1 is unchanged: creating sessions proves checkout, not the post-payment 
 Reproduce with the live secret key:
 `GET /v1/checkout/sessions?limit=100` (paginate), then keep only rows with `metadata.site_id`.
 
-## What the funnel data says (2026-07-30)
+## What the funnel data says — corrected 2026-07-31
 
-40+ visitors, **2 reached `/checkout`**, 0 payments. Nobody abandoned at payment — they left
-before submitting the form. Production logs show only 200s, so this is a conversion problem, not
-a technical one. (An earlier revision of this doc said "0 checkout sessions created"; 26 Your
-Shopfront sessions exist lifetime, but every one is self-generated test traffic — see above.)
+**The previously reported traffic numbers were wrong, and wrong in a way that mattered.**
 
-Two contributing factors were live for most of that traffic and are now fixed: every shared link
-previewed "Apex Sites — $499 setup", and the checkout order-summary rendered its own text
-garbled. The remaining known gap is **zero social proof** anywhere in the funnel — no
-testimonials, no customer count. That cannot be fixed by writing some; it needs a real customer,
-i.e. BLOCKER 1.
+`<PostHogAnalytics />` sits in the root layout, and `rotating-preview.tsx:69` mounts live
+`/demos/{slug}?embed=1` iframes on the homepage. Each iframe is a full page load that renders
+the root layout, so every tracker fired again inside the frame. Fixed in PR #88.
+
+| | Previously reported | Actual |
+| --- | --- | --- |
+| Pageviews | 209 | **34** (175 were iframes) |
+| Unique visitors | 72 (and "40+" earlier) | **18** |
+| Human views of any `/demos/*` page | 46 on ironside alone | **0, across all 30 demos** |
+
+Real entry pages: `/start` **14**, `/` **3**, `/checkout` **1**. That is the entire funnel.
+74% of pageviews are mobile iOS. Traffic is **Facebook**, not TikTok — one `src=tiktok` hit all
+week. GA4 and Vercel Analytics sit in the same layout and were inflated identically, so no
+historical figure from either is trustworthy. Clean measurement starts 2026-07-31.
+
+**Payton's links are partly malformed.** 6 of 16 referral hits arrive as
+`?ref=payton&fb&fbclid=...` — `&fb` instead of `&src=fb`, so `src` is absent and those visits
+carry no channel attribution. Send her the corrected `?ref=payton&src=fb` links.
+
+**One visitor clicked "Pay securely with Stripe"** at `2026-07-30T09:08:33Z` and no Stripe
+session exists at that timestamp. `/api/checkout` was re-tested 2026-07-31 and works on every
+path, and that visitor's whole journey took 17 seconds, so a bot is the likely explanation —
+but it was never positively identified. PostHog error tracking is not enabled, so there are no
+`$exception` events to confirm either way.
+
+## What shipped 2026-07-31
+
+| PR | Merge | What |
+| --- | --- | --- |
+| #88 | `1f8b4e7` | Analytics gated on a top-level browsing context — stops the preview iframes firing phantom pageviews |
+| #89 | `f59b816` | $99 today via a 30-day trial, trade picker on `/start`, `/checkout` header overflow |
+
+**The offer changed.** Today's charge on the promo path was $198 ($99 setup + $99 first month
+billed together). It is now **$99 today, first month free, then $99/mo for 3 months, then
+$149/mo**.
+
+| | Today | M1 | M2 | M3 | M4 | M5+ |
+| --- | --- | --- | --- | --- | --- | --- |
+| Before | $198 | $99 | $99 | $149 | $149 | $149 |
+| After | $99 | free | $99 | $99 | $99 | $149 |
+
+Mechanism, verified against live Stripe rather than inferred:
+
+- `trial_period_days` alone gives **$49**, not $99. `launch_promo_3mo` is a flat $50 off with no
+  product restriction, so on a trial subscription the only line on the first invoice is the
+  one-time setup fee and the coupon discounts *that*.
+- New coupon **`launch_promo_3mo_monthly`** (`applies_to.products = prod_UYpp8k2bCOJSHX`) plus
+  `trial_period_days: 30` yields `amount_total: 9900`. `applies_to` cannot be added to an
+  existing coupon, which is why a new one was required.
+- The trial does **not** consume a discounted month: a real subscription showed trial
+  `07-31 -> 08-30` and discount `07-31 -> 10-31`, and no invoice is issued during a trial, so
+  three discounted invoices still land.
+- New env var **`STRIPE_COUPON_LAUNCH_PROMO_MONTHLY`** is set in Vercel production. If it is
+  ever missing, `/api/checkout` returns 503 on the promo path rather than silently billing the
+  standard $448 — `/checkout` renders promo pricing for every subscription visit, so a missing
+  coupon would otherwise quote $99 and charge $448.
+
+`/start` now carries a trade picker linking straight to
+`/checkout?tier=subscription&promo=launch&demo=<slug>`, cutting the path to payment from four
+steps to two. The `/checkout` header overflow that PR #77 missed is fixed: `MinimalNav`'s mailto
+was 186px of non-wrapping text forcing the page to 418px on a 375px viewport. Now 375/375.
+
+**Still not done on `/start`: there is no image of an actual website anywhere on the page**,
+which was the strongest appearance finding of the 2026-07-31 audit. 14 of 18 real visitors land
+here and see no product.

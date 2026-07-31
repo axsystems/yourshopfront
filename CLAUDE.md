@@ -1,6 +1,6 @@
 # Your Shopfront — CLAUDE.md
 
-> Productized website design + hosting for home-service businesses. **30 themes**, standard pricing $299 setup + $149/mo OR $997 one-time. **Currently running a launch promo: $99 setup + $99/mo for first 3 months, then $149/mo standard.** **Wedge product for the axon-growth marketing OS.**
+> Productized website design + hosting for home-service businesses. **30 themes**, standard pricing $299 setup + $149/mo OR $997 one-time. **Currently running a launch promo: $99 today, first month free, then $99/mo for 3 months, then $149/mo standard.** Implemented as `trial_period_days: 30` plus the monthly-scoped coupon `launch_promo_3mo_monthly` (`STRIPE_COUPON_LAUNCH_PROMO_MONTHLY`) — an unrestricted coupon would discount the setup fee instead and charge $49. **Wedge product for the axon-growth marketing OS.**
 
 ## Status — read `PROJECT-STATE.md` FIRST
 
