@@ -3,6 +3,7 @@ import { NextResponse } from "next/server"
 import { checkRateLimit } from "@/lib/chat/rate-limit"
 import { CheckoutRequestSchema, type CheckoutRequest } from "@/lib/checkout-schema"
 import { getClientIp } from "@/lib/get-client-ip"
+import { PROMO_TRIAL_DAYS } from "@/lib/pricing-constants"
 import { stripe } from "@/lib/stripe"
 
 export const runtime = "nodejs"
@@ -41,8 +42,13 @@ function readPriceIds(): PriceIds | null {
   return { setup, setupPromo, monthly, onetime, hosting, copyAddon }
 }
 
+// Must be a coupon whose `applies_to.products` is restricted to the monthly
+// subscription product. The promo path runs a trial, so the only line on the
+// first invoice is the one-time setup fee — an unrestricted coupon discounts
+// THAT instead, charging $49 today rather than $99 and burning a discounted
+// month. Verified against live Stripe 2026-07-31.
 function readLaunchPromoCoupon(): string | null {
-  const coupon = process.env.STRIPE_COUPON_LAUNCH_PROMO
+  const coupon = process.env.STRIPE_COUPON_LAUNCH_PROMO_MONTHLY
   if (!coupon || coupon.includes("xxx")) return null
   return coupon
 }
@@ -124,6 +130,21 @@ export async function POST(req: Request) {
   const successUrl = `${SITE_URL}/onboarding?session_id={CHECKOUT_SESSION_ID}`
   const cancelUrl = `${SITE_URL}/checkout?tier=${data.tier}&demo=${encodeURIComponent(data.demo)}&cancelled=1`
 
+  // Never quote one price and charge another: /checkout renders promo pricing
+  // for every subscription visit, so if the promo is requested but its Stripe
+  // config is incomplete, fail loudly instead of silently billing standard.
+  if (
+    data.promo === "launch" &&
+    data.tier === "subscription" &&
+    (priceIds.setupPromo === null || readLaunchPromoCoupon() === null)
+  ) {
+    console.error("[checkout] promo requested but promo price/coupon env is missing")
+    return NextResponse.json(
+      { error: "Launch promo is temporarily unavailable. Please try again shortly." },
+      { status: 503 }
+    )
+  }
+
   try {
     const session = await createSession(data, metadata, priceIds, successUrl, cancelUrl)
     if (!session.url) {
@@ -170,7 +191,12 @@ async function createSession(
         { price: setupPrice, quantity: 1 },
         ...(data.copy_addon ? [{ price: prices.copyAddon, quantity: 1 }] : []),
       ],
-      subscription_data: { metadata: sessionMetadata },
+      subscription_data: {
+        metadata: sessionMetadata,
+        // Promo path only: the setup fee bills today and the first monthly
+        // invoice lands after the trial, so today's charge is $99 not $198.
+        ...(isPromo ? { trial_period_days: PROMO_TRIAL_DAYS } : {}),
+      },
       // Stripe's SubscriptionData type does NOT accept discounts —
       // session-level `discounts` is the only valid place for coupons
       // in Checkout subscription mode. The coupon applies $50/mo off

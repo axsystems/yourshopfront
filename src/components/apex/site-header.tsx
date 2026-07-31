@@ -139,19 +139,24 @@ function MinimalNav({
   backLabel?: string
 }) {
   return (
-    <nav aria-label="Page" className="flex items-center gap-4">
+    // min-w-0 + truncate keep the back label from forcing the row wider than
+    // the viewport, and the mailto is hidden below sm: at 375px it is 186px of
+    // non-wrapping text that pushed /checkout to 418px wide, clipping the
+    // order summary on the page where the card is entered. Contact is still
+    // reachable from the footer and the chat bubble.
+    <nav aria-label="Page" className="flex min-w-0 items-center gap-4">
       {backHref ? (
         <Link
           href={backHref}
-          className="inline-flex items-center gap-1 text-sm font-semibold text-apx-mute transition-colors hover:text-apx-ink"
+          className="inline-flex min-w-0 items-center gap-1 text-sm font-semibold text-apx-mute transition-colors hover:text-apx-ink"
         >
-          <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
-          {backLabel ?? "Back"}
+          <ArrowLeft className="h-3.5 w-3.5 shrink-0" aria-hidden />
+          <span className="truncate">{backLabel ?? "Back"}</span>
         </Link>
       ) : null}
       <a
         href="mailto:hello@yourshopfront.com"
-        className="text-sm font-semibold text-apx-mute transition-colors hover:text-apx-ink"
+        className="hidden shrink-0 text-sm font-semibold text-apx-mute transition-colors hover:text-apx-ink sm:inline"
       >
         hello@yourshopfront.com
       </a>

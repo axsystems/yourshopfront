@@ -43,7 +43,8 @@ export const ANALYTICS_ENABLED = Boolean(GA4_ID || GOOGLE_ADS_ID)
  *
  * Limitations (intentional v1):
  * - Not promo-aware. A subscription customer with the launch promo
- *   actually paid $198 today, but we report $299. That's a known
+ *   actually paid $99 today (setup fee only, first month is a trial),
+ *   but we report $299. That's a known
  *   over-report — Google's CPA target should be set accordingly.
  *   Refine post-launch by reading the actual Stripe session.amount_total
  *   in the webhook and storing on the sites table.
