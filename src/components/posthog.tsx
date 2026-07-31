@@ -4,6 +4,8 @@ import posthog from "posthog-js"
 import { useEffect, useRef } from "react"
 import { usePathname } from "next/navigation"
 
+import { isEmbeddedFrame } from "@/lib/embed"
+
 /**
  * PostHog session replay + product analytics. Env-gated: returns null
  * unless NEXT_PUBLIC_POSTHOG_KEY is set, so dev/CI/preview builds without
@@ -54,6 +56,10 @@ export function PostHogAnalytics() {
 
   useEffect(() => {
     if (!POSTHOG_KEY) return
+    // Never initialise inside the homepage's /demos/{slug}?embed=1
+    // preview iframes — they render this same root layout and would
+    // otherwise log a pageview for a demo the visitor never opened.
+    if (isEmbeddedFrame()) return
     const path = pathname ?? "/"
 
     if (!initialized.current) {
