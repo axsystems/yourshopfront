@@ -75,6 +75,10 @@ export const heritagePainters: Theme = {
   sourceHtmlPath: "04-heritage-painters.html",
   round: 3,
   content: {
+    hero: {
+      headline: "Paint that still looks new in ten years.",
+      sub: "Interior and exterior painting, prepped properly and backed by a written warranty.",
+    },
     howItWorks: {
       header: {
         eyebrow: "Our process",

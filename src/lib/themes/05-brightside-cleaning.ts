@@ -75,6 +75,10 @@ export const brightsideCleaning: Theme = {
   sourceHtmlPath: "05-brightside-cleaning.html",
   round: 3,
   content: {
+    hero: {
+      headline: "Come home to spotless.",
+      sub: "Recurring home and office cleaning from vetted crews. Reschedule any time, no fees.",
+    },
     howItWorks: {
       header: {
         eyebrow: "How it works",

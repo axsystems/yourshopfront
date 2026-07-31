@@ -75,6 +75,10 @@ export const voltcraftElectric: Theme = {
   sourceHtmlPath: "08-voltcraft-electric.html",
   round: 3,
   content: {
+    hero: {
+      headline: "Licensed electricians, same day.",
+      sub: "Panel upgrades, EV chargers and emergency repairs. Upfront pricing before any work starts.",
+    },
     howItWorks: {
       header: {
         eyebrow: "How we work",

@@ -75,6 +75,10 @@ export const mesaHvac: Theme = {
   sourceHtmlPath: "11-mesa-hvac.html",
   round: 3,
   content: {
+    hero: {
+      headline: "AC out? We'll be there today.",
+      sub: "Repairs, tune-ups and new system installs. No overtime charges, ever.",
+    },
     howItWorks: {
       header: {
         eyebrow: "How we work",

@@ -75,6 +75,10 @@ export const summitRoofing: Theme = {
   sourceHtmlPath: "06-summit-roofing.html",
   round: 3,
   content: {
+    hero: {
+      headline: "Storm damage? Free inspection today.",
+      sub: "Licensed roofers handling repairs, full replacements and insurance claims end to end.",
+    },
     howItWorks: {
       header: {
         eyebrow: "How it goes",

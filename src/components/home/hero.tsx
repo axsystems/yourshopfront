@@ -32,6 +32,8 @@ interface HeroProps {
   ctaPrimaryHref?: string
   ctaSecondaryHref?: string
   isDemoPreview?: boolean
+  /** True only on /demos/[slug]; enables the theme's real hero copy. */
+  isDemoRoute?: boolean
 }
 
 const DEFAULT_HEADLINE = "A website your business deserves."
@@ -43,11 +45,23 @@ export function Hero({
   ctaPrimaryHref = "/checkout?tier=subscription",
   ctaSecondaryHref = "/pricing",
   isDemoPreview = false,
+  isDemoRoute = false,
 }: HeroProps) {
-  const headline = isDemoPreview ? previewHeadline(theme) : DEFAULT_HEADLINE
-  const subhead = isDemoPreview
-    ? `${theme.description} Same Your Shopfront service underneath — pick this style and we'll have your site live in 24 hours.`
-    : DEFAULT_SUBHEAD
+  // `/demos/[slug]` shows the business's own copy when the theme provides
+  // it; `/portfolio/[slug]` keeps the descriptive headline, which is the
+  // SEO surface. Both routes set isDemoPreview, so the demo route needs
+  // its own flag — see src/lib/themes/types.ts.
+  const realHero = isDemoRoute ? theme.content?.hero : undefined
+  const headline = realHero
+    ? realHero.headline
+    : isDemoPreview
+      ? previewHeadline(theme)
+      : DEFAULT_HEADLINE
+  const subhead = realHero
+    ? realHero.sub
+    : isDemoPreview
+      ? `${theme.description} Same Your Shopfront service underneath — pick this style and we'll have your site live in 24 hours.`
+      : DEFAULT_SUBHEAD
 
   // Gallery puts the visual below the headline, full-width.
   // The other 4 patterns use a 2-col grid with the visual on the right.
