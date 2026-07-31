@@ -4,7 +4,12 @@ import Image from "next/image"
 import { previewHeadline } from "@/lib/seo-headlines"
 import type { Theme } from "@/lib/themes/types"
 import { ApexButton, Container, Display } from "./primitives"
-import { PROMO_MONTHLY, PROMO_MONTHS, PROMO_SETUP, STANDARD_MONTHLY } from "@/lib/pricing-constants"
+import {
+  PROMO_MONTHLY,
+  PROMO_MONTHS,
+  PROMO_SETUP_PRICE,
+  STANDARD_MONTHLY,
+} from "@/lib/pricing-constants"
 
 /**
  * Phase A: dark themes need a light scrim, light themes need a dark
@@ -159,7 +164,7 @@ export function Hero({
               textTransform: "uppercase",
             }}
           >
-            {PROMO_SETUP} setup + {PROMO_MONTHLY} for {PROMO_MONTHS} months, then {STANDARD_MONTHLY} · launch promo · live in 24h
+            ${PROMO_SETUP_PRICE} today · first month free · then {PROMO_MONTHLY} for {PROMO_MONTHS} months, then {STANDARD_MONTHLY} · live in 24h
           </p>
         </div>
         <div className={isStacked ? "" : "lg:justify-self-end lg:self-center"}>
