@@ -11,6 +11,7 @@ import {
   SiteHeader,
 } from "@/components/apex"
 import { MobileStickyCTA, MobileStickySpacer } from "@/components/apex/mobile-sticky-cta"
+import { TradePicker } from "@/components/apex/start/trade-picker"
 import { FadeUp } from "@/components/apex/motion/fade-up"
 import { RotatingPreview } from "@/components/apex/home/rotating-preview"
 import { JsonLd } from "@/components/json-ld"
@@ -22,13 +23,19 @@ import {
   ONE_TIME,
   PROMO_FIRST_PERIOD_TOTAL,
   PROMO_MONTHLY,
-  PROMO_MONTHLY_PRICE,
   PROMO_MONTHS,
+  PROMO_DISCOUNT_ROWS_LABEL,
+  PROMO_OFFER_DETAIL,
+  PROMO_OFFER_HEADLINE,
   PROMO_SETUP,
+  PROMO_SETUP_PRICE,
+  PROMO_STANDARD_ROW_LABEL,
+  PROMO_TRIAL_DAYS,
+  PROMO_TRIAL_ROW_AMOUNT,
+  PROMO_TRIAL_ROW_LABEL,
   SETUP_SAVINGS,
   STANDARD_FIRST_PERIOD_TOTAL,
   STANDARD_MONTHLY,
-  STANDARD_MONTHLY_PRICE,
   STANDARD_SETUP,
 } from "@/lib/pricing-constants"
 
@@ -82,7 +89,7 @@ export default function StartPage() {
       </main>
       <SiteFooter variant="default" />
       <MobileStickyCTA
-        href={START_CTA_HREF}
+        href="#pick"
         label={`Start my site for ${PROMO_SETUP} →`}
         subLabel="30-day money-back · cancel anytime"
       />
@@ -92,34 +99,24 @@ export default function StartPage() {
 
 function PromoHero() {
   return (
-    <Section bg="paper">
+    // Tighter than the default py-24/32: this is the entry page for 14 of
+    // the 18 real visitors on record, almost all of them on a phone, and the
+    // default section padding pushed the offer and the CTA below the fold.
+    <Section bg="paper" className="pt-10 pb-16 md:pt-16 md:pb-24">
       <Container>
         <FadeUp>
           <div className="mx-auto max-w-3xl text-center">
             <Eyebrow tone="cobalt">Launch special</Eyebrow>
-            <Display level="display-xl" className="mt-5">
+            <Display level="display-xl" className="mt-4">
               Your shopfront, live in 24 hours.{" "}
-              <span className="text-apx-primary">Starting at {PROMO_SETUP}.</span>
+              <span className="text-apx-primary">{PROMO_OFFER_HEADLINE}</span>
             </Display>
-            <Lede className="mt-6">
-              For your first {PROMO_MONTHS} months, pay {PROMO_SETUP} setup and ${PROMO_MONTHLY_PRICE}/month. After
-              that, you&apos;re on our standard ${STANDARD_MONTHLY_PRICE}/month plan. Cancel any
-              time, no contract.
-            </Lede>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Button
-                href={START_CTA_HREF}
-                variant="primary"
-                size="lg"
-              >
-                Start my site for {PROMO_SETUP} →
-              </Button>
-              <Button href="#designs" variant="ghost" size="lg">
-                Browse the 30 designs
-              </Button>
+            <Lede className="mt-5">{PROMO_OFFER_DETAIL}</Lede>
+            <div id="pick" className="mt-8 scroll-mt-24">
+              <TradePicker />
             </div>
             <p className="mt-6 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-apx-mute">
-              {PROMO_SETUP} setup + {PROMO_MONTHLY} × {PROMO_MONTHS} months · then {STANDARD_MONTHLY} · cancel anytime · 30-day money-back
+              ${PROMO_SETUP_PRICE} today · first month free · then {PROMO_MONTHLY} × {PROMO_MONTHS} · then {STANDARD_MONTHLY} · cancel anytime · 30-day money-back
             </p>
           </div>
         </FadeUp>
@@ -148,29 +145,36 @@ function PricingBreakdown() {
               note={`Standard rate is ${STANDARD_SETUP}. Save ${SETUP_SAVINGS} today.`}
             />
             <Divider />
+            <Divider />
             <PriceRow
-              label="Months 1, 2, 3"
+              label={PROMO_TRIAL_ROW_LABEL}
+              value={PROMO_TRIAL_ROW_AMOUNT}
+              note={`Your subscription starts after a ${PROMO_TRIAL_DAYS}-day free trial. Nothing is charged until then.`}
+            />
+            <Divider />
+            <PriceRow
+              label={PROMO_DISCOUNT_ROWS_LABEL}
               value={PROMO_MONTHLY}
               note={`Standard rate is ${STANDARD_MONTHLY}. Save ${MONTHLY_SAVINGS}/mo for ${PROMO_MONTHS} months.`}
             />
             <Divider />
             <PriceRow
-              label="Month 4 onward"
+              label={PROMO_STANDARD_ROW_LABEL}
               value={STANDARD_MONTHLY}
               note="Standard subscription rate. Cancel any time."
             />
             <hr className="my-6 border-apx-line" />
             <div className="flex items-baseline justify-between gap-4">
               <span className="text-[14px] text-apx-mute">
-                First-3-months total
+                Total over the first {PROMO_MONTHS + 1} months
               </span>
               <strong className="font-mono text-[20px] text-apx-ink">
                 ${PROMO_FIRST_PERIOD_TOTAL}
               </strong>
             </div>
             <p className="mt-2 text-[12px] text-apx-mute">
-              vs. ${STANDARD_FIRST_PERIOD_TOTAL} at standard rates · you save ${FIRST_PERIOD_SAVINGS} over the first {PROMO_MONTHS}
-              months.
+              vs. ${STANDARD_FIRST_PERIOD_TOTAL} at standard rates · you save $
+              {FIRST_PERIOD_SAVINGS}, and only ${PROMO_SETUP_PRICE} of it is due today.
             </p>
           </div>
         </FadeUp>

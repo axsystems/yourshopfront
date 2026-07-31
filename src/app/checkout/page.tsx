@@ -14,7 +14,11 @@ import {
   ONE_TIME,
   PROMO_MONTHLY,
   PROMO_SETUP,
+  PROMO_DISCOUNT_ROWS_LABEL,
+  PROMO_STANDARD_ROW_LABEL,
   PROMO_TODAY_CHARGE,
+  PROMO_TRIAL_ROW_AMOUNT,
+  PROMO_TRIAL_ROW_LABEL,
   STANDARD_MONTHLY,
   STANDARD_MONTHLY_PRICE,
   STANDARD_SETUP,
@@ -204,15 +208,19 @@ function OrderSummary({
               promo ? (
                 <>
                   <PriceLine label="Setup fee (today)" amount={PROMO_SETUP} />
-                  <PriceLine label="First month" amount={PROMO_SETUP} />
                   <PriceLine
-                    label="Months 2 + 3"
+                    label={PROMO_TRIAL_ROW_LABEL}
+                    amount={PROMO_TRIAL_ROW_AMOUNT}
+                    detail="Nothing charged for 30 days"
+                  />
+                  <PriceLine
+                    label={PROMO_DISCOUNT_ROWS_LABEL}
                     amount={PROMO_MONTHLY}
                     muted
                     detail="Promo rate"
                   />
                   <PriceLine
-                    label="Month 4 onward"
+                    label={PROMO_STANDARD_ROW_LABEL}
                     amount={STANDARD_MONTHLY}
                     muted
                     detail="Standard rate · cancel anytime"
