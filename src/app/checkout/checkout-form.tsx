@@ -13,7 +13,7 @@ import {
   type Tier,
 } from "@/lib/checkout-schema"
 import { readReferralCookies } from "@/lib/referral"
-import { HOSTING_ADDON } from "@/lib/pricing-constants"
+import { COPY_ADDON, HOSTING_ADDON } from "@/lib/pricing-constants"
 
 // copy_addon is intentionally absent from CheckoutFormSchema (Stream A comment).
 // Stream B extends the schema locally for the form resolver so the field is
@@ -204,7 +204,7 @@ export function CheckoutForm({ tier, demo, cancelled, promo, defaultIndustry }: 
                 fontFamily: "var(--apex-font-display)",
               }}
             >
-              $199 one-time
+              {COPY_ADDON} one-time
             </span>
           </span>
           <span className="mt-1.5 block" style={{ color: "var(--apex-muted-fg)" }}>

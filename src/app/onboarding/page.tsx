@@ -12,8 +12,9 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { allThemes, defaultTheme } from "@/lib/themes"
 import { getSiteByStripeSessionId, type Site, type SiteStatus } from "@/lib/supabase"
 import { GoogleConversionEvent } from "@/components/google-conversion-event"
-import { conversionValueUsd } from "@/lib/analytics-config"
+import { ANALYTICS_ENABLED, fallbackConversionValueUsd } from "@/lib/analytics-config"
 import { SITE_URL } from "@/lib/seo"
+import { stripe } from "@/lib/stripe"
 
 const COPY_ACTIVE_STATUSES: SiteStatus[] = [
   "pending_content",
@@ -31,6 +32,43 @@ const COPY_REVIEW_STATUSES: SiteStatus[] = [
 
 interface PageProps {
   searchParams: Promise<{ session_id?: string }>
+}
+
+/**
+ * Dollar value reported to GA4 / Google Ads for this purchase.
+ *
+ * The authoritative number is the Checkout session's `amount_total`: it is
+ * literally the cents Stripe collected today, after the trial, the
+ * launch-promo coupon, and any promotion code the customer typed in
+ * (`allow_promotion_codes: true` on every non-promo path, so no
+ * constants-derived estimate can be right for those). Verified against
+ * live Stripe on 2026-07-31: the promo path returns `amount_total: 9900`,
+ * i.e. it already accounts for the PROMO_TRIAL_DAYS trial.
+ *
+ * Feeding Ads a number we made up instead of the one Stripe charged is
+ * how the old $299-for-a-$99-sale over-report distorted bidding, so the
+ * fallback only runs when Stripe is unreachable — and it under-reports by
+ * construction rather than over-reporting.
+ *
+ * Skips the Stripe round-trip entirely when no tag is configured, since
+ * <GoogleConversionEvent> renders nothing in that case anyway.
+ */
+async function purchaseValueUsd(sessionId: string, site: Site): Promise<number> {
+  const fallback = fallbackConversionValueUsd({
+    tier: site.tier,
+    copyAddon: site.copy_addon,
+    hostingAddon: site.hosting_addon,
+  })
+  if (!ANALYTICS_ENABLED) return fallback
+
+  try {
+    const session = await stripe().checkout.sessions.retrieve(sessionId)
+    const cents = session.amount_total
+    return typeof cents === "number" && cents > 0 ? cents / 100 : fallback
+  } catch (err) {
+    console.error("[onboarding] stripe amount_total lookup failed", err)
+    return fallback
+  }
 }
 
 export const metadata: Metadata = {
@@ -130,6 +168,7 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
   const hasRecurringBilling =
     site.tier === "subscription" ||
     (site.tier === "onetime" && site.hosting_addon)
+  const valueUsd = await purchaseValueUsd(session_id, site)
 
   return (
     <ThemeProvider theme={theme}>
@@ -138,11 +177,7 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
           No-op when env vars aren't configured. */}
       <GoogleConversionEvent
         transactionId={session_id}
-        valueUsd={conversionValueUsd({
-          tier: site.tier,
-          copyAddon: site.copy_addon,
-          hostingAddon: site.hosting_addon,
-        })}
+        valueUsd={valueUsd}
         tier={site.tier}
       />
       <SiteHeader variant="minimal" backHref="/" backLabel="Back to home" />

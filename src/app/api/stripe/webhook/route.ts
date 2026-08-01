@@ -6,6 +6,7 @@ import { notifySlack } from "@/lib/notify"
 import { sendOperatorSms } from "@/lib/sms-quo"
 import { unprovisionSite } from "@/lib/provisioning/orchestrator"
 import {
+  COPY_ADDON,
   ONE_TIME,
   PROMO_PERIOD_LABEL,
   PROMO_SETUP,
@@ -277,7 +278,7 @@ async function handleCopyAddonUpgrade(
       `💰 *Copy upgrade purchased* — ${site.business_name} · session \`${session.id.slice(-12)}\``
     ),
     sendOperatorSms(
-      `💰 COPY ADDON ($199) — Your Shopfront\n${site.business_name}`
+      `💰 COPY ADDON (${COPY_ADDON}) — Your Shopfront\n${site.business_name}`
     ),
   ])
 }

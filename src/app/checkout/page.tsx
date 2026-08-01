@@ -10,6 +10,7 @@ import { allThemes } from "@/lib/themes"
 import type { Tier } from "@/lib/checkout-schema"
 import { SITE_URL, organizationSchema } from "@/lib/seo"
 import {
+  COPY_ADDON,
   HOSTING_ADDON,
   ONE_TIME,
   PROMO_MONTHLY,
@@ -365,7 +366,7 @@ function CopyAddonHint() {
       className="font-mono text-[11px] leading-snug"
       style={{ color: "var(--apex-muted-fg)" }}
     >
-      +$199 if you add copy service (selectable in the form)
+      +{COPY_ADDON} if you add copy service (selectable in the form)
     </p>
   )
 }

@@ -3,6 +3,7 @@
 import * as React from "react"
 import { ArrowRight, Check, PenLine } from "lucide-react"
 
+import { COPY_ADDON } from "@/lib/pricing-constants"
 import type { Site } from "@/lib/supabase"
 import {
   siteContentIsValid,
@@ -174,7 +175,9 @@ function CopyServiceBanner({
         color: "var(--apex-fg)",
       }}
     >
-      <p className="font-semibold">Stuck on copy? Have us write it for $199.</p>
+      <p className="font-semibold">
+        Stuck on copy? Have us write it for {COPY_ADDON}.
+      </p>
       <p className="mt-1" style={{ color: "var(--apex-muted-fg)" }}>
         Industry-tested copy that converts — we know what wording books jobs in
         your industry. Skip the worksheet, answer 5 facts instead.
