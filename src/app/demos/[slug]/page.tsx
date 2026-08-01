@@ -81,7 +81,7 @@ export default async function DemoPage({ params }: PageProps) {
           breadcrumbSchema([
             { name: "Home", url: SITE_URL },
             { name: "Portfolio", url: `${SITE_URL}/portfolio` },
-            { name: theme.name, url: `${SITE_URL}/demos/${theme.slug}` },
+            { name: theme.name, url: canonicalThemeUrl(theme.slug) },
           ]),
         ]}
       />
