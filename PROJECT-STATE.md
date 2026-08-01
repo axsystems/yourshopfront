@@ -565,7 +565,39 @@ but it was never positively identified. PostHog error tracking is not enabled, s
 | #92 | merged | WS1 for the 8 picker trades — real business headlines on `/demos/[slug]`, descriptive headline preserved on `/portfolio/[slug]` |
 | #93 | merged | `<HideWhenEmbedded>` — our PortfolioBanner + themed SiteHeader no longer render inside preview iframes |
 
-### `LAUNCH-CHECKLIST.md` corrections — uncommitted on `master`, not yet branched
+### Four PRs OPEN, awaiting owner review — none merged
+
+CI green on all four. Every branch was written in an isolated worktree and then verified **cold**
+by a fresh-context reviewer before being opened. The combined state of all four was test-merged
+and built locally: `pnpm typecheck` exit 0, `pnpm build` succeeded, **30 `/demos` + 30
+`/portfolio` paths still prerendered**, `pnpm lint` 0 errors (2 pre-existing warnings). All pairs
+merge clean — #97 and #98 touch the same two `/checkout` files but different hunks.
+
+| PR  | Branch                                   | What                                                                                  |
+| --- | ---------------------------------------- | ------------------------------------------------------------------------------------- |
+| #95 | `docs/launch-checklist-corrections`      | this section's doc fixes                                                              |
+| #96 | `feat/embedded-hero-suppression`         | hero meta-copy suppressed in preview iframes; 7 real screenshots on `/start`          |
+| #97 | `fix/checkout-promo-server-enforcement`  | **server is now the authority on the promo** — a dropped param charged $448 vs a $99 quote |
+| #98 | `fix/pricing-constants-sweep`            | copy add-on via constants; schema.org Offer; conversion value $299 → real charge; PostHog `$exception` |
+
+**#97 is the load-bearing one.** `/checkout` renders promo pricing for every subscription visit,
+but `/api/checkout` only applied the promo when the client sent `promo=launch` — so losing the
+query param quoted **$99** and charged **$448**. It now fails closed. The cold review also caught
+that the first implementation left the `?promo=none` opt-out unreachable from the client, which
+would have made pulling the coupon env var (the obvious first move when retiring the promo) 503
+every subscription checkout with no code-side kill switch. Fixed before the PR opened.
+
+⚠️ **#97 widens a blast radius and this is an open decision.** A wrong coupon ID used to affect
+only `promo=launch` traffic; it now affects **100% of subscription sales**, and the code cannot
+detect it. The retired unrestricted `launch_promo_3mo` still exists in the production coupon list,
+and putting it in `STRIPE_COUPON_LAUNCH_PROMO_MONTHLY` charges $49 instead of $99. A
+`stripe.coupons.retrieve` guard asserting `applies_to.products` is non-empty would close it —
+deliberately not added, owner's call.
+
+Post-merge: remove the three agent worktrees under `.claude/worktrees/` (branches are pushed, so
+the working copies are disposable).
+
+### `LAUNCH-CHECKLIST.md` corrections — shipped in PR #95
 
 Two defects found by reading §0 and §4 against the current code. Both are the kind that only
 surface when someone actually follows the doc, which is why neither had been caught.
