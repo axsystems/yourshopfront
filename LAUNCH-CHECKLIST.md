@@ -38,19 +38,42 @@ runbook) · `docs/post-launch-todo.md` (deferred work) · `README.md` (architect
 > onboarding link, no site. The webhook's own failure path only pings Slack, so if
 > `SLACK_WEBHOOK_URL` is unset the failure is completely silent.
 
-**The gate test (run once, on production, with a real card):**
+**The gate test (run once, on production, with a real card).** Enter through a referral link so
+this single test also proves attribution — promo pricing, email, onboarding, and the `ref`/`src`
+columns are all covered by one purchase.
 
-- [ ] Buy one `$99` launch-promo subscription on `/start` with a real card.
+**Setup:** use a fresh incognito profile. The referral cookie is first-touch, so an existing
+`ysf_ref` from earlier testing will silently win and the attribution leg proves nothing.
+
+- [ ] Open `https://yourshopfront.com/start?ref=payton&src=tiktok`, then click a trade in the
+      picker. You should land on `/checkout?tier=subscription&promo=launch&demo=<slug>`.
+- [ ] **Before entering the card:** the Stripe page must read **$99.00 due today.** This is the
+      most load-bearing assertion in the whole test — three wrong amounts are all reachable:
+      **$49** means the unscoped `launch_promo_3mo` coupon was applied instead of
+      `launch_promo_3mo_monthly` (it discounts the setup fee, which on a trial is the only line);
+      **$198** means the pre-trial ladder is back; **$448** means the promo was not applied at
+      all. If it is anything but $99.00, stop and do not pay.
+- [ ] Pay with a real card.
 - [ ] Stripe Dashboard (**live** mode) → Developers → Webhooks → the live endpoint shows the
       `checkout.session.completed` delivery as **200**, not 4xx/5xx.
 - [ ] Production Supabase: one new `customers` row and one new `sites` row, with
       `stripe_session_id` matching the `cs_live_*` you just created.
-- [ ] The welcome email arrives in a real inbox (check spam) with a working onboarding link.
+- [ ] Same `sites` row: `referral_code = 'payton'` and `referral_source = 'tiktok'`. These
+      columns (migration `0013`) have **never been written by a real purchase** — the code path
+      is traced and correct but has never executed.
+- [ ] The welcome email arrives in a real inbox (check spam) with a working onboarding link, and
+      quotes the **promo** price, not `$299 + $149/mo`.
 - [ ] `/onboarding?session_id=cs_live_...` renders the checklist, not the "Processing your
       purchase" spinner.
 - [ ] Complete the worksheet; confirm `sites.site_content` is populated and status advances.
+- [ ] Stripe → the new subscription shows a **30-day trial** and a discount running **3 months**
+      past the trial end (the trial must not consume a discounted month).
 - [ ] Refund the charge in the Stripe Dashboard, then confirm `charge.refunded` was delivered
       **200** and `sites.status` flipped to `'refunded'` (the handler exists — see §5).
+- [ ] **Cancel the subscription too — refunding the charge does not cancel it.** The subscription
+      is still on a 30-day trial and will invoice your own card once the trial ends. Cancelling
+      also exercises `customer.subscription.deleted`: confirm it delivered **200**, `sites.status`
+      is `'cancelled'`, and the goodbye email sent.
 - [ ] Sign-off: date + who ran it: ________________________
 
 Until every box in §0 is checked, **do not run outreach.**
@@ -209,13 +232,18 @@ local command — do not add them to Vercel by hand.
 
 > ⚠️ **CORRECTED 2026-07-29 — this section previously caused a broken schema.** It instructed
 > the operator to run only `0001_initial` → `0005_storage_bucket`. `supabase/migrations/` holds
-> **twelve** files. Anyone who provisioned a fresh project from the old list got a schema with
+> **thirteen** files. Anyone who provisioned a fresh project from the old list got a schema with
 > no `copy_addon`, no AI-copy statuses, no auth link, and no `edit_requests` table — meaning
 > checkout would write rows that violate the `sites_status_check` constraint, and the customer
-> portal would 500. Verified 2026-07-29 by reading all twelve `.sql` files.
+> portal would 500. Verified 2026-07-29 by reading all `.sql` files.
+>
+> **Amended 2026-08-01:** this list said *twelve* and omitted `0013_referral_tracking`, which
+> had been applied to production but never added here — the identical failure mode one paragraph
+> up. A fresh project built from the twelve-file list has no `referral_code` / `referral_source`
+> columns, so every checkout webhook insert fails and the customer pays and gets nothing.
 
 - [ ] Production project exists in Supabase.
-- [ ] **All twelve migrations have been run, in strict numeric order**, in the SQL editor:
+- [ ] **All thirteen migrations have been run, in strict numeric order**, in the SQL editor:
 
   | #    | File                               | What it adds                                                             |
   | ---- | ---------------------------------- | ------------------------------------------------------------------------ |
@@ -231,10 +259,36 @@ local command — do not add them to Vercel by hand.
   | 0010 | `0010_edit_requests.sql`           | `edit_requests` table + RLS select policy for the customer portal         |
   | 0011 | `0011_dedupe_auth_user_id_idx.sql` | Rebuilds `customers_auth_user_id_idx` as the partial form 0010 intended   |
   | 0012 | `0012_edit_request_append_comment.sql` | `append_edit_request_comment()` RPC — row-locked atomic comment append |
+  | 0013 | `0013_referral_tracking.sql`       | `sites.referral_code` + `sites.referral_source` (both nullable `text`) + partial index; payout/channel queries are comments in the file |
 
   **Order is load-bearing.** 0009 and 0010 both declare `customers_auth_user_id_idx`; 0011 only
   produces the correct partial index if it runs after both. 0003, 0007, and 0008 each drop and
   re-add `sites_status_check` — running them out of order leaves the wrong status set.
+
+- [ ] **Baseline the migration ledger.** There is no `supabase_migrations.schema_migrations`
+      history on the production project — every migration was applied by hand, so
+      `supabase migration list` always reports nothing and **nothing prevents the next migration
+      being applied twice or skipped.** `0001`–`0004` are not idempotent, so a double-apply
+      errors partway and leaves the schema indeterminate.
+
+      Record the applied history once, using the CLI's own command rather than hand-written
+      `INSERT`s (it creates the schema and handles the version format itself):
+
+      ```bash
+      supabase migration repair --linked --status applied \
+        0001 0002 0003 0004 0005 0006 0007 0008 0009 0010 0011 0012 0013
+      ```
+
+      Auth comes from `SUPABASE_ACCESS_TOKEN` (`supabase login` does not work on the workstation
+      — no keyring backend); the command will also prompt for the database password.
+
+      **Only run this against a project where all thirteen really are applied** — it asserts a
+      history rather than verifying one, so on a partially-migrated project it tells the CLI a
+      lie and real migrations get skipped. Confirm first with `select pg_get_constraintdef(oid)
+      from pg_constraint where conname = 'sites_status_check';` — expect all **12** status
+      values. Fewer means 0007/0008 did not both land: stop, do not baseline.
+
+      Verify after: `supabase migration list --linked` should show 0001–0013 as applied.
 
 - [ ] Verify with this SQL (rewritten 2026-07-29 to match what the twelve migrations actually
       create — the old block only checked through 0005):
