@@ -25,7 +25,7 @@ Sister docs — do not duplicate these, update them:
 | Production schema   | **CURRENT**    | all 13 migrations (`0001`–`0013`) re-verified column-by-column against live schema 2026-07-30                                         |
 | Provisioning cron   | **ARMED**      | `/api/cron/provision` returns 401 unauth → `CRON_SECRET` set                                                                          |
 | Sales chat bubble   | **CONFIGURED** | `/api/chat` returns 400 on empty body (not 503) → `ANTHROPIC_API_KEY` set                                                             |
-| SEO                 | **LIVE**       | `robots.txt` 200; `sitemap.xml` 38 `<loc>` entries                                                                                    |
+| SEO                 | **LIVE**       | `robots.txt` 200; `sitemap.xml` **39** `<loc>` entries incl. `/start` (was 38 and missing it until PR #100)                          |
 | CI                  | **GREEN**      | `lint-and-typecheck` ~35s, `build-and-smoke` ~1m35s                                                                                   |
 | OG preview image    | **FIXED**      | `og-v3.png` 200; every share previewed "Apex Sites / $499 setup" until 2026-07-30                                                     |
 | Google Analytics    | **WORKING**    | collecting only since PR #84 (`f91ea8b`). #82 unblocked the CSP but the inline script still failed to parse — see below               |
@@ -475,7 +475,8 @@ Remove that gotcha from `CLAUDE.md`.
 
 Ordered for the next session. **Rewritten 2026-08-01** — items 1, 2, 3, 10, 13, 14, 15 and 16
 from the previous list all shipped in PRs #95–#98 and were removed rather than left ticked, since
-a next-actions list that accumulates done items stops being read.
+a next-actions list that accumulates done items stops being read. Renumbered again later the same
+day when PR #100 merged, adding items 4 and 11.
 
 1. **The production smoke test — BLOCKER 1.** Still the top item and still no real completed
    purchase. `LAUNCH-CHECKLIST.md` §0 is now a complete runbook: enter via
@@ -488,27 +489,56 @@ a next-actions list that accumulates done items stops being read.
    `applies_to.products` is non-empty would close it. Deliberately not added; owner's call.
 3. **Watch the funnel on clean data.** Analytics trustworthy since PR #88. Now also worth asking
    whether the real `/start` screenshots move `/start` → `/checkout` off 3/14.
-4. **F1b — gallery-hero photography.** 17 of 30 themes render CSS gradient placeholders instead
-   of photos, including `heritage-painters` (the `defaultThemeSlug`). This is now the **only**
-   blocker on the 8th `/start` picker image, which currently falls back to that theme's own hero
-   photo. Remove `fallbackImage` from the `Painting` entry in `trade-picker.tsx` and re-run
-   `scripts/generate-demo-previews.mjs` once it lands.
-5. **Rotate the Supabase JWT secret + Resend SMTP password** — BLOCKER 3. Unchanged.
-6. **Confirm PostHog `$exception` events in a real browser.** #98 enabled exception capture and
+4. **Create a Google Business Profile and a LinkedIn company page.** Highest-value action
+   available that needs no code. `sameAs` in the `Organization` schema is empty because no real
+   profile exists, and the 2026-08-01 research found the off-site citation layer — not on-page
+   markup — is what AI answers draw on (91% cite third parties; branded mentions correlate
+   r = 0.664 vs backlinks r = 0.218). Fill `sameAs` once the profiles are live.
+5. **F1b — gallery-*tile* photography.** ⚠️ **The previous wording of this item was wrong.** It
+   said "17 of 30 themes render CSS gradient placeholders instead of photos," which reads as those
+   themes having no hero photo. They all do. Verified: `ls public/themes/*/hero.jpg | wc -l` → **30**,
+   30 theme asset dirs, and `grep -c "heroImage:" src/lib/themes/*.ts` returns 1 for **all 30**
+   theme configs (31 files match — `types.ts` is the interface, not a theme). `src/components/home/hero.tsx:115`
+   renders `theme.heroImage.url` full-bleed for **every** hero variant, gallery included. The "17"
+   looks like a transcription of the unrelated 17-of-30 WCAG contrast figure recorded above.
+
+   **The real gap is the four gallery tiles, and it affects 16 of 30 themes, not 17.**
+   `grep -l 'hero: "gallery"' src/lib/themes/*.ts` returns 17 paths, one of which is `types.ts`
+   (matched by a doc comment) — so **16 themes** use `hero: "gallery"`, matching the figure already
+   recorded under "Demo catalog defects". Root cause is the type, not the data:
+   `ThemeHeroGalleryTile` (`src/lib/themes/types.ts:158-164`) is `{ tag, swatch: [string,string,string] }`
+   with **no image field at all**, and `hero.tsx:463` paints each tile as a `linear-gradient`. No
+   per-theme content override can fix it — closing F1b means adding an image field to the tile type,
+   sourcing 64 photos, and updating the renderer.
+
+   Still the **only** blocker on the 8th `/start` picker image: 7 WebPs exist in
+   `public/start/previews/`, and `heritage-painters` (the `defaultThemeSlug`, and the one gallery
+   hero among the 8 picker trades) falls back to its own `hero.jpg` via `fallbackImage` in
+   `src/components/apex/start/trade-picker.tsx:49`. Remove that entry and re-run
+   `scripts/generate-demo-previews.mjs` once tile photography lands.
+6. **Rotate the Supabase JWT secret + Resend SMTP password** — BLOCKER 3. Unchanged.
+7. **Confirm PostHog `$exception` events in a real browser.** #98 enabled exception capture and
    verified no CSP change is needed by reading the installed bundle's resolution path — but CSP
    has silently swallowed a tag in this repo before, so check the console after deploy. The
    Error Tracking *view* may also need enabling in the dashboard for events to group.
-7. **WS1 for the remaining 22 themes**, once (3) shows whether demo traffic materialises.
-8. Still open under BLOCKER 2: decide whether unreviewed legal copy keeps the `draft` banner.
-9. Work the lead list: `~/leads/az-trade-leads-2026-07-29.csv`, 103 Phoenix-metro trades.
-10. Baseline the Supabase migration ledger before the next migration. _Now a concrete, gated
+8. **WS1 for the remaining 22 themes**, once (3) shows whether demo traffic materialises.
+9. Still open under BLOCKER 2: decide whether unreviewed legal copy keeps the `draft` banner.
+10. Work the lead list: `~/leads/az-trade-leads-2026-07-29.csv`, 103 Phoenix-metro trades.
+    _Note the ICP correction in `CLAUDE.md`: this list is trades-only, but the market is any
+    small business that needs a website. Half the theme library targets segments this list has
+    no rows for._
+11. **Collapse the featured-vs-portfolio canonical rule to one source.** After PR #100 it lives
+    in three places — `src/lib/seo.ts:29`, `src/components/apex/demo-card.tsx:45`, and
+    `src/app/sitemap.ts`. `seo.ts`'s own comment warns that a third copy is how it drifts.
+    Changing `featuredThemeSlugs` without updating all three re-orphans the demo pages.
+12. Baseline the Supabase migration ledger before the next migration. _Now a concrete, gated
     step in `LAUNCH-CHECKLIST.md` §4 (`supabase migration repair --linked --status applied
     0001 … 0013`) — owner-run, and it asserts a history rather than verifying one, so
     re-confirm `sites_status_check` carries all 12 values first._
-11. **`$250` SLA remedy in `src/app/terms/page.tsx:41`** is the last user-visible dollar figure
+13. **`$250` SLA remedy in `src/app/terms/page.tsx:41`** is the last user-visible dollar figure
     outside `pricing-constants.ts`. Left deliberately — it is a contractual remedy, not a
     product price — but worth a constant if the SLA is ever revised.
-12. **Unpushed commit in the Claude-managed marketplace clone.** `a894757 fix(orchestrator):
+14. **Unpushed commit in the Claude-managed marketplace clone.** `a894757 fix(orchestrator):
     require disjoint file sets and explicit output paths` exists only in
     `~/.claude/plugins/marketplaces/axon` and never reached origin. Not related to this repo,
     but it will be lost the next time that directory is refreshed.
@@ -574,6 +604,66 @@ but it was never positively identified. PostHog error tracking is not enabled, s
 | #91 | merged | Demo/portfolio hero still quoted the pre-trial ladder ("$99 setup + $99/mo for 3 months") after #89 changed the offer |
 | #92 | merged | WS1 for the 8 picker trades — real business headlines on `/demos/[slug]`, descriptive headline preserved on `/portfolio/[slug]` |
 | #93 | merged | `<HideWhenEmbedded>` — our PortfolioBanner + themed SiteHeader no longer render inside preview iframes |
+| #100 | `12e9d89` | SEO/crawlability sweep — see below. 10 files, +100/−26 |
+
+### PR #100 — the site was hiding its own pages from crawlers
+
+Merged as `12e9d89` (integration branch of three agent branches). Rollback:
+`git revert -m 1 12e9d89`. What was broken:
+
+- **9 of the 10 canonical `/demos/[slug]` pages were internally orphaned.**
+  `src/components/apex/demo-card.tsx` linked every featured theme to `/portfolio/<slug>`, which
+  canonicals away to `/demos/<slug>` — so the canonical URL had zero internal links pointing at it.
+- **`/start` had no `<h1>`, was absent from the sitemap, and had zero inbound internal links.**
+  This is the page **14 of 18 real visitors land on** (see "What the funnel data says").
+- **`/api/og/` was robots-disallowed**, blocking the OG image on all 30 theme pages.
+- **`demoSchema()` hardcoded `/demos/`**, so 30 `/portfolio/[slug]` pages emitted a
+  `WebPage.url` contradicting their own canonical.
+- Demo breadcrumbs pointed at `/#showcase`, an anchor that does not exist.
+- Titles double-branded — "About — Your Shopfront — Your Shopfront" on `/about` and all 60
+  theme URLs.
+- `/app` inherited `index: true` from the root metadata.
+- `Organization` gained `legalName` / `email` / `hasMerchantReturnPolicy`.
+
+**Verified live after deploy** (not inferred): `robots.txt` allows `/api/og/`; `/api/og/<slug>`
+returns 200 `image/png`; `sitemap.xml` has 39 `<loc>` including `/start`; `/start` has exactly
+1 `<h1>`; `/portfolio` emits 10 `/demos/*` + 20 `/portfolio/*` anchors; and on a non-featured
+theme the `WebPage.url`, the breadcrumb leaf, and the canonical all agree.
+
+**Known remaining P2s — not fixed, do not lose these:**
+
+- The featured-vs-portfolio canonical rule is now encoded in **three** places —
+  `src/lib/seo.ts:29` (`canonicalThemeUrl`), `src/components/apex/demo-card.tsx:45`, and
+  `src/app/sitemap.ts`. `seo.ts`'s own comment warns that "duplicating this rule a third time is
+  how it drifts"; it has been. Changing `featuredThemeSlugs` without touching all three
+  reintroduces the orphaning bug.
+- `hasMerchantReturnPolicy` lacks `applicableCountry` / `returnPolicyCountry` /
+  `returnPolicyCategory`. Google may ignore or flag the property. No data-integrity issue.
+- The 10 featured demo titles no longer contain the theme name — a side effect of the
+  de-duplication pass, and a small loss of long-tail keyword surface.
+
+### SEO / GEO strategy — researched 2026-08-01
+
+Recording the reasoning so it is not re-litigated.
+
+- **`llms.txt` is deliberately NOT being built.** No major vendor reads it: Ahrefs' crawl logs
+  across ~137,000 domains found **97% received zero `llms.txt` requests** in May 2026, and
+  Google's May-2026 documentation states explicitly that no AI-specific files are needed —
+  normal crawlable HTML plus `robots.txt` is the interface. Building one is busywork that looks
+  like progress. Revisit only if a named vendor publishes a fetcher for it.
+- **The bottleneck is off-site, not on-page.** 91% of AI answers cite third parties rather than
+  the brand's own site, and branded web mentions correlate with AI citation at **r = 0.664**
+  versus **r = 0.218** for backlinks. More on-page work has a low ceiling from here.
+- **Vertical language is absent from the funnel HTML.** Verified: `grep -roi "every small
+  business" src/` → 6 hits, one of them in `site-footer.tsx` so it renders on every page;
+  `grep -rniE "plumber|electrician|hvac|roofer|painter|salon|restaurant|dentist"` across
+  `src/app/page.tsx`, `/start`, `/pricing`, `/about`, and `src/components/apex/home/` finds
+  **no vertical prose at all** outside one sentence on `/about:78` — every other hit is a slug,
+  a code comment, or a theme-gallery filter label. All 14 `plumber` occurrences in `src/` sit
+  inside theme configs, `portfolio-copy.ts`, or a form placeholder, i.e. on `/demos/*` and
+  `/portfolio/*` only. Planned fix is `/for/<vertical>` pages (batch 1 in progress).
+- **`sameAs` is empty because no real social profiles exist.** Creating a Google Business Profile
+  and a LinkedIn company page is the highest-value action available that requires no code.
 
 ### Four PRs MERGED and deployed — 2026-08-01
 
@@ -687,9 +777,10 @@ Consequence: at **thumbnail** size (~150px on a picker tile) the text is illegib
 images are honest and usable. At **hero** size above the fold, which is what the audit finding
 actually asked for, the meta-copy is readable and undercuts the page.
 
-`heritage-painters` is separately unusable at any size — it is the one `gallery` hero in the 8
-and renders four CSS gradient rectangles labelled "Interiors"/"Cabinetry" instead of photos.
-That is **F1b**, still open, affecting 17 of 30 themes.
+`heritage-painters` is separately unusable at any size — it is the one `gallery` hero in the 8,
+and while its own hero photo renders fine, the four gallery *tiles* over it are CSS gradient
+rectangles labelled "Interiors"/"Cabinetry". That is **F1b**, still open, affecting **16** of 30
+themes — not 17, and not "instead of photos"; see next-action 4 for the corrected scope.
 
 **Owner decision pending:** ship the 7 non-gallery images as picker thumbnails now, or hold all
 imagery until the hero meta-copy pass is done.
