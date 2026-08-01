@@ -253,7 +253,7 @@ Set `STRIPE_SECRET_KEY=sk_test_...` in `.env.local` (a real test-mode key, not t
 pnpm stripe:setup
 ```
 
-Idempotent — safe to re-run. Prints `STRIPE_PRICE_*=price_...` lines to stdout; paste them into `.env.local`. The full set the app reads is `STRIPE_PRICE_ONETIME`, `STRIPE_PRICE_HOSTING_ADDON`, `STRIPE_PRICE_COPY_ADDON`, `STRIPE_PRICE_SUBSCRIPTION_MONTHLY`, `STRIPE_PRICE_SUBSCRIPTION_SETUP`, `STRIPE_PRICE_SUBSCRIPTION_SETUP_PROMO`, The script does **not** create the launch coupon — build `STRIPE_COUPON_LAUNCH_PROMO` by hand in the Stripe dashboard, or the `promo=launch` path silently falls back to full price.
+Idempotent — safe to re-run. Prints `STRIPE_PRICE_*=price_...` lines to stdout; paste them into `.env.local`. The full set the app reads is `STRIPE_PRICE_ONETIME`, `STRIPE_PRICE_HOSTING_ADDON`, `STRIPE_PRICE_COPY_ADDON`, `STRIPE_PRICE_SUBSCRIPTION_MONTHLY`, `STRIPE_PRICE_SUBSCRIPTION_SETUP`, `STRIPE_PRICE_SUBSCRIPTION_SETUP_PROMO`. The script does **not** create the launch coupon — build `STRIPE_COUPON_LAUNCH_PROMO_MONTHLY` by hand in the Stripe dashboard, or the `promo=launch` path silently falls back to full price. That coupon **must be restricted to the monthly subscription product** (`applies_to.products`); an unrestricted one discounts the setup fee instead and charges $49 rather than $99. See `LAUNCH-CHECKLIST.md` §5.
 
 ### 3. Stripe webhook listener (for local dev)
 

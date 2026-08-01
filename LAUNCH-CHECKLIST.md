@@ -156,9 +156,15 @@ redirect URL); the browser never instantiates Stripe.js. Setting it is harmless 
 - [ ] `STRIPE_PRICE_COPY_ADDON` — live, **$199 one-time** copy-writing service. **Required, not
       optional**: `readPriceIds()` in `src/app/api/checkout/route.ts:31` returns `null` if this
       is missing, which makes **every** checkout 500 with "Checkout is not yet configured."
-- [ ] `STRIPE_COUPON_LAUNCH_PROMO=launch_promo_3mo` — Stripe **Coupon ID** (not a promotion
-      code). Create via Stripe Dashboard → Coupons → New: $50 off, repeating, 3 months. Required
-      for the `/start` promo path.
+- [ ] `STRIPE_COUPON_LAUNCH_PROMO_MONTHLY` — Stripe **Coupon ID** (not a promotion code) for the
+      **product-scoped** launch coupon. Required for the `/start` promo path.
+
+      ⚠️ **This is not `STRIPE_COUPON_LAUNCH_PROMO`, and the two are not interchangeable.** The
+      old unrestricted coupon `launch_promo_3mo` ($50 off, repeating, no product restriction) is
+      still live in Stripe. Putting it in this slot charges **$49 today instead of $99** — on a
+      trial subscription the only line on the first invoice is the one-time setup fee, so an
+      unrestricted coupon discounts *that*. `applies_to` cannot be added to an existing coupon,
+      which is why a second coupon had to be created. See §5 for how to build it.
 
 All six `STRIPE_PRICE_*` values are emitted by one `pnpm stripe:setup` run against a live key —
 see §5.
@@ -379,9 +385,21 @@ local command — do not add them to Vercel by hand.
   | Copy Writing Service             | `STRIPE_PRICE_COPY_ADDON`                | $199 one-time |
 
 - [ ] Create the launch-promo **Coupon** (Dashboard → Coupons → New): $50 off, repeating,
-      3 months. Its ID goes in `STRIPE_COUPON_LAUNCH_PROMO`. The promo path applies the $99
-      setup price **plus** this coupon against the $149/mo — $198 due today, then $99/mo for
-      two more months, then $149/mo.
+      3 months, **restricted to the monthly subscription product** (`applies_to.products`).
+      Its ID goes in `STRIPE_COUPON_LAUNCH_PROMO_MONTHLY`.
+
+      ⚠️ **The product restriction is the whole point.** Without it the coupon discounts the
+      one-time setup fee instead, and the customer is charged **$49 today, not $99** — because
+      the promo path also sets `trial_period_days: 30`, so the setup fee is the only line on the
+      first invoice. `applies_to` cannot be added to a coupon after creation, so if you get this
+      wrong you must create a new coupon rather than edit it.
+
+      The offer this produces: **$99 today, first month free, then $99/mo for 3 months, then
+      $149/mo standard.** The trial does not consume a discounted month — no invoice is issued
+      during a trial, so all three discounted invoices still land after it ends.
+
+      Superseded: `STRIPE_COUPON_LAUNCH_PROMO` / `launch_promo_3mo` (unrestricted) and the old
+      "$198 due today" ladder. Both predate the 2026-07-31 offer change.
 - [ ] In Stripe Dashboard → Developers → Webhooks → Add endpoint:
   - URL: `https://yourshopfront.com/api/stripe/webhook`
   - Events to send — **three**, corrected 2026-07-29 (this previously said two and omitted
