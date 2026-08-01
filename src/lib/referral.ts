@@ -37,7 +37,15 @@ function readCookie(name: string): string | null {
 
 function writeCookie(name: string, value: string): void {
   if (typeof document === "undefined") return;
-  document.cookie = `${name}=${encodeURIComponent(value)}; max-age=${REFERRAL_COOKIE_MAX_AGE_SECONDS}; path=/; SameSite=Lax`;
+  // `Secure` keeps the payout key off plain-HTTP requests. It is applied
+  // conditionally because browsers REFUSE to set a Secure cookie from an
+  // http:// page — hardcoding it would silently kill referral capture on
+  // `pnpm dev` (http://localhost:3000) and on LAN-IP device testing, and a
+  // dropped first-touch cookie is a promoter losing their commission.
+  // yourshopfront.com is HTTPS-only, so production always takes the Secure
+  // branch; there is no environment where the flag is silently skipped in prod.
+  const secure = window.location.protocol === "https:" ? "; Secure" : "";
+  document.cookie = `${name}=${encodeURIComponent(value)}; max-age=${REFERRAL_COOKIE_MAX_AGE_SECONDS}; path=/; SameSite=Lax${secure}`;
 }
 
 /**

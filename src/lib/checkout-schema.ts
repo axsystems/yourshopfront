@@ -65,10 +65,14 @@ export const CheckoutRequestSchema = CheckoutFormSchema.extend({
   demo: z
     .string()
     .refine((s) => allThemeSlugs.includes(s), { message: "Unknown demo slug" }),
-  // "launch" → subscription tier swaps setup price to the promo $99 SKU
-  // and applies STRIPE_COUPON_LAUNCH_PROMO ($50/mo off × 3 months).
-  // Anything else, including absent, gets standard pricing.
-  promo: z.enum(["launch"]).optional(),
+  // NOT the authority on price — /api/checkout decides that server-side
+  // (see decideLaunchPromo there). /checkout quotes promo pricing to EVERY
+  // subscription visitor, so an absent `promo` must NOT mean "charge
+  // standard": that quoted $99 and charged $448. Absent → promo applies.
+  // "launch" is the client echoing the promo back (the normal case);
+  // "none" is the one explicit opt-out, which is the only way to reach
+  // standard subscription pricing while the promo is configured.
+  promo: z.enum(["launch", "none"]).optional(),
   // copy_addon lives here (not in CheckoutFormSchema) so Stream B can wire
   // up the checkbox without form-level type changes until ready.
   // Defaults to false so existing clients that don't send the field keep working.

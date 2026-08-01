@@ -53,6 +53,46 @@ function readLaunchPromoCoupon(): string | null {
   return coupon
 }
 
+// The promo decision is the SERVER's, not the client's.
+//
+// /checkout renders promo pricing for every subscription visitor regardless
+// of whether the CTA forwarded `promo=launch`, so making the discount
+// conditional on the client echoing that param back meant a dropped query
+// param quoted $99 and charged $448 — a 4.5x overcharge triggered by nothing
+// but a lost URL fragment. The client's `promo` field is now only honoured as
+// an explicit opt-out; its absence can never raise the price.
+//
+// "unavailable" is the fail-closed state: the page is quoting $99 but this
+// deployment cannot deliver it, so the checkout is refused rather than billed
+// at standard. That means an incomplete promo config blocks EVERY subscription
+// checkout, not just ones that asked for the promo — deliberate.
+//
+// RETIRING THE PROMO IS ORDER-SENSITIVE. Removing the coupon/price env FIRST
+// takes subscription revenue to zero: every checkout 503s until a code deploy
+// lands. Correct order:
+//   1. Ship /checkout sending promo: "none" for subscriptions (page.tsx →
+//      checkout-form.tsx → this field). Standard pricing is then quoted AND
+//      charged while the env is still in place.
+//   2. Only then remove STRIPE_PRICE_SUBSCRIPTION_SETUP_PROMO and
+//      STRIPE_COUPON_LAUNCH_PROMO_MONTHLY.
+type PromoDecision =
+  | { kind: "active"; coupon: string; setupPrice: string }
+  | { kind: "off" }
+  | { kind: "unavailable" }
+
+function decideLaunchPromo(
+  data: CheckoutRequest,
+  prices: PriceIds
+): PromoDecision {
+  if (data.tier !== "subscription") return { kind: "off" }
+  if (data.promo === "none") return { kind: "off" }
+  const coupon = readLaunchPromoCoupon()
+  if (coupon === null || prices.setupPromo === null) {
+    return { kind: "unavailable" }
+  }
+  return { kind: "active", coupon, setupPrice: prices.setupPromo }
+}
+
 export async function POST(req: Request) {
   // Unauthenticated endpoint that mints real Stripe Checkout sessions, so an
   // unbounded caller burns Stripe API quota and litters the dashboard. Every
@@ -131,14 +171,11 @@ export async function POST(req: Request) {
   const cancelUrl = `${SITE_URL}/checkout?tier=${data.tier}&demo=${encodeURIComponent(data.demo)}&cancelled=1`
 
   // Never quote one price and charge another: /checkout renders promo pricing
-  // for every subscription visit, so if the promo is requested but its Stripe
-  // config is incomplete, fail loudly instead of silently billing standard.
-  if (
-    data.promo === "launch" &&
-    data.tier === "subscription" &&
-    (priceIds.setupPromo === null || readLaunchPromoCoupon() === null)
-  ) {
-    console.error("[checkout] promo requested but promo price/coupon env is missing")
+  // for every subscription visit, so if the promo is due but its Stripe config
+  // is incomplete, fail loudly instead of silently billing standard.
+  const promo = decideLaunchPromo(data, priceIds)
+  if (promo.kind === "unavailable") {
+    console.error("[checkout] promo is due but promo price/coupon env is missing")
     return NextResponse.json(
       { error: "Launch promo is temporarily unavailable. Please try again shortly." },
       { status: 503 }
@@ -146,7 +183,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const session = await createSession(data, metadata, priceIds, successUrl, cancelUrl)
+    const session = await createSession(data, metadata, priceIds, promo, successUrl, cancelUrl)
     if (!session.url) {
       return NextResponse.json(
         { error: "Stripe did not return a redirect URL." },
@@ -166,6 +203,7 @@ async function createSession(
   data: CheckoutRequest,
   metadata: Record<string, string>,
   prices: PriceIds,
+  promo: PromoDecision,
   successUrl: string,
   cancelUrl: string
 ) {
@@ -177,13 +215,10 @@ async function createSession(
     // price — it auto-creates an invoice item for the one-time on the
     // first invoice. Cleaner than subscription_data.add_invoice_items
     // (which Checkout doesn't expose).
-    const promoCoupon = readLaunchPromoCoupon()
-    const isPromo =
-      data.promo === "launch" && prices.setupPromo !== null && promoCoupon !== null
-    const setupPrice = isPromo ? prices.setupPromo! : prices.setup
-    const sessionMetadata = isPromo
-      ? { ...metadata, promo: "launch" }
-      : metadata
+    const setupPrice =
+      promo.kind === "active" ? promo.setupPrice : prices.setup
+    const sessionMetadata =
+      promo.kind === "active" ? { ...metadata, promo: "launch" } : metadata
     return s.checkout.sessions.create({
       mode: "subscription",
       line_items: [
@@ -195,7 +230,9 @@ async function createSession(
         metadata: sessionMetadata,
         // Promo path only: the setup fee bills today and the first monthly
         // invoice lands after the trial, so today's charge is $99 not $198.
-        ...(isPromo ? { trial_period_days: PROMO_TRIAL_DAYS } : {}),
+        ...(promo.kind === "active"
+          ? { trial_period_days: PROMO_TRIAL_DAYS }
+          : {}),
       },
       // Stripe's SubscriptionData type does NOT accept discounts —
       // session-level `discounts` is the only valid place for coupons
@@ -205,8 +242,8 @@ async function createSession(
       // (even `allow_promotion_codes: false`). Mutually exclusive params.
       // When the launch promo is auto-applied, omit `allow_promotion_codes`
       // entirely. When no promo, allow customers to enter manual codes.
-      ...(isPromo && promoCoupon
-        ? { discounts: [{ coupon: promoCoupon }] }
+      ...(promo.kind === "active"
+        ? { discounts: [{ coupon: promo.coupon }] }
         : { allow_promotion_codes: true }),
       customer_email: data.email,
       success_url: successUrl,
