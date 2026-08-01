@@ -43,6 +43,22 @@ export const GOOGLE_ADS_CONVERSION_LABEL = (
 export const ANALYTICS_ENABLED = Boolean(GA4_ID || GOOGLE_ADS_ID)
 
 /**
+ * True when <GoogleConversionEvent> will actually emit something.
+ *
+ * Stricter than ANALYTICS_ENABLED on purpose: the Ads conversion needs
+ * BOTH the account id and the conversion label, so an Ads id on its own
+ * reports nothing here — even though it is still worth loading the global
+ * tag for remarketing, which is what ANALYTICS_ENABLED gates.
+ *
+ * Anything that does work solely to feed the purchase event (e.g. the
+ * Stripe amount lookup in src/app/onboarding/page.tsx) must gate on this,
+ * or it pays for a round-trip whose result is thrown away.
+ */
+export const CONVERSION_EVENT_ENABLED = Boolean(
+  GA4_ID || (GOOGLE_ADS_ID && GOOGLE_ADS_CONVERSION_LABEL)
+)
+
+/**
  * Last-resort conversion VALUE in USD, used only when the real amount
  * Stripe collected can't be read (see `purchaseValueUsd` in
  * src/app/onboarding/page.tsx, which retrieves session.amount_total and

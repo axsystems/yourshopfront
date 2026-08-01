@@ -12,7 +12,10 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { allThemes, defaultTheme } from "@/lib/themes"
 import { getSiteByStripeSessionId, type Site, type SiteStatus } from "@/lib/supabase"
 import { GoogleConversionEvent } from "@/components/google-conversion-event"
-import { ANALYTICS_ENABLED, fallbackConversionValueUsd } from "@/lib/analytics-config"
+import {
+  CONVERSION_EVENT_ENABLED,
+  fallbackConversionValueUsd,
+} from "@/lib/analytics-config"
 import { SITE_URL } from "@/lib/seo"
 import { stripe } from "@/lib/stripe"
 
@@ -48,10 +51,25 @@ interface PageProps {
  * Feeding Ads a number we made up instead of the one Stripe charged is
  * how the old $299-for-a-$99-sale over-report distorted bidding, so the
  * fallback only runs when Stripe is unreachable — and it under-reports by
- * construction rather than over-reporting.
+ * construction rather than over-reporting. `amount_total` of 0 is a real
+ * answer, not a missing one (a 100%-off promotion code on any
+ * allow_promotion_codes path collects nothing), so it must report $0
+ * rather than fall through to a four-figure estimate.
  *
- * Skips the Stripe round-trip entirely when no tag is configured, since
- * <GoogleConversionEvent> renders nothing in that case anyway.
+ * Skips the Stripe round-trip entirely when the purchase event wouldn't
+ * report anything anyway.
+ *
+ * TIMEOUT BUDGET: this is the only external call in the render path of a
+ * customer who has just paid, the page is force-dynamic, and nothing sets
+ * maxDuration. src/lib/stripe.ts configures neither `timeout` nor
+ * `maxNetworkRetries`, so the client defaults apply — 80s per attempt
+ * (stripe.core.js DEFAULT_TIMEOUT) with 2 retries. A hung Stripe would
+ * therefore block the render for minutes and Vercel would kill the
+ * function first: the customer gets a 504 instead of their onboarding
+ * page, and the catch below never runs. 3s single-shot caps the added
+ * latency; retries are declined on purpose, since a retry doubles the
+ * wait to protect an analytics number whose fallback is already exact for
+ * the promo path that every subscription sale currently takes.
  */
 async function purchaseValueUsd(sessionId: string, site: Site): Promise<number> {
   const fallback = fallbackConversionValueUsd({
@@ -59,12 +77,15 @@ async function purchaseValueUsd(sessionId: string, site: Site): Promise<number> 
     copyAddon: site.copy_addon,
     hostingAddon: site.hosting_addon,
   })
-  if (!ANALYTICS_ENABLED) return fallback
+  if (!CONVERSION_EVENT_ENABLED) return fallback
 
   try {
-    const session = await stripe().checkout.sessions.retrieve(sessionId)
+    const session = await stripe().checkout.sessions.retrieve(sessionId, undefined, {
+      timeout: 3000,
+      maxNetworkRetries: 0,
+    })
     const cents = session.amount_total
-    return typeof cents === "number" && cents > 0 ? cents / 100 : fallback
+    return typeof cents === "number" && cents >= 0 ? cents / 100 : fallback
   } catch (err) {
     console.error("[onboarding] stripe amount_total lookup failed", err)
     return fallback

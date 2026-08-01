@@ -55,10 +55,14 @@ import { isEmbeddedFrame } from "@/lib/embed"
  *   it arrives same-origin (covered by `script-src 'self'`) and is
  *   proxied on to the assets host by src/app/ingest/[...path]/route.ts,
  *   exactly like the already-working `/ingest/static/recorder.js`.
- * - Console errors stay OFF (posthog-js's own default). We log customer
- *   emails and site rows to the console on failure paths, and console
- *   capture would ship those strings to PostHog. Unhandled errors and
- *   rejections carry a stack, not our log payloads.
+ * - Console errors stay OFF. That is posthog-js's own default, pinned
+ *   explicitly here for the same reason as maskAllInputs: so it can't
+ *   change upstream without us noticing. `capture_console_errors` wraps
+ *   console.error in the BROWSER only, so it isn't a PII lever — the two
+ *   client-side console calls in this app (the /app/edit-requests forms)
+ *   log an error object and nothing else. It stays off because turning
+ *   every console.error into a billable event buys noise, not signal;
+ *   unhandled errors and rejections are the ones worth paging on.
  */
 const POSTHOG_KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY
 const POSTHOG_HOST =

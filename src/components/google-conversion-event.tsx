@@ -1,6 +1,7 @@
 import Script from "next/script"
 
 import {
+  CONVERSION_EVENT_ENABLED,
   GA4_ID,
   GOOGLE_ADS_CONVERSION_LABEL,
   GOOGLE_ADS_ID,
@@ -44,7 +45,9 @@ export function GoogleConversionEvent({
   const fireGa4 = Boolean(GA4_ID)
   const fireAds = Boolean(GOOGLE_ADS_ID && GOOGLE_ADS_CONVERSION_LABEL)
 
-  if (!fireGa4 && !fireAds) return null
+  // Same predicate callers use to decide whether feeding this component is
+  // worth any work at all — shared so the two cannot drift apart.
+  if (!CONVERSION_EVENT_ENABLED) return null
 
   const calls: string[] = []
 
