@@ -65,8 +65,16 @@ function readLaunchPromoCoupon(): string | null {
 // "unavailable" is the fail-closed state: the page is quoting $99 but this
 // deployment cannot deliver it, so the checkout is refused rather than billed
 // at standard. That means an incomplete promo config blocks EVERY subscription
-// checkout, not just ones that asked for the promo — deliberate. Retiring the
-// promo therefore means updating /checkout's quote and this env together.
+// checkout, not just ones that asked for the promo — deliberate.
+//
+// RETIRING THE PROMO IS ORDER-SENSITIVE. Removing the coupon/price env FIRST
+// takes subscription revenue to zero: every checkout 503s until a code deploy
+// lands. Correct order:
+//   1. Ship /checkout sending promo: "none" for subscriptions (page.tsx →
+//      checkout-form.tsx → this field). Standard pricing is then quoted AND
+//      charged while the env is still in place.
+//   2. Only then remove STRIPE_PRICE_SUBSCRIPTION_SETUP_PROMO and
+//      STRIPE_COUPON_LAUNCH_PROMO_MONTHLY.
 type PromoDecision =
   | { kind: "active"; coupon: string; setupPrice: string }
   | { kind: "off" }

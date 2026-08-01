@@ -67,13 +67,21 @@ export default async function CheckoutPage({ searchParams }: PageProps) {
   // price so customers who browse demos/portfolio before checkout still get
   // the discount even when those CTAs don't forward `promo=launch` in the URL.
   // Pass `?promo=none` to explicitly opt out (testing / non-promo links).
+  //
+  // The opt-out sends the literal "none" rather than dropping the field:
+  // /api/checkout reads an ABSENT `promo` as "promo applies", because this
+  // page quotes $99 to every subscription visitor and a dropped param must
+  // never be what makes Stripe charge $448. Omitting it here would quote
+  // standard and charge promo — and would leave no way to bill standard at
+  // all. This value is what the order summary below quotes AND what the
+  // form posts, so the two cannot drift.
   const promo =
-    params.promo === "none"
+    tier !== "subscription"
       ? undefined
-      : tier === "subscription"
-        ? "launch"
-        : undefined
-  const isPromoSubscription = promo === "launch" && tier === "subscription"
+      : params.promo === "none"
+        ? "none"
+        : "launch"
+  const isPromoSubscription = promo === "launch"
 
   return (
     <ThemeProvider theme={theme}>

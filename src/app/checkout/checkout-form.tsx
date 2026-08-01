@@ -27,7 +27,12 @@ interface CheckoutFormProps {
   tier: Tier
   demo: string
   cancelled?: boolean
-  promo?: "launch"
+  // "none" is NOT the same as omitting this prop. /api/checkout treats an
+  // absent `promo` as "promo applies" (the page quotes it to every
+  // subscription visitor), so opting out has to be said out loud — see
+  // decideLaunchPromo in src/app/api/checkout/route.ts. Both values are
+  // truthy, so the submit body below forwards either one unchanged.
+  promo?: "launch" | "none"
   defaultIndustry?: string
 }
 
