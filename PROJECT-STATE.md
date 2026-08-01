@@ -1,6 +1,6 @@
 # Project State — Your Shopfront
 
-**Last updated:** 2026-07-31 (MST)
+**Last updated:** 2026-08-01 (MST)
 **Live:** https://yourshopfront.com · **Repo:** axsystems/yourshopfront · **Branch:** `master`
 **Vercel project:** `yourshopfront` (axsystems-projects) · **Supabase ref:** `vszlrvczfpgwdenmsfvx`
 (verified 2026-07-29 via `supabase projects list` — project `your-shop-front`, ACTIVE_HEALTHY, us-east-2)
@@ -473,41 +473,37 @@ Remove that gotcha from `CLAUDE.md`.
 
 ## Next actions
 
-Ordered for the next session (2026-08-01). Reordered 2026-07-31 against measured traffic
-rather than the original sprint plan.
+Ordered for the next session (2026-08-02).
 
-1. **Add real website imagery to `/start`.** 14 of 18 real visitors land there and the page
-   selling websites shows none. Strongest open appearance finding.
-2. **Send Payton the corrected referral links** (`?ref=payton&src=fb` / `&src=ig` /
-   `&src=tiktok`). 6 of 16 hits currently arrive with `src` missing entirely. Costs one message.
-3. **Watch the funnel for 2-3 days on clean data.** PR #88 means numbers are trustworthy for
-   the first time. Specifically: does the trade picker move `/start` -> `/checkout` off 3/14,
-   and does anyone now reach a demo page?
-4. **The production smoke test — BLOCKER 1.** Still no real completed purchase, so welcome
-   email, worksheet and provisioning remain unexercised. Now cheaper to run: a real checkout is
+1. **Decide the `/start` imagery call** (see "preview imagery" above): ship the 7 non-gallery
+   screenshots as picker thumbnails now, or hold until the hero meta-copy pass. Thumbnails are
+   a ~30 minute job; the hero pass is larger.
+2. **Hero meta-copy suppression.** Under an embedded/preview render, the hero should drop the
+   "PICK A STYLE"/"SEE PRICING" buttons, the promo price strip, and the live-preview annotation.
+   This is the last blocker on a large above-the-fold visual for `/start`.
+3. **Send Payton the corrected referral links** (`?ref=payton&src=fb` / `&src=ig` /
+   `&src=tiktok`). 6 of 16 hits still arrive as `&fb` with `src` missing. One message.
+4. **Watch the funnel on clean data.** Analytics have been trustworthy since PR #88 (2026-07-31).
+   Questions: does the trade picker move `/start` -> `/checkout` off 3/14, and does anyone reach
+   a demo page now that demos have real headlines?
+5. **F1b — gallery-hero photography.** 17 of 30 themes render CSS gradient placeholders instead
+   of photos, including `heritage-painters` (the `defaultThemeSlug`). Blocks both demo quality
+   and preview imagery for those themes.
+6. **The production smoke test — BLOCKER 1.** Still no real completed purchase. Cheaper now:
    $99 today rather than $198, then refund.
-5. **Rotate the Supabase JWT secret + Resend SMTP password** — BLOCKER 3. Unchanged.
-6. **Re-decide WS1 / WS5** (demo headlines, standout demos) once (3) reports. Both target pages
-   that had zero human traffic as of 2026-07-31; do not build them on the old assumption.
-7. Still open under BLOCKER 2: decide whether unreviewed legal copy keeps the `draft` banner.
-8. **Enable PostHog error tracking.** There are no `$exception` events, which is why the
-   2026-07-30 pay-click could not be positively identified as a bot.
-9. Confirm PostHog sessions actually land in the dashboard (65 recordings exist; most were
-   iframe sessions and will now stop being recorded).
-10. Work the lead list: `~/leads/az-trade-leads-2026-07-29.csv` — 103 Phoenix-metro trade
-    businesses. Scripts in `~/leads/outreach-scripts.md`.
-11. Baseline the Supabase migration ledger before the next migration.
-    `supabase migration repair --status applied 0001 ... 0013 --linked`. `0001`-`0004` are
-    non-idempotent.
-12. **`$199` (copy add-on) is still hardcoded** in `checkout/page.tsx`, `checkout-form.tsx`,
-    `worksheet-form.tsx`, and the webhook's Slack alert. Route it through `pricing-constants.ts`.
-13. **`/api/checkout` does not enforce the promo server-side** — the price still depends on the
-    client sending `promo`. The 503 guard prevents a mis-charge when config is missing, but a
-    caller omitting `promo` still gets standard pricing. Harden when next touching that file.
-14. `src/lib/seo.ts` publishes the promo price (`price: "99"`) in the schema.org Offer —
-    accurate today, silently wrong the day the promo ends.
-15. **`conversionValueUsd()` over-reports.** It returns $299 for a subscription while the
-    customer now pays $99 today. Google Ads Smart Bidding optimises against this figure.
+7. **Rotate the Supabase JWT secret + Resend SMTP password** — BLOCKER 3. Unchanged.
+8. **WS1 for the remaining 22 themes**, once (4) shows whether demo traffic materialises.
+9. Still open under BLOCKER 2: decide whether unreviewed legal copy keeps the `draft` banner.
+10. **Enable PostHog error tracking** — no `$exception` events exist, which is why the
+    2026-07-30 pay-click could never be positively identified as a bot.
+11. Work the lead list: `~/leads/az-trade-leads-2026-07-29.csv`, 103 Phoenix-metro trades.
+12. Baseline the Supabase migration ledger before the next migration.
+13. **`$199` copy add-on is still hardcoded** in 4 places. Route through `pricing-constants.ts`.
+14. **`/api/checkout` does not enforce the promo server-side** — price still depends on the
+    client sending `promo`. The 503 guard covers missing config, not an omitted param.
+15. `src/lib/seo.ts` publishes the promo price in the schema.org Offer — silently wrong the day
+    the promo ends.
+16. **`conversionValueUsd()` over-reports** — returns $299 while the customer now pays $99 today.
 
 ## Stripe account reality — verified 2026-07-30
 
@@ -556,6 +552,61 @@ session exists at that timestamp. `/api/checkout` was re-tested 2026-07-31 and w
 path, and that visitor's whole journey took 17 seconds, so a bot is the likely explanation —
 but it was never positively identified. PostHog error tracking is not enabled, so there are no
 `$exception` events to confirm either way.
+
+## What shipped 2026-08-01
+
+| PR | Merge | What |
+| --- | --- | --- |
+| #91 | merged | Demo/portfolio hero still quoted the pre-trial ladder ("$99 setup + $99/mo for 3 months") after #89 changed the offer |
+| #92 | merged | WS1 for the 8 picker trades — real business headlines on `/demos/[slug]`, descriptive headline preserved on `/portfolio/[slug]` |
+| #93 | merged | `<HideWhenEmbedded>` — our PortfolioBanner + themed SiteHeader no longer render inside preview iframes |
+
+### WS1 is done for 8 of 30 themes
+
+`content.hero { headline, sub }` on the Theme type, filled for the trades the `/start` picker
+links to. The other 22 fall back to `previewHeadline()` and are unchanged.
+
+| Theme | H1 |
+| --- | --- |
+| ironside-plumbing | Burst pipe? We're there today. |
+| voltcraft-electric | Licensed electricians, same day. |
+| mesa-hvac | AC out? We'll be there today. |
+| summit-roofing | Storm damage? Free inspection today. |
+| heritage-painters | Paint that still looks new in ten years. |
+| brightside-cleaning | Come home to spotless. |
+| greenwise-lawn | A lawn worth coming home to. |
+| bellhorn-movers | Moving day, handled. |
+
+**The sprint plan was wrong about the flag.** It claimed the demo/portfolio split "already
+exists — `isDemoPreview` in `themed-home.tsx`". It does not: **both** routes pass
+`isDemoPreview`, so keying the headline on it would have stripped `/portfolio`'s descriptive H1,
+a real SEO surface. A separate `isDemoRoute` prop, set only by `/demos/[slug]`, was added.
+
+### `/start` preview imagery — generated, evaluated, NOT shipped
+
+The pipeline works. All 8 captured with chrome absent and real headlines. Script kept at
+`scratchpad/KEEP-gen-previews.mjs`; regenerating takes about two minutes.
+
+They were not shipped because **the hero itself still contains Your Shopfront meta-copy**:
+
+- CTA buttons read "PICK A STYLE" / "SEE PRICING" rather than the business's own call to action
+- the promo price strip ("$99 TODAY · FIRST MONTH FREE · ...") renders inside the hero
+- an annotation: "← This is a live preview. The actual quote form on YOUR live site can route
+  leads to your CRM..."
+- the sales chat bubble
+
+#93 suppressed the header and banner; these live inside the hero component and survived.
+
+Consequence: at **thumbnail** size (~150px on a picker tile) the text is illegible and the
+images are honest and usable. At **hero** size above the fold, which is what the audit finding
+actually asked for, the meta-copy is readable and undercuts the page.
+
+`heritage-painters` is separately unusable at any size — it is the one `gallery` hero in the 8
+and renders four CSS gradient rectangles labelled "Interiors"/"Cabinetry" instead of photos.
+That is **F1b**, still open, affecting 17 of 30 themes.
+
+**Owner decision pending:** ship the 7 non-gallery images as picker thumbnails now, or hold all
+imagery until the hero meta-copy pass is done.
 
 ## What shipped 2026-07-31
 
