@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import { ThemedHome } from "@/components/home/themed-home"
+import { HideWhenEmbedded } from "@/components/hide-when-embedded"
 import { PortfolioBanner } from "@/components/portfolio/portfolio-banner"
 import { MobileStickyCTA, MobileStickySpacer } from "@/components/apex/mobile-sticky-cta"
 import { JsonLd } from "@/components/json-ld"
@@ -81,7 +82,9 @@ export default async function DemoPage({ params }: PageProps) {
           ]),
         ]}
       />
-      <PortfolioBanner theme={theme} />
+      <HideWhenEmbedded>
+        <PortfolioBanner theme={theme} />
+      </HideWhenEmbedded>
       <ThemedHome theme={theme} isDemoPreview isDemoRoute />
       <MobileStickySpacer />
       <MobileStickyCTA

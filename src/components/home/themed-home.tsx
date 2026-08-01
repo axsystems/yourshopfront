@@ -3,6 +3,7 @@ import * as React from "react"
 import type { Theme } from "@/lib/themes/types"
 import { SiteFooter, SiteHeader } from "@/components/apex"
 import { FadeUp } from "@/components/apex/motion/fade-up"
+import { HideWhenEmbedded } from "@/components/hide-when-embedded"
 import { ThemeProvider } from "@/components/theme-provider"
 
 import { Hero } from "./hero"
@@ -36,7 +37,9 @@ export function ThemedHome({ theme, isDemoPreview, isDemoRoute }: ThemedHomeProp
   const demoCheckoutHref = `/checkout?tier=subscription&demo=${theme.slug}`
   return (
     <ThemeProvider theme={theme}>
-      <SiteHeader variant="themed" />
+      <HideWhenEmbedded>
+        <SiteHeader variant="themed" />
+      </HideWhenEmbedded>
       {/* `pb-24` on mobile only — clears the fixed `<MobileStickyCta>` plus
           iPhone home-indicator safe-area inset so the last bit of FinalCTA
           doesn't sit behind the bar. Bar is single-line (~48px) + py-2.5 +
