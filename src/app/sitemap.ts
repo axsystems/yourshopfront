@@ -9,7 +9,7 @@ const NOW = new Date()
  * Sitemap lists each canonical URL exactly once.
  *
  * The featured 10 themes are canonical at /demos/[slug]. The non-featured
- * 14 are canonical at /portfolio/[slug]. Although both /demos/[slug] and
+ * 20 are canonical at /portfolio/[slug]. Although both /demos/[slug] and
  * /portfolio/[slug] routes exist for every theme (so any URL works), only
  * the canonical form for each theme appears in the sitemap to avoid
  * "URL is not canonical" warnings in Search Console.
@@ -46,6 +46,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     }))
   const staticPages: MetadataRoute.Sitemap = [
+    {
+      url: `${SITE_URL}/start`,
+      lastModified: NOW,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
     {
       url: `${SITE_URL}/pricing`,
       lastModified: NOW,

@@ -107,7 +107,7 @@ function PromoHero() {
         <FadeUp>
           <div className="mx-auto max-w-3xl text-center">
             <Eyebrow tone="cobalt">Launch special</Eyebrow>
-            <Display level="display-xl" className="mt-4">
+            <Display as="h1" level="display-xl" className="mt-4">
               Your shopfront, live in 24 hours.{" "}
               <span className="text-apx-primary">{PROMO_OFFER_HEADLINE}</span>
             </Display>

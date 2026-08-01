@@ -13,7 +13,7 @@ interface DemoCardProps {
   featured?: boolean
   /** When true, mount the iframe immediately (above-fold). When false, wait for IntersectionObserver. */
   eager?: boolean
-  /** Override the link target. Defaults to /portfolio/[slug]. */
+  /** Override the link target. Defaults to /demos/[slug] for featured themes, /portfolio/[slug] otherwise. */
   href?: string
   className?: string
 }
@@ -42,7 +42,7 @@ export function DemoCard({
   className,
 }: DemoCardProps) {
   const theme = allThemes[slug]
-  const target = href ?? `/portfolio/${slug}`
+  const target = href ?? (isFeatured(slug) ? `/demos/${slug}` : `/portfolio/${slug}`)
 
   const cardRef = React.useRef<HTMLDivElement | null>(null)
   // Initial state: eager → mount immediately; otherwise wait. The very-old-
