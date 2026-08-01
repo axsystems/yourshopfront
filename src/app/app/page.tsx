@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 
 import { requireAuth } from "@/lib/auth"
@@ -8,6 +9,12 @@ import { Button } from "@/components/apex/button"
 import { StatusPill } from "./components/status-pill"
 import { SiteCard } from "./components/site-card"
 import { CopyUrlButton } from "./components/copy-url-button"
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "Manage your site and view its status.",
+  robots: { index: false, follow: false },
+}
 
 // No caching — dashboard reflects live state
 export const dynamic = "force-dynamic"
