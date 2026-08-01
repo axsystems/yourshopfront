@@ -1,6 +1,16 @@
 # Conversion Sprint — Execution Plan
 
-**Created:** 2026-07-30 · **Status:** ready to execute in a clean session
+**Created:** 2026-07-30 · **Status:** PARTIALLY EXECUTED — see `PROJECT-STATE.md` for current state
+
+> **Update 2026-08-01.** WS2 and WS3 shipped (PR #89). WS1 shipped for 8 of 30 themes (PR #92).
+> WS4 and WS5 not started. Two claims in this doc are now known to be wrong:
+>
+> - The opening line says BLOCKER 1 was "closed 2026-07-30". Stripe does not support that —
+>   one paid session ever, a $10 self-test in May. It is OPEN.
+> - WS1 says the demo/portfolio split "already exists — `isDemoPreview`". Both routes pass that
+>   flag; a separate `isDemoRoute` was required.
+>
+> F1b (gallery placeholders, 17 of 30 themes) is unchanged and now also blocks `/start` imagery.
 **Context:** the funnel is technically validated (BLOCKER 1 closed 2026-07-30) and unsold.
 All traffic to date came from Payton's referral links. 40+ visitors → 2 reached `/checkout`
 → **0 purchases**.
