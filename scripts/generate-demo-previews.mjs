@@ -16,12 +16,16 @@
  *    wrong reason. We serve the harness through context.route() on the
  *    app's own origin so the parent is same-origin.
  *
- * Known limitation: the hero still renders Your Shopfront meta-copy — the
- * "Pick a style"/"See pricing" buttons, the promo price strip and the
- * live-preview annotation. Output is honest at thumbnail size (~150px) but
- * not as a large above-the-fold visual. Themes with `hero: "gallery"`
- * (e.g. heritage-painters) render CSS gradient placeholders instead of
- * photos and are not usable at any size until F1b is fixed.
+ * The hero's own meta-copy — the "Pick a style"/"See pricing" pair, the
+ * promo price strip, the live-preview annotation, the concierge bubble and
+ * the mobile buy bar — is suppressed inside a frame too, so a capture is
+ * usable at full size and not only as a thumbnail.
+ *
+ * Still not usable: themes with `hero: "gallery"` (e.g. heritage-painters)
+ * render CSS gradient placeholders instead of photos, so half the capture
+ * is coloured rectangles. `<TradePicker>` falls back to that theme's own
+ * hero photograph; delete its `fallbackImage` once the gallery hero has
+ * real photography.
  */
 import pw from "@playwright/test"
 import sharp from "sharp"

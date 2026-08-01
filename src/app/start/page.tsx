@@ -112,9 +112,15 @@ function PromoHero() {
               <span className="text-apx-primary">{PROMO_OFFER_HEADLINE}</span>
             </Display>
             <Lede className="mt-5">{PROMO_OFFER_DETAIL}</Lede>
-            <div id="pick" className="mt-8 scroll-mt-24">
-              <TradePicker />
-            </div>
+          </div>
+          {/* Wider than the copy column above it: the tiles are screenshots
+              of real sites, and at the 3xl prose measure they shrink to
+              ~190px on desktop — too small to judge a design by, which is
+              the only reason a prospect is on this page. */}
+          <div id="pick" className="mx-auto mt-8 max-w-5xl scroll-mt-24">
+            <TradePicker />
+          </div>
+          <div className="mx-auto max-w-3xl text-center">
             <p className="mt-6 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-apx-mute">
               ${PROMO_SETUP_PRICE} today · first month free · then {PROMO_MONTHLY} × {PROMO_MONTHS} · then {STANDARD_MONTHLY} · cancel anytime · 30-day money-back
             </p>
