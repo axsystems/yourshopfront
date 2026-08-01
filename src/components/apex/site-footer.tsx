@@ -19,6 +19,7 @@ interface FooterLink {
 
 const PRODUCT: FooterLink[] = [
   { label: "Portfolio", href: "/portfolio" },
+  { label: "Websites by trade", href: "/for" },
   { label: "Pricing", href: "/pricing" },
   { label: "Launch special", href: "/start" },
   { label: "Contact", href: "/contact" },
