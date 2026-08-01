@@ -473,41 +473,51 @@ Remove that gotcha from `CLAUDE.md`.
 
 ## Next actions
 
-Ordered for the next session (2026-08-02).
+Ordered for the next session. **Rewritten 2026-08-01** — items 1, 2, 3, 10, 13, 14, 15 and 16
+from the previous list all shipped in PRs #95–#98 and were removed rather than left ticked, since
+a next-actions list that accumulates done items stops being read.
 
-1. **Decide the `/start` imagery call** (see "preview imagery" above): ship the 7 non-gallery
-   screenshots as picker thumbnails now, or hold until the hero meta-copy pass. Thumbnails are
-   a ~30 minute job; the hero pass is larger.
-2. **Hero meta-copy suppression.** Under an embedded/preview render, the hero should drop the
-   "PICK A STYLE"/"SEE PRICING" buttons, the promo price strip, and the live-preview annotation.
-   This is the last blocker on a large above-the-fold visual for `/start`.
-3. **Send Payton the corrected referral links** (`?ref=payton&src=fb` / `&src=ig` /
-   `&src=tiktok`). 6 of 16 hits still arrive as `&fb` with `src` missing. One message.
-   _Message drafted 2026-08-01 and ready to send — it just has not been sent yet._
-4. **Watch the funnel on clean data.** Analytics have been trustworthy since PR #88 (2026-07-31).
-   Questions: does the trade picker move `/start` -> `/checkout` off 3/14, and does anyone reach
-   a demo page now that demos have real headlines?
-5. **F1b — gallery-hero photography.** 17 of 30 themes render CSS gradient placeholders instead
-   of photos, including `heritage-painters` (the `defaultThemeSlug`). Blocks both demo quality
-   and preview imagery for those themes.
-6. **The production smoke test — BLOCKER 1.** Still no real completed purchase. Cheaper now:
-   $99 today rather than $198, then refund.
-7. **Rotate the Supabase JWT secret + Resend SMTP password** — BLOCKER 3. Unchanged.
-8. **WS1 for the remaining 22 themes**, once (4) shows whether demo traffic materialises.
-9. Still open under BLOCKER 2: decide whether unreviewed legal copy keeps the `draft` banner.
-10. **Enable PostHog error tracking** — no `$exception` events exist, which is why the
-    2026-07-30 pay-click could never be positively identified as a bot.
-11. Work the lead list: `~/leads/az-trade-leads-2026-07-29.csv`, 103 Phoenix-metro trades.
-12. Baseline the Supabase migration ledger before the next migration. _Now a concrete,
-    gated step in `LAUNCH-CHECKLIST.md` §4 (`supabase migration repair --linked --status
-    applied 0001 … 0013`) — owner-run, and it asserts a history rather than verifying one, so
+1. **The production smoke test — BLOCKER 1.** Still the top item and still no real completed
+   purchase. `LAUNCH-CHECKLIST.md` §0 is now a complete runbook: enter via
+   `?ref=payton&src=tiktok` in a fresh incognito profile, assert **$99.00 before entering the
+   card**, then refund **and cancel the subscription** (refunding does not cancel — the trial
+   would invoice the operator's own card in 30 days). **Gates outreach.**
+2. **Decide the coupon guard.** #97 widened the blast radius of a wrong coupon ID from
+   promo-link traffic to **100% of subscription sales**, and the code cannot detect it. See the
+   ⚠️ under "Four PRs MERGED" — a `stripe.coupons.retrieve` guard asserting
+   `applies_to.products` is non-empty would close it. Deliberately not added; owner's call.
+3. **Watch the funnel on clean data.** Analytics trustworthy since PR #88. Now also worth asking
+   whether the real `/start` screenshots move `/start` → `/checkout` off 3/14.
+4. **F1b — gallery-hero photography.** 17 of 30 themes render CSS gradient placeholders instead
+   of photos, including `heritage-painters` (the `defaultThemeSlug`). This is now the **only**
+   blocker on the 8th `/start` picker image, which currently falls back to that theme's own hero
+   photo. Remove `fallbackImage` from the `Painting` entry in `trade-picker.tsx` and re-run
+   `scripts/generate-demo-previews.mjs` once it lands.
+5. **Rotate the Supabase JWT secret + Resend SMTP password** — BLOCKER 3. Unchanged.
+6. **Confirm PostHog `$exception` events in a real browser.** #98 enabled exception capture and
+   verified no CSP change is needed by reading the installed bundle's resolution path — but CSP
+   has silently swallowed a tag in this repo before, so check the console after deploy. The
+   Error Tracking *view* may also need enabling in the dashboard for events to group.
+7. **WS1 for the remaining 22 themes**, once (3) shows whether demo traffic materialises.
+8. Still open under BLOCKER 2: decide whether unreviewed legal copy keeps the `draft` banner.
+9. Work the lead list: `~/leads/az-trade-leads-2026-07-29.csv`, 103 Phoenix-metro trades.
+10. Baseline the Supabase migration ledger before the next migration. _Now a concrete, gated
+    step in `LAUNCH-CHECKLIST.md` §4 (`supabase migration repair --linked --status applied
+    0001 … 0013`) — owner-run, and it asserts a history rather than verifying one, so
     re-confirm `sites_status_check` carries all 12 values first._
-13. **`$199` copy add-on is still hardcoded** in 4 places. Route through `pricing-constants.ts`.
-14. **`/api/checkout` does not enforce the promo server-side** — price still depends on the
-    client sending `promo`. The 503 guard covers missing config, not an omitted param.
-15. `src/lib/seo.ts` publishes the promo price in the schema.org Offer — silently wrong the day
-    the promo ends.
-16. **`conversionValueUsd()` over-reports** — returns $299 while the customer now pays $99 today.
+11. **`$250` SLA remedy in `src/app/terms/page.tsx:41`** is the last user-visible dollar figure
+    outside `pricing-constants.ts`. Left deliberately — it is a contractual remedy, not a
+    product price — but worth a constant if the SLA is ever revised.
+12. **Unpushed commit in the Claude-managed marketplace clone.** `a894757 fix(orchestrator):
+    require disjoint file sets and explicit output paths` exists only in
+    `~/.claude/plugins/marketplaces/axon` and never reached origin. Not related to this repo,
+    but it will be lost the next time that directory is refreshed.
+
+### Promoter comms — done 2026-08-01
+
+Payton was sent the corrected links (`?ref=payton&src=fb` / `&src=ig` / `&src=tiktok`) by email
+via **Resend** from `hello@yourshopfront.com`, plus an SMS from the Quo wholesaling number. A
+follow-up of each went out correcting the sign-off. Nothing outstanding.
 
 ## Stripe account reality — verified 2026-07-30
 
@@ -565,20 +575,29 @@ but it was never positively identified. PostHog error tracking is not enabled, s
 | #92 | merged | WS1 for the 8 picker trades — real business headlines on `/demos/[slug]`, descriptive headline preserved on `/portfolio/[slug]` |
 | #93 | merged | `<HideWhenEmbedded>` — our PortfolioBanner + themed SiteHeader no longer render inside preview iframes |
 
-### Four PRs OPEN, awaiting owner review — none merged
+### Four PRs MERGED and deployed — 2026-08-01
 
-CI green on all four. Every branch was written in an isolated worktree and then verified **cold**
-by a fresh-context reviewer before being opened. The combined state of all four was test-merged
-and built locally: `pnpm typecheck` exit 0, `pnpm build` succeeded, **30 `/demos` + 30
-`/portfolio` paths still prerendered**, `pnpm lint` 0 errors (2 pre-existing warnings). All pairs
-merge clean — #97 and #98 touch the same two `/checkout` files but different hunks.
+Merged in the order below (docs first, then the money bug). Every branch was written in an
+isolated worktree and verified **cold** by a fresh-context reviewer before opening; the combined
+state of all four was test-merged and built locally before any merge — `pnpm typecheck` exit 0,
+`pnpm build` succeeded, **30 `/demos` + 30 `/portfolio` paths still prerendered**, `pnpm lint` 0
+errors (2 pre-existing warnings).
 
-| PR  | Branch                                   | What                                                                                  |
-| --- | ---------------------------------------- | ------------------------------------------------------------------------------------- |
-| #95 | `docs/launch-checklist-corrections`      | this section's doc fixes                                                              |
-| #96 | `feat/embedded-hero-suppression`         | hero meta-copy suppressed in preview iframes; 7 real screenshots on `/start`          |
-| #97 | `fix/checkout-promo-server-enforcement`  | **server is now the authority on the promo** — a dropped param charged $448 vs a $99 quote |
-| #98 | `fix/pricing-constants-sweep`            | copy add-on via constants; schema.org Offer; conversion value $299 → real charge; PostHog `$exception` |
+| PR  | Merge     | What                                                                                  |
+| --- | --------- | ------------------------------------------------------------------------------------- |
+| #95 | `b587d4f` | doc corrections — §0 gate test, the twelve-vs-thirteen migration list, coupon setup   |
+| #97 | `2649b9d` | **server is now the authority on the promo** — a dropped param charged $448 vs a $99 quote |
+| #96 | `ab350c9` | hero meta-copy suppressed in preview iframes; 7 real screenshots on `/start`          |
+| #98 | `1819adb` | copy add-on via constants; schema.org Offer; conversion value $299 → real charge; PostHog `$exception` |
+
+**Verified against production after deploy** (not inferred): `/`, `/start`, `/pricing`,
+`/demos/[slug]`, `/portfolio/[slug]`, `/onboarding` all 200 · `/checkout?tier=subscription`
+quotes **$99** with no 503, proving the coupon env is present · `/checkout?…&promo=none` quotes
+**$448**, proving #97's opt-out is reachable · `/start` serves all 7 preview WebPs plus the
+`heritage-painters` hero fallback.
+
+⚠️ #97's CI run shows **cancelled** in the Actions list — #98's merge superseded it mid-run.
+#98's run covers the final `master` state and passed. Nothing is unverified.
 
 **#97 is the load-bearing one.** `/checkout` renders promo pricing for every subscription visit,
 but `/api/checkout` only applied the promo when the client sent `promo=launch` — so losing the
