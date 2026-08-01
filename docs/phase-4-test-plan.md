@@ -103,9 +103,15 @@ price when it is unset.
 
 ### 2b. Create the launch-promo coupon (only if testing the `/start` promo)
 
-Stripe Dashboard (Test mode) → Coupons → New: **$50 off, repeating, 3 months**. Put its
-**Coupon ID** (not a promotion code) in `STRIPE_COUPON_LAUNCH_PROMO`. If either the promo price
-or the coupon is unset, `promo=launch` is ignored and you get standard pricing.
+Stripe Dashboard (Test mode) → Coupons → New: **$50 off, repeating, 3 months**, and
+**restrict it to the monthly subscription product** (`applies_to.products`). Put its
+**Coupon ID** (not a promotion code) in `STRIPE_COUPON_LAUNCH_PROMO_MONTHLY`. If either the
+promo price or the coupon is unset, `promo=launch` is ignored and you get standard pricing.
+
+⚠️ The product restriction is load-bearing, and the variable name changed. An unrestricted
+coupon in this slot discounts the one-time setup fee instead of the monthly — with the 30-day
+trial the setup fee is the only line on the first invoice — so checkout charges **$49, not $99**.
+`applies_to` cannot be added to a coupon after creation; make a new one instead.
 
 ### 3. Authenticate the Stripe CLI
 
@@ -288,15 +294,25 @@ Fill the form with a fresh email, pay with `4242 4242 4242 4242`.
 
 ### Verify
 
-- [ ] Stripe Checkout charges **$198.00 today** ($99 promo setup + $99 first month after the
-      $50/mo coupon)
-- [ ] Stripe Dashboard → the new subscription shows the `launch_promo_3mo` coupon applied,
-      **3 months, repeating**
-- [ ] Upcoming invoices: 2 more at `$99.00`, then `$149.00/mo` once the coupon expires
+> **Updated 2026-08-01.** This block described the pre-2026-07-31 offer ($198 today, coupon
+> `launch_promo_3mo`). That ladder was retired by PR #89 and the figures below replace it.
+
+- [ ] Stripe Checkout charges **$99.00 today** — the promo setup fee alone. The subscription
+      starts on a 30-day trial, so no monthly invoice is issued today.
+- [ ] Stripe Dashboard → the new subscription shows a **30-day trial** and the
+      `launch_promo_3mo_monthly` coupon applied, **3 months, repeating**. The discount window
+      runs 3 months past the *trial end*, not from today — the trial does not consume a
+      discounted month, because no invoice is issued during it.
+- [ ] Upcoming invoices: first month **free** (trial), then 3 at `$99.00`, then `$149.00/mo`
 - [ ] Supabase `sites`: `tier = 'subscription'`; session metadata carries `promo = 'launch'`
-- [ ] ⚠️ If the charge is **$448**, either `STRIPE_PRICE_SUBSCRIPTION_SETUP_PROMO` or
-      `STRIPE_COUPON_LAUNCH_PROMO` is unset — `/api/checkout` falls back to standard pricing
-      **silently**, with no error. Check both env vars, not the code.
+- [ ] ⚠️ **If the charge is $49**, the unrestricted coupon `launch_promo_3mo` is in
+      `STRIPE_COUPON_LAUNCH_PROMO_MONTHLY` instead of the product-scoped
+      `launch_promo_3mo_monthly`. With a trial, the setup fee is the only line on the first
+      invoice, so an unrestricted coupon discounts *that*. Fix the env var, not the code.
+- [ ] ⚠️ **If the charge is $198**, the trial is not being applied — the pre-2026-07-31 ladder.
+- [ ] ⚠️ **If the charge is $448**, `STRIPE_PRICE_SUBSCRIPTION_SETUP_PROMO` or
+      `STRIPE_COUPON_LAUNCH_PROMO_MONTHLY` is unset and `/api/checkout` fell back to standard
+      pricing **silently**, with no error. Check both env vars, not the code.
 
 > Implementation note: Stripe rejects a Checkout session that specifies both `discounts` and
 > `allow_promotion_codes` (even when the latter is `false`). On the promo path the code sends

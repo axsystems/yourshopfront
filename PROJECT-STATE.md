@@ -483,6 +483,7 @@ Ordered for the next session (2026-08-02).
    This is the last blocker on a large above-the-fold visual for `/start`.
 3. **Send Payton the corrected referral links** (`?ref=payton&src=fb` / `&src=ig` /
    `&src=tiktok`). 6 of 16 hits still arrive as `&fb` with `src` missing. One message.
+   _Message drafted 2026-08-01 and ready to send — it just has not been sent yet._
 4. **Watch the funnel on clean data.** Analytics have been trustworthy since PR #88 (2026-07-31).
    Questions: does the trade picker move `/start` -> `/checkout` off 3/14, and does anyone reach
    a demo page now that demos have real headlines?
@@ -497,7 +498,10 @@ Ordered for the next session (2026-08-02).
 10. **Enable PostHog error tracking** — no `$exception` events exist, which is why the
     2026-07-30 pay-click could never be positively identified as a bot.
 11. Work the lead list: `~/leads/az-trade-leads-2026-07-29.csv`, 103 Phoenix-metro trades.
-12. Baseline the Supabase migration ledger before the next migration.
+12. Baseline the Supabase migration ledger before the next migration. _Now a concrete,
+    gated step in `LAUNCH-CHECKLIST.md` §4 (`supabase migration repair --linked --status
+    applied 0001 … 0013`) — owner-run, and it asserts a history rather than verifying one, so
+    re-confirm `sites_status_check` carries all 12 values first._
 13. **`$199` copy add-on is still hardcoded** in 4 places. Route through `pricing-constants.ts`.
 14. **`/api/checkout` does not enforce the promo server-side** — price still depends on the
     client sending `promo`. The 503 guard covers missing config, not an omitted param.
@@ -560,6 +564,69 @@ but it was never positively identified. PostHog error tracking is not enabled, s
 | #91 | merged | Demo/portfolio hero still quoted the pre-trial ladder ("$99 setup + $99/mo for 3 months") after #89 changed the offer |
 | #92 | merged | WS1 for the 8 picker trades — real business headlines on `/demos/[slug]`, descriptive headline preserved on `/portfolio/[slug]` |
 | #93 | merged | `<HideWhenEmbedded>` — our PortfolioBanner + themed SiteHeader no longer render inside preview iframes |
+
+### Four PRs OPEN, awaiting owner review — none merged
+
+CI green on all four. Every branch was written in an isolated worktree and then verified **cold**
+by a fresh-context reviewer before being opened. The combined state of all four was test-merged
+and built locally: `pnpm typecheck` exit 0, `pnpm build` succeeded, **30 `/demos` + 30
+`/portfolio` paths still prerendered**, `pnpm lint` 0 errors (2 pre-existing warnings). All pairs
+merge clean — #97 and #98 touch the same two `/checkout` files but different hunks.
+
+| PR  | Branch                                   | What                                                                                  |
+| --- | ---------------------------------------- | ------------------------------------------------------------------------------------- |
+| #95 | `docs/launch-checklist-corrections`      | this section's doc fixes                                                              |
+| #96 | `feat/embedded-hero-suppression`         | hero meta-copy suppressed in preview iframes; 7 real screenshots on `/start`          |
+| #97 | `fix/checkout-promo-server-enforcement`  | **server is now the authority on the promo** — a dropped param charged $448 vs a $99 quote |
+| #98 | `fix/pricing-constants-sweep`            | copy add-on via constants; schema.org Offer; conversion value $299 → real charge; PostHog `$exception` |
+
+**#97 is the load-bearing one.** `/checkout` renders promo pricing for every subscription visit,
+but `/api/checkout` only applied the promo when the client sent `promo=launch` — so losing the
+query param quoted **$99** and charged **$448**. It now fails closed. The cold review also caught
+that the first implementation left the `?promo=none` opt-out unreachable from the client, which
+would have made pulling the coupon env var (the obvious first move when retiring the promo) 503
+every subscription checkout with no code-side kill switch. Fixed before the PR opened.
+
+⚠️ **#97 widens a blast radius and this is an open decision.** A wrong coupon ID used to affect
+only `promo=launch` traffic; it now affects **100% of subscription sales**, and the code cannot
+detect it. The retired unrestricted `launch_promo_3mo` still exists in the production coupon list,
+and putting it in `STRIPE_COUPON_LAUNCH_PROMO_MONTHLY` charges $49 instead of $99. A
+`stripe.coupons.retrieve` guard asserting `applies_to.products` is non-empty would close it —
+deliberately not added, owner's call.
+
+Post-merge: remove the three agent worktrees under `.claude/worktrees/` (branches are pushed, so
+the working copies are disposable).
+
+### `LAUNCH-CHECKLIST.md` corrections — shipped in PR #95
+
+Two defects found by reading §0 and §4 against the current code. Both are the kind that only
+surface when someone actually follows the doc, which is why neither had been caught.
+
+- **§4 listed twelve migrations and omitted `0013_referral_tracking`.** This is the identical
+  failure mode to the ⚠️ warning already at the top of that section (which was itself added
+  2026-07-29 after the list stopped at `0005`). A fresh project provisioned from the twelve-file
+  list has no `referral_code` / `referral_source` columns, so every `checkout.session.completed`
+  insert fails — the customer pays and gets nothing. Row added, counts corrected, and an
+  amendment note explains the repeat so the pattern is visible rather than quietly fixed.
+- **§0's gate test said to refund the charge but never to cancel the subscription.** Refunding
+  does not cancel: the promo path creates a subscription on a 30-day trial, so the operator's own
+  card would be invoiced ~30 days after the test, and `customer.subscription.deleted` would never
+  fire. Cancelling is now a step, which also exercises that third webhook event and the goodbye
+  email — previously untested. (Trial/discount windows confirmed against the live subscription
+  recorded under "What shipped 2026-07-31".)
+
+§0 was also rewritten to enter through `?ref=payton&src=tiktok` in a **fresh incognito profile**
+(first-touch means a stale `ysf_ref` would silently win and prove nothing), so one purchase covers
+promo + email + onboarding + attribution together. It now asserts **$99.00 before the card is
+entered**, and names what each wrong amount means: **$49** = unscoped `launch_promo_3mo` applied
+instead of `launch_promo_3mo_monthly`; **$198** = pre-trial ladder is back; **$448** = promo not
+applied at all.
+
+Next-action 12 (baseline the migration ledger) is now a concrete step in §4, using
+`supabase migration repair --linked --status applied 0001 … 0013` rather than hand-written
+`INSERT`s — the CLI creates the schema and owns the version format. It **asserts** a history
+rather than verifying one, so §4 gates it behind re-confirming all 12 values on
+`sites_status_check` first.
 
 ### WS1 is done for 8 of 30 themes
 
