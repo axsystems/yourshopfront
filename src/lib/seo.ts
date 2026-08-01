@@ -1,4 +1,5 @@
 import type { Theme } from "./themes/types"
+import { isFeatured } from "./themes"
 import {
   HOSTING_ADDON,
   ONE_TIME,
@@ -18,20 +19,61 @@ export const SITE_NAME = "Your Shopfront"
 export const ORG_DESCRIPTION =
   "Productized website design and hosting for small businesses. Pick one of 30 designs, send us your content, your site goes live in 24 hours."
 
+/**
+ * Single source of truth for which route a theme canonicalizes to.
+ * Featured 10 self-canonical at /demos/[slug]; the other 20 self-canonical
+ * at /portfolio/[slug] (their /demos/[slug] page exists too, for ad
+ * targeting, but canonicals back here). Both route files and demoSchema()
+ * must agree — duplicating this rule a third time is how it drifts.
+ */
+export function canonicalThemeUrl(slug: string): string {
+  return isFeatured(slug)
+    ? `${SITE_URL}/demos/${slug}`
+    : `${SITE_URL}/portfolio/${slug}`
+}
+
+/**
+ * Root layout's `metadata.title.template` is `"%s — Your Shopfront"`, so any
+ * page-level title (incl. `theme.seoTitle` from the theme configs) must be
+ * brand-free before it's handed to `title:` or the template doubles the
+ * brand. Theme configs use two brand-carrying formats — strip both:
+ *   - "Your Shopfront — <description>" (the 16 prefix-style titles)
+ *   - "<Name> — <description> · Your Shopfront Portfolio" (the 14 suffix-style titles)
+ * `openGraph.title` / `twitter.title` are NOT templated, so callers must
+ * append " — Your Shopfront" themselves when they want the brand there.
+ */
+export function themeMetaTitle(theme: Theme): string {
+  return theme.seoTitle
+    .replace(/^Your Shopfront — /, "")
+    .replace(/ · Your Shopfront Portfolio$/, "")
+}
+
 export function organizationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: SITE_NAME,
+    legalName: "Axon Labs LLC",
     url: SITE_URL,
     description: ORG_DESCRIPTION,
     logo: `${SITE_URL}/logo.png`,
+    email: "hello@yourshopfront.com",
     sameAs: [],
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer support",
       email: "hello@yourshopfront.com",
       availableLanguage: "en",
+    },
+    // Option B of Google's return-policy markup (a URL describing the
+    // policy) rather than Option A (returnPolicyCategory + a fixed
+    // merchantReturnDays window): the real policy on /refund-policy is
+    // conditional per tier and per trigger event (worksheet submission,
+    // source-code transfer, domain pointing), not a single "N days from
+    // delivery" window, so forcing it into Option A would misstate it.
+    hasMerchantReturnPolicy: {
+      "@type": "MerchantReturnPolicy",
+      merchantReturnLink: `${SITE_URL}/refund-policy`,
     },
   }
 }
@@ -104,7 +146,7 @@ export function demoSchema(theme: Theme) {
     "@type": "WebPage",
     name: theme.seoTitle,
     description: theme.seoDescription,
-    url: `${SITE_URL}/demos/${theme.slug}`,
+    url: canonicalThemeUrl(theme.slug),
     isPartOf: {
       "@type": "WebSite",
       name: SITE_NAME,
