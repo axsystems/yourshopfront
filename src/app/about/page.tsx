@@ -26,7 +26,10 @@ import {
 const ABOUT_URL = `${SITE_URL}/about`
 
 export const metadata: Metadata = {
-  title: "About — Your Shopfront",
+  // Brand-free — the root layout's title template appends " — Your
+  // Shopfront" here. openGraph.title isn't templated, so it keeps the
+  // brand inline.
+  title: "About",
   description:
     "Your Shopfront is a productized agency for small businesses. 30 designs, 24-hour delivery, no contracts. Built by people who got tired of seeing good operators stuck on bad websites.",
   alternates: { canonical: ABOUT_URL },

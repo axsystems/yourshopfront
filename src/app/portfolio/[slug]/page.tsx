@@ -8,10 +8,11 @@ import { JsonLd } from "@/components/json-ld"
 import {
   SITE_URL,
   breadcrumbSchema,
+  canonicalThemeUrl,
   demoSchema,
   organizationSchema,
 } from "@/lib/seo"
-import { allThemes, getTheme, isFeatured } from "@/lib/themes"
+import { allThemes, getTheme } from "@/lib/themes"
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -29,20 +30,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!theme) return {}
 
   const portfolioUrl = `${SITE_URL}/portfolio/${theme.slug}`
-  const demoUrl = `${SITE_URL}/demos/${theme.slug}`
-  // Featured 10 canonical at /demos/[slug]; non-featured 14 self-canonical
+  // Featured 10 canonical at /demos/[slug]; non-featured 20 self-canonical
   // here at /portfolio/[slug]. The /demos/[slug] route also exists for the
-  // 14 (so URLs work everywhere) but it canonicals back to /portfolio/[slug].
-  const canonical = isFeatured(theme.slug) ? demoUrl : portfolioUrl
+  // 20 (so URLs work everywhere) but it canonicals back to /portfolio/[slug].
+  const canonical = canonicalThemeUrl(theme.slug)
 
-  const title = `${theme.name} — Available as a theme option · Your Shopfront`
+  // Brand-free base — the root layout's title template appends
+  // " — Your Shopfront" to `title`, so this must NOT already carry it.
+  // openGraph/twitter titles aren't templated, so they append it inline.
+  const titleBase = `${theme.name} — Available as a theme option`
 
   return {
-    title,
+    title: titleBase,
     description: theme.seoDescription,
     alternates: { canonical },
     openGraph: {
-      title,
+      title: `${titleBase} — Your Shopfront`,
       description: theme.seoDescription,
       url: portfolioUrl,
       type: "website",
@@ -58,7 +61,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: `${titleBase} — Your Shopfront`,
       description: theme.seoDescription,
       images: [`${SITE_URL}/api/og/${theme.slug}`],
     },
