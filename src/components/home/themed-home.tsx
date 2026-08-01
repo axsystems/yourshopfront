@@ -73,7 +73,11 @@ export function ThemedHome({ theme, isDemoPreview, isDemoRoute }: ThemedHomeProp
             </FadeUp>
           </>
         )}
-        <FadeUp>
+        {/* `id="contact"` is the scroll target for the embedded hero CTA
+            (see EMBEDDED_CTA_HREF in ./hero) — inside a frame the hero
+            button carries the business's own label and has to land on the
+            business's own contact block, not our checkout. */}
+        <FadeUp id="contact">
           <FinalCTA
             theme={theme}
             ctaPrimaryHref={isDemoPreview ? demoCheckoutHref : "#showcase"}
@@ -89,7 +93,9 @@ export function ThemedHome({ theme, isDemoPreview, isDemoRoute }: ThemedHomeProp
       </main>
       <SiteFooter variant="themed" />
       {isDemoPreview && (
-        <MobileStickyCta theme={theme} ctaHref={demoCheckoutHref} />
+        <HideWhenEmbedded>
+          <MobileStickyCta theme={theme} ctaHref={demoCheckoutHref} />
+        </HideWhenEmbedded>
       )}
     </ThemeProvider>
   )

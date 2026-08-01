@@ -8,6 +8,7 @@ import { DemoPalettePicker } from "@/components/home/demo-palette-picker"
 import { DemoSwitcher } from "@/components/home/demo-switcher"
 import { AnalyticsGate } from "@/components/analytics-gate"
 import { GoogleTag } from "@/components/google-tag"
+import { HideWhenEmbedded } from "@/components/hide-when-embedded"
 import { PlausibleAnalytics } from "@/components/plausible"
 import { PostHogAnalytics } from "@/components/posthog"
 import { ReferralCapture } from "@/components/referral-capture"
@@ -83,9 +84,13 @@ export default function RootLayout({
           <DemoPalettePicker />
         </Suspense>
         {children}
-        <Suspense fallback={null}>
-          <SalesAgent />
-        </Suspense>
+        {/* Our concierge bubble is Your Shopfront chrome — inside a demo
+            preview iframe it floats over the customer's own site. */}
+        <HideWhenEmbedded>
+          <Suspense fallback={null}>
+            <SalesAgent />
+          </Suspense>
+        </HideWhenEmbedded>
         {/* Vercel Web Analytics — page views + Web Vitals. Co-exists with
             Plausible (different vendor surfaces, different dashboards). No
             env var or config required; reads NEXT_PUBLIC_VERCEL_* injected

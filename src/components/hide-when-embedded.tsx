@@ -27,13 +27,32 @@ const subscribe = () => () => {}
 const getSnapshot = () => isEmbeddedFrame()
 const getServerSnapshot = () => false
 
+function useIsEmbedded(): boolean {
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
+}
+
 export function HideWhenEmbedded({ children }: { children: React.ReactNode }) {
-  const embedded = useSyncExternalStore(
-    subscribe,
-    getSnapshot,
-    getServerSnapshot
-  )
+  const embedded = useIsEmbedded()
 
   if (embedded) return null
+  return <>{children}</>
+}
+
+/**
+ * The counterpart: renders children ONLY inside a frame.
+ *
+ * Some of our chrome cannot simply be deleted from an embedded demo — the
+ * hero's "Pick a style / See pricing" pair is the only call to action in
+ * the headline column, and a hero with no button reads as an unfinished
+ * page rather than the business's own site. Those cases need a swap, not a
+ * removal, so the embedded branch needs its own gate.
+ *
+ * Same server snapshot as <AnalyticsGate> (render nothing), so a top-level
+ * page never briefly paints the embedded-only variant.
+ */
+export function ShowWhenEmbedded({ children }: { children: React.ReactNode }) {
+  const embedded = useIsEmbedded()
+
+  if (!embedded) return null
   return <>{children}</>
 }

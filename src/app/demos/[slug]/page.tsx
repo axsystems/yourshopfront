@@ -86,12 +86,17 @@ export default async function DemoPage({ params }: PageProps) {
         <PortfolioBanner theme={theme} />
       </HideWhenEmbedded>
       <ThemedHome theme={theme} isDemoPreview isDemoRoute />
-      <MobileStickySpacer />
-      <MobileStickyCTA
-        href={`/checkout?tier=subscription&promo=launch&demo=${theme.slug}`}
-        label={`Get this site for ${PROMO_SETUP} →`}
-        subLabel="30-day money-back"
-      />
+      {/* Our buy bar is chrome, and at phone widths it is the last piece of
+          Your Shopfront branding visible inside a preview iframe. The
+          spacer goes with it so an embedded render has no dead strip. */}
+      <HideWhenEmbedded>
+        <MobileStickySpacer />
+        <MobileStickyCTA
+          href={`/checkout?tier=subscription&promo=launch&demo=${theme.slug}`}
+          label={`Get this site for ${PROMO_SETUP} →`}
+          subLabel="30-day money-back"
+        />
+      </HideWhenEmbedded>
     </>
   )
 }

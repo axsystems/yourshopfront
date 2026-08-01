@@ -1,6 +1,10 @@
 import * as React from "react"
 import Image from "next/image"
 
+import {
+  HideWhenEmbedded,
+  ShowWhenEmbedded,
+} from "@/components/hide-when-embedded"
 import { previewHeadline } from "@/lib/seo-headlines"
 import type { Theme } from "@/lib/themes/types"
 import { ApexButton, Container, Display } from "./primitives"
@@ -39,6 +43,20 @@ interface HeroProps {
 const DEFAULT_HEADLINE = "A website your business deserves."
 const DEFAULT_SUBHEAD =
   "Pick a design, send us your content, your site is live in 24 hours. Built for every small business."
+
+/**
+ * Label for the hero CTA in the embedded variant. Every one of the 30
+ * themes authors a business-voice CTA on `content.finalCta.ctaLabel`
+ * ("Book a plumber now →", "Get move estimate →"), so reuse it rather than
+ * inventing a second copy field; the fallback only guards the type.
+ */
+const EMBEDDED_CTA_FALLBACK = "Get a free quote →"
+
+/**
+ * Where the embedded hero CTA scrolls to — the FinalCTA block, which
+ * carries the contact card. `<ThemedHome>` puts this id on the wrapper.
+ */
+const EMBEDDED_CTA_HREF = "#contact"
 
 export function Hero({
   theme,
@@ -161,25 +179,47 @@ export function Hero({
           >
             {subhead}
           </p>
+          {/*
+            Inside a frame the page is standing in for the customer's own
+            site (the /start previews, <RotatingPreview>, <DemoCard>), so
+            our two meta CTAs are replaced by the business's single one and
+            the promo strip is dropped entirely. Frame-based, like the rest
+            of the embed suppression — a human visit to /demos/[slug] is
+            byte-identical to before.
+          */}
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <ApexButton theme={theme} variant="primary" size="lg" asChildHref={ctaPrimaryHref}>
-              Pick a style →
-            </ApexButton>
-            <ApexButton theme={theme} variant="outline" size="lg" asChildHref={ctaSecondaryHref}>
-              See pricing
-            </ApexButton>
+            <HideWhenEmbedded>
+              <ApexButton theme={theme} variant="primary" size="lg" asChildHref={ctaPrimaryHref}>
+                Pick a style →
+              </ApexButton>
+              <ApexButton theme={theme} variant="outline" size="lg" asChildHref={ctaSecondaryHref}>
+                See pricing
+              </ApexButton>
+            </HideWhenEmbedded>
+            <ShowWhenEmbedded>
+              <ApexButton
+                theme={theme}
+                variant="primary"
+                size="lg"
+                asChildHref={EMBEDDED_CTA_HREF}
+              >
+                {theme.content?.finalCta?.ctaLabel ?? EMBEDDED_CTA_FALLBACK}
+              </ApexButton>
+            </ShowWhenEmbedded>
           </div>
-          <p
-            className="mt-6 text-xs"
-            style={{
-              color: "var(--apex-muted-fg)",
-              fontFamily: "var(--apex-font-mono)",
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-            }}
-          >
-            ${PROMO_SETUP_PRICE} today · first month free · then {PROMO_MONTHLY} for {PROMO_MONTHS} months, then {STANDARD_MONTHLY} · live in 24h
-          </p>
+          <HideWhenEmbedded>
+            <p
+              className="mt-6 text-xs"
+              style={{
+                color: "var(--apex-muted-fg)",
+                fontFamily: "var(--apex-font-mono)",
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+              }}
+            >
+              ${PROMO_SETUP_PRICE} today · first month free · then {PROMO_MONTHLY} for {PROMO_MONTHS} months, then {STANDARD_MONTHLY} · live in 24h
+            </p>
+          </HideWhenEmbedded>
         </div>
         <div className={isStacked ? "" : "lg:justify-self-end lg:self-center"}>
           <HeroVisual variant={theme.hero} theme={theme} />
@@ -204,18 +244,26 @@ function HeroVisual({ variant, theme }: { variant: Theme["hero"]; theme: Theme }
   }
 }
 
+/**
+ * Annotation under each hero widget explaining what the real thing would
+ * do on the customer's live site. It is the loudest piece of Your
+ * Shopfront meta-copy left in the hero, so it is gated here rather than at
+ * each of the five call sites.
+ */
 function PreviewCaption({ children }: { children: React.ReactNode }) {
   return (
-    <p
-      className="mt-3 max-w-md text-[11px] leading-snug"
-      style={{
-        color: "var(--apex-muted-fg)",
-        fontFamily: "var(--apex-font-mono)",
-        letterSpacing: "0.04em",
-      }}
-    >
-      ← {children}
-    </p>
+    <HideWhenEmbedded>
+      <p
+        className="mt-3 max-w-md text-[11px] leading-snug"
+        style={{
+          color: "var(--apex-muted-fg)",
+          fontFamily: "var(--apex-font-mono)",
+          letterSpacing: "0.04em",
+        }}
+      >
+        ← {children}
+      </p>
+    </HideWhenEmbedded>
   )
 }
 
