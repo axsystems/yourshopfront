@@ -3,11 +3,10 @@ import {
   HOSTING_ADDON,
   ONE_TIME,
   ONE_TIME_PRICE,
-  PROMO_MONTHLY,
-  PROMO_MONTHLY_PRICE,
-  PROMO_MONTHS,
+  PROMO_PERIOD_LABEL,
   PROMO_SETUP,
   STANDARD_MONTHLY,
+  STANDARD_MONTHLY_PRICE,
   STANDARD_SETUP,
 } from "./pricing-constants"
 
@@ -37,6 +36,22 @@ export function organizationSchema() {
   }
 }
 
+/**
+ * Machine-readable offers for the homepage and /pricing.
+ *
+ * `price` is deliberately the STANDARD list price, never the launch promo.
+ * Structured data is crawled on Google's schedule, not ours: a promo price
+ * published here outlives the promo by however long it takes to re-crawl,
+ * so Google would keep serving $99/mo after we've gone back to charging
+ * $149/mo. The list price is the durable, always-true claim; the promo is
+ * a time-boxed discount and belongs in the human-readable `description`
+ * (and in the visible page copy), which is exactly the split schema.org's
+ * Offer model expects.
+ *
+ * No `priceValidUntil`: it's only meaningful for a price with a known end
+ * date. Inventing one for a standing list price makes things worse — once
+ * that date passes Google treats the price as expired and drops it.
+ */
 export function serviceSchema() {
   return {
     "@context": "https://schema.org",
@@ -49,15 +64,15 @@ export function serviceSchema() {
       {
         "@type": "Offer",
         name: "Subscription",
-        price: String(PROMO_MONTHLY_PRICE),
+        price: String(STANDARD_MONTHLY_PRICE),
         priceCurrency: "USD",
         priceSpecification: {
           "@type": "UnitPriceSpecification",
-          price: String(PROMO_MONTHLY_PRICE),
+          price: String(STANDARD_MONTHLY_PRICE),
           priceCurrency: "USD",
           billingDuration: "P1M",
         },
-        description: `Launch promo: ${PROMO_SETUP} setup + ${PROMO_MONTHLY} for the first ${PROMO_MONTHS} months, then ${STANDARD_MONTHLY} standard (regularly ${STANDARD_SETUP} setup). Includes hosting, unlimited edits, SSL, backups, and security patches.`,
+        description: `${STANDARD_SETUP} setup + ${STANDARD_MONTHLY}. Includes hosting, unlimited edits, SSL, backups, and security patches. Launch promo currently running: ${PROMO_SETUP} ${PROMO_PERIOD_LABEL}.`,
       },
       {
         "@type": "Offer",

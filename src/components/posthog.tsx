@@ -41,6 +41,28 @@ import { isEmbeddedFrame } from "@/lib/embed"
  *   entirely: it never starts if a session begins on /app/*, and it's
  *   paused/resumed as the user crosses the /app boundary via
  *   client-side navigation.
+ *
+ * Error tracking (`capture_exceptions`): without it there are zero
+ * $exception events, which is why a pay-button click that produced no
+ * Stripe session could not be told apart from a bot. Notes:
+ * - Passing an OBJECT, not `true`, is deliberate. posthog-js only
+ *   consults the project's remote `autocaptureExceptions` toggle when
+ *   this config key is undefined; an explicit object wins outright. That
+ *   is the trap session replay fell into for a day — the code was right
+ *   and a dashboard switch kept it off.
+ * - No CSP change is needed. The `exception-autocapture.js` extension is
+ *   lazily fetched from `<api_host>/static/`, and api_host is /ingest, so
+ *   it arrives same-origin (covered by `script-src 'self'`) and is
+ *   proxied on to the assets host by src/app/ingest/[...path]/route.ts,
+ *   exactly like the already-working `/ingest/static/recorder.js`.
+ * - Console errors stay OFF. That is posthog-js's own default, pinned
+ *   explicitly here for the same reason as maskAllInputs: so it can't
+ *   change upstream without us noticing. `capture_console_errors` wraps
+ *   console.error in the BROWSER only, so it isn't a PII lever — the two
+ *   client-side console calls in this app (the /app/edit-requests forms)
+ *   log an error object and nothing else. It stays off because turning
+ *   every console.error into a billable event buys noise, not signal;
+ *   unhandled errors and rejections are the ones worth paging on.
  */
 const POSTHOG_KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY
 const POSTHOG_HOST =
@@ -69,6 +91,11 @@ export function PostHogAnalytics() {
         disable_session_recording: isPortalPath(path),
         session_recording: {
           maskAllInputs: true,
+        },
+        capture_exceptions: {
+          capture_unhandled_errors: true,
+          capture_unhandled_rejections: true,
+          capture_console_errors: false,
         },
       })
       initialized.current = true

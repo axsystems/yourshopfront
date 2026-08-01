@@ -27,6 +27,11 @@ export const STANDARD_SETUP_PRICE = 299
 export const STANDARD_MONTHLY_PRICE = 149
 export const ONE_TIME_PRICE = 997
 export const HOSTING_ADDON_PRICE = 49
+// Optional "we write your copy" service. A one-time Stripe price
+// (STRIPE_PRICE_COPY_ADDON) that rides along on the first invoice in all
+// three checkout modes, and is also sellable after the fact via
+// /api/checkout/copy-upgrade.
+export const COPY_ADDON_PRICE = 199
 
 export const PROMO_SETUP = `$${PROMO_SETUP_PRICE}`
 export const PROMO_MONTHLY = `$${PROMO_MONTHLY_PRICE}/mo`
@@ -34,6 +39,7 @@ export const STANDARD_SETUP = `$${STANDARD_SETUP_PRICE}`
 export const STANDARD_MONTHLY = `$${STANDARD_MONTHLY_PRICE}/mo`
 export const ONE_TIME = `$${ONE_TIME_PRICE}`
 export const HOSTING_ADDON = `$${HOSTING_ADDON_PRICE}/mo`
+export const COPY_ADDON = `$${COPY_ADDON_PRICE}`
 
 // Derived totals — computed from the base prices above so they can't drift
 // out of sync with them. Render with a literal "$" prefix, e.g. `${PROMO_TODAY_CHARGE}`.
