@@ -1,6 +1,6 @@
 # Your Shopfront — CLAUDE.md
 
-> Productized website design + hosting for home-service businesses. **30 themes**, standard pricing $299 setup + $149/mo OR $997 one-time. **Currently running a launch promo: $99 today, first month free, then $99/mo for 3 months, then $149/mo standard.** Implemented as `trial_period_days: 30` plus the monthly-scoped coupon `launch_promo_3mo_monthly` (`STRIPE_COUPON_LAUNCH_PROMO_MONTHLY`) — an unrestricted coupon would discount the setup fee instead and charge $49. **Wedge product for the axon-growth marketing OS.**
+> Productized website design + hosting for **any small business that needs a website** — home-service trades are one strong segment, not the whole market. **30 themes**, standard pricing $299 setup + $149/mo OR $997 one-time. **Currently running a launch promo: $99 today, first month free, then $99/mo for 3 months, then $149/mo standard.** Implemented as `trial_period_days: 30` plus the monthly-scoped coupon `launch_promo_3mo_monthly` (`STRIPE_COUPON_LAUNCH_PROMO_MONTHLY`) — an unrestricted coupon would discount the setup fee instead and charge $49. **Wedge product for the axon-growth marketing OS.**
 
 ## Status — read `PROJECT-STATE.md` FIRST
 
@@ -19,9 +19,11 @@ launch-audit records — historical snapshots, not current state).
 ## Strategic Role
 
 Your Shopfront is **NOT a standalone product** long-term. It's the **wedge** for `axon-growth`
-(LIVE B2B SaaS at axongrowth.ai). **ICP is identical:** home-service SMBs (painters,
-electricians, HVAC, plumbers, handymen). They buy a website here, realize they need leads, then
-upsell into Google Ads + GBP + SEO management there.
+(LIVE B2B SaaS at axongrowth.ai).
+
+⚠️ **ICP correction, owner-stated 2026-08-01: "we arent just trade focused salons any person that can use a website is what we focus on."** This file previously read "ICP is identical: home-service SMBs (painters, electricians, HVAC, plumbers, handymen)" — **that was wrong**, and it narrowed copy, verticals, and lead lists downstream. The ICP is **any small business that needs a website**; trades are the strongest single segment, not the boundary. The theme library already encodes the wider ICP: the 14 numbered `NN-*.ts` themes plus `premium-trade` are the trade set — **the other 15 are not trades at all**: restaurant/pizza, wine bar, brewery/taproom, yoga/wellness, photographer/director, florist/apothecary, bookstore/press, design studio, creative agency, video/film studio, dev-tools SaaS, tech/product, laundromat/hospitality, pickup & delivery, commercial/healthcare. Verify with `grep -m1 -H "industry:" src/lib/themes/*.ts`.
+
+**The axon-growth overlap is narrower — but not along the trade axis.** It sells Google Ads + GBP + SEO, so it fits anyone buying **local** leads with a Google Business Profile: trades, but equally salons, restaurants, gyms, clinics, movers. It does *not* fit the national end of this library (dev-tools SaaS, a remote creative agency). The upsell ICP is a **local-lead-buying subset** of Your Shopfront's market — "identical" was wrong in both directions. Sell the site to anyone; upsell leads to the locals.
 
 **4-Stage launch sequence:**
 
@@ -144,7 +146,7 @@ bundle customers fragment across personal vs business email variants.
 
 ## Gotchas
 
-- **30 themes total** (14 home-service + 8 abstract + 8 brand-personality) in the `all` array of `src/lib/themes/index.ts`. The dir has 32 `.ts` files — `css-vars.ts` and `with-overrides.ts` are helpers, not themes. Featured 10 canonical to `/demos`, other 20 to `/portfolio` (SEO).
+- **30 themes total** (14 home-service + 8 abstract + 8 brand-personality) in the `all` array of `src/lib/themes/index.ts`. That grouping is by design family, not audience — **by `industry:` label, half the library (15 of 30) targets non-trade segments** (see the ICP note above). The dir has 32 `.ts` files — `css-vars.ts` and `with-overrides.ts` are helpers, not themes. Featured 10 canonical to `/demos`, other 20 to `/portfolio` (SEO).
 - `<ThemeProvider>` applies only the active theme's font className — don't load all fonts everywhere.
 - Stripe checkout has 3 modes (subscription / onetime+hosting / onetime-only) — see `src/lib/stripe.ts`.
 - Custom-build tier was REMOVED in Phase 2.5 — don't re-introduce.
