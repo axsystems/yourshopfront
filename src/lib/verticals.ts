@@ -4,8 +4,8 @@
 // business" dozens of times and named zero actual verticals — the product
 // sells to real verticals, but the HTML never said so, so it couldn't match
 // what buyers actually type ("website design for plumbers"). This file maps
-// exactly 8 verticals to one real, existing demo theme each. Adding a 9th
-// vertical is a data-only change here — src/app/for/page.tsx and
+// each vertical to one real, existing demo theme. Adding another vertical
+// is a data-only change here — src/app/for/page.tsx and
 // src/app/for/[vertical]/page.tsx both read this list and generate their
 // static params from it.
 //
@@ -477,6 +477,429 @@ export const verticals: Vertical[] = [
       {
         q: "Is this too quiet for a studio that also wants to promote workshops and events?",
         a: "Workshops and one-off events get their own section, styled with the same restraint as the rest of the page — the goal is highlighting them without breaking the calm tone that's the whole point of this design.",
+      },
+    ],
+  },
+  {
+    slug: "roofers",
+    name: "Roofers",
+    singular: "roofer",
+    plural: "roofers",
+    nameLower: "roofers",
+    themeSlug: "summit-roofing",
+    heroSub:
+      "A storm just hit. The next call goes to whichever roofer's site answers fastest.",
+    metaTitle: "Website Design for Roofers",
+    metaDescription:
+      `A roofing website built for the storm-damage search: a free-inspection form above the fold, insurance-claim language, and certification stated upfront. ${PROMO_SETUP} to start, live in 24 hours.`,
+    needs: [
+      "Most roofing searches start after something has already gone wrong — a storm rolled through, shingles are missing, and a wet ceiling stain is spreading. That visitor isn't browsing; they want a free inspection scheduled in the next two minutes, and a form buried past a scrolling hero photo loses them to whichever competitor's site puts a name-and-phone field first. The page's entire job in that moment is speed: capture contact details, confirm someone will get on the roof soon, and get out of the way.",
+      "The other half of roofing work — full replacements, re-roofs planned around a home sale, routine maintenance — moves at buyer-comparison speed instead. That visitor wants to see manufacturer certification, licensing, and a plain statement of how insurance claims get handled before they'll commit to a call, because a roof is one of the most expensive single repairs a homeowner ever makes and unlicensed work is a real, documented risk. Stating certification and warranty terms plainly, high on the page, does more to convert that visitor than any drone photo of a finished roof.",
+    ],
+    included: [
+      {
+        title: "Free-inspection form, above the fold",
+        body: "The primary call-to-action stays visible the instant the page loads — a storm-damage search doesn't wait for a visitor to scroll past a hero image.",
+      },
+      {
+        title: "Insurance-claim language stated",
+        body: "Copy built around walking a homeowner through the adjuster process, not just quoting a repair price — the actual friction point in most storm-damage jobs.",
+      },
+      {
+        title: "Certification and licensing, upfront",
+        body: "Manufacturer certification and bonding status live on the homepage, not buried three clicks deep in an About page.",
+      },
+      {
+        title: "Warranty terms, spelled out",
+        body: "A stated manufacturer-plus-workmanship warranty, transferable to the next owner, removes the biggest hesitation on a full replacement.",
+      },
+    ],
+    howItWorksIntro:
+      "Summit Roofing — one of our 30 designs — is the demo we point roofers to first: an industrial dark layout with an orange-glow accent and a form-card hero built to capture a storm-damage lead in seconds.",
+    demoDescription:
+      "an industrial dark layout with an orange-glow accent and a form-card hero built for storm-damage urgency.",
+    faq: [
+      {
+        q: "We mostly do standalone repairs and re-roofs, not storm and insurance claims — does this design still fit?",
+        a: "Yes — we'd swap the hero from a free-inspection form to a straightforward quote-request form and move the insurance-claim copy lower, since it matters less to that buyer. The underlying layout and pricing stay identical.",
+      },
+      {
+        q: "Do we need professional drone or aerial photography?",
+        a: "No. Job-site phone photos work fine to start, and we can source respectful stock roofing photography for anything you don't have shots of yet — the certification and warranty copy carries more of the trust-building than photography does here.",
+      },
+      {
+        q: "Is the orange-and-black look required, or can we use a different palette?",
+        a: "Summit ships with a cyan and a crimson alternate palette built into the same layout, and any color change is included in your unlimited edits — this isn't a one-shot template.",
+      },
+    ],
+  },
+  {
+    slug: "painters",
+    name: "Painters",
+    singular: "painter",
+    plural: "painters",
+    nameLower: "painters",
+    themeSlug: "heritage-painters",
+    heroSub:
+      "A paint job either still looks right in five years or it doesn't. Your site should look like it knows the difference.",
+    metaTitle: "Website Design for Painters",
+    metaDescription:
+      `A painting-company website built around a gallery of finished work, an itemized-quote process, and a stated workmanship warranty. ${PROMO_SETUP} to start, live in 24 hours.`,
+    needs: [
+      "Painting is a visible-quality business, which means the strongest sales tool a painter has is a gallery of finished rooms and exteriors, not a paragraph describing craftsmanship. A visitor comparing painters is really comparing photos — clean cut lines, even coverage, trim that doesn't bleed onto the wall — and a site that buries its best work behind a stock hero photo of a paint roller is wasting its one real advantage. The gallery should lead, not follow.",
+      "Past the gallery, the buyers who convert best want an itemized written quote before they'll commit, because the industry has a reputation for verbal estimates that balloon once prep work starts. Stating the process plainly — an on-site visit, an itemized scope covering surfaces and product specs, and a workmanship warranty that actually says what happens if paint peels or bubbles — reads as a serious operation rather than a guy with a truck and a ladder.",
+    ],
+    included: [
+      {
+        title: "Gallery-led homepage",
+        body: "Finished work shown large, up front — the actual differentiator in a visible-quality trade, not a paragraph of adjectives.",
+      },
+      {
+        title: "Itemized written quotes stated",
+        body: "Copy built around an on-site visit and a detailed scope in writing, not a vague verbal estimate that grows mid-project.",
+      },
+      {
+        title: "Licensing and insurance, upfront",
+        body: "Bonded-and-insured status stated on the homepage — a real screening factor for anyone letting a crew into their home.",
+      },
+      {
+        title: "Workmanship warranty spelled out",
+        body: "A stated multi-year warranty against peeling or bubbling removes the biggest hesitation on a first-time hire.",
+      },
+    ],
+    howItWorksIntro:
+      "Heritage Painters — one of our 30 designs — is the demo we point painters to first: a warm ivory-and-terracotta layout with an editorial Fraunces serif and a gallery hero built to let finished work do the selling.",
+    demoDescription:
+      "a warm ivory-and-terracotta gallery layout built to let finished paint work do the selling.",
+    faq: [
+      {
+        q: "We do commercial and multi-unit painting, not residential homes — does the gallery format still work?",
+        a: "Yes — we'd swap residential interiors for commercial and multi-unit project photos and lean harder on scheduling-around-tenants copy, which matters more to that buyer. The gallery-first structure works for either.",
+      },
+      {
+        q: "We don't have professional photography of past jobs yet — is that a problem?",
+        a: "No. Job-site phone photos are fine to start, and we can source respectful stock photography for any gap while you build up your own gallery over time.",
+      },
+      {
+        q: "Can we show separate categories for interior, exterior, and cabinetry work?",
+        a: "Yes — the gallery supports tagged categories, so a visitor can filter to the kind of work they're actually hiring for instead of scrolling past photos that don't apply to them.",
+      },
+    ],
+  },
+  {
+    slug: "landscapers",
+    name: "Landscapers",
+    singular: "landscaper",
+    plural: "landscapers",
+    nameLower: "landscapers",
+    themeSlug: "greenwise-lawn",
+    heroSub:
+      "An instant price and a same-crew-every-visit promise close more lawn accounts than a phone call ever will.",
+    metaTitle: "Website Design for Landscapers",
+    metaDescription:
+      `A landscaping website built around an instant online quote, same-crew-every-visit consistency messaging, and a clear path to book. ${PROMO_SETUP} to start, live in 24 hours.`,
+    needs: [
+      "Lawn care and landscaping are recurring-revenue businesses wearing a one-time-purchase website problem: most sites make a visitor call for a quote and wait for a callback before a first mow ever gets scheduled. The landscapers who win that first booking let someone enter an address and lot size, see an instant price, and pick a day — the same way they'd book anything else online, with no callback loop in between.",
+      "Once someone books, the site's second job is answering what actually keeps a customer past visit one: will the same crew show up every time, is the schedule predictable, and what happens if a job like a fall cleanup or irrigation repair falls outside the standing mow contract. Naming a consistent crew and a fixed weekly or bi-weekly day, in plain language, does more for retention than any before-and-after lawn photo — the anxiety a new customer has is about reliability, not whether grass can look green in a picture.",
+    ],
+    included: [
+      {
+        title: "Instant online quote",
+        body: "Address and lot size in, price out — no call-back loop required to get a first mow scheduled.",
+      },
+      {
+        title: "Same-crew-every-visit messaging",
+        body: "The consistency lever that keeps recurring lawn accounts, stated on the page instead of left as an assumption.",
+      },
+      {
+        title: "Insured-crew language",
+        body: "Coverage status stated plainly — a real screening factor for anyone letting a crew work around their property unsupervised.",
+      },
+      {
+        title: "Seasonal add-on path",
+        body: "A clear place for fall cleanups, irrigation work, and one-off jobs that fall outside a standing mow contract.",
+      },
+    ],
+    howItWorksIntro:
+      "Greenwise Lawn — one of our 30 designs — is the demo we point landscapers to first: a naturalist moss-and-cream layout with a booking-card hero built around a 60-second instant lawn quote.",
+    demoDescription:
+      "a moss-and-cream naturalist layout with a booking-card hero built around a 60-second instant quote.",
+    faq: [
+      {
+        q: "We do full landscape design and hardscaping, not just recurring mowing — does the instant-quote format still fit?",
+        a: "The mechanic still works for recurring mow-and-maintain accounts; for design-build and hardscape projects, we'd swap that section for a project-inquiry form covering scope and timeline instead, which suits a considered-purchase buyer better.",
+      },
+      {
+        q: "Can customers manage their own recurring schedule, like skipping a week?",
+        a: "The site itself is a marketing and lead-capture site, not a scheduling backend. For an existing platform like Yardbook or LawnPro, we can link out to it, and we'll talk through what that integration should look like for your setup.",
+      },
+      {
+        q: "Do we need to lead with organic or eco-friendly treatments if we mostly use standard fertilizer?",
+        a: "No — a demo can lean organic because that's a specific business's differentiator; your copy states whatever's actually true about your treatments and process, not a borrowed claim.",
+      },
+    ],
+  },
+  {
+    slug: "movers",
+    name: "Movers",
+    singular: "mover",
+    plural: "movers",
+    nameLower: "movers",
+    themeSlug: "bellhorn-movers",
+    heroSub:
+      "Nobody calls three moving companies for fun. Whichever site shows a real price first gets the booking.",
+    metaTitle: "Website Design for Movers",
+    metaDescription:
+      `A moving-company website built around an instant flat-rate quote calculator, licensed-and-insured language, and same-day booking. ${PROMO_SETUP} to start, live in 24 hours.`,
+    needs: [
+      "Moving is a high-anxiety, one-time purchase, and most moving-company sites make it worse by forcing a phone call just to learn a rough price. The sites that convert best put a calculator in the hero itself — zip codes and home size in, an instant flat-rate estimate out — so a visitor comparing three or four movers gets a real number from yours before they've had to explain their situation out loud to anyone. Losing that visitor to a call-only competitor happens in the first ten seconds, not after a conversation.",
+      "Past the price, the specifics that separate a real moving company from a guy with a truck and a rented dolly are exactly what buyers can't tell from a stock photo: is the crew insured, does the price include furniture wrapping and disassembly, and will they actually place items in the new space or just drop boxes in the garage. Stating those details plainly, next to the price, is what turns an instant quote into a booked date instead of one more open tab.",
+    ],
+    included: [
+      {
+        title: "Instant flat-rate calculator",
+        body: "Zip codes and home size in, a live price out — no callback required to compare against another mover.",
+      },
+      {
+        title: "Licensed-and-insured, stated",
+        body: "Coverage status shown plainly next to the price — the real differentiator between a company and an unmarked truck.",
+      },
+      {
+        title: "Full-service scope, spelled out",
+        body: "Wrapping, disassembly, and placement in the new space stated upfront, not left for the crew to explain on move day.",
+      },
+      {
+        title: "Same-day booking messaging",
+        body: "A visible path to book today's or tomorrow's date for the buyer moving on a short timeline, not planning months out.",
+      },
+    ],
+    howItWorksIntro:
+      "Bellhorn Movers — one of our 30 designs — is the demo we point movers to first: a friendly navy-and-orange layout with a calculator hero that returns a live flat-rate price before a visitor ever picks up the phone.",
+    demoDescription:
+      "a navy-and-orange calculator hero that returns a live flat-rate price before a visitor has to call.",
+    faq: [
+      {
+        q: "We do long-distance moves, not just local — does an instant calculator still make sense?",
+        a: "For local moves the calculator can quote a real flat rate; for long-distance we'd swap it for a request-a-quote form that captures origin, destination, and inventory, since long-distance pricing depends on weight and distance in a way that isn't reducible to a one-screen calculator.",
+      },
+      {
+        q: "Can we show separate pricing for packing services versus load-and-drive only?",
+        a: "Yes — the pricing section can list packing as an add-on tier next to the base moving rate, so a visitor who wants full-service versus a self-pack option can see both without calling to ask.",
+      },
+      {
+        q: "Is the navy-and-orange palette required, or can we use our own brand colors?",
+        a: "Bellhorn ships with a coral and a teal-indigo alternate palette built into the same layout, and any color swap is included in your unlimited edits.",
+      },
+    ],
+  },
+  {
+    slug: "wine-bars",
+    name: "Wine bars",
+    singular: "wine bar",
+    plural: "wine bars",
+    nameLower: "wine bars",
+    themeSlug: "cask-vine",
+    heroSub:
+      "Someone deciding where to go tonight needs to feel the room before they book the table.",
+    metaTitle: "Website Design for Wine Bars",
+    metaDescription:
+      `A wine bar website built around a reservation path, a gallery that carries the room's atmosphere, and a stated seating policy. ${PROMO_SETUP} to start, live in 24 hours.`,
+    needs: [
+      "A wine bar sells an evening, not a product, and a site that leads with a drinks-menu PDF is selling the wrong thing. The visitor deciding between your bar and three others tonight is really asking one question: what does this room feel like — quiet or loud, romantic or casual, the kind of place worth dressing up for. A gallery-led homepage answers that in three photos faster than any paragraph of copy can, which is why the strongest wine-bar sites treat the interior itself as the hero image, not an afterthought below a reservation button.",
+      "Once the atmosphere lands, the practical questions matter fast: can I actually get a table tonight, is this a reservation-required place or a walk-in one, and how long am I expected to stay. A stated seating policy — table turns or none, walk-ins welcome or reservations recommended — removes the single biggest source of hesitation for someone who doesn't want to show up and get turned away. Wine-list philosophy and a path to buy a bottle to take home round out the page, but they earn their place after the room and the reservation path, not before.",
+    ],
+    included: [
+      {
+        title: "Gallery-led hero",
+        body: "The room itself shown large and first — atmosphere sells a wine bar faster than a drinks list ever will.",
+      },
+      {
+        title: "Reservation path, front and center",
+        body: "A clear way to book a table (or see that walk-ins are welcome) without hunting through a separate page.",
+      },
+      {
+        title: "Seating policy, stated plainly",
+        body: "Table turns or none, reservations recommended or not — removed as a source of hesitation before someone walks in.",
+      },
+      {
+        title: "Retail bottle-sales path",
+        body: "A place to highlight bottles available to take home, for the wine list that doubles as a retail offer.",
+      },
+    ],
+    howItWorksIntro:
+      "Cask & Vine — one of our 30 designs — is the demo we point wine bars to first: a low-lit, wine-and-gold gallery layout with an editorial Playfair Display serif built to carry a room's atmosphere before a single word of copy loads.",
+    demoDescription:
+      "a low-lit wine-and-gold gallery layout built to carry a room's atmosphere in photos before any copy.",
+    faq: [
+      {
+        q: "We're a full bar and small-plates menu, not exclusively a natural-wine list — does this design still fit?",
+        a: "Yes — the gallery-led structure and reservation path work regardless of what's actually on the list; the copy states your own wine and food program rather than any specific list philosophy shown in the demo.",
+      },
+      {
+        q: "Can we take reservations directly through the site?",
+        a: "The site itself is built for atmosphere, hours, and a reservation call-to-action. For the actual booking system, we link out to whatever platform you already use, like Resy or Tock, rather than rebuilding that infrastructure inside a marketing site.",
+      },
+      {
+        q: "Do we need professional interior photography for the gallery to carry the room the way this demo does?",
+        a: "It helps more here than in most categories, since the room is the whole pitch — but we can launch with respectful stock and swap in your own photography the moment you have it, at no extra charge.",
+      },
+    ],
+  },
+  {
+    slug: "breweries",
+    name: "Breweries",
+    singular: "brewery",
+    plural: "breweries",
+    nameLower: "breweries",
+    themeSlug: "north-fork",
+    heroSub: "What's on tap right now is the whole homepage. Everything else is secondary.",
+    metaTitle: "Website Design for Breweries",
+    metaDescription:
+      `A brewery and taproom website built around an easy-to-update tap list, patio and dog-policy clarity, and a cans-to-go path. ${PROMO_SETUP} to start, live in 24 hours.`,
+    needs: [
+      "A brewery's website answers a narrower question than most local businesses: is the taproom open right now, and what's actually pouring. Rotating taps mean that answer changes weekly or even daily, which means the tap list has to be something the owner can update by email in minutes, not a page that requires calling a developer every time a seasonal batch runs out. A site that still lists a beer that sold out three weeks ago reads as closed, even during business hours.",
+      "Past the tap list, the questions that decide whether someone drives over tonight are specific and practical: is there food or a food truck, can the dog come along, and is there a cans-or-crowlers-to-go option for anyone who doesn't want to stay and drink in. Independent breweries also compete on identity against bigger regional and national brands, so a site carrying a real heritage badge or masthead-style mark — instead of a generic bar-and-grill template — does real work toward standing out on a crowded strip of taprooms.",
+    ],
+    included: [
+      {
+        title: "Tap list, easy to update",
+        body: "Built so an owner can swap what's pouring by email in minutes — a rotating list shouldn't need a developer to keep current.",
+      },
+      {
+        title: "Patio and dog policy, stated",
+        body: "The practical questions that decide a visit, answered before someone drives over, not discovered at the door.",
+      },
+      {
+        title: "Heritage badge identity",
+        body: "A masthead-style mark built to carry an independent brewery's own identity instead of a generic bar-and-grill look.",
+      },
+      {
+        title: "Cans-and-crowlers-to-go path",
+        body: "A separate path for the customer who wants to take beer home instead of staying in the taproom.",
+      },
+    ],
+    howItWorksIntro:
+      "North Fork — one of our 30 designs — is the demo we point breweries to first: a beer-hall masthead layout with a heritage badge mark, forest-and-mustard palette, built to read as an independent taproom rather than a chain.",
+    demoDescription:
+      "a beer-hall masthead layout with a heritage badge mark, built for an independent taproom identity.",
+    faq: [
+      {
+        q: "We distribute to bars and stores too, not just a taproom — can the site cover both?",
+        a: "Yes — we'd add a 'find our beer' section pointing to retail and bar accounts alongside the taproom hours and tap list, so both audiences land on the right information.",
+      },
+      {
+        q: "How often can we update what's currently on tap?",
+        a: "As often as it changes — email us the update and it's live same-day under unlimited edits. No login or CMS training required to keep the list accurate.",
+      },
+      {
+        q: "We don't run a food program at all — does the site need one?",
+        a: "No — if you don't serve food, the site simply states that plainly, or points to a rotating food-truck schedule if you host one, instead of implying a kitchen that doesn't exist.",
+      },
+    ],
+  },
+  {
+    slug: "bookstores",
+    name: "Bookstores",
+    singular: "bookstore",
+    plural: "bookstores",
+    nameLower: "bookstores",
+    themeSlug: "print-block-books",
+    heroSub:
+      "Someone deciding whether to drive over wants to know what's happening this week, not just that you sell books.",
+    metaTitle: "Website Design for Bookstores",
+    metaDescription:
+      `An independent-bookstore website built around staff picks, an easy-to-update events calendar, and a distinct maker-shop identity. ${PROMO_SETUP} to start, live in 24 hours.`,
+    needs: [
+      "An independent bookstore is competing directly against same-day shipping, which means the website's job isn't to look like a catalog — it's to answer why walking in beats ordering online. Staff picks, a specific curatorial voice, and local zines or small-press titles nobody else stocks are the actual differentiators, and they need real room on the homepage instead of being squeezed into a footer line below a generic 'shop now' button that just makes the store look like a smaller, slower Amazon.",
+      "The second job is staying current: an events calendar for readings, launches, and book clubs that's actually accurate, updated weekly rather than showing a stale flyer from two months ago. A store that can update its own events and staff picks by email, without touching code, keeps the site matching what's really happening in the shop — which matters more here than in almost any other retail category, because the whole pitch is 'come see what's new,' and a site that never changes undercuts that pitch on sight.",
+    ],
+    included: [
+      {
+        title: "Staff-picks section",
+        body: "Real room for a curatorial voice — the actual reason to walk in instead of ordering the same title online.",
+      },
+      {
+        title: "Events calendar, easy to update",
+        body: "Readings, launches, and book clubs kept current by email, not left stale for months at a time.",
+      },
+      {
+        title: "Local-press and zine shelf",
+        body: "A dedicated place for small-run titles a chain or an algorithm won't ever surface.",
+      },
+      {
+        title: "Distinct shop identity",
+        body: "A visual identity built to feel like a specific store, not a generic retail template with a different name.",
+      },
+    ],
+    howItWorksIntro:
+      "Print Block — one of our 30 designs — is the demo we point bookstores to first: a riso-print, halftone-overlay layout in navy, pink, and green, built to carry a maker-shop identity instead of a generic retail look.",
+    demoDescription:
+      "a riso-print halftone layout in navy, pink, and green, built to carry a distinct maker-shop identity.",
+    faq: [
+      {
+        q: "We also sell online and ship nationally, not just in-store — does this design still fit?",
+        a: "Yes — we'd add a clear path to your online shop or a 'ship to me' note alongside the in-store staff picks and events, so both kinds of customer find what they need.",
+      },
+      {
+        q: "Can we list weekly events like readings and book clubs ourselves?",
+        a: "Email us the update — a new reading, a launch, a schedule change — and it's live the same day under unlimited edits. No login or CMS training required.",
+      },
+      {
+        q: "Do we need a real-time inventory search so people can check if a title's in stock?",
+        a: "The site isn't built as a full inventory system; a simple 'call or email to check stock' path covers that need without the cost and maintenance of a real-time search feature.",
+      },
+    ],
+  },
+  {
+    slug: "design-studios",
+    name: "Design studios",
+    singular: "design studio",
+    plural: "design studios",
+    nameLower: "design studios",
+    themeSlug: "swiss-editorial",
+    heroSub:
+      "A client vetting studios is really vetting judgment. Show a handful of projects fully, not a wall of thumbnails.",
+    metaTitle: "Website Design for Design Studios",
+    metaDescription:
+      `A design-studio website built around a curated project index, a stated process with defined revision rounds, and a brief-first inquiry path. ${PROMO_SETUP} to start, live in 24 hours.`,
+    needs: [
+      "A design studio's website is itself a portfolio piece, which means the usual small-business instinct — show everything, cover every service — actively works against it. The studios that read as serious present a small, curated set of projects, each given real space to explain the problem and the reasoning behind the solution, rather than a crowded grid of thumbnails that makes every project look interchangeable. Restraint in the layout itself is part of the pitch: if the site is disciplined, the client assumes the work will be too.",
+      "Past the portfolio, the buyers who convert best want the actual process stated plainly before they'll reach out — how many concept directions, how many rounds of revision are included, and what handoff looks like. A studio site that only says 'let's talk' without any of that reads as unstructured, and structure is exactly what a client hiring for a real engagement is trying to screen for. An inquiry path built around 'tell us about the project' does more work here than a generic contact form ever could.",
+    ],
+    included: [
+      {
+        title: "Curated project index",
+        body: "A small set of projects shown fully, not a crowded grid — restraint in the layout signals restraint in the work.",
+      },
+      {
+        title: "Process stated, with rounds defined",
+        body: "Discovery, concept, a stated number of revision rounds, and handoff — the structure serious clients screen for.",
+      },
+      {
+        title: "Editorial, minimal chrome",
+        body: "Type and layout built to stay out of the way of the work, the same restraint the portfolio itself demonstrates.",
+      },
+      {
+        title: "Brief-first inquiry path",
+        body: "An inquiry built around the project itself, not a generic 'send us a message' contact form.",
+      },
+    ],
+    howItWorksIntro:
+      "Swiss Editorial — one of our 30 designs — is the demo we point design studios to first: a Swiss-style editorial layout in cream, ink, and oxblood, with a tabular project index and a process built around one fully developed direction at a time.",
+    demoDescription:
+      "a Swiss-style editorial layout with a tabular project index and restrained cream-and-ink type.",
+    faq: [
+      {
+        q: "We do brand strategy and naming, not just visual identity — does the project-index format still work?",
+        a: "Yes — the same structure works for strategy engagements; each entry just leads with the problem and the reasoning rather than a visual mockup, which suits process-heavy work well.",
+      },
+      {
+        q: "Can we show real client names, or does the understated approach in the demo apply to us too?",
+        a: "That's your call entirely — the demo keeps client names understated as a stylistic choice for that particular studio; your site can name clients plainly if that's how you prefer to present the work.",
+      },
+      {
+        q: "Is the minimal, restrained look too quiet for a studio that wants a bolder homepage?",
+        a: "This particular design's restraint is the point for a Swiss-editorial aesthetic; if your studio's brand is louder and more maximalist, we'd point you toward one of our bolder designs instead — any of the 30 is available at this same price.",
       },
     ],
   },

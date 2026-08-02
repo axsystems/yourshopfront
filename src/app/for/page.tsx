@@ -10,15 +10,23 @@ import { verticals } from "@/lib/verticals"
 
 const HUB_URL = `${SITE_URL}/for`
 
+// Derived from verticals.ts so this copy can't drift out of sync with the
+// list again — it previously hardcoded "8" and named only the batch-1
+// verticals, which went stale the moment batch 2 shipped.
+const VERTICAL_COUNT = verticals.length
+const VERTICAL_NAMES_LOWER = verticals.map((v) => v.nameLower)
+const VERTICAL_NAME_LIST =
+  VERTICAL_NAMES_LOWER.length > 1
+    ? `${VERTICAL_NAMES_LOWER.slice(0, -1).join(", ")}, and ${VERTICAL_NAMES_LOWER.at(-1)}`
+    : VERTICAL_NAMES_LOWER.join("")
+
 export const metadata: Metadata = {
   title: "Websites by Business Type",
-  description:
-    "Website design tuned to how your business actually gets booked, quoted, and paid — plumbers, electricians, HVAC, cleaning, restaurants, photographers, florists, and yoga studios.",
+  description: `Website design tuned to how your business actually gets booked, quoted, and paid — ${VERTICAL_NAME_LIST}.`,
   alternates: { canonical: HUB_URL },
   openGraph: {
     title: "Websites by Business Type — Your Shopfront",
-    description:
-      "The same 30 designs, mapped to how 8 specific kinds of business actually get booked, quoted, and paid.",
+    description: `The same 30 designs, mapped to how ${VERTICAL_COUNT} specific kinds of business actually get booked, quoted, and paid.`,
     url: HUB_URL,
     type: "website",
     siteName: "Your Shopfront",
@@ -27,7 +35,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Websites by Business Type — Your Shopfront",
-    description: "The same 30 designs, mapped to how 8 specific kinds of business actually get booked, quoted, and paid.",
+    description: `The same 30 designs, mapped to how ${VERTICAL_COUNT} specific kinds of business actually get booked, quoted, and paid.`,
   },
 }
 
@@ -46,8 +54,7 @@ export default function ForHubPage() {
             "@type": "CollectionPage",
             name: "Your Shopfront — Websites by Business Type",
             url: HUB_URL,
-            description:
-              "Website design mapped to 8 specific kinds of business — the same 30 designs, tuned to how each one actually gets booked, quoted, and paid.",
+            description: `Website design mapped to ${VERTICAL_COUNT} specific kinds of business — the same 30 designs, tuned to how each one actually gets booked, quoted, and paid.`,
             isPartOf: { "@type": "WebSite", name: "Your Shopfront", url: SITE_URL },
             hasPart: verticals.map((v) => ({
               "@type": "WebPage",
