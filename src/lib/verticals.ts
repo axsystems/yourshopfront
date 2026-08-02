@@ -1,7 +1,7 @@
 // Single source of truth for the /for/[vertical] page family.
 //
 // Why this exists: an SEO/GEO audit found the site said "every small
-// business" dozens of times and named zero actual trades — the product
+// business" dozens of times and named zero actual verticals — the product
 // sells to real verticals, but the HTML never said so, so it couldn't match
 // what buyers actually type ("website design for plumbers"). This file maps
 // exactly 8 verticals to one real, existing demo theme each. Adding a 9th
@@ -41,7 +41,7 @@ export interface Vertical {
   metaTitle: string
   /** Unique meta description, also reused as the JSON-LD Service description. */
   metaDescription: string
-  /** 2 paragraphs: what this trade actually needs from a website. */
+  /** 2 paragraphs: what this kind of business actually needs from a website. */
   needs: [string, string]
   /** Exactly 4 vertical-specific "what's included" call-outs. */
   included: [VerticalIncludedItem, VerticalIncludedItem, VerticalIncludedItem, VerticalIncludedItem]
@@ -268,7 +268,7 @@ export const verticals: Vertical[] = [
       "A restaurant website built to answer hours, menu, and location instantly, with a photography-led layout for the food itself. $99 to start, live in 24 hours.",
     needs: [
       "A restaurant website exists to answer three questions faster than a phone call would: are you open right now, what's on the menu, and where exactly are you. Hours and location need to be visible without a click — buried hours are the single most common reason a hungry visitor bounces to a competitor's listing instead. The menu doesn't need to be a PDF wedged into an app; the actual dishes, with prices, readable on a phone in daylight, is worth more than any hero photo.",
-      "Beyond the essentials, the strongest restaurant sites lean into whatever makes the place actually distinct — a family recipe going back generations, a wood-fired oven, a neighborhood history — because that's the difference between looking like every other listing on a delivery app and giving someone a reason to walk in instead of ordering delivery. Photography carries more weight here than in almost any other trade: one good overhead shot of a finished dish does more conversion work than three paragraphs of description.",
+      "Beyond the essentials, the strongest restaurant sites lean into whatever makes the place actually distinct — a family recipe going back generations, a wood-fired oven, a neighborhood history — because that's the difference between looking like every other listing on a delivery app and giving someone a reason to walk in instead of ordering delivery. Photography carries more weight here than in almost any other kind of business: one good overhead shot of a finished dish does more conversion work than three paragraphs of description.",
     ],
     included: [
       {
@@ -285,7 +285,7 @@ export const verticals: Vertical[] = [
       },
       {
         title: "Photography-led layout",
-        body: "Built to showcase food photography prominently, because a finished-dish photo converts harder here than almost any other trade.",
+        body: "Built to showcase food photography prominently, because a finished-dish photo converts harder here than in almost any other category.",
       },
     ],
     howItWorksIntro:

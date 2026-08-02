@@ -11,23 +11,23 @@ import { verticals } from "@/lib/verticals"
 const HUB_URL = `${SITE_URL}/for`
 
 export const metadata: Metadata = {
-  title: "Websites by Trade",
+  title: "Websites by Business Type",
   description:
-    "Website design tuned to how your trade actually gets booked, quoted, and paid — plumbers, electricians, HVAC, cleaning, restaurants, photographers, florists, and yoga studios.",
+    "Website design tuned to how your business actually gets booked, quoted, and paid — plumbers, electricians, HVAC, cleaning, restaurants, photographers, florists, and yoga studios.",
   alternates: { canonical: HUB_URL },
   openGraph: {
-    title: "Websites by Trade — Your Shopfront",
+    title: "Websites by Business Type — Your Shopfront",
     description:
-      "The same 30 designs, mapped to how 8 specific trades actually get booked, quoted, and paid.",
+      "The same 30 designs, mapped to how 8 specific kinds of business actually get booked, quoted, and paid.",
     url: HUB_URL,
     type: "website",
     siteName: "Your Shopfront",
-    images: [{ url: "/og-v3.png", width: 1200, height: 630, alt: "Your Shopfront — Websites by Trade" }],
+    images: [{ url: "/og-v3.png", width: 1200, height: 630, alt: "Your Shopfront — Websites by Business Type" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Websites by Trade — Your Shopfront",
-    description: "The same 30 designs, mapped to how 8 specific trades actually get booked, quoted, and paid.",
+    title: "Websites by Business Type — Your Shopfront",
+    description: "The same 30 designs, mapped to how 8 specific kinds of business actually get booked, quoted, and paid.",
   },
 }
 
@@ -44,10 +44,10 @@ export default function ForHubPage() {
           {
             "@context": "https://schema.org",
             "@type": "CollectionPage",
-            name: "Your Shopfront — Websites by Trade",
+            name: "Your Shopfront — Websites by Business Type",
             url: HUB_URL,
             description:
-              "Website design mapped to 8 specific trades — the same 30 designs, tuned to how each trade actually gets booked, quoted, and paid.",
+              "Website design mapped to 8 specific kinds of business — the same 30 designs, tuned to how each one actually gets booked, quoted, and paid.",
             isPartOf: { "@type": "WebSite", name: "Your Shopfront", url: SITE_URL },
             hasPart: verticals.map((v) => ({
               "@type": "WebPage",
@@ -63,12 +63,12 @@ export default function ForHubPage() {
           <Container>
             <FadeUp>
               <div className="mx-auto max-w-3xl text-center">
-                <Eyebrow tone="cobalt">By trade</Eyebrow>
+                <Eyebrow tone="cobalt">By business type</Eyebrow>
                 <Display as="h1" level="display-2xl" className="mt-4">
-                  Websites for your trade, not just any business.
+                  Websites built for what you actually do.
                 </Display>
                 <Lede className="mx-auto mt-6">
-                  The same 30 designs, tuned to how your specific trade actually gets booked, quoted, and paid. Pick
+                  The same 30 designs, tuned to how your kind of business actually gets booked, quoted, and paid. Pick
                   your line of work below.
                 </Lede>
               </div>
@@ -98,7 +98,7 @@ export default function ForHubPage() {
           <Container>
             <FadeUp>
               <div className="mx-auto max-w-2xl text-center">
-                <Display level="display-xl">Don&apos;t see your trade?</Display>
+                <Display level="display-xl">Don&apos;t see your line of work?</Display>
                 <Lede className="mx-auto mt-5">
                   All 30 designs are available to any small business, at the same price. Browse the full portfolio
                   and pick whichever fits.

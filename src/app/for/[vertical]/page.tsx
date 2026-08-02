@@ -399,7 +399,7 @@ function FinalCta({ vertical, checkoutHref }: { vertical: Vertical; checkoutHref
               </Button>
               <div className="flex flex-wrap justify-center gap-4 text-[13px] font-semibold text-apx-mute">
                 <Link href="/for" className="underline underline-offset-2 hover:text-apx-ink">
-                  ← All trades
+                  ← All business types
                 </Link>
                 <Link href="/portfolio" className="underline underline-offset-2 hover:text-apx-ink">
                   Browse all 30 designs →
