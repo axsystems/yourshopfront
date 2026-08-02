@@ -80,7 +80,7 @@ pnpm brand:export # regenerate PNG brand assets from SVG masters
 
 ## Route surface
 
-**Pages (27)** — `/` `/about` `/pricing` `/portfolio` `/portfolio/[slug]` `/demos/[slug]` `/start` (promo landing) `/contact` `/checkout` `/privacy` `/terms` `/refund-policy` `/dev/themes` `/tenant` (subdomain render target) · **onboarding:** `/onboarding` `/onboarding/worksheet` `/onboarding/discovery` `/onboarding/copy-review` · **portal:** `/login` `/login/check-email` `/access` `/app` `/app/billing` `/app/edit-requests` `/app/edit-requests/new` `/app/edit-requests/[id]` · **admin:** `/admin/copy-review/[siteId]`
+**Pages (29)** — `/` `/about` `/pricing` `/portfolio` `/portfolio/[slug]` `/demos/[slug]` `/start` (promo landing) `/for` (vertical hub) `/for/[vertical]` (8 business-type landing pages) `/contact` `/checkout` `/privacy` `/terms` `/refund-policy` `/dev/themes` `/tenant` (subdomain render target) · **onboarding:** `/onboarding` `/onboarding/worksheet` `/onboarding/discovery` `/onboarding/copy-review` · **portal:** `/login` `/login/check-email` `/access` `/app` `/app/billing` `/app/edit-requests` `/app/edit-requests/new` `/app/edit-requests/[id]` · **admin:** `/admin/copy-review/[siteId]`
 
 **Route handlers (17)** — `/api/checkout` `/api/checkout/copy-upgrade` `/api/stripe/webhook` `/api/billing-portal` `/api/billing-portal-deep-link` `/api/refund-request` `/api/access` `/api/contact` `/api/chat` `/api/chat/health` `/api/onboarding/status` `/api/upload/sign` `/api/og/[slug]` `/api/cron/provision` `/api/provisioning/approve` · **plus, NOT under `/api`:** `/auth/callback` (magic-link PKCE exchange) and `/auth/signout` (POST, Origin-checked).
 

@@ -626,7 +626,7 @@ Merged as `12e9d89` (integration branch of three agent branches). Rollback:
 - `Organization` gained `legalName` / `email` / `hasMerchantReturnPolicy`.
 
 **Verified live after deploy** (not inferred): `robots.txt` allows `/api/og/`; `/api/og/<slug>`
-returns 200 `image/png`; `sitemap.xml` has 39 `<loc>` including `/start`; `/start` has exactly
+returns 200 `image/png`; `sitemap.xml` has 39 `<loc>` including `/start` (48 after the `/for` family landed); `/start` has exactly
 1 `<h1>`; `/portfolio` emits 10 `/demos/*` + 20 `/portfolio/*` anchors; and on a non-featured
 theme the `WebPage.url`, the breadcrumb leaf, and the canonical all agree.
 

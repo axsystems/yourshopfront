@@ -16,6 +16,8 @@
 // Shopfront's own track record. No testimonials, reviews, stats, or client
 // names appear anywhere in this file — there are zero customers to cite.
 
+import { PROMO_SETUP } from "./pricing-constants"
+
 export interface VerticalFaqItem {
   q: string
   a: string
@@ -33,6 +35,11 @@ export interface Vertical {
   name: string
   /** Singular form for mid-sentence use, e.g. "plumber". */
   singular: string
+  /** Plural form for mid-sentence use. Explicit because "company" -> "companys" under naive +"s". */
+  plural: string
+  /** Lowercase display form for mid-sentence use. Explicit because acronyms
+   *  must not be lowercased — "HVAC companies", never "hvac companies". */
+  nameLower: string
   /** Must be a real key in src/lib/themes — verified against allThemes at render time. */
   themeSlug: string
   /** One-sentence sub-headline under the H1. */
@@ -58,12 +65,14 @@ export const verticals: Vertical[] = [
     slug: "plumbers",
     name: "Plumbers",
     singular: "plumber",
+    plural: "plumbers",
+    nameLower: "plumbers",
     themeSlug: "ironside-plumbing",
     heroSub:
       "Emergency calls don't wait for business hours. Your site shouldn't either.",
     metaTitle: "Website Design for Plumbers",
     metaDescription:
-      "A plumbing website built for the emergency call: 24/7 booking above the fold, flat-rate quote messaging, and service-area clarity. $99 to start, live in 24 hours.",
+      `A plumbing website built for the emergency call: 24/7 booking above the fold, flat-rate quote messaging, and service-area clarity. ${PROMO_SETUP} to start, live in 24 hours.`,
     needs: [
       "A plumbing website has one job during a burst pipe at 11pm: get a phone number or a booking form in front of someone who is already panicking, in under three seconds. That means no slideshow hero, no scrolling to find the phone number, no contact form buried on a separate page. The emergency-call action has to be the first thing a visitor sees on a phone screen, because that is where nearly every emergency search happens.",
       "The rest of the site earns trust in the background: license and bonding info, a clear service-area list so people ten miles outside your radius don't waste your dispatcher's time, and a plain description of how pricing works. Flat-rate quoted before the wrench touches anything is the model buyers already expect, and burying it reads as evasive. Photos matter less here than clarity — a clean shot of a repaired fitting says more than a stock photo of a smiling man in a hard hat.",
@@ -109,12 +118,14 @@ export const verticals: Vertical[] = [
     slug: "electricians",
     name: "Electricians",
     singular: "electrician",
+    plural: "electricians",
+    nameLower: "electricians",
     themeSlug: "voltcraft-electric",
     heroSub:
       "Panel upgrades and EV chargers are considered purchases. Emergency calls aren't. Your site has to sell both.",
     metaTitle: "Website Design for Electricians",
     metaDescription:
-      "A licensed-electrician website built for emergency calls and project quotes alike — permit-ready copy, flat-rate pricing, upfront licensing. $99 to start, live in 24 hours.",
+      `A licensed-electrician website built for emergency calls and project quotes alike — permit-ready copy, flat-rate pricing, upfront licensing. ${PROMO_SETUP} to start, live in 24 hours.`,
     needs: [
       "Electrical work splits into two very different buyer moods, and a good site has to serve both without feeling schizophrenic. Half your traffic is a breaker that won't reset or a panel throwing sparks — that visitor wants a phone number and a same-day promise, nothing else. The other half is someone comparing quotes for an EV charger install or a panel upgrade before a home sale, and that visitor wants to see licensing, permit handling, and a straight answer on what code-compliant work actually costs before they'll pick up the phone.",
       "Licensing is non-negotiable copy for electricians in a way it isn't for some other trades. 'Master electrician,' 'bonded and insured,' and permit language aren't marketing flourish — they're the actual differentiator buyers screen for, because unlicensed electrical work is a real liability people have heard horror stories about. A site that states this plainly, high on the page, converts better than one that assumes it's implied.",
@@ -160,12 +171,14 @@ export const verticals: Vertical[] = [
     slug: "hvac-companies",
     name: "HVAC companies",
     singular: "HVAC company",
+    plural: "HVAC companies",
+    nameLower: "HVAC companies",
     themeSlug: "mesa-hvac",
     heroSub:
       "A/C down in extreme heat is a same-day decision. Your site needs to close it in one screen.",
     metaTitle: "Website Design for HVAC Companies",
     metaDescription:
-      "An HVAC website built for same-day A/C emergencies and system-install comparison shopping — flat-rate diagnostics, warranty copy, booking above the fold. $99 to start.",
+      `An HVAC website built for same-day A/C emergencies and system-install comparison shopping — flat-rate diagnostics, warranty copy, booking above the fold. ${PROMO_SETUP} to start.`,
     needs: [
       "HVAC websites live and die on seasonality and speed. When a system fails in extreme heat or cold, the visitor is comparing a few tabs at once and calling whichever one answers the actual question first: same-day availability. Every design decision should optimize for that — a booking form that doesn't ask for anything beyond name, number, and a one-line problem description, because the customer will explain the rest to a real person on the phone or in person, not in a web form.",
       "The other half of HVAC revenue — new system installs, maintenance plans, tune-ups — is a considered purchase where price transparency matters more. A visitor comparing a multi-thousand-dollar system replacement wants to know upfront whether you do flat-rate diagnostics or charge a trip fee, and whether a warranty covers labor as well as parts. Burying that in a phone-only quote process loses comparison shoppers who won't call three companies just to find out.",
@@ -211,11 +224,13 @@ export const verticals: Vertical[] = [
     slug: "cleaning-services",
     name: "Cleaning services",
     singular: "cleaning company",
+    plural: "cleaning services",
+    nameLower: "cleaning services",
     themeSlug: "brightside-cleaning",
     heroSub: "Recurring business lives or dies on how easy it is to book the first visit.",
     metaTitle: "Website Design for Cleaning Services",
     metaDescription:
-      "A cleaning-company website built for instant flat-rate booking, same-cleaner consistency, and a stated re-clean guarantee. $99 to start, live in 24 hours.",
+      `A cleaning-company website built for instant flat-rate booking, same-cleaner consistency, and a stated re-clean guarantee. ${PROMO_SETUP} to start, live in 24 hours.`,
     needs: [
       "Cleaning is a recurring-revenue business wearing a one-time-purchase website problem: most cleaning sites make a first-time visitor call for a quote, wait for a callback, and schedule over the phone — three points of friction before the first booking even happens. The businesses that convert best let a visitor pick a home size, see an instant flat-rate price, and book a date in one sitting, the same way they'd book anything else online.",
       "Once someone books, the second job of the site is answering the questions that keep a customer from canceling after visit one: will I get the same cleaner every time, are they background-checked and insured, and what happens if something gets missed. Naming these plainly — a consistent cleaner, a stated guarantee, a real re-clean policy — does more for retention than any before-and-after photo, because the anxiety cleaning customers have is about trust and consistency, not whether a floor looks clean in a photo.",
@@ -261,11 +276,13 @@ export const verticals: Vertical[] = [
     slug: "restaurants",
     name: "Restaurants",
     singular: "restaurant",
+    plural: "restaurants",
+    nameLower: "restaurants",
     themeSlug: "angelos",
     heroSub: "Are you open right now, what's on the menu, and where do I park — answer those three things first.",
     metaTitle: "Website Design for Restaurants",
     metaDescription:
-      "A restaurant website built to answer hours, menu, and location instantly, with a photography-led layout for the food itself. $99 to start, live in 24 hours.",
+      `A restaurant website built to answer hours, menu, and location instantly, with a photography-led layout for the food itself. ${PROMO_SETUP} to start, live in 24 hours.`,
     needs: [
       "A restaurant website exists to answer three questions faster than a phone call would: are you open right now, what's on the menu, and where exactly are you. Hours and location need to be visible without a click — buried hours are the single most common reason a hungry visitor bounces to a competitor's listing instead. The menu doesn't need to be a PDF wedged into an app; the actual dishes, with prices, readable on a phone in daylight, is worth more than any hero photo.",
       "Beyond the essentials, the strongest restaurant sites lean into whatever makes the place actually distinct — a family recipe going back generations, a wood-fired oven, a neighborhood history — because that's the difference between looking like every other listing on a delivery app and giving someone a reason to walk in instead of ordering delivery. Photography carries more weight here than in almost any other kind of business: one good overhead shot of a finished dish does more conversion work than three paragraphs of description.",
@@ -311,11 +328,13 @@ export const verticals: Vertical[] = [
     slug: "photographers",
     name: "Photographers",
     singular: "photographer",
+    plural: "photographers",
+    nameLower: "photographers",
     themeSlug: "mara-lin",
     heroSub: "The portfolio is the pitch. Everything else on the site should get out of its way.",
     metaTitle: "Website Design for Photographers",
     metaDescription:
-      "An editorial photography website built around a full-bleed gallery, plain usage-rights language, and a brief-first inquiry flow. $99 to start, live in 24 hours.",
+      `An editorial photography website built around a full-bleed gallery, plain usage-rights language, and a brief-first inquiry flow. ${PROMO_SETUP} to start, live in 24 hours.`,
     needs: [
       "For a photographer, the website's entire job is to get out of the way of the work. A gallery that loads slowly, crops images to fit someone else's grid, or surrounds photos with unrelated chrome is actively working against the one thing that sells the service: the images themselves, shown large and deliberately, in an order that tells a story rather than a random grid. The best photographer sites read closer to a magazine spread than a typical small-business homepage — generous negative space, full-bleed images, minimal text competing for attention.",
       "Past the gallery, the second job is making the business side frictionless without cheapening the aesthetic — a clear way to send a brief or inquire about a booking, plain language about usage rights and licensing (a real point of confusion for clients hiring for the first time), and enough information about process that a client knows what a shoot day actually looks like before they commit. None of that needs to look like a typical contact form; it can carry the same editorial restraint as the rest of the site.",
@@ -361,11 +380,13 @@ export const verticals: Vertical[] = [
     slug: "florists",
     name: "Florists",
     singular: "florist",
+    plural: "florists",
+    nameLower: "florists",
     themeSlug: "wildflower-stone",
     heroSub: "What's in season this week is the whole offer. Show it, don't bury it in a catalog.",
     metaTitle: "Website Design for Florists",
     metaDescription:
-      "A florist website built around weekly seasonal availability, local-sourcing copy, and a separate path for weddings and events. $99 to start, live in 24 hours.",
+      `A florist website built around weekly seasonal availability, local-sourcing copy, and a separate path for weddings and events. ${PROMO_SETUP} to start, live in 24 hours.`,
     needs: [
       "Florist websites tend to fail in one of two directions: either a static catalog of arrangements that never changes, so it stops matching what's actually available, or a generic template that could belong to any florist in the country. The strongest florist sites lean into what's actually true about the business — what's in bloom this week, what's grown or sourced locally, and what makes the arrangements distinct from a supermarket bouquet — and treat that as the main content, not an afterthought below a generic hero banner.",
       "Weddings and events are usually the highest-margin part of a florist's business and deserve their own clear path — a way to request a consultation and understand how far in advance to book, without needing real client photos, which this kind of site correctly never asks for. Day-to-day retail traffic, like a bouquet for pickup or a standing weekly order, needs a much simpler path: what's available now, and how to get it, without wading through wedding-package copy to find it.",
@@ -411,11 +432,13 @@ export const verticals: Vertical[] = [
     slug: "yoga-studios",
     name: "Yoga & wellness studios",
     singular: "yoga studio",
+    plural: "yoga studios",
+    nameLower: "yoga and wellness studios",
     themeSlug: "still-point",
     heroSub: "The room's atmosphere is the offer. The site should feel like walking in, not like buying a gym membership.",
     metaTitle: "Website Design for Yoga & Wellness Studios",
     metaDescription:
-      "A yoga and wellness studio website built around schedule visibility, genuine beginner-welcome language, and calm, unhurried pacing. $99 to start, live in 24 hours.",
+      `A yoga and wellness studio website built around schedule visibility, genuine beginner-welcome language, and calm, unhurried pacing. ${PROMO_SETUP} to start, live in 24 hours.`,
     needs: [
       "Yoga and wellness studios sell an atmosphere as much as a service, and most studio websites undercut that by defaulting to a generic fitness-membership template — countdown timers, aggressive sale banners, stock photos of people mid-jump. The sites that actually convert quiet visitors into first-time students do the opposite: slow pacing, real language about who the classes are for ('all levels, genuinely' means something specific — no performance, no comparison), and enough calm in the design itself that it previews what the room will feel like before anyone walks in.",
       "Practically, the two things a new student needs fastest are a schedule — morning or evening, drop-in or booked ahead — and a plain answer to whether they'll feel out of place as a beginner. Membership pricing matters, but it earns its place after those two questions are answered, not before. A studio that leads with pricing before atmosphere reads as transactional in a category where the whole pitch is the opposite.",

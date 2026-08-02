@@ -84,7 +84,7 @@ export default async function VerticalPage({ params }: PageProps) {
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
-    serviceType: `Website design for ${v.name.toLowerCase()}`,
+    serviceType: `Website design for ${v.nameLower}`,
     provider: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
     areaServed: "United States",
     description: v.metaDescription,
@@ -157,9 +157,9 @@ function Hero({ vertical, checkoutHref }: { vertical: Vertical; checkoutHref: st
         <FadeUp>
           <Breadcrumb vertical={vertical} />
           <div className="max-w-3xl">
-            <Eyebrow tone="cobalt">Websites for {vertical.singular}s</Eyebrow>
+            <Eyebrow tone="cobalt">Websites for {vertical.plural}</Eyebrow>
             <Display as="h1" level="display-2xl" className="mt-4">
-              Websites for {vertical.name.toLowerCase()}.
+              Websites for {vertical.nameLower}.
             </Display>
             <Lede className="mt-5 max-w-2xl">{vertical.heroSub}</Lede>
             <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -216,7 +216,7 @@ function NeedsSection({ vertical }: { vertical: Vertical }) {
       <Container>
         <FadeUp>
           <div className="max-w-3xl">
-            <Eyebrow>What {vertical.name.toLowerCase()} actually need</Eyebrow>
+            <Eyebrow>What {vertical.nameLower} actually need</Eyebrow>
             <Display level="display-lg" className="mt-4">
               This isn&apos;t a generic template with your name swapped in.
             </Display>
@@ -242,7 +242,7 @@ function IncludedSection({ vertical }: { vertical: Vertical }) {
           <div className="max-w-2xl">
             <Eyebrow>What&apos;s included</Eyebrow>
             <Display level="display-lg" className="mt-4">
-              Built for how {vertical.singular}s actually get hired.
+              Built for how {vertical.plural} actually get hired.
             </Display>
           </div>
         </FadeUp>
@@ -272,10 +272,36 @@ function IncludedSection({ vertical }: { vertical: Vertical }) {
   )
 }
 
-function HowItWorksSection({ vertical }: { vertical: Vertical }) {
-  const theme = getTheme(vertical.themeSlug)
-  const steps = theme?.content?.howItWorks?.steps
+// OUR process, stated in our own voice.
+//
+// This section previously rendered the mapped theme's `content.howItWorks.steps`,
+// which is the DEMO BUSINESS's copy — Angelo's "We've been taking orders since
+// 1956", the florist's "Hudson Valley studio", the plumber's "1-year warranty".
+// Rendered under "Pick the design. We build the site." those read as Your
+// Shopfront's own first-person claims: a fabricated 70-year history and a
+// warranty we don't offer, on a company with no customers. It also duplicated
+// ~140 words verbatim from /portfolio/<slug>, diluting the uniqueness these
+// pages exist to create. Never render demo-business copy as our own voice.
+const PROCESS_STEPS = [
+  {
+    title: "Pick your design",
+    body: "Choose the design shown on this page or any of the other 29. They're all the same price.",
+  },
+  {
+    title: "Send us your content",
+    body: "One worksheet: business name, services, hours, service area, and any photos you have. No photos yet is fine.",
+  },
+  {
+    title: "We build it",
+    body: "We put your content into the design, set up your domain, SSL, and hosting, and send you a preview link.",
+  },
+  {
+    title: "Live in 24 hours",
+    body: "Approve it and it goes live. On the subscription plan, edits after launch are unlimited.",
+  },
+] as const
 
+function HowItWorksSection({ vertical }: { vertical: Vertical }) {
   return (
     <Section bg="paper">
       <Container>
@@ -288,10 +314,9 @@ function HowItWorksSection({ vertical }: { vertical: Vertical }) {
             <Lede className="mt-4">{vertical.howItWorksIntro}</Lede>
           </div>
         </FadeUp>
-        {steps ? (
-          <FadeUp delay={100}>
-            <ol className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {steps.map((step, i) => (
+        <FadeUp delay={100}>
+          <ol className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {PROCESS_STEPS.map((step, i) => (
                 <li key={step.title} className="rounded-xl border border-apx-line bg-apx-elev p-5">
                   <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-apx-primary">
                     Step {i + 1}
@@ -299,10 +324,9 @@ function HowItWorksSection({ vertical }: { vertical: Vertical }) {
                   <p className="mt-2 font-sans text-[15px] font-semibold text-apx-ink">{step.title}</p>
                   <p className="mt-1.5 text-[14px] leading-[1.5] text-apx-mute">{step.body}</p>
                 </li>
-              ))}
-            </ol>
-          </FadeUp>
-        ) : null}
+            ))}
+          </ol>
+        </FadeUp>
       </Container>
     </Section>
   )
@@ -323,7 +347,7 @@ function PricingSection({ vertical, checkoutHref }: { vertical: Vertical; checko
               time.
             </p>
             <ul className="mx-auto mt-6 flex max-w-sm flex-col gap-2.5 text-left text-[14px] text-apx-ink">
-              <PriceFeature>Pick the {vertical.name.toLowerCase()} design shown above, or any of our 30</PriceFeature>
+              <PriceFeature>Pick the {vertical.nameLower} design shown above, or any of our 30</PriceFeature>
               <PriceFeature>We swap in your content within 24 hours</PriceFeature>
               <PriceFeature>Hosting, SSL, backups, and unlimited edits included</PriceFeature>
               <PriceFeature>30-day money-back guarantee</PriceFeature>
@@ -363,7 +387,7 @@ function FaqSection({ vertical }: { vertical: Vertical }) {
           <div className="max-w-2xl">
             <Eyebrow>FAQ</Eyebrow>
             <Display level="display-lg" className="mt-4">
-              Questions {vertical.name.toLowerCase()} actually ask.
+              Questions {vertical.nameLower} actually ask.
             </Display>
           </div>
         </FadeUp>
@@ -390,7 +414,7 @@ function FinalCta({ vertical, checkoutHref }: { vertical: Vertical; checkoutHref
           <div className="mx-auto max-w-2xl text-center">
             <Display level="display-xl">Your {vertical.singular} site can be live tomorrow.</Display>
             <Lede className="mx-auto mt-5">
-              {PROMO_SETUP} to start. We build it around the {vertical.name.toLowerCase()} design shown above — or
+              {PROMO_SETUP} to start. We build it around the {vertical.nameLower} design shown above — or
               any of our 30. Live by tomorrow morning.
             </Lede>
             <div className="mt-8 flex flex-col items-center gap-3">
