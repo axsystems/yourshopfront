@@ -14,15 +14,19 @@ const HUB_URL = `${SITE_URL}/for`
 // list again — it previously hardcoded "8" and named only the batch-1
 // verticals, which went stale the moment batch 2 shipped.
 const VERTICAL_COUNT = verticals.length
-const VERTICAL_NAMES_LOWER = verticals.map((v) => v.nameLower)
-const VERTICAL_NAME_LIST =
-  VERTICAL_NAMES_LOWER.length > 1
-    ? `${VERTICAL_NAMES_LOWER.slice(0, -1).join(", ")}, and ${VERTICAL_NAMES_LOWER.at(-1)}`
-    : VERTICAL_NAMES_LOWER.join("")
+
+// A curated, short-form subset for the SERP-visible meta description only —
+// Google truncates around 155-160 chars, so naming every vertical (the
+// approach that shipped first, at 300 chars) actually hid all of batch 2
+// from the snippet. Keep this list short and high-intent; the remainder
+// count is derived so it can never go stale, even though the names here
+// are hand-picked and won't grow with the list.
+const REPRESENTATIVE_VERTICALS = ["plumbers", "electricians", "HVAC", "cleaning"]
+const MORE_VERTICALS_COUNT = VERTICAL_COUNT - REPRESENTATIVE_VERTICALS.length
 
 export const metadata: Metadata = {
   title: "Websites by Business Type",
-  description: `Website design tuned to how your business actually gets booked, quoted, and paid — ${VERTICAL_NAME_LIST}.`,
+  description: `Website design tuned to how your business gets booked, quoted, and paid — ${REPRESENTATIVE_VERTICALS.join(", ")}, and ${MORE_VERTICALS_COUNT} more business types.`,
   alternates: { canonical: HUB_URL },
   openGraph: {
     title: "Websites by Business Type — Your Shopfront",

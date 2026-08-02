@@ -491,15 +491,15 @@ export const verticals: Vertical[] = [
       "A storm just hit. The next call goes to whichever roofer's site answers fastest.",
     metaTitle: "Website Design for Roofers",
     metaDescription:
-      `A roofing website built for the storm-damage search: a free-inspection form above the fold, insurance-claim language, and certification stated upfront. ${PROMO_SETUP} to start, live in 24 hours.`,
+      `A roofing website built for the storm-damage search: a free-inspection CTA up top, insurance-claim messaging, and certification stated upfront. ${PROMO_SETUP} to start.`,
     needs: [
       "Most roofing searches start after something has already gone wrong — a storm rolled through, shingles are missing, and a wet ceiling stain is spreading. That visitor isn't browsing; they want a free inspection scheduled in the next two minutes, and a form buried past a scrolling hero photo loses them to whichever competitor's site puts a name-and-phone field first. The page's entire job in that moment is speed: capture contact details, confirm someone will get on the roof soon, and get out of the way.",
       "The other half of roofing work — full replacements, re-roofs planned around a home sale, routine maintenance — moves at buyer-comparison speed instead. That visitor wants to see manufacturer certification, licensing, and a plain statement of how insurance claims get handled before they'll commit to a call, because a roof is one of the most expensive single repairs a homeowner ever makes and unlicensed work is a real, documented risk. Stating certification and warranty terms plainly, high on the page, does more to convert that visitor than any drone photo of a finished roof.",
     ],
     included: [
       {
-        title: "Free-inspection form, above the fold",
-        body: "The primary call-to-action stays visible the instant the page loads — a storm-damage search doesn't wait for a visitor to scroll past a hero image.",
+        title: "Free-inspection CTA, above the fold",
+        body: "The call-to-action for a free inspection stays visible the instant the page loads — a storm-damage search doesn't wait for a visitor to scroll past a hero image.",
       },
       {
         title: "Insurance-claim language stated",
@@ -581,8 +581,8 @@ export const verticals: Vertical[] = [
         a: "No. Job-site phone photos are fine to start, and we can source respectful stock photography for any gap while you build up your own gallery over time.",
       },
       {
-        q: "Can we show separate categories for interior, exterior, and cabinetry work?",
-        a: "Yes — the gallery supports tagged categories, so a visitor can filter to the kind of work they're actually hiring for instead of scrolling past photos that don't apply to them.",
+        q: "Can we show interior, exterior, and cabinetry work all in one gallery?",
+        a: "Yes — send us photos from each and we'll order the gallery so a visitor sees a mix of what you actually do, not just whichever job you happened to photograph most recently.",
       },
     ],
   },
@@ -594,48 +594,48 @@ export const verticals: Vertical[] = [
     nameLower: "landscapers",
     themeSlug: "greenwise-lawn",
     heroSub:
-      "An instant price and a same-crew-every-visit promise close more lawn accounts than a phone call ever will.",
+      "Spring is a scramble and August goes quiet — the site has to sell through both, not just the rush.",
     metaTitle: "Website Design for Landscapers",
     metaDescription:
-      `A landscaping website built around an instant online quote, same-crew-every-visit consistency messaging, and a clear path to book. ${PROMO_SETUP} to start, live in 24 hours.`,
+      `A landscaping website built around property-specific quote requests, a clear split between maintenance and installs, and slow-season lead flow. ${PROMO_SETUP} to start.`,
     needs: [
-      "Lawn care and landscaping are recurring-revenue businesses wearing a one-time-purchase website problem: most sites make a visitor call for a quote and wait for a callback before a first mow ever gets scheduled. The landscapers who win that first booking let someone enter an address and lot size, see an instant price, and pick a day — the same way they'd book anything else online, with no callback loop in between.",
-      "Once someone books, the site's second job is answering what actually keeps a customer past visit one: will the same crew show up every time, is the schedule predictable, and what happens if a job like a fall cleanup or irrigation repair falls outside the standing mow contract. Naming a consistent crew and a fixed weekly or bi-weekly day, in plain language, does more for retention than any before-and-after lawn photo — the anxiety a new customer has is about reliability, not whether grass can look green in a picture.",
+      "Landscaping demand is lumpy in a way a lot of local-service sites never plan for: spring brings a rush of aeration, mulch, and cleanup requests all at once, while a dry August or a frozen January can leave the phone quiet for weeks. A site tuned only for the spring rush wastes its off-season job, which is showing a property owner exactly what a standing maintenance contract covers so signing on doesn't have to wait for next spring.",
+      "A hardscape patio or a full yard redesign is also a different sale than a weekly mow, and the site should make that split obvious instead of routing a five-figure paver project through the same one-line box as a routine trim. Finished-install photos earn the big-ticket redesign; a fast, property-specific quote ask earns the standing maintenance contract. A crew's truck sitting in a driveway all afternoon with the company name on the door is doing real advertising too — the site just has to be ready to catch whoever looks it up that evening.",
     ],
     included: [
       {
-        title: "Instant online quote",
-        body: "Address and lot size in, price out — no call-back loop required to get a first mow scheduled.",
+        title: "Property-specific quote messaging",
+        body: "Copy built around 'tell us about your property, get a real number' — the pricing conversation this buyer already expects, resolved with a call instead of a guess.",
       },
       {
-        title: "Same-crew-every-visit messaging",
-        body: "The consistency lever that keeps recurring lawn accounts, stated on the page instead of left as an assumption.",
+        title: "Installs shown apart from maintenance",
+        body: "Hardscape and redesign work given its own space with finished photos — a different sale from a weekly mow, priced and pitched differently.",
+      },
+      {
+        title: "Off-season service messaging",
+        body: "Room for whatever keeps revenue moving in the slow months — snow, cleanup, dormant-season work — instead of a page that only makes sense every spring.",
       },
       {
         title: "Insured-crew language",
-        body: "Coverage status stated plainly — a real screening factor for anyone letting a crew work around their property unsupervised.",
-      },
-      {
-        title: "Seasonal add-on path",
-        body: "A clear place for fall cleanups, irrigation work, and one-off jobs that fall outside a standing mow contract.",
+        body: "Coverage status stated plainly — the detail that matters when equipment and crews are working around a property unsupervised.",
       },
     ],
     howItWorksIntro:
-      "Greenwise Lawn — one of our 30 designs — is the demo we point landscapers to first: a naturalist moss-and-cream layout with a booking-card hero built around a 60-second instant lawn quote.",
+      "Greenwise Lawn — one of our 30 designs — is the demo we point landscapers to first: a naturalist moss-and-cream layout with a booking-card hero, built around a property-specific quote ask rather than a generic contact page.",
     demoDescription:
-      "a moss-and-cream naturalist layout with a booking-card hero built around a 60-second instant quote.",
+      "a moss-and-cream naturalist layout with a booking-card hero built around a property-specific quote ask.",
     faq: [
       {
-        q: "We do full landscape design and hardscaping, not just recurring mowing — does the instant-quote format still fit?",
-        a: "The mechanic still works for recurring mow-and-maintain accounts; for design-build and hardscape projects, we'd swap that section for a project-inquiry form covering scope and timeline instead, which suits a considered-purchase buyer better.",
+        q: "We mostly do one-off installs and hardscape, not recurring mowing — does this design still fit?",
+        a: "Yes — we'd lead with a project-inquiry section covering scope and photos of past installs instead of the maintenance-contract framing, and move recurring-service messaging lower, since a different buyer is doing the comparing.",
       },
       {
-        q: "Can customers manage their own recurring schedule, like skipping a week?",
-        a: "The site itself is a marketing and lead-capture site, not a scheduling backend. For an existing platform like Yardbook or LawnPro, we can link out to it, and we'll talk through what that integration should look like for your setup.",
+        q: "The phone goes quiet every winter — can the site do anything about that?",
+        a: "That's what the off-season messaging is for — tell us what you actually offer in the slow months, whether that's snow removal, holiday lighting, or dormant-season pruning, and we build it into the site so there's a reason to convert traffic year-round, not just in spring.",
       },
       {
-        q: "Do we need to lead with organic or eco-friendly treatments if we mostly use standard fertilizer?",
-        a: "No — a demo can lean organic because that's a specific business's differentiator; your copy states whatever's actually true about your treatments and process, not a borrowed claim.",
+        q: "Do we need to publish pricing, or is a quote request enough?",
+        a: "A quote request is enough. Most landscaping buyers expect to describe their property and get a number back — a published price list rarely holds up once lot size, terrain, and access start changing the actual cost job to job.",
       },
     ],
   },
@@ -657,8 +657,8 @@ export const verticals: Vertical[] = [
     ],
     included: [
       {
-        title: "Instant flat-rate calculator",
-        body: "Zip codes and home size in, a live price out — no callback required to compare against another mover.",
+        title: "Flat-rate pricing, front and center",
+        body: "The page leads with a real flat-rate number instead of 'call for a quote' — the ask still routes to a call, but the price expectation is set before that call happens.",
       },
       {
         title: "Licensed-and-insured, stated",
@@ -727,9 +727,9 @@ export const verticals: Vertical[] = [
       },
     ],
     howItWorksIntro:
-      "Cask & Vine — one of our 30 designs — is the demo we point wine bars to first: a low-lit, wine-and-gold gallery layout with an editorial Playfair Display serif built to carry a room's atmosphere before a single word of copy loads.",
+      "Cask & Vine — one of our 30 designs — is the demo we point wine bars to first: a wine-and-gold gallery layout with a low-lit hero photograph and an editorial Playfair Display serif, built to carry a room's atmosphere before a single word of copy loads.",
     demoDescription:
-      "a low-lit wine-and-gold gallery layout built to carry a room's atmosphere in photos before any copy.",
+      "a wine-and-gold gallery layout with a low-lit hero photograph, built to carry a room's atmosphere before any copy.",
     faq: [
       {
         q: "We're a full bar and small-plates menu, not exclusively a natural-wine list — does this design still fit?",
@@ -762,8 +762,8 @@ export const verticals: Vertical[] = [
     ],
     included: [
       {
-        title: "Tap list, easy to update",
-        body: "Built so an owner can swap what's pouring by email in minutes — a rotating list shouldn't need a developer to keep current.",
+        title: "Current tap board, given real space",
+        body: "The lineup gets its own section on the page instead of a sidebar afterthought, and when what's pouring changes, we update it the same day under your unlimited edits.",
       },
       {
         title: "Patio and dog policy, stated",
@@ -819,8 +819,8 @@ export const verticals: Vertical[] = [
         body: "Real room for a curatorial voice — the actual reason to walk in instead of ordering the same title online.",
       },
       {
-        title: "Events calendar, easy to update",
-        body: "Readings, launches, and book clubs kept current by email, not left stale for months at a time.",
+        title: "Events section, given real space",
+        body: "Readings, launches, and book clubs get their own place on the page instead of a footer line — email us an update and it's live the same day under your unlimited edits.",
       },
       {
         title: "Local-press and zine shelf",
@@ -855,7 +855,12 @@ export const verticals: Vertical[] = [
     name: "Design studios",
     singular: "design studio",
     plural: "design studios",
-    nameLower: "design studios",
+    // Deliberately "creative studios," not "design studios": the template
+    // interpolates this into "Pick the {nameLower} design shown above" and
+    // "the {nameLower} design shown above" — with "design studios" that
+    // reads as a stutter ("design studios design"). "Creative studios" is
+    // an accurate synonym for this vertical and reads clean in both spots.
+    nameLower: "creative studios",
     themeSlug: "swiss-editorial",
     heroSub:
       "A client vetting studios is really vetting judgment. Show a handful of projects fully, not a wall of thumbnails.",
@@ -876,12 +881,12 @@ export const verticals: Vertical[] = [
         body: "Discovery, concept, a stated number of revision rounds, and handoff — the structure serious clients screen for.",
       },
       {
-        title: "Editorial, minimal chrome",
-        body: "Type and layout built to stay out of the way of the work, the same restraint the portfolio itself demonstrates.",
+        title: "One direction, not a spread of options",
+        body: "A single, fully developed concept presented with reasoning, instead of three half-considered options left for the client to referee.",
       },
       {
-        title: "Brief-first inquiry path",
-        body: "An inquiry built around the project itself, not a generic 'send us a message' contact form.",
+        title: "Documented handoff",
+        body: "Final files and written brand guidelines delivered at the end of the engagement, not just a mockup link and a goodbye.",
       },
     ],
     howItWorksIntro:
