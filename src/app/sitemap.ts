@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next"
 
 import { SITE_URL } from "@/lib/seo"
 import { allThemes, featuredThemeSlugs, isFeatured } from "@/lib/themes"
+import { verticals } from "@/lib/verticals"
 
 const NOW = new Date()
 
@@ -89,11 +90,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
   ]
+  // /for hub + /for/[vertical] — 8 verticals mapped to real demo themes, see
+  // src/lib/verticals.ts. Driven from the verticals list, not hand-typed.
+  const forHub: MetadataRoute.Sitemap = [
+    {
+      url: `${SITE_URL}/for`,
+      lastModified: NOW,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+  ]
+  const forVerticals: MetadataRoute.Sitemap = verticals.map((v) => ({
+    url: `${SITE_URL}/for/${v.slug}`,
+    lastModified: NOW,
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }))
   return [
     ...homepage,
     ...featuredDemos,
     ...portfolioIndex,
     ...nonFeaturedPortfolio,
     ...staticPages,
+    ...forHub,
+    ...forVerticals,
   ]
 }
