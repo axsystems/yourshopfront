@@ -25,7 +25,8 @@ Sister docs — do not duplicate these, update them:
 | Production schema   | **CURRENT**    | all 13 migrations (`0001`–`0013`) re-verified column-by-column against live schema 2026-07-30                                         |
 | Provisioning cron   | **ARMED**      | `/api/cron/provision` returns 401 unauth → `CRON_SECRET` set                                                                          |
 | Sales chat bubble   | **CONFIGURED** | `/api/chat` returns 400 on empty body (not 503) → `ANTHROPIC_API_KEY` set                                                             |
-| SEO                 | **LIVE**       | `robots.txt` 200; `sitemap.xml` **39** `<loc>` entries incl. `/start` (was 38 and missing it until PR #100)                          |
+| SEO                 | **LIVE**       | `robots.txt` 200; `sitemap.xml` **48** `<loc>` entries — 39 after PR #100 added `/start`, +9 for the `/for` family in PR #101        |
+| Vertical landing    | **LIVE**       | `/for` hub + 8 `/for/<vertical>` pages all HTTP 200, 1 `<h1>` each, canonicals self-match (PR #101, verified live 2026-08-02)        |
 | CI                  | **GREEN**      | `lint-and-typecheck` ~35s, `build-and-smoke` ~1m35s                                                                                   |
 | OG preview image    | **FIXED**      | `og-v3.png` 200; every share previewed "Apex Sites / $499 setup" until 2026-07-30                                                     |
 | Google Analytics    | **WORKING**    | collecting only since PR #84 (`f91ea8b`). #82 unblocked the CSP but the inline script still failed to parse — see below               |
@@ -494,7 +495,20 @@ day when PR #100 merged, adding items 4 and 11.
    profile exists, and the 2026-08-01 research found the off-site citation layer — not on-page
    markup — is what AI answers draw on (91% cite third parties; branded mentions correlate
    r = 0.664 vs backlinks r = 0.218). Fill `sameAs` once the profiles are live.
-5. **F1b — gallery-*tile* photography.** ⚠️ **The previous wording of this item was wrong.** It
+5. **Batch 2 verticals — a data-only edit.** `/for/<vertical>` is data-driven: add entries to
+   `src/lib/verticals.ts` and the route, sitemap, and metadata follow automatically. The 18
+   unmapped themes are the candidate pool (wine bar, brewery, bookstore, design studio, creative
+   agency, video studio, dev-tools SaaS, pickup/delivery, laundromat, tree care, pool service,
+   window cleaning, pressure washing, junk removal, roofing, painting, lawn care, moving). Each
+   entry needs `plural` + `nameLower` (never derive them — that shipped "hvac companys"), 2
+   `needs` paragraphs, 4 `included`, 3 `faq`, and ≥600 words rendered. **Re-measure inter-page
+   similarity after adding** — it was 0.162 at 8 pages.
+6. **Themes for the verticals that have none.** Salon, barber, med spa, gym/personal trainer,
+   dentist, and real estate have **no matching theme**, so they get no `/for` page — a salon page
+   embedding the yoga demo is the weaker product. Owner named salons specifically on 2026-08-01.
+   This is design work (hero image, palette, type, full `content` block), not a data edit, and it
+   is the only blocker on those verticals now that the `/for` template is proven.
+7. **F1b — gallery-*tile* photography.** ⚠️ **The previous wording of this item was wrong.** It
    said "17 of 30 themes render CSS gradient placeholders instead of photos," which reads as those
    themes having no hero photo. They all do. Verified: `ls public/themes/*/hero.jpg | wc -l` → **30**,
    30 theme asset dirs, and `grep -c "heroImage:" src/lib/themes/*.ts` returns 1 for **all 30**
@@ -516,29 +530,29 @@ day when PR #100 merged, adding items 4 and 11.
    hero among the 8 picker trades) falls back to its own `hero.jpg` via `fallbackImage` in
    `src/components/apex/start/trade-picker.tsx:49`. Remove that entry and re-run
    `scripts/generate-demo-previews.mjs` once tile photography lands.
-6. **Rotate the Supabase JWT secret + Resend SMTP password** — BLOCKER 3. Unchanged.
-7. **Confirm PostHog `$exception` events in a real browser.** #98 enabled exception capture and
+8. **Rotate the Supabase JWT secret + Resend SMTP password** — BLOCKER 3. Unchanged.
+9. **Confirm PostHog `$exception` events in a real browser.** #98 enabled exception capture and
    verified no CSP change is needed by reading the installed bundle's resolution path — but CSP
    has silently swallowed a tag in this repo before, so check the console after deploy. The
    Error Tracking *view* may also need enabling in the dashboard for events to group.
-8. **WS1 for the remaining 22 themes**, once (3) shows whether demo traffic materialises.
-9. Still open under BLOCKER 2: decide whether unreviewed legal copy keeps the `draft` banner.
-10. Work the lead list: `~/leads/az-trade-leads-2026-07-29.csv`, 103 Phoenix-metro trades.
+10. **WS1 for the remaining 22 themes**, once (3) shows whether demo traffic materialises.
+11. Still open under BLOCKER 2: decide whether unreviewed legal copy keeps the `draft` banner.
+12. Work the lead list: `~/leads/az-trade-leads-2026-07-29.csv`, 103 Phoenix-metro trades.
     _Note the ICP correction in `CLAUDE.md`: this list is trades-only, but the market is any
     small business that needs a website. Half the theme library targets segments this list has
     no rows for._
-11. **Collapse the featured-vs-portfolio canonical rule to one source.** After PR #100 it lives
+13. **Collapse the featured-vs-portfolio canonical rule to one source.** After PR #100 it lives
     in three places — `src/lib/seo.ts:29`, `src/components/apex/demo-card.tsx:45`, and
     `src/app/sitemap.ts`. `seo.ts`'s own comment warns that a third copy is how it drifts.
     Changing `featuredThemeSlugs` without updating all three re-orphans the demo pages.
-12. Baseline the Supabase migration ledger before the next migration. _Now a concrete, gated
+14. Baseline the Supabase migration ledger before the next migration. _Now a concrete, gated
     step in `LAUNCH-CHECKLIST.md` §4 (`supabase migration repair --linked --status applied
     0001 … 0013`) — owner-run, and it asserts a history rather than verifying one, so
     re-confirm `sites_status_check` carries all 12 values first._
-13. **`$250` SLA remedy in `src/app/terms/page.tsx:41`** is the last user-visible dollar figure
+15. **`$250` SLA remedy in `src/app/terms/page.tsx:41`** is the last user-visible dollar figure
     outside `pricing-constants.ts`. Left deliberately — it is a contractual remedy, not a
     product price — but worth a constant if the SLA is ever revised.
-14. **Unpushed commit in the Claude-managed marketplace clone.** `a894757 fix(orchestrator):
+16. **Unpushed commit in the Claude-managed marketplace clone.** `a894757 fix(orchestrator):
     require disjoint file sets and explicit output paths` exists only in
     `~/.claude/plugins/marketplaces/axon` and never reached origin. Not related to this repo,
     but it will be lost the next time that directory is refreshed.
@@ -605,6 +619,62 @@ but it was never positively identified. PostHog error tracking is not enabled, s
 | #92 | merged | WS1 for the 8 picker trades — real business headlines on `/demos/[slug]`, descriptive headline preserved on `/portfolio/[slug]` |
 | #93 | merged | `<HideWhenEmbedded>` — our PortfolioBanner + themed SiteHeader no longer render inside preview iframes |
 | #100 | `12e9d89` | SEO/crawlability sweep — see below. 10 files, +100/−26 |
+| #101 | `29f24ee` | `/for` vertical landing pages + thin-copy repair + ICP doc corrections — see below. 8 files, +1,204/−25 |
+
+### PR #101 — the site had no vertical language in its HTML
+
+Merged `29f24ee` 2026-08-02 (integration of three agent branches). Rollback:
+`git revert -m 1 29f24ee`.
+
+**The finding.** Across `/`, `/start`, `/pricing`, `/about` there was no trade or business-type
+prose at all except one sentence at `src/app/about/page.tsx:78`. The site could not match the
+queries buyers actually type ("website design for plumbers", "photographer website design").
+
+**Shipped:**
+
+- **`/for` hub + 8 `/for/<vertical>` pages** — plumbers, electricians, hvac-companies,
+  cleaning-services, restaurants, photographers, florists, yoga-studios. Each mapped to a real
+  demo theme, 718–776 words of unique prose. Data-driven from `src/lib/verticals.ts`, so batch 2
+  is a **data-only edit** — `generateStaticParams` reads the same list.
+- **Six thin theme pages repaired** — `aurora-pressure-wash`, `crystalline-window-co`,
+  `mesa-hvac`, `sandstone-pool-care`, `sparkle-suds-laundromat`, `tidy-pros-junk` had no
+  `portfolioCopy` entry and rendered one boilerplate sentence. Now 98–106 words each (house
+  median 97).
+- **Docs corrected** — ICP, F1b, PR #100 record, SEO/GEO strategy (see those sections).
+
+**The vertical mix is deliberate and must stay mixed.** Owner correction 2026-08-01: the ICP is
+any small business that needs a website, not the trades. The hub is framed **"by business type"**,
+never "by trade" — the first build shipped 13 "trade" references including calling photographers
+and florists "trades", and it was caught and reframed before merge.
+
+**⚠️ The P0 a cold review caught before merge — do not reintroduce.** `HowItWorksSection` rendered
+the mapped theme's `content.howItWorks.steps`, which is the **fictional demo business's** copy,
+under the heading "Pick the design. We build the site." That published as Your Shopfront's own
+first-person claims: Angelo's *"We've been taking orders since 1956"*, the florist's *"Hudson
+Valley studio"*, the plumber's *"1-year warranty"* — on a company with zero customers. It also
+duplicated ~140 words verbatim from `/portfolio/<slug>`. Replaced with a module-level
+`PROCESS_STEPS` const in our own voice, every claim cross-checked against the real onboarding
+flow. **Rule: never render demo-theme `content.*` as Your Shopfront's own voice.** Re-verification
+enumerated all 72 `we/our/us` sentences across the 9 pages to confirm the class was closed, not
+just the named strings.
+
+Also fixed pre-merge: `"HVAC companys"` (naive `+ "s"` → explicit `plural` field),
+`<h1>Websites for hvac companies</h1>` (`toLowerCase()` eating the acronym, including in JSON-LD
+→ explicit `nameLower` field), and 8 hardcoded `$99` literals in SERP-visible meta descriptions
+now routed through `pricing-constants.ts`.
+
+**Verified live after deploy:** all 9 routes 200 · sitemap 48 `<loc>` with 9 `/for` entries ·
+exactly 1 `<h1>` per page · brand once per title · canonicals self-match · `HVAC Companies`
+capitalised correctly · fabrication probes (`1956`, `Hudson Valley`, `same cleaner every visit`)
+all **0** · the 6 repaired portfolio pages no longer serve the boilerplate.
+
+**Doorway-page risk measured, not assumed:** inter-page 5-gram Jaccard **0.162** (was 0.082 before
+the shared process block). Classification territory starts ~0.6, so ~72% of every page-pair is
+still unique. Not a concern, but re-measure if batch 2 adds more shared sections.
+
+**Deliberately unchanged:** `Service.offers.price` on `/for/*` stays at the standard `149`, not the
+`$99` promo — same reasoning as `src/lib/seo.ts:39-54` (structured data is crawled on Google's
+schedule, so a promo price outlives the promo). A cold reviewer independently agreed.
 
 ### PR #100 — the site was hiding its own pages from crawlers
 
