@@ -869,19 +869,19 @@ export const verticals: Vertical[] = [
     included: [
       {
         title: "Curated project index",
-        body: "A small set of projects shown fully, not a crowded grid — restraint in the layout signals restraint in the work.",
+        body: "The page shows a small set of projects in full, not a crowded grid — restraint in the layout signals restraint in the work.",
       },
       {
         title: "Process stated, with rounds defined",
-        body: "Discovery, concept, a stated number of revision rounds, and handoff — the structure serious clients screen for.",
+        body: "Your discovery-to-handoff process laid out step by step, with a stated number of revision rounds — the structure serious clients screen for before they'll reach out.",
       },
       {
         title: "One direction, not a spread of options",
-        body: "A single, fully developed concept presented with reasoning, instead of three half-considered options left for the client to referee.",
+        body: "The page states that you present one fully developed concept with reasoning, not three half-considered options left for the client to referee.",
       },
       {
-        title: "Documented handoff",
-        body: "Final files and written brand guidelines delivered at the end of the engagement, not just a mockup link and a goodbye.",
+        title: "Handoff process, stated",
+        body: "Your final-files and brand-guidelines terms spelled out on the page, not left implied.",
       },
     ],
     howItWorksIntro:

@@ -90,7 +90,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
   ]
-  // /for hub + /for/[vertical] — 8 verticals mapped to real demo themes, see
+  // /for hub + /for/[vertical] — verticals mapped to real demo themes, see
   // src/lib/verticals.ts. Driven from the verticals list, not hand-typed.
   const forHub: MetadataRoute.Sitemap = [
     {
