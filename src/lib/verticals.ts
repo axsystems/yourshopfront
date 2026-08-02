@@ -198,7 +198,7 @@ export const verticals: Vertical[] = [
       },
       {
         title: "Parts-and-labor warranty stated",
-        body: "A stated 1-year warranty removes the biggest hesitation for a system-replacement decision.",
+        body: "Your stated 1-year warranty removes the biggest hesitation for a system-replacement decision.",
       },
     ],
     howItWorksIntro:
