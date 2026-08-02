@@ -855,12 +855,7 @@ export const verticals: Vertical[] = [
     name: "Design studios",
     singular: "design studio",
     plural: "design studios",
-    // Deliberately "creative studios," not "design studios": the template
-    // interpolates this into "Pick the {nameLower} design shown above" and
-    // "the {nameLower} design shown above" — with "design studios" that
-    // reads as a stutter ("design studios design"). "Creative studios" is
-    // an accurate synonym for this vertical and reads clean in both spots.
-    nameLower: "creative studios",
+    nameLower: "design studios",
     themeSlug: "swiss-editorial",
     heroSub:
       "A client vetting studios is really vetting judgment. Show a handful of projects fully, not a wall of thumbnails.",
