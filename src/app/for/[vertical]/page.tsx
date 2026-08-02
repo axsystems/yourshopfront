@@ -122,7 +122,7 @@ export default async function VerticalPage({ params }: PageProps) {
         <NeedsSection vertical={v} />
         <IncludedSection vertical={v} />
         <HowItWorksSection vertical={v} />
-        <PricingSection vertical={v} checkoutHref={checkoutHref} />
+        <PricingSection checkoutHref={checkoutHref} />
         <FaqSection vertical={v} />
         <FinalCta vertical={v} checkoutHref={checkoutHref} />
       </main>
@@ -332,7 +332,7 @@ function HowItWorksSection({ vertical }: { vertical: Vertical }) {
   )
 }
 
-function PricingSection({ vertical, checkoutHref }: { vertical: Vertical; checkoutHref: string }) {
+function PricingSection({ checkoutHref }: { checkoutHref: string }) {
   return (
     <Section bg="canvas">
       <Container>
