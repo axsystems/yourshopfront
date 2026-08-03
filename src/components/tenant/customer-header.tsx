@@ -4,13 +4,21 @@ import { Phone } from "lucide-react"
 import type {
   SiteContentContact,
   SiteContentMedia,
+  SiteContentSectionHeading,
 } from "@/lib/site-content/types"
+import { SERVICES_HEADING_DEFAULTS } from "@/lib/site-content/types"
 
 interface CustomerHeaderProps {
   businessName: string
   contact: SiteContentContact
   media?: SiteContentMedia
   hasReviews?: boolean
+  /**
+   * Same rename that <CustomerServices> honours, so the nav link matches the
+   * section it scrolls to. Only the label changes — the anchor stays
+   * #services. Unset falls back to SERVICES_HEADING_DEFAULTS.
+   */
+  servicesHeading?: SiteContentSectionHeading
 }
 
 /**
@@ -24,8 +32,11 @@ export function CustomerHeader({
   contact,
   media,
   hasReviews,
+  servicesHeading,
 }: CustomerHeaderProps) {
   const telHref = `tel:${stripPhoneFormatting(contact.phone)}`
+  const servicesLabel =
+    servicesHeading?.eyebrow?.trim() || SERVICES_HEADING_DEFAULTS.eyebrow
   return (
     <header
       className="sticky top-0 z-30 border-b backdrop-blur-md"
@@ -68,7 +79,7 @@ export function CustomerHeader({
           aria-label="Page sections"
           className="hidden items-center gap-6 md:flex"
         >
-          <NavAnchor href="#services">Services</NavAnchor>
+          <NavAnchor href="#services">{servicesLabel}</NavAnchor>
           <NavAnchor href="#about">About</NavAnchor>
           {hasReviews ? <NavAnchor href="#reviews">Reviews</NavAnchor> : null}
           <NavAnchor href="#contact">Contact</NavAnchor>
