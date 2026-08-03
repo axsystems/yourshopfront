@@ -72,7 +72,7 @@ export const verticals: Vertical[] = [
       "Emergency calls don't wait for business hours. Your site shouldn't either.",
     metaTitle: "Website Design for Plumbers",
     metaDescription:
-      `A plumbing website built for the emergency call: a tap-to-call number pinned to every screen, flat-rate quote copy, and service-area clarity. ${PROMO_SETUP} to start.`,
+      `A plumbing website built for the emergency call: a tap-to-call number pinned to every screen, a quote-request form, and service-area clarity. ${PROMO_SETUP} to start.`,
     needs: [
       "A plumbing website has one job during a burst pipe at 11pm: get a phone number in front of someone who is already panicking, in under three seconds. That means no slideshow hero, no scrolling to find the number, no contact page to go hunting for. The call has to be the first thing a visitor sees on a phone screen, because that is where nearly every emergency search happens.",
       "The rest of the site earns trust in the background: license and bonding info, a clear service-area list so people ten miles outside your radius don't waste your dispatcher's time, and a plain description of how pricing works. Flat-rate quoted before the wrench touches anything is the model buyers already expect, and burying it reads as evasive. Photos matter less here than clarity — a clean shot of a repaired fitting says more than a stock photo of a smiling man in a hard hat.",
@@ -88,7 +88,7 @@ export const verticals: Vertical[] = [
       },
       {
         title: "Flat-rate quote messaging",
-        body: "Copy built around 'quoted before we start' — the pricing model plumbing customers already expect and reward with the call.",
+        body: "Copy built around 'quoted before we start,' plus a quote-request form further down for the remodel visitor who'd rather write the job out than describe it on the phone.",
       },
       {
         title: "Mobile-first, not mobile-adjusted",
@@ -102,7 +102,7 @@ export const verticals: Vertical[] = [
     faq: [
       {
         q: "Can the emergency-call design work for non-emergency plumbers too?",
-        a: "Yes — the layout adapts. If you're mostly scheduled work like remodels and fixture installs, we relabel the main button from an emergency call-out to a quote request and give the finished-work photos the room the 24/7 framing was using. The urgency-first version is the default because most plumbing searches are emergencies, but it's not the only mode this design supports.",
+        a: "Yes — the layout adapts. If you're mostly scheduled work like remodels and fixture installs, we relabel the main button from an emergency call-out to a quote request, point it at the request form on the page, and give the finished-work photos the room the 24/7 framing was using. The urgency-first version is the default because most plumbing searches are emergencies, but it's not the only mode this design supports.",
       },
       {
         q: "Do I need professional photos of my work?",
@@ -133,7 +133,7 @@ export const verticals: Vertical[] = [
     included: [
       {
         title: "Emergency and project work on one page",
-        body: "One layout carries 'my outlet is sparking' and 'quote me an EV charger install' — the call button up top for the first, the priced service list right below it for the second.",
+        body: "One layout carries 'my outlet is sparking' and 'quote me an EV charger install' — the call button up top for the first, the priced service list and a project-inquiry form for the second.",
       },
       {
         title: "Licensing stated, not implied",
@@ -155,7 +155,7 @@ export const verticals: Vertical[] = [
     faq: [
       {
         q: "I mostly do commercial work, not residential emergencies — does this design still fit?",
-        a: "It adapts. We'd relabel the main button from an emergency call-out to a project inquiry — it can dial you or point at whatever intake you already use — and lean harder on the licensing and permit copy, which matters even more to commercial clients and property managers.",
+        a: "It adapts. We'd relabel the main button from an emergency call-out to a project inquiry, point it at the inquiry form on the page — where a property manager can type out scope and site details rather than dictate them — and lean harder on the licensing and permit copy, which matters even more to commercial clients.",
       },
       {
         q: "Can we show EV charger and panel-upgrade pricing separately from emergency call-out rates?",
@@ -178,9 +178,9 @@ export const verticals: Vertical[] = [
       "A/C down in extreme heat is a same-day decision. Your site needs to close it in one screen.",
     metaTitle: "Website Design for HVAC Companies",
     metaDescription:
-      `An HVAC website built for same-day A/C emergencies and system-install comparison shopping — flat-rate diagnostic copy, warranty terms, tap-to-call up top. ${PROMO_SETUP} to start.`,
+      `An HVAC website built for same-day A/C emergencies and install comparison shopping — flat-rate diagnostic copy, warranty terms, tap-to-call, an estimate form. ${PROMO_SETUP} to start.`,
     needs: [
-      "HVAC websites live and die on seasonality and speed. When a system fails in extreme heat or cold, the visitor is comparing a few tabs at once and calling whichever one answers the actual question first: same-day availability. Every design decision should optimize for that — your same-day line written where the visitor lands and your number one tap away from any point on the page, because the customer will explain the rest to a real person on the phone, not in a web form.",
+      "HVAC websites live and die on seasonality and speed. When a system fails in extreme heat or cold, the visitor is comparing a few tabs at once and calling whichever one answers the actual question first: same-day availability. Every design decision should optimize for that — your same-day line written where the visitor lands and your number one tap away from any point on the page, because that customer will explain the rest to a real person on the phone. The one shopping a system replacement is the opposite: they'll type it out, which is what the estimate form further down the page is for.",
       "The other half of HVAC revenue — new system installs, maintenance plans, tune-ups — is a considered purchase where price transparency matters more. A visitor comparing a multi-thousand-dollar system replacement wants to know upfront whether you do flat-rate diagnostics or charge a trip fee, and whether a warranty covers labor as well as parts. Burying that in a phone-only quote process loses comparison shoppers who won't call three companies just to find out.",
     ],
     included: [
@@ -208,7 +208,7 @@ export const verticals: Vertical[] = [
     faq: [
       {
         q: "We do more installs than emergency repairs — is the urgency-first layout still right?",
-        a: "We'd relabel the main button to a free-estimate request instead of a same-day call-out, and move the warranty and financing copy higher. The underlying design and pricing stay identical — it's a content swap, not a rebuild.",
+        a: "We'd relabel the main button to a free-estimate request instead of a same-day call-out, point it at the estimate form on the page, and move the warranty and financing copy higher — a $9,000 system replacement gets written out, not phoned in cold. The underlying design and pricing stay identical: it's a content swap, not a rebuild.",
       },
       {
         q: "Can we list our service plans and maintenance memberships?",
@@ -312,7 +312,7 @@ export const verticals: Vertical[] = [
     faq: [
       {
         q: "Can we take online orders or reservations through the site?",
-        a: "The site itself is built for menu, hours, story, and contact — the pieces that get someone to call or walk in. For online ordering or reservations we point the main button straight at the platform you already use, rather than trying to rebuild that infrastructure inside a marketing site.",
+        a: "The site itself is built for menu, hours, story, and contact — the pieces that get someone to call or walk in. For online ordering or reservations we point the main button straight at the platform you already use, rather than trying to rebuild that infrastructure inside a marketing site. Catering and private-party asks land somewhere either way: every site we build carries a message form that emails you the moment it's sent.",
       },
       {
         q: "How often can we update the menu?",
@@ -334,10 +334,10 @@ export const verticals: Vertical[] = [
     heroSub: "The portfolio is the pitch. Everything else on the site should get out of its way.",
     metaTitle: "Website Design for Photographers",
     metaDescription:
-      `An editorial photography website built around a large, uncropped gallery, plain usage-rights language, and a direct line to the studio. ${PROMO_SETUP} to start, live in 24 hours.`,
+      `An editorial photography website built around a large, uncropped gallery, plain usage-rights language, and an inquiry form for commission briefs. ${PROMO_SETUP} to start, live in 24 hours.`,
     needs: [
       "For a photographer, the website's entire job is to get out of the way of the work. A gallery that loads slowly, crops images to fit someone else's grid, or surrounds photos with unrelated chrome is actively working against the one thing that sells the service: the images themselves, shown large and deliberately, in an order that tells a story rather than a random grid. The best photographer sites read closer to a magazine spread than a typical small-business homepage — generous negative space, images given the full width of the page, minimal text competing for attention.",
-      "Past the gallery, the second job is making the business side frictionless without cheapening the aesthetic — an obvious way to reach the studio rather than a buried footer link, plain language about usage rights and licensing (a real point of confusion for clients hiring for the first time), and enough information about process that a client knows what a shoot day actually looks like before they commit. None of that needs to shout; it can carry the same editorial restraint as the rest of the site.",
+      "Past the gallery, the second job is making the business side frictionless without cheapening the aesthetic — a written inquiry that lets a client describe the commission in their own words rather than a buried footer link, plain language about usage rights and licensing (a real point of confusion for clients hiring for the first time), and enough information about process that a client knows what a shoot day actually looks like before they commit. None of that has to look like a bolted-on contact widget; the form carries the same type and palette as the rest of the site.",
     ],
     included: [
       {
@@ -353,8 +353,8 @@ export const verticals: Vertical[] = [
         body: "A common friction point for first-time clients, addressed upfront instead of left for a contract negotiation.",
       },
       {
-        title: "Process and rates, then the phone",
-        body: "What a commission actually involves and what it starts at, written on the page — so the first conversation is about the work, not about whether you're in budget.",
+        title: "A brief, not a business card",
+        body: "The inquiry form takes a couple of thousand characters of 'here's who it's for and what it needs to say,' set in the site's own type, and emails the studio the moment it's sent.",
       },
     ],
     howItWorksIntro:
@@ -386,10 +386,10 @@ export const verticals: Vertical[] = [
     heroSub: "What's in season this week is the whole offer. Show it, don't bury it in a catalog.",
     metaTitle: "Website Design for Florists",
     metaDescription:
-      `A florist website built around what's in bloom this week, local-sourcing copy, and same-day updates the moment availability changes. ${PROMO_SETUP} to start, live in 24 hours.`,
+      `A florist website built around what's in bloom this week, local-sourcing copy, and an inquiry form for wedding and event work. ${PROMO_SETUP} to start, live in 24 hours.`,
     needs: [
       "Florist websites tend to fail in one of two directions: either a static catalog of arrangements that never changes, so it stops matching what's actually available, or a generic template that could belong to any florist in the country. The strongest florist sites lean into what's actually true about the business — what's in bloom this week, what's grown or sourced locally, and what makes the arrangements distinct from a supermarket bouquet — and treat that as the main content, not an afterthought below a generic hero banner.",
-      "Weddings and events are usually the highest-margin part of a florist's business and deserve to be named on the page with lead times attached, so a couple planning eight months out knows they're in the right place instead of guessing. Day-to-day retail traffic, like a bouquet for pickup or a standing weekly order, needs a much simpler answer: what's available now, and the number to call, without wading through wedding-package copy to find it.",
+      "Weddings and events are usually the highest-margin part of a florist's business and deserve to be named on the page with lead times attached, so a couple planning eight months out knows they're in the right place instead of guessing. Day-to-day retail traffic, like a bouquet for pickup or a standing weekly order, needs a much simpler answer: what's available now, and either a number to call or a message they can send in thirty seconds, without wading through wedding-package copy to find it.",
     ],
     included: [
       {
@@ -402,7 +402,7 @@ export const verticals: Vertical[] = [
       },
       {
         title: "Weddings named, with lead times",
-        body: "Consultations and event work get their own entries with how far ahead to book written on them, so the highest-margin inquiries arrive already knowing the timeline.",
+        body: "Consultations and event work get their own entries with how far ahead to book written on them, and the form near the bottom is where a couple writes out the venue, the season, and the palette in their own words.",
       },
       {
         title: "Quiet, editorial restraint",
@@ -472,7 +472,7 @@ export const verticals: Vertical[] = [
       },
       {
         q: "Can students book a class or just see the schedule?",
-        a: "They see the list here and book where you already take bookings — the main button in the hero points straight at Mindbody, Momence, or whatever you run. The site itself isn't a booking system and doesn't pretend to be one.",
+        a: "They see the list here and book where you already take bookings — the main button in the hero points straight at Mindbody, Momence, or whatever you run. The site itself isn't a booking system and doesn't pretend to be one. It does carry a message form near the bottom, which is where the quieter question lands: 'I've never done this — is your morning class actually okay for a beginner?'",
       },
       {
         q: "Is this too quiet for a studio that also wants to promote workshops and events?",
@@ -493,13 +493,13 @@ export const verticals: Vertical[] = [
     metaDescription:
       `A roofing website built for the storm-damage search: a free-inspection CTA up top, insurance-claim messaging, and certification stated upfront. ${PROMO_SETUP} to start.`,
     needs: [
-      "Most roofing searches start after something has already gone wrong — a storm rolled through, shingles are missing, and a wet ceiling stain is spreading. That visitor isn't browsing; they want a free inspection booked in the next two minutes, and a number buried past a scrolling hero photo loses them to whichever competitor's site puts theirs first. The page's entire job in that moment is speed: one obvious way to reach you, a promise that someone will get on the roof soon, and then get out of the way.",
+      "Most roofing searches start after something has already gone wrong — a storm rolled through, shingles are missing, and a wet ceiling stain is spreading. That visitor isn't browsing; they want a free inspection requested in the next two minutes, and a number buried past a scrolling hero photo loses them to whichever competitor's site puts theirs first. The page's entire job in that moment is speed: a tap-to-call number that never leaves the screen, an inspection-request form for the homeowner who found the stain at 11pm and would rather type than wake the house, and then get out of the way.",
       "The other half of roofing work — full replacements, re-roofs planned around a home sale, routine maintenance — moves at buyer-comparison speed instead. That visitor wants to see manufacturer certification, licensing, and a plain statement of how insurance claims get handled before they'll commit to a call, because a roof is one of the most expensive single repairs a homeowner ever makes and unlicensed work is a real, documented risk. Stating certification and warranty terms plainly, high on the page, does more to convert that visitor than any drone photo of a finished roof.",
     ],
     included: [
       {
         title: "Free-inspection CTA, above the fold",
-        body: "The free-inspection button is the first thing under the headline and your number stays in the header for the whole scroll — a storm-damage search doesn't wait for a visitor to scroll past a hero image.",
+        body: "The free-inspection button is the first thing under the headline and your number stays in the header for the whole scroll; further down, a request form catches the homeowner who'd rather write out the damage than describe it. A storm-damage search doesn't wait for a visitor to scroll past a hero image.",
       },
       {
         title: "Insurance-claim language stated",
