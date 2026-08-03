@@ -12,6 +12,7 @@ import {
 } from "@/lib/site-content/types"
 import { AssetUploader } from "@/components/upload/asset-uploader"
 import { setDomain } from "./actions"
+import { isOnboardingOpen } from "./onboarding-status"
 import { saveWorksheetSection } from "./worksheet/actions"
 
 interface OnboardingChecklistProps {
@@ -21,7 +22,7 @@ interface OnboardingChecklistProps {
 export function OnboardingChecklist({ site }: OnboardingChecklistProps) {
   const state = site.onboarding_state ?? {}
   const sessionId = site.stripe_session_id
-  const locked = site.status !== "pending_content"
+  const locked = !isOnboardingOpen(site.status)
 
   return (
     <div className="space-y-4">
@@ -124,7 +125,7 @@ function ContentStep({ site }: { site: Site }) {
   // mirrors this into onboarding_state.content_sent so the cron pickup
   // (which reads onboarding_state) sees the same answer.
   const complete = siteContentIsValid(site.site_content ?? {})
-  const locked = site.status !== "pending_content"
+  const locked = !isOnboardingOpen(site.status)
   const href = `/onboarding/worksheet?session_id=${encodeURIComponent(site.stripe_session_id)}`
 
   return (
@@ -159,7 +160,7 @@ function ContentStep({ site }: { site: Site }) {
 
 function AssetsStep({ site }: { site: Site }) {
   const sessionId = site.stripe_session_id
-  const locked = site.status !== "pending_content"
+  const locked = !isOnboardingOpen(site.status)
   const initialMedia: SiteContentMedia = site.site_content?.media ?? {}
 
   // Optimistic state — uploads complete immediately on the client; the

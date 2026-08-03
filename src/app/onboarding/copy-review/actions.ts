@@ -16,6 +16,8 @@ import {
 } from "@/lib/supabase"
 import type { PartialSiteContent } from "@/lib/site-content/schema"
 
+import { pickCopyServiceSections } from "../onboarding-status"
+
 // =============================================================================
 // /onboarding/copy-review server actions
 // =============================================================================
@@ -91,13 +93,17 @@ export async function approveCopy(input: { sessionId: string }): Promise<Custome
     }
     await updateAiCopyDraft(site.id, nextMeta)
 
-    // 2. Promote the operator-approved draft into site_content. The
-    //    PartialSiteContent → SiteContent cast is safe because the shapes
-    //    line up — every field on SiteContent is optional too. siteContentIsValid
-    //    will gate whether a tenant page renders.
+    // 2. Promote the operator-approved draft into site_content — but only
+    //    the three sections the copy service owns. The customer can now
+    //    edit the worksheet during the copy loop, so their contact hours,
+    //    service area, reviews, photos, gallery layout, and estimate
+    //    calculator are live data sitting in the same JSONB. A blanket
+    //    `...draftBody` spread would destroy any of those that a
+    //    non-compliant draft happened to carry (PartialSiteContentSchema
+    //    accepts presentation/calculator, so Zod does not strip them).
     const merged: SiteContent = {
       ...(site.site_content ?? {}),
-      ...(draftBody as SiteContent),
+      ...pickCopyServiceSections(draftBody),
     }
     await updateSiteContent(site.id, merged)
 

@@ -11,6 +11,8 @@ import {
   type OnboardingState,
 } from "@/lib/supabase"
 
+import { isOnboardingOpen } from "./onboarding-status"
+
 // =============================================================================
 // /onboarding server actions
 // =============================================================================
@@ -82,7 +84,7 @@ async function persist(
     if (!site) {
       return { ok: false, error: "Site not found for that session." }
     }
-    if (site.status !== "pending_content") {
+    if (!isOnboardingOpen(site.status)) {
       // Once we've started building we don't accept further onboarding
       // edits — a customer who needs to change something can email us.
       return {
@@ -92,7 +94,10 @@ async function persist(
     }
     const next = patch(site.onboarding_state ?? {})
     await updateOnboardingState(site.id, next)
-    if (isOnboardingComplete(next)) {
+    // Same restriction as saveWorksheetSection: only the self-serve path
+    // auto-advances. A copy-addon site advances via approveCopy so its
+    // pending draft isn't orphaned.
+    if (site.status === "pending_content" && isOnboardingComplete(next)) {
       await updateSiteStatus(site.id, "ready_to_build")
     }
     revalidatePath("/onboarding")

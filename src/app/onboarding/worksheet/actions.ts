@@ -26,6 +26,8 @@ import {
   ServiceSchema,
 } from "@/lib/site-content/schema"
 
+import { isOnboardingOpen } from "../onboarding-status"
+
 // =============================================================================
 // /onboarding/worksheet server actions
 // =============================================================================
@@ -36,7 +38,9 @@ import {
 // steps, status moves to 'ready_to_build'.
 //
 // Access model: same Stripe-session-id bearer token as the checklist
-// actions. Locked once status leaves 'pending_content'.
+// actions — unchanged. Locked once the site leaves the onboarding-open
+// statuses (see ../onboarding-status.ts), which now covers the copy-addon
+// lifecycle instead of pending_content alone.
 // =============================================================================
 
 const SessionIdSchema = z.string().min(20).max(200)
@@ -95,7 +99,7 @@ export async function saveWorksheetSection(
     if (!site) {
       return { ok: false, error: "Site not found for that session." }
     }
-    if (site.status !== "pending_content") {
+    if (!isOnboardingOpen(site.status)) {
       return {
         ok: false,
         error: `Onboarding is locked (status: ${site.status}). Email hello@yourshopfront.com to change anything.`,
@@ -125,7 +129,15 @@ export async function saveWorksheetSection(
       nextOnboarding.assets_sent?.complete !== prior.assets_sent?.complete
     ) {
       await updateOnboardingState(site.id, nextOnboarding)
-      if (isOnboardingComplete(nextOnboarding)) {
+      // Only the self-serve path auto-advances to the build queue. A
+      // copy-addon site is mid draft → review → approval; flipping it here
+      // would yank it out of that loop, orphan the operator's draft, and
+      // provision before anyone approved the copy the customer paid for.
+      // Their advance happens in copy-review/actions.ts approveCopy.
+      if (
+        site.status === "pending_content" &&
+        isOnboardingComplete(nextOnboarding)
+      ) {
         await updateSiteStatus(site.id, "ready_to_build")
       }
     }

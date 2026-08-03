@@ -4,6 +4,7 @@ import { redirect } from "next/navigation"
 import { CheckCircle, PenLine } from "lucide-react"
 
 import { BillingButton } from "./billing-button"
+import { isOnboardingOpen } from "./onboarding-status"
 import { OnboardingChecklist } from "./onboarding-checklist"
 import { OnboardingProcessing } from "./processing"
 import { ProvisioningStatus } from "./provisioning-status"
@@ -18,14 +19,6 @@ import {
 } from "@/lib/analytics-config"
 import { SITE_URL } from "@/lib/seo"
 import { stripe } from "@/lib/stripe"
-
-const COPY_ACTIVE_STATUSES: SiteStatus[] = [
-  "pending_content",
-  "awaiting_copy",
-  "awaiting_copy_draft",
-  "awaiting_copy_review",
-  "awaiting_copy_approval",
-]
 
 /** Copy-addon statuses where the customer is in the AI draft → review loop. */
 const COPY_REVIEW_STATUSES: SiteStatus[] = [
@@ -176,12 +169,8 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
   // "Past onboarding" historically meant any status beyond pending_content.
   // With the new copy_addon flow, statuses awaiting_copy* are NOT yet past
   // onboarding — the customer is still in the copy-drafting loop, not in
-  // provisioning. Exclude them so we render the right surface.
-  const pastOnboarding =
-    site.status !== "pending_content" &&
-    !inCopyReview &&
-    site.status !== "awaiting_copy" &&
-    site.status !== "awaiting_copy_draft"
+  // provisioning. isOnboardingOpen owns that list for every surface.
+  const pastOnboarding = !isOnboardingOpen(site.status)
   // Show "Manage billing" only when the customer has a recurring charge:
   // - subscription tier (always has the $149/mo sub), OR
   // - one-time tier with the $49/mo hosting add-on.
@@ -289,9 +278,7 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
 }
 
 function CopyAddonBanner({ status }: { status: SiteStatus }) {
-  const isActive = COPY_ACTIVE_STATUSES.includes(status)
-
-  if (isActive) {
+  if (isOnboardingOpen(status)) {
     return (
       <div
         className="flex items-start gap-3 rounded-xl border-2 px-5 py-4 text-sm leading-relaxed"
