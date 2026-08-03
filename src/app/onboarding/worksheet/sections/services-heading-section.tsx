@@ -59,6 +59,8 @@ export function ServicesHeadingSection({
     setError(null)
     const data: SiteContentPresentation = {}
     if (initial?.galleryLayout) data.galleryLayout = initial.galleryLayout
+    if (initial?.galleryPlacement)
+      data.galleryPlacement = initial.galleryPlacement
     if (trimmedEyebrow || trimmedTitle) {
       data.servicesHeading = {
         ...(trimmedEyebrow ? { eyebrow: trimmedEyebrow } : {}),

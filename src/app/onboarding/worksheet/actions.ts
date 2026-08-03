@@ -16,6 +16,7 @@ import {
 } from "@/lib/supabase"
 import {
   AboutSchema,
+  CalculatorSchema,
   ContactSchema,
   HeroSchema,
   MediaSchema,
@@ -49,6 +50,7 @@ const SectionEnum = z.enum([
   "reviews",
   "media",
   "presentation",
+  "calculator",
 ])
 
 const sectionSchemas = {
@@ -60,6 +62,7 @@ const sectionSchemas = {
   reviews: z.array(ReviewSchema).max(20),
   media: MediaSchema,
   presentation: PresentationSchema,
+  calculator: CalculatorSchema,
 } as const
 
 export type ActionResult = { ok: true } | { ok: false; error: string }
