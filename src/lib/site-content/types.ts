@@ -86,18 +86,31 @@ export interface SiteContentSectionHeading {
  */
 export type GalleryLayout = "grid" | "showcase"
 
+/**
+ * Where the gallery sits in the page order.
+ *
+ * "after-services" is the historical (and default) order: hero → services →
+ * gallery. "after-hero" promotes the gallery to the first thing under the
+ * hero, which is the right call for a visible-quality business where the
+ * photos ARE the pitch — a painter's finished rooms, a wine bar's interior.
+ */
+export type GalleryPlacement = "after-services" | "after-hero"
+
 /** Optional per-site rendering controls. Every unset field falls back to
  * the markup the tenant page rendered before this group existed. */
 export interface SiteContentPresentation {
   servicesHeading?: SiteContentSectionHeading
   galleryLayout?: GalleryLayout
+  galleryPlacement?: GalleryPlacement
 }
 
 /**
- * Optional per-site estimate config. Consumed by the Workstream B2 estimate
- * tool — nothing in this repo renders it yet. The group as a whole is
- * optional; the five pricing fields are required inside it because an
- * estimate missing its rate or its unit cannot produce an honest number.
+ * Optional per-site estimate config. The group as a whole is optional; the
+ * five pricing fields are required inside it because an estimate missing
+ * its rate or its unit cannot produce an honest number.
+ *
+ * Presence of this group is the opt-in switch for the tenant lead form: a
+ * site without it renders exactly what it rendered before this existed.
  */
 export interface SiteContentCalculator {
   /** Section heading, e.g. "Estimate your job". */
@@ -141,8 +154,62 @@ export const SERVICES_HEADING_DEFAULTS = {
 /** Gallery layout used when `presentation.galleryLayout` is unset. */
 export const DEFAULT_GALLERY_LAYOUT: GalleryLayout = "grid"
 
+/** Gallery position used when `presentation.galleryPlacement` is unset —
+ * the order every existing site already renders. */
+export const DEFAULT_GALLERY_PLACEMENT: GalleryPlacement = "after-services"
+
 /** Minimum gallery size for AssetsStep to consider step 3 done. */
 export const MIN_GALLERY_PHOTOS = 3
+
+/** Copy the lead form falls back to when the owner set no override. */
+export const LEAD_FORM_DEFAULTS = {
+  heading: "Get your estimate in writing",
+  blurb:
+    "Send your details and we'll come back with a firm price. No obligation.",
+} as const
+
+/** Hard ceiling on the units input, matched by the API's Zod schema. Keeps
+ * a fat-fingered "999999999" from rendering an absurd estimate. */
+export const MAX_CALCULATOR_UNITS = 100_000
+
+/**
+ * The estimate formula, defined once and used on BOTH sides.
+ *
+ * The client renders this live as the visitor types; the API recomputes it
+ * from the site's stored config and ignores whatever number the client
+ * sent. Both call this function, so the figure the visitor saw and the
+ * figure the owner is emailed can never drift apart.
+ *
+ * `minimum` is a floor, not an addend — a business that won't take a job
+ * under $250 quotes $250 for a job the per-unit math prices at $180.
+ * Returns null for a non-finite or negative unit count so callers never
+ * have to render NaN.
+ */
+export function computeCalculatorEstimate(
+  calculator: SiteContentCalculator,
+  units: number
+): number | null {
+  if (!Number.isFinite(units) || units < 0) return null
+  const raw = calculator.baseAmount + calculator.perUnitRate * units
+  const withFloor = Math.max(calculator.minimum, raw)
+  // Two decimals: the DB column is numeric(12,2) and the value is money.
+  return Math.round(withFloor * 100) / 100
+}
+
+/**
+ * Money formatting for every estimate the visitor sees. Whole dollars when
+ * the amount is whole ("$1,250", not "$1,250.00") so a round rate doesn't
+ * read like an invoice.
+ */
+export function formatEstimate(amount: number): string {
+  const fractionDigits = Number.isInteger(amount) ? 0 : 2
+  return amount.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  })
+}
 
 /**
  * "Is this site_content complete enough to launch?" — the bar that gates

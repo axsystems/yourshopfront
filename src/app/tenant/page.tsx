@@ -81,6 +81,10 @@ export default async function TenantPage({ searchParams }: PageProps) {
       theme={theme}
       content={site.site_content}
       businessName={site.business_name}
+      // The slug this row was resolved by (getSiteByProvisionSlug matched on
+      // it). Passed through so the lead form can name its site without ever
+      // handling a row id.
+      siteSlug={slug}
     />
   )
 }

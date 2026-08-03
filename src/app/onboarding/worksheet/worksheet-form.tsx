@@ -11,8 +11,10 @@ import {
 } from "@/lib/site-content/types"
 
 import { AboutSection } from "./sections/about-section"
+import { CalculatorSection } from "./sections/calculator-section"
 import { ContactSection } from "./sections/contact-section"
 import { GalleryLayoutSection } from "./sections/gallery-layout-section"
+import { GalleryPlacementSection } from "./sections/gallery-placement-section"
 import { HeroSection } from "./sections/hero-section"
 import { MediaSection } from "./sections/media-section"
 import { ReviewsSection } from "./sections/reviews-section"
@@ -105,6 +107,20 @@ export function WorksheetForm({ site }: WorksheetFormProps) {
         initial={content.presentation}
         locked={locked}
         onSaved={(presentation) => setContent((c) => ({ ...c, presentation }))}
+      />
+      <GalleryPlacementSection
+        n={10}
+        sessionId={sessionId}
+        initial={content.presentation}
+        locked={locked}
+        onSaved={(presentation) => setContent((c) => ({ ...c, presentation }))}
+      />
+      <CalculatorSection
+        n={11}
+        sessionId={sessionId}
+        initial={content.calculator}
+        locked={locked}
+        onSaved={(calculator) => setContent((c) => ({ ...c, calculator }))}
       />
       <CompletionBanner complete={complete} bottom />
     </div>

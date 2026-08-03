@@ -3,66 +3,65 @@
 import * as React from "react"
 
 import type {
-  GalleryLayout,
+  GalleryPlacement,
   SiteContentPresentation,
 } from "@/lib/site-content/types"
-import { DEFAULT_GALLERY_LAYOUT } from "@/lib/site-content/types"
+import { DEFAULT_GALLERY_PLACEMENT } from "@/lib/site-content/types"
 
 import { saveWorksheetSection } from "../actions"
 import { SaveButton, SectionShell } from "./section-shell"
 
-interface GalleryLayoutSectionProps {
+interface GalleryPlacementSectionProps {
   n: number
   sessionId: string
-  /** The whole presentation group — this section only owns galleryLayout,
+  /** The whole presentation group — this section only owns galleryPlacement,
    * but it writes the full group, so it must carry the rest forward. */
   initial: SiteContentPresentation | undefined
   locked: boolean
   onSaved: (next: SiteContentPresentation) => void
 }
 
-const OPTIONS: { value: GalleryLayout; label: string; blurb: string }[] = [
+const OPTIONS: { value: GalleryPlacement; label: string; blurb: string }[] = [
   {
-    value: "grid",
-    label: "Grid",
+    value: "after-services",
+    label: "After your services",
     blurb:
-      "Up to 12 square thumbnails, four across. Best when the photos are proof of work — job sites, before-and-afters, the shop.",
+      "Visitors read what you do, then see proof of it. Right when the work needs explaining first — most trades, anything where the service list is the pitch.",
   },
   {
-    value: "showcase",
-    label: "Showcase",
+    value: "after-hero",
+    label: "Straight under the hero",
     blurb:
-      "Up to 6 large images, one per row, never cropped. Best when each photo is the product — design work, portraits, plated dishes.",
+      "Photos are the first thing on the page, above your services. Right when the finished work IS the pitch — painters, a wine bar's room, anything sold on how it looks.",
   },
 ]
 
 /**
- * Picks how the gallery renders. Unset means "grid", which is what every
- * existing site shows.
+ * Picks where the gallery sits in the page order. Unset means "after your
+ * services", which is the order every existing site already renders.
  */
-export function GalleryLayoutSection({
+export function GalleryPlacementSection({
   n,
   sessionId,
   initial,
   locked,
   onSaved,
-}: GalleryLayoutSectionProps) {
-  const [layout, setLayout] = React.useState<GalleryLayout>(
-    initial?.galleryLayout ?? DEFAULT_GALLERY_LAYOUT
+}: GalleryPlacementSectionProps) {
+  const [placement, setPlacement] = React.useState<GalleryPlacement>(
+    initial?.galleryPlacement ?? DEFAULT_GALLERY_PLACEMENT
   )
   const [pending, startTransition] = React.useTransition()
   const [error, setError] = React.useState<string | null>(null)
 
-  const filled = Boolean(initial?.galleryLayout)
+  const filled = Boolean(initial?.galleryPlacement)
   const status = error ? "error" : pending ? "saving" : filled ? "filled" : "empty"
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
-    const data: SiteContentPresentation = { galleryLayout: layout }
+    const data: SiteContentPresentation = { galleryPlacement: placement }
     if (initial?.servicesHeading) data.servicesHeading = initial.servicesHeading
-    if (initial?.galleryPlacement)
-      data.galleryPlacement = initial.galleryPlacement
+    if (initial?.galleryLayout) data.galleryLayout = initial.galleryLayout
     startTransition(async () => {
       const result = await saveWorksheetSection({
         sessionId,
@@ -80,8 +79,8 @@ export function GalleryLayoutSection({
   return (
     <SectionShell
       n={n}
-      title="Gallery layout"
-      description="Optional. Skip this and your photos show as a grid of thumbnails — the standard layout."
+      title="Where the gallery sits"
+      description="Optional. Skip this and your photos sit below your services — the standard order."
       status={status}
       locked={locked}
       error={error}
@@ -89,12 +88,12 @@ export function GalleryLayoutSection({
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid gap-3 sm:grid-cols-2">
           {OPTIONS.map((opt) => {
-            const active = layout === opt.value
+            const active = placement === opt.value
             return (
               <button
                 key={opt.value}
                 type="button"
-                onClick={() => setLayout(opt.value)}
+                onClick={() => setPlacement(opt.value)}
                 aria-pressed={active}
                 disabled={locked}
                 className="rounded-lg border p-4 text-left transition disabled:cursor-not-allowed disabled:opacity-60"
@@ -126,7 +125,7 @@ export function GalleryLayoutSection({
                     ) : null}
                   </span>
                   <span className="text-sm font-bold">{opt.label}</span>
-                  {opt.value === DEFAULT_GALLERY_LAYOUT ? (
+                  {opt.value === DEFAULT_GALLERY_PLACEMENT ? (
                     <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-apx-mute">
                       Default
                     </span>
@@ -143,7 +142,7 @@ export function GalleryLayoutSection({
           })}
         </div>
         <SaveButton disabled={pending || locked}>
-          {pending ? "Saving…" : "Save gallery layout"}
+          {pending ? "Saving…" : "Save gallery position"}
         </SaveButton>
       </form>
     </SectionShell>

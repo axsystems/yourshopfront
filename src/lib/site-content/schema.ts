@@ -150,19 +150,31 @@ export const SectionHeadingSchema = z.object({
  */
 export const GalleryLayoutSchema = z.enum(["grid", "showcase"])
 
+/**
+ * Where the gallery sits in the page order. "after-services" is the
+ * historical (and default) order; "after-hero" promotes the photos above
+ * the services grid for businesses whose finished work IS the pitch.
+ */
+export const GalleryPlacementSchema = z.enum(["after-services", "after-hero"])
+
 export const PresentationSchema = z.object({
   servicesHeading: SectionHeadingSchema.optional(),
   galleryLayout: GalleryLayoutSchema.optional(),
+  galleryPlacement: GalleryPlacementSchema.optional(),
 })
 
 // -----------------------------------------------------------------------------
 // Calculator — optional per-site estimate config
 // -----------------------------------------------------------------------------
-// Schema only. Consumed by Workstream B2's estimate tool; no component in
-// this repo reads it yet. The whole group is optional, but the five pricing
-// fields are required *within* it — an estimate that is missing its rate or
-// its unit cannot produce an honest number, so a half-filled group is
-// rejected rather than silently rendered.
+// Rendered by <CustomerEstimator> on the tenant page, and re-read
+// server-side by /api/leads to recompute the estimate the visitor was
+// shown. The whole group is optional, but the five pricing fields are
+// required *within* it — an estimate that is missing its rate or its unit
+// cannot produce an honest number, so a half-filled group is rejected
+// rather than silently rendered.
+//
+// Presence of this group is also the opt-in switch for the lead form: a
+// site with no calculator renders exactly what it rendered before.
 
 /** Upper bound on every money/rate field. Guards against typo'd zeros. */
 const MAX_CALCULATOR_AMOUNT = 100_000
@@ -227,6 +239,7 @@ export const CompleteSiteContentSchema = z.object({
 export type PartialSiteContent = z.infer<typeof PartialSiteContentSchema>
 export type CompleteSiteContent = z.infer<typeof CompleteSiteContentSchema>
 export type GalleryLayout = z.infer<typeof GalleryLayoutSchema>
+export type GalleryPlacement = z.infer<typeof GalleryPlacementSchema>
 export type SiteContentSectionHeading = z.infer<typeof SectionHeadingSchema>
 export type SiteContentPresentation = z.infer<typeof PresentationSchema>
 export type SiteContentCalculator = z.infer<typeof CalculatorSchema>
