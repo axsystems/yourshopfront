@@ -178,7 +178,7 @@ export const verticals: Vertical[] = [
       "A/C down in extreme heat is a same-day decision. Your site needs to close it in one screen.",
     metaTitle: "Website Design for HVAC Companies",
     metaDescription:
-      `An HVAC website built for same-day A/C emergencies and install comparison shopping — flat-rate diagnostic copy, warranty terms, tap-to-call, an estimate form. ${PROMO_SETUP} to start.`,
+      `An HVAC website built for same-day A/C emergencies and system-install shopping — flat-rate diagnostics, warranty terms, tap-to-call, and an estimate form. ${PROMO_SETUP} to start.`,
     needs: [
       "HVAC websites live and die on seasonality and speed. When a system fails in extreme heat or cold, the visitor is comparing a few tabs at once and calling whichever one answers the actual question first: same-day availability. Every design decision should optimize for that — your same-day line written where the visitor lands and your number one tap away from any point on the page, because that customer will explain the rest to a real person on the phone. The one shopping a system replacement is the opposite: they'll type it out, which is what the estimate form further down the page is for.",
       "The other half of HVAC revenue — new system installs, maintenance plans, tune-ups — is a considered purchase where price transparency matters more. A visitor comparing a multi-thousand-dollar system replacement wants to know upfront whether you do flat-rate diagnostics or charge a trip fee, and whether a warranty covers labor as well as parts. Burying that in a phone-only quote process loses comparison shoppers who won't call three companies just to find out.",
@@ -334,7 +334,7 @@ export const verticals: Vertical[] = [
     heroSub: "The portfolio is the pitch. Everything else on the site should get out of its way.",
     metaTitle: "Website Design for Photographers",
     metaDescription:
-      `An editorial photography website built around a large, uncropped gallery, plain usage-rights language, and an inquiry form for commission briefs. ${PROMO_SETUP} to start, live in 24 hours.`,
+      `An editorial photography website built around a large, uncropped gallery, plain usage-rights language, and a brief-first inquiry form. ${PROMO_SETUP} to start, live in 24 hours.`,
     needs: [
       "For a photographer, the website's entire job is to get out of the way of the work. A gallery that loads slowly, crops images to fit someone else's grid, or surrounds photos with unrelated chrome is actively working against the one thing that sells the service: the images themselves, shown large and deliberately, in an order that tells a story rather than a random grid. The best photographer sites read closer to a magazine spread than a typical small-business homepage — generous negative space, images given the full width of the page, minimal text competing for attention.",
       "Past the gallery, the second job is making the business side frictionless without cheapening the aesthetic — a written inquiry that lets a client describe the commission in their own words rather than a buried footer link, plain language about usage rights and licensing (a real point of confusion for clients hiring for the first time), and enough information about process that a client knows what a shoot day actually looks like before they commit. None of that has to look like a bolted-on contact widget; the form carries the same type and palette as the rest of the site.",
@@ -521,7 +521,7 @@ export const verticals: Vertical[] = [
     faq: [
       {
         q: "We mostly do standalone repairs and re-roofs, not storm and insurance claims — does this design still fit?",
-        a: "Yes — we'd relabel the main button from a free inspection to a straightforward quote request and move the insurance-claim copy lower, since it matters less to that buyer. The underlying layout and pricing stay identical.",
+        a: "Yes — we'd relabel the main button from a free inspection to a straightforward quote request, point it at the request form on the page instead of the phone, and move the insurance-claim copy lower, since it matters less to that buyer. The underlying layout and pricing stay identical.",
       },
       {
         q: "Do we need professional drone or aerial photography?",
@@ -635,7 +635,7 @@ export const verticals: Vertical[] = [
       },
       {
         q: "Do we need to publish pricing, or is a quote request enough?",
-        a: "A quote request is enough. Most landscaping buyers expect to describe their property and get a number back — a published price list rarely holds up once lot size, terrain, and access start changing the actual cost job to job.",
+        a: "A quote request is enough, and it's built in: the estimate tool gives a ballpark off lot size, and the form beside it takes the details that move it. Most landscaping buyers expect to describe their property and get a number back — a published price list rarely holds up once lot size, terrain, and access start changing the actual cost job to job.",
       },
     ],
   },
@@ -653,7 +653,7 @@ export const verticals: Vertical[] = [
       `A moving-company website built around an instant flat-rate estimate tool, licensed-and-insured language, and a lead form that lands in your inbox. ${PROMO_SETUP} to start.`,
     needs: [
       "Moving is a high-anxiety, one-time purchase, and most moving-company sites make it worse by forcing a phone call just to learn a rough price. The sites that convert best put an estimate tool on the page — bedrooms in, an itemized flat-rate ballpark out — so a visitor comparing three or four movers gets a real number from yours before they've had to explain their situation out loud to anyone. Losing that visitor to a call-only competitor happens in the first ten seconds, not after a conversation.",
-      "Past the price, the specifics that separate a real moving company from a guy with a truck and a rented dolly are exactly what buyers can't tell from a stock photo: is the crew insured, does the price include furniture wrapping and disassembly, and will they actually place items in the new space or just drop boxes in the garage. Stating those details plainly, next to the price, is what turns an instant quote into a booked date instead of one more open tab.",
+      "Past the price, the specifics that separate a real moving company from a guy with a truck and a rented dolly are exactly what buyers can't tell from a stock photo: is the crew insured, does the price include furniture wrapping and disassembly, and will they actually place items in the new space or just drop boxes in the garage. Stating those details plainly, next to the price, is what turns an instant quote into a signed job instead of one more open tab.",
     ],
     included: [
       {
@@ -706,7 +706,7 @@ export const verticals: Vertical[] = [
       `A wine bar website built around a gallery that carries the room, a reserve button wired to your booking platform, and a stated seating policy. ${PROMO_SETUP} to start.`,
     needs: [
       "A wine bar sells an evening, not a product, and a site that leads with a drinks-menu PDF is selling the wrong thing. The visitor deciding between your bar and three others tonight is really asking one question: what does this room feel like — quiet or loud, romantic or casual, the kind of place worth dressing up for. A gallery-led homepage answers that in three photos faster than any paragraph of copy can, which is why the strongest wine-bar sites treat the interior itself as the hero image, not an afterthought below a reservation button.",
-      "Once the atmosphere lands, the practical questions matter fast: can I actually get a table tonight, is this a reservation-required place or a walk-in one, and how long am I expected to stay. A stated seating policy — table turns or none, walk-ins welcome or reservations recommended — removes the single biggest source of hesitation for someone who doesn't want to show up and get turned away. Wine-list philosophy and a path to buy a bottle to take home round out the page, but they earn their place after the room and the reservation path, not before.",
+      "Once the atmosphere lands, the practical questions matter fast: can I actually get a table tonight, is this a reservation-required place or a walk-in one, and how long am I expected to stay. A stated seating policy — table turns or none, walk-ins welcome or reservations recommended — removes the single biggest source of hesitation for someone who doesn't want to show up and get turned away. Wine-list philosophy and the bottles you sell to take home round out the page, but they earn their place after the room and the reservation path, not before.",
     ],
     included: [
       {
@@ -737,7 +737,7 @@ export const verticals: Vertical[] = [
       },
       {
         q: "Can we take reservations directly through the site?",
-        a: "The site itself is built for atmosphere, hours, and a reservation call-to-action. For the actual booking system, we link out to whatever platform you already use, like Resy or Tock, rather than rebuilding that infrastructure inside a marketing site.",
+        a: "The site itself is built for atmosphere, hours, and a reservation call-to-action. For the actual booking system, we link out to whatever platform you already use, like Resy or Tock, rather than rebuilding that infrastructure inside a marketing site. Private parties and buyouts are the exception — those come through the message form on the page, where someone can describe the group and the evening instead of forcing it into a reservation slot.",
       },
       {
         q: "Do we need professional interior photography for the gallery to carry the room the way this demo does?",
@@ -785,7 +785,7 @@ export const verticals: Vertical[] = [
     faq: [
       {
         q: "We distribute to bars and stores too, not just a taproom — can the site cover both?",
-        a: "Yes — where you're poured and sold gets written into the about block and the service-area line, right alongside the taproom hours and tap list, so a distributor customer and a walk-in both land on what they came for.",
+        a: "Yes — where you're poured and sold gets written into the about block and the service-area line, right alongside the taproom hours and tap list, so a distributor customer and a walk-in both land on what they came for. A bar owner who wants to carry you writes in through the form at the bottom rather than hunting for an email address.",
       },
       {
         q: "How often can we update what's currently on tap?",
@@ -820,7 +820,7 @@ export const verticals: Vertical[] = [
       },
       {
         title: "What's on, updated by email",
-        body: "Readings, launches, and book clubs sit in that same list with their dates written on them. Email us a change and it's live the same day — no CMS, no login, no stale flyer.",
+        body: "Readings, launches, and book clubs sit in that same list, each with its own line about when it runs — written as words, not held in a calendar you'd have to maintain. Email us a change and it's live the same day.",
       },
       {
         title: "Small-press titles, shown not searched",
@@ -846,7 +846,7 @@ export const verticals: Vertical[] = [
       },
       {
         q: "Do we need a real-time inventory search so people can check if a title's in stock?",
-        a: "The site isn't built as a full inventory system; a simple 'call or email to check stock' path covers that need without the cost and maintenance of a real-time search feature.",
+        a: "The site isn't built as a full inventory system. What it does have is a message form — 'do you have this, can you order it, will you hold it' arrives in your inbox with a name and a way to reply, which covers the actual need without the cost and maintenance of a real-time search feature.",
       },
     ],
   },
@@ -861,10 +861,10 @@ export const verticals: Vertical[] = [
       "A client vetting studios is really vetting judgment. Show a handful of projects fully, not a wall of thumbnails.",
     metaTitle: "Website Design for Design Studios",
     metaDescription:
-      `A design-studio website built around a curated project index, a stated process with defined revision rounds, and the work shown large. ${PROMO_SETUP} to start, live in 24 hours.`,
+      `A design-studio website built around a curated project index, a stated process with revision rounds, and a brief-first inquiry form. ${PROMO_SETUP} to start, live in 24 hours.`,
     needs: [
       "A design studio's website is itself a portfolio piece, which means the usual small-business instinct — show everything, cover every service — actively works against it. The studios that read as serious present a small, curated set of projects, each given real space to explain the problem and the reasoning behind the solution, rather than a crowded grid of thumbnails that makes every project look interchangeable. Restraint in the layout itself is part of the pitch: if the site is disciplined, the client assumes the work will be too.",
-      "Past the portfolio, the buyers who convert best want the actual process stated plainly before they'll reach out — how many concept directions, how many rounds of revision are included, and what handoff looks like. A studio site that only says 'let's talk' without any of that reads as unstructured, and structure is exactly what a client hiring for a real engagement is trying to screen for. State the process on the page and the first email arrives already scoped.",
+      "Past the portfolio, the buyers who convert best want the actual process stated plainly before they'll reach out — how many concept directions, how many rounds of revision are included, and what handoff looks like. A studio site that only says 'let's talk' without any of that reads as unstructured, and structure is exactly what a client hiring for a real engagement is trying to screen for. State the process on the page and the inquiry that follows arrives already scoped — the form asks what the project needs, in the studio's own type, not in a stock widget bolted onto the footer.",
     ],
     included: [
       {
