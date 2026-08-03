@@ -1,20 +1,32 @@
 import * as React from "react"
 
-import type { SiteContentService } from "@/lib/site-content/types"
+import type {
+  SiteContentSectionHeading,
+  SiteContentService,
+} from "@/lib/site-content/types"
+import { SERVICES_HEADING_DEFAULTS } from "@/lib/site-content/types"
 import { Container, Display, Eyebrow, Section } from "@/components/home/primitives"
 
 interface CustomerServicesProps {
   services: SiteContentService[]
+  /**
+   * Optional rename. A brewery calls this "On tap", a bookstore "Events".
+   * Unset (or half-set) falls back to SERVICES_HEADING_DEFAULTS, which are
+   * the strings this section has always rendered.
+   */
+  heading?: SiteContentSectionHeading
 }
 
-export function CustomerServices({ services }: CustomerServicesProps) {
+export function CustomerServices({ services, heading }: CustomerServicesProps) {
+  const eyebrow = heading?.eyebrow?.trim() || SERVICES_HEADING_DEFAULTS.eyebrow
+  const title = heading?.title?.trim() || SERVICES_HEADING_DEFAULTS.title
   return (
     <Section id="services" surface>
       <Container>
         <div className="max-w-3xl">
-          <Eyebrow>Services</Eyebrow>
+          <Eyebrow>{eyebrow}</Eyebrow>
           <Display as="h2" className="mt-5 text-4xl sm:text-5xl">
-            What we do.
+            {title}
           </Display>
         </div>
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
