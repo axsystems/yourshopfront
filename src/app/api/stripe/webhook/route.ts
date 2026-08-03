@@ -114,7 +114,10 @@ export async function POST(req: Request) {
         [
           `🚨 *Webhook handler failed — ${severity}*`,
           `Event: \`${event.type}\` (\`${event.id}\`)`,
-          sessionId ? `Session: \`${sessionId.slice(-12)}\`` : `Session: unresolved`,
+          // Full session id, not truncated: this alarm's entire purpose is
+          // manual recovery, the session id is the primary lookup key, and
+          // it isn't PII.
+          sessionId ? `Session: \`${sessionId}\`` : `Session: unresolved`,
           `Error: ${escapeSlackText(rawErrorMessage)}`,
         ].join("\n")
       ),
@@ -122,7 +125,7 @@ export async function POST(req: Request) {
         [
           `🚨 WEBHOOK FAILED — Your Shopfront`,
           `${event.type} (${event.id}) — ${severity}`,
-          sessionId ? `session ...${sessionId.slice(-12)}` : "session unresolved",
+          sessionId ? `session ${sessionId}` : "session unresolved",
           rawErrorMessage,
         ].join("\n")
       ),
@@ -153,11 +156,23 @@ function resolveEventSessionId(event: Stripe.Event): string | null {
 // to "[object Object]". `details` is deliberately EXCLUDED below: Postgres
 // puts row values there (e.g. "Key (email)=(a@b.com) already exists."),
 // which would leak customer PII into Slack/SMS. Real Error instances (e.g.
-// a thrown network/fetch error) fall back to `.message`; anything else falls
-// back to a guarded JSON.stringify.
+// a thrown network/fetch error) fall back to `.message`.
+//
+// MUST ALWAYS return a non-empty string — this feeds straight into
+// escapeSlackText(), and an undefined/empty return would throw INSIDE this
+// alarm's own catch block, silently killing the one thing that's supposed
+// to fire when everything else has already failed. So: no bare
+// `JSON.stringify(err)` fallback (returns the literal `undefined` for
+// `undefined`/a function/a symbol, and would also re-open the `details`
+// leak for an object with no populated message/code/hint but a populated
+// details, e.g. a unique-violation with all other fields null) — every
+// branch below is allowlisted to a fixed set of safe keys or a literal.
 function serializeAlarmError(err: unknown): string {
-  if (err instanceof Error) return err.message
-  if (err && typeof err === "object") {
+  if (err instanceof Error) {
+    return err.message || "unserializable error (Error with empty message)"
+  }
+  if (err === null) return "unserializable error (null)"
+  if (typeof err === "object") {
     const parts: string[] = []
     if ("message" in err && typeof err.message === "string" && err.message) {
       parts.push(err.message)
@@ -169,12 +184,13 @@ function serializeAlarmError(err: unknown): string {
       parts.push(`hint: ${err.hint}`)
     }
     if (parts.length > 0) return parts.join(" — ")
+    // No message/code/hint to report. Report the shape (key NAMES only,
+    // never values) so this can never surface `details` or any other
+    // unknown field's content.
+    const keys = Object.keys(err)
+    return `unserializable error (object, keys: ${keys.length > 0 ? keys.join(", ") : "none"})`
   }
-  try {
-    return JSON.stringify(err)
-  } catch {
-    return "unserializable error (likely circular reference)"
-  }
+  return `unserializable error (typeof: ${typeof err})`
 }
 
 async function handleSessionCompleted(session: Stripe.Checkout.Session) {
