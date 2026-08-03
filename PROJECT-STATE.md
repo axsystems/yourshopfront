@@ -27,7 +27,8 @@ Sister docs — do not duplicate these, update them:
 | Sales chat bubble   | **CONFIGURED** | `/api/chat` returns 400 on empty body (not 503) → `ANTHROPIC_API_KEY` set                                                             |
 | SEO                 | **LIVE**       | `robots.txt` 200; `sitemap.xml` **48** `<loc>` entries — 39 after PR #100 added `/start`, +9 for the `/for` family in PR #101        |
 | Vertical landing    | **LIVE**       | `/for` hub + 8 `/for/<vertical>` pages all HTTP 200, 1 `<h1>` each, canonicals self-match (PR #101, verified live 2026-08-02)        |
-| CI                  | **GREEN**      | `lint-and-typecheck` ~35s, `build-and-smoke` ~1m35s                                                                                   |
+| CI                  | **GREEN**      | `lint-and-typecheck` ~39s, `build-and-smoke` ~1m41s (PR #104, 2026-08-03)                                                              |
+| Webhook alarms      | **LIVE**       | PR #104 — a post-payment handler throw now pages Slack + operator SMS. Was silent (no Sentry in repo). All 4 channel env vars set in prod |
 | OG preview image    | **FIXED**      | `og-v3.png` 200; every share previewed "Apex Sites / $499 setup" until 2026-07-30                                                     |
 | Google Analytics    | **WORKING**    | collecting only since PR #84 (`f91ea8b`). #82 unblocked the CSP but the inline script still failed to parse — see below               |
 | Vercel Analytics    | **WORKING**    | loads from an obfuscated same-origin path; `'self'` covers it. Was never broken                                                       |
@@ -220,6 +221,21 @@ doc; superseded by `docs/history/`).
    $99 checkout through `?ref=payton&src=tiktok`, confirm email + worksheet fire, confirm the row
    has `referral_code='payton'`, then refund.** One test covers promo, email, onboarding, and
    attribution together. **This gates outreach.**
+
+   **De-risked 2026-08-03 (PR #104), still OPEN.** A cold audit traced the whole path and found it
+   genuinely wired — signature verify, `customers`/`sites` inserts, `ref`/`src` round-trip from
+   cookie → session metadata → `sites` row, and a real Resend call in `sendWelcomeEmail`'s body.
+   No stubs. What was missing was observability: a throw after payment produced one Vercel log line
+   and nothing else. That now pages Slack + operator SMS. **Run the test with `vercel logs`
+   tailing anyway** — the alarm is new and unexercised in prod.
+
+   Two things not to misread during the test:
+   - **Provisioning does not fire on payment.** A fresh sale is `pending_content`; the every-minute
+     cron only selects `ready_to_build`/`provisioning`. Nothing provisions until the worksheet is
+     complete. Absence of a subdomain is expected, not a failure.
+   - **The live Stripe account fans `checkout.session.completed` out to two other apps** —
+     `useapexstudio.com` and `theresearcher.ai` both have enabled live webhook endpoints on the
+     same account. Their side effects are not evidence about this funnel.
 2. **Legal pages publish AI-drafted copy as binding terms.** `REDESIGN-REPORT.md` §5.4 gated
    these behind `<LegalPage draft>`; no page passes `draft` any more (verified 2026-07-29 —
    `terms`, `privacy`, `refund-policy` all omit it), so the banner is gone. The `draft` prop
@@ -227,7 +243,7 @@ doc; superseded by `docs/history/`).
    banner is a one-word change per page.
 
    **Partially resolved 2026-07-29:** the governing-law gap is closed. Owner named the state —
-   `src/app/terms/page.tsx:65` now reads "governed by the laws of the State of Arizona, where
+   `src/app/terms/page.tsx:74` now reads "governed by the laws of the State of Arizona, where
    Axon Labs LLC is registered. Disputes are resolved in the state or federal courts located in
    Maricopa County, Arizona." (Maricopa County confirmed by the owner 2026-07-29.) `lastUpdated` bumped
    `2026-05-04` → `2026-07-29` in the same commit, since the binding text changed.
@@ -485,6 +501,12 @@ day when PR #100 merged, adding items 4 and 11.
    promo-link traffic to **100% of subscription sales**, and the code cannot detect it. See the
    ⚠️ under "Four PRs MERGED" — a `stripe.coupons.retrieve` guard asserting
    `applies_to.products` is non-empty would close it. Deliberately not added; owner's call.
+
+   **2026-08-03 — the case for this got stronger, and the implementation has a trap.** An audit
+   read the coupon, saw no `applies_to`, and escalated a false $49-vs-$99 production emergency.
+   Stripe omits the field unless expanded. **Any such guard MUST pass `expand: ["applies_to"]`**
+   or it will fail-closed on a correctly configured coupon and 503 every subscription sale. See
+   "What shipped 2026-08-03".
 3. **Watch the funnel on clean data.** Analytics trustworthy since PR #88. Now also worth asking
    whether the real `/start` screenshots move `/start` → `/checkout` off 3/14.
 4. **Create a Google Business Profile and a LinkedIn company page.** Highest-value action
@@ -607,6 +629,54 @@ session exists at that timestamp. `/api/checkout` was re-tested 2026-07-31 and w
 path, and that visitor's whole journey took 17 seconds, so a bot is the likely explanation —
 but it was never positively identified. PostHog error tracking is not enabled, so there are no
 `$exception` events to confirm either way.
+
+## What shipped 2026-08-03
+
+**PR #104 — `fix(webhook): alarm the operator when a post-payment handler throws`**, merged
+`676482c`, production deploy Ready. Three commits: `8532ab0`, `da7a11c`, `378a67d`.
+
+- **Post-payment failures now page the operator.** The webhook's outer catch fires `notifySlack` +
+  `sendOperatorSms` (awaited `Promise.allSettled`, neither can throw) with event type, event id,
+  full session id, and a readable error, then still returns 500 so Stripe retries. Previously a
+  throw in `createSite` meant a charged customer, no site, no email, and one Vercel log line —
+  this repo has no Sentry.
+- **`serializeAlarmError()`** — `@supabase/postgrest-js@2.105.1` throws **plain object literals**,
+  not `Error` instances (`dist/index.cjs:374` sets `error = JSON.parse(body)`; `:387` only
+  constructs `PostgrestError` when `.throwOnError()` was called, and `:128` defaults that to
+  `false` — this repo never calls it). So the usual
+  `err instanceof Error ? err.message : String(err)` idiom rendered **`[object Object]` for
+  essentially every real database failure**. The serializer emits `message`/`code`/`hint` only —
+  **never PostgREST's `details`**, which is where Postgres puts customer values like
+  `Key (email)=(a@b.com) already exists.` When nothing usable is present it reports key *names*,
+  never values. Every path returns a non-empty string, because `JSON.stringify(undefined)` returns
+  `undefined` while TS types it `string` — that would have thrown a `TypeError` inside the catch
+  and killed the alarm in exactly the case it exists for.
+- Alarm copy is scoped by event type; only `checkout.session.completed` claims a charge occurred.
+- Error text passes through the repo's existing `escapeSlackText` before entering Slack.
+
+**Docs corrected in the same PR:**
+
+- `src/lib/stripe.ts` + `CLAUDE.md` claimed the SDK version pin controls webhook payload shape.
+  It does not — the **registered endpoint's** version does (`we_1TZhpEPtsGoTnNPRInbrWG8S` is on
+  `2025-12-15.clover`), and the SDK's generated types are built at a newer version than either.
+- `src/app/api/checkout/route.ts` — verifying the launch coupon's `applies_to` requires
+  `expand[]=applies_to`.
+- Removed a stale note here claiming `referral.ts` omitted the `Secure` cookie flag; it doesn't.
+
+**Coupon false alarm — resolved, no action needed.** An audit read `stripe coupons list --live`,
+saw no `applies_to` on `launch_promo_3mo_monthly`, and correctly reasoned from the code comment
+that an unrestricted coupon would charge **$49 today instead of $99**. Stripe **silently omits
+`applies_to` unless you pass `expand[]=applies_to`**. Expanded, the live coupon is correctly
+restricted to `prod_UYpp8k2bCOJSHX` ("Your Shopfront — Subscription Monthly"). Reproduced both
+configurations in test mode to be certain: unrestricted → invoice `total=4900`; restricted →
+setup fee `discount_amounts=[{amount:0}]`, `total=9900`. A Stripe Test Clock across 5 real billing
+cycles also confirmed the 30-day trial does **not** burn one of the coupon's 3 months — trial $0,
+then $99/$99/$99, then $149, exactly as `/start` advertises.
+
+**Known, deliberately not fixed in #104 (needs its own PR):** the **success-path** Slack message
+(`src/app/api/stripe/webhook/route.ts` ~284-293) sends customer-controlled `business_name` and
+`email` into Slack unescaped on every sale. `escapeSlackText` exists and is applied on the failure
+path but not there.
 
 ## What shipped 2026-08-01
 
