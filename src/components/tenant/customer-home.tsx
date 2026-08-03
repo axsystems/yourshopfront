@@ -40,6 +40,7 @@ export function CustomerHome({ theme, content, businessName }: CustomerHomeProps
         contact={content.contact!}
         media={content.media}
         hasReviews={hasReviews}
+        servicesHeading={content.presentation?.servicesHeading}
       />
       <main id="main" className="flex-1">
         <CustomerHero
@@ -71,6 +72,7 @@ export function CustomerHome({ theme, content, businessName }: CustomerHomeProps
         contact={content.contact!}
         services={content.services!}
         serviceArea={content.serviceArea!}
+        servicesHeading={content.presentation?.servicesHeading}
       />
     </ThemeProvider>
   )
