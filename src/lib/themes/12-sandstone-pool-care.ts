@@ -11,7 +11,7 @@ export const sandstonePoolCare: Theme = {
   mode: "recurring",
   vibe: "warm-premium",
   hero: "calculator",
-  heroEyebrow: "WEEKLY POOL CARE — INSTANT QUOTE",
+  heroEyebrow: "WEEKLY POOL CARE — FREE ESTIMATES",
   colors: {
     bg: "#FAF6EE",
     fg: "#1F2A3A",

@@ -11,7 +11,7 @@ export const mesaHvac: Theme = {
   mode: "emergency",
   vibe: "bold-industrial",
   hero: "booking-card",
-  heroEyebrow: "SAME-DAY A/C REPAIR — BOOK 24/7",
+  heroEyebrow: "SAME-DAY A/C REPAIR — CALL 24/7",
   colors: {
     bg: "#0F1B2D",
     fg: "#F8FAFC",

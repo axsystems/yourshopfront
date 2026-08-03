@@ -11,7 +11,7 @@ export const greenwiseLawn: Theme = {
   mode: "recurring",
   vibe: "naturalist",
   hero: "booking-card",
-  heroEyebrow: "BOOK ONLINE — INSTANT QUOTE",
+  heroEyebrow: "LAWN CARE — FREE ESTIMATES",
   colors: {
     bg: "#F4F0E4",
     fg: "#1A1F18",

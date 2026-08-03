@@ -11,7 +11,7 @@ export const bellhornMovers: Theme = {
   mode: "project",
   vibe: "friendly-modern",
   hero: "calculator",
-  heroEyebrow: "INSTANT MOVE QUOTE",
+  heroEyebrow: "FLAT-RATE MOVES — FREE ESTIMATES",
   colors: {
     bg: "#FFF8F0",
     fg: "#0A1628",

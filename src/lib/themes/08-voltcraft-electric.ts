@@ -11,7 +11,7 @@ export const voltcraftElectric: Theme = {
   mode: "emergency",
   vibe: "bold-industrial",
   hero: "form-card",
-  heroEyebrow: "LICENSED & BONDED — 24/7 ONLINE",
+  heroEyebrow: "LICENSED & BONDED — ON CALL 24/7",
   colors: {
     bg: "#F4F4F5",
     fg: "#0A0A0A",
