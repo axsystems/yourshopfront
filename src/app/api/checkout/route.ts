@@ -47,6 +47,14 @@ function readPriceIds(): PriceIds | null {
 // first invoice is the one-time setup fee — an unrestricted coupon discounts
 // THAT instead, charging $49 today rather than $99 and burning a discounted
 // month. Verified against live Stripe 2026-07-31.
+//
+// Verification trap: `stripe coupons list` / plain `stripe coupons retrieve
+// <id>` silently OMIT `applies_to` even when it IS set — a naive check
+// against that output reports a false "unrestricted coupon" misconfiguration.
+// The only way to actually see it is
+// `stripe coupons retrieve <id> --live -d "expand[]=applies_to"`.
+// Live coupon `launch_promo_3mo_monthly` is correctly restricted to product
+// `prod_UYpp8k2bCOJSHX` (verified 2026-08-03 with the expand flag above).
 function readLaunchPromoCoupon(): string | null {
   const coupon = process.env.STRIPE_COUPON_LAUNCH_PROMO_MONTHLY
   if (!coupon || coupon.includes("xxx")) return null

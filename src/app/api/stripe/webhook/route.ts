@@ -86,8 +86,47 @@ export async function POST(req: Request) {
   } catch (err) {
     // 5xx makes Stripe retry. Log and re-throw via 500.
     console.error("[webhook] handler threw", err)
+
+    // A handler throwing here means a customer already paid (Stripe
+    // delivered the event) but our side effects (site row, welcome email,
+    // provisioning) may not have run. That failure is otherwise invisible —
+    // there is no Sentry in this repo, so a Vercel log line is the only
+    // trace. Alarm the operator directly. Best-effort, same pattern as the
+    // Promise.allSettled side effects above: never let alarm delivery
+    // change this response or throw past this catch.
+    const sessionId = resolveEventSessionId(event)
+    const errorMessage = err instanceof Error ? err.message : String(err)
+    await Promise.allSettled([
+      notifySlack(
+        [
+          `🚨 *Webhook handler failed — customer may be charged with no site*`,
+          `Event: \`${event.type}\` (\`${event.id}\`)`,
+          sessionId ? `Session: \`${sessionId.slice(-12)}\`` : `Session: unresolved`,
+          `Error: ${errorMessage}`,
+        ].join("\n")
+      ),
+      sendOperatorSms(
+        [
+          `🚨 WEBHOOK FAILED — Your Shopfront`,
+          `${event.type} (${event.id})`,
+          sessionId ? `session ...${sessionId.slice(-12)}` : "session unresolved",
+          errorMessage,
+        ].join("\n")
+      ),
+    ])
+
     return NextResponse.json({ error: "Handler error" }, { status: 500 })
   }
+}
+
+// Best-effort session id extraction for the failure alarm above. Not every
+// event type carries one (customer.subscription.deleted and charge.refunded
+// don't), so this can legitimately return null.
+function resolveEventSessionId(event: Stripe.Event): string | null {
+  if (event.type === "checkout.session.completed") {
+    return event.data.object.id
+  }
+  return null
 }
 
 async function handleSessionCompleted(session: Stripe.Checkout.Session) {
