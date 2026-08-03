@@ -236,8 +236,14 @@ export function CustomerLeadForm({
              only pre-hydration, where React cannot intercept the submit. */
           disabled={!hydrated}
           aria-disabled={!canSubmit}
+          /* opacity-80, not the 55 this started at. The button is NOT
+             disabled — pressing it names the missing field — and 55% of a
+             near-black primary composites to flat grey on a light surface,
+             which reads as a dead control. This is now the primary CTA on
+             every tenant site, not just calculator ones, so "looks broken
+             before you type" is no longer a corner case. */
           className={`inline-flex w-full items-center justify-center gap-2 px-7 py-4 text-base font-bold transition sm:w-auto ${
-            canSubmit ? "hover:-translate-y-0.5" : "cursor-not-allowed opacity-55"
+            canSubmit ? "hover:-translate-y-0.5" : "cursor-not-allowed opacity-80"
           }`}
           style={{
             background: "var(--apex-primary)",
