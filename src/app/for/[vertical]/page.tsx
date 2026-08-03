@@ -122,7 +122,7 @@ export default async function VerticalPage({ params }: PageProps) {
         <NeedsSection vertical={v} />
         <IncludedSection vertical={v} />
         <HowItWorksSection vertical={v} />
-        <PricingSection vertical={v} checkoutHref={checkoutHref} />
+        <PricingSection checkoutHref={checkoutHref} />
         <FaqSection vertical={v} />
         <FinalCta vertical={v} checkoutHref={checkoutHref} />
       </main>
@@ -332,7 +332,7 @@ function HowItWorksSection({ vertical }: { vertical: Vertical }) {
   )
 }
 
-function PricingSection({ vertical, checkoutHref }: { vertical: Vertical; checkoutHref: string }) {
+function PricingSection({ checkoutHref }: { checkoutHref: string }) {
   return (
     <Section bg="canvas">
       <Container>
@@ -347,7 +347,7 @@ function PricingSection({ vertical, checkoutHref }: { vertical: Vertical; checko
               time.
             </p>
             <ul className="mx-auto mt-6 flex max-w-sm flex-col gap-2.5 text-left text-[14px] text-apx-ink">
-              <PriceFeature>Pick the {vertical.nameLower} design shown above, or any of our 30</PriceFeature>
+              <PriceFeature>Pick the design shown above, or any of our 30</PriceFeature>
               <PriceFeature>We swap in your content within 24 hours</PriceFeature>
               <PriceFeature>Hosting, SSL, backups, and unlimited edits included</PriceFeature>
               <PriceFeature>30-day money-back guarantee</PriceFeature>
@@ -414,8 +414,8 @@ function FinalCta({ vertical, checkoutHref }: { vertical: Vertical; checkoutHref
           <div className="mx-auto max-w-2xl text-center">
             <Display level="display-xl">Your {vertical.singular} site can be live tomorrow.</Display>
             <Lede className="mx-auto mt-5">
-              {PROMO_SETUP} to start. We build it around the {vertical.nameLower} design shown above — or
-              any of our 30. Live by tomorrow morning.
+              {PROMO_SETUP} to start. We build it around the design shown above — or any of our 30. Live
+              by tomorrow morning.
             </Lede>
             <div className="mt-8 flex flex-col items-center gap-3">
               <Button href={checkoutHref} variant="primary" size="lg">
