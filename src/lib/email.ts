@@ -106,6 +106,83 @@ export async function sendCopyChangeRequestEmail(
   })
 }
 
+export interface LeadNotificationEmailOpts {
+  /**
+   * The business owner's inbox — resolve with getLeadNotificationRecipient()
+   * in ./leads. Null/empty is expected and handled: some sites publish no
+   * email address, and a lead is still a success without the notification.
+   */
+  to: string | null | undefined
+  businessName: string
+  leadName: string
+  leadEmail?: string | null
+  leadPhone?: string | null
+  message?: string | null
+  /** Pathname or named form the lead came from. */
+  sourcePage?: string | null
+  /** Raw calculator answers, rendered as one line per key when non-empty. */
+  calculatorInput?: Record<string, unknown> | null
+  /** Computed quote in dollars. */
+  calculatorEstimate?: number | null
+}
+
+/**
+ * Tells the business owner they got a lead on their site. Best-effort like
+ * every other sender here — never throws, so the visitor's submission is
+ * never blocked by a mail failure.
+ *
+ * replyTo is the visitor's address so the owner can answer by hitting reply.
+ * From stays the Your Shopfront sender: the visitor's domain isn't verified
+ * in Resend, so sending as them would fail DMARC.
+ */
+export async function sendLeadNotificationEmail(
+  opts: LeadNotificationEmailOpts
+): Promise<void> {
+  const to = opts.to?.trim()
+  if (!to) {
+    console.warn(
+      `[email] lead notification skipped — no recipient for ${opts.businessName}`
+    )
+    return
+  }
+  const lines = [
+    `You have a new lead from your website.`,
+    "",
+    `Name:  ${opts.leadName}`,
+    `Email: ${opts.leadEmail || "(not given)"}`,
+    `Phone: ${opts.leadPhone || "(not given)"}`,
+    `From:  ${opts.sourcePage || "(not given)"}`,
+  ]
+  if (typeof opts.calculatorEstimate === "number") {
+    lines.push(`Estimate: $${opts.calculatorEstimate.toFixed(2)}`)
+  }
+  const calc = Object.entries(opts.calculatorInput ?? {})
+  if (calc.length > 0) {
+    lines.push("", "Quote details:")
+    for (const [key, value] of calc) {
+      lines.push(`  ${key}: ${formatCalculatorValue(value)}`)
+    }
+  }
+  if (opts.message?.trim()) {
+    lines.push("", "Message:", opts.message.trim())
+  }
+  lines.push("", "Reply to this email to reach them directly.", "", "Your Shopfront")
+
+  await sendEmail({
+    to,
+    replyTo: opts.leadEmail?.trim() || undefined,
+    subject: `New lead for ${opts.businessName}: ${opts.leadName}`,
+    text: lines.join("\n"),
+  })
+}
+
+/** JSONB values are arbitrary; keep objects/arrays readable in plain text. */
+function formatCalculatorValue(value: unknown): string {
+  if (value === null || value === undefined) return "(none)"
+  if (typeof value === "object") return JSON.stringify(value)
+  return String(value)
+}
+
 interface AccessLinkEmailOpts {
   to: string
   firstName: string
