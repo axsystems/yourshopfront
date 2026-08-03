@@ -128,6 +128,68 @@ export const MediaSchema = z.object({
 })
 
 // -----------------------------------------------------------------------------
+// Presentation — optional per-site rendering controls
+// -----------------------------------------------------------------------------
+// Nothing here is required, and every unset field falls back to the exact
+// markup the tenant page rendered before this group existed. A site whose
+// site_content has no `presentation` key is byte-identical to before.
+//
+// Defaults live in ./types.ts (SERVICES_HEADING_DEFAULTS) because the
+// renderers are client-safe and must not import this module.
+
+/** Renameable section heading. Both halves independently optional. */
+export const SectionHeadingSchema = z.object({
+  eyebrow: z.string().trim().min(2, "Eyebrow is too short").max(40).optional(),
+  title: z.string().trim().min(2, "Title is too short").max(80).optional(),
+})
+
+/**
+ * How the gallery renders. "grid" is the historical (and default) look:
+ * up to 12 aspect-square thumbs. "showcase" trades count for size — a
+ * handful of large, full-width images.
+ */
+export const GalleryLayoutSchema = z.enum(["grid", "showcase"])
+
+export const PresentationSchema = z.object({
+  servicesHeading: SectionHeadingSchema.optional(),
+  galleryLayout: GalleryLayoutSchema.optional(),
+})
+
+// -----------------------------------------------------------------------------
+// Calculator — optional per-site estimate config
+// -----------------------------------------------------------------------------
+// Schema only. Consumed by Workstream B2's estimate tool; no component in
+// this repo reads it yet. The whole group is optional, but the five pricing
+// fields are required *within* it — an estimate that is missing its rate or
+// its unit cannot produce an honest number, so a half-filled group is
+// rejected rather than silently rendered.
+
+/** Upper bound on every money/rate field. Guards against typo'd zeros. */
+const MAX_CALCULATOR_AMOUNT = 100_000
+
+const calculatorAmountSchema = z
+  .number()
+  .min(0, "Amount cannot be negative")
+  .max(MAX_CALCULATOR_AMOUNT, "Amount is unrealistically large")
+
+export const CalculatorSchema = z.object({
+  /** Section heading, e.g. "Estimate your job". */
+  heading: z.string().trim().min(2, "Heading is too short").max(80),
+  /** Flat amount added to every estimate before the per-unit math. */
+  baseAmount: calculatorAmountSchema,
+  /** Amount charged per unit. */
+  perUnitRate: calculatorAmountSchema,
+  /** What one unit is, e.g. "square foot", "window", "hour". */
+  unitLabel: z.string().trim().min(1, "Add a unit label").max(40),
+  /** Floor — no estimate is quoted below this. */
+  minimum: calculatorAmountSchema,
+  /** Optional heading above the lead form the estimate feeds into. */
+  leadFormHeading: z.string().trim().min(2).max(80).optional(),
+  /** Optional supporting line under the lead-form heading. */
+  leadFormBlurb: z.string().trim().min(2).max(280).optional(),
+})
+
+// -----------------------------------------------------------------------------
 // Aggregate shapes
 // -----------------------------------------------------------------------------
 
@@ -140,6 +202,8 @@ export const PartialSiteContentSchema = z.object({
   serviceArea: ServiceAreaSchema.optional(),
   reviews: z.array(ReviewSchema).max(20).optional(),
   media: MediaSchema.optional(),
+  presentation: PresentationSchema.optional(),
+  calculator: CalculatorSchema.optional(),
 })
 
 /**
@@ -154,10 +218,18 @@ export const CompleteSiteContentSchema = z.object({
   serviceArea: ServiceAreaSchema,
   reviews: z.array(ReviewSchema).max(20).optional(),
   media: MediaSchema.optional(),
+  // Presentation + calculator are never part of the launch bar — a site
+  // launches fine without either.
+  presentation: PresentationSchema.optional(),
+  calculator: CalculatorSchema.optional(),
 })
 
 export type PartialSiteContent = z.infer<typeof PartialSiteContentSchema>
 export type CompleteSiteContent = z.infer<typeof CompleteSiteContentSchema>
+export type GalleryLayout = z.infer<typeof GalleryLayoutSchema>
+export type SiteContentSectionHeading = z.infer<typeof SectionHeadingSchema>
+export type SiteContentPresentation = z.infer<typeof PresentationSchema>
+export type SiteContentCalculator = z.infer<typeof CalculatorSchema>
 
 // -----------------------------------------------------------------------------
 // Discovery — 5-fact customer intake that seeds the AI copy draft

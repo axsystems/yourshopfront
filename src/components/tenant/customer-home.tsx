@@ -48,9 +48,15 @@ export function CustomerHome({ theme, content, businessName }: CustomerHomeProps
           media={content.media}
           theme={theme}
         />
-        <CustomerServices services={content.services!} />
+        <CustomerServices
+          services={content.services!}
+          heading={content.presentation?.servicesHeading}
+        />
         {hasGallery ? (
-          <CustomerGallery gallery={content.media!.gallery!} />
+          <CustomerGallery
+            gallery={content.media!.gallery!}
+            layout={content.presentation?.galleryLayout}
+          />
         ) : null}
         <CustomerAbout about={content.about!} />
         <CustomerServiceArea

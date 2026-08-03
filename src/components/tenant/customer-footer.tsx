@@ -2,9 +2,11 @@ import * as React from "react"
 
 import type {
   SiteContentContact,
+  SiteContentSectionHeading,
   SiteContentService,
   SiteContentServiceArea,
 } from "@/lib/site-content/types"
+import { SERVICES_HEADING_DEFAULTS } from "@/lib/site-content/types"
 import { Container } from "@/components/home/primitives"
 
 interface CustomerFooterProps {
@@ -12,6 +14,12 @@ interface CustomerFooterProps {
   contact: SiteContentContact
   services: SiteContentService[]
   serviceArea: SiteContentServiceArea
+  /**
+   * Same rename that <CustomerServices> honours, so this column heading
+   * matches the section its links point at. Unset falls back to
+   * SERVICES_HEADING_DEFAULTS.
+   */
+  servicesHeading?: SiteContentSectionHeading
 }
 
 /**
@@ -25,8 +33,11 @@ export function CustomerFooter({
   contact,
   services,
   serviceArea,
+  servicesHeading,
 }: CustomerFooterProps) {
   const telHref = `tel:${stripPhoneFormatting(contact.phone)}`
+  const servicesLabel =
+    servicesHeading?.eyebrow?.trim() || SERVICES_HEADING_DEFAULTS.eyebrow
   return (
     <footer
       className="border-t"
@@ -62,7 +73,7 @@ export function CustomerFooter({
                 fontFamily: "var(--apex-font-mono)",
               }}
             >
-              Services
+              {servicesLabel}
             </p>
             <ul className="mt-3 space-y-1.5 text-sm">
               {services.slice(0, 6).map((s, i) => (

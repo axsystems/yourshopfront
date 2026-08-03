@@ -12,9 +12,11 @@ import {
 
 import { AboutSection } from "./sections/about-section"
 import { ContactSection } from "./sections/contact-section"
+import { GalleryLayoutSection } from "./sections/gallery-layout-section"
 import { HeroSection } from "./sections/hero-section"
 import { MediaSection } from "./sections/media-section"
 import { ReviewsSection } from "./sections/reviews-section"
+import { ServicesHeadingSection } from "./sections/services-heading-section"
 import { ServicesSection } from "./sections/services-section"
 import { ServiceAreaSection } from "./sections/service-area-section"
 
@@ -62,33 +64,47 @@ export function WorksheetForm({ site }: WorksheetFormProps) {
         locked={locked}
         onSaved={(services) => setContent((c) => ({ ...c, services }))}
       />
-      <AboutSection
+      <ServicesHeadingSection
         n={4}
+        sessionId={sessionId}
+        initial={content.presentation}
+        locked={locked}
+        onSaved={(presentation) => setContent((c) => ({ ...c, presentation }))}
+      />
+      <AboutSection
+        n={5}
         sessionId={sessionId}
         initial={content.about}
         locked={locked}
         onSaved={(about) => setContent((c) => ({ ...c, about }))}
       />
       <ServiceAreaSection
-        n={5}
+        n={6}
         sessionId={sessionId}
         initial={content.serviceArea}
         locked={locked}
         onSaved={(serviceArea) => setContent((c) => ({ ...c, serviceArea }))}
       />
       <ReviewsSection
-        n={6}
+        n={7}
         sessionId={sessionId}
         initial={content.reviews}
         locked={locked}
         onSaved={(reviews) => setContent((c) => ({ ...c, reviews }))}
       />
       <MediaSection
-        n={7}
+        n={8}
         sessionId={sessionId}
         initial={content.media}
         locked={locked}
         onSaved={(media) => setContent((c) => ({ ...c, media }))}
+      />
+      <GalleryLayoutSection
+        n={9}
+        sessionId={sessionId}
+        initial={content.presentation}
+        locked={locked}
+        onSaved={(presentation) => setContent((c) => ({ ...c, presentation }))}
       />
       <CompletionBanner complete={complete} bottom />
     </div>
