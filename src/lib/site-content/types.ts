@@ -109,8 +109,9 @@ export interface SiteContentPresentation {
  * five pricing fields are required inside it because an estimate missing
  * its rate or its unit cannot produce an honest number.
  *
- * Presence of this group is the opt-in switch for the tenant lead form: a
- * site without it renders exactly what it rendered before this existed.
+ * This group is NOT a switch for the tenant lead form. That form renders on
+ * every delivered site; the calculator is an enhancement rendered beside
+ * it. Without this group the form simply submits no estimate.
  */
 export interface SiteContentCalculator {
   /** Section heading, e.g. "Estimate your job". */
@@ -161,7 +162,9 @@ export const DEFAULT_GALLERY_PLACEMENT: GalleryPlacement = "after-services"
 /** Minimum gallery size for AssetsStep to consider step 3 done. */
 export const MIN_GALLERY_PHOTOS = 3
 
-/** Copy the lead form falls back to when the owner set no override. */
+/** Copy the lead form falls back to when a calculator is configured and the
+ * owner set no override. The no-calculator section passes its own copy —
+ * "in writing" only makes sense next to a number. */
 export const LEAD_FORM_DEFAULTS = {
   heading: "Get your estimate in writing",
   blurb:

@@ -173,8 +173,8 @@ export const PresentationSchema = z.object({
 // cannot produce an honest number, so a half-filled group is rejected
 // rather than silently rendered.
 //
-// Presence of this group is also the opt-in switch for the lead form: a
-// site with no calculator renders exactly what it rendered before.
+// This group does NOT gate the lead form. Every delivered site renders that
+// form; a site with no calculator just submits leads with a null estimate.
 
 /** Upper bound on every money/rate field. Guards against typo'd zeros. */
 const MAX_CALCULATOR_AMOUNT = 100_000

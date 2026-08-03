@@ -168,20 +168,11 @@ export async function POST(req: Request): Promise<NextResponse> {
       { status: 503 }
     )
   }
-  // The lead form ships inside <CustomerEstimator>, which customer-home.tsx
-  // renders only when `content.calculator && siteSlug`. Mirroring that
-  // condition here is what keeps the endpoint from accepting submissions for
-  // owners who never turned the feature on — they would otherwise receive
-  // "New lead" mail from a form that is not on their site. Folded into the
-  // same branch as the status check so the body is byte-identical to the
-  // unknown-slug rejection: a distinct response would turn this into an
-  // oracle for which sites have an estimator configured.
-  const calculator = site?.site_content?.calculator
-  if (
-    !site ||
-    !LEAD_ACCEPTING_STATUSES.includes(site.status) ||
-    !calculator
-  ) {
+  // The form is UNIVERSAL — customer-home.tsx renders it on every delivered
+  // site — so the only identity gate here is "does this slug name a site
+  // whose page actually renders". An unknown slug and a not-yet-live site
+  // share one response body so neither becomes an existence oracle.
+  if (!site || !LEAD_ACCEPTING_STATUSES.includes(site.status)) {
     return NextResponse.json(
       { ok: false, error: "This form is not accepting submissions." },
       { status: 404 }
@@ -190,14 +181,29 @@ export async function POST(req: Request): Promise<NextResponse> {
 
   // ---------------------------------------------------------------------
   // Estimate. Recomputed from the site's stored config; the client never
-  // sends a dollar figure, only a unit count.
+  // sends a dollar figure, only a unit count. No config → no estimate, and
+  // specifically null rather than 0: a site that quotes nothing has no
+  // number, and 0 would read to the owner as a free job.
   // ---------------------------------------------------------------------
-  const estimate = data.calculator
-    ? computeCalculatorEstimate(calculator, data.calculator.units)
-    : null
-  const calculatorInput = data.calculator
-    ? { units: data.calculator.units, unitLabel: calculator.unitLabel }
-    : {}
+  const calculator = site.site_content?.calculator
+  // Units for a site with no calculator: the form that sends them does not
+  // exist on that site, so the payload is describing a page shape that isn't
+  // real. Rejected rather than silently dropped — accepting it would let a
+  // caller believe a unit count was recorded when nothing was.
+  if (data.calculator && !calculator) {
+    return NextResponse.json(
+      { ok: false, error: "This site doesn't offer an instant estimate." },
+      { status: 400 }
+    )
+  }
+  const estimate =
+    calculator && data.calculator
+      ? computeCalculatorEstimate(calculator, data.calculator.units)
+      : null
+  const calculatorInput =
+    calculator && data.calculator
+      ? { units: data.calculator.units, unitLabel: calculator.unitLabel }
+      : {}
 
   const result = await createLead({
     site_id: site.id,
