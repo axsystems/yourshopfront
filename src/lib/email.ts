@@ -145,24 +145,32 @@ export async function sendLeadNotificationEmail(
     )
     return
   }
-  const lines = [
-    `You have a new lead from your website.`,
-    "",
-    `Name:  ${opts.leadName}`,
-    `Email: ${opts.leadEmail || "(not given)"}`,
-    `Phone: ${opts.leadPhone || "(not given)"}`,
-    `From:  ${opts.sourcePage || "(not given)"}`,
-  ]
+  // Server-computed facts FIRST. Everything below this block is
+  // visitor-supplied, so ordering it last means a stranger cannot author a
+  // line that the owner reads as one we generated (a forged "Estimate:" or
+  // a second "Email:"). Combined with singleLine() and the newline rejection
+  // in /api/leads' Zod schema, that is three independent layers.
+  const lines = [`You have a new lead from your website.`, ""]
   if (typeof opts.calculatorEstimate === "number") {
     lines.push(`Estimate: $${opts.calculatorEstimate.toFixed(2)}`)
   }
   const calc = Object.entries(opts.calculatorInput ?? {})
   if (calc.length > 0) {
-    lines.push("", "Quote details:")
+    lines.push("Quote details:")
     for (const [key, value] of calc) {
-      lines.push(`  ${key}: ${formatCalculatorValue(value)}`)
+      lines.push(`  ${singleLine(key)}: ${formatCalculatorValue(value)}`)
     }
   }
+  if (lines.length > 2) lines.push("")
+  lines.push(
+    `Email: ${singleLine(opts.leadEmail) || "(not given)"}`,
+    `Phone: ${singleLine(opts.leadPhone) || "(not given)"}`,
+    `Name:  ${singleLine(opts.leadName)}`,
+    `From:  ${singleLine(opts.sourcePage) || "(not given)"}`
+  )
+  // The message keeps its line breaks — it is free text the owner expects to
+  // read as written, and it is the last block, so nothing follows for a
+  // forged line to impersonate.
   if (opts.message?.trim()) {
     lines.push("", "Message:", opts.message.trim())
   }
@@ -171,16 +179,26 @@ export async function sendLeadNotificationEmail(
   await sendEmail({
     to,
     replyTo: opts.leadEmail?.trim() || undefined,
-    subject: `New lead for ${opts.businessName}: ${opts.leadName}`,
+    subject: `New lead for ${singleLine(opts.businessName)}: ${singleLine(opts.leadName)}`,
     text: lines.join("\n"),
   })
+}
+
+/**
+ * Collapses CR/LF out of a value interpolated into a mail header or a
+ * line-delimited body. Defense in depth: /api/leads already rejects
+ * newlines in the fields a visitor controls, but this helper means a future
+ * caller cannot reintroduce header/body injection by forgetting to.
+ */
+function singleLine(value: string | null | undefined): string {
+  return (value ?? "").replace(/[\r\n]+/g, " ").trim()
 }
 
 /** JSONB values are arbitrary; keep objects/arrays readable in plain text. */
 function formatCalculatorValue(value: unknown): string {
   if (value === null || value === undefined) return "(none)"
-  if (typeof value === "object") return JSON.stringify(value)
-  return String(value)
+  if (typeof value === "object") return singleLine(JSON.stringify(value))
+  return singleLine(String(value))
 }
 
 interface AccessLinkEmailOpts {

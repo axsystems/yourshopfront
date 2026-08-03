@@ -173,12 +173,24 @@ export const LEAD_FORM_DEFAULTS = {
 export const MAX_CALCULATOR_UNITS = 100_000
 
 /**
+ * Ceiling on a computed estimate: the largest value leads.calculator_estimate
+ * — numeric(12,2) — can hold. Both `perUnitRate` and `units` are individually
+ * plausible while their product is not (100,000 units x a $100,000 rate is
+ * 1e10), and an over-precision insert fails with Postgres 22003 rather than
+ * anything the visitor could act on. Clamping is the honest failure: the
+ * number is absurd either way, and a stored absurd number beats a 503.
+ */
+export const MAX_CALCULATOR_ESTIMATE = 9_999_999_999.99
+
+/**
  * The estimate formula, defined once and used on BOTH sides.
  *
  * The client renders this live as the visitor types; the API recomputes it
  * from the site's stored config and ignores whatever number the client
  * sent. Both call this function, so the figure the visitor saw and the
- * figure the owner is emailed can never drift apart.
+ * figure the owner is emailed can never drift apart — which is also why the
+ * MAX_CALCULATOR_ESTIMATE clamp lives HERE and not in the route: a clamp
+ * applied on one side only would reintroduce exactly that drift.
  *
  * `minimum` is a floor, not an addend — a business that won't take a job
  * under $250 quotes $250 for a job the per-unit math prices at $180.
@@ -192,8 +204,9 @@ export function computeCalculatorEstimate(
   if (!Number.isFinite(units) || units < 0) return null
   const raw = calculator.baseAmount + calculator.perUnitRate * units
   const withFloor = Math.max(calculator.minimum, raw)
+  const clamped = Math.min(MAX_CALCULATOR_ESTIMATE, withFloor)
   // Two decimals: the DB column is numeric(12,2) and the value is money.
-  return Math.round(withFloor * 100) / 100
+  return Math.round(clamped * 100) / 100
 }
 
 /**
