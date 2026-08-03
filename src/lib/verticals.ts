@@ -72,15 +72,15 @@ export const verticals: Vertical[] = [
       "Emergency calls don't wait for business hours. Your site shouldn't either.",
     metaTitle: "Website Design for Plumbers",
     metaDescription:
-      `A plumbing website built for the emergency call: 24/7 booking above the fold, flat-rate quote messaging, and service-area clarity. ${PROMO_SETUP} to start, live in 24 hours.`,
+      `A plumbing website built for the emergency call: your number pinned to every screen, flat-rate quote messaging, and service-area clarity. ${PROMO_SETUP} to start, live in 24 hours.`,
     needs: [
-      "A plumbing website has one job during a burst pipe at 11pm: get a phone number or a booking form in front of someone who is already panicking, in under three seconds. That means no slideshow hero, no scrolling to find the phone number, no contact form buried on a separate page. The emergency-call action has to be the first thing a visitor sees on a phone screen, because that is where nearly every emergency search happens.",
+      "A plumbing website has one job during a burst pipe at 11pm: get your phone number in front of someone who is already panicking, in under three seconds. That means no slideshow hero, no scrolling to find the number, no contact page standing between a homeowner and a dial tone. Tap-to-call has to be the first thing a visitor sees on a phone screen, because that is where nearly every emergency search happens.",
       "The rest of the site earns trust in the background: license and bonding info, a clear service-area list so people ten miles outside your radius don't waste your dispatcher's time, and a plain description of how pricing works. Flat-rate quoted before the wrench touches anything is the model buyers already expect, and burying it reads as evasive. Photos matter less here than clarity — a clean shot of a repaired fitting says more than a stock photo of a smiling man in a hard hat.",
     ],
     included: [
       {
-        title: "24/7 booking front and center",
-        body: "The primary call-to-action stays visible above the fold on every device — a burst pipe doesn't wait for your visitor to scroll.",
+        title: "Tap-to-call that never scrolls away",
+        body: "Your number sits in the header on every screen and stays pinned there as the page moves — a burst pipe doesn't wait for your visitor to hunt for a contact page.",
       },
       {
         title: "Service-area and licensing, upfront",
@@ -96,13 +96,13 @@ export const verticals: Vertical[] = [
       },
     ],
     howItWorksIntro:
-      "Here's what that looks like built out. Ironside Plumbing — one of our 30 designs — is the demo we point plumbers to first: a bold, hazard-yellow-and-black layout with a booking form built into the hero and zero scrolling required to find it.",
+      "Here's what that looks like built out. Ironside Plumbing — one of our 30 designs — is the demo we point plumbers to first: a bold, hazard-yellow-and-black layout that opens on your number and keeps it pinned in the header the whole way down.",
     demoDescription:
-      "a hazard-yellow hero with an always-visible booking form, built for burst-pipe searches at 2am.",
+      "a hazard-yellow layout that opens on a tap-to-call button, built for burst-pipe searches at 2am.",
     faq: [
       {
         q: "Can the emergency-call design work for non-emergency plumbers too?",
-        a: "Yes — the layout adapts. If you're mostly scheduled work like remodels and fixture installs, we can lead with a booking calendar instead of a 24/7 banner. The urgency-first version is the default because most plumbing searches are emergencies, but it's not the only mode this design supports.",
+        a: "Yes — the layout adapts. If you're mostly scheduled work like remodels and fixture installs, we drop the 24/7 banner and lead with an instant-estimate tool instead: you set a starting price, a per-fixture rate, and a minimum, a visitor moves one number to see a ballpark, and the form under it sends you their details along with the figure they were looking at. The urgency-first version is the default because most plumbing searches are emergencies, but it isn't the only mode this design supports.",
       },
       {
         q: "Do I need professional photos of my work?",
@@ -133,7 +133,7 @@ export const verticals: Vertical[] = [
     included: [
       {
         title: "Emergency and project modes in one layout",
-        body: "The same hero form handles 'my outlet is sparking' and 'quote me an EV charger install' without forcing a visitor to guess which page they need.",
+        body: "One page serves 'my outlet is sparking' and 'quote me an EV charger install' — a tap-to-call header for the first, priced service cards for the second, and nobody forced to guess which page they need.",
       },
       {
         title: "Licensing stated, not implied",
@@ -149,17 +149,17 @@ export const verticals: Vertical[] = [
       },
     ],
     howItWorksIntro:
-      "Voltcraft Electric — one of our 30 designs — is the electrical-trade demo: black and voltage-yellow, a form-card hero built for both the sparking-panel visitor and the EV-charger shopper, with licensing copy stated in the first screen.",
+      "Voltcraft Electric — one of our 30 designs — is the electrical-trade demo: black and voltage-yellow, a hero that opens on your number for the sparking-panel visitor and a priced service grid for the EV-charger shopper, with licensing copy stated in the first screen.",
     demoDescription:
-      "a black-and-voltage-yellow layout with licensing stated up front and a form built for both emergencies and EV charger quotes.",
+      "a black-and-voltage-yellow layout with licensing stated up front and one page built for both emergencies and EV charger quotes.",
     faq: [
       {
         q: "I mostly do commercial work, not residential emergencies — does this design still fit?",
-        a: "It adapts. We'd swap the hero from an emergency-call form to a project-intake form covering scope, timeline, and site details, and lean harder on the licensing and permit copy, which matters even more to commercial clients and property managers.",
+        a: "It adapts. We'd point the hero's main button at an emailed project brief instead of a straight call, spell out on the page what that brief should carry — scope, timeline, site details — and lean harder on the licensing and permit copy, which matters even more to commercial clients and property managers.",
       },
       {
         q: "Can we show EV charger and panel-upgrade pricing separately from emergency call-out rates?",
-        a: "Yes — the how-it-works section is exactly the place for that split: emergency steps on one track, project steps like quote, permit, install, and inspection on another.",
+        a: "Yes — the service cards are where that split lives: emergency call-out rates on their own cards, project work like a panel upgrade or a charger install on others, each carrying its own starting price.",
       },
       {
         q: "Is the yellow-and-black look required, or can I use my own brand colors?",
@@ -178,15 +178,15 @@ export const verticals: Vertical[] = [
       "A/C down in extreme heat is a same-day decision. Your site needs to close it in one screen.",
     metaTitle: "Website Design for HVAC Companies",
     metaDescription:
-      `An HVAC website built for same-day A/C emergencies and system-install comparison shopping — flat-rate diagnostics, warranty copy, booking above the fold. ${PROMO_SETUP} to start.`,
+      `An HVAC website built for same-day A/C emergencies and system-install comparison shopping — flat-rate diagnostics, warranty copy, your number on every screen. ${PROMO_SETUP} to start.`,
     needs: [
-      "HVAC websites live and die on seasonality and speed. When a system fails in extreme heat or cold, the visitor is comparing a few tabs at once and calling whichever one answers the actual question first: same-day availability. Every design decision should optimize for that — a booking form that doesn't ask for anything beyond name, number, and a one-line problem description, because the customer will explain the rest to a real person on the phone or in person, not in a web form.",
+      "HVAC websites live and die on seasonality and speed. When a system fails in extreme heat or cold, the visitor is comparing a few tabs at once and calling whichever one answers the actual question first: same-day availability. Every design decision should optimize for that — a number they can tap without scrolling and a same-day line stated right beside it, because the customer will explain the rest to a real person on the phone or in person, not in a web form.",
       "The other half of HVAC revenue — new system installs, maintenance plans, tune-ups — is a considered purchase where price transparency matters more. A visitor comparing a multi-thousand-dollar system replacement wants to know upfront whether you do flat-rate diagnostics or charge a trip fee, and whether a warranty covers labor as well as parts. Burying that in a phone-only quote process loses comparison shoppers who won't call three companies just to find out.",
     ],
     included: [
       {
-        title: "Same-day dispatch, above the fold",
-        body: "The booking action is visible the instant the page loads — no scrolling past a hero photo to find it.",
+        title: "Same-day dispatch, one tap away",
+        body: "Your number is in the header the instant the page loads and stays there as the page scrolls — nobody has to get past a hero photo to find it.",
       },
       {
         title: "Climate-emergency framing",
@@ -202,17 +202,17 @@ export const verticals: Vertical[] = [
       },
     ],
     howItWorksIntro:
-      "Mesa HVAC — one of our 30 designs — is built for exactly this: a deep-navy, sunset-orange emergency palette with a booking-card hero, designed for hot-market same-day A/C repair.",
+      "Mesa HVAC — one of our 30 designs — is built for exactly this: a deep-navy, sunset-orange emergency palette that opens on the dispatch number, designed for hot-market same-day A/C repair.",
     demoDescription:
-      "a navy-and-orange booking-card hero built for same-day dispatch in extreme-heat markets.",
+      "a navy-and-orange layout that opens on the dispatch number, built for same-day repair in extreme-heat markets.",
     faq: [
       {
         q: "We do more installs than emergency repairs — is the urgency-first layout still right?",
-        a: "We'd shift the hero to lead with a free-estimate request instead of a same-day dispatch form, and move the warranty and financing copy higher. The underlying design and pricing stay identical — it's a content swap, not a rebuild.",
+        a: "We'd point the hero's main button at a free-estimate request instead of the same-day dispatch line, and move the warranty and financing copy higher. The underlying design and pricing stay identical — it's a content swap, not a rebuild.",
       },
       {
         q: "Can we list our service plans and maintenance memberships?",
-        a: "Yes, as a dedicated section. Recurring maintenance plans are a natural addition for HVAC, and we build them into the site content during onboarding once you tell us the tiers.",
+        a: "Yes — each plan gets its own card in the services list with its own starting price, so a visitor can compare tiers without calling first. Tell us the tiers during onboarding and we build them in.",
       },
       {
         q: "Does the price include seasonal promotions, like a spring tune-up special?",
@@ -227,18 +227,18 @@ export const verticals: Vertical[] = [
     plural: "cleaning services",
     nameLower: "cleaning services",
     themeSlug: "brightside-cleaning",
-    heroSub: "Recurring business lives or dies on how easy it is to book the first visit.",
+    heroSub: "Recurring business lives or dies on how much friction sits between a first-time visitor and a price.",
     metaTitle: "Website Design for Cleaning Services",
     metaDescription:
-      `A cleaning-company website built for instant flat-rate booking, same-cleaner consistency, and a stated re-clean guarantee. ${PROMO_SETUP} to start, live in 24 hours.`,
+      `A cleaning-company website built around an instant flat-rate estimate, same-cleaner consistency, and a stated re-clean guarantee. ${PROMO_SETUP} to start, live in 24 hours.`,
     needs: [
-      "Cleaning is a recurring-revenue business wearing a one-time-purchase website problem: most cleaning sites make a first-time visitor call for a quote, wait for a callback, and schedule over the phone — three points of friction before the first booking even happens. The businesses that convert best let a visitor pick a home size, see an instant flat-rate price, and book a date in one sitting, the same way they'd book anything else online.",
-      "Once someone books, the second job of the site is answering the questions that keep a customer from canceling after visit one: will I get the same cleaner every time, are they background-checked and insured, and what happens if something gets missed. Naming these plainly — a consistent cleaner, a stated guarantee, a real re-clean policy — does more for retention than any before-and-after photo, because the anxiety cleaning customers have is about trust and consistency, not whether a floor looks clean in a photo.",
+      "Cleaning is a recurring-revenue business wearing a one-time-purchase website problem: most cleaning sites make a first-time visitor call for a quote, wait for a callback, and schedule over the phone — three points of friction before the first visit even happens. The businesses that convert best let a visitor set their home size, see an instant flat-rate ballpark, and send it over with their details in one sitting, instead of making the price a secret you have to phone for.",
+      "Once someone calls, the second job of the site is answering the questions that keep a customer from canceling after visit one: will I get the same cleaner every time, are they background-checked and insured, and what happens if something gets missed. Naming these plainly — a consistent cleaner, a stated guarantee, a real re-clean policy — does more for retention than any before-and-after photo, because the anxiety cleaning customers have is about trust and consistency, not whether a floor looks clean in a photo.",
     ],
     included: [
       {
-        title: "Instant flat-rate booking",
-        body: "Home size in, price out, date picked — no call-back loop required to get a first booking.",
+        title: "Instant flat-rate estimate",
+        body: "Bedrooms in, price out. You set the starting price, the per-room rate, and your minimum; the form under it sends you the visitor's details and the exact number they were looking at — no call-back loop before anyone knows what a clean costs.",
       },
       {
         title: "Same-cleaner-every-visit messaging",
@@ -254,9 +254,9 @@ export const verticals: Vertical[] = [
       },
     ],
     howItWorksIntro:
-      "Brightside Cleaning — one of our 30 designs — is the recurring-service demo: a sky-and-mint gradient, soft pillowy cards, and a booking-card hero built around a 60-second instant-price flow.",
+      "Brightside Cleaning — one of our 30 designs — is the recurring-service demo: a sky-and-mint gradient, soft pillowy cards, and an instant-price section a visitor can work through in under a minute.",
     demoDescription:
-      "a sky-and-mint booking-card hero built around a 60-second instant-price flow.",
+      "a sky-and-mint layout built around an instant-price estimate a visitor can work in under a minute.",
     faq: [
       {
         q: "We do commercial cleaning, not homes — does this design translate?",
@@ -289,12 +289,12 @@ export const verticals: Vertical[] = [
     ],
     included: [
       {
-        title: "Hours and address, above the fold",
-        body: "The two facts a hungry visitor needs fastest, visible without scrolling or clicking through to a separate page.",
+        title: "Hours and address, never a click away",
+        body: "Your number rides in the header from the first screen, and the full week of hours — day by day, not a vague 'open late' — sits with your address further down the same page. No separate contact page to click through.",
       },
       {
         title: "Real menu, not a PDF",
-        body: "Dishes and prices rendered as actual page content — readable on a phone, indexable by search, not locked in a download.",
+        body: "Up to a dozen dishes and their prices rendered as actual page content — readable on a phone, indexable by search, not locked in a download.",
       },
       {
         title: "Story and history, given room",
@@ -302,13 +302,13 @@ export const verticals: Vertical[] = [
       },
       {
         title: "Photography-led layout",
-        body: "Built to showcase food photography prominently, because a finished-dish photo converts harder here than in almost any other category.",
+        body: "Your food gallery can sit directly under the hero and run full-width and uncropped, because a finished-dish photo converts harder here than in almost any other category.",
       },
     ],
     howItWorksIntro:
-      "Angelo's — one of our 30 designs — is the restaurant demo: a newspaper-Italian-Americana layout with a parchment-and-tomato palette, a gallery hero built for food photography, and a masthead treatment that reads as heritage rather than generic.",
+      "Angelo's — one of our 30 designs — is the restaurant demo: a newspaper-Italian-Americana layout with a parchment-and-tomato palette, food photography given the run of the page, and a masthead treatment that reads as heritage rather than generic.",
     demoDescription:
-      "a parchment-and-tomato newspaper-style layout with a gallery hero built for food photography.",
+      "a parchment-and-tomato newspaper-style layout that gives food photography the run of the page.",
     faq: [
       {
         q: "Can we take online orders or reservations through the site?",
@@ -334,15 +334,15 @@ export const verticals: Vertical[] = [
     heroSub: "The portfolio is the pitch. Everything else on the site should get out of its way.",
     metaTitle: "Website Design for Photographers",
     metaDescription:
-      `An editorial photography website built around a full-bleed gallery, plain usage-rights language, and a brief-first inquiry flow. ${PROMO_SETUP} to start, live in 24 hours.`,
+      `An editorial photography website built around large uncropped images, plain usage-rights language, and one direct line to you. ${PROMO_SETUP} to start, live in 24 hours.`,
     needs: [
       "For a photographer, the website's entire job is to get out of the way of the work. A gallery that loads slowly, crops images to fit someone else's grid, or surrounds photos with unrelated chrome is actively working against the one thing that sells the service: the images themselves, shown large and deliberately, in an order that tells a story rather than a random grid. The best photographer sites read closer to a magazine spread than a typical small-business homepage — generous negative space, full-bleed images, minimal text competing for attention.",
-      "Past the gallery, the second job is making the business side frictionless without cheapening the aesthetic — a clear way to send a brief or inquire about a booking, plain language about usage rights and licensing (a real point of confusion for clients hiring for the first time), and enough information about process that a client knows what a shoot day actually looks like before they commit. None of that needs to look like a typical contact form; it can carry the same editorial restraint as the rest of the site.",
+      "Past the gallery, the second job is making the business side frictionless without cheapening the aesthetic — one obvious way to reach you, plain language about usage rights and licensing (a real point of confusion for clients hiring for the first time), and enough information about process that a client knows what a shoot day actually looks like before they commit. None of that needs to look like a typical contact form; it can carry the same editorial restraint as the rest of the site.",
     ],
     included: [
       {
-        title: "Full-bleed gallery, not a grid",
-        body: "Images shown large and deliberately sequenced, closer to an editorial spread than a stock photo grid.",
+        title: "Six images, big and uncropped",
+        body: "Showcase mode runs your selects one per screen at full width with nothing cropped to fit a grid — a short, deliberately sequenced edit rather than a wall of thumbnails.",
       },
       {
         title: "Editorial type, minimal chrome",
@@ -353,14 +353,14 @@ export const verticals: Vertical[] = [
         body: "A common friction point for first-time clients, addressed upfront instead of left for a contract negotiation.",
       },
       {
-        title: "Brief-first inquiry flow",
-        body: "An inquiry path built around 'tell us who this is for and what it needs to say,' not a generic contact form.",
+        title: "One clear way to reach you",
+        body: "Your number in the header, your email a tap below it, and copy that tells a client what the first message should carry — who it's for, what it needs to say — instead of a form that asks for none of it.",
       },
     ],
     howItWorksIntro:
-      "Mara Lin — one of our 30 designs — is the editorial-photography demo: near-black and warm-white, a gallery hero, and a process built around brief, concept, shoot, and delivery — the same rhythm a real commission follows.",
+      "Mara Lin — one of our 30 designs — is the editorial-photography demo: near-black and warm-white, the work running large directly under the hero, and a process built around brief, concept, shoot, and delivery — the same rhythm a real commission follows.",
     demoDescription:
-      "a near-black editorial gallery hero built to let full-bleed photography do the selling.",
+      "a near-black editorial layout that puts the work directly under the hero and lets it do the selling.",
     faq: [
       {
         q: "Can we swap in our own portfolio images?",
@@ -368,7 +368,7 @@ export const verticals: Vertical[] = [
       },
       {
         q: "Do we need a video reel, not just stills?",
-        a: "The gallery layout supports both — if directing or motion work is part of what you sell, we build that into the same editorial structure rather than bolting on a separate video page.",
+        a: "The site is built for stills — the gallery holds images, not video. If motion is part of what you sell, we link the reel out to Vimeo or YouTube from the page and let the stills carry the site itself, which is the honest version of what this layout does well.",
       },
       {
         q: "Is this too minimal for a photographer who also does events or family portraits, not just editorial work?",
@@ -386,31 +386,31 @@ export const verticals: Vertical[] = [
     heroSub: "What's in season this week is the whole offer. Show it, don't bury it in a catalog.",
     metaTitle: "Website Design for Florists",
     metaDescription:
-      `A florist website built around weekly seasonal availability, local-sourcing copy, and a separate path for weddings and events. ${PROMO_SETUP} to start, live in 24 hours.`,
+      `A florist website built around weekly seasonal availability, local-sourcing copy, and wedding work priced apart from daily bouquets. ${PROMO_SETUP} to start, live in 24 hours.`,
     needs: [
       "Florist websites tend to fail in one of two directions: either a static catalog of arrangements that never changes, so it stops matching what's actually available, or a generic template that could belong to any florist in the country. The strongest florist sites lean into what's actually true about the business — what's in bloom this week, what's grown or sourced locally, and what makes the arrangements distinct from a supermarket bouquet — and treat that as the main content, not an afterthought below a generic hero banner.",
-      "Weddings and events are usually the highest-margin part of a florist's business and deserve their own clear path — a way to request a consultation and understand how far in advance to book, without needing real client photos, which this kind of site correctly never asks for. Day-to-day retail traffic, like a bouquet for pickup or a standing weekly order, needs a much simpler path: what's available now, and how to get it, without wading through wedding-package copy to find it.",
+      "Weddings and events are usually the highest-margin part of a florist's business and deserve their own space on the page — consultation terms and how far ahead to book stated plainly, so the ask is a phone call rather than a guess. Day-to-day retail traffic, like a bouquet for pickup or a standing weekly order, needs a much simpler path: what's available now, and how to get it, without wading through wedding-package copy to find it.",
     ],
     included: [
       {
         title: "Weekly-availability framing",
-        body: "Built around 'what's in season this week' rather than a static catalog that goes stale the moment inventory changes.",
+        body: "The list section on your page is renamed to what's actually in bloom, and we swap the entries whenever the week turns — a static catalog goes stale the moment inventory does.",
       },
       {
         title: "Local-sourcing language, given room",
         body: "A dedicated place to say what's grown or sourced nearby — a real differentiator against wire-service competitors.",
       },
       {
-        title: "Wedding and event path, separated",
-        body: "A distinct inquiry flow for the highest-margin work, separate from day-to-day retail browsing.",
+        title: "Wedding work, priced apart",
+        body: "Event and wedding work gets its own cards with their own starting prices, so the highest-margin ask isn't buried among stem bunches.",
       },
       {
         title: "Quiet, editorial restraint",
-        body: "Hand-drawn dividers and an all-italic nav instead of the loud, crowded layout most florist templates default to.",
+        body: "A Playfair Display serif set large across every heading, cream and sage carried the length of the page, and none of the crowding most florist templates default to.",
       },
     ],
     howItWorksIntro:
-      "Wildflower & Stone — one of our 30 designs — is the florist demo: cream, sage, and dusty rose, Cormorant Garamond type, and a structure built around weekly availability rather than a fixed product catalog.",
+      "Wildflower & Stone — one of our 30 designs — is the florist demo: cream, sage, and dusty rose, a Playfair Display serif, and a structure built around weekly availability rather than a fixed product catalog.",
     demoDescription:
       "a cream-and-sage editorial layout built around weekly seasonal availability rather than a fixed catalog.",
     faq: [
@@ -438,15 +438,15 @@ export const verticals: Vertical[] = [
     heroSub: "The room's atmosphere is the offer. The site should feel like walking in, not like buying a gym membership.",
     metaTitle: "Website Design for Yoga & Wellness Studios",
     metaDescription:
-      `A yoga and wellness studio website built around schedule visibility, genuine beginner-welcome language, and calm, unhurried pacing. ${PROMO_SETUP} to start, live in 24 hours.`,
+      `A yoga and wellness studio website built around a plain class list, genuine beginner-welcome language, and calm, unhurried pacing. ${PROMO_SETUP} to start, live in 24 hours.`,
     needs: [
       "Yoga and wellness studios sell an atmosphere as much as a service, and most studio websites undercut that by defaulting to a generic fitness-membership template — countdown timers, aggressive sale banners, stock photos of people mid-jump. The sites that actually convert quiet visitors into first-time students do the opposite: slow pacing, real language about who the classes are for ('all levels, genuinely' means something specific — no performance, no comparison), and enough calm in the design itself that it previews what the room will feel like before anyone walks in.",
       "Practically, the two things a new student needs fastest are a schedule — morning or evening, drop-in or booked ahead — and a plain answer to whether they'll feel out of place as a beginner. Membership pricing matters, but it earns its place after those two questions are answered, not before. A studio that leads with pricing before atmosphere reads as transactional in a category where the whole pitch is the opposite.",
     ],
     included: [
       {
-        title: "Schedule, front and center",
-        body: "Morning and evening class times visible immediately — the first practical question any new student actually has.",
+        title: "Your classes, listed plainly",
+        body: "The list section is renamed to Classes and carries up to a dozen cards, each with the level, the length, and the times you give us — the first practical question any new student actually has, answered on the page.",
       },
       {
         title: "Genuine beginner-welcome language",
@@ -458,25 +458,25 @@ export const verticals: Vertical[] = [
       },
       {
         title: "Membership pricing, placed second",
-        body: "Pricing and unlimited-access plans shown after the schedule and welcome copy, not leading with a sales pitch.",
+        body: "Drop-in and unlimited rates ride on the class cards themselves, after the welcome copy rather than ahead of it — no sales pitch before anyone knows what the room is like.",
       },
     ],
     howItWorksIntro:
-      "Still Point — one of our 30 designs — is the yoga and wellness demo: bone, terracotta, and sage, an italic display face, and a deliberately slow-paced layout built to preview the room's atmosphere rather than sell a gym membership.",
+      "Still Point — one of our 30 designs — is the yoga and wellness demo: bone, terracotta, and sage, a Playfair Display serif set quiet and large, and a deliberately slow-paced layout built to preview the room's atmosphere rather than sell a gym membership.",
     demoDescription:
       "a bone-and-terracotta layout with deliberately slow, calm pacing built to preview a room's atmosphere.",
     faq: [
       {
         q: "We teach more than yoga — meditation, breathwork, sound baths — does this design cover that?",
-        a: "Yes — the schedule and class-type structure isn't yoga-specific; it's built to list any mix of session types with their own times and descriptions.",
+        a: "Yes — the class list isn't yoga-specific. It's a set of cards, so any mix of session types sits there with its own times, description, and rate, whatever you call them.",
       },
       {
         q: "Can students book a class or just see the schedule?",
-        a: "The site itself is built for schedule visibility and first-visit conversion, not a full booking-system replacement. For actual reservations, we link out to whatever booking platform you already run.",
+        a: "Just see it. The site lists what you run and the times you run it, and it's built to convert a first visit — it isn't a booking backend. For actual reservations we link out to whatever platform you already use.",
       },
       {
         q: "Is this too quiet for a studio that also wants to promote workshops and events?",
-        a: "Workshops and one-off events get their own section, styled with the same restraint as the rest of the page — the goal is highlighting them without breaking the calm tone that's the whole point of this design.",
+        a: "Workshops sit in the same list as the regular classes, marked as one-off on their own card rather than shouted from a banner — and since edits are unlimited, the page can carry a workshop for the three weeks it matters and drop it afterward, without breaking the calm tone that's the whole point of this design.",
       },
     ],
   },
@@ -493,13 +493,13 @@ export const verticals: Vertical[] = [
     metaDescription:
       `A roofing website built for the storm-damage search: a free-inspection CTA up top, insurance-claim messaging, and certification stated upfront. ${PROMO_SETUP} to start.`,
     needs: [
-      "Most roofing searches start after something has already gone wrong — a storm rolled through, shingles are missing, and a wet ceiling stain is spreading. That visitor isn't browsing; they want a free inspection scheduled in the next two minutes, and a form buried past a scrolling hero photo loses them to whichever competitor's site puts a name-and-phone field first. The page's entire job in that moment is speed: capture contact details, confirm someone will get on the roof soon, and get out of the way.",
+      "Most roofing searches start after something has already gone wrong — a storm rolled through, shingles are missing, and a wet ceiling stain is spreading. That visitor isn't browsing; they want a free inspection scheduled in the next two minutes, and a number buried past a scrolling hero photo loses them to whichever competitor's site puts one on the first screen. The page's entire job in that moment is speed: put them through to a human, confirm someone will get on the roof soon, and get out of the way.",
       "The other half of roofing work — full replacements, re-roofs planned around a home sale, routine maintenance — moves at buyer-comparison speed instead. That visitor wants to see manufacturer certification, licensing, and a plain statement of how insurance claims get handled before they'll commit to a call, because a roof is one of the most expensive single repairs a homeowner ever makes and unlicensed work is a real, documented risk. Stating certification and warranty terms plainly, high on the page, does more to convert that visitor than any drone photo of a finished roof.",
     ],
     included: [
       {
         title: "Free-inspection CTA, above the fold",
-        body: "The call-to-action for a free inspection stays visible the instant the page loads — a storm-damage search doesn't wait for a visitor to scroll past a hero image.",
+        body: "The hero's main button says exactly what you want it to say — 'Free inspection' — and your number stays pinned in the header beneath it as the page scrolls. A storm-damage search doesn't wait.",
       },
       {
         title: "Insurance-claim language stated",
@@ -515,13 +515,13 @@ export const verticals: Vertical[] = [
       },
     ],
     howItWorksIntro:
-      "Summit Roofing — one of our 30 designs — is the demo we point roofers to first: an industrial dark layout with an orange-glow accent and a form-card hero built to capture a storm-damage lead in seconds.",
+      "Summit Roofing — one of our 30 designs — is the demo we point roofers to first: an industrial dark layout with an orange-glow accent, built so a storm-damage visitor reaches the free-inspection button in seconds.",
     demoDescription:
-      "an industrial dark layout with an orange-glow accent and a form-card hero built for storm-damage urgency.",
+      "an industrial dark layout with an orange-glow accent and a free-inspection button built for storm-damage urgency.",
     faq: [
       {
         q: "We mostly do standalone repairs and re-roofs, not storm and insurance claims — does this design still fit?",
-        a: "Yes — we'd swap the hero from a free-inspection form to a straightforward quote-request form and move the insurance-claim copy lower, since it matters less to that buyer. The underlying layout and pricing stay identical.",
+        a: "Yes — we'd relabel the hero button from 'Free inspection' to a straightforward quote request and move the insurance-claim copy lower, since it matters less to that buyer. The underlying layout and pricing stay identical.",
       },
       {
         q: "Do we need professional drone or aerial photography?",
@@ -552,7 +552,7 @@ export const verticals: Vertical[] = [
     included: [
       {
         title: "Gallery-led homepage",
-        body: "Finished work shown large, up front — the actual differentiator in a visible-quality trade, not a paragraph of adjectives.",
+        body: "Your finished work sits directly under the hero, ahead of the services list, running full-width and uncropped — the actual differentiator in a visible-quality trade, not a paragraph of adjectives.",
       },
       {
         title: "Itemized written quotes stated",
@@ -568,7 +568,7 @@ export const verticals: Vertical[] = [
       },
     ],
     howItWorksIntro:
-      "Heritage Painters — one of our 30 designs — is the demo we point painters to first: a warm ivory-and-terracotta layout with an editorial Fraunces serif and a gallery hero built to let finished work do the selling.",
+      "Heritage Painters — one of our 30 designs — is the demo we point painters to first: a warm ivory-and-terracotta layout with an editorial Fraunces serif and the gallery pulled up directly under the hero to let finished work do the selling.",
     demoDescription:
       "a warm ivory-and-terracotta gallery layout built to let finished paint work do the selling.",
     faq: [
@@ -597,19 +597,19 @@ export const verticals: Vertical[] = [
       "Spring is a scramble and August goes quiet — the site has to sell through both, not just the rush.",
     metaTitle: "Website Design for Landscapers",
     metaDescription:
-      `A landscaping website built around property-specific quote requests, a clear split between maintenance and installs, and slow-season lead flow. ${PROMO_SETUP} to start.`,
+      `A landscaping website built around a per-square-foot estimate tool, a clear split between maintenance and installs, and slow-season lead flow. ${PROMO_SETUP} to start.`,
     needs: [
       "Landscaping demand is lumpy in a way a lot of local-service sites never plan for: spring brings a rush of aeration, mulch, and cleanup requests all at once, while a dry August or a frozen January can leave the phone quiet for weeks. A site tuned only for the spring rush wastes its off-season job, which is showing a property owner exactly what a standing maintenance contract covers so signing on doesn't have to wait for next spring.",
       "A hardscape patio or a full yard redesign is also a different sale than a weekly mow, and the site should make that split obvious instead of routing a five-figure paver project through the same one-line box as a routine trim. Finished-install photos earn the big-ticket redesign; a fast, property-specific quote ask earns the standing maintenance contract. A crew's truck sitting in a driveway all afternoon with the company name on the door is doing real advertising too — the site just has to be ready to catch whoever looks it up that evening.",
     ],
     included: [
       {
-        title: "Property-specific quote messaging",
-        body: "Copy built around 'tell us about your property, get a real number' — the pricing conversation this buyer already expects, resolved with a call instead of a guess.",
+        title: "A real number before the call",
+        body: "An estimate tool set to your own per-square-foot rate and minimum — a visitor sizes their yard, sees the math broken out, and sends it to you with their details attached.",
       },
       {
         title: "Installs shown apart from maintenance",
-        body: "Hardscape and redesign work given its own space with finished photos — a different sale from a weekly mow, priced and pitched differently.",
+        body: "Hardscape and redesign get their own cards with their own starting prices, and the finished-install photos run in the gallery above them — a different sale from a weekly mow, priced and pitched differently.",
       },
       {
         title: "Off-season service messaging",
@@ -621,13 +621,13 @@ export const verticals: Vertical[] = [
       },
     ],
     howItWorksIntro:
-      "Greenwise Lawn — one of our 30 designs — is the demo we point landscapers to first: a naturalist moss-and-cream layout with a booking-card hero, built around a property-specific quote ask rather than a generic contact page.",
+      "Greenwise Lawn — one of our 30 designs — is the demo we point landscapers to first: a naturalist moss-and-cream layout built around a property-specific quote ask rather than a generic contact page.",
     demoDescription:
-      "a moss-and-cream naturalist layout with a booking-card hero built around a property-specific quote ask.",
+      "a moss-and-cream naturalist layout that puts a property-specific quote ask ahead of a generic contact page.",
     faq: [
       {
         q: "We mostly do one-off installs and hardscape, not recurring mowing — does this design still fit?",
-        a: "Yes — we'd lead with a project-inquiry section covering scope and photos of past installs instead of the maintenance-contract framing, and move recurring-service messaging lower, since a different buyer is doing the comparing.",
+        a: "Yes — we'd pull the finished-install gallery up under the hero, rename the list section to the project types you actually sell, and move recurring-service messaging lower, since a different buyer is doing the comparing.",
       },
       {
         q: "The phone goes quiet every winter — can the site do anything about that?",
@@ -650,15 +650,15 @@ export const verticals: Vertical[] = [
       "Nobody calls three moving companies for fun. Whichever site shows a real price first gets the booking.",
     metaTitle: "Website Design for Movers",
     metaDescription:
-      `A moving-company website built around an instant flat-rate quote calculator, licensed-and-insured language, and same-day booking. ${PROMO_SETUP} to start, live in 24 hours.`,
+      `A moving-company website built around an instant flat-rate estimate tool, licensed-and-insured language, and a price set before the call. ${PROMO_SETUP} to start, live in 24 hours.`,
     needs: [
-      "Moving is a high-anxiety, one-time purchase, and most moving-company sites make it worse by forcing a phone call just to learn a rough price. The sites that convert best put a calculator in the hero itself — zip codes and home size in, an instant flat-rate estimate out — so a visitor comparing three or four movers gets a real number from yours before they've had to explain their situation out loud to anyone. Losing that visitor to a call-only competitor happens in the first ten seconds, not after a conversation.",
-      "Past the price, the specifics that separate a real moving company from a guy with a truck and a rented dolly are exactly what buyers can't tell from a stock photo: is the crew insured, does the price include furniture wrapping and disassembly, and will they actually place items in the new space or just drop boxes in the garage. Stating those details plainly, next to the price, is what turns an instant quote into a booked date instead of one more open tab.",
+      "Moving is a high-anxiety, one-time purchase, and most moving-company sites make it worse by forcing a phone call just to learn a rough price. The sites that convert best put a calculator on the page and point the hero button straight at it — room count in, an instant flat-rate ballpark out — so a visitor comparing three or four movers gets a real number from yours before they've had to explain their situation out loud to anyone. Losing that visitor to a call-only competitor happens in the first ten seconds, not after a conversation.",
+      "Past the price, the specifics that separate a real moving company from a guy with a truck and a rented dolly are exactly what buyers can't tell from a stock photo: is the crew insured, does the price include furniture wrapping and disassembly, and will they actually place items in the new space or just drop boxes in the garage. Stating those details plainly, next to the price, is what turns an instant estimate into a booked job instead of one more open tab.",
     ],
     included: [
       {
         title: "Flat-rate pricing, front and center",
-        body: "The page leads with a real flat-rate number instead of 'call for a quote' — the ask still routes to a call, but the price expectation is set before that call happens.",
+        body: "An estimate tool set to your own base, per-room rate, and minimum. The visitor moves one number, sees the math broken out, and gets a real ballpark instead of 'call for a quote'.",
       },
       {
         title: "Licensed-and-insured, stated",
@@ -669,22 +669,22 @@ export const verticals: Vertical[] = [
         body: "Wrapping, disassembly, and placement in the new space stated upfront, not left for the crew to explain on move day.",
       },
       {
-        title: "Same-day booking messaging",
-        body: "A visible path to book today's or tomorrow's date for the buyer moving on a short timeline, not planning months out.",
+        title: "The estimate arrives with the lead",
+        body: "The form under the calculator sends you the visitor's details and the exact figure they were looking at, so your callback starts from a number you have both already seen.",
       },
     ],
     howItWorksIntro:
-      "Bellhorn Movers — one of our 30 designs — is the demo we point movers to first: a friendly navy-and-orange layout with a calculator hero that returns a live flat-rate price before a visitor ever picks up the phone.",
+      "Bellhorn Movers — one of our 30 designs — is the demo we point movers to first: a friendly navy-and-orange layout whose hero button drops a visitor straight into the estimate tool, which returns a live flat-rate ballpark before anyone picks up the phone.",
     demoDescription:
-      "a navy-and-orange calculator hero that returns a live flat-rate price before a visitor has to call.",
+      "a navy-and-orange layout whose hero sends visitors straight to a live flat-rate estimate.",
     faq: [
       {
         q: "We do long-distance moves, not just local — does an instant calculator still make sense?",
-        a: "For local moves the calculator can quote a real flat rate; for long-distance we'd swap it for a request-a-quote form that captures origin, destination, and inventory, since long-distance pricing depends on weight and distance in a way that isn't reducible to a one-screen calculator.",
+        a: "For local moves the calculator quotes a real ballpark off a single number — rooms, or hours booked. Long-distance pricing turns on weight and mileage in a way one input can't hold honestly, so there we drop the calculator, lead with a direct call, and list the origin, destination, and inventory questions on the page so the caller has the answers ready.",
       },
       {
         q: "Can we show separate pricing for packing services versus load-and-drive only?",
-        a: "Yes — the pricing section can list packing as an add-on tier next to the base moving rate, so a visitor who wants full-service versus a self-pack option can see both without calling to ask.",
+        a: "Yes — packing rides as its own card with its own starting price next to the base moving rate, so a visitor comparing full-service against a self-pack option sees both without calling to ask.",
       },
       {
         q: "Is the navy-and-orange palette required, or can we use our own brand colors?",
@@ -710,12 +710,12 @@ export const verticals: Vertical[] = [
     ],
     included: [
       {
-        title: "Gallery-led hero",
-        body: "The room itself shown large and first — atmosphere sells a wine bar faster than a drinks list ever will.",
+        title: "The room, directly under the hero",
+        body: "Your interior photos run full-width and uncropped ahead of everything else on the page — atmosphere sells a wine bar faster than a drinks list ever will.",
       },
       {
         title: "Reservation path, front and center",
-        body: "A clear way to book a table (or see that walk-ins are welcome) without hunting through a separate page.",
+        body: "The hero's main button goes wherever you take reservations — Resy, Tock, or straight to your phone — and the header carries your number besides. 'Walk-ins welcome' is stated just as plainly if that's the answer.",
       },
       {
         title: "Seating policy, stated plainly",
@@ -755,27 +755,27 @@ export const verticals: Vertical[] = [
     heroSub: "What's on tap right now is the whole homepage. Everything else is secondary.",
     metaTitle: "Website Design for Breweries",
     metaDescription:
-      `A brewery and taproom website built around an easy-to-update tap list, patio and dog-policy clarity, and a cans-to-go path. ${PROMO_SETUP} to start, live in 24 hours.`,
+      `A brewery and taproom website built around an easy-to-update tap list, patio and dog-policy clarity, and cans and crowlers to go. ${PROMO_SETUP} to start, live in 24 hours.`,
     needs: [
       "A brewery's website answers a narrower question than most local businesses: is the taproom open right now, and what's actually pouring. Rotating taps mean that answer changes weekly or even daily, which means the tap list has to be something the owner can update by email in minutes, not a page that requires calling a developer every time a seasonal batch runs out. A site that still lists a beer that sold out three weeks ago reads as closed, even during business hours.",
-      "Past the tap list, the questions that decide whether someone drives over tonight are specific and practical: is there food or a food truck, can the dog come along, and is there a cans-or-crowlers-to-go option for anyone who doesn't want to stay and drink in. Independent breweries also compete on identity against bigger regional and national brands, so a site carrying a real heritage badge or masthead-style mark — instead of a generic bar-and-grill template — does real work toward standing out on a crowded strip of taprooms.",
+      "Past the tap list, the questions that decide whether someone drives over tonight are specific and practical: is there food or a food truck, can the dog come along, and is there a cans-or-crowlers-to-go option for anyone who doesn't want to stay and drink in. Independent breweries also compete on identity against bigger regional and national brands, so a site that puts the brewery's own badge in the header — instead of a generic bar-and-grill template — does real work toward standing out on a crowded strip of taprooms.",
     ],
     included: [
       {
         title: "Current tap board, given real space",
-        body: "The lineup gets its own section on the page instead of a sidebar afterthought, and when what's pouring changes, we update it the same day under your unlimited edits.",
+        body: "The list section is renamed On Tap and carries up to a dozen pours, each with its style, its ABV, and its price — and when the lineup turns over, email us and it's live the same day under unlimited edits.",
       },
       {
         title: "Patio and dog policy, stated",
         body: "The practical questions that decide a visit, answered before someone drives over, not discovered at the door.",
       },
       {
-        title: "Heritage badge identity",
-        body: "A masthead-style mark built to carry an independent brewery's own identity instead of a generic bar-and-grill look.",
+        title: "Your badge in the header",
+        body: "Your own mark sits beside your name in the theme's display type, on every screen — an independent brewery's identity carrying the page instead of a generic bar-and-grill look.",
       },
       {
-        title: "Cans-and-crowlers-to-go path",
-        body: "A separate path for the customer who wants to take beer home instead of staying in the taproom.",
+        title: "Cans and crowlers to go",
+        body: "To-go beer gets its own card with its own price, so the customer who isn't staying knows it's an option before they drive over.",
       },
     ],
     howItWorksIntro:
@@ -785,7 +785,7 @@ export const verticals: Vertical[] = [
     faq: [
       {
         q: "We distribute to bars and stores too, not just a taproom — can the site cover both?",
-        a: "Yes — we'd add a 'find our beer' section pointing to retail and bar accounts alongside the taproom hours and tap list, so both audiences land on the right information.",
+        a: "Yes — the about section is where the distribution story goes, naming the bars and stores carrying you alongside the taproom hours and the tap list. Both audiences land on the right information without a second page to maintain.",
       },
       {
         q: "How often can we update what's currently on tap?",
@@ -793,7 +793,7 @@ export const verticals: Vertical[] = [
       },
       {
         q: "We don't run a food program at all — does the site need one?",
-        a: "No — if you don't serve food, the site simply states that plainly, or points to a rotating food-truck schedule if you host one, instead of implying a kitchen that doesn't exist.",
+        a: "No — if you don't serve food, the site states that plainly, or names this week's food truck if you host one, instead of implying a kitchen that doesn't exist.",
       },
     ],
   },
@@ -808,23 +808,23 @@ export const verticals: Vertical[] = [
       "Someone deciding whether to drive over wants to know what's happening this week, not just that you sell books.",
     metaTitle: "Website Design for Bookstores",
     metaDescription:
-      `An independent-bookstore website built around staff picks, an easy-to-update events calendar, and a distinct maker-shop identity. ${PROMO_SETUP} to start, live in 24 hours.`,
+      `An independent-bookstore website built around staff picks, a what's-on list you change by email, and a distinct maker-shop identity. ${PROMO_SETUP} to start, live in 24 hours.`,
     needs: [
       "An independent bookstore is competing directly against same-day shipping, which means the website's job isn't to look like a catalog — it's to answer why walking in beats ordering online. Staff picks, a specific curatorial voice, and local zines or small-press titles nobody else stocks are the actual differentiators, and they need real room on the homepage instead of being squeezed into a footer line below a generic 'shop now' button that just makes the store look like a smaller, slower Amazon.",
-      "The second job is staying current: an events calendar for readings, launches, and book clubs that's actually accurate, updated weekly rather than showing a stale flyer from two months ago. A store that can update its own events and staff picks by email, without touching code, keeps the site matching what's really happening in the shop — which matters more here than in almost any other retail category, because the whole pitch is 'come see what's new,' and a site that never changes undercuts that pitch on sight.",
+      "The second job is staying current: a running list of readings, launches, and book clubs that's actually accurate, rewritten weekly rather than showing a stale flyer from two months ago. A store that can change its own listings and staff picks by email, without touching code, keeps the site matching what's really happening in the shop — which matters more here than in almost any other retail category, because the whole pitch is 'come see what's new,' and a site that never changes undercuts that pitch on sight.",
     ],
     included: [
       {
-        title: "Staff-picks section",
-        body: "Real room for a curatorial voice — the actual reason to walk in instead of ordering the same title online.",
+        title: "One section for what's on this week",
+        body: "The list section takes whatever name you use — This Week, Handsells, What's On — and carries up to a dozen entries: staff picks, a Thursday reading, the new zine on the counter, in whatever order you want them read.",
       },
       {
-        title: "Events section, given real space",
-        body: "Readings, launches, and book clubs get their own place on the page instead of a footer line — email us an update and it's live the same day under your unlimited edits.",
+        title: "Changed by email, live the same day",
+        body: "Send us the update — a new pick, a launch, a cancelled book club — and it's on the page that day under unlimited edits. No login, no CMS training, no stale flyer from two months ago.",
       },
       {
-        title: "Local-press and zine shelf",
-        body: "A dedicated place for small-run titles a chain or an algorithm won't ever surface.",
+        title: "Small-press titles, shown not shipped",
+        body: "The gallery runs covers of the small-run and local-press titles a chain or an algorithm will never surface — photographed on your shelf, not pulled from a distributor feed.",
       },
       {
         title: "Distinct shop identity",
@@ -861,15 +861,15 @@ export const verticals: Vertical[] = [
       "A client vetting studios is really vetting judgment. Show a handful of projects fully, not a wall of thumbnails.",
     metaTitle: "Website Design for Design Studios",
     metaDescription:
-      `A design-studio website built around a curated project index, a stated process with defined revision rounds, and a brief-first inquiry path. ${PROMO_SETUP} to start, live in 24 hours.`,
+      `A design-studio website built around a curated project index, a stated process with defined revision rounds, and work shown large and uncropped. ${PROMO_SETUP} to start.`,
     needs: [
       "A design studio's website is itself a portfolio piece, which means the usual small-business instinct — show everything, cover every service — actively works against it. The studios that read as serious present a small, curated set of projects, each given real space to explain the problem and the reasoning behind the solution, rather than a crowded grid of thumbnails that makes every project look interchangeable. Restraint in the layout itself is part of the pitch: if the site is disciplined, the client assumes the work will be too.",
-      "Past the portfolio, the buyers who convert best want the actual process stated plainly before they'll reach out — how many concept directions, how many rounds of revision are included, and what handoff looks like. A studio site that only says 'let's talk' without any of that reads as unstructured, and structure is exactly what a client hiring for a real engagement is trying to screen for. An inquiry path built around 'tell us about the project' does more work here than a generic contact form ever could.",
+      "Past the portfolio, the buyers who convert best want the actual process stated plainly before they'll reach out — how many concept directions, how many rounds of revision are included, and what handoff looks like. A studio site that only says 'let's talk' without any of that reads as unstructured, and structure is exactly what a client hiring for a real engagement is trying to screen for. Saying plainly what a first email should carry — scope, timeline, budget range — does more work here than a generic contact form ever could.",
     ],
     included: [
       {
         title: "Curated project index",
-        body: "The page shows a small set of projects in full, not a crowded grid — restraint in the layout signals restraint in the work.",
+        body: "Up to a dozen entries, each leading with the problem in your own words, and the work itself running large and uncropped underneath — restraint in the layout signals restraint in the work.",
       },
       {
         title: "Process stated, with rounds defined",
