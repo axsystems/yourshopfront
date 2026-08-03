@@ -11,7 +11,7 @@ export const brightsideCleaning: Theme = {
   mode: "recurring",
   vibe: "friendly-modern",
   hero: "booking-card",
-  heroEyebrow: "BOOK ONLINE — INSTANT PRICE",
+  heroEyebrow: "FLAT-RATE HOME CLEANING",
   colors: {
     bg: "#FAFCFE",
     fg: "#15293D",

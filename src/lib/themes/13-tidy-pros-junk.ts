@@ -11,7 +11,7 @@ export const tidyProsJunk: Theme = {
   mode: "project",
   vibe: "friendly-modern",
   hero: "form-card",
-  heroEyebrow: "FLAT-RATE PHOTO QUOTES",
+  heroEyebrow: "FLAT-RATE JUNK REMOVAL",
   colors: {
     bg: "#FAFAFA",
     fg: "#0A0A0A",

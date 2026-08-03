@@ -11,7 +11,7 @@ export const ironsidePlumbing: Theme = {
   mode: "emergency",
   vibe: "bold-industrial",
   hero: "form-card",
-  heroEyebrow: "24/7 ONLINE BOOKING",
+  heroEyebrow: "24/7 EMERGENCY — CALL ANYTIME",
   colors: {
     bg: "#F4F4F5",
     fg: "#0A0A0A",

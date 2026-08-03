@@ -253,10 +253,17 @@ function HeroVisual({ variant, theme }: { variant: Theme["hero"]; theme: Theme }
 function PreviewCaption({ children }: { children: React.ReactNode }) {
   return (
     <HideWhenEmbedded>
+      {/* Sits on its own translucent chip: half the themes put a photo behind
+          the hero, and muted-fg mono over a photo was effectively unreadable
+          — a caption nobody can read does none of the work it is here for. */}
       <p
-        className="mt-3 max-w-md text-[11px] leading-snug"
+        className="mt-3 inline-block max-w-md px-3 py-2 text-[11px] leading-snug"
         style={{
           color: "var(--apex-muted-fg)",
+          background: "color-mix(in oklab, var(--apex-surface) 92%, transparent)",
+          border: "1px solid var(--apex-border)",
+          borderRadius: "var(--apex-radius-md)",
+          backdropFilter: "blur(6px)",
           fontFamily: "var(--apex-font-mono)",
           letterSpacing: "0.04em",
         }}
@@ -353,7 +360,7 @@ function HeroPhoneFirst({ theme }: { theme: Theme }) {
         </span>
       </button>
       <PreviewCaption>
-        This is a live preview. The actual phone CTA on YOUR live site can do anything you want — call, SMS, schedule a callback.
+        This is a live preview. On YOUR live site this dials your real number, and the same tap-to-call sits in the sticky header at every scroll position.
       </PreviewCaption>
     </div>
   )
@@ -432,7 +439,7 @@ function HeroCalculator({ theme }: { theme: Theme }) {
         </ApexButton>
       </VisualCard>
       <PreviewCaption>
-        This is a live preview. The actual calculator on YOUR live site can pull prices from your CRM, your service-area lookup, or anywhere else.
+        This is a live preview. YOUR live site gets a real estimate tool built on your own starting price, per-unit rate, and minimum, and it shows its math.
       </PreviewCaption>
     </div>
   )
@@ -483,7 +490,7 @@ function HeroGallery({ theme }: { theme: Theme }) {
         ))}
       </div>
       <PreviewCaption>
-        This is a live preview. The actual gallery on YOUR live site can pull from Instagram, your project CMS, or hand-picked photos.
+        This is a live preview. YOUR live site&apos;s gallery is the photos you send us — a twelve-photo grid or six full-size uncropped shots, above or below your services.
       </PreviewCaption>
     </div>
   )
@@ -545,7 +552,7 @@ function HeroBookingCard({ theme }: { theme: Theme }) {
         </ApexButton>
       </VisualCard>
       <PreviewCaption>
-        This is a live preview. The actual booking widget on YOUR live site can sync to Google Calendar, Calendly, or your scheduling system.
+        This is a live preview — the date picker is illustration, not booking. YOUR live site converts that visitor with tap-to-call plus a request form that emails you.
       </PreviewCaption>
     </div>
   )
@@ -620,7 +627,7 @@ function HeroFormCard({ theme }: { theme: Theme }) {
         </p>
       </VisualCard>
       <PreviewCaption>
-        This is a live preview. The actual quote form on YOUR live site can route leads to your CRM, Slack, or anyone&apos;s inbox.
+        This is a live preview. YOUR live site&apos;s request form is one screen and emails you the lead — hit reply and it goes straight back to them. No tool to log into.
       </PreviewCaption>
     </div>
   )
