@@ -10,6 +10,11 @@ import {
   type SiteContent,
 } from "@/lib/site-content/types"
 
+import {
+  COPY_SERVICE_OWNED_SECTIONS,
+  copyServiceOwnsCopy,
+  isOnboardingOpen,
+} from "../onboarding-status"
 import { AboutSection } from "./sections/about-section"
 import { CalculatorSection } from "./sections/calculator-section"
 import { ContactSection } from "./sections/contact-section"
@@ -34,7 +39,7 @@ interface WorksheetFormProps {
  */
 export function WorksheetForm({ site }: WorksheetFormProps) {
   const [content, setContent] = React.useState<SiteContent>(site.site_content ?? {})
-  const locked = site.status !== "pending_content"
+  const locked = !isOnboardingOpen(site.status)
   // Empty-string fallback for type-safety on the upgrade-button POST.
   // CopyServiceBanner internally disables the upgrade button when sessionId
   // is empty so a malformed POST never reaches /api/checkout/copy-upgrade.
@@ -43,7 +48,11 @@ export function WorksheetForm({ site }: WorksheetFormProps) {
 
   return (
     <div className="space-y-5">
-      <CopyServiceBanner copyAddon={site.copy_addon} sessionId={sessionId} />
+      <CopyServiceBanner
+        copyAddon={site.copy_addon}
+        draftWillOverwrite={copyServiceOwnsCopy(site)}
+        sessionId={sessionId}
+      />
       <CompletionBanner complete={complete} />
       <HeroSection
         n={1}
@@ -127,11 +136,18 @@ export function WorksheetForm({ site }: WorksheetFormProps) {
   )
 }
 
+/** "Hero, Services, About" — the sections the approved draft replaces. */
+const COPY_SERVICE_OWNED_LABEL = COPY_SERVICE_OWNED_SECTIONS.map(
+  (section) => section.charAt(0).toUpperCase() + section.slice(1)
+).join(", ")
+
 function CopyServiceBanner({
   copyAddon,
+  draftWillOverwrite,
   sessionId,
 }: {
   copyAddon: boolean
+  draftWillOverwrite: boolean
   sessionId: string
 }) {
   const [pending, setPending] = React.useState(false)
@@ -154,8 +170,19 @@ function CopyServiceBanner({
         />
         <span>
           <strong className="font-semibold">Copy service active.</strong>{" "}
-          You only need to fill in: logo, hero image, gallery photos, plus the
-          5 discovery facts below. We&apos;ll draft the rest.
+          You only need your logo, photos, contact details, and service area
+          here — plus the 5 discovery facts. We&apos;ll draft the rest.
+          {draftWillOverwrite && (
+            <>
+              {" "}
+              Heads up: <strong className="font-semibold">
+                {COPY_SERVICE_OWNED_LABEL}
+              </strong>{" "}
+              are written by us, so approving your draft replaces whatever you
+              type in those three. Everything else on this page is yours and is
+              kept as-is.
+            </>
+          )}
         </span>
       </div>
     )

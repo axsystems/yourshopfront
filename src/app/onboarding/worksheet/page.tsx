@@ -7,6 +7,7 @@ import { allThemes, defaultTheme } from "@/lib/themes"
 import { getSiteByStripeSessionId, type Site } from "@/lib/supabase"
 import { SITE_URL } from "@/lib/seo"
 
+import { isOnboardingOpen } from "../onboarding-status"
 import { WorksheetForm } from "./worksheet-form"
 
 interface PageProps {
@@ -39,7 +40,10 @@ export default async function WorksheetPage({ searchParams }: PageProps) {
   if (!site) return <FallbackShell title="No site found for that session." />
 
   const theme = allThemes[site.demo_slug] ?? defaultTheme
-  const locked = site.status !== "pending_content"
+  // Editable for as long as the checklist says the customer is still in
+  // onboarding — including the whole copy-addon lifecycle, which never
+  // passes through pending_content. See ../onboarding-status.ts.
+  const locked = !isOnboardingOpen(site.status)
 
   return (
     <ThemeProvider theme={theme}>
