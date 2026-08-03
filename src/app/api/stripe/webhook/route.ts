@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import type Stripe from "stripe"
 
 import { sendEmail } from "@/lib/email"
-import { notifySlack } from "@/lib/notify"
+import { escapeSlackText, notifySlack } from "@/lib/notify"
 import { sendOperatorSms } from "@/lib/sms-quo"
 import { unprovisionSite } from "@/lib/provisioning/orchestrator"
 import {
@@ -87,30 +87,43 @@ export async function POST(req: Request) {
     // 5xx makes Stripe retry. Log and re-throw via 500.
     console.error("[webhook] handler threw", err)
 
-    // A handler throwing here means a customer already paid (Stripe
-    // delivered the event) but our side effects (site row, welcome email,
-    // provisioning) may not have run. That failure is otherwise invisible —
+    // A handler throwing here means Stripe already delivered the event but
+    // our side effects (site row, welcome email, provisioning, cancellation
+    // cleanup) may not have run. That failure is otherwise invisible —
     // there is no Sentry in this repo, so a Vercel log line is the only
     // trace. Alarm the operator directly. Best-effort, same pattern as the
     // Promise.allSettled side effects above: never let alarm delivery
     // change this response or throw past this catch.
+    //
+    // Only checkout.session.completed implies money changed hands with no
+    // site to show for it — the other two subscribed events (subscription
+    // cancellation, refund) don't move money on failure, so their alarm
+    // copy must not claim a charge occurred.
     const sessionId = resolveEventSessionId(event)
-    const errorMessage = err instanceof Error ? err.message : String(err)
+    const rawErrorMessage = serializeAlarmError(err)
+    const severity =
+      event.type === "checkout.session.completed"
+        ? "customer may be charged with no site"
+        : "handler did not complete — event effects may be incomplete"
+    // Stripe retries a failing webhook up to ~16 times over 3 days, and this
+    // alarm fires on every retry with no dedupe. Deliberate: at this volume
+    // a loud, repeated page beats a silent missed charge. Don't "fix" this
+    // into silence without adding real dedupe first.
     await Promise.allSettled([
       notifySlack(
         [
-          `🚨 *Webhook handler failed — customer may be charged with no site*`,
+          `🚨 *Webhook handler failed — ${severity}*`,
           `Event: \`${event.type}\` (\`${event.id}\`)`,
           sessionId ? `Session: \`${sessionId.slice(-12)}\`` : `Session: unresolved`,
-          `Error: ${errorMessage}`,
+          `Error: ${escapeSlackText(rawErrorMessage)}`,
         ].join("\n")
       ),
       sendOperatorSms(
         [
           `🚨 WEBHOOK FAILED — Your Shopfront`,
-          `${event.type} (${event.id})`,
+          `${event.type} (${event.id}) — ${severity}`,
           sessionId ? `session ...${sessionId.slice(-12)}` : "session unresolved",
-          errorMessage,
+          rawErrorMessage,
         ].join("\n")
       ),
     ])
@@ -127,6 +140,41 @@ function resolveEventSessionId(event: Stripe.Event): string | null {
     return event.data.object.id
   }
   return null
+}
+
+// Serializes a caught error into operator-actionable text without leaking
+// customer PII. Every helper in src/lib/supabase.ts does a bare
+// `if (error) throw error` on Supabase's `{ data, error }` result — this repo
+// never calls `.throwOnError()`. Per the installed
+// @supabase/postgrest-js (PostgrestBuilder.processResponse), that `error` is
+// a plain object literal shaped `{ message, details, hint, code }`
+// (JSON.parse'd straight off the PostgREST response body), NOT an Error
+// instance, so `err instanceof Error` is false and `String(err)` collapses
+// to "[object Object]". `details` is deliberately EXCLUDED below: Postgres
+// puts row values there (e.g. "Key (email)=(a@b.com) already exists."),
+// which would leak customer PII into Slack/SMS. Real Error instances (e.g.
+// a thrown network/fetch error) fall back to `.message`; anything else falls
+// back to a guarded JSON.stringify.
+function serializeAlarmError(err: unknown): string {
+  if (err instanceof Error) return err.message
+  if (err && typeof err === "object") {
+    const parts: string[] = []
+    if ("message" in err && typeof err.message === "string" && err.message) {
+      parts.push(err.message)
+    }
+    if ("code" in err && typeof err.code === "string" && err.code) {
+      parts.push(`code ${err.code}`)
+    }
+    if ("hint" in err && typeof err.hint === "string" && err.hint) {
+      parts.push(`hint: ${err.hint}`)
+    }
+    if (parts.length > 0) return parts.join(" — ")
+  }
+  try {
+    return JSON.stringify(err)
+  } catch {
+    return "unserializable error (likely circular reference)"
+  }
 }
 
 async function handleSessionCompleted(session: Stripe.Checkout.Session) {
