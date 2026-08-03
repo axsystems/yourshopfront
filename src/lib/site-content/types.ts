@@ -73,6 +73,49 @@ export interface SiteContentMedia {
   gallery?: string[]
 }
 
+/** Renameable section heading. Both halves independently optional. */
+export interface SiteContentSectionHeading {
+  eyebrow?: string
+  title?: string
+}
+
+/**
+ * How the gallery renders. "grid" is the historical (and default) look:
+ * up to 12 aspect-square thumbs. "showcase" trades count for size — a
+ * handful of large, full-width images.
+ */
+export type GalleryLayout = "grid" | "showcase"
+
+/** Optional per-site rendering controls. Every unset field falls back to
+ * the markup the tenant page rendered before this group existed. */
+export interface SiteContentPresentation {
+  servicesHeading?: SiteContentSectionHeading
+  galleryLayout?: GalleryLayout
+}
+
+/**
+ * Optional per-site estimate config. Consumed by the Workstream B2 estimate
+ * tool — nothing in this repo renders it yet. The group as a whole is
+ * optional; the five pricing fields are required inside it because an
+ * estimate missing its rate or its unit cannot produce an honest number.
+ */
+export interface SiteContentCalculator {
+  /** Section heading, e.g. "Estimate your job". */
+  heading: string
+  /** Flat amount added to every estimate before the per-unit math. */
+  baseAmount: number
+  /** Amount charged per unit. */
+  perUnitRate: number
+  /** What one unit is, e.g. "square foot", "window", "hour". */
+  unitLabel: string
+  /** Floor — no estimate is quoted below this. */
+  minimum: number
+  /** Optional heading above the lead form the estimate feeds into. */
+  leadFormHeading?: string
+  /** Optional supporting line under the lead-form heading. */
+  leadFormBlurb?: string
+}
+
 export interface SiteContent {
   hero?: SiteContentHero
   contact?: SiteContentContact
@@ -81,7 +124,22 @@ export interface SiteContent {
   serviceArea?: SiteContentServiceArea
   reviews?: SiteContentReview[]
   media?: SiteContentMedia
+  presentation?: SiteContentPresentation
+  calculator?: SiteContentCalculator
 }
+
+/**
+ * The strings <CustomerServices> renders when no heading override is set.
+ * Kept here (not in schema.ts) so client components can import them without
+ * pulling in Zod or the server-only env read in that module.
+ */
+export const SERVICES_HEADING_DEFAULTS = {
+  eyebrow: "Services",
+  title: "What we do.",
+} as const
+
+/** Gallery layout used when `presentation.galleryLayout` is unset. */
+export const DEFAULT_GALLERY_LAYOUT: GalleryLayout = "grid"
 
 /** Minimum gallery size for AssetsStep to consider step 3 done. */
 export const MIN_GALLERY_PHOTOS = 3
