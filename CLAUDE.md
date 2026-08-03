@@ -69,8 +69,11 @@ pnpm brand:export # regenerate PNG brand assets from SVG masters
 - All API routes: Zod validation at boundary; never trust client input.
 - Stripe webhook (`/api/stripe/webhook`): signature verify FIRST, then idempotency check via
   `getSiteByStripeSessionId` — bail if row exists.
-- Stripe API version `2024-11-20.acacia` is PINNED — do NOT bump without re-testing webhook
-  payload shapes AND cross-checking against axon-growth's `2024-06-20`.
+- Stripe API version `2024-11-20.acacia` is PINNED — this controls outbound SDK requests and
+  types, NOT inbound webhook payload shapes (those are governed by the version registered on
+  the webhook endpoint itself, currently `2025-12-15.clover` for the live endpoint). Do NOT
+  bump the SDK pin without cross-checking against axon-growth's `2024-06-20`, and re-verify
+  against the endpoint's registered version if webhook shape assumptions ever change.
 - Service-role Supabase key is server-only — never import in client components.
 - Auth gates are `requireAuth()` / `getCurrentUser()` (`src/lib/auth.ts`), which call
   `supabase.auth.getUser()`. **Never `getSession()` for authorization** — it reads the cookie

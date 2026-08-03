@@ -80,9 +80,6 @@ API (`400`); `ref`/`src` reach Stripe session metadata across **all four** check
 Still unproven: the webhook's write of `sites.referral_code` has never executed, because no real
 purchase has ever completed. Code path traced and correct, but unobserved — see BLOCKER 1.
 
-P2 nit: `writeCookie()` in `src/lib/referral.ts:40` omits `Secure`. Minimal risk on an
-HTTPS-only domain; worth adding.
-
 ## What shipped 2026-07-30
 
 Nine PRs merged to production. Rollback for any: `git revert -m 1 <merge-sha>`.
