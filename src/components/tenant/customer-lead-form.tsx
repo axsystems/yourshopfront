@@ -36,6 +36,10 @@ interface LeadResponse {
   issues?: { path: string; message: string }[]
 }
 
+/** Stable no-op subscribe for the hydration probe below: the "store" never
+ * emits, the only thing needed is the server-vs-client snapshot split. */
+const neverChanges = () => () => {}
+
 /**
  * Lead capture on a delivered tenant site. Posts to /api/leads, which is
  * the only place the submission is trusted: this component sends a slug
@@ -53,6 +57,20 @@ export function CustomerLeadForm({
   const [phone, setPhone] = React.useState("")
   const [message, setMessage] = React.useState("")
   const [state, setState] = React.useState<FormState>({ kind: "idle" })
+  /**
+   * False until hydration finishes. `onSubmit` is React-only, so before the
+   * client bundle attaches, a press on a non-`disabled` submit button is a
+   * NATIVE form submission — a GET navigation that throws away everything
+   * the visitor typed. Keeping the button truly `disabled` for that window
+   * is the only thing that can stop it, and it costs nothing: nobody, AT
+   * users included, can be told what's missing before the JS that composes
+   * that message has loaded.
+   */
+  const hydrated = React.useSyncExternalStore(
+    neverChanges,
+    () => true,
+    () => false
+  )
 
   const submitting = state.kind === "submitting"
   const hasContactMethod = Boolean(email.trim() || phone.trim())
@@ -60,7 +78,22 @@ export function CustomerLeadForm({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!canSubmit) return
+    if (submitting) return
+    // The button stays focusable (aria-disabled, not disabled), so an invalid
+    // submit is reachable by keyboard and by Enter in a text field. The form
+    // is noValidate, so nothing else would tell the visitor what is missing —
+    // this is the only place that answers "why isn't it sending?".
+    if (!name.trim()) {
+      setState({ kind: "error", message: "Add your name so we know who we're replying to." })
+      return
+    }
+    if (!hasContactMethod) {
+      setState({
+        kind: "error",
+        message: "Add an email address or a phone number so we can reply.",
+      })
+      return
+    }
     setState({ kind: "submitting" })
     try {
       const res = await fetch("/api/leads", {
@@ -175,12 +208,18 @@ export function CustomerLeadForm({
         />
 
         {state.kind === "error" ? (
+          /* Opaque red with white text, NOT a tinted wash over the surface.
+             The tint composited against var(--apex-surface), which is near
+             black on several shipped themes, so dark-red-on-dark landed at
+             ~1.6:1. There is no theme token for an error state, and one
+             borrowed from the palette can't be trusted to contrast either —
+             a fixed pair that is legible on any surface is the honest fix. */
           <p
             role="alert"
-            className="px-4 py-3 text-sm font-medium"
+            className="px-4 py-3 text-sm font-semibold"
             style={{
-              background: "color-mix(in oklab, #DC2626 10%, transparent)",
-              color: "#991B1B",
+              background: "#B91C1C",
+              color: "#FFFFFF",
               borderRadius: "var(--apex-radius-md)",
             }}
           >
@@ -190,8 +229,16 @@ export function CustomerLeadForm({
 
         <button
           type="submit"
-          disabled={!canSubmit}
-          className="inline-flex w-full items-center justify-center gap-2 px-7 py-4 text-base font-bold transition hover:-translate-y-0.5 disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-55 sm:w-auto"
+          /* aria-disabled, not disabled: a disabled button leaves the tab
+             order, so a keyboard or screen-reader visitor could neither
+             reach it nor learn why it wasn't working. handleSubmit does the
+             actual blocking and names the missing field. `disabled` is used
+             only pre-hydration, where React cannot intercept the submit. */
+          disabled={!hydrated}
+          aria-disabled={!canSubmit}
+          className={`inline-flex w-full items-center justify-center gap-2 px-7 py-4 text-base font-bold transition sm:w-auto ${
+            canSubmit ? "hover:-translate-y-0.5" : "cursor-not-allowed opacity-55"
+          }`}
           style={{
             background: "var(--apex-primary)",
             color: "var(--apex-primary-fg)",

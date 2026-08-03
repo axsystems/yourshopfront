@@ -46,7 +46,15 @@ const LeadSchema = z
   .object({
     /** Public subdomain slug. Resolved server-side to the real site row. */
     siteSlug: z.string().trim().min(1).max(120),
-    name: z.string().trim().min(1, "Name is required").max(120),
+    // No CR/LF: this lands in the notification email's subject line and in a
+    // line-delimited body, where an interior newline lets a stranger author
+    // lines the owner reads as system-generated. .trim() only strips ends.
+    name: z
+      .string()
+      .trim()
+      .min(1, "Name is required")
+      .max(120)
+      .regex(/^[^\r\n]*$/, "Name cannot contain line breaks"),
     email: z
       .string()
       .trim()
@@ -63,14 +71,25 @@ const LeadSchema = z
       .optional()
       .or(z.literal("")),
     message: z.string().trim().max(2000).optional().or(z.literal("")),
-    /** Where the form was submitted from. Free text for the owner to read. */
-    sourcePage: z.string().trim().max(200).optional().or(z.literal("")),
+    /** Where the form was submitted from. Free text for the owner to read.
+     * Newline-free for the same reason as `name` — and this one renders
+     * near the server-computed estimate, so a forged line is worse. */
+    sourcePage: z
+      .string()
+      .trim()
+      .max(200)
+      .regex(/^[^\r\n]*$/, "Invalid source")
+      .optional()
+      .or(z.literal("")),
     /** Present only when the site has a calculator and the visitor used it. */
     calculator: z
       .object({
+        // Integer: the estimator's stepper and slider only ever emit whole
+        // units, and a fractional count produces an estimate with more
+        // precision than numeric(12,2) can store.
         units: z
           .number()
-          .finite()
+          .int("Enter a whole number of units")
           .min(0, "Enter a number of units")
           .max(MAX_CALCULATOR_UNITS, "That number is too large"),
       })
@@ -149,7 +168,20 @@ export async function POST(req: Request): Promise<NextResponse> {
       { status: 503 }
     )
   }
-  if (!site || !LEAD_ACCEPTING_STATUSES.includes(site.status)) {
+  // The lead form ships inside <CustomerEstimator>, which customer-home.tsx
+  // renders only when `content.calculator && siteSlug`. Mirroring that
+  // condition here is what keeps the endpoint from accepting submissions for
+  // owners who never turned the feature on — they would otherwise receive
+  // "New lead" mail from a form that is not on their site. Folded into the
+  // same branch as the status check so the body is byte-identical to the
+  // unknown-slug rejection: a distinct response would turn this into an
+  // oracle for which sites have an estimator configured.
+  const calculator = site?.site_content?.calculator
+  if (
+    !site ||
+    !LEAD_ACCEPTING_STATUSES.includes(site.status) ||
+    !calculator
+  ) {
     return NextResponse.json(
       { ok: false, error: "This form is not accepting submissions." },
       { status: 404 }
@@ -160,21 +192,12 @@ export async function POST(req: Request): Promise<NextResponse> {
   // Estimate. Recomputed from the site's stored config; the client never
   // sends a dollar figure, only a unit count.
   // ---------------------------------------------------------------------
-  const calculator = site.site_content?.calculator
-  if (data.calculator && !calculator) {
-    return NextResponse.json(
-      { ok: false, error: "This site does not offer an instant estimate." },
-      { status: 400 }
-    )
-  }
-  const estimate =
-    data.calculator && calculator
-      ? computeCalculatorEstimate(calculator, data.calculator.units)
-      : null
-  const calculatorInput =
-    data.calculator && calculator
-      ? { units: data.calculator.units, unitLabel: calculator.unitLabel }
-      : {}
+  const estimate = data.calculator
+    ? computeCalculatorEstimate(calculator, data.calculator.units)
+    : null
+  const calculatorInput = data.calculator
+    ? { units: data.calculator.units, unitLabel: calculator.unitLabel }
+    : {}
 
   const result = await createLead({
     site_id: site.id,

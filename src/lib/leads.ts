@@ -55,9 +55,11 @@ export interface NewLead {
  * Suggested handling in the route:
  *   persisted   → 200. Normal path.
  *   logged_only → 200. The migration is gated on the owner, so this code can
- *                 ship before the table exists. The full payload is on stderr
- *                 at error level, so the lead is recoverable — punishing the
- *                 visitor for our un-run migration would lose it for real.
+ *                 ship before the table exists. The lead is NOT recoverable:
+ *                 the log carries only non-PII keys (see createLead), so the
+ *                 contact details are gone. The notification email is the
+ *                 only copy. Applying 0014_leads.sql is a hard prerequisite
+ *                 to putting the form in front of visitors.
  *   failed      → 5xx. Genuinely lost; the visitor must be told so they can
  *                 retry or call instead.
  */
@@ -85,12 +87,16 @@ function isTableMissing(code: string): boolean {
 }
 
 /**
- * Inserts one lead. Never throws — every failure mode is expressed in the
- * returned union so the route handler decides the visitor-facing response.
+ * Inserts one lead. Never throws — every failure mode, including a thrown
+ * one, is expressed in the returned union so the route handler decides the
+ * visitor-facing response. (`supabase()` throws synchronously when the
+ * service-role env vars are unset, which is why the body is wrapped.)
  *
- * When the table is missing, the entire payload is logged at error level so
- * the lead can be replayed by hand from the logs. That log deliberately
- * contains visitor PII; it is the fallback of last resort, not a routine path.
+ * The table-missing log carries only non-PII recovery keys. These are a
+ * customer's customers: their name, email, phone, and free-text message do
+ * not go to the platform log. The trade-off is explicit — with the table
+ * absent the lead is NOT recoverable from logs, so 0014_leads.sql must be
+ * applied before the form is enabled for real visitors.
  */
 export async function createLead(input: NewLead): Promise<CreateLeadResult> {
   const row = {
@@ -104,35 +110,49 @@ export async function createLead(input: NewLead): Promise<CreateLeadResult> {
     calculator_estimate: input.calculator_estimate ?? null,
   }
 
-  const { data, error } = await supabase()
-    .from("leads")
-    .insert(row)
-    .select("*")
-    .single()
+  try {
+    const { data, error } = await supabase()
+      .from("leads")
+      .insert(row)
+      .select("*")
+      .single()
 
-  if (error) {
-    if (isTableMissing(error.code)) {
-      console.error(
-        "[leads] leads table missing — lead NOT persisted. Migration 0014_leads.sql has not been applied. Full payload follows so this lead can be recovered by hand:",
-        { code: error.code, lead: row }
-      )
-      return { outcome: "logged_only" }
+    if (error) {
+      if (isTableMissing(error.code)) {
+        console.error(
+          "[leads] LEAD LOST — the leads table does not exist, so this submission was NOT persisted. Apply supabase/migrations/0014_leads.sql; until then the notification email is the only copy of the lead. Visitor contact details are deliberately omitted from this log (PII).",
+          {
+            code: error.code,
+            site_id: row.site_id,
+            created_at: new Date().toISOString(),
+            has_email: Boolean(row.email),
+            has_phone: Boolean(row.phone),
+          }
+        )
+        return { outcome: "logged_only" }
+      }
+      console.error("[leads] insert failed", {
+        code: error.code,
+        message: error.message,
+        details: error.details,
+        site_id: input.site_id,
+      })
+      return { outcome: "failed", message: error.message }
     }
-    console.error("[leads] insert failed", {
-      code: error.code,
-      message: error.message,
-      details: error.details,
-      site_id: input.site_id,
-    })
-    return { outcome: "failed", message: error.message }
-  }
 
-  // Cast at the helper boundary, per the convention documented at the top of
-  // src/lib/supabase.ts: supabase() is created without a generated Database
-  // generic, so `data` arrives untyped and every helper in that module
-  // narrows the same way (`data as Site`). Narrowing here is strictly better
-  // than letting an untyped value escape this module.
-  return { outcome: "persisted", lead: data as Lead }
+    // Cast at the helper boundary, per the convention documented at the top of
+    // src/lib/supabase.ts: supabase() is created without a generated Database
+    // generic, so `data` arrives untyped and every helper in that module
+    // narrows the same way (`data as Site`). Narrowing here is strictly better
+    // than letting an untyped value escape this module.
+    return { outcome: "persisted", lead: data as Lead }
+  } catch (err) {
+    console.error("[leads] insert threw", {
+      site_id: row.site_id,
+      message: err instanceof Error ? err.message : String(err),
+    })
+    return { outcome: "failed", message: "lead insert threw" }
+  }
 }
 
 /**
