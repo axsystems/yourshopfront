@@ -207,6 +207,80 @@ doc; superseded by `docs/history/`).
   together with `allow_promotion_codes`, so the promo funnel deliberately disables code entry.
   A code literally cannot work on `/start`.
 
+## ⏸️ PAUSED MID-BUILD — tenant lead capture (2026-08-03)
+
+Session paused on tokens, not on a problem. **Every branch below is pushed to origin — nothing
+lives only on this box.** `master` is clean at `9f9fb6f`, 0 ahead / 0 behind.
+
+**Integration branch: `integration/tenant-capabilities` (`ff3c4d9`)** — 31 files, +2566/−189,
+built from 9 agent branches. Not merged, not deployed, migration not applied.
+
+### What it contains
+
+| Branch | Contents |
+| --- | --- |
+| `feat/tenant-content-presentation` | `presentation.servicesHeading` (renameable section), `galleryLayout` grid/showcase, worksheet UI |
+| `feat/leads-data-layer` | `0014_leads.sql`, `src/lib/leads.ts`, owner-notification email |
+| `feat/lead-capture-ui` | `/api/leads`, estimator + lead form, calculator worksheet |
+| `fix/tenant-nav-section-labels` + `fix/wire-services-heading-prop` | nav/footer honor the rename |
+| `fix/vertical-copy-reconciliation` (+ `-v2`) | `verticals.ts` claim corrections |
+| `fix/leads-audit-remediation` | 8 security/a11y fixes (PII logging, CRLF injection, IP header order, contrast 1.6:1 → 6.47:1) |
+| `fix/demo-and-theme-capability-claims` | 5 PreviewCaptions, 8 theme eyebrows |
+
+**Verified on the integration branch:** typecheck exit 0 · lint 0 errors, 2 pre-existing warnings ·
+build clean, 16 `/for` + 30 `/demos` + 30 `/portfolio` prerendered · lead traced end-to-end by
+execution (forged `site_id` and `estimate` both discarded server-side) · existing sites
+byte-identical. Two independent reviewers: SHIP WITH FIXES, zero blockers.
+
+### Interrupted mid-flight — resume here
+
+The build **inverted the owner's decision** and was sent back. He chose *build the features the
+copy promises*; instead, `customer-home.tsx:53-58` gated the lead form on a configured calculator
+(`showEstimator = Boolean(calculator && siteSlug)`, form nested inside `CustomerEstimator`), so
+no-calculator sites got **no lead capture** and five verticals had their copy cut instead —
+photographers, bookstores, roofers, plumbers, electricians.
+
+Fix in progress when paused:
+
+- `fix/universal-lead-form` (`145f41b`, pushed) — decouples form from calculator. **Unverified.**
+- `fix/worksheet-copy-addon-access` (`95a910e`, pushed) — copy-addon customers couldn't reach the
+  worksheet (`status !== "pending_content"`), so the highest-paying segment couldn't configure
+  anything. **Unverified.**
+- `fix/vertical-copy-restore` (`7b5a4a5`, pushed) — **WIP, explicitly not verified.** 17 edits
+  restoring claims a universal form makes true again. No typecheck/lint/build/cross-check run.
+
+**Next step on resume:** verify those three, re-run workstream C against the universal form
+(restore claims that are true again; do not restore what the renderer still can't do), re-prove
+existing sites byte-identical under the new baseline, cold-review, then bring to the owner.
+
+### Gates — owner-only, do not delegate
+
+1. **`supabase/migrations/0014_leads.sql` is written, proven, NOT applied.** Idempotent, RLS on
+   with zero policies (service-role only). Proven against scratch Postgres: applies →
+   double-applies with only `NOTICE ... skipping` → rolls back → re-applies, exit 0 each time.
+   Rollback: `drop table if exists leads;`.
+2. **Deploy ordering is strict: table first, then code.** After the PII-logging fix the log holds
+   no contact details, so if lead-capture code reaches production before the table exists, **leads
+   are unrecoverable** — the best-effort email is the only copy, and it is skipped entirely when a
+   site publishes no address.
+
+### Known risks deliberately not fixed
+
+- **Rate limiting is process-local in-memory** on a public unauthenticated endpoint. Every accepted
+  request costs a DB write *and* a Resend send on a **shared platform account**, so abusing one
+  tenant burns quota for all of them. Biggest remaining risk. Wants Upstash + per-site cap + honeypot.
+- Next.js 16.2.4 HIGH advisories (fixed in 16.2.11) — pre-existing, repo-wide.
+- ~40 booking strings still in theme `content.*` across 9 themes; needs a narrative rewrite, not
+  find-and-replace. Overlaps the demo-copy-as-our-voice rule.
+
+### Session hygiene note
+
+A coordinator's merges briefly landed on local `master` (a concurrent session checked out `master`
+mid-run) and it left the **main checkout** on the integration branch. Branch was restored by the
+agent; checkout restored by hand to `master`. Nothing was pushed to master in error. **Agents work
+in worktrees; the main checkout is never where work happens.** Also note PRs **#104/#105** were
+merged by a concurrent session during this work — not reviewed here, already in the integration branch.
+
 ## BLOCKERS
 
 1. **The post-payment path has never been exercised against production.** Checkout is proven
