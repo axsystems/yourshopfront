@@ -588,14 +588,17 @@ day when PR #100 merged, adding items 4 and 11.
    profile exists, and the 2026-08-01 research found the off-site citation layer — not on-page
    markup — is what AI answers draw on (91% cite third parties; branded mentions correlate
    r = 0.664 vs backlinks r = 0.218). Fill `sameAs` once the profiles are live.
-5. **Batch 2 verticals — a data-only edit.** `/for/<vertical>` is data-driven: add entries to
-   `src/lib/verticals.ts` and the route, sitemap, and metadata follow automatically. The 18
-   unmapped themes are the candidate pool (wine bar, brewery, bookstore, design studio, creative
-   agency, video studio, dev-tools SaaS, pickup/delivery, laundromat, tree care, pool service,
-   window cleaning, pressure washing, junk removal, roofing, painting, lawn care, moving). Each
-   entry needs `plural` + `nameLower` (never derive them — that shipped "hvac companys"), 2
-   `needs` paragraphs, 4 `included`, 3 `faq`, and ≥600 words rendered. **Re-measure inter-page
-   similarity after adding** — it was 0.162 at 8 pages.
+5. **Batch 3 verticals — optional, and no longer the obvious next move.** Batch 2 shipped in
+   PR #103 (16 verticals live). Ten themes remain unmapped: creative agency, video studio,
+   dev-tools SaaS, pickup/delivery, laundromat, tree care, pool service, window cleaning,
+   pressure washing, junk removal. Adding one is still a data-only edit to `src/lib/verticals.ts`
+   (route, sitemap, and metadata follow), and each entry needs explicit `plural` + `nameLower`
+   (never derive — that shipped "hvac companys"), 2 `needs`, 4 `included`, 3 `faq`, ≥600 rendered
+   words. **But do the tenant-capability work first** — see the PAUSED section above. Every new
+   vertical page written against the current renderer inherits the same
+   marketing-promises-what-the-product-can't-do problem, so batch 3 before that lands just
+   manufactures more copy to reconcile later. Measure similarity on **prose only**, not whole
+   pages: a whole-page 0.222 hid a near-duplicate entry sharing 69 five-grams in batch 2.
 6. **Themes for the verticals that have none.** Salon, barber, med spa, gym/personal trainer,
    dentist, and real estate have **no matching theme**, so they get no `/for` page — a salon page
    embedding the yoga demo is the weaker product. Owner named salons specifically on 2026-08-01.
